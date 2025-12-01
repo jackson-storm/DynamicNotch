@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct NotchShape: Shape {
-    var bottomCornerRadius: CGFloat = 14
+    var bottomCornerRadius: CGFloat
 
     func path(in rect: CGRect) -> Path {
         let w = rect.width
@@ -24,22 +24,32 @@ struct NotchShape: Shape {
 }
 
 struct ContentView: View {
-    @State private var isHovered: Bool = false
+    @State private var isHoveredScaleEffect: Bool = false
+    @State private var isGestureOpenNotch: Bool = false
+    
+    @State private var clickMonitor = GlobalClickMonitor()
     
     var body: some View {
         ZStack {
-            NotchShape()
+            NotchShape(bottomCornerRadius: isGestureOpenNotch ? 26 : 13)
                 .fill(Color.black)
-                .frame(width: isHovered ?  228 : 208, height: isHovered ? 48 : 38)
+                .stroke(.black, lineWidth: 1)
+                .frame(
+                    width: isGestureOpenNotch ? 320 : (isHoveredScaleEffect ? 224 : 206),
+                    height: isGestureOpenNotch ? 80 : 37
+                )
+                .onHover { hover in isHoveredScaleEffect = hover }
+                .gesture(DragGesture(minimumDistance: 0).onChanged { _ in isGestureOpenNotch = true })
         }
-        .animation(.bouncy(duration: 0.25), value: isHovered)
-        .onHover{ isHover in
-            isHovered = isHover
-        }
+        .animation(.bouncy(duration: 0.3), value: isHoveredScaleEffect)
+        .animation(.bouncy(duration: 0.3), value: isGestureOpenNotch)
+        .frame(width: 500, height: 200, alignment: .top)
+        .onAppear { clickMonitor.start { isGestureOpenNotch = false }}
+        .onDisappear { clickMonitor.stop() }
     }
 }
 
 #Preview {
     ContentView()
-        .frame(width: 300, height: 200)
+        .frame(width: 500, height: 200)
 }

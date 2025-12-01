@@ -17,6 +17,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         guard let window = NSApplication.shared.windows.first else { return }
         
+        NSApp.setActivationPolicy(.accessory)
+        
         window.layoutIfNeeded()
         
         window.isMovable = false

@@ -1,55 +1,54 @@
 import SwiftUI
 
-struct NotchShape: Shape {
-    var bottomCornerRadius: CGFloat
-
-    func path(in rect: CGRect) -> Path {
-        let w = rect.width
-        let h = rect.height
-        let r = min(bottomCornerRadius, min(w, h) / 2)
-
-        var path = Path()
-        
-        path.move(to: CGPoint(x: 0, y: 0))
-        path.addLine(to: CGPoint(x: w, y: 0))
-        path.addLine(to: CGPoint(x: w, y: h - r))
-        path.addQuadCurve(to: CGPoint(x: w - r, y: h), control: CGPoint(x: w, y: h))
-        path.addLine(to: CGPoint(x: r, y: h))
-        path.addQuadCurve(to: CGPoint(x: 0, y: h - r), control: CGPoint(x: 0, y: h))
-        path.addLine(to: CGPoint(x: 0, y: 0))
-        path.closeSubpath()
-        
-        return path
-    }
-}
-
 struct ContentView: View {
     @State private var isHoveredScaleEffect: Bool = false
-    @State private var isGestureOpenNotch: Bool = false
-    
+    @State private var isOpenNotch: Bool = false
+    @State private var isDragging: Bool = false
     @State private var clickMonitor = GlobalClickMonitor()
     
     var body: some View {
         ZStack {
-            NotchShape(bottomCornerRadius: isGestureOpenNotch ? 26 : 13)
+            NotchShape(bottomCornerRadius: isOpenNotch ? 26 : 13, topCornerRadius: isOpenNotch ? 14 : 8)
                 .fill(Color.black)
                 .stroke(.black, lineWidth: 1)
+                .shadow(color: .black, radius: isOpenNotch ? 10 : 0)
                 .frame(
-                    width: isGestureOpenNotch ? 320 : (isHoveredScaleEffect ? 224 : 206),
-                    height: isGestureOpenNotch ? 80 : 37
+                    width: isOpenNotch ? 330 : (isHoveredScaleEffect ? 226 : 207),
+                    height: isOpenNotch ? 180 : 38
                 )
-                .onHover { hover in isHoveredScaleEffect = hover }
-                .gesture(DragGesture(minimumDistance: 0).onChanged { _ in isGestureOpenNotch = true })
+               
+                .scaleEffect(isDragging ? 1.05 : 1.0)
+                .onHover { hover in
+                    withAnimation(.spring(response: 0.4, dampingFraction: 0.5)) {
+                        isHoveredScaleEffect = hover
+                    }
+                }
+                .gesture(DragGesture(minimumDistance: 0)
+                    .onChanged { _ in
+                        withAnimation(.bouncy(duration: 0.4)) {
+                            isDragging = true
+                        }
+                    }
+                    .onEnded { _ in
+                        withAnimation(.bouncy(duration: 0.5)) {
+                            isDragging = false
+                            isOpenNotch = true
+                        }
+                    }
+                )
         }
-        .animation(.bouncy(duration: 0.3), value: isHoveredScaleEffect)
-        .animation(.bouncy(duration: 0.3), value: isGestureOpenNotch)
-        .frame(width: 500, height: 200, alignment: .top)
-        .onAppear { clickMonitor.start { isGestureOpenNotch = false }}
+        .frame(width: 500, height: 300, alignment: .top)
+        .onAppear { clickMonitor.start {
+            withAnimation(.bouncy(duration: 0.5)) {
+                isOpenNotch = false
+            }
+        }}
         .onDisappear { clickMonitor.stop() }
     }
 }
 
 #Preview {
     ContentView()
-        .frame(width: 500, height: 200)
+        .frame(width: 500, height: 299)
 }
+

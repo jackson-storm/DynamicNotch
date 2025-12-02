@@ -1,17 +1,29 @@
 import SwiftUI
 
-struct ContentView: View {
+enum Submissions {
+    case player
+}
+
+struct NotchContentView: View {
     @State private var isHoveredScaleEffect: Bool = false
     @State private var isOpenNotch: Bool = false
     @State private var isDragging: Bool = false
     @State private var clickMonitor = GlobalClickMonitor()
+    
+    var originalWidth: CGFloat = 224
+    var originalHeitht: CGFloat = 38
+    
+    var isOpenNotchWidth: CGFloat = 440
+    var isOpenNotchHeight: CGFloat = 200
+    
+    var isHoveredScaleEffectWidth: CGFloat { originalWidth + 20 }
     
     var body: some View {
         ZStack {
             background
                 .overlay {
                     if isOpenNotch {
-                        notchContent
+                        PlayerView(isDragging: $isDragging)
                     }
                 }
             
@@ -21,63 +33,43 @@ struct ContentView: View {
     
     @ViewBuilder
     private var background: some View {
-        NotchShape(topCornerRadius: isOpenNotch ? 18 : 8, bottomCornerRadius: isOpenNotch ? 28 : 13)
+        NotchShape(topCornerRadius: isOpenNotch ? 28 : 9, bottomCornerRadius: isOpenNotch ? 38 : 13)
             .fill(Color.black)
             .stroke(.black, lineWidth: 1)
-            .shadow(color: .black.opacity(0.4), radius: isOpenNotch ? 10 : 0)
+            .shadow(color: .black.opacity(0.6), radius: isOpenNotch ? 10 : 0)
             .frame(
-                width: isOpenNotch ? 330 : (isHoveredScaleEffect ? 226 : 207),
-                height: isOpenNotch ? 180 : 38
+                width: isOpenNotch ? isOpenNotchWidth : (isHoveredScaleEffect ? isHoveredScaleEffectWidth : originalWidth),
+                height: isOpenNotch ? isOpenNotchHeight : originalHeitht
             )
             .scaleEffect(isDragging ? 1.05 : 1.0)
             .gesture(DragGesture(minimumDistance: 0)
                 .onChanged { _ in
-                    withAnimation(.interactiveSpring(duration: 0.4)) {
+                    withAnimation(.snappy(duration: 0.4)) {
                         isDragging = true
                     }
                 }
                 .onEnded { _ in
-                    withAnimation(.interactiveSpring(duration: 0.5)) {
+                    withAnimation(.snappy(duration: 0.4)) {
                         isDragging = false
                         isOpenNotch = true
                     }
                 }
             )
             .onHover { hover in
-                withAnimation(.spring(response: 0.4, dampingFraction: 0.5)) {
+                withAnimation(.snappy(duration: 0.4)) {
                     isHoveredScaleEffect = hover
                 }
             }
             .onAppear { clickMonitor.start {
-                withAnimation(.interactiveSpring(duration: 0.5)) {
+                withAnimation(.snappy(duration: 0.5)) {
                     isOpenNotch = false
                 }
             }}
             .onDisappear { clickMonitor.stop() }
     }
-    
-    @ViewBuilder
-    private var notchContent: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Text("Hello, World!")
-                .font(.title)
-                .bold()
-            Text("This is a sample app to demonstrate the use of SwiftUI with the Notch.swift library.")
-                .font(.body)
-                .foregroundColor(.secondary)
-            
-            Button(action: {}) {
-                Text("")
-            }
-        }
-        .transition(.blurAndFade.combined(with: .scale(scale: 0.5, anchor: .top)))
-        .scaleEffect(isDragging ? 1.05 : 1.0)
-        .padding()
-    }
 }
 
 #Preview {
-    ContentView()
+    NotchContentView()
         .frame(width: 500, height: 299)
 }
-

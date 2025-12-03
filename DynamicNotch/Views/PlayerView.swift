@@ -3,7 +3,55 @@ import Combine
 
 struct PlayerView: View {
     @StateObject private var playerViewModel = PlayerViewModel()
-    @Binding var isDragging: Bool
+    @EnvironmentObject var layout: NotchLayoutViewModel
+    @State private var showCompact: Bool = false
+  
+    var body: some View {
+        ZStack {
+            switch layout.state {
+            case .compact:
+                if showCompact && playerViewModel.isPlaying {
+                    PlayerViewCompact()
+                        .transition(.blurAndFade
+                            .animation(.snappy(duration: 0.5))
+                            .combined(with: .scale(scale: 0.6, anchor: .center))
+                        )
+                }
+            case .expanded:
+                PlayerViewExpanded()
+            }
+        }
+        .onAppear {
+            if layout.state == .compact {
+                showCompact = playerViewModel.isPlaying
+            } else {
+                showCompact = false
+            }
+        }
+        .onChange(of: layout.state) { _, newValue in
+            switch newValue {
+            case .compact:
+                showCompact = false
+                let isPlayingNow = playerViewModel.isPlaying
+                Task { @MainActor in
+                    try? await Task.sleep(nanoseconds: 400_000_000)
+                    if layout.state == .compact && isPlayingNow {
+                        withAnimation(.snappy) {
+                            showCompact = true
+                        }
+                    }
+                }
+            case .expanded:
+                withAnimation(.snappy) {
+                    showCompact = false
+                }
+            }
+        }
+    }
+}
+
+struct PlayerViewExpanded: View {
+    @EnvironmentObject var playerViewModel: PlayerViewModel
     
     private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     private let duration: Double = 215
@@ -16,17 +64,15 @@ struct PlayerView: View {
         }
         .padding(.top, 20)
         .padding(45)
-        .scaleEffect(isDragging ? 1.05 : 1.0)
         .transition(.blurAndFade
             .animation(.snappy(duration: 0.5))
-            .combined(with: .scale(scale: 0.6, anchor: .top))
+            .combined(with: .scale(scale: 0.4, anchor: .top))
         )
         .onReceive(timer) { _ in
             guard playerViewModel.isPlaying else { return }
             playerViewModel.currentTime = min(duration, playerViewModel.currentTime + 1)
             playerViewModel.progress = max(0, min(1, playerViewModel.currentTime / duration))
         }
-        .environmentObject(playerViewModel)
     }
     
     @ViewBuilder
@@ -34,16 +80,16 @@ struct PlayerView: View {
         HStack(spacing: 15) {
             ZStack {
                 VStack(alignment: .leading, spacing: 0) {
-                    MarqueeText(text: "NAME (feat. OBLADAET)", font: 16, foregroundColor: .white, weight: .medium)
-                    MarqueeText(text: "ICEGERGERT", font: 16, foregroundColor: .gray.opacity(0.8), weight: .regular)
+                    MarqueeText(text: "PONOS (feat. KAZIMIR)", font: 16, foregroundColor: .white, weight: .medium)
+                    MarqueeText(text: "Evgeniy", font: 16, foregroundColor: .gray.opacity(0.8), weight: .regular)
                 }
                 .padding(.leading, 85)
                 
                 HStack {
                     Image("primer")
                         .resizable()
-                        .cornerRadius(14)
                         .frame(width: 70, height: 70)
+                        .clipShape(RoundedRectangle(cornerRadius: 14))
                         .padding(.trailing, 12)
                         .background(.black)
                     
@@ -126,7 +172,6 @@ struct PlayerView: View {
                     Image(systemName: "backward.fill")
                         .font(.system(size: 24))
                         .foregroundStyle(.white)
-                        .scaleEffect(isDragging ? 1.05 : 1.0)
                 }
                 Button(action: {
                     playerViewModel.isPlaying.toggle()
@@ -154,6 +199,24 @@ struct PlayerView: View {
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 8)
+    }
+}
+
+struct PlayerViewCompact: View {
+    var body: some View {
+        HStack {
+            Image("primer")
+                .resizable()
+                .frame(width: 25, height: 25)
+                .clipShape(RoundedRectangle(cornerRadius: 6))
+        
+            Spacer()
+            
+            Image(systemName: "waveform.mid")
+                .font(.system(size: 20))
+                .foregroundStyle(.white)
+        }
+        .padding()
     }
 }
 
@@ -232,4 +295,24 @@ private struct MarqueeText: View {
 
 #Preview {
    NotchContentView()
+}
+
+struct NotchSizingModifier: ViewModifier {
+    @EnvironmentObject var layout: NotchLayoutViewModel
+    let kind: NotchContentKind
+    
+    func body(content: Content) -> some View {
+        let size = layout.size(for: kind)
+        return NotchShape(topCornerRadius: size.topCornerRadius, bottomCornerRadius: size.bottomCornerRadius)
+            .fill(Color.black)
+            .stroke(.black, lineWidth: 1)
+            .frame(width: size.width, height: size.height)
+            .overlay(content)
+    }
+}
+
+extension View {
+    func notchSizing(kind: NotchContentKind) -> some View {
+        modifier(NotchSizingModifier(kind: kind))
+    }
 }

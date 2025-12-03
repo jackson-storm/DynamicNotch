@@ -8,7 +8,7 @@ final class PlayerViewModel: ObservableObject {
     @Published var started: Bool = false
     @Published var animationTask: Task<Void, Never>? = nil
     
-    @Published var isPlaying: Bool = true
+    @Published var isPlaying: Bool = false
     @Published var isFavorites: Bool = true
     @Published var currentTime: Double = 42
     @Published var progress: Double = 42.0 / 215.0

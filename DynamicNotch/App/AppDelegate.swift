@@ -1,18 +1,4 @@
-import SwiftUI
 import AppKit
-
-@main
-struct DynamicNotchApp: App {
-    @NSApplicationDelegateAdaptor(AppDelegate.self) var delegate
-
-    var body: some Scene {
-        WindowGroup {
-            NotchContentView()
-                .ignoresSafeArea()
-        }
-        .windowStyle(.plain)
-    }
-}
 
 class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     private func positionWindowUnderMenuBar(_ window: NSWindow) {

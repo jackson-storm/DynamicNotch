@@ -15,4 +15,5 @@ enum NotchState {
 enum NotchContentKind {
     case defaultNotch
     case player
+    case charger
 }

@@ -6,7 +6,7 @@ struct DynamicNotchApp: App {
 
     var body: some Scene {
         WindowGroup {
-            NotchContentView()
+            ContentView()
                 .ignoresSafeArea()
         }
         .windowStyle(.plain)

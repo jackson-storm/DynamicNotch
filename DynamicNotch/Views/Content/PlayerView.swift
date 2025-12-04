@@ -1,6 +1,24 @@
 import SwiftUI
+import Combine
 
-struct PlayerViewExpanded: View {
+struct PlayerNotch: NotchModule {
+    let id = "player"
+    let priority = 50
+    var isInteractive: Bool { true }
+    
+    func compactSize() -> CGSize { CGSize(width: 180, height: 46) }
+    func expandedSize() -> CGSize { CGSize(width: 280, height: 130) }
+    func intermediateSize() -> CGSize { CGSize(width: 200, height: 54) }
+
+    func compactRadius() -> (top: CGFloat, bottom: CGFloat) { (18, 18) }
+    func expandedRadius() -> (top: CGFloat, bottom: CGFloat) { (28, 28) }
+    func intermediateRadius() -> (top: CGFloat, bottom: CGFloat) { (22, 22) }
+    
+    func compactView() -> AnyView { AnyView(PlayerViewCompact()) }
+    func expandedView() -> AnyView { AnyView(PlayerViewExpanded()) }
+}
+
+private struct PlayerViewExpanded: View {
     @EnvironmentObject var playerViewModel: PlayerViewModel
     
     private let timer = Timer.publish(every: 1, on: .main, in: .common)
@@ -145,5 +163,98 @@ struct PlayerViewExpanded: View {
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 8)
+    }
+}
+
+private struct PlayerViewCompact: View {
+    @EnvironmentObject var playerViewModel: PlayerViewModel
+    
+    var body: some View {
+        HStack {
+            Image("primer")
+                .resizable()
+                .frame(width: 25, height: 25)
+                .clipShape(RoundedRectangle(cornerRadius: 6))
+        
+            Spacer()
+            
+            Image(systemName: "waveform.mid")
+                .font(.system(size: 20))
+                .foregroundStyle(.white)
+        }
+        .padding()
+    }
+}
+
+private struct MarqueeText: View {
+    @EnvironmentObject var playerViewModel: PlayerViewModel
+    
+    let text: String
+    let font: Double
+    let foregroundColor: Color
+    let weight: Font.Weight
+    
+    var body: some View {
+        GeometryReader { geo in
+            let container = geo.size.width
+            let needsMarquee = playerViewModel.textSize.width > container && container > 0
+
+            ZStack(alignment: .leading) {
+                if needsMarquee {
+                    HStack(spacing: 0) {
+                        marqueeUnit
+                        Color.clear.frame(width: playerViewModel.gap)
+                        marqueeUnit
+                    }
+                    .offset(x: playerViewModel.xOffset)
+                    .onAppear {
+                        playerViewModel.containerWidth = container
+                        playerViewModel.startAnimationIfNeeded()
+                    }
+                    .onChange(of: container) { _, newValue in
+                        playerViewModel.containerWidth = newValue
+                        playerViewModel.reset()
+                        playerViewModel.startAnimationIfNeeded()
+                    }
+                    .onChange(of: playerViewModel.textSize) { _, _ in
+                        playerViewModel.startAnimationIfNeeded()
+                    }
+                } else {
+                    marqueeUnit
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .onAppear {
+                            playerViewModel.animationTask?.cancel()
+                            playerViewModel.animationTask = nil
+                            playerViewModel.reset()
+                            playerViewModel.containerWidth = container
+                        }
+                        .onChange(of: container) { _, newValue in
+                            playerViewModel.containerWidth = newValue
+                        }
+                }
+            }
+            .clipped()
+            .onDisappear {
+                playerViewModel.animationTask?.cancel()
+                playerViewModel.animationTask = nil
+            }
+        }
+        .frame(height: playerViewModel.textSize.height)
+    }
+    
+    @ViewBuilder
+    private var marqueeUnit: some View {
+        Text(text)
+            .font(.system(size: font, weight: weight))
+            .foregroundStyle(foregroundColor)
+            .background(
+                GeometryReader { proxy in
+                    Color.clear
+                        .onAppear { playerViewModel.textSize = proxy.size }
+                        .onChange(of: proxy.size) { _, newSize in
+                            playerViewModel.textSize = newSize
+                        }
+                }
+            )
     }
 }

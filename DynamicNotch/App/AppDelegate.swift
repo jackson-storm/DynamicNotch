@@ -1,23 +1,39 @@
 import AppKit
 
 class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
-    private func positionWindowUnderMenuBar(_ window: NSWindow) {
-        guard let screen = window.screen ?? NSScreen.main else { return }
-        let vf = screen.visibleFrame
 
-        let topInset: CGFloat = -41
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        guard let window = NSApplication.shared.windows.first else { return }
 
-        var frame = window.frame
-        frame.size.width = min(frame.size.width, vf.size.width)
-        if frame.size.height > vf.size.height - topInset {
-            frame.size.height = vf.size.height - topInset
-        }
+        window.delegate = self
 
-        let centeredX = vf.midX - (frame.size.width / 2.0)
-        let topAlignedY = vf.maxY - frame.size.height - topInset
-        frame.origin = NSPoint(x: centeredX, y: topAlignedY)
+        NSApp.setActivationPolicy(.accessory)
 
-        window.setFrame(frame, display: true)
+        window.isMovable = false
+        window.isMovableByWindowBackground = false
+        window.tabbingMode = .disallowed
+        window.isExcludedFromWindowsMenu = true
+
+        window.titleVisibility = .hidden
+        window.titlebarAppearsTransparent = true
+        window.styleMask.remove([.resizable, .miniaturizable])
+        window.standardWindowButton(.closeButton)?.isHidden = true
+        window.standardWindowButton(.miniaturizeButton)?.isHidden = true
+        window.standardWindowButton(.zoomButton)?.isHidden = true
+
+        window.level = .statusBar
+        window.collectionBehavior = [.canJoinAllSpaces, .ignoresCycle, .stationary]
+        window.styleMask.insert(.nonactivatingPanel)
+        window.styleMask.insert(.fullSizeContentView)
+
+        positionWindowUnderMenuBar(window)
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleScreenParametersChanged),
+            name: NSApplication.didChangeScreenParametersNotification,
+            object: nil
+        )
     }
 
     @objc private func handleScreenParametersChanged(_ notification: Notification) {
@@ -25,44 +41,33 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         positionWindowUnderMenuBar(window)
     }
 
-    func applicationDidFinishLaunching(_ notification: Notification) {
-        guard let window = NSApplication.shared.windows.first else { return }
-        window.delegate = self
-        
-        NSApp.setActivationPolicy(.accessory)
-        
-        window.layoutIfNeeded()
-        
-        window.isMovable = false
-        window.isMovableByWindowBackground = false
-        window.tabbingMode = .disallowed
-        window.isExcludedFromWindowsMenu = true
-        
-        window.titleVisibility = .hidden
-        window.titlebarAppearsTransparent = true
-
-        window.styleMask.remove([.resizable, .miniaturizable])
-
-        window.standardWindowButton(.closeButton)?.isHidden = true
-        window.standardWindowButton(.miniaturizeButton)?.isHidden = true
-        window.standardWindowButton(.zoomButton)?.isHidden = true
-
-        window.level = .statusBar
-        window.collectionBehavior = [.canJoinAllSpaces, .ignoresCycle, .stationary]
-
-        window.styleMask.insert(.nonactivatingPanel)
-        window.styleMask.insert(.fullSizeContentView)
-
-        positionWindowUnderMenuBar(window)
-
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(handleScreenParametersChanged(_:)),
-                                               name: NSApplication.didChangeScreenParametersNotification,
-                                               object: nil)
-    }
-
     func windowDidChangeScreen(_ notification: Notification) {
         guard let window = notification.object as? NSWindow else { return }
         positionWindowUnderMenuBar(window)
+    }
+
+    private func positionWindowUnderMenuBar(_ window: NSWindow) {
+        guard let screen = window.screen ?? NSScreen.main else { return }
+
+        let full = screen.frame
+        let visible = screen.visibleFrame
+
+        let topCut = full.maxY - visible.maxY
+
+        let hasNotch = topCut > 40
+
+        var frame = window.frame
+        frame.size.width = min(frame.size.width, visible.width)
+        frame.origin.x = visible.midX - frame.size.width / 2
+
+        if hasNotch {
+            let notchHeight = topCut - 22
+            let y = full.maxY - notchHeight - frame.height
+            frame.origin.y = y
+        } else {
+            frame.origin.y = visible.maxY - frame.height + 196
+        }
+
+        window.setFrame(frame, display: true, animate: true)
     }
 }

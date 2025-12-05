@@ -1,18 +1,18 @@
 import SwiftUI
 import Combine
 
-struct PlayerNotch: NotchModule {
+struct PlayerNotch {
     let id = "player"
     let priority = 50
-    var isInteractive: Bool { true }
+    var isInteractive: Bool { false }
     
-    func compactSize() -> CGSize { CGSize(width: 180, height: 46) }
-    func expandedSize() -> CGSize { CGSize(width: 280, height: 130) }
-    func intermediateSize() -> CGSize { CGSize(width: 200, height: 54) }
+    func compactSize() -> CGSize { CGSize(width: 295, height: 38) }
+    func expandedSize() -> CGSize { CGSize(width: 400, height: 130) }
+    func intermediateSize() -> CGSize { CGSize(width: 224, height: 38) }
 
-    func compactRadius() -> (top: CGFloat, bottom: CGFloat) { (18, 18) }
-    func expandedRadius() -> (top: CGFloat, bottom: CGFloat) { (28, 28) }
-    func intermediateRadius() -> (top: CGFloat, bottom: CGFloat) { (22, 22) }
+    func compactRadius() -> (top: CGFloat, bottom: CGFloat) { (9, 13) }
+    func expandedRadius() -> (top: CGFloat, bottom: CGFloat) { (28, 36) }
+    func intermediateRadius() -> (top: CGFloat, bottom: CGFloat) { (9, 13) }
     
     func compactView() -> AnyView { AnyView(PlayerViewCompact()) }
     func expandedView() -> AnyView { AnyView(PlayerViewExpanded()) }

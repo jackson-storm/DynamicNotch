@@ -1,25 +1,6 @@
 import SwiftUI
 
-struct ChargerNotch: NotchModule {
-    @ObservedObject var powerSourceMonitor: PowerSourceMonitor
-    
-    let id = "charger"
-    let priority = 100
-    var isInteractive: Bool { false }
-    
-    func compactSize() -> CGSize { CGSize(width: 400, height: 38) }
-    func expandedSize() -> CGSize { CGSize(width: 224, height: 38) }
-    func intermediateSize() -> CGSize { CGSize(width: 224, height: 38) }
-    
-    func compactRadius() -> (top: CGFloat, bottom: CGFloat) { (9, 13) }
-    func expandedRadius() -> (top: CGFloat, bottom: CGFloat) { (9, 13) }
-    func intermediateRadius() -> (top: CGFloat, bottom: CGFloat) { (9, 13) }
-    
-    func expandedView() -> AnyView { AnyView(EmptyView()) }
-    func compactView() -> AnyView { AnyView(Content(powerSourceMonitor: powerSourceMonitor, level: powerSourceMonitor.batteryLevel, isCharging: powerSourceMonitor.isCharging)) }
-}
-
-private struct Content: View {
+struct ChargerNotch: View {
     @ObservedObject var powerSourceMonitor: PowerSourceMonitor
     
     var level: Int

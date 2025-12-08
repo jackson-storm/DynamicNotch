@@ -3,9 +3,6 @@ import SwiftUI
 struct ChargerNotch: View {
     @ObservedObject var powerSourceMonitor: PowerSourceMonitor
     
-    var level: Int
-    var isCharging: Bool
-    
     var body: some View {
         HStack {
             Text("Charging").font(.system(size: 14))
@@ -13,7 +10,7 @@ struct ChargerNotch: View {
             Spacer()
             
             HStack(spacing: 6) {
-                Text("\(level)%")
+                Text("\(powerSourceMonitor.batteryLevel)%")
                     .font(.system(size: 14))
                     .foregroundStyle(.green.gradient)
                 
@@ -23,7 +20,7 @@ struct ChargerNotch: View {
                             .fill(Color.green.opacity(0.5))
                         
                         GeometryReader { geo in
-                            let clamped = max(0, min(level, 100))
+                            let clamped = max(0, min(powerSourceMonitor.batteryLevel, 100))
                             let fraction = CGFloat(clamped) / 100
                             let width = fraction * geo.size.width
                             
@@ -36,12 +33,31 @@ struct ChargerNotch: View {
                     .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
                     
                     RoundedRectangle(cornerRadius: 1.5, style: .continuous)
-                        .fill(level == 100 ? Color.green : Color.green.opacity(0.5))
+                        .fill(powerSourceMonitor.batteryLevel == 100 ? Color.green : Color.green.opacity(0.5))
                         .frame(width: 2, height: 6)
                 }
             }
-
         }
         .padding(.horizontal, 20)
+        .frame(width: 410, height: 38)
+    }
+}
+
+struct SizePreferenceKey: PreferenceKey {
+    static var defaultValue: CGSize = .zero
+    static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
+        value = nextValue()
+    }
+}
+
+extension View {
+    func measureSize(_ callback: @escaping (CGSize) -> Void) -> some View {
+        self.background(
+            GeometryReader { geo in
+                Color.clear
+                    .preference(key: SizePreferenceKey.self, value: geo.size)
+            }
+        )
+        .onPreferenceChange(SizePreferenceKey.self, perform: callback)
     }
 }

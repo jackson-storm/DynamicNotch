@@ -2,20 +2,7 @@ import SwiftUI
 import Combine
 
 struct PlayerNotch {
-    let id = "player"
-    let priority = 50
-    var isInteractive: Bool { false }
-    
-    func compactSize() -> CGSize { CGSize(width: 295, height: 38) }
-    func expandedSize() -> CGSize { CGSize(width: 400, height: 130) }
-    func intermediateSize() -> CGSize { CGSize(width: 224, height: 38) }
-
-    func compactRadius() -> (top: CGFloat, bottom: CGFloat) { (9, 13) }
-    func expandedRadius() -> (top: CGFloat, bottom: CGFloat) { (28, 36) }
-    func intermediateRadius() -> (top: CGFloat, bottom: CGFloat) { (9, 13) }
-    
-    func compactView() -> AnyView { AnyView(PlayerViewCompact()) }
-    func expandedView() -> AnyView { AnyView(PlayerViewExpanded()) }
+   
 }
 
 private struct PlayerViewExpanded: View {
@@ -166,7 +153,7 @@ private struct PlayerViewExpanded: View {
     }
 }
 
-private struct PlayerViewCompact: View {
+struct PlayerViewCompact: View {
     @EnvironmentObject var playerViewModel: PlayerViewModel
     
     var body: some View {
@@ -183,6 +170,7 @@ private struct PlayerViewCompact: View {
                 .foregroundStyle(.white)
         }
         .padding()
+        .frame(width: 360, height: 38)
     }
 }
 

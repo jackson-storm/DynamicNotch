@@ -39,7 +39,6 @@ struct ChargerNotch: View {
             }
         }
         .padding(.horizontal, 20)
-        .frame(width: 410, height: 38)
     }
 }
 

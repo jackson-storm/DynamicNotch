@@ -7,7 +7,7 @@ struct DynamicNotchView: View {
 
     var notchSize: CGSize {
         switch notch.current {
-        case .none: return CGSize(width: 224, height: 38)
+        case .none: return CGSize(width: 226, height: 38)
         case .music: return CGSize(width: 290, height: 38)
         case .notification: return CGSize(width: 350, height: 200)
         case .charger: return CGSize(width: 405, height: 38)
@@ -28,36 +28,24 @@ struct DynamicNotchView: View {
             ZStack {
                 NotchShape(topCornerRadius: notchCornerRadius.top, bottomCornerRadius: notchCornerRadius.bottom)
                     .fill(Color.black)
+                    .overlay(
+                        NotchShape(topCornerRadius: notchCornerRadius.top, bottomCornerRadius: notchCornerRadius.bottom)
+                            .fill(.clear)
+                            .stroke(notch.current == .none ? Color.clear : .white.opacity(0.1), lineWidth: 2)
+                            .padding(.top, -0.8)
+                    )
                 
-                Group {
-                    switch notch.current {
-                    case .none:
-                        EmptyView()
-                        
-                    case .music:
-                        Text("Music")
-                            .transition(
-                                .blurAndFade
-                                    .animation(.spring(duration: 0.5))
-                                    .combined(with: .scale)
-                            )
-                        
-                    case .notification:
-                        Text("Notification")
-                            .transition(
-                                .blurAndFade
-                                    .animation(.spring(duration: 0.5))
-                                    .combined(with: .scale)
-                            )
-                        
-                    case .charger:
-                        ChargerNotch(powerSourceMonitor: PowerSourceMonitor())
-                            .transition(
-                                .blurAndFade
-                                    .animation(.spring(duration: 0.5))
-                                    .combined(with: .scale)
-                            )
+                ZStack {
+                    Group {
+                        switch notch.current {
+                        case .none: EmptyView()
+                        case .music: Text("Music")
+                        case .notification: Text("Notification")
+                        case .charger: ChargerNotch(powerSourceMonitor: PowerSourceMonitor())
+                        }
                     }
+                    .id(notch.current)
+                    .transition(.blurAndFade.animation(.spring(duration: 0.5)).combined(with: .scale))
                 }
             }
             .frame(width: notchSize.width, height: notchSize.height)

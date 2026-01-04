@@ -24,7 +24,7 @@ final class NotchManager: ObservableObject {
             withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
                 self.current = content
             }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
                 self.isTransitioning = false
             }
         }
@@ -32,10 +32,10 @@ final class NotchManager: ObservableObject {
 
     func hide(animated: Bool = true, completion: (() -> Void)? = nil) {
         if animated {
-            withAnimation(.spring(response: 0.4)) {
+            withAnimation(.spring(response: 0.5)) {
                 self.current = .none
             }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
                 completion?()
             }
         } else {

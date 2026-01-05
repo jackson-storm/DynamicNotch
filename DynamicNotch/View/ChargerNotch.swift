@@ -3,21 +3,33 @@ import SwiftUI
 struct ChargerNotch: View {
     @ObservedObject var powerSourceMonitor: PowerSourceMonitor
     
+    private var batteryColor: Color {
+        if powerSourceMonitor.isLowPowerMode {
+            return .yellow
+        } else if powerSourceMonitor.batteryLevel <= 20 {
+            return .red
+        } else {
+            return .green
+        }
+    }
+    
     var body: some View {
         HStack {
-            Text("Charging").font(.system(size: 14))
+            Text("Charging")
+                .font(.system(size: 14))
+                .foregroundColor(.white)
             
             Spacer()
             
             HStack(spacing: 6) {
                 Text("\(powerSourceMonitor.batteryLevel)%")
                     .font(.system(size: 14))
-                    .foregroundStyle(.green.gradient)
+                    .foregroundColor(batteryColor)
                 
                 HStack(spacing: 1.5) {
                     ZStack(alignment: .leading) {
                         RoundedRectangle(cornerRadius: 6, style: .continuous)
-                            .fill(Color.green.opacity(0.5))
+                            .fill(batteryColor.opacity(0.3))
                         
                         GeometryReader { geo in
                             let clamped = max(0, min(powerSourceMonitor.batteryLevel, 100))
@@ -25,7 +37,7 @@ struct ChargerNotch: View {
                             let width = fraction * geo.size.width
                             
                             Rectangle()
-                                .fill(.green.gradient)
+                                .fill(batteryColor.gradient)
                                 .frame(width: max(0, width))
                         }
                     }
@@ -33,7 +45,7 @@ struct ChargerNotch: View {
                     .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
                     
                     RoundedRectangle(cornerRadius: 1.5, style: .continuous)
-                        .fill(powerSourceMonitor.batteryLevel == 100 ? Color.green : Color.green.opacity(0.5))
+                        .fill(powerSourceMonitor.batteryLevel == 100 ? batteryColor.gradient : batteryColor.opacity(0.5).gradient)
                         .frame(width: 2, height: 6)
                 }
             }
@@ -42,21 +54,24 @@ struct ChargerNotch: View {
     }
 }
 
-private struct SizePreferenceKey: PreferenceKey {
-    static var defaultValue: CGSize = .zero
-    static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
-        value = nextValue()
+#Preview {
+    VStack(spacing: 10) {
+        ChargerNotch(powerSourceMonitor: mockBattery(level: 100))
+            .frame(width: 300, height: 38)
+            .background(.black)
+        
+        ChargerNotch(powerSourceMonitor: mockBattery(level: 20))
+            .frame(width: 300, height: 38)
+            .background(.black)
+        
+        ChargerNotch(powerSourceMonitor: mockBattery(level: 50, lowPower: true))
+            .frame(width: 300, height: 38)
+            .background(.black)
     }
 }
 
-extension View {
-    func measureSize(_ callback: @escaping (CGSize) -> Void) -> some View {
-        self.background(
-            GeometryReader { geo in
-                Color.clear
-                    .preference(key: SizePreferenceKey.self, value: geo.size)
-            }
-        )
-        .onPreferenceChange(SizePreferenceKey.self, perform: callback)
-    }
+func mockBattery(level: Int, lowPower: Bool = false) -> PowerSourceMonitor {
+    let monitor = PowerSourceMonitor.preview(batteryLevel: level)
+    monitor.isLowPowerMode = lowPower
+    return monitor
 }

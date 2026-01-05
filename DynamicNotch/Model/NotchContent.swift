@@ -5,4 +5,5 @@ enum NotchContent: Equatable {
     case music
     case notification
     case charger
+    case lowPower
 }

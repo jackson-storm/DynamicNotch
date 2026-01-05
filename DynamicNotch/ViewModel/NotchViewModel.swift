@@ -10,7 +10,6 @@ final class NotchViewModel: ObservableObject {
         switch intent {
         case .show(let content):
             show(content)
-
         case .hide:
             hide()
         }

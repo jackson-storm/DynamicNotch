@@ -3,7 +3,7 @@ import SwiftUI
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
     var window: NSWindow!
-    let notchManager = NotchManager()
+    let notchViewModel = NotchViewModel()
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(.accessory)
@@ -49,8 +49,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         window.hasShadow = false
 
         window.contentView = NSHostingView(
-            rootView: DynamicNotchView(window: window)
-                .environmentObject(notchManager)
+            rootView: NotchView(viewModel: notchViewModel, window: window)
+                .environmentObject(notchViewModel)
         )
 
         window.makeKeyAndOrderFront(nil)

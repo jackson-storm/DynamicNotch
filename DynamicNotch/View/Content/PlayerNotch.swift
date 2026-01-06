@@ -28,6 +28,17 @@ struct PlayerNotch: View {
 }
 
 #Preview {
-    PlayerNotch()
-        .frame(width: 300, height: 38)
+    ZStack {
+        PlayerNotch()
+            .frame(width: 305, height: 38)
+            .background(
+                NotchShape(topCornerRadius: 9, bottomCornerRadius: 13)
+                    .fill(.black)
+            )
+        NotchShape(topCornerRadius: 9, bottomCornerRadius: 13)
+            .fill(.black)
+            .stroke(.red.opacity(0.3), lineWidth: 1)
+            .frame(width: 226, height: 38)
+    }
+    .frame(width: 350, height: 100)
 }

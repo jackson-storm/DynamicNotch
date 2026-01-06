@@ -1,13 +1,13 @@
 import SwiftUI
 
-struct LowPower: View {
+struct LowPowerNotch: View {
     @ObservedObject var powerSourceMonitor: PowerSourceMonitor
     @State private var pulse = false
     
     private func startPulse() {
         pulse = false
         withAnimation(
-            .easeInOut(duration: 0.9)
+            .easeInOut(duration: 1)
             .repeatForever(autoreverses: true)
         ) {
             pulse = true
@@ -60,6 +60,7 @@ struct LowPower: View {
             RoundedRectangle(cornerRadius: 8)
                 .fill(Color.red.gradient)
                 .frame(width: 8, height: 14)
+                .opacity(pulse ? 1 : 0.3)
                 .offset(x: -15)
                 .onAppear {
                     startPulse()
@@ -67,15 +68,26 @@ struct LowPower: View {
             
             RoundedRectangle(cornerRadius: 30)
                 .stroke(.red.opacity(0.9).gradient, lineWidth: 1.5)
-                .frame(width: 30, height: 32)
+                .frame(width: pulse ? 8 : 30, height: pulse ? 14 : 32)
                 .offset(x: -15)
-                .opacity(pulse ? 1 : 0.3)
+                .opacity(pulse ? 0.3 : 1)
         }
     }
 }
 
 #Preview {
-    LowPower(powerSourceMonitor: PowerSourceMonitor())
-        .frame(width: 380 ,height: 110)
-        .background(.black)
+    ZStack {
+        LowPowerNotch(powerSourceMonitor: PowerSourceMonitor())
+            .frame(width: 360 ,height: 110)
+            .background(
+                NotchShape(topCornerRadius: 18, bottomCornerRadius: 36)
+                    .fill(.black)
+            )
+        NotchShape(topCornerRadius: 9, bottomCornerRadius: 13)
+            .fill(.black)
+            .stroke(.red.opacity(0.3), lineWidth: 1)
+            .frame(width: 226, height: 38)
+            .padding(.bottom, 72)
+    }
+    .frame(width: 400, height: 200)
 }

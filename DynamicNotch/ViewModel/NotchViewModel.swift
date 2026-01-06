@@ -15,7 +15,6 @@ final class NotchViewModel: ObservableObject {
         }
     }
 
-    // MARK: - Reducer
     private func show(_ content: NotchContent) {
         guard state.content != content, !isTransitioning else { return }
         isTransitioning = true
@@ -44,7 +43,6 @@ final class NotchViewModel: ObservableObject {
         }
     }
 
-    // MARK: - Helpers
     private func animate(_ block: @escaping () -> Void) {
         withAnimation(.spring(response: 0.4, dampingFraction: 0.7), block)
     }

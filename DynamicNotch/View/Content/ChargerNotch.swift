@@ -56,18 +56,46 @@ struct ChargerNotch: View {
 
 #Preview {
     VStack(spacing: 10) {
-        ChargerNotch(powerSourceMonitor: mockBattery(level: 100))
-            .frame(width: 300, height: 38)
-            .background(.black)
+        ZStack {
+            ChargerNotch(powerSourceMonitor: mockBattery(level: 100))
+                .frame(width: 405, height: 38)
+                .background(
+                    NotchShape(topCornerRadius: 9, bottomCornerRadius: 13)
+                        .fill(.black)
+                )
+            NotchShape(topCornerRadius: 9, bottomCornerRadius: 13)
+                .fill(.black)
+                .stroke(.red.opacity(0.3), lineWidth: 1)
+                .frame(width: 226, height: 38)
+        }
         
-        ChargerNotch(powerSourceMonitor: mockBattery(level: 20))
-            .frame(width: 300, height: 38)
-            .background(.black)
+        ZStack {
+            ChargerNotch(powerSourceMonitor: mockBattery(level: 20))
+                .frame(width: 405, height: 38)
+                .background(
+                    NotchShape(topCornerRadius: 9, bottomCornerRadius: 13)
+                        .fill(.black)
+                )
+            NotchShape(topCornerRadius: 9, bottomCornerRadius: 13)
+                .fill(.black)
+                .stroke(.red.opacity(0.3), lineWidth: 1)
+                .frame(width: 226, height: 38)
+        }
         
-        ChargerNotch(powerSourceMonitor: mockBattery(level: 50, lowPower: true))
-            .frame(width: 300, height: 38)
-            .background(.black)
+        ZStack {
+            ChargerNotch(powerSourceMonitor: mockBattery(level: 50, lowPower: true))
+                .frame(width: 405, height: 38)
+                .background(
+                    NotchShape(topCornerRadius: 9, bottomCornerRadius: 13)
+                        .fill(.black)
+                )
+            NotchShape(topCornerRadius: 9, bottomCornerRadius: 13)
+                .fill(.black)
+                .stroke(.red.opacity(0.3), lineWidth: 1)
+                .frame(width: 226, height: 38)
+        }
     }
+    .frame(width: 450, height: 200)
 }
 
 func mockBattery(level: Int, lowPower: Bool = false) -> PowerSourceMonitor {

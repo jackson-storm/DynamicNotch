@@ -97,9 +97,3 @@ struct ChargerNotch: View {
     }
     .frame(width: 450, height: 200)
 }
-
-func mockBattery(level: Int, lowPower: Bool = false) -> PowerSourceMonitor {
-    let monitor = PowerSourceMonitor.preview(batteryLevel: level)
-    monitor.isLowPowerMode = lowPower
-    return monitor
-}

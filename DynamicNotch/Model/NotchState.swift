@@ -9,6 +9,7 @@ struct NotchState: Equatable {
         case .music: return .init(width: 305, height: 38)
         case .charger: return .init(width: 405, height: 38)
         case .lowPower: return .init(width: 360, height: 110)
+        case .fullPower: return .init(width: 300, height: 100)
         case .systemHud: return .init(width: 440, height: 38)
         }
     }
@@ -16,6 +17,7 @@ struct NotchState: Equatable {
     var cornerRadius: (top: CGFloat, bottom: CGFloat) {
         switch content {
         case .lowPower: return (18, 36)
+        case .fullPower: return (18, 36)
         default: return (9, 13)
         }
     }

@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct LowPowerNotch: View {
+struct FullPowerNotch: View {
     @ObservedObject var powerSourceMonitor: PowerSourceMonitor
     @State private var pulse = false
     
@@ -18,7 +18,7 @@ struct LowPowerNotch: View {
         HStack {
             VStack(alignment: .leading, spacing: 3) {
                 HStack {
-                    Text("Battery Low")
+                    Text("Full Battery")
                         .font(.system(size: 14))
                         .fontWeight(.semibold)
                     
@@ -31,19 +31,13 @@ struct LowPowerNotch: View {
                         Text("\(powerSourceMonitor.batteryLevel)%")
                             .font(.system(size: 14))
                             .fontWeight(.semibold)
-                            .foregroundStyle(.red)
+                            .foregroundStyle(.green)
                     }
                 }
-                if powerSourceMonitor.isLowPowerMode {
-                    Text("\(Text("Low Power Mode enabled").foregroundStyle(.yellow))\(Text(", it is recommended to charge it.").foregroundStyle(.gray.opacity(0.6)))")
-                        .font(.system(size: 11))
-                        .fontWeight(.medium)
-                } else {
-                    Text("Turn on Low Power Mode or it is recommended to charge it.")
-                        .font(.system(size: 11))
-                        .foregroundStyle(.gray.opacity(0.6))
-                        .fontWeight(.medium)
-                }
+                Text("Your Mac is fully charged.")
+                    .font(.system(size: 11))
+                    .foregroundStyle(.gray.opacity(0.6))
+                    .fontWeight(.medium)
             }
             
             Spacer()
@@ -51,7 +45,7 @@ struct LowPowerNotch: View {
             if powerSourceMonitor.isLowPowerMode {
                 yellowIndicator
             } else {
-                redIndicator
+                greenIndicator
             }
         }
         .padding(.horizontal, 35)
@@ -59,36 +53,29 @@ struct LowPowerNotch: View {
     }
     
     @ViewBuilder
-    private var redIndicator: some View {
+    private var greenIndicator: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 30)
-                .fill(.red.opacity(0.2))
-                .frame(width: 80, height: 50)
+                .fill(.green.opacity(0.2))
+                .frame(width: 70, height: 40)
             
             HStack(spacing: 2) {
                 RoundedRectangle(cornerRadius: 10)
-                    .fill(.red.opacity(0.4))
+                    .fill(.green.opacity(0.4))
                     .frame(width: 44, height: 24)
-                
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 6)
+                            .fill(Color.green.gradient)
+                            .frame(width: 34, height: 16)
+                            .opacity(pulse ? 1 : 0.2)
+                            .onAppear {
+                                startPulse()
+                            }
+                    )
                 RoundedRectangle(cornerRadius: 10)
-                    .fill(.red.opacity(0.4))
+                    .fill(.green.opacity(0.4))
                     .frame(width: 3, height: 8)
             }
-            
-            RoundedRectangle(cornerRadius: 8)
-                .fill(Color.red.gradient)
-                .frame(width: 8, height: 14)
-                .opacity(pulse ? 1 : 0.3)
-                .offset(x: -15)
-                .onAppear {
-                    startPulse()
-                }
-            
-            RoundedRectangle(cornerRadius: 30)
-                .stroke(Color.red.opacity(0.9).gradient, lineWidth: 1.5)
-                .frame(width: pulse ? 8 : 30, height: pulse ? 14 : 32)
-                .offset(x: -15)
-                .opacity(pulse ? 0.3 : 1)
         }
     }
     
@@ -97,7 +84,7 @@ struct LowPowerNotch: View {
         ZStack {
             RoundedRectangle(cornerRadius: 30)
                 .fill(.yellow)
-                .frame(width: 80, height: 50)
+                .frame(width: 70, height: 40)
             
             HStack(spacing: 1) {
                 RoundedRectangle(cornerRadius: 10)
@@ -121,8 +108,8 @@ struct LowPowerNotch: View {
 #Preview {
     VStack(spacing: 30) {
         ZStack {
-            LowPowerNotch(powerSourceMonitor: mockBattery(level: 20))
-                .frame(width: 360 ,height: 110)
+            FullPowerNotch(powerSourceMonitor: mockBattery(level: 100))
+                .frame(width: 300 ,height: 100)
                 .background(
                     NotchShape(topCornerRadius: 18, bottomCornerRadius: 36)
                         .fill(.black)
@@ -131,12 +118,12 @@ struct LowPowerNotch: View {
                 .fill(.black)
                 .stroke(.red.opacity(0.3), lineWidth: 1)
                 .frame(width: 226, height: 38)
-                .padding(.bottom, 72)
+                .padding(.bottom, 61)
         }
         
         ZStack {
-            LowPowerNotch(powerSourceMonitor: mockBattery(level: 20, lowPower: true))
-                .frame(width: 360 ,height: 110)
+            FullPowerNotch(powerSourceMonitor: mockBattery(level: 100, lowPower: true))
+                .frame(width: 300 ,height: 100)
                 .background(
                     NotchShape(topCornerRadius: 18, bottomCornerRadius: 36)
                         .fill(.black)
@@ -145,7 +132,7 @@ struct LowPowerNotch: View {
                 .fill(.black)
                 .stroke(.red.opacity(0.3), lineWidth: 1)
                 .frame(width: 226, height: 38)
-                .padding(.bottom, 72)
+                .padding(.bottom, 61)
         }
     }
     .frame(width: 400, height: 300)

@@ -9,11 +9,15 @@ class PowerSourceMonitor: ObservableObject {
     @Published var isLowPowerMode: Bool = false
     
     private var runLoopSource: CFRunLoopSource?
-    
-    init() {
-        setupPowerNotifications()
-        updatePowerState()
-        updateLowPowerMode()
+    private let startMonitoring: Bool
+
+    init(startMonitoring: Bool = true) {
+        self.startMonitoring = startMonitoring
+        if startMonitoring {
+            setupPowerNotifications()
+            updatePowerState()
+            updateLowPowerMode()
+        }
     }
     
     deinit {
@@ -77,12 +81,18 @@ class PowerSourceMonitor: ObservableObject {
     }
 }
 
+func mockBattery(level: Int, lowPower: Bool = false) -> PowerSourceMonitor {
+    let monitor = PowerSourceMonitor.preview(batteryLevel: level)
+    monitor.isLowPowerMode = lowPower
+    return monitor
+}
+
 #if DEBUG
 extension PowerSourceMonitor {
-    /// Preview/test helper to create a monitor with explicit values.
+    /// Preview/test helper to create a monitor с фиксированными значениями и без реального мониторинга.
     static func preview(batteryLevel: Int, onACPower: Bool = false, isCharging: Bool = false) -> PowerSourceMonitor {
-        let monitor = PowerSourceMonitor()
-        // These setters are private to the type, but accessible here because this is an extension in the same file.
+        let monitor = PowerSourceMonitor(startMonitoring: false)
+        // Эти свойства private(set), но доступны здесь, так как это расширение в том же файле.
         monitor.batteryLevel = max(0, min(batteryLevel, 100))
         monitor.onACPower = onACPower
         monitor.isCharging = isCharging

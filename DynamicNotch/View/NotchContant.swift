@@ -14,6 +14,8 @@ struct NotchContant: View {
                     ChargerNotch(powerSourceMonitor: powerViewModel.powerMonitor)
                 case .lowPower:
                     LowPowerNotch(powerSourceMonitor: powerViewModel.powerMonitor)
+                case .fullPower:
+                    FullPowerNotch(powerSourceMonitor: powerViewModel.powerMonitor)
                 case .systemHud:
                     SystemHudNotch(notchViewModel: notchViewModel)
                 default:
@@ -37,6 +39,9 @@ struct Controller: View {
             }
             Button("Low Power") {
                 notchViewModel.send(.show(.lowPower))
+            }
+            Button("Full Power") {
+                notchViewModel.send(.show(.fullPower))
             }
             Button("Sound Bar") {
                 notchViewModel.send(.show(.systemHud(.volume)))

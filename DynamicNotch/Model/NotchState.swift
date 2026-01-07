@@ -1,7 +1,9 @@
 import SwiftUI
 
 struct NotchState: Equatable {
-    var content: NotchContent = .none
+    var activeContent: NotchContent = .none
+    var temporaryContent: NotchContent? = nil
+    var content: NotchContent { temporaryContent ?? activeContent }
 
     var size: CGSize {
         switch content {

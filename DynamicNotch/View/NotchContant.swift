@@ -32,28 +32,29 @@ struct Controller: View {
     var body: some View {
         HStack(spacing: 15) {
             Button("Music") {
-                notchViewModel.send(.show(.music))
+                notchViewModel.send(.showActive(.music))
             }
             Button("Charger") {
-                notchViewModel.send(.show(.charger))
+                notchViewModel.send(.showTemporary(.charger))
             }
             Button("Low Power") {
-                notchViewModel.send(.show(.lowPower))
+                notchViewModel.send(.showTemporary(.lowPower))
             }
             Button("Full Power") {
-                notchViewModel.send(.show(.fullPower))
+                notchViewModel.send(.showTemporary(.fullPower))
             }
             Button("Sound Bar") {
-                notchViewModel.send(.show(.systemHud(.volume)))
+                notchViewModel.send(.showTemporary(.systemHud(.volume)))
             }
             Button("Display Bar") {
-                notchViewModel.send(.show(.systemHud(.display)))
+                notchViewModel.send(.showTemporary(.systemHud(.display)))
             }
             Button("Keyboard Bar") {
-                notchViewModel.send(.show(.systemHud(.keyboard)))
+                notchViewModel.send(.showTemporary(.systemHud(.keyboard)))
             }
             Button("Hide") {
-                notchViewModel.send(.hide)
+                notchViewModel.send(.hideTemporary)
+                notchViewModel.send(.showActive(.none))
             }
         }
         .padding()

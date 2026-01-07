@@ -24,43 +24,16 @@ struct NotchView: View {
             .frame(width: notchViewModel.state.size.width, height: notchViewModel.state.size.height)
             .scaleEffect(isPressed ? 1.04 : 1.0, anchor: .top)
             .animation(.spring(response: 0.3, dampingFraction: 0.4), value: isPressed)
-            .onReceive(powerViewModel.$shouldShowCharger) { show in
-                guard powerViewModel.isInitialized else { return }
-                if show {
-                    notchViewModel.send(.show(.charger))
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                        if notchViewModel.state.content == .charger {
-                            notchViewModel.send(.hide)
-                        }
-                    }
-                } else if notchViewModel.state.content == .charger {
-                    notchViewModel.send(.hide)
-                }
-            }
-            .onReceive(powerViewModel.$isBatteryLevel20PercentOrLower) { show in
-                guard powerViewModel.isInitialized else { return }
-                if show {
-                    notchViewModel.send(.show(.lowPower))
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
-                        if notchViewModel.state.content == .lowPower {
-                            notchViewModel.send(.hide)
-                        }
-                    }
-                } else if notchViewModel.state.content == .lowPower {
-                    notchViewModel.send(.hide)
-                }
-            }
-            .onReceive(powerViewModel.$isBatteryLevel100Percent) { show in
-                guard powerViewModel.isInitialized else { return }
-                if show {
-                    notchViewModel.send(.show(.fullPower))
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
-                        if notchViewModel.state.content == .fullPower {
-                            notchViewModel.send(.hide)
-                        }
-                    }
-                } else if notchViewModel.state.content == .fullPower {
-                    notchViewModel.send(.hide)
+            .onReceive(powerViewModel.$event.compactMap { $0 }) { event in
+                switch event {
+                case .charger:
+                    notchViewModel.send(.showTemporary(.charger, duration: 3))
+
+                case .lowPower:
+                    notchViewModel.send(.showTemporary(.lowPower))
+
+                case .fullPower:
+                    notchViewModel.send(.showTemporary(.fullPower))
                 }
             }
             .gesture(

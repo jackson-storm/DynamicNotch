@@ -96,17 +96,17 @@ struct LowPowerNotch: View {
     private var yellowIndicator: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 30)
-                .fill(.yellow)
+                .fill(.yellow.opacity(0.2))
                 .frame(width: 80, height: 50)
             
-            HStack(spacing: 1) {
+            HStack(spacing: 2) {
                 RoundedRectangle(cornerRadius: 10)
-                    .fill(.black)
+                    .fill(.yellow.opacity(0.4))
                     .frame(width: 44, height: 24)
                 
                 RoundedRectangle(cornerRadius: 10)
-                    .fill(.black)
-                    .frame(width: 4, height: 8)
+                    .fill(.yellow.opacity(0.4))
+                    .frame(width: 3, height: 8)
             }
             
             RoundedRectangle(cornerRadius: 8)

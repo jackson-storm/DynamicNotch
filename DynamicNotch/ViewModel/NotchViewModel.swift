@@ -34,9 +34,7 @@ final class NotchViewModel: ObservableObject {
             },
             show: {
                 withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                        self.state.activeContent = content
-                    }
+                    self.state.activeContent = content
                 }
             }
         )

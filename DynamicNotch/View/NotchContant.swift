@@ -5,22 +5,20 @@ struct NotchContant: View {
     @ObservedObject var powerViewModel: PowerViewModel
     
     var body: some View {
-        if notchViewModel.state.content != .none {
-            Group {
-                switch notchViewModel.state.content {
-                case .music:
-                    PlayerNotch()
-                case .charger:
-                    ChargerNotch(powerSourceMonitor: powerViewModel.powerMonitor)
-                case .lowPower:
-                    LowPowerNotch(powerSourceMonitor: powerViewModel.powerMonitor)
-                case .fullPower:
-                    FullPowerNotch(powerSourceMonitor: powerViewModel.powerMonitor)
-                case .systemHud:
-                    SystemHudNotch(notchViewModel: notchViewModel)
-                default:
-                    EmptyView()
-                }
+        Group {
+            switch notchViewModel.state.content {
+            case .none:
+                Color.clear
+            case .music:
+                PlayerNotch()
+            case .charger:
+                ChargerNotch(powerSourceMonitor: powerViewModel.powerMonitor)
+            case .lowPower:
+                LowPowerNotch(powerSourceMonitor: powerViewModel.powerMonitor)
+            case .fullPower:
+                FullPowerNotch(powerSourceMonitor: powerViewModel.powerMonitor)
+            case .systemHud:
+                SystemHudNotch(notchViewModel: notchViewModel)
             }
         }
     }

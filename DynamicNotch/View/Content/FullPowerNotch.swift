@@ -48,7 +48,7 @@ struct FullPowerNotch: View {
                 greenIndicator
             }
         }
-        .padding(.horizontal, 35)
+        .padding(.horizontal, 33)
         .padding(.top, 30)
     }
     
@@ -64,10 +64,10 @@ struct FullPowerNotch: View {
                     .fill(.green.opacity(0.4))
                     .frame(width: 44, height: 24)
                     .overlay(
-                        RoundedRectangle(cornerRadius: 6)
+                        RoundedRectangle(cornerRadius: 4)
                             .fill(Color.green.gradient)
-                            .frame(width: 34, height: 16)
-                            .opacity(pulse ? 1 : 0.2)
+                            .frame(width: 34, height: 14)
+                            .opacity(pulse ? 1 : 0.4)
                             .onAppear {
                                 startPulse()
                             }
@@ -83,23 +83,27 @@ struct FullPowerNotch: View {
     private var yellowIndicator: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 30)
-                .fill(.yellow)
+                .fill(.yellow.opacity(0.2))
                 .frame(width: 70, height: 40)
             
-            HStack(spacing: 1) {
+            HStack(spacing: 2) {
                 RoundedRectangle(cornerRadius: 10)
-                    .fill(.black)
+                    .fill(.yellow.opacity(0.4))
                     .frame(width: 44, height: 24)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 4)
+                            .fill(Color.yellow.gradient)
+                            .frame(width: 34, height: 14)
+                            .opacity(pulse ? 1 : 0.4)
+                            .onAppear {
+                                startPulse()
+                            }
+                    )
                 
                 RoundedRectangle(cornerRadius: 10)
-                    .fill(.black)
-                    .frame(width: 4, height: 8)
+                    .fill(.yellow.opacity(0.4))
+                    .frame(width: 3, height: 8)
             }
-            
-            RoundedRectangle(cornerRadius: 8)
-                .fill(.yellow.gradient)
-                .frame(width: 8, height: 14)
-                .offset(x: -15)
         }
     }
 }

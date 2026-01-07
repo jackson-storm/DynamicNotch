@@ -7,7 +7,7 @@ final class NotchViewModel: ObservableObject {
 
     private var temporaryTask: Task<Void, Never>?
     private var isTransitioning = false
-    private let hideDelay: TimeInterval = 0.25
+    private let hideDelay: TimeInterval = 0.3
 
     func send(_ intent: NotchIntent) {
         switch intent {
@@ -28,13 +28,15 @@ final class NotchViewModel: ObservableObject {
         transition(
             hide: {
                 self.cancelTemporary()
-                withAnimation(.spring(response: 0.35)) {
+                withAnimation(.spring(response: 0.4)) {
                     self.state.temporaryContent = nil
                 }
             },
             show: {
                 withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
-                    self.state.activeContent = content
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                        self.state.activeContent = content
+                    }
                 }
             }
         )
@@ -44,7 +46,7 @@ final class NotchViewModel: ObservableObject {
         transition(
             hide: {
                 self.cancelTemporary()
-                withAnimation(.spring(response: 0.35)) {
+                withAnimation(.spring(response: 0.5)) {
                     self.state.temporaryContent = nil
                 }
             },
@@ -68,15 +70,12 @@ final class NotchViewModel: ObservableObject {
     private func hideTemporary() {
         cancelTemporary()
 
-        withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
+        withAnimation(.spring(response: 0.5)) {
             state.temporaryContent = nil
         }
     }
 
-    private func transition(
-        hide: @escaping () -> Void,
-        show: @escaping () -> Void
-    ) {
+    private func transition(hide: @escaping () -> Void, show: @escaping () -> Void) {
         guard !isTransitioning else { return }
         isTransitioning = true
 

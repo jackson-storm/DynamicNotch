@@ -20,8 +20,6 @@ final class PowerViewModel: ObservableObject {
     }
 
     private func setupBindings() {
-
-        // 🔌 Charger
         powerMonitor.$onACPower
             .removeDuplicates()
             .sink { [weak self] onAC in
@@ -34,7 +32,6 @@ final class PowerViewModel: ObservableObject {
             }
             .store(in: &cancellables)
 
-        // 🔋 Battery level
         powerMonitor.$batteryLevel
             .removeDuplicates()
             .sink { [weak self] level in

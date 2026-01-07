@@ -35,22 +35,22 @@ struct Controller: View {
                 notchViewModel.send(.showActive(.music))
             }
             Button("Charger") {
-                notchViewModel.send(.showTemporary(.charger))
+                notchViewModel.send(.showTemporary(.charger, duration: 4))
             }
             Button("Low Power") {
-                notchViewModel.send(.showTemporary(.lowPower))
+                notchViewModel.send(.showTemporary(.lowPower, duration: 4))
             }
             Button("Full Power") {
-                notchViewModel.send(.showTemporary(.fullPower))
+                notchViewModel.send(.showTemporary(.fullPower, duration: 4))
             }
             Button("Sound Bar") {
-                notchViewModel.send(.showTemporary(.systemHud(.volume)))
+                notchViewModel.send(.showTemporary(.systemHud(.volume), duration: 2))
             }
             Button("Display Bar") {
-                notchViewModel.send(.showTemporary(.systemHud(.display)))
+                notchViewModel.send(.showTemporary(.systemHud(.display), duration: 2))
             }
             Button("Keyboard Bar") {
-                notchViewModel.send(.showTemporary(.systemHud(.keyboard)))
+                notchViewModel.send(.showTemporary(.systemHud(.keyboard), duration: 2))
             }
             Button("Hide") {
                 notchViewModel.send(.hideTemporary)

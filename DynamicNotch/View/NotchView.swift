@@ -4,7 +4,9 @@ import Combine
 struct NotchView: View {
     @StateObject private var notchViewModel = NotchViewModel()
     @StateObject private var powerViewModel = PowerViewModel(powerMonitor: PowerSourceMonitor())
+    
     @State private var isPressed = false
+    @State private var showStroke = false
     
     weak var window: NSWindow?
     
@@ -13,14 +15,15 @@ struct NotchView: View {
             ZStack {
                 NotchShape(topCornerRadius: notchViewModel.state.cornerRadius.top, bottomCornerRadius: notchViewModel.state.cornerRadius.bottom)
                     .fill(Color.clear)
-                    .stroke((notchViewModel.state.content == .none) ? .clear : .white.opacity(0.05), lineWidth: 3)
+                    .stroke(showStroke ? Color.white.opacity(0.1) : Color.clear, lineWidth: 3)
+                    .animation(.spring(duration: 0.6), value: showStroke)
                 
                 NotchShape(topCornerRadius: notchViewModel.state.cornerRadius.top, bottomCornerRadius: notchViewModel.state.cornerRadius.bottom)
                     .fill(Color.black)
                     .overlay {
                         if notchViewModel.state.content != .none {
                             NotchContant(notchViewModel: notchViewModel, powerViewModel: powerViewModel)
-                                .transition(.blurAndFade.animation(.spring(duration: 0.35)).combined(with: .scale))
+                                .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .scale).combined(with: .offset(x: 0, y: -10)))
                         }
                     }
             }
@@ -31,6 +34,16 @@ struct NotchView: View {
                 .onChanged { _ in if !isPressed { isPressed = true } }
                 .onEnded { _ in isPressed = false }
             )
+            .onChange(of: notchViewModel.state.content) { _, newValue in
+                if newValue != .none {
+                    showStroke = true
+                }
+                else {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        showStroke = false
+                    }
+                }
+            }
             .onReceive(powerViewModel.$event.compactMap { $0 }) { event in
                 switch event {
                 case .charger:
@@ -40,9 +53,10 @@ struct NotchView: View {
                     notchViewModel.send(.showTemporary(.lowPower, duration: 4))
                     
                 case .fullPower:
-                    notchViewModel.send(.showTemporary(.fullPower, duration: 4))
+                    notchViewModel.send(.showTemporary(.fullPower, duration: 5))
                 }
             }
+            
             Spacer()
             
             Controller(notchViewModel: notchViewModel)

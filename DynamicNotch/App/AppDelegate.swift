@@ -1,56 +1,73 @@
 import AppKit
 import SwiftUI
 
-class AppDelegate: NSObject, NSApplicationDelegate {
+final class AppDelegate: NSObject, NSApplicationDelegate {
     var window: NSWindow!
-
+    
     func applicationDidFinishLaunching(_ notification: Notification) {
-
-        guard let screen = NSScreen.screens.first else { return }
+        NSApp.setActivationPolicy(.accessory)
+        createNotchWindow()
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(updateWindowFrame),
+            name: NSApplication.didChangeScreenParametersNotification,
+            object: nil
+        )
+    }
+    
+    func createNotchWindow() {
+        guard let screen = NSScreen.main else { return }
+        
         let screenFrame = screen.frame
-        let safeInsets = screen.safeAreaInsets
-
-        let contentView = ContentView(safeInsetsTop: safeInsets.top)
-
+        
+        let notchWidth: CGFloat = 600
+        let notchHeight: CGFloat = 600
+        
+        let x = screenFrame.midX - notchWidth / 2
+        let y = screenFrame.maxY - notchHeight
+        
         window = NSWindow(
-            contentRect: screenFrame,
+            contentRect: NSRect(x: x, y: y, width: notchWidth, height: notchHeight),
             styleMask: [.borderless],
             backing: .buffered,
-            defer: false,
-            screen: screen
+            defer: false
         )
-
+        
         window.isOpaque = false
         window.backgroundColor = .clear
-        window.hasShadow = false
+        window.level = .screenSaver
         
-        window.level = .statusBar
-
-        window.titleVisibility = .hidden
-        window.titlebarAppearsTransparent = true
-
-        window.standardWindowButton(.closeButton)?.isHidden = true
-        window.standardWindowButton(.miniaturizeButton)?.isHidden = true
-        window.standardWindowButton(.zoomButton)?.isHidden = true
-
         window.collectionBehavior = [
             .canJoinAllSpaces,
             .fullScreenAuxiliary,
-            .stationary,
             .ignoresCycle
         ]
-
-        window.styleMask.insert(.nonactivatingPanel)
-
-        window.isMovable = false
-        window.isMovableByWindowBackground = false
-
-        window.tabbingMode = .disallowed
-        window.isExcludedFromWindowsMenu = true
-
-        window.contentView = NSHostingView(rootView: contentView)
-
+        
+        window.ignoresMouseEvents = true
+        window.hasShadow = false
+        
+        window.contentView = NSHostingView(
+            rootView: NotchView(window: window)
+        )
+        
         window.makeKeyAndOrderFront(nil)
-        window.orderFrontRegardless()
+    }
+    
+    @objc
+    func updateWindowFrame() {
+        guard let screen = window.screen ?? NSScreen.main else { return }
+        
+        let frame = screen.frame
+        let size = window.frame.size
+        
+        let x = frame.midX - size.width / 2
+        let y = frame.maxY - size.height
+        
+        window.setFrame(
+            NSRect(origin: CGPoint(x: x, y: y), size: size),
+            display: true,
+            animate: false
+        )
     }
 }

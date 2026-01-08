@@ -6,32 +6,23 @@ class PowerSourceMonitor: ObservableObject {
     @Published private(set) var onACPower: Bool = false
     @Published private(set) var batteryLevel: Int = 0
     @Published var isCharging: Bool = false
+    @Published var isLowPowerMode: Bool = false
     
     private var runLoopSource: CFRunLoopSource?
-    
-    init() {
-        setupPowerNotifications()
-        updatePowerState()
+    private let startMonitoring: Bool
+
+    init(startMonitoring: Bool = true) {
+        self.startMonitoring = startMonitoring
+        if startMonitoring {
+            setupPowerNotifications()
+            updatePowerState()
+            updateLowPowerMode()
+        }
     }
     
     deinit {
         if let rls = runLoopSource {
             CFRunLoopRemoveSource(CFRunLoopGetCurrent(), rls, .defaultMode)
-        }
-    }
-    
-    private func setupPowerNotifications() {
-        let callback: IOPowerSourceCallbackType = { context in
-            guard let context = context else { return }
-            let instance = Unmanaged<PowerSourceMonitor>.fromOpaque(context).takeUnretainedValue()
-            DispatchQueue.main.async {
-                instance.updatePowerState()
-            }
-        }
-        let context = Unmanaged.passUnretained(self).toOpaque()
-        if let rls = IOPSNotificationCreateRunLoopSource(callback, context)?.takeRetainedValue() {
-            CFRunLoopAddSource(CFRunLoopGetCurrent(), rls, .defaultMode)
-            self.runLoopSource = rls
         }
     }
     
@@ -64,4 +55,48 @@ class PowerSourceMonitor: ObservableObject {
         self.batteryLevel = max(0, min(levelPercent, 100))
         self.isCharging = charging
     }
+    
+    private func updateLowPowerMode() {
+        if #available(macOS 12.0, *) {
+            self.isLowPowerMode = ProcessInfo.processInfo.isLowPowerModeEnabled
+        } else {
+            self.isLowPowerMode = false
+        }
+    }
+    
+    private func setupPowerNotifications() {
+        let callback: IOPowerSourceCallbackType = { context in
+            guard let context = context else { return }
+            let instance = Unmanaged<PowerSourceMonitor>.fromOpaque(context).takeUnretainedValue()
+            DispatchQueue.main.async {
+                instance.updatePowerState()
+                instance.updateLowPowerMode()
+            }
+        }
+        let context = Unmanaged.passUnretained(self).toOpaque()
+        if let rls = IOPSNotificationCreateRunLoopSource(callback, context)?.takeRetainedValue() {
+            CFRunLoopAddSource(CFRunLoopGetCurrent(), rls, .defaultMode)
+            self.runLoopSource = rls
+        }
+    }
 }
+
+func mockBattery(level: Int, lowPower: Bool = false) -> PowerSourceMonitor {
+    let monitor = PowerSourceMonitor.preview(batteryLevel: level)
+    monitor.isLowPowerMode = lowPower
+    return monitor
+}
+
+#if DEBUG
+extension PowerSourceMonitor {
+    /// Preview/test helper to create a monitor с фиксированными значениями и без реального мониторинга.
+    static func preview(batteryLevel: Int, onACPower: Bool = false, isCharging: Bool = false) -> PowerSourceMonitor {
+        let monitor = PowerSourceMonitor(startMonitoring: false)
+        // Эти свойства private(set), но доступны здесь, так как это расширение в том же файле.
+        monitor.batteryLevel = max(0, min(batteryLevel, 100))
+        monitor.onACPower = onACPower
+        monitor.isCharging = isCharging
+        return monitor
+    }
+}
+#endif

@@ -6,5 +6,6 @@ enum NotchContent: Equatable {
     case charger
     case lowPower
     case fullPower
+    case audioHardware
     case systemHud(HUDType)
 }

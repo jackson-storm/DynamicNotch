@@ -17,6 +17,8 @@ struct NotchContant: View {
                 LowPowerNotch(powerSourceMonitor: powerViewModel.powerMonitor)
             case .fullPower:
                 FullPowerNotch(powerSourceMonitor: powerViewModel.powerMonitor)
+            case .audioHardware:
+                AudioHardwareNotch()
             case .systemHud:
                 SystemHudNotch(notchViewModel: notchViewModel)
             }
@@ -49,6 +51,9 @@ struct Controller: View {
             }
             Button("Keyboard Bar") {
                 notchViewModel.send(.showTemporary(.systemHud(.keyboard), duration: 2))
+            }
+            Button("Audio Hurdware") {
+                notchViewModel.send(.showTemporary(.audioHardware, duration: 4))
             }
             Button("Hide") {
                 notchViewModel.send(.hideTemporary)

@@ -12,6 +12,7 @@ struct NotchState: Equatable {
         case .charger: return .init(width: 405, height: 38)
         case .lowPower: return .init(width: 360, height: 110)
         case .fullPower: return .init(width: 300, height: 100)
+        case .audioHardware: return .init(width: 405, height: 38)
         case .systemHud: return .init(width: 440, height: 38)
         }
     }

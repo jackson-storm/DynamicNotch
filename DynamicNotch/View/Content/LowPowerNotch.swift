@@ -35,9 +35,14 @@ struct LowPowerNotch: View {
                     }
                 }
                 if powerSourceMonitor.isLowPowerMode {
-                    Text("\(Text("Low Power Mode enabled").foregroundStyle(.yellow))\(Text(", it is recommended to charge it.").foregroundStyle(.gray.opacity(0.6)))")
+                    Text("Low Power Mode enabled")
+                        .foregroundColor(.yellow)
+                    
+                    + Text(", it is recommended to charge it.")
+                        .foregroundColor(.gray.opacity(0.6))
                         .font(.system(size: 11))
                         .fontWeight(.medium)
+                    
                 } else {
                     Text("Turn on Low Power Mode or it is recommended to charge it.")
                         .font(.system(size: 11))
@@ -128,7 +133,6 @@ struct LowPowerNotch: View {
                         .fill(.black)
                 )
             NotchShape(topCornerRadius: 9, bottomCornerRadius: 13)
-                .fill(.black)
                 .stroke(.red.opacity(0.3), lineWidth: 1)
                 .frame(width: 226, height: 38)
                 .padding(.bottom, 72)
@@ -142,7 +146,6 @@ struct LowPowerNotch: View {
                         .fill(.black)
                 )
             NotchShape(topCornerRadius: 9, bottomCornerRadius: 13)
-                .fill(.black)
                 .stroke(.red.opacity(0.3), lineWidth: 1)
                 .frame(width: 226, height: 38)
                 .padding(.bottom, 72)

@@ -82,10 +82,16 @@ private struct HudContent: View {
                         .fill(.black)
                 )
             
-            NotchShape(topCornerRadius: 9, bottomCornerRadius: 13)
-                .fill(.black)
-                .stroke(.red.opacity(0.3), lineWidth: 1)
-                .frame(width: 226, height: 38)
+            if #available(macOS 14.0, *) {
+                NotchShape(topCornerRadius: 9, bottomCornerRadius: 13)
+                    .fill(.black)
+                    .stroke(.red.opacity(0.3), lineWidth: 1)
+                    .frame(width: 226, height: 38)
+            } else {
+                NotchShape(topCornerRadius: 9, bottomCornerRadius: 13)
+                    .stroke(.red.opacity(0.3), lineWidth: 1)
+                    .frame(width: 226, height: 38)
+            }
         }
         
         ZStack {
@@ -96,10 +102,16 @@ private struct HudContent: View {
                         .fill(.black)
                 )
             
-            NotchShape(topCornerRadius: 9, bottomCornerRadius: 13)
-                .fill(.black)
-                .stroke(.red.opacity(0.3), lineWidth: 1)
-                .frame(width: 226, height: 38)
+            if #available(macOS 14.0, *) {
+                NotchShape(topCornerRadius: 9, bottomCornerRadius: 13)
+                    .fill(.black)
+                    .stroke(.red.opacity(0.3), lineWidth: 1)
+                    .frame(width: 226, height: 38)
+            } else {
+                NotchShape(topCornerRadius: 9, bottomCornerRadius: 13)
+                    .stroke(.red.opacity(0.3), lineWidth: 1)
+                    .frame(width: 226, height: 38)
+            }
         }
         
         ZStack {
@@ -110,10 +122,16 @@ private struct HudContent: View {
                         .fill(.black)
                 )
             
-            NotchShape(topCornerRadius: 9, bottomCornerRadius: 13)
-                .fill(.black)
-                .stroke(.red.opacity(0.3), lineWidth: 1)
-                .frame(width: 226, height: 38)
+            if #available(macOS 14.0, *) {
+                NotchShape(topCornerRadius: 9, bottomCornerRadius: 13)
+                    .fill(.black)
+                    .stroke(.red.opacity(0.3), lineWidth: 1)
+                    .frame(width: 226, height: 38)
+            } else {
+                NotchShape(topCornerRadius: 9, bottomCornerRadius: 13)
+                    .stroke(.red.opacity(0.3), lineWidth: 1)
+                    .frame(width: 226, height: 38)
+            }
         }
     }
     .frame(width: 450, height: 200)

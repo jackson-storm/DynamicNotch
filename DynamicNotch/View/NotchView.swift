@@ -56,12 +56,6 @@ struct NotchView: View {
                     notchViewModel.send(.showTemporary(.fullPower, duration: 5))
                 }
             }
-            
-            Spacer()
-            
-            Controller(notchViewModel: notchViewModel)
-                .background(.gray.opacity(0.3))
-                .padding(.bottom, 50)
         }
         .onHover { hovering in window?.ignoresMouseEvents = !hovering }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)

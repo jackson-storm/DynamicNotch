@@ -14,7 +14,6 @@ struct NotchView: View {
         VStack {
             ZStack {
                 NotchShape(topCornerRadius: notchViewModel.state.cornerRadius.top, bottomCornerRadius: notchViewModel.state.cornerRadius.bottom)
-                    .fill(Color.clear)
                     .stroke(showStroke ? Color.white.opacity(0.1) : Color.clear, lineWidth: 3)
                     .animation(.spring(duration: 0.6), value: showStroke)
                 
@@ -34,7 +33,7 @@ struct NotchView: View {
                 .onChanged { _ in if !isPressed { isPressed = true } }
                 .onEnded { _ in isPressed = false }
             )
-            .onChange(of: notchViewModel.state.content) { _, newValue in
+            .onChange(of: notchViewModel.state.content) { newValue in
                 if newValue != .none {
                     showStroke = true
                 }

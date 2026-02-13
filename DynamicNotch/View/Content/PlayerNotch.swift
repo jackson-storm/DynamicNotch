@@ -36,7 +36,6 @@ struct PlayerNotch: View {
                     .fill(.black)
             )
         NotchShape(topCornerRadius: 9, bottomCornerRadius: 13)
-            .fill(.black)
             .stroke(.red.opacity(0.3), lineWidth: 1)
             .frame(width: 226, height: 38)
     }

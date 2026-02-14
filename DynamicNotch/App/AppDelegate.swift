@@ -14,6 +14,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             name: NSApplication.didChangeScreenParametersNotification,
             object: nil
         )
+        
+        DispatchQueue.main.async {
+            for w in NSApp.windows {
+                if w !== self.window {
+                    w.orderOut(nil)
+                }
+            }
+        }
     }
     
     func createNotchWindow() {

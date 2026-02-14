@@ -89,10 +89,8 @@ func mockBattery(level: Int, lowPower: Bool = false) -> PowerSourceMonitor {
 
 #if DEBUG
 extension PowerSourceMonitor {
-    /// Preview/test helper to create a monitor с фиксированными значениями и без реального мониторинга.
     static func preview(batteryLevel: Int, onACPower: Bool = false, isCharging: Bool = false) -> PowerSourceMonitor {
         let monitor = PowerSourceMonitor(startMonitoring: false)
-        // Эти свойства private(set), но доступны здесь, так как это расширение в том же файле.
         monitor.batteryLevel = max(0, min(batteryLevel, 100))
         monitor.onACPower = onACPower
         monitor.isCharging = isCharging

@@ -162,35 +162,3 @@ struct FullPowerNotch: View {
         }
     }
 }
-
-
-#Preview {
-    VStack(spacing: 30) {
-        ZStack {
-            FullPowerNotch(powerSourceMonitor: mockBattery(level: 100))
-                .frame(width: 300 ,height: 100)
-                .background(
-                    NotchShape(topCornerRadius: 18, bottomCornerRadius: 36)
-                        .fill(.black)
-                )
-            NotchShape(topCornerRadius: 9, bottomCornerRadius: 13)
-                .stroke(.red.opacity(0.3), lineWidth: 1)
-                .frame(width: 226, height: 38)
-                .padding(.bottom, 61)
-        }
-        
-        ZStack {
-            FullPowerNotch(powerSourceMonitor: mockBattery(level: 100, lowPower: true))
-                .frame(width: 300 ,height: 100)
-                .background(
-                    NotchShape(topCornerRadius: 18, bottomCornerRadius: 36)
-                        .fill(.black)
-                )
-            NotchShape(topCornerRadius: 9, bottomCornerRadius: 13)
-                .stroke(.red.opacity(0.3), lineWidth: 1)
-                .frame(width: 226, height: 38)
-                .padding(.bottom, 61)
-        }
-    }
-    .frame(width: 400, height: 300)
-}

@@ -3,6 +3,7 @@ import SwiftUI
 struct NotchContentView: View {
     @ObservedObject var notchViewModel: NotchViewModel
     @ObservedObject var powerViewModel: PowerViewModel
+    @ObservedObject var playerViewModel: PlayerViewModel
     
     var body: some View {
         Group {
@@ -10,7 +11,11 @@ struct NotchContentView: View {
             case .none:
                 Color.clear
             case .music:
-                PlayerNotch()
+                if notchViewModel.state.isExpanded {
+                    PlayerNotchLarge(playerViewModel: playerViewModel)
+                } else {
+                    PlayerNotchSmall(playerViewModel: playerViewModel)
+                }
             case .charger:
                 ChargerNotch(powerSourceMonitor: powerViewModel.powerMonitor)
             case .lowPower:

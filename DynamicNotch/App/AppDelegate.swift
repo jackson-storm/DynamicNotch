@@ -4,6 +4,7 @@ import SwiftUI
 final class AppDelegate: NSObject, NSApplicationDelegate {
     let notchViewModel = NotchViewModel()
     let powerViewModel = PowerViewModel(powerMonitor: PowerSourceMonitor())
+    let playerViewModel = PlayerViewModel()
     
     var window: NSWindow!
     
@@ -62,6 +63,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             rootView: NotchView(
                 notchViewModel: notchViewModel,
                 powerViewModel: powerViewModel,
+                playerViewModel: playerViewModel,
                 window: window
             )
         )

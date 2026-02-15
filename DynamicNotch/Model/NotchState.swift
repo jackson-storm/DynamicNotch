@@ -3,12 +3,13 @@ import SwiftUI
 struct NotchState: Equatable {
     var activeContent: NotchContent = .none
     var temporaryContent: NotchContent? = nil
+    var isExpanded: Bool = false
     var content: NotchContent { temporaryContent ?? activeContent }
 
     var size: CGSize {
         switch content {
         case .none: return .init(width: 226, height: 38)
-        case .music: return .init(width: 305, height: 38)
+        case .music: return isExpanded ? .init(width: 400, height: 190) : .init(width: 305, height: 38)
         case .charger: return .init(width: 405, height: 38)
         case .lowPower: return .init(width: 360, height: 110)
         case .fullPower: return .init(width: 300, height: 100)
@@ -19,6 +20,7 @@ struct NotchState: Equatable {
 
     var cornerRadius: (top: CGFloat, bottom: CGFloat) {
         switch content {
+        case .music: return isExpanded ? (32, 46) : (9, 13)
         case .lowPower: return (18, 36)
         case .fullPower: return (18, 36)
         default: return (9, 13)
@@ -40,7 +42,7 @@ struct NotchState: Equatable {
     var offsetYTransition: CGFloat {
         switch content {
         case .none: return 0
-        case .music: return 0
+        case .music: return isExpanded ? -90 : 0
         case .charger: return 0
         case .lowPower: return -60
         case .fullPower: return -40

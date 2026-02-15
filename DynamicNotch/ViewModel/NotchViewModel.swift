@@ -8,16 +8,16 @@ final class NotchViewModel: ObservableObject {
 
     private var temporaryTask: Task<Void, Never>?
     private var isTransitioning = false
-    private let hideDelay: TimeInterval = 0.3
-
+    private var hideDelay: TimeInterval = 0.3
+    
     func send(_ intent: NotchIntent) {
         switch intent {
         case .showActive(let content):
             showActive(content)
-
+            
         case .showTemporary(let content, let duration):
             showTemporary(content, duration: duration)
-
+            
         case .hideTemporary:
             hideTemporary()
         }
@@ -37,6 +37,19 @@ final class NotchViewModel: ObservableObject {
         }
     }
     
+    func toggleMusicExpanded() {
+        guard state.content == .music else { return }
+        
+        if !state.isExpanded {
+            withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+                state.isExpanded = true
+            }
+            
+        } else {
+            collapseAndResetMusic()
+        }
+    }
+    
     func handlePowerEvent(_ event: PowerEvent) {
         switch event {
         case .charger:
@@ -50,9 +63,27 @@ final class NotchViewModel: ObservableObject {
         }
     }
     
+    private func collapseAndResetMusic() {
+        withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+            state.isExpanded = false
+        }
+        transition(
+            hide: {
+                withAnimation(.spring(response: 0.5)) {
+                    self.state.activeContent = .none
+                }
+            },
+            show: {
+                withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
+                    self.state.activeContent = .music
+                }
+            }
+        )
+    }
+    
     private func showActive(_ content: NotchContent) {
         guard state.activeContent != content else { return }
-
+        
         transition(
             hide: {
                 self.cancelTemporary()
@@ -80,7 +111,7 @@ final class NotchViewModel: ObservableObject {
                 withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
                     self.state.temporaryContent = content
                 }
-
+                
                 self.temporaryTask = Task {
                     try? await Task.sleep(
                         nanoseconds: UInt64(duration * 1_000_000_000)
@@ -92,7 +123,7 @@ final class NotchViewModel: ObservableObject {
             }
         )
     }
-
+    
     private func hideTemporary() {
         cancelTemporary()
         DispatchQueue.main.async {
@@ -101,21 +132,21 @@ final class NotchViewModel: ObservableObject {
             }
         }
     }
-
+    
     private func transition(hide: @escaping () -> Void, show: @escaping () -> Void) {
         guard !isTransitioning else { return }
         isTransitioning = true
-
+        
         DispatchQueue.main.async {
             hide()
-
+            
             DispatchQueue.main.asyncAfter(deadline: .now() + self.hideDelay) {
                 show()
                 self.isTransitioning = false
             }
         }
     }
-
+    
     private func cancelTemporary() {
         temporaryTask?.cancel()
         temporaryTask = nil

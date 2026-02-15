@@ -1,15 +1,14 @@
 # DynamicNotch
 
-**DynamicNotch** is a macOS app that brings a *Dynamic Island–style* experience to MacBooks with a notch — inspired by the Dynamic Island UI on iPhone, but designed specifically for macOS.
+**DynamicNotch** is a macOS app that brings a Dynamic Island–style experience to MacBooks with a notch — inspired by the Dynamic Island UI on iPhone, but designed specifically for macOS.
 
-<p align="center">
-  <video width="250" autoplay muted loop playsinline>
-    <source src="VIDEO_URL.mp4" type="video/mp4">
-  </video>
-  <img src="https://github.com/user-attachments/assets/292658bc-7a0d-42e0-b8ab-c4003af85795" width="300">
-  <img src="https://github.com/user-attachments/assets/43ef0254-fdac-4e7c-910a-aaa490b7898d" width="300">
-   <img src="https://github.com/user-attachments/assets/60d5f0ed-dbf6-49d0-a66f-f03dad49a6c6" width="300">
-</p>
+Demonstration of **DynamicNotch** on light and dark backgrounds:
+
+| Light Background | Dark Background |
+|------------|-----------|
+| ![Light Mode](https://github.com/user-attachments/assets/28779b2a-a80b-4b49-a5a9-40a061f2d984) | ![Dark Mode](https://github.com/user-attachments/assets/7cb4330c-fb90-4303-892a-0f9a19e0061f) |
+
+The notch stands out with highlighted edges on dark backgrounds, mimicking the appearance of the real Dynamic Island on iPhone.
 
 ## 🚀 Features
 

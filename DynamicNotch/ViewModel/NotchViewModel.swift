@@ -4,6 +4,7 @@ import Combine
 @MainActor
 final class NotchViewModel: ObservableObject {
     @Published private(set) var state = NotchState()
+    @Published var showNotch = false
 
     private var temporaryTask: Task<Void, Never>?
     private var isTransitioning = false
@@ -21,7 +22,34 @@ final class NotchViewModel: ObservableObject {
             hideTemporary()
         }
     }
-
+    
+    func handleStrokeVisibility(_ newValue: NotchContent) {
+        DispatchQueue.main.async {
+            if newValue != .none {
+                self.showNotch = true
+            } else {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    if self.state.activeContent == .none && self.state.temporaryContent == nil {
+                        self.showNotch = false
+                    }
+                }
+            }
+        }
+    }
+    
+    func handlePowerEvent(_ event: PowerEvent) {
+        switch event {
+        case .charger:
+            send(.showTemporary(.charger, duration: 4))
+            
+        case .lowPower:
+            send(.showTemporary(.lowPower, duration: 4))
+            
+        case .fullPower:
+            send(.showTemporary(.fullPower, duration: 5))
+        }
+    }
+    
     private func showActive(_ content: NotchContent) {
         guard state.activeContent != content else { return }
 
@@ -67,9 +95,10 @@ final class NotchViewModel: ObservableObject {
 
     private func hideTemporary() {
         cancelTemporary()
-
-        withAnimation(.spring(response: 0.5)) {
-            state.temporaryContent = nil
+        DispatchQueue.main.async {
+            withAnimation(.spring(response: 0.5)) {
+                self.state.temporaryContent = nil
+            }
         }
     }
 
@@ -77,11 +106,13 @@ final class NotchViewModel: ObservableObject {
         guard !isTransitioning else { return }
         isTransitioning = true
 
-        hide()
+        DispatchQueue.main.async {
+            hide()
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + hideDelay) {
-            show()
-            self.isTransitioning = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + self.hideDelay) {
+                show()
+                self.isTransitioning = false
+            }
         }
     }
 

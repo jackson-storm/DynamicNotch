@@ -1,6 +1,6 @@
 import Foundation
 
-enum NotchContent: Equatable {
+enum NotchContent: Hashable {
     case none
     case music
     case charger

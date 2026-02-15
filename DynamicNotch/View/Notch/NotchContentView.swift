@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct NotchContant: View {
+struct NotchContentView: View {
     @ObservedObject var notchViewModel: NotchViewModel
     @ObservedObject var powerViewModel: PowerViewModel
     

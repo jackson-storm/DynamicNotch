@@ -2,6 +2,9 @@ import AppKit
 import SwiftUI
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
+    let notchViewModel = NotchViewModel()
+    let powerViewModel = PowerViewModel(powerMonitor: PowerSourceMonitor())
+    
     var window: NSWindow!
     
     func applicationDidFinishLaunching(_ notification: Notification) {
@@ -14,6 +17,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             name: NSApplication.didChangeScreenParametersNotification,
             object: nil
         )
+        
+        DispatchQueue.main.async {
+            for w in NSApp.windows {
+                if w !== self.window {
+                    w.orderOut(nil)
+                }
+            }
+        }
     }
     
     func createNotchWindow() {
@@ -48,7 +59,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         window.hasShadow = false
         
         window.contentView = NSHostingView(
-            rootView: NotchView(window: window)
+            rootView: NotchView(
+                notchViewModel: notchViewModel,
+                powerViewModel: powerViewModel,
+                window: window
+            )
         )
         
         window.makeKeyAndOrderFront(nil)

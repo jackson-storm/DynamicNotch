@@ -24,4 +24,28 @@ struct NotchState: Equatable {
         default: return (9, 13)
         }
     }
+    
+    var offsetXTransition: CGFloat {
+        switch content {
+        case .none: return 0
+        case .music: return -60
+        case .charger: return -60
+        case .lowPower: return -60
+        case .fullPower: return -40
+        case .audioHardware: return -60
+        case .systemHud: return -60
+        }
+    }
+    
+    var offsetYTransition: CGFloat {
+        switch content {
+        case .none: return 0
+        case .music: return 0
+        case .charger: return 0
+        case .lowPower: return -60
+        case .fullPower: return -40
+        case .audioHardware: return 0
+        case .systemHud: return 0
+        }
+    }
 }

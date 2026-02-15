@@ -1,6 +1,6 @@
 import SwiftUI
 
-enum HUDType: Equatable {
+enum HUDType: Hashable {
     case volume
     case display
     case keyboard
@@ -136,4 +136,3 @@ private struct HudContent: View {
     }
     .frame(width: 450, height: 200)
 }
-

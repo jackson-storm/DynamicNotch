@@ -11,6 +11,7 @@ final class PowerViewModel: ObservableObject {
     @Published var event: PowerEvent?
 
     let powerMonitor: PowerSourceMonitor
+    
     private var cancellables = Set<AnyCancellable>()
     private var isInitialized = false
 

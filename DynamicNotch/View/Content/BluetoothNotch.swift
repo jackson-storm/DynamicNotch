@@ -17,15 +17,18 @@ struct BluetoothNotch: View {
             
             Spacer()
             
-            if bluetoothViewModel.isConnected, let level = bluetoothViewModel.batteryLevel {
+            if bluetoothViewModel.isConnected {
                 HStack(spacing: 6) {
-                    Text("\(level)%")
-                        .foregroundStyle(color(for: level).gradient)
-                    
-                    Image(systemName: "airpods.max")
+                    if let level = bluetoothViewModel.batteryLevel {
+                        Text("\(level)%")
+                            .foregroundStyle(color(for: level).gradient)
+                    } else {
+                        Text("---")
+                            .foregroundStyle(.white.opacity(0.6))
+                    }
+                    Image(systemName: bluetoothViewModel.deviceType.symbolName)
                         .font(.system(size: 18))
-                        .bold()
-                        .foregroundStyle(color(for: level).gradient)
+                        .foregroundStyle(.white.opacity(0.8))
                 }
             }
         }
@@ -35,7 +38,7 @@ struct BluetoothNotch: View {
 }
 
 #Preview {
-    ZStack {
+    ZStack(alignment: .top) {
         BluetoothNotch(bluetoothViewModel: BluetoothViewModel())
             .frame(width: 400, height: 38)
             .background(

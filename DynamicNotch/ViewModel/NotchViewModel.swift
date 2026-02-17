@@ -46,7 +46,21 @@ final class NotchViewModel: ObservableObject {
             }
             
         } else {
-            collapseAndResetMusic()
+            withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+                state.isExpanded = false
+            }
+            transition(
+                hide: {
+                    withAnimation(.spring(response: 0.5)) {
+                        self.state.activeContent = .none
+                    }
+                },
+                show: {
+                    withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
+                        self.state.activeContent = .music
+                    }
+                }
+            )
         }
     }
     
@@ -68,24 +82,6 @@ final class NotchViewModel: ObservableObject {
         case .fullPower:
             send(.showTemporary(.fullPower, duration: 5))
         }
-    }
-    
-    private func collapseAndResetMusic() {
-        withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
-            state.isExpanded = false
-        }
-        transition(
-            hide: {
-                withAnimation(.spring(response: 0.5)) {
-                    self.state.activeContent = .none
-                }
-            },
-            show: {
-                withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
-                    self.state.activeContent = .music
-                }
-            }
-        )
     }
     
     private func showActive(_ content: NotchContent) {

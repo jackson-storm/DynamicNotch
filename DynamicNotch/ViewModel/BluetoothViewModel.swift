@@ -10,11 +10,8 @@ import IOBluetooth
 import IOKit
 import Combine
 
-enum BluetoothEvent {
-    case connected
-}
-
 final class BluetoothViewModel: ObservableObject {
+    @Published var deviceType: BluetoothDeviceType = .unknown
     @Published var event: BluetoothEvent?
     @Published var isConnected: Bool = false
     @Published var deviceName: String = ""
@@ -29,9 +26,11 @@ final class BluetoothViewModel: ObservableObject {
     init(notchViewModel: NotchViewModel? = nil) {
         self.notchViewModel = notchViewModel
         setupMonitoring()
+        setupNotifications()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.isInitialized = true
+            self.checkBluetooth()
         }
     }
     
@@ -40,7 +39,7 @@ final class BluetoothViewModel: ObservableObject {
     }
     
     private func setupMonitoring() {
-        Timer.publish(every: 2, on: .main, in: .common)
+        Timer.publish(every: 3, on: .main, in: .common)
             .autoconnect()
             .sink { [weak self] _ in
                 self?.checkBluetooth()
@@ -49,14 +48,30 @@ final class BluetoothViewModel: ObservableObject {
     }
     
     private func checkBluetooth() {
-            let info = monitor.getLatestDeviceInfo()
-            
-            if info.isConnected && !self.isConnected && isInitialized {
+        let info = monitor.getLatestDeviceInfo()
+        
+        DispatchQueue.main.async {
+            if info.isConnected && !self.isConnected && self.isInitialized {
                 self.event = .connected
             }
             
             self.isConnected = info.isConnected
             self.deviceName = info.name
             self.batteryLevel = info.battery
+            self.deviceType = info.type
         }
+    }
+    
+    private func setupNotifications() {
+        NotificationCenter.default.addObserver(
+            forName: NSNotification.Name("IOBluetoothDeviceConnectNotification"),
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                self?.checkBluetooth()
+            }
+        }
+    }
 }
+

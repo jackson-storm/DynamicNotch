@@ -10,75 +10,96 @@ import IOBluetooth
 import IOKit
 
 final class BluetoothMonitor {
-    func getLatestDeviceInfo() -> (isConnected: Bool, name: String, battery: Int?) {
-        guard let devices = IOBluetoothDevice.pairedDevices() as? [IOBluetoothDevice],
-              let connectedDevice = devices.first(where: { $0.isConnected() }) else {
-            return (false, "Disconnected", nil)
+    func getLatestDeviceInfo() -> (isConnected: Bool, name: String, battery: Int?, type: BluetoothDeviceType) {
+        guard let devices = IOBluetoothDevice.pairedDevices() as? [IOBluetoothDevice] else {
+            return (false, "Disconnected", nil, .unknown)
         }
         
+        guard let connectedDevice = devices.first(where: { $0.isConnected() }) else {
+            return (false, "Disconnected", nil, .unknown)
+        }
+        
+        let type = deviceType(for: connectedDevice)
         let battery = getBatteryLevel(for: connectedDevice)
-        return (true, connectedDevice.name ?? "Unknown", battery)
+        
+        return (true, connectedDevice.name ?? "Unknown", battery, type)
+    }
+
+    func deviceType(for device: IOBluetoothDevice) -> BluetoothDeviceType {
+        let major = Int(device.deviceClassMajor)
+        let minor = Int(device.deviceClassMinor)
+        
+        switch major {
+        case 0x04:
+            switch minor {
+            case 0x01, 0x02: return .headset
+            case 0x06: return .headphones
+            case 0x05: return .speaker
+            default: return .headphones
+            }
+        case 0x05:
+            if (minor & 0x40) != 0 { return .keyboard }
+            if (minor & 0x80) != 0 { return .mouse }
+            return .unknown
+        case 0x01: return .computer
+        case 0x02: return .phone
+        default: return .unknown
+        }
     }
     
-    func getConnectedDevicesInfo() {
-        guard let devices = IOBluetoothDevice.pairedDevices() as? [IOBluetoothDevice] else {
-            print("Нет сопряженных устройств.")
-            return
-        }
+    private func getBatteryLevel(for device: IOBluetoothDevice) -> Int? {
+        let keys = ["batteryLevel", "batteryPercent", "batteryLevelMain", "batteryPercentSingle"]
         
-        print("--- Поиск подключенных устройств ---")
-        
-        for device in devices {
-            if device.isConnected() {
-                let name = device.name ?? "Unknown Device"
-                let address = device.addressString ?? "00:00:00:00:00:00"
-                
-                print("\nУстройство: \(name)")
-                print("MAC: \(address)")
-                
-                if let batteryLevel = getBatteryLevel(for: device) {
-                    print("Заряд: \(batteryLevel)%")
-                } else {
-                    print("Заряд: Не удалось определить (или не поддерживается)")
+        for key in keys {
+            if device.responds(to: NSSelectorFromString(key)) {
+                if let value = device.value(forKey: key) {
+                    var level: Int = 0
+                    
+                    if let dblValue = value as? Double {
+                        level = Int(dblValue <= 1.0 ? dblValue * 100 : dblValue)
+                    }
+                    else if let intValue = value as? Int {
+                        level = intValue
+                    }
+                    
+                    if level > 0 {
+                        print("🔋 Найдено через KVC (\(key)): \(level)%")
+                        return level
+                    }
                 }
             }
         }
+        return getBatteryFromRegistry(for: device)
     }
-    private func getBatteryLevel(for device: IOBluetoothDevice) -> Int? {
-        let matchingDict = IOServiceMatching("AppleDeviceManagementHIDEventService")
-        var iterator: io_iterator_t = 0
+    
+    private func getBatteryFromRegistry(for device: IOBluetoothDevice) -> Int? {
+        guard let address = device.addressString else { return nil }
+        let normalizedAddr = address.replacingOccurrences(of: ":", with: "-").lowercased()
         
-        let result = IOServiceGetMatchingServices(kIOMainPortDefault, matchingDict, &iterator)
+        let services = ["AppleDeviceManagementHIDEventService", "AppleHSBluetoothDevice", "IOBluetoothDevice"]
         
-        if result != kIOReturnSuccess {
-            return nil
-        }
-        
-        defer { IOObjectRelease(iterator) }
-        
-        var batteryLevel: Int? = nil
-        
-        while case let service = IOIteratorNext(iterator), service != 0 {
-            defer { IOObjectRelease(service) }
+        for serviceName in services {
+            let matchingDict = IOServiceMatching(serviceName)
+            var iterator: io_iterator_t = 0
             
-            if let deviceAddress = IORegistryEntryCreateCFProperty(service, "DeviceAddress" as CFString, kCFAllocatorDefault, 0)?.takeRetainedValue() as? String {
-                
-                if deviceAddress.lowercased() == device.addressString.lowercased() {
+            if IOServiceGetMatchingServices(kIOMainPortDefault, matchingDict, &iterator) == kIOReturnSuccess {
+                while case let service = IOIteratorNext(iterator), service != 0 {
+                    defer { IOObjectRelease(service) }
                     
-                    let batteryKeys = ["BatteryPercent", "BatteryLevel", "BatteryPercentCase", "BatteryPercentLeft", "BatteryPercentRight"]
-                    
-                    for key in batteryKeys {
-                        if let value = IORegistryEntryCreateCFProperty(service, key as CFString, kCFAllocatorDefault, 0)?.takeRetainedValue() {
-                            if let intValue = value as? Int {
-                                batteryLevel = intValue
-                                break
+                    if let regAddr = IORegistryEntryCreateCFProperty(service, "DeviceAddress" as CFString, kCFAllocatorDefault, 0)?.takeRetainedValue() as? String {
+                        if regAddr.lowercased().replacingOccurrences(of: ":", with: "-") == normalizedAddr {
+                            let batteryKeys = ["BatteryPercent", "BatteryLevel", "BatteryPercentSingle", "RemoteDeviceBatteryLevel"]
+                            for key in batteryKeys {
+                                if let val = IORegistryEntryCreateCFProperty(service, key as CFString, kCFAllocatorDefault, 0)?.takeRetainedValue() as? Int {
+                                    return val
+                                }
                             }
                         }
                     }
                 }
+                IOObjectRelease(iterator)
             }
-            if batteryLevel != nil { break }
         }
-        return batteryLevel
+        return nil
     }
 }

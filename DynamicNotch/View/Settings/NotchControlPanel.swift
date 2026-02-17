@@ -80,7 +80,7 @@ struct NotchControlPanel: View {
             
             ControlGroup {
                 Button {
-                    notchViewModel.send(.showTemporary(.audioHardware, duration: 5))
+                    notchViewModel.send(.showTemporary(. bluetooth, duration: 5))
                 } label: {
                     Label("Audio HW", systemImage: "headphones")
                 }

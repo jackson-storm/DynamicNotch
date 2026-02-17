@@ -14,14 +14,8 @@ struct NotchPressModifier: ViewModifier {
         content
             .scaleEffect(isPressed ? 1.04 : 1.0, anchor: .top)
             .animation(.spring(response: 0.3, dampingFraction: 0.4), value: isPressed)
-            .gesture(
-                DragGesture(minimumDistance: 0)
-                    .onChanged { _ in
-                        if !isPressed { isPressed = true }
-                    }
-                    .onEnded { _ in
-                        isPressed = false
-                    }
-            )
+            .onLongPressGesture(minimumDuration: .infinity, maximumDistance: .infinity, pressing: { pressing in
+                self.isPressed = pressing
+            }, perform: {})
     }
 }

@@ -6,6 +6,6 @@ enum NotchContent: Hashable {
     case charger
     case lowPower
     case fullPower
-    case audioHardware
+    case bluetooth
     case systemHud(HUDType)
 }

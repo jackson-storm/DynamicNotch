@@ -5,6 +5,8 @@ import AppKit
 struct NotchView: View {
     @ObservedObject var notchViewModel: NotchViewModel
     @ObservedObject var powerViewModel: PowerViewModel
+    @ObservedObject var playerViewModel: PlayerViewModel
+    @ObservedObject var bluetoothViewModel: BluetoothViewModel
     @Environment(\.openWindow) private var openWindow
     
     @State private var isPressed = false
@@ -19,6 +21,12 @@ struct NotchView: View {
                     notchViewModel.handleStrokeVisibility(newValue)
                 }
                 .onReceive(powerViewModel.$event.compactMap { $0 }, perform: notchViewModel.handlePowerEvent)
+                .onReceive(bluetoothViewModel.$event.compactMap { $0 }, perform: notchViewModel.handleBluetoothEvent)
+                .onTapGesture {
+                    if notchViewModel.state.content == .music {
+                        notchViewModel.toggleMusicExpanded()
+                    }
+                }
         }
         .windowHover(window)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
@@ -34,6 +42,7 @@ private extension NotchView {
                 bottomCornerRadius: notchViewModel.state.cornerRadius.bottom
             )
             .stroke(notchViewModel.showNotch ? Color.white.opacity(0.1) : Color.clear, lineWidth: 4)
+            .allowsHitTesting(false)
             .animation(.spring(duration: 0.6), value: notchViewModel.showNotch)
             
             NotchShape(
@@ -52,7 +61,9 @@ private extension NotchView {
         if notchViewModel.state.content != .none {
             NotchContentView(
                 notchViewModel: notchViewModel,
-                powerViewModel: powerViewModel
+                powerViewModel: powerViewModel,
+                playerViewModel: playerViewModel,
+                bluetoothViewModel: bluetoothViewModel
             )
             .transition(
                 .blurAndFade
@@ -81,10 +92,4 @@ private extension NotchView {
             Text("Quit")
         }
     }
-}
-
-#Preview {
-    NotchView(notchViewModel: NotchViewModel(), powerViewModel: PowerViewModel(powerMonitor: PowerSourceMonitor()), window: NSWindow())
-        .frame(width: 500, height: 300)
-        .background(.ultraThinMaterial)
 }

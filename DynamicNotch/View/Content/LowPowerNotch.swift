@@ -121,35 +121,3 @@ struct LowPowerNotch: View {
         }
     }
 }
-
-
-#Preview {
-    VStack(spacing: 30) {
-        ZStack {
-            LowPowerNotch(powerSourceMonitor: mockBattery(level: 20))
-                .frame(width: 360 ,height: 110)
-                .background(
-                    NotchShape(topCornerRadius: 18, bottomCornerRadius: 36)
-                        .fill(.black)
-                )
-            NotchShape(topCornerRadius: 9, bottomCornerRadius: 13)
-                .stroke(.red.opacity(0.3), lineWidth: 1)
-                .frame(width: 226, height: 38)
-                .padding(.bottom, 72)
-        }
-        
-        ZStack {
-            LowPowerNotch(powerSourceMonitor: mockBattery(level: 20, lowPower: true))
-                .frame(width: 360 ,height: 110)
-                .background(
-                    NotchShape(topCornerRadius: 18, bottomCornerRadius: 36)
-                        .fill(.black)
-                )
-            NotchShape(topCornerRadius: 9, bottomCornerRadius: 13)
-                .stroke(.red.opacity(0.3), lineWidth: 1)
-                .frame(width: 226, height: 38)
-                .padding(.bottom, 72)
-        }
-    }
-    .frame(width: 400, height: 300)
-}

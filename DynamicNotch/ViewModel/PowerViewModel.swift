@@ -1,12 +1,6 @@
 import Foundation
 import Combine
 
-enum PowerEvent {
-    case charger
-    case lowPower
-    case fullPower
-}
-
 final class PowerViewModel: ObservableObject {
     @Published var event: PowerEvent?
 

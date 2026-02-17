@@ -80,21 +80,3 @@ class PowerSourceMonitor: ObservableObject {
         }
     }
 }
-
-func mockBattery(level: Int, lowPower: Bool = false) -> PowerSourceMonitor {
-    let monitor = PowerSourceMonitor.preview(batteryLevel: level)
-    monitor.isLowPowerMode = lowPower
-    return monitor
-}
-
-#if DEBUG
-extension PowerSourceMonitor {
-    static func preview(batteryLevel: Int, onACPower: Bool = false, isCharging: Bool = false) -> PowerSourceMonitor {
-        let monitor = PowerSourceMonitor(startMonitoring: false)
-        monitor.batteryLevel = max(0, min(batteryLevel, 100))
-        monitor.onACPower = onACPower
-        monitor.isCharging = isCharging
-        return monitor
-    }
-}
-#endif

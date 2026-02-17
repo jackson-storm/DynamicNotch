@@ -1,6 +1,7 @@
 import Cocoa
 import SwiftUI
 
+@available(macOS 15.0, *)
 @main
 struct NotchApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
@@ -25,5 +26,6 @@ struct NotchApp: App {
         }
         .defaultPosition(.center)
         .windowResizability(.contentSize)
+        .windowStyle(.plain)
     }
 }

@@ -6,111 +6,95 @@
 //
 
 import Foundation
-import MediaPlayer
-import Combine
 import SwiftUI
+import Combine
+import AppKit
+import Darwin
 
 final class PlayerViewModel: ObservableObject {
-    @Published var title: String = "Not Playing"
-    @Published var artist: String = ""
+    @Published var title: String = "Не играет"
+    @Published var artist: String = "Нет данных"
     @Published var duration: Double = 1
     @Published var currentTime: Double = 0
     @Published var isPlaying: Bool = false
     @Published var artwork: Image? = nil
-    @Published var artworkColor: Color = .gray
     
     private var timer: Timer?
+    private var lastUpdateTimestamp: Date = Date()
+    private var playbackRate: Double = 0
     
     init() {
-        startTimer()
-    }
-    
-    private func startTimer() {
-        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
-            self?.updateNowPlaying()
-        }
-    }
-    
-    private func updateNowPlaying() {
-        let infoCenter = MPNowPlayingInfoCenter.default().nowPlayingInfo
+        MediaRemote.load()
+        MediaRemote.registerForNotifications?(DispatchQueue.main)
         
-        guard let info = infoCenter else {
-            if self.isPlaying {
-                self.isPlaying = false
-                self.title = "Not Playing"
+        NotificationCenter.default.addObserver(self, selector: #selector(updateNowPlaying),
+            name: NSNotification.Name("kMRMediaRemoteNowPlayingInfoDidChangeNotification"), object: nil)
+        
+        startSmoothTimer()
+        updateNowPlaying()
+    }
+    
+    private func startSmoothTimer() {
+        timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
+            guard let self = self, self.isPlaying else { return }
+            let delta = Date().timeIntervalSince(self.lastUpdateTimestamp)
+            if self.currentTime + delta <= self.duration {
+                self.currentTime += delta * self.playbackRate
+                self.lastUpdateTimestamp = Date()
             }
-            return
         }
-        
-        let newTitle = info[MPMediaItemPropertyTitle] as? String ?? "Unknown"
-        let newArtist = info[MPMediaItemPropertyArtist] as? String ?? ""
-        
-        if self.title != newTitle { self.title = newTitle }
-        if self.artist != newArtist { self.artist = newArtist }
-        
-        self.duration = info[MPMediaItemPropertyPlaybackDuration] as? Double ?? 1
-        self.currentTime = info[MPNowPlayingInfoPropertyElapsedPlaybackTime] as? Double ?? 0
-        
-        let rate = info[MPNowPlayingInfoPropertyPlaybackRate] as? Double ?? 0
-        self.isPlaying = rate > 0
-        
-        if let validArtwork = info[MPMediaItemPropertyArtwork] as? MPMediaItemArtwork {
-            let nsImage = validArtwork.image(at: CGSize(width: 200, height: 200))
-            if let nsImage = nsImage {
-                self.artwork = Image(nsImage: nsImage)
+    }
+    
+    @objc func updateNowPlaying() {
+        MediaRemote.getNowPlayingInfo?(DispatchQueue.main) { [weak self] cfInfo in
+            guard let self = self, let info = (cfInfo as NSDictionary?) as? [String: Any] else {
+                DispatchQueue.main.async { self?.resetInfo() }
+                return
             }
-        } else {
-            self.artwork = nil
+            
+            DispatchQueue.main.async {
+                self.title = info[kMRMediaRemoteNowPlayingInfoTitle] as? String ?? "Не играет"
+                self.artist = info[kMRMediaRemoteNowPlayingInfoArtist] as? String ?? "Нет данных"
+                self.duration = info[kMRMediaRemoteNowPlayingInfoDuration] as? Double ?? 1
+                self.currentTime = info[kMRMediaRemoteNowPlayingInfoElapsedTime] as? Double ?? 0
+                self.playbackRate = info[kMRMediaRemoteNowPlayingInfoPlaybackRate] as? Double ?? 0
+                self.isPlaying = self.playbackRate > 0
+                self.lastUpdateTimestamp = Date()
+                
+                if let data = info[kMRMediaRemoteNowPlayingInfoArtworkData] as? Data, let nsImg = NSImage(data: data) {
+                    self.artwork = Image(nsImage: nsImg)
+                } else {
+                    self.artwork = nil
+                }
+            }
         }
     }
     
-    func playPause() {
-        MediaKeySimulator.send(keyCode: 16)
-        isPlaying.toggle()
+    func resetInfo() {
+        self.title = "Не играет"; self.artist = "Нет данных"; self.artwork = nil
+        self.isPlaying = false; self.currentTime = 0; self.duration = 1
     }
     
-    func nextTrack() {
-        MediaKeySimulator.send(keyCode: 19)
-    }
+    func playPause() { MediaKeySimulator.send(keyCode: 16); updateAfterDelay() }
+    func nextTrack() { MediaKeySimulator.send(keyCode: 19); updateAfterDelay() }
+    func prevTrack() { MediaKeySimulator.send(keyCode: 20); updateAfterDelay() }
     
-    func prevTrack() {
-        MediaKeySimulator.send(keyCode: 20)
+    private func updateAfterDelay() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { self.updateNowPlaying() }
     }
     
     func formatTime(_ time: Double) -> String {
-        let minutes = Int(time) / 60
-        let seconds = Int(time) % 60
-        return String(format: "%d:%02d", minutes, seconds)
+        let t = Int(max(0, time))
+        return String(format: "%d:%02d", t / 60, t % 60)
     }
 }
 
-private struct MediaKeySimulator {
+struct MediaKeySimulator {
     static func send(keyCode: Int64) {
-        let keyDown = NSEvent.otherEvent(
-            with: .systemDefined,
-            location: .zero,
-            modifierFlags: NSEvent.ModifierFlags(rawValue: 0xa00),
-            timestamp: 0,
-            windowNumber: 0,
-            context: nil,
-            subtype: 8,
-            data1: Int((keyCode << 16) | (0xA << 8)),
-            data2: -1
-        )
-        
-        let keyUp = NSEvent.otherEvent(
-            with: .systemDefined,
-            location: .zero,
-            modifierFlags: NSEvent.ModifierFlags(rawValue: 0xb00),
-            timestamp: 0,
-            windowNumber: 0,
-            context: nil,
-            subtype: 8,
-            data1: Int((keyCode << 16) | (0xB << 8)),
-            data2: -1
-        )
-        
-        keyDown?.cgEvent?.post(tap: .cghidEventTap)
-        keyUp?.cgEvent?.post(tap: .cghidEventTap)
+        func post(flags: Int) {
+            let ev = NSEvent.otherEvent(with: .systemDefined, location: .zero, modifierFlags: NSEvent.ModifierFlags(rawValue: UInt(flags)), timestamp: 0, windowNumber: 0, context: nil, subtype: 8, data1: Int((keyCode << 16) | ((flags == 0xa00 ? 0xA : 0xB) << 8)), data2: -1)
+            ev?.cgEvent?.post(tap: .cghidEventTap)
+        }
+        post(flags: 0xa00); post(flags: 0xb00)
     }
 }

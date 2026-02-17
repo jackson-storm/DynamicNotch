@@ -50,6 +50,13 @@ final class NotchViewModel: ObservableObject {
         }
     }
     
+    func handleBluetoothEvent(_ event: BluetoothEvent) {
+        switch event {
+        case .connected:
+            send(.showTemporary(.bluetooth, duration: 4))
+        }
+    }
+    
     func handlePowerEvent(_ event: PowerEvent) {
         switch event {
         case .charger:

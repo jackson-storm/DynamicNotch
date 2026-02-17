@@ -6,6 +6,7 @@ struct NotchView: View {
     @ObservedObject var notchViewModel: NotchViewModel
     @ObservedObject var powerViewModel: PowerViewModel
     @ObservedObject var playerViewModel: PlayerViewModel
+    @ObservedObject var bluetoothViewModel: BluetoothViewModel
     @Environment(\.openWindow) private var openWindow
     
     @State private var isPressed = false
@@ -20,6 +21,7 @@ struct NotchView: View {
                     notchViewModel.handleStrokeVisibility(newValue)
                 }
                 .onReceive(powerViewModel.$event.compactMap { $0 }, perform: notchViewModel.handlePowerEvent)
+                .onReceive(bluetoothViewModel.$event.compactMap { $0 }, perform: notchViewModel.handleBluetoothEvent)
                 .onTapGesture {
                     if notchViewModel.state.content == .music {
                         notchViewModel.toggleMusicExpanded()
@@ -57,7 +59,12 @@ private extension NotchView {
     @ViewBuilder
     var contentOverlay: some View {
         if notchViewModel.state.content != .none {
-            NotchContentView(notchViewModel: notchViewModel, powerViewModel: powerViewModel, playerViewModel: playerViewModel)
+            NotchContentView(
+                notchViewModel: notchViewModel,
+                powerViewModel: powerViewModel,
+                playerViewModel: playerViewModel,
+                bluetoothViewModel: bluetoothViewModel
+            )
             .transition(
                 .blurAndFade
                     .animation(.spring(duration: 0.5))

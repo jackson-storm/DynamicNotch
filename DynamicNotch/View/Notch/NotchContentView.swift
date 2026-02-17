@@ -4,6 +4,7 @@ struct NotchContentView: View {
     @ObservedObject var notchViewModel: NotchViewModel
     @ObservedObject var powerViewModel: PowerViewModel
     @ObservedObject var playerViewModel: PlayerViewModel
+    @ObservedObject var bluetoothViewModel: BluetoothViewModel
     
     var body: some View {
         Group {
@@ -22,8 +23,8 @@ struct NotchContentView: View {
                 LowPowerNotch(powerSourceMonitor: powerViewModel.powerMonitor)
             case .fullPower:
                 FullPowerNotch(powerSourceMonitor: powerViewModel.powerMonitor)
-            case .audioHardware:
-                AudioHardwareNotch()
+            case .bluetooth:
+                BluetoothNotch(bluetoothViewModel: bluetoothViewModel)
             case .systemHud:
                 SystemHudNotch(notchViewModel: notchViewModel)
             }

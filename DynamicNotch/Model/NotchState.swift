@@ -13,7 +13,7 @@ struct NotchState: Equatable {
         case .charger: return .init(width: 405, height: 38)
         case .lowPower: return .init(width: 360, height: 110)
         case .fullPower: return .init(width: 300, height: 100)
-        case .audioHardware: return .init(width: 405, height: 38)
+        case .bluetooth: return .init(width: 400, height: 38)
         case .systemHud: return .init(width: 440, height: 38)
         }
     }
@@ -34,7 +34,7 @@ struct NotchState: Equatable {
         case .charger: return -60
         case .lowPower: return -60
         case .fullPower: return -40
-        case .audioHardware: return -60
+        case .bluetooth: return -60
         case .systemHud: return -60
         }
     }
@@ -42,11 +42,11 @@ struct NotchState: Equatable {
     var offsetYTransition: CGFloat {
         switch content {
         case .none: return 0
-        case .music: return isExpanded ? -90 : 0
+        case .music: return isExpanded ? -60 : 0
         case .charger: return 0
         case .lowPower: return -60
         case .fullPower: return -40
-        case .audioHardware: return 0
+        case .bluetooth: return 0
         case .systemHud: return 0
         }
     }

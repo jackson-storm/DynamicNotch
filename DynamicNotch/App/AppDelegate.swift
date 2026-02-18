@@ -49,11 +49,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         
         window.isOpaque = false
         window.backgroundColor = .clear
-        window.level = .screenSaver
-        
+        window.level = .statusBar
+
         window.collectionBehavior = [
             .canJoinAllSpaces,
             .fullScreenAuxiliary,
+            .stationary,
             .ignoresCycle
         ]
         

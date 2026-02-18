@@ -10,7 +10,7 @@ final class NotchViewModel: ObservableObject {
     private var isTransitioning = false
     private var hideDelay: TimeInterval = 0.3
     
-    func send(_ intent: NotchIntent) {
+    func send(_ intent: NotchEvent) {
         switch intent {
         case .showActive(let content):
             showActive(content)
@@ -67,7 +67,7 @@ final class NotchViewModel: ObservableObject {
     func handleBluetoothEvent(_ event: BluetoothEvent) {
         switch event {
         case .connected:
-            send(.showTemporary(.bluetooth, duration: 4))
+            send(.showTemporary(.bluetooth, duration: 5))
         }
     }
     

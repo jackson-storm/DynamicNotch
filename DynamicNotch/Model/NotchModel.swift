@@ -1,4 +1,11 @@
-import SwiftUI
+//
+//  notchModel.swift
+//  DynamicNotch
+//
+//  Created by Евгений Петрукович on 2/18/26.
+//
+
+import Foundation
 
 struct NotchState: Equatable {
     var activeContent: NotchContent = .none
@@ -50,4 +57,14 @@ struct NotchState: Equatable {
         case .systemHud: return 0
         }
     }
+}
+
+enum NotchContent: Hashable {
+    case none
+    case music
+    case charger
+    case lowPower
+    case fullPower
+    case bluetooth
+    case systemHud(HUDType)
 }

@@ -12,25 +12,46 @@ struct NotchState: Equatable {
     var temporaryContent: NotchContent? = nil
     var isExpanded: Bool = false
     var content: NotchContent { temporaryContent ?? activeContent }
-
+    
+    var baseWidth: CGFloat = 226
+    var baseHeight: CGFloat = 38
+    
     var size: CGSize {
         switch content {
-        case .none: return .init(width: 226, height: 38)
-        case .music: return isExpanded ? .init(width: 400, height: 190) : .init(width: 305, height: 38)
-        case .charger: return .init(width: 405, height: 38)
-        case .lowPower: return .init(width: 360, height: 110)
-        case .fullPower: return .init(width: 300, height: 100)
-        case .bluetooth: return .init(width: 400, height: 38)
-        case .systemHud: return .init(width: 440, height: 38)
+        case .none:
+            return .init(width: baseWidth, height: baseHeight)
+            
+        case .music:
+            if isExpanded {
+                return .init(width: 400, height: 190)
+            } else {
+                return .init(width: baseWidth + 80, height: baseHeight)
+            }
+            
+        case .lowPower, .fullPower:
+            return .init(width: 360, height: 110)
+            
+        default:
+            return .init(width: baseWidth + 120, height: baseHeight)
         }
     }
-
+    
     var cornerRadius: (top: CGFloat, bottom: CGFloat) {
+        let baseRadius = baseHeight / 3
+        
         switch content {
-        case .music: return isExpanded ? (32, 46) : (9, 13)
-        case .lowPower: return (18, 36)
-        case .fullPower: return (18, 36)
-        default: return (9, 13)
+        case .music:
+            if isExpanded {
+                return (top: 32, bottom: 46)
+            } else {
+                return (top: baseRadius, bottom: baseRadius)
+            }
+            
+        case .lowPower, .fullPower:
+            return (top: 18, bottom: 36)
+            
+        default:
+            return (top: baseRadius - 4, bottom: baseRadius)
         }
     }
     

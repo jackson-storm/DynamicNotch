@@ -95,6 +95,18 @@ struct MarqueeText: View {
             }
             .frame(width: frameWidth, alignment: .leading)
             .clipped()
+            .mask(
+                LinearGradient(
+                    stops: [
+                        Gradient.Stop(color: .clear, location: 0),
+                        Gradient.Stop(color: .black, location: 0.1),
+                        Gradient.Stop(color: .black, location: 0.9),
+                        Gradient.Stop(color: .clear, location: 1)
+                    ],
+                    startPoint: .leading,
+                    endPoint: .trailing
+                )
+            )
         }
         .frame(height: textSize.height * 1.3)
     }

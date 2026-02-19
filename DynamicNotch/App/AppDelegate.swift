@@ -74,18 +74,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         window.makeKeyAndOrderFront(nil)
     }
     
-    @objc
-    func updateWindowFrame() {
+    @objc func updateWindowFrame() {
+        notchViewModel.updateDimensions()
+        
         guard let screen = window.screen ?? NSScreen.main else { return }
+        let screenFrame = screen.frame
+        let windowSize = window.frame.size
         
-        let frame = screen.frame
-        let size = window.frame.size
-        
-        let x = frame.midX - size.width / 2
-        let y = frame.maxY - size.height
+        let x = floor(screenFrame.midX - windowSize.width / 2)
+        let y = screenFrame.maxY - windowSize.height
         
         window.setFrame(
-            NSRect(origin: CGPoint(x: x, y: y), size: size),
+            NSRect(origin: CGPoint(x: x, y: y), size: windowSize),
             display: true,
             animate: false
         )

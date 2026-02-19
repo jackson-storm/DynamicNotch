@@ -99,14 +99,6 @@ struct NotchShape: Shape {
                 y: rect.minY
             )
         )
-
-        path.addLine(
-            to: CGPoint(
-                x: rect.minX,
-                y: rect.minY
-            )
-        )
-
         return path
     }
 }

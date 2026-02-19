@@ -14,7 +14,7 @@ struct NotchView: View {
     let window: NSWindow?
     
     var body: some View {
-        VStack {
+        ZStack {
             notchBody
                 .notchPressable(isPressed: $isPressed)
                 .onChange(of: notchViewModel.state.content) { _, newValue in
@@ -30,31 +30,22 @@ struct NotchView: View {
         }
         .windowHover(window)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-        .offset(y: -0.3)
     }
 }
 
 private extension NotchView {
     @ViewBuilder
     var notchBody: some View {
-        ZStack {
-            NotchShape(
-                topCornerRadius: notchViewModel.state.cornerRadius.top,
-                bottomCornerRadius: notchViewModel.state.cornerRadius.bottom
-            )
-            .stroke(notchViewModel.showNotch ? Color.white.opacity(0.1) : Color.clear, lineWidth: 4)
-            .allowsHitTesting(false)
-            .animation(.spring(duration: 0.6), value: notchViewModel.showNotch)
-            
-            NotchShape(
-                topCornerRadius: notchViewModel.state.cornerRadius.top,
-                bottomCornerRadius: notchViewModel.state.cornerRadius.bottom
-            )
-            .fill(.black)
-            .overlay { contentOverlay }
-        }
+        NotchShape(
+            topCornerRadius: notchViewModel.state.cornerRadius.top,
+            bottomCornerRadius: notchViewModel.state.cornerRadius.bottom
+        )
+        .fill(.black)
+        .stroke(notchViewModel.showNotch ? Color.white.opacity(0.15) : Color.clear, lineWidth: 2)
+        .overlay { contentOverlay }
         .frame(width: notchViewModel.state.size.width, height: notchViewModel.state.size.height)
         .contextMenu { contextMenuItem }
+        .animation(.spring(duration: 0.6), value: notchViewModel.showNotch)
     }
     
     @ViewBuilder

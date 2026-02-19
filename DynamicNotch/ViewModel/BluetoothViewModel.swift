@@ -19,6 +19,7 @@ final class BluetoothViewModel: ObservableObject {
     
     var notchViewModel: NotchViewModel?
     
+    private var hasHandledInitialState = false
     private var isInitialized = false
     private var monitor = BluetoothMonitor()
     private var cancellables = Set<AnyCancellable>()
@@ -51,7 +52,18 @@ final class BluetoothViewModel: ObservableObject {
         let info = monitor.getLatestDeviceInfo()
         
         DispatchQueue.main.async {
-            if info.isConnected && !self.isConnected && self.isInitialized {
+            
+            if !self.hasHandledInitialState {
+                self.isConnected = info.isConnected
+                self.deviceName = info.name
+                self.batteryLevel = info.battery
+                self.deviceType = info.type
+                
+                self.hasHandledInitialState = true
+                return
+            }
+            
+            if info.isConnected && !self.isConnected {
                 self.event = .connected
             }
             

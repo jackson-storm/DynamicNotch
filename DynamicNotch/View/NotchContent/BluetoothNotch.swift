@@ -14,16 +14,20 @@ struct BluetoothNotch: View {
         HStack {
             if isSecondText {
                 MarqueeText(
-                    text: bluetoothViewModel.deviceName,
-                    font: .system(size: 14, weight: .regular),
+                    $bluetoothViewModel.deviceName,
+                    font: .system(size: 14),
+                    nsFont: .body,
                     textColor: .white.opacity(0.8),
-                    containerWidth: 80
+                    backgroundColor: .clear,
+                    minDuration: 1.0,
+                    frameWidth: 80
                 )
-                .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .offset(x: 30)))
+                .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .offset(x: 60)))
                 .lineLimit(1)
+                
             } else {
                 Text("Connected")
-                    .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .offset(x: 30)))
+                    .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .offset(x: 60)))
                     .foregroundStyle(.white.opacity(0.8))
                     .lineLimit(1)
             }
@@ -61,11 +65,12 @@ struct BluetoothNotch: View {
 
 private struct BluetoothNotchMock: View {
     @State private var isSecondText = false
-
+    @State private var deviceName: String = "Honor Airbuds 2 lite"
+    
     let deviceType: BluetoothDeviceType
     let batteryLevel: Int?
     let isConnected: Bool
-
+    
     private func color(for level: Int) -> Color {
         if level < 20 { return .red }
         if level < 50 { return .yellow }
@@ -76,19 +81,20 @@ private struct BluetoothNotchMock: View {
         HStack {
             if isSecondText {
                 MarqueeText(
-                    text: "Honor Airbuds 2 lite",
-                    font: .system(size: 14, weight: .regular),
+                    $deviceName,
+                    font: .system(size: 14),
+                    nsFont: .body,
                     textColor: .white.opacity(0.8),
-                    containerWidth: 80
+                    backgroundColor: .clear,
+                    minDuration: 1.0,
+                    frameWidth: 80
                 )
-                .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .offset(x: 30)))
+                .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .offset(x: 60)))
                 .lineLimit(1)
-                .frame(width: 80)
-                .border(.green)
                 
             } else {
                 Text("Connected")
-                    .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .offset(x: 30)))
+                    .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .offset(x: 60)))
                     .foregroundStyle(.white.opacity(0.8))
                     .lineLimit(1)
             }
@@ -122,68 +128,6 @@ private struct BluetoothNotchMock: View {
     }
 }
 
-import SwiftUI
-
-struct MarqueeText: View {
-    let text: String
-    let font: Font
-    let textColor: Color
-    let containerWidth: CGFloat
-    let speed: Double = 40
-    
-    @State private var textWidth: CGFloat = 0
-    @State private var offset: CGFloat = 0
-    
-    var body: some View {
-        ZStack(alignment: .leading) {
-            if textWidth > containerWidth {
-                HStack(spacing: 40) {
-                    textView
-                    textView
-                }
-                .offset(x: offset)
-            } else {
-                textView
-            }
-        }
-        .frame(width: containerWidth, height: 20)
-        .clipped()
-        .onChange(of: textWidth) { _, newValue in
-            startIfNeeded()
-        }
-    }
-    
-    private var textView: some View {
-        Text(text)
-            .font(font)
-            .foregroundStyle(textColor)
-            .lineLimit(1)
-            .background(
-                GeometryReader { geo in
-                    Color.clear
-                        .onAppear {
-                            textWidth = geo.size.width
-                        }
-                }
-            )
-    }
-    
-    private func startIfNeeded() {
-        guard textWidth > containerWidth else { return }
-        
-        let distance = textWidth + 40
-        let duration = distance / speed
-        
-        offset = 0
-        
-        DispatchQueue.main.async {
-            withAnimation(.linear(duration: duration).repeatForever(autoreverses: false)) {
-                offset = -distance
-            }
-        }
-    }
-}
-
 #Preview {
     let types: [BluetoothDeviceType] = [
         .keyboard, .headphones, .phone, .computer, .speaker, .mouse, .headset, .combo, .unknown
@@ -202,7 +146,7 @@ struct MarqueeText: View {
                         )
                         .overlay(
                             NotchShape(topCornerRadius: 9, bottomCornerRadius: 13)
-                                .stroke(.red, lineWidth: 1)
+                                .stroke(.red.opacity(0.5), lineWidth: 1)
                                 .frame(width: 226, height: 38)
                         )
                 }

@@ -26,8 +26,8 @@ extension BluetoothDeviceType {
         case .mouse: return "magicmouse.fill"
         case .keyboard: return "keyboard.fill"
         case .combo: return "keyboard.fill"
-        case .computer: return "desktopcomputer"
-        case .phone: return "iphone"
+        case .computer: return "macbook.gen2"
+        case .phone: return "iphone.gen3"
         case .unknown: return "questionmark"
         }
     }

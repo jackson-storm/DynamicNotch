@@ -35,6 +35,7 @@ struct NotchView: View {
 }
 
 private extension NotchView {
+    @ViewBuilder
     var notchBody: some View {
         ZStack {
             NotchShape(
@@ -59,12 +60,34 @@ private extension NotchView {
     @ViewBuilder
     var contentOverlay: some View {
         if notchViewModel.state.content != .none {
-            NotchContentView(
-                notchViewModel: notchViewModel,
-                powerViewModel: powerViewModel,
-                playerViewModel: playerViewModel,
-                bluetoothViewModel: bluetoothViewModel
-            )
+            Group {
+                switch notchViewModel.state.content {
+                case .none:
+                    Color.clear
+                    
+                case .music:
+                    if notchViewModel.state.isExpanded {
+                        PlayerNotchLarge(playerViewModel: playerViewModel)
+                    } else {
+                        PlayerNotchSmall(playerViewModel: playerViewModel)
+                    }
+                    
+                case .charger:
+                    ChargerNotch(powerSourceMonitor: powerViewModel.powerMonitor)
+                    
+                case .lowPower:
+                    LowPowerNotch(powerSourceMonitor: powerViewModel.powerMonitor)
+                    
+                case .fullPower:
+                    FullPowerNotch(powerSourceMonitor: powerViewModel.powerMonitor)
+                    
+                case .bluetooth:
+                    BluetoothNotch(bluetoothViewModel: bluetoothViewModel)
+                    
+                case .systemHud:
+                    SystemHudNotch(notchViewModel: notchViewModel)
+                }
+            }
             .transition(
                 .blurAndFade
                     .animation(.spring(duration: 0.5))

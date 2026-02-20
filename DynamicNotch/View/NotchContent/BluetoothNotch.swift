@@ -19,7 +19,7 @@ struct BluetoothNotch: View {
                     nsFont: .body,
                     textColor: .white.opacity(0.8),
                     backgroundColor: .clear,
-                    minDuration: 1.0,
+                    minDuration: 0.5,
                     frameWidth: 75
                 )
                 .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .offset(x: 60)))
@@ -86,7 +86,7 @@ private struct BluetoothNotchMock: View {
                     nsFont: .body,
                     textColor: .white.opacity(0.8),
                     backgroundColor: .clear,
-                    minDuration: 1.0,
+                    minDuration: 0.5,
                     frameWidth: 75
                 )
                 .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .offset(x: 60)))

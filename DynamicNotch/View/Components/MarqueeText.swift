@@ -98,15 +98,16 @@ struct MarqueeText: View {
             .mask(
                 LinearGradient(
                     stops: [
-                        Gradient.Stop(color: .clear, location: 0),
-                        Gradient.Stop(color: .black, location: 0.1),
-                        Gradient.Stop(color: .black, location: 0.9),
-                        Gradient.Stop(color: .clear, location: 1)
+                        .init(color: (animate && offset < 0) ? .clear : .black, location: 0),
+                        .init(color: .black, location: 0.05),
+                        .init(color: .black, location: 0.9),
+                        .init(color: needsScrolling ? .clear : .black, location: 1)
                     ],
                     startPoint: .leading,
                     endPoint: .trailing
                 )
             )
+            .animation(.easeInOut(duration: 0.5), value: animate)
         }
         .frame(height: textSize.height * 1.3)
     }
@@ -120,7 +121,7 @@ struct MarqueeText: View {
         nsFont: .body,
         textColor: .white.opacity(0.8),
         backgroundColor: .clear,
-        minDuration: 1.0,
+        minDuration: 0,
         frameWidth: 80
     )
     .padding(20)

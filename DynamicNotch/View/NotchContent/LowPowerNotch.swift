@@ -59,7 +59,7 @@ struct LowPowerNotch: View {
                 redIndicator
             }
         }
-        .padding(.horizontal, 35)
+        .padding(.horizontal, 40)
         .padding(.top, 30)
     }
     

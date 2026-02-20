@@ -22,7 +22,7 @@ final class NotchViewModel: ObservableObject {
         
         if topInset > 0 {
             state.baseHeight = topInset
-            let ratio: CGFloat = screenWidth > 1700 ? 0.1310 : 0.1260
+            let ratio: CGFloat = screenWidth > 1700 ? 0.1325 : 0.1275
             state.baseWidth = floor(screenWidth * ratio)
             
         } else {

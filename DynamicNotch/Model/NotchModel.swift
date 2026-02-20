@@ -7,6 +7,16 @@
 
 import Foundation
 
+enum NotchContent: Hashable {
+    case none
+    case music
+    case charger
+    case lowPower
+    case fullPower
+    case bluetooth
+    case systemHud(HUDType)
+}
+
 struct NotchState: Equatable {
     var activeContent: NotchContent = .none
     var temporaryContent: NotchContent? = nil
@@ -18,21 +28,25 @@ struct NotchState: Equatable {
     
     var size: CGSize {
         switch content {
-        case .none:
-            return .init(width: baseWidth, height: baseHeight)
             
-        case .music:
-            if isExpanded {
-                return .init(width: 400, height: 190)
-            } else {
-                return .init(width: baseWidth + 80, height: baseHeight)
-            }
+        case .none: return .init(width: baseWidth, height: baseHeight)
             
-        case .lowPower, .fullPower:
-            return .init(width: 360, height: 110)
+        case .music: return .init(width: isExpanded ? baseWidth + 200 : baseWidth + 80, height: isExpanded ? baseHeight + 150 : baseHeight)
             
-        default:
-            return .init(width: baseWidth + 120, height: baseHeight)
+        case .charger: return .init(width: baseWidth + 180, height: baseHeight)
+            
+        case .bluetooth: return .init(width: baseWidth + 180, height: baseHeight)
+            
+        case .lowPower: return .init(width: baseWidth + 140, height: baseHeight + 80)
+            
+        case .fullPower: return .init(width: baseWidth + 90, height: baseHeight + 70)
+            
+        case .systemHud(.display): return .init(width: baseWidth + 200, height: baseHeight)
+            
+        case .systemHud(.keyboard): return .init(width: baseWidth + 200, height: baseHeight)
+            
+        case .systemHud(.volume): return .init(width: baseWidth + 200, height: baseHeight)
+            
         }
     }
     
@@ -40,18 +54,15 @@ struct NotchState: Equatable {
         let baseRadius = baseHeight / 3
         
         switch content {
-        case .music:
-            if isExpanded {
-                return (top: 32, bottom: 46)
-            } else {
-                return (top: baseRadius, bottom: baseRadius)
-            }
             
-        case .lowPower, .fullPower:
-            return (top: 18, bottom: 36)
+        case .music: return (top: isExpanded ? 32 : baseRadius, bottom: isExpanded ? 46 : baseRadius)
             
-        default:
-            return (top: baseRadius - 4, bottom: baseRadius)
+        case .fullPower: return (top: 18, bottom: 36)
+            
+        case .lowPower: return (top: 22, bottom: 40)
+            
+        default: return (top: baseRadius - 4, bottom: baseRadius)
+            
         }
     }
     
@@ -78,14 +89,4 @@ struct NotchState: Equatable {
         case .systemHud: return 0
         }
     }
-}
-
-enum NotchContent: Hashable {
-    case none
-    case music
-    case charger
-    case lowPower
-    case fullPower
-    case bluetooth
-    case systemHud(HUDType)
 }

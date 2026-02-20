@@ -27,6 +27,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 }
             }
         }
+        notchViewModel.checkFirstLaunch()
     }
     
     func createNotchWindow() {

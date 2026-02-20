@@ -15,6 +15,7 @@ enum NotchContent: Hashable {
     case fullPower
     case bluetooth
     case systemHud(HUDType)
+    case onboarding
 }
 
 struct NotchState: Equatable {
@@ -28,24 +29,20 @@ struct NotchState: Equatable {
     
     var size: CGSize {
         switch content {
-            
         case .none: return .init(width: baseWidth, height: baseHeight)
             
         case .music: return .init(width: isExpanded ? baseWidth + 200 : baseWidth + 80, height: isExpanded ? baseHeight + 150 : baseHeight)
+        case .onboarding: return .init(width: baseWidth + 70, height: baseHeight + 120)
             
         case .charger: return .init(width: baseWidth + 180, height: baseHeight)
-            
-        case .bluetooth: return .init(width: baseWidth + 180, height: baseHeight)
-            
         case .lowPower: return .init(width: baseWidth + 140, height: baseHeight + 80)
-            
         case .fullPower: return .init(width: baseWidth + 90, height: baseHeight + 70)
             
         case .systemHud(.display): return .init(width: baseWidth + 200, height: baseHeight)
-            
         case .systemHud(.keyboard): return .init(width: baseWidth + 200, height: baseHeight)
-            
         case .systemHud(.volume): return .init(width: baseWidth + 200, height: baseHeight)
+            
+        case .bluetooth: return .init(width: baseWidth + 180, height: baseHeight)
             
         }
     }
@@ -54,12 +51,10 @@ struct NotchState: Equatable {
         let baseRadius = baseHeight / 3
         
         switch content {
-            
         case .music: return (top: isExpanded ? 32 : baseRadius, bottom: isExpanded ? 46 : baseRadius)
-            
         case .fullPower: return (top: 18, bottom: 36)
-            
         case .lowPower: return (top: 22, bottom: 40)
+        case .onboarding: return (top: 28, bottom: 36)
             
         default: return (top: baseRadius - 4, bottom: baseRadius)
             
@@ -69,12 +64,14 @@ struct NotchState: Equatable {
     var offsetXTransition: CGFloat {
         switch content {
         case .none: return 0
-        case .music: return -60
-        case .charger: return -60
-        case .lowPower: return -60
-        case .fullPower: return -40
-        case .bluetooth: return -60
-        case .systemHud: return -60
+        case .music: return -160
+        case .charger: return -160
+        case .lowPower: return -160
+        case .fullPower: return -140
+        case .bluetooth: return -160
+        case .systemHud: return -160
+        case .onboarding: return -150
+            
         }
     }
     
@@ -87,6 +84,8 @@ struct NotchState: Equatable {
         case .fullPower: return -40
         case .bluetooth: return 0
         case .systemHud: return 0
+        case .onboarding: return -80
+            
         }
     }
 }

@@ -16,7 +16,6 @@ struct NotchView: View {
     var body: some View {
         ZStack {
             notchBody
-                .notchPressable(isPressed: $isPressed)
                 .onChange(of: notchViewModel.state.content) { _, newValue in
                     notchViewModel.handleStrokeVisibility(newValue)
                 }
@@ -42,7 +41,12 @@ private extension NotchView {
         )
         .fill(.black)
         .stroke(notchViewModel.showNotch ? Color.white.opacity(0.15) : Color.clear, lineWidth: 2)
-        .overlay { contentOverlay }
+        .notchPressable(isPressed: $isPressed)
+        .overlay {
+            contentOverlay
+                .scaleEffect(isPressed ? 1.04 : 1.0)
+                .animation(.spring(response: 0.3, dampingFraction: 0.4), value: isPressed)
+        }
         .frame(width: notchViewModel.state.size.width, height: notchViewModel.state.size.height)
         .contextMenu { contextMenuItem }
         .animation(.spring(duration: 0.6), value: notchViewModel.showNotch)
@@ -77,16 +81,17 @@ private extension NotchView {
                     
                 case .systemHud:
                     SystemHudNotch(notchViewModel: notchViewModel)
+                    
+                case .onboarding:
+                    OnboardingView(viewModel: notchViewModel)
+                    
                 }
             }
             .transition(
                 .blurAndFade
                     .animation(.spring(duration: 0.5))
                     .combined(with: .scale)
-                    .combined(with: .offset(
-                        x: notchViewModel.state.offsetXTransition,
-                        y: notchViewModel.state.offsetYTransition
-                    )
+                    .combined(with: .offset(x: notchViewModel.state.offsetXTransition, y: notchViewModel.state.offsetYTransition)
                 )
             )
         }

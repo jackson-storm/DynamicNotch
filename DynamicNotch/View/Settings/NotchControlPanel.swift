@@ -75,6 +75,12 @@ struct NotchControlPanel: View {
                 } label: {
                     Label("Full Power", systemImage: "battery.100")
                 }
+                
+                Button {
+                    notchViewModel.send(.showTemporary(.onboarding, duration: .infinity))
+                } label: {
+                    Label("Onboarding", systemImage: "clipboard")
+                }
             }
             .controlGroupStyle(.automatic)
             

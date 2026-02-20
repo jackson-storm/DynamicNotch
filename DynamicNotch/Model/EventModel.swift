@@ -22,3 +22,7 @@ enum PowerEvent {
 enum BluetoothEvent {
     case connected
 }
+
+enum OnboardingEvent {
+    case onboarding
+}

@@ -5,12 +5,33 @@ import Combine
 final class NotchViewModel: ObservableObject {
     @Published private(set) var state = NotchState()
     @Published var showNotch = false
-
+    
     private var temporaryTask: Task<Void, Never>?
     private var isTransitioning = false
     private var hideDelay: TimeInterval = 0.3
     
-    func send(_ intent: NotchIntent) {
+    init() {
+        updateDimensions()
+    }
+    
+    func updateDimensions() {
+        guard let screen = NSScreen.main else { return }
+        
+        let screenWidth = screen.frame.width
+        let topInset = screen.safeAreaInsets.top
+        
+        if topInset > 0 {
+            state.baseHeight = topInset
+            let ratio: CGFloat = screenWidth > 1700 ? 0.1325 : 0.1275
+            state.baseWidth = floor(screenWidth * ratio)
+            
+        } else {
+            state.baseHeight = 32
+            state.baseWidth = 200
+        }
+    }
+    
+    func send(_ intent: NotchEvent) {
         switch intent {
         case .showActive(let content):
             showActive(content)
@@ -24,14 +45,14 @@ final class NotchViewModel: ObservableObject {
     }
     
     func handleStrokeVisibility(_ newValue: NotchContent) {
-        DispatchQueue.main.async {
-            if newValue != .none {
-                self.showNotch = true
-            } else {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                    if self.state.activeContent == .none && self.state.temporaryContent == nil {
-                        self.showNotch = false
-                    }
+        if newValue != .none {
+            updateDimensions()
+            self.showNotch = true
+            
+        } else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                if self.state.activeContent == .none && self.state.temporaryContent == nil {
+                    self.showNotch = false
                 }
             }
         }
@@ -67,7 +88,7 @@ final class NotchViewModel: ObservableObject {
     func handleBluetoothEvent(_ event: BluetoothEvent) {
         switch event {
         case .connected:
-            send(.showTemporary(.bluetooth, duration: 4))
+            send(.showTemporary(.bluetooth, duration: 5))
         }
     }
     

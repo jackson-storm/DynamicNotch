@@ -22,12 +22,12 @@ extension BluetoothDeviceType {
         switch self {
         case .headset: return "headphones"
         case .headphones: return "airpods"
-        case .speaker: return "speaker.wave.2"
-        case .mouse: return "mouse"
-        case .keyboard: return "keyboard"
-        case .combo: return "keyboard"
-        case .computer: return "desktopcomputer"
-        case .phone: return "iphone"
+        case .speaker: return "speaker.wave.2.fill"
+        case .mouse: return "magicmouse.fill"
+        case .keyboard: return "keyboard.fill"
+        case .combo: return "keyboard.fill"
+        case .computer: return "macbook.gen2"
+        case .phone: return "iphone.gen3"
         case .unknown: return "questionmark"
         }
     }

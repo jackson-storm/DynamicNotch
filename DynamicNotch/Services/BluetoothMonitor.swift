@@ -12,11 +12,11 @@ import IOKit
 final class BluetoothMonitor {
     func getLatestDeviceInfo() -> (isConnected: Bool, name: String, battery: Int?, type: BluetoothDeviceType) {
         guard let devices = IOBluetoothDevice.pairedDevices() as? [IOBluetoothDevice] else {
-            return (false, "Disconnected", nil, .unknown)
+            return (false, "Unknown", nil, .unknown)
         }
         
         guard let connectedDevice = devices.first(where: { $0.isConnected() }) else {
-            return (false, "Disconnected", nil, .unknown)
+            return (false, "Unknown", nil, .unknown)
         }
         
         let type = deviceType(for: connectedDevice)
@@ -38,9 +38,18 @@ final class BluetoothMonitor {
             default: return .headphones
             }
         case 0x05:
-            if (minor & 0x40) != 0 { return .keyboard }
-            if (minor & 0x80) != 0 { return .mouse }
-            return .unknown
+            let minorDevice = minor & 0x30
+            
+            switch minorDevice {
+            case 0x10:
+                return .keyboard
+            case 0x20:
+                return .mouse
+            case 0x30:
+                return .keyboard
+            default:
+                return .unknown
+            }
         case 0x01: return .computer
         case 0x02: return .phone
         default: return .unknown
@@ -63,7 +72,6 @@ final class BluetoothMonitor {
                     }
                     
                     if level > 0 {
-                        print("🔋 Найдено через KVC (\(key)): \(level)%")
                         return level
                     }
                 }

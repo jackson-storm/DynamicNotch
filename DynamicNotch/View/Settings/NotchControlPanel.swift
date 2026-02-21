@@ -81,6 +81,12 @@ struct NotchControlPanel: View {
                 } label: {
                     Label("Onboarding", systemImage: "clipboard")
                 }
+                
+                Button {
+                    notchViewModel.send(.showTemporary(.vpn, duration: 5))
+                } label: {
+                    Label("Vpn", systemImage: "network")
+                }
             }
             .controlGroupStyle(.automatic)
             

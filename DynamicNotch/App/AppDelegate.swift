@@ -6,6 +6,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     let powerViewModel = PowerViewModel(powerMonitor: PowerSourceMonitor())
     let playerViewModel = PlayerViewModel()
     let bluetoothViewModel = BluetoothViewModel()
+    let networkViewModel = NetworkViewModel()
     
     var window: NSWindow!
     
@@ -68,6 +69,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 powerViewModel: powerViewModel,
                 playerViewModel: playerViewModel,
                 bluetoothViewModel: bluetoothViewModel,
+                networkViewModel: networkViewModel,
                 window: window
             )
         )

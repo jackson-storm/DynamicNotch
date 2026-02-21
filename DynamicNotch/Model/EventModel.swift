@@ -26,3 +26,8 @@ enum BluetoothEvent {
 enum OnboardingEvent {
     case onboarding
 }
+
+enum NetworkEvent {
+    case connected
+    case disconnected
+}

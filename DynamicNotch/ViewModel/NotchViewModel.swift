@@ -107,6 +107,17 @@ final class NotchViewModel: ObservableObject {
         }
     }
     
+    func handleVpnEvent(_ event: NetworkEvent) {
+        guard !isOnboardingActive else { return }
+        
+        switch event {
+        case .connected:
+            send(.showTemporary(.vpn, duration: 5))
+        case .disconnected:
+            send(.showTemporary(.vpn, duration: 5))
+        }
+    }
+    
     func handlePowerEvent(_ event: PowerEvent) {
         guard !isOnboardingActive else { return }
         

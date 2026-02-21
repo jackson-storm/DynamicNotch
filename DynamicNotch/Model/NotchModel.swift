@@ -16,6 +16,7 @@ enum NotchContent: Hashable {
     case bluetooth
     case systemHud(HUDType)
     case onboarding
+    case vpn
 }
 
 struct NotchState: Equatable {
@@ -43,6 +44,7 @@ struct NotchState: Equatable {
         case .systemHud(.volume): return .init(width: baseWidth + 200, height: baseHeight)
             
         case .bluetooth: return .init(width: baseWidth + 180, height: baseHeight)
+        case .vpn: return .init(width: baseWidth + 180, height: baseHeight)
             
         }
     }
@@ -63,28 +65,21 @@ struct NotchState: Equatable {
     
     var offsetXTransition: CGFloat {
         switch content {
-        case .none: return 0
-        case .music: return -160
-        case .charger: return -160
-        case .lowPower: return -160
         case .fullPower: return -140
-        case .bluetooth: return -160
-        case .systemHud: return -160
         case .onboarding: return -150
             
+        default: return -160
         }
     }
     
     var offsetYTransition: CGFloat {
         switch content {
-        case .none: return 0
         case .music: return isExpanded ? -60 : 0
-        case .charger: return 0
         case .lowPower: return -60
         case .fullPower: return -40
-        case .bluetooth: return 0
-        case .systemHud: return 0
         case .onboarding: return -80
+            
+        default: return -10
             
         }
     }

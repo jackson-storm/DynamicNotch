@@ -17,7 +17,7 @@ struct ChargerNotch: View {
         HStack {
             Text("Charging")
                 .font(.system(size: 14))
-                .foregroundColor(.white)
+                .foregroundColor(.white.opacity(0.8))
             
             Spacer()
             

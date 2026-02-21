@@ -9,6 +9,7 @@ final class NotchViewModel: ObservableObject {
     private var temporaryTask: Task<Void, Never>?
     private var isTransitioning = false
     private var hideDelay: TimeInterval = 0.3
+    private var isOnboardingActive: Bool { state.activeContent == .onboarding || state.temporaryContent == .onboarding }
     
     init() {
         updateDimensions()
@@ -31,8 +32,13 @@ final class NotchViewModel: ObservableObject {
         }
     }
     
-    func send(_ intent: NotchEvent) {
-        switch intent {
+    func send(_ notchEvent: NotchEvent) {
+        if isOnboardingActive {
+            if case .hideTemporary = notchEvent { }
+            else { return }
+        }
+        
+        switch notchEvent {
         case .showActive(let content):
             showActive(content)
             
@@ -85,14 +91,36 @@ final class NotchViewModel: ObservableObject {
         }
     }
     
+    func handleOnboardingEvent(_ event: OnboardingEvent) {
+        switch event {
+        case .onboarding:
+            send(.showActive(.onboarding))
+        }
+    }
+    
     func handleBluetoothEvent(_ event: BluetoothEvent) {
+        guard !isOnboardingActive else { return }
+        
         switch event {
         case .connected:
             send(.showTemporary(.bluetooth, duration: 5))
         }
     }
     
+    func handleVpnEvent(_ event: NetworkEvent) {
+        guard !isOnboardingActive else { return }
+        
+        switch event {
+        case .connected:
+            send(.showTemporary(.vpn(.connected), duration: 5))
+        case .disconnected:
+            send(.showTemporary(.vpn(.disconnected), duration: 5))
+        }
+    }
+    
     func handlePowerEvent(_ event: PowerEvent) {
+        guard !isOnboardingActive else { return }
+        
         switch event {
         case .charger:
             send(.showTemporary(.charger, duration: 4))
@@ -102,6 +130,29 @@ final class NotchViewModel: ObservableObject {
             
         case .fullPower:
             send(.showTemporary(.fullPower, duration: 5))
+        }
+    }
+    
+    func checkFirstLaunch() {
+        let hasSeenOnboarding = UserDefaults.standard.bool(forKey: "hasSeenOnboarding")
+        
+        if !hasSeenOnboarding {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                self.handleOnboardingEvent(.onboarding)
+            }
+        }
+    }
+    
+    func finishOnboarding() {
+        UserDefaults.standard.set(true, forKey: "hasSeenOnboarding")
+        
+        withAnimation(.spring(response: 0.5)) {
+            self.state.activeContent = .none
+            self.state.temporaryContent = nil
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.showNotch = false
         }
     }
     
@@ -135,6 +186,7 @@ final class NotchViewModel: ObservableObject {
                 withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
                     self.state.temporaryContent = content
                 }
+                if duration.isInfinite { return }
                 
                 self.temporaryTask = Task {
                     try? await Task.sleep(

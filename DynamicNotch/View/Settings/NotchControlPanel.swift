@@ -75,6 +75,24 @@ struct NotchControlPanel: View {
                 } label: {
                     Label("Full Power", systemImage: "battery.100")
                 }
+                
+                Button {
+                    notchViewModel.send(.showTemporary(.onboarding, duration: .infinity))
+                } label: {
+                    Label("Onboarding", systemImage: "clipboard")
+                }
+                
+                Button {
+                    notchViewModel.send(.showTemporary(.vpn(.connected), duration: 5))
+                } label: {
+                    Label("Vpn Connected", systemImage: "network")
+                }
+                
+                Button {
+                    notchViewModel.send(.showTemporary(.vpn(.disconnected), duration: 5))
+                } label: {
+                    Label("Vpn Disconnected", systemImage: "network.slash")
+                }
             }
             .controlGroupStyle(.automatic)
             

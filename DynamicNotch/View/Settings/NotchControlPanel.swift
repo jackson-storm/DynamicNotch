@@ -12,7 +12,7 @@ struct NotchControlPanel: View {
     
     private var bindingForActiveContent: Binding<NotchContent> {
         Binding<NotchContent>(
-            get: { notchViewModel.state.activeContent },
+            get: { notchViewModel.state.liveActivityContent },
             set: { newValue in
                 notchViewModel.send(.showLiveActivitiy(newValue))
             }

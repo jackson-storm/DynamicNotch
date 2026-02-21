@@ -30,6 +30,8 @@ struct NotchApp: App {
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
     let notchViewModel = NotchViewModel()
+    lazy var notchEventCoordinator = NotchEventCoordinator(notchViewModel: notchViewModel)
+    
     let powerViewModel = PowerViewModel(powerMonitor: PowerSourceMonitor())
     let playerViewModel = PlayerViewModel()
     let bluetoothViewModel = BluetoothViewModel()
@@ -55,7 +57,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 }
             }
         }
-        notchViewModel.checkFirstLaunch()
+        notchEventCoordinator.checkFirstLaunch()
     }
     
     func createNotchWindow() {
@@ -93,6 +95,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         window.contentView = NSHostingView(
             rootView: NotchView(
                 notchViewModel: notchViewModel,
+                notchEventCoordinator: notchEventCoordinator,
                 powerViewModel: powerViewModel,
                 playerViewModel: playerViewModel,
                 bluetoothViewModel: bluetoothViewModel,

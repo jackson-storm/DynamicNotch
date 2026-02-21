@@ -7,6 +7,12 @@
 
 import Foundation
 
+enum NotchEvent {
+    case showLiveActivitiy(NotchContent)
+    case showTemporaryNotification(NotchContent, duration: TimeInterval)
+    case hide
+}
+
 enum NotchContent: Hashable {
     case none
     case music(ExpandedEvent)
@@ -18,9 +24,9 @@ enum NotchContent: Hashable {
 }
 
 struct NotchState: Equatable {
-    var activeContent: NotchContent = .none
-    var temporaryContent: NotchContent? = nil
-    var content: NotchContent { temporaryContent ?? activeContent }
+    var liveActivityContent: NotchContent = .none
+    var temporaryNotificationContent: NotchContent? = nil
+    var content: NotchContent { temporaryNotificationContent ?? liveActivityContent }
     
     var baseWidth: CGFloat = 226
     var baseHeight: CGFloat = 38
@@ -54,10 +60,11 @@ struct NotchState: Equatable {
         let baseRadius = baseHeight / 3
         
         switch content {
-        case .music(.expanded): return (top: 32, bottom: 46)
         case .battery(.fullPower): return (top: 18, bottom: 36)
         case .battery(.lowPower): return (top: 22, bottom: 40)
+            
         case .onboarding: return (top: 28, bottom: 36)
+        case .music(.expanded): return (top: 32, bottom: 46)
             
         default: return (top: baseRadius - 4, bottom: baseRadius)
             
@@ -77,10 +84,11 @@ struct NotchState: Equatable {
     
     var offsetYTransition: CGFloat {
         switch content {
-        case .music(.expanded): return -90
         case .battery(.lowPower): return -60
         case .battery(.fullPower): return -40
+            
         case .onboarding: return -80
+        case .music(.expanded): return -90
             
         default: return -10
             

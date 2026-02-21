@@ -7,12 +7,6 @@
 
 import Foundation
 
-enum NotchEvent {
-    case showLiveActivitiy(NotchContent)
-    case showTemporaryNotification(NotchContent, duration: TimeInterval)
-    case hide
-}
-
 enum PowerEvent {
     case charger
     case lowPower

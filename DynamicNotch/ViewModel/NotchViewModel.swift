@@ -10,7 +10,6 @@ final class NotchViewModel: ObservableObject {
     private var suspendedActivity: NotchContent = .none
     private var isTransitioning = false
     private var hideDelay: TimeInterval = 0.3
-    private var isOnboardingActive: Bool { state.activeContent == .onboarding || state.temporaryContent == .onboarding }
     
     init() {
         updateDimensions()
@@ -26,7 +25,6 @@ final class NotchViewModel: ObservableObject {
             state.baseHeight = topInset
             let ratio: CGFloat = screenWidth > 1700 ? 0.1325 : 0.1275
             state.baseWidth = floor(screenWidth * ratio)
-            
         } else {
             state.baseHeight = 32
             state.baseWidth = 200
@@ -34,11 +32,6 @@ final class NotchViewModel: ObservableObject {
     }
     
     func send(_ notchEvent: NotchEvent) {
-        if isOnboardingActive {
-            if case .hide = notchEvent { }
-            else { return }
-        }
-        
         switch notchEvent {
         case .showLiveActivitiy(let content):
             showLiveActivitiy(content)
@@ -58,7 +51,7 @@ final class NotchViewModel: ObservableObject {
             
         } else {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                if self.state.activeContent == .none && self.state.temporaryContent == nil {
+                if self.state.liveActivityContent == .none && self.state.temporaryNotificationContent == nil {
                     self.showNotch = false
                 }
             }
@@ -66,19 +59,19 @@ final class NotchViewModel: ObservableObject {
     }
     
     func toggleMusicExpanded() {
-        guard case .music(let expandedState) = state.activeContent else { return }
-
+        guard case .music(let expandedState) = state.liveActivityContent else { return }
+        
         if expandedState == .none {
             transition(
                 customDelay: 0,
                 hide: {
                     withAnimation(.spring(response: 0.4)) {
-                        self.state.activeContent = .none
+                        self.state.liveActivityContent = .none
                     }
                 },
                 show: {
                     withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
-                        self.state.activeContent = .music(.expanded)
+                        self.state.liveActivityContent = .music(.expanded)
                     }
                 }
             )
@@ -87,111 +80,33 @@ final class NotchViewModel: ObservableObject {
                 customDelay: 0.3,
                 hide: {
                     withAnimation(.spring(response: 0.4)) {
-                        self.state.activeContent = .none
+                        self.state.liveActivityContent = .none
                     }
                 },
                 show: {
                     withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
-                        self.state.activeContent = .music(.none)
+                        self.state.liveActivityContent = .music(.none)
                     }
                 }
             )
         }
     }
     
-    func handleOnboardingEvent(_ event: OnboardingEvent) {
-        switch event {
-        case .onboarding:
-            send(.showLiveActivitiy(.onboarding))
-        }
-    }
-    
-    func handleBluetoothEvent(_ event: BluetoothEvent) {
-        guard !isOnboardingActive else { return }
-        
-        switch event {
-        case .connected:
-            send(.showTemporaryNotification(.bluetooth, duration: 5))
-        }
-    }
-    
-    func handleVpnEvent(_ event: VpnEvent) {
-        guard !isOnboardingActive else { return }
-        
-        switch event {
-        case .connected:
-            send(.showTemporaryNotification(.vpn(.connected), duration: 5))
-        case .disconnected:
-            send(.showTemporaryNotification(.vpn(.disconnected), duration: 5))
-        }
-    }
-    
-    func handleHudEvent(_ event: HudEvent) {
-        guard !isOnboardingActive else { return }
-        
-        switch event {
-        case .display:
-            send(.showTemporaryNotification(.systemHud(.display), duration: 2))
-        case .keyboard:
-            send(.showTemporaryNotification(.systemHud(.keyboard), duration: 2))
-        case .volume:
-            send(.showTemporaryNotification(.systemHud(.volume), duration: 2))
-        }
-    }
-    
-    func handlePowerEvent(_ event: PowerEvent) {
-        guard !isOnboardingActive else { return }
-        
-        switch event {
-        case .charger:
-            send(.showTemporaryNotification(.battery(.charger), duration: 4))
-            
-        case .lowPower:
-            send(.showTemporaryNotification(.battery(.lowPower), duration: 4))
-            
-        case .fullPower:
-            send(.showTemporaryNotification(.battery(.fullPower), duration: 5))
-        }
-    }
-    
-    func checkFirstLaunch() {
-        let hasSeenOnboarding = UserDefaults.standard.bool(forKey: "hasSeenOnboarding")
-        
-        if !hasSeenOnboarding {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                self.handleOnboardingEvent(.onboarding)
-            }
-        }
-    }
-    
-    func finishOnboarding() {
-        UserDefaults.standard.set(true, forKey: "hasSeenOnboarding")
-        
-        withAnimation(.spring(response: 0.5)) {
-            self.state.activeContent = .none
-            self.state.temporaryContent = nil
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.showNotch = false
-        }
-    }
-    
     private func showLiveActivitiy(_ content: NotchContent) {
-        if state.temporaryContent != nil {
+        if state.temporaryNotificationContent != nil {
             self.suspendedActivity = content
             return
         }
         
         transition(
             hide: {
-                withAnimation(.spring(response: 0.4)) {
-                    self.state.activeContent = .none
+                withAnimation(.spring(response: 0.5)) {
+                    self.state.liveActivityContent = .none
                 }
             },
             show: {
                 withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
-                    self.state.activeContent = content
+                    self.state.liveActivityContent = content
                 }
             }
         )
@@ -202,16 +117,16 @@ final class NotchViewModel: ObservableObject {
             hide: {
                 self.cancelTemporary()
                 withAnimation(.spring(response: 0.4)) {
-                    if self.state.activeContent != .none {
-                        self.suspendedActivity = self.state.activeContent
-                        self.state.activeContent = .none
+                    if self.state.liveActivityContent != .none {
+                        self.suspendedActivity = self.state.liveActivityContent
+                        self.state.liveActivityContent = .none
                     }
-                    self.state.temporaryContent = nil
+                    self.state.temporaryNotificationContent = nil
                 }
             },
             show: {
                 withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
-                    self.state.temporaryContent = content
+                    self.state.temporaryNotificationContent = content
                 }
                 
                 if duration.isInfinite { return }
@@ -225,19 +140,19 @@ final class NotchViewModel: ObservableObject {
             }
         )
     }
-
+    
     private func hideTemporaryNotification() {
         cancelTemporary()
         
         transition(
             hide: {
-                withAnimation(.spring(response: 0.4)) {
-                    self.state.temporaryContent = nil
+                withAnimation(.spring(response: 0.5)) {
+                    self.state.temporaryNotificationContent = nil
                 }
             },
             show: {
                 withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
-                    self.state.activeContent = self.suspendedActivity
+                    self.state.liveActivityContent = self.suspendedActivity
                     self.suspendedActivity = .none
                 }
             }

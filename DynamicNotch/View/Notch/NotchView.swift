@@ -4,10 +4,12 @@ import AppKit
 
 struct NotchView: View {
     @ObservedObject var notchViewModel: NotchViewModel
+    @ObservedObject var notchEventCoordinator: NotchEventCoordinator
     @ObservedObject var powerViewModel: PowerViewModel
     @ObservedObject var playerViewModel: PlayerViewModel
     @ObservedObject var bluetoothViewModel: BluetoothViewModel
     @ObservedObject var vpnViewModel: VpnViewModel
+    
     @Environment(\.openWindow) private var openWindow
     
     @State private var isPressed = false
@@ -20,9 +22,9 @@ struct NotchView: View {
                 .onChange(of: notchViewModel.state.content) { _, newValue in
                     notchViewModel.handleStrokeVisibility(newValue)
                 }
-                .onReceive(powerViewModel.$event.compactMap { $0 }, perform: notchViewModel.handlePowerEvent)
-                .onReceive(bluetoothViewModel.$event.compactMap { $0 }, perform: notchViewModel.handleBluetoothEvent)
-                .onReceive(vpnViewModel.$event.compactMap { $0 }, perform: notchViewModel.handleVpnEvent)
+                .onReceive(powerViewModel.$event.compactMap { $0 }, perform: notchEventCoordinator.handlePowerEvent)
+                .onReceive(bluetoothViewModel.$event.compactMap { $0 }, perform: notchEventCoordinator.handleBluetoothEvent)
+                .onReceive(vpnViewModel.$event.compactMap { $0 }, perform: notchEventCoordinator.handleVpnEvent)
                 .onTapGesture {
                     if case .music = notchViewModel.state.content {
                         notchViewModel.toggleMusicExpanded()
@@ -65,7 +67,7 @@ private extension NotchView {
                 case .music(.expanded): PlayerNotchLarge(playerViewModel: playerViewModel)
                     
                 case .bluetooth: BluetoothNotchView(bluetoothViewModel: bluetoothViewModel)
-                case .onboarding: OnboardingNotchView(viewModel: notchViewModel)
+                case .onboarding: OnboardingNotchView(notchEventCoordinator: notchEventCoordinator)
                     
                 case .battery(.charger): ChargerNotchView(powerSourceMonitor: powerViewModel.powerMonitor)
                 case .battery(.lowPower): LowPowerNotchView(powerSourceMonitor: powerViewModel.powerMonitor)

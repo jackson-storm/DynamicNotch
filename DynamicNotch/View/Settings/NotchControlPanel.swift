@@ -83,9 +83,15 @@ struct NotchControlPanel: View {
                 }
                 
                 Button {
-                    notchViewModel.send(.showTemporary(.vpn, duration: 5))
+                    notchViewModel.send(.showTemporary(.vpn(.connected), duration: 5))
                 } label: {
-                    Label("Vpn", systemImage: "network")
+                    Label("Vpn Connected", systemImage: "network")
+                }
+                
+                Button {
+                    notchViewModel.send(.showTemporary(.vpn(.disconnected), duration: 5))
+                } label: {
+                    Label("Vpn Disconnected", systemImage: "network.slash")
                 }
             }
             .controlGroupStyle(.automatic)

@@ -112,9 +112,9 @@ final class NotchViewModel: ObservableObject {
         
         switch event {
         case .connected:
-            send(.showTemporary(.vpn, duration: 5))
+            send(.showTemporary(.vpn(.connected), duration: 5))
         case .disconnected:
-            send(.showTemporary(.vpn, duration: 5))
+            send(.showTemporary(.vpn(.disconnected), duration: 5))
         }
     }
     

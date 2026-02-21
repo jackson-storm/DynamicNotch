@@ -5,14 +5,15 @@
 //  Created by Евгений Петрукович on 2/21/26.
 //
 
-import Foundation
 import Combine
+import Foundation
 
 final class NetworkViewModel: ObservableObject {
     @Published var isConnected: Bool = false
     @Published var event: NetworkEvent? = nil
     
     private let monitor = NetworkMonitor()
+    private var isInitialCheck = true
     
     init() {
         setupMonitoring()
@@ -20,15 +21,23 @@ final class NetworkViewModel: ObservableObject {
 
     private func setupMonitoring() {
         monitor.onStatusChange = { [weak self] connected in
-            guard let self = self else { return }
+            DispatchQueue.main.async {
+                guard let self = self else { return }
+                
+                if !self.isInitialCheck {
+                    if connected && !self.isConnected {
+                        self.event = .connected
+                    }
+                    else if !connected && self.isConnected {
+                        self.event = .disconnected
+                    }
+                }
+                self.isConnected = connected
             
-            if connected && !self.isConnected {
-                self.event = .connected
+                if self.isInitialCheck {
+                    self.isInitialCheck = false
+                }
             }
-            else if !connected && self.isConnected {
-                self.event = .disconnected
-            }
-            self.isConnected = connected
         }
         monitor.startMonitoring()
     }

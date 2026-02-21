@@ -75,8 +75,9 @@ private extension NotchView {
                 case .bluetooth: BluetoothNotch(bluetoothViewModel: bluetoothViewModel)
                 case .systemHud: SystemHudNotch(notchViewModel: notchViewModel)
                 case .onboarding: OnboardingView(viewModel: notchViewModel)
-                case .vpn: VpnConnectView(networkViewModel: networkViewModel)
-        
+                case .vpn(.connected): VpnConnectView(networkViewModel: networkViewModel)
+                case .vpn(.disconnected) : VpnDisconnectView(networkViewModel: networkViewModel)
+                
                 }
             }
             .id(notchViewModel.state.content)

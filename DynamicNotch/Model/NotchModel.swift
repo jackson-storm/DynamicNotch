@@ -16,7 +16,7 @@ enum NotchContent: Hashable {
     case bluetooth
     case systemHud(HUDType)
     case onboarding
-    case vpn
+    case vpn(NetworkEvent)
 }
 
 struct NotchState: Equatable {
@@ -44,7 +44,9 @@ struct NotchState: Equatable {
         case .systemHud(.volume): return .init(width: baseWidth + 200, height: baseHeight)
             
         case .bluetooth: return .init(width: baseWidth + 180, height: baseHeight)
-        case .vpn: return .init(width: baseWidth + 180, height: baseHeight)
+            
+        case .vpn(.connected): return .init(width: baseWidth + 180, height: baseHeight)
+        case .vpn(.disconnected): return .init(width: baseWidth + 220, height: baseHeight)
             
         }
     }

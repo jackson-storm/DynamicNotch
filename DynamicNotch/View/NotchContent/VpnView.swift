@@ -15,30 +15,61 @@ struct VpnConnectView: View {
             HStack(spacing: 6) {
                 ZStack {
                     RoundedRectangle(cornerRadius: 6)
-                        .fill(networkViewModel.isConnected ? .blue.opacity(0.2) : .red.opacity(0.2))
+                        .fill(.blue)
                         .frame(width: 24, height: 24)
                     
-                    Image(systemName: networkViewModel.isConnected ? "network.badge.shield.half.filled" : "network.slash")
+                    Image(systemName: "network.badge.shield.half.filled")
                         .font(.system(size: 14, weight: .semibold))
-                        .foregroundStyle(networkViewModel.isConnected ? .blue : .red)
+                        .foregroundStyle(.white)
                         .contentTransition(.symbolEffect(.replace))
                 }
                 Text("VPN")
                     .font(.system(size: 14))
-                    .foregroundColor(.white)
+                    .foregroundColor(.white.opacity(0.8))
             }
             .padding(.leading, 16)
             
             Spacer()
             
-            Text(networkViewModel.isConnected ? "Сonnected" : "Disconnected")
+            Text("Сonnected")
                 .font(.system(size: 14))
-                .foregroundStyle(networkViewModel.isConnected ? .white : .red)
+                .foregroundStyle(.white.opacity(0.8))
                 .padding(.trailing, 20)
         }
     }
 }
 
+struct VpnDisconnectView: View {
+    @ObservedObject var networkViewModel: NetworkViewModel
+    
+    var body: some View {
+        HStack(spacing: 0) {
+            HStack(spacing: 6) {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 6)
+                        .fill(.red)
+                        .frame(width: 24, height: 24)
+                    
+                    Image(systemName: "network.slash")
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundStyle(.white)
+                        .contentTransition(.symbolEffect(.replace))
+                }
+                Text("VPN")
+                    .font(.system(size: 14))
+                    .foregroundColor(.white.opacity(0.8))
+            }
+            .padding(.leading, 16)
+            
+            Spacer()
+            
+            Text("Disconnected")
+                .font(.system(size: 14))
+                .foregroundStyle(.red.opacity(0.8))
+                .padding(.trailing, 20)
+        }
+    }
+}
 
 #Preview {
     ZStack(alignment: .top) {

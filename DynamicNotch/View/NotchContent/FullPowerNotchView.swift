@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct FullPowerNotch: View {
+struct FullPowerNotchView: View {
     @ObservedObject var powerSourceMonitor: PowerSourceMonitor
     
     @State private var pulse = false

@@ -19,3 +19,9 @@ struct NotchPressModifier: ViewModifier {
             }, perform: {})
     }
 }
+
+extension View {
+    func notchPressable(isPressed: Binding<Bool>) -> some View {
+        modifier(NotchPressModifier(isPressed: isPressed))
+    }
+}

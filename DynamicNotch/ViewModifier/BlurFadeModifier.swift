@@ -11,3 +11,12 @@ struct BlurFadeModifier: ViewModifier {
             .compositingGroup()
     }
 }
+
+extension AnyTransition {
+    static var blurAndFade: AnyTransition {
+        .modifier(
+            active: BlurFadeModifier(blur: 20, opacity: 0),
+            identity: BlurFadeModifier(blur: 0, opacity: 1)
+        )
+    }
+}

@@ -8,9 +8,9 @@
 import Foundation
 
 enum NotchEvent {
-    case showActive(NotchContent)
-    case showTemporary(NotchContent, duration: TimeInterval)
-    case hideTemporary
+    case showLiveActivitiy(NotchContent)
+    case showTemporaryNotification(NotchContent, duration: TimeInterval)
+    case hide
 }
 
 enum PowerEvent {
@@ -27,7 +27,18 @@ enum OnboardingEvent {
     case onboarding
 }
 
-enum NetworkEvent {
+enum VpnEvent {
     case connected
     case disconnected
+}
+
+enum HudEvent {
+    case volume
+    case display
+    case keyboard
+}
+
+enum ExpandedEvent {
+    case none
+    case expanded
 }

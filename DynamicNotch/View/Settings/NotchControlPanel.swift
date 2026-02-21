@@ -14,7 +14,7 @@ struct NotchControlPanel: View {
         Binding<NotchContent>(
             get: { notchViewModel.state.activeContent },
             set: { newValue in
-                notchViewModel.send(.showActive(newValue))
+                notchViewModel.send(.showLiveActivitiy(newValue))
             }
         )
     }
@@ -25,8 +25,6 @@ struct NotchControlPanel: View {
                 activeContent
                 Divider()
                 temporaryContent
-                Divider()
-                notchOutline
                 Spacer()
             }
             .padding(8)
@@ -44,7 +42,7 @@ struct NotchControlPanel: View {
 
             Picker("Active", selection: bindingForActiveContent) {
                 Label("None", systemImage: "minus.circle").tag(NotchContent.none)
-                Label("Music", systemImage: "music.note").tag(NotchContent.music)
+                Label("Music", systemImage: "music.note").tag(NotchContent.music(.none))
             }
             .pickerStyle(.segmented)
             .help("Выберите постоянное содержимое нотча")
@@ -59,37 +57,37 @@ struct NotchControlPanel: View {
             
             ControlGroup {
                 Button {
-                    notchViewModel.send(.showTemporary(.charger, duration: 4))
+                    notchViewModel.send(.showTemporaryNotification(.battery(.charger), duration: 4))
                 } label: {
                     Label("Charger", systemImage: "bolt.fill")
                 }
                 
                 Button {
-                    notchViewModel.send(.showTemporary(.lowPower, duration: 4))
+                    notchViewModel.send(.showTemporaryNotification(.battery(.lowPower), duration: 4))
                 } label: {
                     Label("Low Power", systemImage: "battery.25")
                 }
                 
                 Button {
-                    notchViewModel.send(.showTemporary(.fullPower, duration: 5))
+                    notchViewModel.send(.showTemporaryNotification(.battery(.fullPower), duration: 5))
                 } label: {
                     Label("Full Power", systemImage: "battery.100")
                 }
                 
                 Button {
-                    notchViewModel.send(.showTemporary(.onboarding, duration: .infinity))
+                    notchViewModel.send(.showTemporaryNotification(.onboarding, duration: .infinity))
                 } label: {
                     Label("Onboarding", systemImage: "clipboard")
                 }
                 
                 Button {
-                    notchViewModel.send(.showTemporary(.vpn(.connected), duration: 5))
+                    notchViewModel.send(.showTemporaryNotification(.vpn(.connected), duration: 5))
                 } label: {
                     Label("Vpn Connected", systemImage: "network")
                 }
                 
                 Button {
-                    notchViewModel.send(.showTemporary(.vpn(.disconnected), duration: 5))
+                    notchViewModel.send(.showTemporaryNotification(.vpn(.disconnected), duration: 5))
                 } label: {
                     Label("Vpn Disconnected", systemImage: "network.slash")
                 }
@@ -98,55 +96,40 @@ struct NotchControlPanel: View {
             
             ControlGroup {
                 Button {
-                    notchViewModel.send(.showTemporary(. bluetooth, duration: 5))
+                    notchViewModel.send(.showTemporaryNotification(. bluetooth, duration: 5))
                 } label: {
                     Label("Audio HW", systemImage: "headphones")
                 }
                 
-                Menu {
-                    Button {
-                        notchViewModel.send(.showTemporary(.systemHud(.volume), duration: 5))
-                    } label: {
-                        Label("Volume", systemImage: "speaker.wave.3.fill")
-                    }
-                    Button {
-                        notchViewModel.send(.showTemporary(.systemHud(.display), duration: 5))
-                    } label: {
-                        Label("Display", systemImage: "sun.max.fill")
-                    }
-                    Button {
-                        notchViewModel.send(.showTemporary(.systemHud(.keyboard), duration: 5))
-                    } label: {
-                        Label("Keyboard", systemImage: "light.max")
-                    }
+                Button {
+                    notchViewModel.send(.showTemporaryNotification(.systemHud(.volume), duration: 2))
                 } label: {
-                    Label("System HUD", systemImage: "display")
+                    Label("Volume", systemImage: "speaker.wave.3.fill")
+                }
+                
+                Button {
+                    notchViewModel.send(.showTemporaryNotification(.systemHud(.display), duration: 2))
+                } label: {
+                    Label("Display", systemImage: "sun.max.fill")
+                }
+                
+                Button {
+                    notchViewModel.send(.showTemporaryNotification(.systemHud(.keyboard), duration: 2))
+                } label: {
+                    Label("Keyboard", systemImage: "light.max")
                 }
             }
             .controlGroupStyle(.automatic)
             
             HStack {
                 Button {
-                    notchViewModel.send(.hideTemporary)
+                    notchViewModel.send(.hide)
                 } label: {
                     Label("Hide temporary", systemImage: "eye.slash")
                 }
                 .buttonStyle(.bordered)
                 .tint(.red)
             }
-        }
-    }
-    
-    @ViewBuilder
-    var notchOutline: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Label("Notch outline", systemImage: "rectangle.inset.topleft.fill")
-                .font(.headline)
-
-            Toggle(isOn: $notchViewModel.showNotch) {
-                Label("Show stroke", systemImage: "rectangle.and.pencil.and.ellipsis")
-            }
-            .toggleStyle(.switch)
         }
     }
 }

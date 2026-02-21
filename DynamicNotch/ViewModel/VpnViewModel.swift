@@ -8,9 +8,9 @@
 import Combine
 import Foundation
 
-final class NetworkViewModel: ObservableObject {
+final class VpnViewModel: ObservableObject {
     @Published var isConnected: Bool = false
-    @Published var event: NetworkEvent? = nil
+    @Published var event: VpnEvent? = nil
     
     private let monitor = NetworkMonitor()
     private var isInitialCheck = true

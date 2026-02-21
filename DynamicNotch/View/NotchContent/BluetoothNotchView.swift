@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct BluetoothNotch: View {
+struct BluetoothNotchView: View {
     @ObservedObject var bluetoothViewModel: BluetoothViewModel
     @State private var isSecondText = false
     

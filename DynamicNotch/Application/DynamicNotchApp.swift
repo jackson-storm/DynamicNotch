@@ -1,12 +1,39 @@
-import AppKit
+import Cocoa
 import SwiftUI
+
+@main
+struct NotchApp: App {
+    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    
+    var body: some Scene {
+        Settings {
+            TabView {
+                NotchControlPanel(notchViewModel: appDelegate.notchViewModel)
+                    .tabItem {
+                        Image(systemName: "light.panel")
+                        Text("Notch Panel")
+                    }
+                
+                SettingsView()
+                    .tabItem {
+                        Image(systemName: "gearshape")
+                        Text("Settings")
+                    }
+            }
+            .frame(width: 600, height: 400)
+            .background(.ultraThinMaterial)
+        }
+        .defaultPosition(.center)
+        .windowResizability(.contentSize)
+    }
+}
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
     let notchViewModel = NotchViewModel()
     let powerViewModel = PowerViewModel(powerMonitor: PowerSourceMonitor())
     let playerViewModel = PlayerViewModel()
     let bluetoothViewModel = BluetoothViewModel()
-    let networkViewModel = NetworkViewModel()
+    let vpnViewModel = VpnViewModel()
     
     var window: NSWindow!
     
@@ -69,7 +96,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 powerViewModel: powerViewModel,
                 playerViewModel: playerViewModel,
                 bluetoothViewModel: bluetoothViewModel,
-                networkViewModel: networkViewModel,
+                vpnViewModel: vpnViewModel,
                 window: window
             )
         )

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct OnboardingView: View {
+struct OnboardingNotchView: View {
     @ObservedObject var viewModel: NotchViewModel
     
     var body: some View {
@@ -56,7 +56,7 @@ struct OnboardingView: View {
         NotchShape(topCornerRadius: 28, bottomCornerRadius: 36)
             .fill(.black)
             .stroke(.white.opacity(0.1), lineWidth: 1)
-            .overlay(OnboardingView(viewModel: NotchViewModel()))
+            .overlay(OnboardingNotchView(viewModel: NotchViewModel()))
             .frame(width: 296, height: 178)
         
         NotchShape(topCornerRadius: 9, bottomCornerRadius: 13)

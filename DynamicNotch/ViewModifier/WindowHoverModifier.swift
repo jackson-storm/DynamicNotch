@@ -17,3 +17,9 @@ struct WindowHoverModifier: ViewModifier {
             }
     }
 }
+
+extension View {
+    func windowHover(_ window: NSWindow?) -> some View {
+        modifier(WindowHoverModifier(window: window))
+    }
+}

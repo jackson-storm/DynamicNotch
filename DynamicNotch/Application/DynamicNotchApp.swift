@@ -79,17 +79,20 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         )
         
         window.isOpaque = false
+        window.titleVisibility = .hidden
+        window.titlebarAppearsTransparent = true
         window.backgroundColor = .clear
-        window.level = .statusBar
-
+        window.isMovable = false
+        
         window.collectionBehavior = [
-            .canJoinAllSpaces,
             .fullScreenAuxiliary,
             .stationary,
-            .ignoresCycle
+            .canJoinAllSpaces,
+            .ignoresCycle,
         ]
         
-        window.ignoresMouseEvents = true
+        window.isReleasedWhenClosed = false
+        window.level = .mainMenu + 3
         window.hasShadow = false
         
         window.contentView = NSHostingView(

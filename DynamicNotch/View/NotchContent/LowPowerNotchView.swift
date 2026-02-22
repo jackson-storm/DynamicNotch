@@ -16,6 +16,8 @@ struct LowPowerNotchView: View {
     
     var body: some View {
         HStack {
+            Spacer()
+            
             VStack(alignment: .leading, spacing: 3) {
                 HStack {
                     Text("Battery Low")
@@ -48,6 +50,7 @@ struct LowPowerNotchView: View {
                         .font(.system(size: 11))
                         .foregroundStyle(.gray.opacity(0.6))
                         .fontWeight(.medium)
+                        .lineLimit(2)
                 }
             }
             
@@ -58,8 +61,10 @@ struct LowPowerNotchView: View {
             } else {
                 redIndicator
             }
+            
+            Spacer()
         }
-        .padding(.horizontal, 40)
+        .padding(.horizontal, 20)
         .padding(.top, 30)
     }
     

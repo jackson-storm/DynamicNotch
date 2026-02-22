@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 enum NotchEvent {
     case showLiveActivitiy(NotchContent)
@@ -21,6 +22,17 @@ enum NotchContent: Hashable {
     case systemHud(HudEvent)
     case onboarding
     case vpn(VpnEvent)
+    
+    var strokeColor: Color {
+        switch self {
+        case .battery(.charger): return .green.opacity(0.3)
+        case .battery(.fullPower): return .green.opacity(0.3)
+        case .battery(.lowPower): return .red.opacity(0.3)
+        case .vpn(.disconnected): return .red.opacity(0.3)
+        
+        default: return .white.opacity(0.15)
+        }
+    }
 }
 
 struct NotchState: Equatable {
@@ -62,7 +74,6 @@ struct NotchState: Equatable {
         switch content {
         case .battery(.fullPower): return (top: 18, bottom: 36)
         case .battery(.lowPower): return (top: 22, bottom: 40)
-            
         case .onboarding: return (top: 28, bottom: 36)
         case .music(.expanded): return (top: 32, bottom: 46)
             
@@ -71,26 +82,14 @@ struct NotchState: Equatable {
         }
     }
     
-    var offsetXTransition: CGFloat {
-        switch content {
-        case .battery(.fullPower): return -140
-        case .onboarding: return -150
-        case .music(.expanded): return -210
-            
-        default: return -160
-            
-        }
-    }
-    
     var offsetYTransition: CGFloat {
         switch content {
         case .battery(.lowPower): return -60
-        case .battery(.fullPower): return -40
+        case .battery(.fullPower): return -60
+        case .onboarding: return -60
+        case .music(.expanded): return -60
             
-        case .onboarding: return -80
-        case .music(.expanded): return -90
-            
-        default: return -10
+        default: return 0
             
         }
     }

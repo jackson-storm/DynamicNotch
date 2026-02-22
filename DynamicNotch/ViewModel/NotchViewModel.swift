@@ -116,7 +116,7 @@ final class NotchViewModel: ObservableObject {
         transition(
             hide: {
                 self.cancelTemporary()
-                withAnimation(.spring(response: 0.4)) {
+                withAnimation(.spring(response: 0.5)) {
                     if self.state.liveActivityContent != .none {
                         self.suspendedActivity = self.state.liveActivityContent
                         self.state.liveActivityContent = .none

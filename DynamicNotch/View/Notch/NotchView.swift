@@ -17,7 +17,7 @@ struct NotchView: View {
     let window: NSWindow?
     
     var body: some View {
-        ZStack {
+        ZStack(alignment: .top) {
             notchBody
                 .onChange(of: notchViewModel.state.content) { _, newValue in
                     notchViewModel.handleStrokeVisibility(newValue)
@@ -44,13 +44,9 @@ private extension NotchView {
             bottomCornerRadius: notchViewModel.state.cornerRadius.bottom
         )
         .fill(.black)
-        .stroke(notchViewModel.showNotch ? Color.white.opacity(0.15) : Color.clear, lineWidth: 2)
-        .notchPressable(isPressed: $isPressed)
-        .overlay {
-            contentOverlay
-                .scaleEffect(isPressed ? 1.04 : 1.0)
-                .animation(.spring(response: 0.3, dampingFraction: 0.4), value: isPressed)
-        }
+        .stroke(notchViewModel.showNotch ? notchViewModel.state.content.strokeColor : Color.clear, lineWidth: 2)
+        .overlay { contentOverlay }
+        .customNotchPressable(isPressed: $isPressed, baseSize: notchViewModel.state.size)
         .frame(width: notchViewModel.state.size.width, height: notchViewModel.state.size.height)
         .contextMenu { contextMenuItem }
         .animation(.spring(duration: 0.6), value: notchViewModel.showNotch)
@@ -59,7 +55,7 @@ private extension NotchView {
     @ViewBuilder
     var contentOverlay: some View {
         if notchViewModel.state.content != .none {
-            ZStack {
+            Group {
                 switch notchViewModel.state.content {
                 case .none: Color.clear
                     
@@ -82,12 +78,11 @@ private extension NotchView {
                     
                 }
             }
-            .id(notchViewModel.state.content)
             .transition(
                 .blurAndFade
                     .animation(.spring(duration: 0.5))
                     .combined(with: .scale)
-                    .combined(with: .offset(x: notchViewModel.state.offsetXTransition, y: notchViewModel.state.offsetYTransition)
+                    .combined(with: .offset(y: notchViewModel.state.offsetYTransition)
                 )
             )
         }

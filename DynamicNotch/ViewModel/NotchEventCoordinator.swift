@@ -87,9 +87,9 @@ final class NotchEventCoordinator: ObservableObject {
         
         switch event {
         case .charger:
-            notchViewModel.send(.showTemporaryNotification(.battery(.charger), duration: 4))
+            notchViewModel.send(.showTemporaryNotification(.battery(.charger), duration: 5))
         case .lowPower:
-            notchViewModel.send(.showTemporaryNotification(.battery(.lowPower), duration: 4))
+            notchViewModel.send(.showTemporaryNotification(.battery(.lowPower), duration: 5))
         case .fullPower:
             notchViewModel.send(.showTemporaryNotification(.battery(.fullPower), duration: 5))
         }

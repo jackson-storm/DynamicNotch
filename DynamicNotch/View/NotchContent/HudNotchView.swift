@@ -1,37 +1,20 @@
 import SwiftUI
 
-enum HUDType: Hashable {
-    case volume
-    case display
-    case keyboard
+struct HudDisplayView: View {
+    var body: some View {
+        HudContent(image: "sun.max.fill", text: "Display", level: 70)
+    }
 }
 
-struct SystemHudNotch: View {
-    @ObservedObject var notchViewModel: NotchViewModel
-    
+struct HudKeyboardView: View {
     var body: some View {
-        Group {
-            switch notchViewModel.state.content {
-            case .systemHud(let type):
-                hud(for: type)
-            default:
-                EmptyView()
-            }
-        }
+        HudContent(image: "light.max", text: "Keyboard", level: 10)
     }
-    
-    @ViewBuilder
-    private func hud(for type: HUDType) -> some View {
-        switch type {
-        case .volume:
-            HudContent(image: "speaker.wave.3.fill", text: "Volume", level: 50)
-            
-        case .display:
-            HudContent(image: "sun.max.fill", text: "Display", level: 70)
-            
-        case .keyboard:
-            HudContent(image: "light.max", text: "Keyboard", level: 10)
-        }
+}
+
+struct HudVolumeView: View {
+    var body: some View {
+        HudContent(image: "speaker.wave.3.fill", text: "Volume", level: 50)
     }
 }
 

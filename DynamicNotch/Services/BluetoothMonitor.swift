@@ -9,6 +9,34 @@ import Foundation
 import IOBluetooth
 import IOKit
 
+enum BluetoothDeviceType {
+    case headset
+    case headphones
+    case speaker
+    case mouse
+    case keyboard
+    case combo
+    case computer
+    case phone
+    case unknown
+}
+
+extension BluetoothDeviceType {
+    var symbolName: String {
+        switch self {
+        case .headset: return "headphones"
+        case .headphones: return "airpods"
+        case .speaker: return "speaker.wave.2.fill"
+        case .mouse: return "magicmouse.fill"
+        case .keyboard: return "keyboard.fill"
+        case .combo: return "keyboard.fill"
+        case .computer: return "macbook.gen2"
+        case .phone: return "iphone.gen3"
+        case .unknown: return "questionmark"
+        }
+    }
+}
+
 final class BluetoothMonitor {
     func getLatestDeviceInfo() -> (isConnected: Bool, name: String, battery: Int?, type: BluetoothDeviceType) {
         guard let devices = IOBluetoothDevice.pairedDevices() as? [IOBluetoothDevice] else {

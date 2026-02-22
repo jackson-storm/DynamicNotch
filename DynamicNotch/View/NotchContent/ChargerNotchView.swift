@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct ChargerNotch: View {
+struct ChargerNotchView: View {
     @ObservedObject var powerSourceMonitor: PowerSourceMonitor
     
     private var batteryColor: Color {

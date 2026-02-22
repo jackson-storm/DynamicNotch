@@ -1,12 +1,41 @@
-import AppKit
+import Cocoa
 import SwiftUI
+
+@main
+struct NotchApp: App {
+    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    
+    var body: some Scene {
+        Settings {
+            TabView {
+                NotchControlPanel(notchViewModel: appDelegate.notchViewModel)
+                    .tabItem {
+                        Image(systemName: "light.panel")
+                        Text("Notch Panel")
+                    }
+                
+                SettingsView()
+                    .tabItem {
+                        Image(systemName: "gearshape")
+                        Text("Settings")
+                    }
+            }
+            .frame(width: 600, height: 400)
+            .background(.ultraThinMaterial)
+        }
+        .defaultPosition(.center)
+        .windowResizability(.contentSize)
+    }
+}
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
     let notchViewModel = NotchViewModel()
+    lazy var notchEventCoordinator = NotchEventCoordinator(notchViewModel: notchViewModel)
+    
     let powerViewModel = PowerViewModel(powerMonitor: PowerSourceMonitor())
     let playerViewModel = PlayerViewModel()
     let bluetoothViewModel = BluetoothViewModel()
-    let networkViewModel = NetworkViewModel()
+    let vpnViewModel = VpnViewModel()
     
     var window: NSWindow!
     
@@ -28,7 +57,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 }
             }
         }
-        notchViewModel.checkFirstLaunch()
+        notchEventCoordinator.checkFirstLaunch()
     }
     
     func createNotchWindow() {
@@ -50,26 +79,30 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         )
         
         window.isOpaque = false
+        window.titleVisibility = .hidden
+        window.titlebarAppearsTransparent = true
         window.backgroundColor = .clear
-        window.level = .statusBar
-
+        window.isMovable = false
+        
         window.collectionBehavior = [
-            .canJoinAllSpaces,
             .fullScreenAuxiliary,
             .stationary,
-            .ignoresCycle
+            .canJoinAllSpaces,
+            .ignoresCycle,
         ]
         
-        window.ignoresMouseEvents = true
+        window.isReleasedWhenClosed = false
+        window.level = .mainMenu + 3
         window.hasShadow = false
         
         window.contentView = NSHostingView(
             rootView: NotchView(
                 notchViewModel: notchViewModel,
+                notchEventCoordinator: notchEventCoordinator,
                 powerViewModel: powerViewModel,
                 playerViewModel: playerViewModel,
                 bluetoothViewModel: bluetoothViewModel,
-                networkViewModel: networkViewModel,
+                vpnViewModel: vpnViewModel,
                 window: window
             )
         )

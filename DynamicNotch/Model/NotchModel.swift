@@ -6,24 +6,39 @@
 //
 
 import Foundation
+import SwiftUI
+
+enum NotchEvent {
+    case showLiveActivitiy(NotchContent)
+    case showTemporaryNotification(NotchContent, duration: TimeInterval)
+    case hide
+}
 
 enum NotchContent: Hashable {
     case none
-    case music
-    case charger
-    case lowPower
-    case fullPower
+    case music(ExpandedEvent)
+    case battery(PowerEvent)
     case bluetooth
-    case systemHud(HUDType)
+    case systemHud(HudEvent)
     case onboarding
-    case vpn(NetworkEvent)
+    case vpn(VpnEvent)
+    
+    var strokeColor: Color {
+        switch self {
+        case .battery(.charger): return .green.opacity(0.3)
+        case .battery(.fullPower): return .green.opacity(0.3)
+        case .battery(.lowPower): return .red.opacity(0.3)
+        case .vpn(.disconnected): return .red.opacity(0.3)
+        
+        default: return .white.opacity(0.15)
+        }
+    }
 }
 
 struct NotchState: Equatable {
-    var activeContent: NotchContent = .none
-    var temporaryContent: NotchContent? = nil
-    var isExpanded: Bool = false
-    var content: NotchContent { temporaryContent ?? activeContent }
+    var liveActivityContent: NotchContent = .none
+    var temporaryNotificationContent: NotchContent? = nil
+    var content: NotchContent { temporaryNotificationContent ?? liveActivityContent }
     
     var baseWidth: CGFloat = 226
     var baseHeight: CGFloat = 38
@@ -32,12 +47,14 @@ struct NotchState: Equatable {
         switch content {
         case .none: return .init(width: baseWidth, height: baseHeight)
             
-        case .music: return .init(width: isExpanded ? baseWidth + 200 : baseWidth + 80, height: isExpanded ? baseHeight + 150 : baseHeight)
+        case .music(.none): return .init(width: baseWidth + 80, height: baseHeight)
+        case .music(.expanded): return .init(width: baseWidth + 200, height: baseHeight + 150)
+            
         case .onboarding: return .init(width: baseWidth + 70, height: baseHeight + 120)
             
-        case .charger: return .init(width: baseWidth + 180, height: baseHeight)
-        case .lowPower: return .init(width: baseWidth + 140, height: baseHeight + 80)
-        case .fullPower: return .init(width: baseWidth + 90, height: baseHeight + 70)
+        case .battery(.charger): return .init(width: baseWidth + 180, height: baseHeight)
+        case .battery(.lowPower): return .init(width: baseWidth + 140, height: baseHeight + 80)
+        case .battery(.fullPower): return .init(width: baseWidth + 90, height: baseHeight + 70)
             
         case .systemHud(.display): return .init(width: baseWidth + 200, height: baseHeight)
         case .systemHud(.keyboard): return .init(width: baseWidth + 200, height: baseHeight)
@@ -55,33 +72,24 @@ struct NotchState: Equatable {
         let baseRadius = baseHeight / 3
         
         switch content {
-        case .music: return (top: isExpanded ? 32 : baseRadius, bottom: isExpanded ? 46 : baseRadius)
-        case .fullPower: return (top: 18, bottom: 36)
-        case .lowPower: return (top: 22, bottom: 40)
+        case .battery(.fullPower): return (top: 18, bottom: 36)
+        case .battery(.lowPower): return (top: 22, bottom: 40)
         case .onboarding: return (top: 28, bottom: 36)
+        case .music(.expanded): return (top: 32, bottom: 46)
             
         default: return (top: baseRadius - 4, bottom: baseRadius)
             
         }
     }
     
-    var offsetXTransition: CGFloat {
-        switch content {
-        case .fullPower: return -140
-        case .onboarding: return -150
-            
-        default: return -160
-        }
-    }
-    
     var offsetYTransition: CGFloat {
         switch content {
-        case .music: return isExpanded ? -60 : 0
-        case .lowPower: return -60
-        case .fullPower: return -40
-        case .onboarding: return -80
+        case .battery(.lowPower): return -60
+        case .battery(.fullPower): return -60
+        case .onboarding: return -60
+        case .music(.expanded): return -60
             
-        default: return -10
+        default: return 0
             
         }
     }

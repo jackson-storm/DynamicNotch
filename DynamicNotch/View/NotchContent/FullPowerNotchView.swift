@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct FullPowerNotch: View {
+struct FullPowerNotchView: View {
     @ObservedObject var powerSourceMonitor: PowerSourceMonitor
     
     @State private var pulse = false
@@ -19,11 +19,14 @@ struct FullPowerNotch: View {
     
     var body: some View {
         HStack {
+            Spacer()
+            
             VStack(alignment: .leading, spacing: 3) {
                 HStack {
                     Text("Full Battery")
                         .font(.system(size: 14))
                         .fontWeight(.semibold)
+                        .lineLimit(1)
                     
                     if powerSourceMonitor.isLowPowerMode {
                         Text("\(powerSourceMonitor.batteryLevel)%")
@@ -41,6 +44,7 @@ struct FullPowerNotch: View {
                     .font(.system(size: 11))
                     .foregroundStyle(.gray.opacity(0.6))
                     .fontWeight(.medium)
+                    .lineLimit(1)
             }
             
             Spacer()
@@ -58,8 +62,10 @@ struct FullPowerNotch: View {
                     .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .scale))
                     .padding(.trailing, 10)
             }
+            
+            Spacer()
         }
-        .padding(.horizontal, 33)
+        .padding(.horizontal, 20)
         .padding(.top, 30)
         .onAppear {
             showBatteryIndicator = true
@@ -161,4 +167,19 @@ struct FullPowerNotch: View {
                 .frame(width: 3, height: 32)
         }
     }
+}
+
+#Preview {
+    ZStack(alignment: .top) {
+        NotchShape(topCornerRadius: 18, bottomCornerRadius: 36)
+            .fill(.black)
+            .stroke(.green.opacity(0.3), lineWidth: 2)
+            .overlay{ FullPowerNotchView(powerSourceMonitor: PowerSourceMonitor()) }
+            .frame(width: 316, height: 108)
+        
+        NotchShape(topCornerRadius: 9, bottomCornerRadius: 13)
+            .stroke(.red, lineWidth: 1)
+            .frame(width: 226, height: 38)
+    }
+    .frame(width: 400, height: 250, alignment: .top)
 }

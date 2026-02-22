@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct OnboardingView: View {
-    @ObservedObject var viewModel: NotchViewModel
+struct OnboardingNotchView: View {
+    @ObservedObject var notchEventCoordinator: NotchEventCoordinator
     
     var body: some View {
         VStack {
@@ -43,7 +43,7 @@ struct OnboardingView: View {
             }
             .buttonStyle(PrimaryButtonStyle(backgroundColor: .red))
             
-            Button(action: { viewModel.finishOnboarding() }) {
+            Button(action: { notchEventCoordinator.finishOnboarding() }) {
                 Text("Start")
             }
             .buttonStyle(PrimaryButtonStyle())
@@ -56,7 +56,7 @@ struct OnboardingView: View {
         NotchShape(topCornerRadius: 28, bottomCornerRadius: 36)
             .fill(.black)
             .stroke(.white.opacity(0.1), lineWidth: 1)
-            .overlay(OnboardingView(viewModel: NotchViewModel()))
+            .overlay(OnboardingNotchView(notchEventCoordinator: NotchEventCoordinator(notchViewModel: NotchViewModel())))
             .frame(width: 296, height: 178)
         
         NotchShape(topCornerRadius: 9, bottomCornerRadius: 13)

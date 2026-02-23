@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct BluetoothNotchView: View {
+    @Environment(\.notchScale) var scale
     @ObservedObject var bluetoothViewModel: BluetoothViewModel
     @State private var isSecondText = false
     
@@ -15,19 +16,19 @@ struct BluetoothNotchView: View {
             if isSecondText {
                 MarqueeText(
                     $bluetoothViewModel.deviceName,
-                    font: .system(size: 14),
+                    font: .system(size: 14.scaled(by: scale)),
                     nsFont: .body,
                     textColor: .white.opacity(0.8),
                     backgroundColor: .clear,
                     minDuration: 0.5,
-                    frameWidth: 75
+                    frameWidth: 75.scaled(by: scale)
                 )
-                .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .offset(x: 60)))
+                .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .offset(x: 60.scaled(by: scale))))
                 .lineLimit(1)
                 
             } else {
                 Text("Connected")
-                    .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .offset(x: 60)))
+                    .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .offset(x: 60.scaled(by: scale))))
                     .foregroundStyle(.white.opacity(0.8))
                     .lineLimit(1)
             }
@@ -35,7 +36,7 @@ struct BluetoothNotchView: View {
             Spacer()
             
             if bluetoothViewModel.isConnected {
-                HStack(spacing: 6) {
+                HStack(spacing: 6.scaled(by: scale)) {
                     if let level = bluetoothViewModel.batteryLevel {
                         Text("\(level)%")
                             .foregroundStyle(color(for: level).gradient)
@@ -44,13 +45,13 @@ struct BluetoothNotchView: View {
                             .foregroundStyle(.white.opacity(0.6))
                     }
                     Image(systemName: bluetoothViewModel.deviceType.symbolName)
-                        .font(.system(size: 18))
+                        .font(.system(size: 18.scaled(by: scale)))
                         .foregroundStyle(.white.opacity(0.8))
                 }
             }
         }
-        .font(.system(size: 14))
-        .padding(.horizontal, 20)
+        .padding(.horizontal, 8.scaled(by: scale))
+        .font(.system(size: 14.scaled(by: scale)))
         .onAppear {
             if !isSecondText {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
@@ -115,7 +116,7 @@ private struct BluetoothNotchMock: View {
             }
         }
         .font(.system(size: 14))
-        .padding(.horizontal, 20)
+        .padding(.horizontal, 25)
         .onAppear {
             if !isSecondText {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {

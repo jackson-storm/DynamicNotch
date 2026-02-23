@@ -19,6 +19,8 @@ struct HudVolumeView: View {
 }
 
 private struct HudContent: View {
+    @Environment(\.notchScale) var scale
+    
     var image: String
     var text: String
     var level: Int
@@ -37,20 +39,20 @@ private struct HudContent: View {
                 indicator
             }
         }
-        .font(.system(size: 14))
+        .padding(.horizontal, 8.scaled(by: scale))
+        .font(.system(size: 14.scaled(by: scale)))
         .foregroundColor(.white.opacity(0.8))
-        .padding(.horizontal, 20)
     }
     
     @ViewBuilder
     private var indicator: some View {
-        RoundedRectangle(cornerRadius: 8)
+        RoundedRectangle(cornerRadius: 8.scaled(by: scale))
             .fill(Color.gray.opacity(0.3))
-            .frame(width: 60, height: 6)
+            .frame(width: 60.scaled(by: scale), height: 6.scaled(by: scale))
             .overlay(
-                RoundedRectangle(cornerRadius: 8)
+                RoundedRectangle(cornerRadius: 8.scaled(by: scale))
                     .fill(Color.white)
-                    .frame(width: 60, height: 6)
+                    .frame(width: 60.scaled(by: scale), height: 6.scaled(by: scale))
             )
     }
 }

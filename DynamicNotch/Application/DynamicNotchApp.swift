@@ -65,8 +65,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         
         let screenFrame = screen.frame
         
-        let notchWidth: CGFloat = 600
-        let notchHeight: CGFloat = 600
+        let notchWidth: CGFloat = 1000
+        let notchHeight: CGFloat = 1000
         
         let x = screenFrame.midX - notchWidth / 2
         let y = screenFrame.maxY - notchHeight
@@ -111,6 +111,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     @objc func updateWindowFrame() {
+        guard let window = self.window else { return }
+        
         notchViewModel.updateDimensions()
         
         guard let screen = window.screen ?? NSScreen.main else { return }

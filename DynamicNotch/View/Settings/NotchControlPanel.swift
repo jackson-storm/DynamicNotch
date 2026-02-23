@@ -42,7 +42,7 @@ struct NotchControlPanel: View {
 
             Picker("Active", selection: bindingForActiveContent) {
                 Label("None", systemImage: "minus.circle").tag(NotchContent.none)
-                Label("Music", systemImage: "music.note").tag(NotchContent.music(.none))
+                Label("Music", systemImage: "music.note").tag(NotchContent.music(.compact))
             }
             .pickerStyle(.segmented)
             .help("Выберите постоянное содержимое нотча")

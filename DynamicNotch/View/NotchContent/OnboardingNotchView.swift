@@ -8,31 +8,29 @@
 import SwiftUI
 
 struct OnboardingNotchView: View {
+    @Environment(\.notchScale) var scale
     @ObservedObject var notchEventCoordinator: NotchEventCoordinator
+    @State private var imageAppear = false
     
     var body: some View {
         VStack {
             Spacer()
             
-            VStack(spacing: 3) {
-                Text("Dynamic Notch")
-                    .font(.system(size: 16, weight: .semibold))
-                    .lineLimit(1)
-                
-                Text("Customize your Mac to the next level")
-                    .font(.system(size: 10))
-                    .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.center)
-                    .lineLimit(2)
-            }
+            AnimateImage(name: "welcome")
+                .frame(width: 180.scaled(by: scale), height: 60.scaled(by: scale))
+                .id(imageAppear)
+            
             Spacer()
             
             buttons
         }
-        .foregroundColor(.white)
-        .padding(.horizontal, 41)
-        .padding(.top, 30)
-        .padding(.bottom, 12)
+        .font(.system(size: 14.scaled(by: scale)))
+        .padding(.horizontal, 35.scaled(by: scale))
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                imageAppear = true
+            }
+        }
     }
     
     @ViewBuilder
@@ -41,13 +39,14 @@ struct OnboardingNotchView: View {
             Button(action: { NSApp.terminate(nil) }) {
                 Text("Exit")
             }
-            .buttonStyle(PrimaryButtonStyle(backgroundColor: .red))
+            .buttonStyle(PrimaryButtonStyle(height: 25.scaled(by: scale), backgroundColor: .red, scale: scale))
             
             Button(action: { notchEventCoordinator.finishOnboarding() }) {
                 Text("Start")
             }
-            .buttonStyle(PrimaryButtonStyle())
+            .buttonStyle(PrimaryButtonStyle(height: 25.scaled(by: scale), scale: scale))
         }
+        .foregroundStyle(.white)
     }
 }
 

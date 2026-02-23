@@ -19,16 +19,17 @@ struct NotchView: View {
     var body: some View {
         ZStack(alignment: .top) {
             notchBody
-                .onChange(of: notchViewModel.state.content) { _, newValue in
-                    notchViewModel.handleStrokeVisibility(newValue)
-                }
-                .onReceive(powerViewModel.$event.compactMap { $0 }, perform: notchEventCoordinator.handlePowerEvent)
-                .onReceive(bluetoothViewModel.$event.compactMap { $0 }, perform: notchEventCoordinator.handleBluetoothEvent)
-                .onReceive(vpnViewModel.$event.compactMap { $0 }, perform: notchEventCoordinator.handleVpnEvent)
+                .environment(\.notchScale, notchViewModel.state.scale)
+                .onReceive(powerViewModel.$event.compactMap { $0 }.receive(on: RunLoop.main), perform: notchEventCoordinator.handlePowerEvent)
+                .onReceive(bluetoothViewModel.$event.compactMap { $0 }.receive(on: RunLoop.main), perform: notchEventCoordinator.handleBluetoothEvent)
+                .onReceive(vpnViewModel.$event.compactMap { $0 }.receive(on: RunLoop.main), perform: notchEventCoordinator.handleVpnEvent)
                 .onTapGesture {
                     if case .music = notchViewModel.state.content {
                         notchViewModel.toggleMusicExpanded()
                     }
+                }
+                .onChange(of: notchViewModel.state.content) { _, newValue in
+                    notchViewModel.handleStrokeVisibility(newValue)
                 }
         }
         .windowHover(window)
@@ -47,7 +48,7 @@ private extension NotchView {
         .stroke(notchViewModel.showNotch ? notchViewModel.state.content.strokeColor : Color.clear, lineWidth: 2)
         .overlay {
             contentOverlay
-                .padding(15)
+                .padding(10.scaled(by: notchViewModel.state.scale))
         }
         .customNotchPressable(isPressed: $isPressed, baseSize: notchViewModel.state.size)
         .frame(width: notchViewModel.state.size.width, height: notchViewModel.state.size.height)

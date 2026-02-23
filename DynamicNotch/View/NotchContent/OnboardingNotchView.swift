@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct OnboardingNotchView: View {
+    @Environment(\.notchScale) var scale
     @ObservedObject var notchEventCoordinator: NotchEventCoordinator
     @State private var imageAppear = false
     
@@ -16,14 +17,15 @@ struct OnboardingNotchView: View {
             Spacer()
             
             AnimateImage(name: "welcome")
-                .frame(width: 180, height: 60)
+                .frame(width: 180.scaled(by: scale), height: 60.scaled(by: scale))
                 .id(imageAppear)
             
             Spacer()
             
             buttons
         }
-        .padding(.horizontal, 25)
+        .font(.system(size: 14.scaled(by: scale)))
+        .padding(.horizontal, 35.scaled(by: scale))
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                 imageAppear = true
@@ -37,12 +39,12 @@ struct OnboardingNotchView: View {
             Button(action: { NSApp.terminate(nil) }) {
                 Text("Exit")
             }
-            .buttonStyle(PrimaryButtonStyle(backgroundColor: .red))
+            .buttonStyle(PrimaryButtonStyle(height: 25.scaled(by: scale), backgroundColor: .red, scale: scale))
             
             Button(action: { notchEventCoordinator.finishOnboarding() }) {
                 Text("Start")
             }
-            .buttonStyle(PrimaryButtonStyle())
+            .buttonStyle(PrimaryButtonStyle(height: 25.scaled(by: scale), scale: scale))
         }
         .foregroundStyle(.white)
     }

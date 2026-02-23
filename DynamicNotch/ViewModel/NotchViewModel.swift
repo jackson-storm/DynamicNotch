@@ -20,14 +20,16 @@ final class NotchViewModel: ObservableObject {
         
         let screenWidth = screen.frame.width
         let topInset = screen.safeAreaInsets.top
+        let baseScreenWidth: CGFloat = 1440.0
+        
+        state.scale = max(0.35, screenWidth / baseScreenWidth)
         
         if topInset > 0 {
             state.baseHeight = topInset
-            let ratio: CGFloat = screenWidth > 1700 ? 0.1325 : 0.1275
-            state.baseWidth = floor(screenWidth * ratio)
+            state.baseWidth = 188 * state.scale
         } else {
-            state.baseHeight = 32
-            state.baseWidth = 200
+            state.baseHeight = 32 * state.scale
+            state.baseWidth = 200 * state.scale
         }
     }
     
@@ -46,7 +48,6 @@ final class NotchViewModel: ObservableObject {
     
     func handleStrokeVisibility(_ newValue: NotchContent) {
         if newValue != .none {
-            updateDimensions()
             self.showNotch = true
             
         } else {

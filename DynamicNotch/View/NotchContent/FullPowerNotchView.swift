@@ -18,71 +18,71 @@ struct FullPowerNotchView: View {
     }
     
     var body: some View {
-        HStack {
+        VStack {
             Spacer()
-            
-            VStack(alignment: .leading, spacing: 3) {
-                HStack {
-                    Text("Full Battery")
-                        .font(.system(size: 14))
-                        .fontWeight(.semibold)
+            HStack {
+                Spacer()
+                VStack(alignment: .leading, spacing: 3) {
+                    HStack {
+                        Text("Full Battery")
+                            .font(.system(size: 14))
+                            .fontWeight(.semibold)
+                            .lineLimit(1)
+                        
+                        if powerSourceMonitor.isLowPowerMode {
+                            Text("\(powerSourceMonitor.batteryLevel)%")
+                                .font(.system(size: 14))
+                                .fontWeight(.semibold)
+                                .foregroundStyle(.yellow)
+                        } else {
+                            Text("\(powerSourceMonitor.batteryLevel)%")
+                                .font(.system(size: 14))
+                                .fontWeight(.semibold)
+                                .foregroundStyle(.green)
+                        }
+                    }
+                    Text("Your Mac is fully charged.")
+                        .font(.system(size: 11))
+                        .foregroundStyle(.gray.opacity(0.6))
+                        .fontWeight(.medium)
                         .lineLimit(1)
-                    
-                    if powerSourceMonitor.isLowPowerMode {
-                        Text("\(powerSourceMonitor.batteryLevel)%")
-                            .font(.system(size: 14))
-                            .fontWeight(.semibold)
-                            .foregroundStyle(.yellow)
-                    } else {
-                        Text("\(powerSourceMonitor.batteryLevel)%")
-                            .font(.system(size: 14))
-                            .fontWeight(.semibold)
-                            .foregroundStyle(.green)
-                    }
                 }
-                Text("Your Mac is fully charged.")
-                    .font(.system(size: 11))
-                    .foregroundStyle(.gray.opacity(0.6))
-                    .fontWeight(.medium)
-                    .lineLimit(1)
-            }
-            
-            Spacer()
-            
-            if showBatteryIndicator {
-                if powerSourceMonitor.isLowPowerMode {
-                    yellowIndicator
-                        .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .scale))
-                } else {
-                    greenIndicator
-                        .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .scale))
-                }
-            } else {
-                magSafeIndicator
-                    .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .scale))
-                    .padding(.trailing, 10)
-            }
-            
-            Spacer()
-        }
-        .padding(.horizontal, 20)
-        .padding(.top, 30)
-        .onAppear {
-            showBatteryIndicator = true
-            changeBatteryIndicator = true
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                
+                Spacer()
+                
                 if showBatteryIndicator {
-                    withAnimation(.spring(duration: 0.4)) {
-                        showBatteryIndicator = false
+                    if powerSourceMonitor.isLowPowerMode {
+                        yellowIndicator
+                            .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .scale))
+                    } else {
+                        greenIndicator
+                            .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .scale))
+                    }
+                } else {
+                    magSafeIndicator
+                        .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .scale))
+                        .padding(.trailing, 10)
+                }
+                
+                Spacer()
+            }
+            .onAppear {
+                showBatteryIndicator = true
+                changeBatteryIndicator = true
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    if showBatteryIndicator {
+                        withAnimation(.spring(duration: 0.4)) {
+                            showBatteryIndicator = false
+                        }
                     }
                 }
-            }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                if changeBatteryIndicator {
-                    withAnimation(.spring(duration: 0.2)) {
-                        changeBatteryIndicator = false
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    if changeBatteryIndicator {
+                        withAnimation(.spring(duration: 0.2)) {
+                            changeBatteryIndicator = false
+                        }
                     }
                 }
             }

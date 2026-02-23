@@ -49,8 +49,8 @@ struct BluetoothNotchView: View {
                 }
             }
         }
+        .padding(.horizontal, 3)
         .font(.system(size: 14))
-        .padding(.horizontal, 20)
         .onAppear {
             if !isSecondText {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {

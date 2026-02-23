@@ -31,8 +31,3 @@ enum HudEvent {
     case display
     case keyboard
 }
-
-enum ExpandedEvent {
-    case none
-    case expanded
-}

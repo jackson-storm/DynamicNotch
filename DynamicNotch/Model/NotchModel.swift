@@ -8,6 +8,11 @@
 import Foundation
 import SwiftUI
 
+enum NotchState {
+    case compact
+    case expanded
+}
+
 enum NotchEvent {
     case showLiveActivitiy(NotchContent)
     case showTemporaryNotification(NotchContent, duration: TimeInterval)
@@ -16,7 +21,7 @@ enum NotchEvent {
 
 enum NotchContent: Hashable {
     case none
-    case music(ExpandedEvent)
+    case music(NotchState)
     case battery(PowerEvent)
     case bluetooth
     case systemHud(HudEvent)
@@ -35,7 +40,7 @@ enum NotchContent: Hashable {
     }
 }
 
-struct NotchState: Equatable {
+struct NotchModel: Equatable {
     var liveActivityContent: NotchContent = .none
     var temporaryNotificationContent: NotchContent? = nil
     var content: NotchContent { temporaryNotificationContent ?? liveActivityContent }
@@ -47,7 +52,7 @@ struct NotchState: Equatable {
         switch content {
         case .none: return .init(width: baseWidth, height: baseHeight)
             
-        case .music(.none): return .init(width: baseWidth + 80, height: baseHeight)
+        case .music(.compact): return .init(width: baseWidth + 80, height: baseHeight)
         case .music(.expanded): return .init(width: baseWidth + 200, height: baseHeight + 150)
             
         case .onboarding: return .init(width: baseWidth + 70, height: baseHeight + 120)

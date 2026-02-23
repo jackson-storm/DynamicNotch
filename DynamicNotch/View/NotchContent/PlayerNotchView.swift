@@ -11,9 +11,8 @@ struct PlayerNotchLarge: View {
                 Spacer()
                 playerButton
             }
-            .padding(.top, 40)
-            .padding(.horizontal, 55)
-            .padding(.bottom, 20)
+            .padding(.top, 20)
+            .padding(.horizontal, 40)
         }
     }
     
@@ -118,7 +117,7 @@ struct PlayerNotchSmall: View {
             Spacer()
             equalizer
         }
-        .padding(.horizontal, 16)
+        .padding(.horizontal, 2)
         .padding(.bottom, 2)
     }
     

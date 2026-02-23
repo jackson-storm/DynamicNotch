@@ -45,7 +45,10 @@ private extension NotchView {
         )
         .fill(.black)
         .stroke(notchViewModel.showNotch ? notchViewModel.state.content.strokeColor : Color.clear, lineWidth: 2)
-        .overlay { contentOverlay }
+        .overlay {
+            contentOverlay
+                .padding(15)
+        }
         .customNotchPressable(isPressed: $isPressed, baseSize: notchViewModel.state.size)
         .frame(width: notchViewModel.state.size.width, height: notchViewModel.state.size.height)
         .contextMenu { contextMenuItem }
@@ -59,7 +62,7 @@ private extension NotchView {
                 switch notchViewModel.state.content {
                 case .none: Color.clear
                     
-                case .music(.none): PlayerNotchSmall(playerViewModel: playerViewModel)
+                case .music(.compact): PlayerNotchSmall(playerViewModel: playerViewModel)
                 case .music(.expanded): PlayerNotchLarge(playerViewModel: playerViewModel)
                     
                 case .bluetooth: BluetoothNotchView(bluetoothViewModel: bluetoothViewModel)
@@ -78,6 +81,7 @@ private extension NotchView {
                     
                 }
             }
+            .id(notchViewModel.state.content)
             .transition(
                 .blurAndFade
                     .animation(.spring(duration: 0.5))

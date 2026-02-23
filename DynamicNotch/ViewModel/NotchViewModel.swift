@@ -3,7 +3,7 @@ import Combine
 
 @MainActor
 final class NotchViewModel: ObservableObject {
-    @Published private(set) var state = NotchState()
+    @Published private(set) var state = NotchModel()
     @Published var showNotch = false
     
     private var temporaryTask: Task<Void, Never>?
@@ -61,31 +61,32 @@ final class NotchViewModel: ObservableObject {
     func toggleMusicExpanded() {
         guard case .music(let expandedState) = state.liveActivityContent else { return }
         
-        if expandedState == .none {
+        if expandedState == .compact {
             transition(
-                customDelay: 0,
+                customDelay: 0.2,
                 hide: {
-                    withAnimation(.spring(response: 0.4)) {
+                    withAnimation(.spring(response: 0.5)) {
                         self.state.liveActivityContent = .none
                     }
                 },
                 show: {
-                    withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+                    withAnimation(.spring(response: 0.5, dampingFraction: 0.8)) {
                         self.state.liveActivityContent = .music(.expanded)
                     }
                 }
             )
+            
         } else {
             transition(
                 customDelay: 0.3,
                 hide: {
-                    withAnimation(.spring(response: 0.4)) {
+                    withAnimation(.spring(response: 0.5)) {
                         self.state.liveActivityContent = .none
                     }
                 },
                 show: {
-                    withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
-                        self.state.liveActivityContent = .music(.none)
+                    withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
+                        self.state.liveActivityContent = .music(.compact)
                     }
                 }
             )

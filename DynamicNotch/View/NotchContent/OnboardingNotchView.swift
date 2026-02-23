@@ -9,30 +9,26 @@ import SwiftUI
 
 struct OnboardingNotchView: View {
     @ObservedObject var notchEventCoordinator: NotchEventCoordinator
+    @State private var imageAppear = false
     
     var body: some View {
         VStack {
             Spacer()
             
-            VStack(spacing: 3) {
-                Text("Dynamic Notch")
-                    .font(.system(size: 16, weight: .semibold))
-                    .lineLimit(1)
-                
-                Text("Customize your Mac to the next level")
-                    .font(.system(size: 10))
-                    .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.center)
-                    .lineLimit(2)
-            }
+            AnimateImage(name: "welcome")
+                .frame(width: 180, height: 60)
+                .id(imageAppear)
+            
             Spacer()
             
             buttons
         }
-        .foregroundColor(.white)
-        .padding(.horizontal, 41)
-        .padding(.top, 30)
-        .padding(.bottom, 12)
+        .padding(.horizontal, 25)
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                imageAppear = true
+            }
+        }
     }
     
     @ViewBuilder
@@ -48,6 +44,7 @@ struct OnboardingNotchView: View {
             }
             .buttonStyle(PrimaryButtonStyle())
         }
+        .foregroundStyle(.white)
     }
 }
 

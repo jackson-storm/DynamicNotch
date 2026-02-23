@@ -32,7 +32,7 @@ struct VpnConnectView: View {
                 .font(.system(size: 14))
                 .foregroundStyle(.white.opacity(0.8))
         }
-        .padding(.horizontal, 18)
+        .padding(.horizontal, 2)
     }
 }
 
@@ -60,7 +60,7 @@ struct VpnDisconnectView: View {
                 .font(.system(size: 14))
                 .foregroundStyle(.red.opacity(0.8))
         }
-        .padding(.horizontal, 18)
+        .padding(.horizontal, 2)
     }
 }
 

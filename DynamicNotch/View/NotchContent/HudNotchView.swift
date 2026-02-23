@@ -37,9 +37,9 @@ private struct HudContent: View {
                 indicator
             }
         }
+        .padding(.horizontal, 3)
         .font(.system(size: 14))
         .foregroundColor(.white.opacity(0.8))
-        .padding(.horizontal, 20)
     }
     
     @ViewBuilder

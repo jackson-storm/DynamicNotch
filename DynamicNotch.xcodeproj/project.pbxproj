@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		E27E93C72F4B96D800DD12D3 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = E27E93C62F4B96D800DD12D3 /* Lottie */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		E2EF78512EDDB60E00F96D1E /* DynamicNotch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DynamicNotch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E27E93C72F4B96D800DD12D3 /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +83,7 @@
 			);
 			name = DynamicNotch;
 			packageProductDependencies = (
+				E27E93C62F4B96D800DD12D3 /* Lottie */,
 			);
 			productName = DynamicNotch;
 			productReference = E2EF78512EDDB60E00F96D1E /* DynamicNotch.app */;
@@ -108,6 +114,7 @@
 			mainGroup = E2EF78482EDDB60E00F96D1E;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
+				E27E93C52F4B96D800DD12D3 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = E2EF78522EDDB60E00F96D1E /* Products */;
@@ -390,6 +397,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		E27E93C52F4B96D800DD12D3 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.6.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E27E93C62F4B96D800DD12D3 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E27E93C52F4B96D800DD12D3 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E2EF78492EDDB60E00F96D1E /* Project object */;
 }

@@ -15,57 +15,53 @@ struct LowPowerNotchView: View {
     }
     
     var body: some View {
-        HStack {
+        VStack {
             Spacer()
-            
-            VStack(alignment: .leading, spacing: 3) {
-                HStack {
-                    Text("Battery Low")
-                        .font(.system(size: 14))
-                        .fontWeight(.semibold)
-                    
+            HStack {
+                Spacer()
+                VStack(alignment: .leading, spacing: 3) {
+                    HStack {
+                        Text("Battery Low")
+                            .font(.system(size: 14))
+                            .fontWeight(.semibold)
+                        
+                        if powerSourceMonitor.isLowPowerMode {
+                            Text("\(powerSourceMonitor.batteryLevel)%")
+                                .font(.system(size: 14))
+                                .fontWeight(.semibold)
+                                .foregroundStyle(.yellow)
+                        } else {
+                            Text("\(powerSourceMonitor.batteryLevel)%")
+                                .font(.system(size: 14))
+                                .fontWeight(.semibold)
+                                .foregroundStyle(.red)
+                        }
+                    }
                     if powerSourceMonitor.isLowPowerMode {
-                        Text("\(powerSourceMonitor.batteryLevel)%")
-                            .font(.system(size: 14))
-                            .fontWeight(.semibold)
-                            .foregroundStyle(.yellow)
+                        Text("Low Power Mode enabled")
+                            .foregroundColor(.yellow)
+                        
+                        + Text(", it is recommended to charge it.")
+                            .foregroundColor(.gray.opacity(0.6))
+                            .font(.system(size: 11))
+                            .fontWeight(.medium)
+                        
                     } else {
-                        Text("\(powerSourceMonitor.batteryLevel)%")
-                            .font(.system(size: 14))
-                            .fontWeight(.semibold)
-                            .foregroundStyle(.red)
+                        Text("Turn on Low Power Mode or it is recommended to charge it.")
+                            .font(.system(size: 11))
+                            .foregroundStyle(.gray.opacity(0.6))
+                            .fontWeight(.medium)
+                            .lineLimit(2)
                     }
                 }
                 if powerSourceMonitor.isLowPowerMode {
-                    Text("Low Power Mode enabled")
-                        .foregroundColor(.yellow)
-                    
-                    + Text(", it is recommended to charge it.")
-                        .foregroundColor(.gray.opacity(0.6))
-                        .font(.system(size: 11))
-                        .fontWeight(.medium)
-                    
+                    yellowIndicator
                 } else {
-                    Text("Turn on Low Power Mode or it is recommended to charge it.")
-                        .font(.system(size: 11))
-                        .foregroundStyle(.gray.opacity(0.6))
-                        .fontWeight(.medium)
-                        .lineLimit(2)
+                    redIndicator
                 }
+                Spacer()
             }
-            
-            Spacer()
-            
-            if powerSourceMonitor.isLowPowerMode {
-                yellowIndicator
-            } else {
-                redIndicator
-            }
-            
-            Spacer()
         }
-        .padding(.horizontal, 20)
-        .padding(.top, 30)
     }
     
     @ViewBuilder

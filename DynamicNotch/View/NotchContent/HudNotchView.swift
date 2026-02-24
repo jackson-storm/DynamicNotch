@@ -39,20 +39,20 @@ private struct HudContent: View {
                 indicator
             }
         }
-        .padding(.horizontal, 8.scaled(by: scale))
-        .font(.system(size: 14.scaled(by: scale)))
+        .padding(.horizontal, 16.scaled(by: scale))
+        .font(.system(size: 14))
         .foregroundColor(.white.opacity(0.8))
     }
     
     @ViewBuilder
     private var indicator: some View {
-        RoundedRectangle(cornerRadius: 8.scaled(by: scale))
+        RoundedRectangle(cornerRadius: 8)
             .fill(Color.gray.opacity(0.3))
-            .frame(width: 60.scaled(by: scale), height: 6.scaled(by: scale))
+            .frame(width: 60, height: 6)
             .overlay(
-                RoundedRectangle(cornerRadius: 8.scaled(by: scale))
+                RoundedRectangle(cornerRadius: 8)
                     .fill(Color.white)
-                    .frame(width: 60.scaled(by: scale), height: 6.scaled(by: scale))
+                    .frame(width: 60, height: 6)
             )
     }
 }

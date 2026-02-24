@@ -45,10 +45,9 @@ private extension NotchView {
             bottomCornerRadius: notchViewModel.state.cornerRadius.bottom
         )
         .fill(.black)
-        .stroke(notchViewModel.showNotch ? notchViewModel.state.content.strokeColor : Color.clear, lineWidth: 2)
+        .stroke(notchViewModel.showNotch ? notchViewModel.state.strokeColor : Color.clear, lineWidth: 2)
         .overlay {
             contentOverlay
-                .padding(10.scaled(by: notchViewModel.state.scale))
         }
         .customNotchPressable(isPressed: $isPressed, baseSize: notchViewModel.state.size)
         .frame(width: notchViewModel.state.size.width, height: notchViewModel.state.size.height)
@@ -79,7 +78,6 @@ private extension NotchView {
                     
                 case .vpn(.connected): VpnConnectView()
                 case .vpn(.disconnected) : VpnDisconnectView()
-                    
                 }
             }
             .id(notchViewModel.state.content)
@@ -87,8 +85,7 @@ private extension NotchView {
                 .blurAndFade
                     .animation(.spring(duration: 0.5))
                     .combined(with: .scale)
-                    .combined(with: .offset(y: notchViewModel.state.offsetYTransition)
-                )
+                    .combined(with: .offset(y: notchViewModel.state.offsetYTransition))
             )
         }
     }
@@ -99,9 +96,7 @@ private extension NotchView {
             Image(systemName: "gearshape")
             Text("Settings")
         }
-        
         Divider()
-        
         Button(action: { NSApp.terminate(nil) }) {
             Image(systemName: "rectangle.portrait.and.arrow.right")
             Text("Quit")

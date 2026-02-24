@@ -16,19 +16,19 @@ struct BluetoothNotchView: View {
             if isSecondText {
                 MarqueeText(
                     $bluetoothViewModel.deviceName,
-                    font: .system(size: 14.scaled(by: scale)),
+                    font: .system(size: 14),
                     nsFont: .body,
                     textColor: .white.opacity(0.8),
                     backgroundColor: .clear,
                     minDuration: 0.5,
-                    frameWidth: 75.scaled(by: scale)
+                    frameWidth: 75
                 )
-                .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .offset(x: 60.scaled(by: scale))))
+                .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .offset(x: 60)))
                 .lineLimit(1)
                 
             } else {
                 Text("Connected")
-                    .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .offset(x: 60.scaled(by: scale))))
+                    .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .offset(x: 60)))
                     .foregroundStyle(.white.opacity(0.8))
                     .lineLimit(1)
             }
@@ -36,7 +36,7 @@ struct BluetoothNotchView: View {
             Spacer()
             
             if bluetoothViewModel.isConnected {
-                HStack(spacing: 6.scaled(by: scale)) {
+                HStack(spacing: 6) {
                     if let level = bluetoothViewModel.batteryLevel {
                         Text("\(level)%")
                             .foregroundStyle(color(for: level).gradient)
@@ -45,13 +45,13 @@ struct BluetoothNotchView: View {
                             .foregroundStyle(.white.opacity(0.6))
                     }
                     Image(systemName: bluetoothViewModel.deviceType.symbolName)
-                        .font(.system(size: 18.scaled(by: scale)))
+                        .font(.system(size: 18))
                         .foregroundStyle(.white.opacity(0.8))
                 }
             }
         }
-        .padding(.horizontal, 8.scaled(by: scale))
-        .font(.system(size: 14.scaled(by: scale)))
+        .padding(.horizontal, 16.scaled(by: scale))
+        .font(.system(size: 14))
         .onAppear {
             if !isSecondText {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
@@ -116,7 +116,7 @@ private struct BluetoothNotchMock: View {
             }
         }
         .font(.system(size: 14))
-        .padding(.horizontal, 25)
+        .padding(.horizontal, 16)
         .onAppear {
             if !isSecondText {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {

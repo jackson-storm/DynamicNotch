@@ -17,15 +17,14 @@ struct OnboardingNotchView: View {
             Spacer()
             
             AnimateImage(name: "welcome")
-                .frame(width: 180.scaled(by: scale), height: 60.scaled(by: scale))
+                .frame(width: 180, height: 80)
                 .id(imageAppear)
-            
-            Spacer()
-            
+                        
             buttons
         }
-        .font(.system(size: 14.scaled(by: scale)))
-        .padding(.horizontal, 35.scaled(by: scale))
+        .font(.system(size: 14))
+        .padding(.horizontal, 40)
+        .padding(.bottom, 10)
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                 imageAppear = true
@@ -39,12 +38,14 @@ struct OnboardingNotchView: View {
             Button(action: { NSApp.terminate(nil) }) {
                 Text("Exit")
             }
-            .buttonStyle(PrimaryButtonStyle(height: 25.scaled(by: scale), backgroundColor: .red, scale: scale))
+            .buttonStyle(PrimaryButtonStyle(height: 30, backgroundColor: .red))
+            
+            Spacer()
             
             Button(action: { notchEventCoordinator.finishOnboarding() }) {
                 Text("Start")
             }
-            .buttonStyle(PrimaryButtonStyle(height: 25.scaled(by: scale), scale: scale))
+            .buttonStyle(PrimaryButtonStyle(height: 30))
         }
         .foregroundStyle(.white)
     }

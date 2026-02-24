@@ -5,6 +5,11 @@
 //  Created by Евгений Петрукович on 2/18/26.
 //
 
+//
+//  notchModel.swift
+//  DynamicNotch
+//
+
 import Foundation
 import SwiftUI
 
@@ -27,17 +32,6 @@ enum NotchContent: Hashable {
     case systemHud(HudEvent)
     case onboarding
     case vpn(VpnEvent)
-    
-    var strokeColor: Color {
-        switch self {
-        case .battery(.charger): return .green.opacity(0.3)
-        case .battery(.fullPower): return .green.opacity(0.3)
-        case .battery(.lowPower): return .red.opacity(0.3)
-        case .vpn(.disconnected): return .red.opacity(0.3)
-            
-        default: return .white.opacity(0.15)
-        }
-    }
 }
 
 struct NotchModel: Equatable {
@@ -53,22 +47,22 @@ struct NotchModel: Equatable {
         switch content {
         case .none: return .init(width: baseWidth, height: baseHeight)
             
-        case .music(.compact): return .init(width: baseWidth + (80 * scale), height: baseHeight)
-        case .music(.expanded): return .init(width: baseWidth + (200 * scale), height: baseHeight + (150 * scale))
-        case .onboarding: return .init(width: baseWidth + (70 * scale), height: baseHeight + (120 * scale))
+        case .music(.compact): return .init(width: baseWidth + 70 * scale, height: baseHeight)
+        case .music(.expanded): return .init(width: baseWidth + 200, height: baseHeight + 180)
+        case .onboarding: return .init(width: baseWidth + 70, height: baseHeight + 120)
             
-        case .battery(.charger): return .init(width: baseWidth + (180 * scale), height: baseHeight)
-        case .battery(.lowPower): return .init(width: baseWidth + (140 * scale), height: baseHeight + (80 * scale))
-        case .battery(.fullPower): return .init(width: baseWidth + (90 * scale), height: baseHeight + (70 * scale))
+        case .battery(.charger): return .init(width: baseWidth + 180, height: baseHeight)
+        case .battery(.lowPower): return .init(width: baseWidth + 100, height: baseHeight + 75)
+        case .battery(.fullPower): return .init(width: baseWidth + 80, height: baseHeight + 70)
             
-        case .systemHud(.display): return .init(width: baseWidth + (200 * scale), height: baseHeight)
-        case .systemHud(.keyboard): return .init(width: baseWidth + (200 * scale), height: baseHeight)
-        case .systemHud(.volume): return .init(width: baseWidth + (200 * scale), height: baseHeight)
+        case .systemHud(.display): return .init(width: baseWidth + 220, height: baseHeight)
+        case .systemHud(.keyboard): return .init(width: baseWidth + 220, height: baseHeight)
+        case .systemHud(.volume): return .init(width: baseWidth + 220, height: baseHeight)
             
-        case .bluetooth: return .init(width: baseWidth + (180 * scale), height: baseHeight)
+        case .bluetooth: return .init(width: baseWidth + 180, height: baseHeight)
             
-        case .vpn(.connected): return .init(width: baseWidth + (180 * scale), height: baseHeight)
-        case .vpn(.disconnected): return .init(width: baseWidth + (220 * scale), height: baseHeight)
+        case .vpn(.connected): return .init(width: baseWidth + 180, height: baseHeight)
+        case .vpn(.disconnected): return .init(width: baseWidth + 220, height: baseHeight)
             
         }
     }
@@ -77,19 +71,32 @@ struct NotchModel: Equatable {
         let baseRadius = baseHeight / 3
         
         switch content {
-        case .battery(.fullPower): return (top: 18 * scale, bottom: 36 * scale)
-        case .battery(.lowPower): return (top: 22 * scale, bottom: 40 * scale)
-        case .onboarding: return (top: 28 * scale, bottom: 36 * scale)
-        case .music(.expanded): return (top: 32 * scale, bottom: 46 * scale)
+        case .battery(.fullPower): return (top: 18, bottom: 36)
+        case .battery(.lowPower): return (top: 22, bottom: 40)
+        case .onboarding: return (top: 28, bottom: 36)
+        case .music(.expanded): return (top: 32, bottom: 46)
             
-        default: return (top: baseRadius - (4 * scale), bottom: baseRadius)
+        default: return (top: baseRadius - 4, bottom: baseRadius)
             
+        }
+    }
+    
+    var strokeColor: Color {
+        switch content {
+        case .battery(.charger): return .green.opacity(0.3)
+        case .battery(.fullPower): return .green.opacity(0.3)
+        case .battery(.lowPower): return .red.opacity(0.3)
+        case .vpn(.disconnected): return .red.opacity(0.3)
+        default: return .white.opacity(0.15)
         }
     }
     
     var offsetYTransition: CGFloat {
         switch content {
-        case .battery(.lowPower), .battery(.fullPower), .onboarding, .music(.expanded): return -60 * scale
+        case .battery(.lowPower): return -60
+        case .battery(.fullPower): return -60
+        case .onboarding: return -60
+        case .music(.expanded): return -60
             
         default: return 0
             

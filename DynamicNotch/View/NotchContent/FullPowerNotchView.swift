@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct FullPowerNotchView: View {
-    @Environment(\.notchScale) var scale
     @ObservedObject var powerSourceMonitor: PowerSourceMonitor
     
     @State private var pulse = false
@@ -21,32 +20,11 @@ struct FullPowerNotchView: View {
     var body: some View {
         VStack {
             Spacer()
+            
             HStack {
-                Spacer()
-                VStack(alignment: .leading, spacing: 3.scaled(by: scale)) {
-                    HStack {
-                        Text("Full Battery")
-                            .font(.system(size: 14.scaled(by: scale)))
-                            .fontWeight(.semibold)
-                            .lineLimit(1)
-                        
-                        if powerSourceMonitor.isLowPowerMode {
-                            Text("\(powerSourceMonitor.batteryLevel)%")
-                                .font(.system(size: 14.scaled(by: scale)))
-                                .fontWeight(.semibold)
-                                .foregroundStyle(.yellow)
-                        } else {
-                            Text("\(powerSourceMonitor.batteryLevel)%")
-                                .font(.system(size: 14.scaled(by: scale)))
-                                .fontWeight(.semibold)
-                                .foregroundStyle(.green)
-                        }
-                    }
-                    Text("Your Mac is fully charged.")
-                        .font(.system(size: 11.scaled(by: scale)))
-                        .foregroundStyle(.gray.opacity(0.6))
-                        .fontWeight(.medium)
-                        .lineLimit(1)
+                VStack(alignment: .leading, spacing: 3) {
+                    title
+                    description
                 }
                 
                 Spacer()
@@ -62,28 +40,27 @@ struct FullPowerNotchView: View {
                 } else {
                     magSafeIndicator
                         .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .scale))
-                        .padding(.trailing, 10.scaled(by: scale))
                 }
-                
-                Spacer()
             }
-            .onAppear {
-                showBatteryIndicator = true
-                changeBatteryIndicator = true
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    if showBatteryIndicator {
-                        withAnimation(.spring(duration: 0.4)) {
-                            showBatteryIndicator = false
-                        }
+        }
+        .padding(.horizontal, 40)
+        .padding(.bottom, 20)
+        .onAppear {
+            showBatteryIndicator = true
+            changeBatteryIndicator = true
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                if showBatteryIndicator {
+                    withAnimation(.spring(duration: 0.4)) {
+                        showBatteryIndicator = false
                     }
                 }
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                    if changeBatteryIndicator {
-                        withAnimation(.spring(duration: 0.2)) {
-                            changeBatteryIndicator = false
-                        }
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                if changeBatteryIndicator {
+                    withAnimation(.spring(duration: 0.2)) {
+                        changeBatteryIndicator = false
                     }
                 }
             }
@@ -91,81 +68,112 @@ struct FullPowerNotchView: View {
     }
     
     @ViewBuilder
-    private var greenIndicator: some View {
+    var title: some View {
+        HStack {
+            Text("Full Battery")
+                .font(.system(size: 13))
+                .fontWeight(.semibold)
+                .lineLimit(1)
+            
+            if powerSourceMonitor.isLowPowerMode {
+                Text("\(powerSourceMonitor.batteryLevel)%")
+                    .font(.system(size: 13))
+                    .fontWeight(.semibold)
+                    .foregroundStyle(.yellow)
+            } else {
+                Text("\(powerSourceMonitor.batteryLevel)%")
+                    .font(.system(size: 13))
+                    .fontWeight(.semibold)
+                    .foregroundStyle(.green)
+            }
+        }
+    }
+    
+    @ViewBuilder
+    var description: some View {
+        Text("Your Mac is fully charged.")
+            .font(.system(size: 10))
+            .foregroundStyle(.gray.opacity(0.6))
+            .fontWeight(.medium)
+            .lineLimit(1)
+    }
+    
+    @ViewBuilder
+    var greenIndicator: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: 30.scaled(by: scale))
+            RoundedRectangle(cornerRadius: 30)
                 .fill(.green.opacity(0.2))
-                .frame(width: 70.scaled(by: scale), height: 40.scaled(by: scale))
+                .frame(width: 70, height: 40)
             
             HStack(spacing: 2) {
-                RoundedRectangle(cornerRadius: 10.scaled(by: scale))
+                RoundedRectangle(cornerRadius: 10)
                     .fill(.green.opacity(0.4))
-                    .frame(width: 44.scaled(by: scale), height: 24.scaled(by: scale))
+                    .frame(width: 44, height: 24)
                     .overlay(
-                        RoundedRectangle(cornerRadius: 4.scaled(by: scale))
+                        RoundedRectangle(cornerRadius: 4)
                             .fill(Color.green.gradient)
-                            .frame(width: 34.scaled(by: scale), height: 14.scaled(by: scale))
+                            .frame(width: 34, height: 14)
                             .opacity(pulse ? 1 : 0.4)
                             .onAppear {
                                 startPulse()
                             }
                     )
-                RoundedRectangle(cornerRadius: 10.scaled(by: scale))
+                RoundedRectangle(cornerRadius: 10)
                     .fill(.green.opacity(0.4))
-                    .frame(width: 3.scaled(by: scale), height: 8.scaled(by: scale))
+                    .frame(width: 3, height: 8)
             }
         }
     }
     
     @ViewBuilder
-    private var yellowIndicator: some View {
+    var yellowIndicator: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: 30.scaled(by: scale))
+            RoundedRectangle(cornerRadius: 30)
                 .fill(.yellow.opacity(0.2))
-                .frame(width: 70.scaled(by: scale), height: 40.scaled(by: scale))
+                .frame(width: 70, height: 40)
             
-            HStack(spacing: 2.scaled(by: scale)) {
-                RoundedRectangle(cornerRadius: 10.scaled(by: scale))
+            HStack(spacing: 2) {
+                RoundedRectangle(cornerRadius: 10)
                     .fill(.yellow.opacity(0.4))
-                    .frame(width: 44.scaled(by: scale), height: 24.scaled(by: scale))
+                    .frame(width: 44, height: 24)
                     .overlay(
                         RoundedRectangle(cornerRadius: 4)
                             .fill(Color.yellow.gradient)
-                            .frame(width: 34.scaled(by: scale), height: 14.scaled(by: scale))
+                            .frame(width: 34, height: 14)
                             .opacity(pulse ? 1 : 0.4)
                             .onAppear {
                                 startPulse()
                             }
                     )
                 
-                RoundedRectangle(cornerRadius: 10.scaled(by: scale))
+                RoundedRectangle(cornerRadius: 10)
                     .fill(.yellow.opacity(0.4))
-                    .frame(width: 3.scaled(by: scale), height: 8.scaled(by: scale))
+                    .frame(width: 3, height: 8)
             }
         }
     }
     
     @ViewBuilder
-    private var magSafeIndicator: some View {
+    var magSafeIndicator: some View {
         HStack(spacing: 0) {
             Rectangle()
                 .fill(.gray.opacity(0.15))
-                .frame(width: 40.scaled(by: scale), height: 5.scaled(by: scale))
+                .frame(width: 30, height: 5)
             
             ZStack {
-                RoundedRectangle(cornerRadius: 2.scaled(by: scale))
+                RoundedRectangle(cornerRadius: 2)
                     .fill(.gray.opacity(0.2).gradient)
-                    .frame(width: 30.scaled(by: scale), height: 40.scaled(by: scale))
+                    .frame(width: 30, height: 40)
                 
                 Circle()
                     .fill(changeBatteryIndicator ? .orange : .green)
-                    .shadow(color: changeBatteryIndicator ? .orange : .green , radius: 5.scaled(by: scale))
-                    .frame(width: 5.scaled(by: scale), height: 5.scaled(by: scale))
+                    .shadow(color: changeBatteryIndicator ? .orange : .green , radius: 5)
+                    .frame(width: 5, height: 5)
             }
             
             Rectangle()
                 .fill(.white.opacity(0.4))
-                .frame(width: 3.scaled(by: scale), height: 32.scaled(by: scale))
+                .frame(width: 3, height: 32)
         }
     }
 }

@@ -12,29 +12,29 @@ struct VpnConnectView: View {
     
     var body: some View {
         HStack(spacing: 0) {
-            HStack(spacing: 6.scaled(by: scale)) {
+            HStack(spacing: 6) {
                 ZStack {
-                    RoundedRectangle(cornerRadius: 6.scaled(by: scale))
+                    RoundedRectangle(cornerRadius: 6)
                         .fill(.blue)
-                        .frame(width: 22.scaled(by: scale), height: 22.scaled(by: scale))
+                        .frame(width: 22, height: 22)
                     
                     Image(systemName: "network.badge.shield.half.filled")
-                        .font(.system(size: 12.scaled(by: scale), weight: .semibold))
+                        .font(.system(size: 12, weight: .semibold))
                         .foregroundStyle(.white)
                         .contentTransition(.symbolEffect(.replace))
                 }
                 Text("VPN")
-                    .font(.system(size: 14.scaled(by: scale)))
+                    .font(.system(size: 14))
                     .foregroundColor(.white.opacity(0.8))
             }
             
             Spacer()
             
             Text("Сonnected")
-                .font(.system(size: 14.scaled(by: scale)))
+                .font(.system(size: 14))
                 .foregroundStyle(.white.opacity(0.8))
         }
-        .padding(.horizontal, 7.scaled(by: scale))
+        .padding(.horizontal, 14.scaled(by: scale))
     }
 }
 
@@ -43,28 +43,28 @@ struct VpnDisconnectView: View {
     
     var body: some View {
         HStack(spacing: 0) {
-            HStack(spacing: 6.scaled(by: scale)) {
+            HStack(spacing: 6) {
                 ZStack {
-                    RoundedRectangle(cornerRadius: 6.scaled(by: scale))
+                    RoundedRectangle(cornerRadius: 6)
                         .fill(.red)
-                        .frame(width: 44.scaled(by: scale), height: 20.scaled(by: scale))
+                        .frame(width: 44, height: 22)
                     
                     Image(systemName: "network.slash")
-                        .font(.system(size: 14.scaled(by: scale), weight: .semibold))
+                        .font(.system(size: 12, weight: .semibold))
                         .foregroundStyle(.white)
                         .contentTransition(.symbolEffect(.replace))
                 }
                 Text("VPN")
-                    .font(.system(size: 14.scaled(by: scale)))
+                    .font(.system(size: 14))
                     .foregroundColor(.white.opacity(0.8))
             }
             Spacer()
             
             Text("Disconnected")
-                .font(.system(size: 14.scaled(by: scale)))
+                .font(.system(size: 14))
                 .foregroundStyle(.red.opacity(0.8))
         }
-        .padding(.horizontal, 12.scaled(by: scale))
+        .padding(.horizontal, 15.scaled(by: scale))
     }
 }
 

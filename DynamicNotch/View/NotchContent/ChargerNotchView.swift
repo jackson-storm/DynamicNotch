@@ -17,19 +17,19 @@ struct ChargerNotchView: View {
     var body: some View {
         HStack {
             Text("Charging")
-                .font(.system(size: 14.scaled(by: scale)))
+                .font(.system(size: 14))
                 .foregroundColor(.white.opacity(0.8))
             
             Spacer()
             
             HStack(spacing: 6) {
                 Text("\(powerSourceMonitor.batteryLevel)%")
-                    .font(.system(size: 14.scaled(by: scale)))
+                    .font(.system(size: 14))
                     .foregroundColor(batteryColor)
                 
-                HStack(spacing: 1.5.scaled(by: scale)) {
+                HStack(spacing: 1.5) {
                     ZStack(alignment: .leading) {
-                        RoundedRectangle(cornerRadius: 6.scaled(by: scale), style: .continuous)
+                        RoundedRectangle(cornerRadius: 6, style: .continuous)
                             .fill(batteryColor.opacity(0.3))
                         
                         GeometryReader { geo in
@@ -39,18 +39,18 @@ struct ChargerNotchView: View {
                             
                             Rectangle()
                                 .fill(batteryColor.gradient)
-                                .frame(width: max(0, width.scaled(by: scale)))
+                                .frame(width: max(0, width))
                         }
                     }
-                    .frame(width: 28.scaled(by: scale), height: 16.scaled(by: scale))
-                    .clipShape(RoundedRectangle(cornerRadius: 6.scaled(by: scale), style: .continuous))
+                    .frame(width: 28, height: 16)
+                    .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
                     
-                    RoundedRectangle(cornerRadius: 1.5.scaled(by: scale), style: .continuous)
+                    RoundedRectangle(cornerRadius: 1.5, style: .continuous)
                         .fill(powerSourceMonitor.batteryLevel == 100 ? batteryColor.gradient : batteryColor.opacity(0.5).gradient)
-                        .frame(width: 2.scaled(by: scale), height: 6.scaled(by: scale))
+                        .frame(width: 2, height: 6)
                 }
             }
         }
-        .padding(.horizontal, 8.scaled(by: scale))
+        .padding(.horizontal, 16.scaled(by: scale))
     }
 }

@@ -9,22 +9,14 @@ import SwiftUI
 
 struct NotchControlPanel: View {
     @ObservedObject var notchViewModel: NotchViewModel
-    
-    private var bindingForActiveContent: Binding<NotchContent> {
-        Binding<NotchContent>(
-            get: { notchViewModel.state.liveActivityContent },
-            set: { newValue in
-                notchViewModel.send(.showLiveActivitiy(newValue))
-            }
-        )
-    }
+    @ObservedObject var notchEventCoordinator: NotchEventCoordinator
 
     var body: some View {
         GroupBox {
             VStack(alignment: .center, spacing: 15) {
-                activeContent
+                activeSection
                 Divider()
-                temporaryContent
+                temporarySection
                 Spacer()
             }
             .padding(8)
@@ -35,88 +27,88 @@ struct NotchControlPanel: View {
     }
     
     @ViewBuilder
-    var activeContent: some View {
+    private var activeSection: some View {
         VStack(alignment: .leading, spacing: 8) {
             Label("Active", systemImage: "dot.radiowaves.left.and.right")
                 .font(.headline)
-
-            Picker("Active", selection: bindingForActiveContent) {
-                Label("None", systemImage: "minus.circle").tag(NotchContent.none)
-                Label("Music", systemImage: "music.note").tag(NotchContent.music(.compact))
+            
+            HStack(spacing: 8) {
+                Button {
+                    notchEventCoordinator.handleOnboardingEvent(.onboarding)
+                } label: {
+                    Label("Onboarding", systemImage: "clipboard")
+                }
             }
-            .pickerStyle(.segmented)
-            .help("Выберите постоянное содержимое нотча")
         }
     }
     
     @ViewBuilder
-    var temporaryContent: some View {
+    private var temporarySection: some View {
         VStack(alignment: .leading, spacing: 8) {
             Label("Temporary", systemImage: "bolt.badge.clock")
                 .font(.headline)
             
+            // Power
             ControlGroup {
                 Button {
-                    notchViewModel.send(.showTemporaryNotification(.battery(.charger), duration: 4))
+                    notchEventCoordinator.handlePowerEvent(.charger)
                 } label: {
                     Label("Charger", systemImage: "bolt.fill")
                 }
                 
                 Button {
-                    notchViewModel.send(.showTemporaryNotification(.battery(.lowPower), duration: 4))
+                    notchEventCoordinator.handlePowerEvent(.lowPower)
                 } label: {
                     Label("Low Power", systemImage: "battery.25")
                 }
                 
                 Button {
-                    notchViewModel.send(.showTemporaryNotification(.battery(.fullPower), duration: 5))
+                    notchEventCoordinator.handlePowerEvent(.fullPower)
                 } label: {
                     Label("Full Power", systemImage: "battery.100")
                 }
-                
+            }
+            .controlGroupStyle(.automatic)
+            
+            // Bluetooth / VPN / HUD
+            ControlGroup {
                 Button {
-                    notchViewModel.send(.showTemporaryNotification(.onboarding, duration: .infinity))
+                    notchEventCoordinator.handleBluetoothEvent(.connected)
                 } label: {
-                    Label("Onboarding", systemImage: "clipboard")
+                    Label("Bluetooth", systemImage: "headphones")
                 }
                 
                 Button {
-                    notchViewModel.send(.showTemporaryNotification(.vpn(.connected), duration: 5))
+                    notchEventCoordinator.handleHudEvent(.volume)
                 } label: {
-                    Label("Vpn Connected", systemImage: "network")
+                    Label("Volume", systemImage: "speaker.wave.3.fill")
                 }
                 
                 Button {
-                    notchViewModel.send(.showTemporaryNotification(.vpn(.disconnected), duration: 5))
+                    notchEventCoordinator.handleHudEvent(.display)
                 } label: {
-                    Label("Vpn Disconnected", systemImage: "network.slash")
+                    Label("Display", systemImage: "sun.max.fill")
+                }
+                
+                Button {
+                    notchEventCoordinator.handleHudEvent(.keyboard)
+                } label: {
+                    Label("Keyboard", systemImage: "light.max")
                 }
             }
             .controlGroupStyle(.automatic)
             
             ControlGroup {
                 Button {
-                    notchViewModel.send(.showTemporaryNotification(. bluetooth, duration: 5))
+                    notchEventCoordinator.handleVpnEvent(.connected)
                 } label: {
-                    Label("Audio HW", systemImage: "headphones")
+                    Label("Vpn Connected", systemImage: "network")
                 }
                 
                 Button {
-                    notchViewModel.send(.showTemporaryNotification(.systemHud(.volume), duration: 2))
+                    notchEventCoordinator.handleVpnEvent(.disconnected)
                 } label: {
-                    Label("Volume", systemImage: "speaker.wave.3.fill")
-                }
-                
-                Button {
-                    notchViewModel.send(.showTemporaryNotification(.systemHud(.display), duration: 2))
-                } label: {
-                    Label("Display", systemImage: "sun.max.fill")
-                }
-                
-                Button {
-                    notchViewModel.send(.showTemporaryNotification(.systemHud(.keyboard), duration: 2))
-                } label: {
-                    Label("Keyboard", systemImage: "light.max")
+                    Label("Vpn Disconnected", systemImage: "network.slash")
                 }
             }
             .controlGroupStyle(.automatic)
@@ -135,6 +127,18 @@ struct NotchControlPanel: View {
 }
 
 #Preview {
-    NotchControlPanel(notchViewModel: NotchViewModel())
-        .frame(width: 600, height: 400)
+    let notchVM = NotchViewModel()
+    let bluetoothVM = BluetoothViewModel()
+    let powerMonitor = PowerSourceMonitor()
+    let coordinator = NotchEventCoordinator(
+        notchViewModel: notchVM,
+        bluetoothViewModel: bluetoothVM,
+        powerSourceMonitor: powerMonitor
+    )
+    
+    return NotchControlPanel(
+        notchViewModel: notchVM,
+        notchEventCoordinator: coordinator
+    )
+    .frame(width: 600, height: 400)
 }

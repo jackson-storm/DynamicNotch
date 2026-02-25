@@ -7,6 +7,26 @@
 
 import SwiftUI
 
+struct OnboardingNotchContent : NotchContentProvider {
+    let id = "onboarding"
+    let notchEventCoordinator: NotchEventCoordinator
+    
+    var offsetYTransition: CGFloat { -60 }
+    
+    func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
+        return .init(width: baseWidth + 70, height: baseHeight + 120)
+    }
+    
+    func cornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
+        return (top: 24, bottom: 36)
+    }
+    
+    @MainActor
+    func makeView() -> AnyView {
+        AnyView(OnboardingNotchView(notchEventCoordinator: notchEventCoordinator))
+    }
+}
+
 struct OnboardingNotchView: View {
     @Environment(\.notchScale) var scale
     @ObservedObject var notchEventCoordinator: NotchEventCoordinator
@@ -52,11 +72,20 @@ struct OnboardingNotchView: View {
 }
 
 #Preview {
-    ZStack(alignment: .top) {
+    let notchVM = NotchViewModel()
+    let bluetoothVM = BluetoothViewModel()
+    let powerMonitor = PowerSourceMonitor()
+    let coordinator = NotchEventCoordinator(
+        notchViewModel: notchVM,
+        bluetoothViewModel: bluetoothVM,
+        powerSourceMonitor: powerMonitor
+    )
+    
+    return ZStack(alignment: .top) {
         NotchShape(topCornerRadius: 28, bottomCornerRadius: 36)
             .fill(.black)
             .stroke(.white.opacity(0.1), lineWidth: 1)
-            .overlay(OnboardingNotchView(notchEventCoordinator: NotchEventCoordinator(notchViewModel: NotchViewModel())))
+            .overlay(OnboardingNotchView(notchEventCoordinator: coordinator))
             .frame(width: 296, height: 178)
         
         NotchShape(topCornerRadius: 9, bottomCornerRadius: 13)

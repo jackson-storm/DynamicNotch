@@ -1,5 +1,37 @@
 import SwiftUI
 
+struct PlayerCompactNotchContent: NotchContentProvider {
+    let id = "player.compact"
+    let playerViewModel: PlayerViewModel
+    
+    func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
+        return .init(width: baseWidth + 70, height: baseHeight)
+    }
+    
+    @MainActor
+    func makeView() -> AnyView {
+        AnyView(PlayerNotchSmall(playerViewModel: playerViewModel))
+    }
+}
+
+struct PlayerExpandedNotchContent: NotchContentProvider {
+    let id = "player.expanded"
+    let playerViewModel: PlayerViewModel
+    
+    func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
+        return .init(width: baseWidth + 200, height: baseHeight + 180)
+    }
+    
+    func cornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
+        return (top: 32, bottom: 46)
+    }
+    
+    @MainActor
+    func makeView() -> AnyView {
+        AnyView(PlayerNotchLarge(playerViewModel: playerViewModel))
+    }
+}
+
 struct PlayerNotchLarge: View {
     @Environment(\.notchScale) var scale
     @ObservedObject var playerViewModel: PlayerViewModel

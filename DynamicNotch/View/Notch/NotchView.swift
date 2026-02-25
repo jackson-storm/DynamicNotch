@@ -24,12 +24,12 @@ struct NotchView: View {
                 .onReceive(bluetoothViewModel.$event.compactMap { $0 }.receive(on: RunLoop.main), perform: notchEventCoordinator.handleBluetoothEvent)
                 .onReceive(vpnViewModel.$event.compactMap { $0 }.receive(on: RunLoop.main), perform: notchEventCoordinator.handleVpnEvent)
                 .onTapGesture {
-                    if case .music = notchViewModel.state.content {
+                    if let contentId = notchViewModel.state.content?.id, contentId.hasPrefix("player.compact") {
                         notchViewModel.toggleMusicExpanded()
                     }
                 }
-                .onChange(of: notchViewModel.state.content) { _, newValue in
-                    notchViewModel.handleStrokeVisibility(newValue)
+                .onChange(of: notchViewModel.state.content?.id) { _, newId in
+                    notchViewModel.handleStrokeVisibility()
                 }
         }
         .windowHover(window)
@@ -55,36 +55,15 @@ private extension NotchView {
     
     @ViewBuilder
     var contentOverlay: some View {
-        if notchViewModel.state.content != .none {
-            Group {
-                switch notchViewModel.state.content {
-                case .none: Color.clear
-                    
-                case .music(.compact): PlayerNotchSmall(playerViewModel: playerViewModel)
-                case .music(.expanded): PlayerNotchLarge(playerViewModel: playerViewModel)
-                    
-                case .bluetooth: BluetoothNotchView(bluetoothViewModel: bluetoothViewModel)
-                case .onboarding: OnboardingNotchView(notchEventCoordinator: notchEventCoordinator)
-                    
-                case .battery(.charger): ChargerNotchView(powerSourceMonitor: powerViewModel.powerMonitor)
-                case .battery(.lowPower): LowPowerNotchView(powerSourceMonitor: powerViewModel.powerMonitor)
-                case .battery(.fullPower): FullPowerNotchView(powerSourceMonitor: powerViewModel.powerMonitor)
-                    
-                case .systemHud(.display): HudDisplayView()
-                case .systemHud(.keyboard): HudKeyboardView()
-                case .systemHud(.volume): HudVolumeView()
-                    
-                case .vpn(.connected): VpnConnectView()
-                case .vpn(.disconnected) : VpnDisconnectView()
-                }
-            }
-            .id(notchViewModel.state.content)
-            .transition(
-                .blurAndFade
-                    .animation(.spring(duration: 0.5))
-                    .combined(with: .scale)
-                    .combined(with: .offset(y: notchViewModel.state.offsetYTransition))
-            )
+        if let content = notchViewModel.state.content {
+            content.makeView()
+                .id(content.id)
+                .transition(
+                    .blurAndFade
+                        .animation(.spring(duration: 0.5))
+                        .combined(with: .scale)
+                        .combined(with: .offset(y: notchViewModel.state.offsetYTransition))
+                )
         }
     }
     

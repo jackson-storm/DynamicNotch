@@ -11,14 +11,20 @@ import Combine
 @MainActor
 final class NotchEventCoordinator: ObservableObject {
     private let notchViewModel: NotchViewModel
+    private let bluetoothViewModel: BluetoothViewModel
+    private let powerSourceMonitor: PowerSourceMonitor
     
     private var isOnboardingActive: Bool {
-        notchViewModel.state.liveActivityContent == .onboarding ||
-        notchViewModel.state.temporaryNotificationContent == .onboarding
+        notchViewModel.state.liveActivityContent?.id == "onboarding" ||
+        notchViewModel.state.temporaryNotificationContent?.id == "onboarding"
     }
     
-    init(notchViewModel: NotchViewModel) {
+    init(notchViewModel: NotchViewModel,
+         bluetoothViewModel: BluetoothViewModel,
+         powerSourceMonitor: PowerSourceMonitor) {
         self.notchViewModel = notchViewModel
+        self.bluetoothViewModel = bluetoothViewModel
+        self.powerSourceMonitor = powerSourceMonitor
     }
     
     func checkFirstLaunch() {
@@ -33,19 +39,15 @@ final class NotchEventCoordinator: ObservableObject {
     
     func finishOnboarding() {
         UserDefaults.standard.set(true, forKey: "hasSeenOnboarding")
-        
-        withAnimation(.spring(response: 0.5)) {
-            notchViewModel.send(.hide)
-        }
+        notchViewModel.send(.hide)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.notchViewModel.send(.showLiveActivitiy(.none))
         }
     }
     
     func handleOnboardingEvent(_ event: OnboardingEvent) {
         switch event {
         case .onboarding:
-            notchViewModel.send(.showLiveActivitiy(.onboarding))
+            notchViewModel.send(.showLiveActivitiy(OnboardingNotchContent(notchEventCoordinator: self)))
         }
     }
     
@@ -54,7 +56,12 @@ final class NotchEventCoordinator: ObservableObject {
         
         switch event {
         case .connected:
-            notchViewModel.send(.showTemporaryNotification(.bluetooth, duration: 5))
+            notchViewModel.send(
+                .showTemporaryNotification(
+                    BluetoothNotchContent(bluetoothViewModel: bluetoothViewModel),
+                    duration: 5
+                )
+            )
         }
     }
     
@@ -63,9 +70,9 @@ final class NotchEventCoordinator: ObservableObject {
         
         switch event {
         case .connected:
-            notchViewModel.send(.showTemporaryNotification(.vpn(.connected), duration: 5))
+            notchViewModel.send(.showTemporaryNotification(VpnConnectedNotchContent(), duration: 5))
         case .disconnected:
-            notchViewModel.send(.showTemporaryNotification(.vpn(.disconnected), duration: 5))
+            notchViewModel.send(.showTemporaryNotification(VpnDisconnectedNotchContent(), duration: 5))
         }
     }
     
@@ -74,11 +81,11 @@ final class NotchEventCoordinator: ObservableObject {
         
         switch event {
         case .display:
-            notchViewModel.send(.showTemporaryNotification(.systemHud(.display), duration: 2))
+            notchViewModel.send(.showTemporaryNotification(HudDisplayNotchContent(), duration: 2))
         case .keyboard:
-            notchViewModel.send(.showTemporaryNotification(.systemHud(.keyboard), duration: 2))
+            notchViewModel.send(.showTemporaryNotification(HudKeyboardNotchContent(), duration: 2))
         case .volume:
-            notchViewModel.send(.showTemporaryNotification(.systemHud(.volume), duration: 2))
+            notchViewModel.send(.showTemporaryNotification(HudVolumeNotchContent(), duration: 2))
         }
     }
     
@@ -87,11 +94,11 @@ final class NotchEventCoordinator: ObservableObject {
         
         switch event {
         case .charger:
-            notchViewModel.send(.showTemporaryNotification(.battery(.charger), duration: 5))
+            notchViewModel.send(.showTemporaryNotification(ChargerNotchContent(powerMonitor: powerSourceMonitor), duration: 5))
         case .lowPower:
-            notchViewModel.send(.showTemporaryNotification(.battery(.lowPower), duration: 5))
+            notchViewModel.send(.showTemporaryNotification(LowPowerNotchContent(powerMonitor: powerSourceMonitor), duration: 5))
         case .fullPower:
-            notchViewModel.send(.showTemporaryNotification(.battery(.fullPower), duration: 5))
+            notchViewModel.send(.showTemporaryNotification(FullPowerNotchContent(powerMonitor: powerSourceMonitor), duration: 5))
         }
     }
 }

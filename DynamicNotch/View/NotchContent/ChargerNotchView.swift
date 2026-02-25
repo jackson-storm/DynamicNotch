@@ -1,5 +1,21 @@
 import SwiftUI
 
+struct ChargerNotchContent: NotchContentProvider {
+    let id = "battery.charger"
+    let powerMonitor: PowerSourceMonitor
+    
+    var strokeColor: Color { .green.opacity(0.3) }
+    
+    func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
+        return .init(width: baseWidth + 180, height: baseHeight)
+    }
+    
+    @MainActor
+    func makeView() -> AnyView {
+        AnyView(ChargerNotchView(powerSourceMonitor: powerMonitor))
+    }
+}
+
 struct ChargerNotchView: View {
     @Environment(\.notchScale) var scale
     @ObservedObject var powerSourceMonitor: PowerSourceMonitor

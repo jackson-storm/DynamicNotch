@@ -1,5 +1,19 @@
 import SwiftUI
 
+struct BluetoothNotchContent: NotchContentProvider {
+    let id = "bluetooth"
+    let bluetoothViewModel: BluetoothViewModel
+    
+    func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
+        return .init(width: baseWidth + 180, height: baseHeight)
+    }
+    
+    @MainActor
+    func makeView() -> AnyView {
+        AnyView(BluetoothNotchView(bluetoothViewModel: bluetoothViewModel))
+    }
+}
+
 struct BluetoothNotchView: View {
     @Environment(\.notchScale) var scale
     @ObservedObject var bluetoothViewModel: BluetoothViewModel

@@ -10,6 +10,7 @@ class PowerSourceMonitor: ObservableObject {
     
     private var runLoopSource: CFRunLoopSource?
     private let startMonitoring: Bool
+    private var cancellables = Set<AnyCancellable>()
 
     init(startMonitoring: Bool = true) {
         self.startMonitoring = startMonitoring
@@ -17,6 +18,7 @@ class PowerSourceMonitor: ObservableObject {
             setupPowerNotifications()
             updatePowerState()
             updateLowPowerMode()
+            setupLowPowerModeObserver()
         }
     }
     
@@ -77,6 +79,17 @@ class PowerSourceMonitor: ObservableObject {
         if let rls = IOPSNotificationCreateRunLoopSource(callback, context)?.takeRetainedValue() {
             CFRunLoopAddSource(CFRunLoopGetCurrent(), rls, .defaultMode)
             self.runLoopSource = rls
+        }
+    }
+    
+    private func setupLowPowerModeObserver() {
+        if #available(macOS 12.0, *) {
+            NotificationCenter.default.publisher(for: .NSProcessInfoPowerStateDidChange)
+                .receive(on: RunLoop.main)
+                .sink { [weak self] _ in
+                    self?.updateLowPowerMode()
+                }
+                .store(in: &cancellables)
         }
     }
 }

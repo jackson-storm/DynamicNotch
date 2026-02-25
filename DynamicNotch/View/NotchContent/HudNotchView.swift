@@ -1,5 +1,44 @@
 import SwiftUI
 
+struct HudDisplayNotchContent: NotchContentProvider {
+    let id = "hud.display"
+    
+    func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
+        return .init(width: baseWidth + 220, height: baseHeight)
+    }
+    
+    @MainActor
+    func makeView() -> AnyView {
+        AnyView(HudDisplayView())
+    }
+}
+
+struct HudKeyboardNotchContent: NotchContentProvider {
+    let id = "hud.keyboard"
+    
+    func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
+        return .init(width: baseWidth + 220, height: baseHeight)
+    }
+    
+    @MainActor
+    func makeView() -> AnyView {
+        AnyView(HudKeyboardView())
+    }
+}
+
+struct HudVolumeNotchContent: NotchContentProvider {
+    let id = "hud.volume"
+    
+    func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
+        return .init(width: baseWidth + 220, height: baseHeight)
+    }
+    
+    @MainActor
+    func makeView() -> AnyView {
+        AnyView(HudVolumeView())
+    }
+}
+
 struct HudDisplayView: View {
     var body: some View {
         HudContent(image: "sun.max.fill", text: "Display", level: 70)

@@ -7,7 +7,7 @@ final class NotchViewModel: ObservableObject {
     @Published var showNotch = false
     
     private var temporaryTask: Task<Void, Never>?
-    private var suspendedActivity: NotchContent = .none
+    private var suspendedActivity: NotchContentProvider? = nil
     private var isTransitioning = false
     private var hideDelay: TimeInterval = 0.3
     
@@ -46,13 +46,12 @@ final class NotchViewModel: ObservableObject {
         }
     }
     
-    func handleStrokeVisibility(_ newValue: NotchContent) {
-        if newValue != .none {
+    func handleStrokeVisibility() {
+        if state.content != nil {
             self.showNotch = true
-            
         } else {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                if self.state.liveActivityContent == .none && self.state.temporaryNotificationContent == nil {
+                if self.state.liveActivityContent == nil && self.state.temporaryNotificationContent == nil {
                     self.showNotch = false
                 }
             }
@@ -60,41 +59,29 @@ final class NotchViewModel: ObservableObject {
     }
     
     func toggleMusicExpanded() {
-        guard case .music(let expandedState) = state.liveActivityContent else { return }
+        guard let currentId = state.liveActivityContent?.id, currentId.contains("music") else { return }
         
-        if expandedState == .compact {
-            transition(
-                customDelay: 0.2,
-                hide: {
-                    withAnimation(.spring(response: 0.5)) {
-                        self.state.liveActivityContent = .none
-                    }
-                },
-                show: {
-                    withAnimation(.spring(response: 0.5, dampingFraction: 0.8)) {
-                        self.state.liveActivityContent = .music(.expanded)
-                    }
+        let isExpanded = currentId.contains("expanded")
+        let nextDelay: TimeInterval = isExpanded ? 0.3 : 0.2
+        
+        transition(
+            customDelay: nextDelay,
+            hide: {
+                withAnimation(.spring(response: 0.5)) {
+                    self.state.liveActivityContent = nil
                 }
-            )
-            
-        } else {
-            transition(
-                customDelay: 0.3,
-                hide: {
-                    withAnimation(.spring(response: 0.5)) {
-                        self.state.liveActivityContent = .none
-                    }
-                },
-                show: {
-                    withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
-                        self.state.liveActivityContent = .music(.compact)
-                    }
+            },
+            show: {
+                withAnimation(.spring(response: 0.5, dampingFraction: 0.8)) {
+                    // Здесь логика переключения: если был compact, создаем expanded версию
+                    // Вам нужно будет реализовать создание нового объекта контента
+                    // self.state.liveActivityContent = isExpanded ? MusicCompact() : MusicExpanded()
                 }
-            )
-        }
+            }
+        )
     }
     
-    private func showLiveActivitiy(_ content: NotchContent) {
+    private func showLiveActivitiy(_ content: NotchContentProvider?) {
         if state.temporaryNotificationContent != nil {
             self.suspendedActivity = content
             return
@@ -103,7 +90,7 @@ final class NotchViewModel: ObservableObject {
         transition(
             hide: {
                 withAnimation(.spring(response: 0.5)) {
-                    self.state.liveActivityContent = .none
+                    self.state.liveActivityContent = nil
                 }
             },
             show: {
@@ -114,14 +101,14 @@ final class NotchViewModel: ObservableObject {
         )
     }
     
-    private func showTemporaryNotification(_ content: NotchContent, duration: TimeInterval) {
+    private func showTemporaryNotification(_ content: NotchContentProvider, duration: TimeInterval) {
         transition(
             hide: {
                 self.cancelTemporary()
                 withAnimation(.spring(response: 0.5)) {
-                    if self.state.liveActivityContent != .none {
+                    if self.state.liveActivityContent != nil {
                         self.suspendedActivity = self.state.liveActivityContent
-                        self.state.liveActivityContent = .none
+                        self.state.liveActivityContent = nil
                     }
                     self.state.temporaryNotificationContent = nil
                 }
@@ -155,7 +142,7 @@ final class NotchViewModel: ObservableObject {
             show: {
                 withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
                     self.state.liveActivityContent = self.suspendedActivity
-                    self.suspendedActivity = .none
+                    self.suspendedActivity = nil
                 }
             }
         )

@@ -7,6 +7,34 @@
 
 import SwiftUI
 
+struct VpnConnectedNotchContent : NotchContentProvider {
+    let id = "vpn.connected"
+    
+    func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
+        return .init(width: baseWidth + 180, height: baseHeight)
+    }
+    
+    @MainActor
+    func makeView() -> AnyView {
+        AnyView(VpnConnectView())
+    }
+}
+
+struct VpnDisconnectedNotchContent : NotchContentProvider {
+    let id = "vpn.disconnected"
+    
+    var strokeColor: Color { .red.opacity(0.3) }
+    
+    func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
+        return .init(width: baseWidth + 220, height: baseHeight)
+    }
+    
+    @MainActor
+    func makeView() -> AnyView {
+        AnyView(VpnDisconnectView())
+    }
+}
+
 struct VpnConnectView: View {
     @Environment(\.notchScale) var scale
     

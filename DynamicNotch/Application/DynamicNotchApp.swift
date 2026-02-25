@@ -8,11 +8,14 @@ struct NotchApp: App {
     var body: some Scene {
         Settings {
             TabView {
-                NotchControlPanel(notchViewModel: appDelegate.notchViewModel)
-                    .tabItem {
-                        Image(systemName: "light.panel")
-                        Text("Notch Panel")
-                    }
+                NotchControlPanel(
+                    notchViewModel: appDelegate.notchViewModel,
+                    notchEventCoordinator: appDelegate.notchEventCoordinator
+                )
+                .tabItem {
+                    Image(systemName: "light.panel")
+                    Text("Notch Panel")
+                }
                 
                 SettingsView()
                     .tabItem {
@@ -30,14 +33,28 @@ struct NotchApp: App {
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
     let notchViewModel = NotchViewModel()
-    lazy var notchEventCoordinator = NotchEventCoordinator(notchViewModel: notchViewModel)
     
-    let powerViewModel = PowerViewModel(powerMonitor: PowerSourceMonitor())
-    let playerViewModel = PlayerViewModel()
+    // Совместно используемый монитор питания
+    let powerSourceMonitor = PowerSourceMonitor()
+    
+    // VM, которые также используются в контенте
     let bluetoothViewModel = BluetoothViewModel()
+    let powerViewModel: PowerViewModel
+    let playerViewModel = PlayerViewModel()
     let vpnViewModel = VpnViewModel()
     
+    lazy var notchEventCoordinator = NotchEventCoordinator(
+        notchViewModel: notchViewModel,
+        bluetoothViewModel: bluetoothViewModel,
+        powerSourceMonitor: powerSourceMonitor
+    )
+    
     var window: NSWindow!
+    
+    override init() {
+        self.powerViewModel = PowerViewModel(powerMonitor: powerSourceMonitor)
+        super.init()
+    }
     
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(.accessory)

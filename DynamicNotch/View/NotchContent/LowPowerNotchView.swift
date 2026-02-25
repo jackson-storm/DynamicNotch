@@ -1,5 +1,26 @@
 import SwiftUI
 
+struct LowPowerNotchContent: NotchContentProvider {
+    let id = "battery.lowPower"
+    let powerMonitor: PowerSourceMonitor
+    
+    var strokeColor: Color { .red.opacity(0.3) }
+    var offsetYTransition: CGFloat { -60 }
+    
+    func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
+        return .init(width: baseWidth + 100, height: baseHeight + 75)
+    }
+    
+    func cornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
+        return (top: 22, bottom: 40)
+    }
+    
+    @MainActor
+    func makeView() -> AnyView {
+        AnyView(LowPowerNotchView(powerSourceMonitor: powerMonitor))
+    }
+}
+
 struct LowPowerNotchView: View {
     @ObservedObject var powerSourceMonitor: PowerSourceMonitor
     @State private var pulse = false
@@ -64,11 +85,14 @@ struct LowPowerNotchView: View {
         if powerSourceMonitor.isLowPowerMode {
             Text("Low Power Mode enabled")
                 .foregroundColor(.yellow)
+                .font(.system(size: 10, weight: .medium))
+            
             + Text(", it is recommended to charge it.")
                 .foregroundColor(.gray.opacity(0.6))
                 .font(.system(size: 10, weight: .medium))
+            
         } else {
-            Text("Turn on Low Power Mode or it is recommended to charge it.")
+            Text("Turn on Low Power Mode or it \nis recommended to charge it.")
                 .font(.system(size: 10, weight: .medium))
                 .foregroundStyle(.gray.opacity(0.6))
                 .lineLimit(2)
@@ -91,6 +115,7 @@ struct LowPowerNotchView: View {
                     .fill(.red.opacity(0.4))
                     .frame(width: 3, height: 8)
             }
+            .padding(.trailing, 5)
             
             RoundedRectangle(cornerRadius: 8)
                 .fill(Color.red.gradient)
@@ -123,6 +148,7 @@ struct LowPowerNotchView: View {
                     .fill(.yellow.opacity(0.4))
                     .frame(width: 3, height: 8)
             }
+            .padding(.trailing, 5)
             
             RoundedRectangle(cornerRadius: 8)
                 .fill(.yellow.gradient)

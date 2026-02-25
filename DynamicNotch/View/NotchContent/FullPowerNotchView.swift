@@ -1,5 +1,26 @@
 import SwiftUI
 
+struct FullPowerNotchContent: NotchContentProvider {
+    let id = "battery.fullPower"
+    let powerMonitor: PowerSourceMonitor
+    
+    var strokeColor: Color { .green.opacity(0.3) }
+    var offsetYTransition: CGFloat { -60 }
+    
+    func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
+        return .init(width: baseWidth + 80, height: baseHeight + 70)
+    }
+    
+    func cornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
+        return (top: 18, bottom: 36)
+    }
+    
+    @MainActor
+    func makeView() -> AnyView {
+        AnyView(FullPowerNotchView(powerSourceMonitor: powerMonitor))
+    }
+}
+
 struct FullPowerNotchView: View {
     @ObservedObject var powerSourceMonitor: PowerSourceMonitor
     

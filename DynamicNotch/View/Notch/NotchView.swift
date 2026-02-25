@@ -46,9 +46,7 @@ private extension NotchView {
         )
         .fill(.black)
         .stroke(notchViewModel.showNotch ? notchViewModel.state.strokeColor : Color.clear, lineWidth: 2)
-        .overlay {
-            contentOverlay
-        }
+        .overlay { contentOverlay }
         .customNotchPressable(isPressed: $isPressed, baseSize: notchViewModel.state.size)
         .frame(width: notchViewModel.state.size.width, height: notchViewModel.state.size.height)
         .contextMenu { contextMenuItem }

@@ -5,11 +5,6 @@
 //  Created by Евгений Петрукович on 2/18/26.
 //
 
-//
-//  notchModel.swift
-//  DynamicNotch
-//
-
 import Foundation
 import SwiftUI
 

@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct PlayerCompactNotchContent: NotchContentProvider {
+struct PlayerCompactNotchContent: NotchContentProtocol {
     let id = "player.compact"
     let playerViewModel: PlayerViewModel
     
@@ -14,7 +14,7 @@ struct PlayerCompactNotchContent: NotchContentProvider {
     }
 }
 
-struct PlayerExpandedNotchContent: NotchContentProvider {
+struct PlayerExpandedNotchContent: NotchContentProtocol {
     let id = "player.expanded"
     let playerViewModel: PlayerViewModel
     
@@ -32,7 +32,7 @@ struct PlayerExpandedNotchContent: NotchContentProvider {
     }
 }
 
-struct PlayerNotchLarge: View {
+private struct PlayerNotchLarge: View {
     @Environment(\.notchScale) var scale
     @ObservedObject var playerViewModel: PlayerViewModel
     
@@ -141,7 +141,7 @@ struct PlayerNotchLarge: View {
     }
 }
 
-struct PlayerNotchSmall: View {
+private struct PlayerNotchSmall: View {
     @ObservedObject var playerViewModel: PlayerViewModel
     
     @Environment(\.notchScale) var scale

@@ -33,15 +33,12 @@ struct NotchApp: App {
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
     let notchViewModel = NotchViewModel()
-    
-    // Совместно используемый монитор питания
     let powerSourceMonitor = PowerSourceMonitor()
-    
-    // VM, которые также используются в контенте
     let bluetoothViewModel = BluetoothViewModel()
     let powerViewModel: PowerViewModel
     let playerViewModel = PlayerViewModel()
     let vpnViewModel = VpnViewModel()
+    let wifiViewModel = WiFiViewModel()
     
     lazy var notchEventCoordinator = NotchEventCoordinator(
         notchViewModel: notchViewModel,
@@ -120,6 +117,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 playerViewModel: playerViewModel,
                 bluetoothViewModel: bluetoothViewModel,
                 vpnViewModel: vpnViewModel,
+                wifiViewModel: wifiViewModel,
                 window: window
             )
         )

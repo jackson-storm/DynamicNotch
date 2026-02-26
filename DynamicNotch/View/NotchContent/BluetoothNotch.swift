@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct BluetoothNotchContent: NotchContentProvider {
+struct BluetoothNotchContent: NotchContentProtocol {
     let id = "bluetooth"
     let bluetoothViewModel: BluetoothViewModel
     
@@ -14,7 +14,7 @@ struct BluetoothNotchContent: NotchContentProvider {
     }
 }
 
-struct BluetoothNotchView: View {
+private struct BluetoothNotchView: View {
     @Environment(\.notchScale) var scale
     @ObservedObject var bluetoothViewModel: BluetoothViewModel
     @State private var isSecondText = false

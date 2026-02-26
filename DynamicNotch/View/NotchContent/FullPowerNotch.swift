@@ -1,10 +1,10 @@
 import SwiftUI
 
-struct FullPowerNotchContent: NotchContentProvider {
+struct FullPowerNotchContent: NotchContentProtocol {
     let id = "battery.fullPower"
     let powerMonitor: PowerSourceMonitor
     
-    var strokeColor: Color { .green.opacity(0.3) }
+    var strokeColor: Color { powerMonitor.isLowPowerMode ? .yellow.opacity(0.3) : .green.opacity(0.3) }
     var offsetYTransition: CGFloat { -60 }
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
@@ -21,7 +21,7 @@ struct FullPowerNotchContent: NotchContentProvider {
     }
 }
 
-struct FullPowerNotchView: View {
+private struct FullPowerNotchView: View {
     @ObservedObject var powerSourceMonitor: PowerSourceMonitor
     
     @State private var pulse = false

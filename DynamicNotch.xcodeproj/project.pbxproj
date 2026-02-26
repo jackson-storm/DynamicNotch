@@ -298,9 +298,10 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DynamicNotch/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_NSAppleEventsUsageDescription = "Нам нужен доступ к медиа-данным для отображения в Notch.";
-				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Приложению нужен доступ к Bluetooth для проверки статуса устройств.";
+				INFOPLIST_KEY_NSAppleEventsUsageDescription = "We need access to media data for display in Notch.";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "The app requires Bluetooth access to check the status of devices.";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "The app requires access to your location to determine the name of your current Wi-Fi network.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -348,9 +349,10 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DynamicNotch/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_NSAppleEventsUsageDescription = "Нам нужен доступ к медиа-данным для отображения в Notch.";
-				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Приложению нужен доступ к Bluetooth для проверки статуса устройств.";
+				INFOPLIST_KEY_NSAppleEventsUsageDescription = "We need access to media data for display in Notch.";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "The app requires Bluetooth access to check the status of devices.";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "The app requires access to your location to determine the name of your current Wi-Fi network.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",

@@ -26,6 +26,11 @@ enum VpnEvent {
     case disconnected
 }
 
+enum WiFiEvent {
+    case connected
+    case disconnected
+}
+
 enum HudEvent {
     case volume
     case display

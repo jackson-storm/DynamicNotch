@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct OnboardingNotchContent : NotchContentProvider {
+struct OnboardingNotchContent : NotchContentProtocol {
     let id = "onboarding"
     let notchEventCoordinator: NotchEventCoordinator
     
@@ -27,7 +27,7 @@ struct OnboardingNotchContent : NotchContentProvider {
     }
 }
 
-struct OnboardingNotchView: View {
+private struct OnboardingNotchView: View {
     @Environment(\.notchScale) var scale
     @ObservedObject var notchEventCoordinator: NotchEventCoordinator
     @State private var imageAppear = false

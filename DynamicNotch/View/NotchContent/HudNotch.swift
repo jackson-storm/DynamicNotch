@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct HudDisplayNotchContent: NotchContentProvider {
+struct HudDisplayNotchContent: NotchContentProtocol {
     let id = "hud.display"
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
@@ -13,7 +13,7 @@ struct HudDisplayNotchContent: NotchContentProvider {
     }
 }
 
-struct HudKeyboardNotchContent: NotchContentProvider {
+struct HudKeyboardNotchContent: NotchContentProtocol {
     let id = "hud.keyboard"
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
@@ -26,7 +26,7 @@ struct HudKeyboardNotchContent: NotchContentProvider {
     }
 }
 
-struct HudVolumeNotchContent: NotchContentProvider {
+struct HudVolumeNotchContent: NotchContentProtocol {
     let id = "hud.volume"
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
@@ -39,19 +39,19 @@ struct HudVolumeNotchContent: NotchContentProvider {
     }
 }
 
-struct HudDisplayView: View {
+private struct HudDisplayView: View {
     var body: some View {
         HudContent(image: "sun.max.fill", text: "Display", level: 70)
     }
 }
 
-struct HudKeyboardView: View {
+private struct HudKeyboardView: View {
     var body: some View {
         HudContent(image: "light.max", text: "Keyboard", level: 10)
     }
 }
 
-struct HudVolumeView: View {
+private struct HudVolumeView: View {
     var body: some View {
         HudContent(image: "speaker.wave.3.fill", text: "Volume", level: 50)
     }

@@ -15,13 +15,11 @@ final class NotchEventCoordinator: ObservableObject {
     private let powerSourceMonitor: PowerSourceMonitor
     
     private var isOnboardingActive: Bool {
-        notchViewModel.state.liveActivityContent?.id == "onboarding" ||
-        notchViewModel.state.temporaryNotificationContent?.id == "onboarding"
+        notchViewModel.notchModel.liveActivityContent?.id == "onboarding" ||
+        notchViewModel.notchModel.temporaryNotificationContent?.id == "onboarding"
     }
     
-    init(notchViewModel: NotchViewModel,
-         bluetoothViewModel: BluetoothViewModel,
-         powerSourceMonitor: PowerSourceMonitor) {
+    init(notchViewModel: NotchViewModel, bluetoothViewModel: BluetoothViewModel, powerSourceMonitor: PowerSourceMonitor) {
         self.notchViewModel = notchViewModel
         self.bluetoothViewModel = bluetoothViewModel
         self.powerSourceMonitor = powerSourceMonitor
@@ -73,6 +71,17 @@ final class NotchEventCoordinator: ObservableObject {
             notchViewModel.send(.showTemporaryNotification(VpnConnectedNotchContent(), duration: 5))
         case .disconnected:
             notchViewModel.send(.showTemporaryNotification(VpnDisconnectedNotchContent(), duration: 5))
+        }
+    }
+    
+    func handleWifiEvent(_ event: WiFiEvent) {
+        guard !isOnboardingActive else { return }
+        
+        switch event {
+        case .connected:
+            notchViewModel.send(.showTemporaryNotification(WifiConnectedNotchContent(), duration: 5))
+        case .disconnected:
+            notchViewModel.send(.showTemporaryNotification(WifiDisconnectedNotchContent(), duration: 5))
         }
     }
     

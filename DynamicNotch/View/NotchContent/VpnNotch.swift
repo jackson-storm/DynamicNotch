@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct VpnConnectedNotchContent : NotchContentProvider {
+struct VpnConnectedNotchContent : NotchContentProtocol {
     let id = "vpn.connected"
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
@@ -20,7 +20,7 @@ struct VpnConnectedNotchContent : NotchContentProvider {
     }
 }
 
-struct VpnDisconnectedNotchContent : NotchContentProvider {
+struct VpnDisconnectedNotchContent : NotchContentProtocol {
     let id = "vpn.disconnected"
     
     var strokeColor: Color { .red.opacity(0.3) }
@@ -35,7 +35,7 @@ struct VpnDisconnectedNotchContent : NotchContentProvider {
     }
 }
 
-struct VpnConnectView: View {
+private struct VpnConnectView: View {
     @Environment(\.notchScale) var scale
     
     var body: some View {
@@ -66,7 +66,7 @@ struct VpnConnectView: View {
     }
 }
 
-struct VpnDisconnectView: View {
+private struct VpnDisconnectView: View {
     @Environment(\.notchScale) var scale
     
     var body: some View {

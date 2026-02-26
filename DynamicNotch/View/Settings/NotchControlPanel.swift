@@ -110,6 +110,18 @@ struct NotchControlPanel: View {
                 } label: {
                     Label("Vpn Disconnected", systemImage: "network.slash")
                 }
+                
+                Button {
+                    notchEventCoordinator.handleWifiEvent(.connected)
+                } label: {
+                    Label("WiFi Connected", systemImage: "wifi")
+                }
+                
+                Button {
+                    notchEventCoordinator.handleWifiEvent(.disconnected)
+                } label: {
+                    Label("WiFi Disconnected", systemImage: "wifi.slash")
+                }
             }
             .controlGroupStyle(.automatic)
             

@@ -3,11 +3,12 @@ import Combine
 
 @MainActor
 final class NotchViewModel: ObservableObject {
-    @Published private(set) var state = NotchModel()
+    @Published private(set) var notchModel = NotchModel()
     @Published var showNotch = false
+    @Published var showStroke = false
     
     private var temporaryTask: Task<Void, Never>?
-    private var suspendedActivity: NotchContentProvider? = nil
+    private var suspendedActivity: NotchContentProtocol? = nil
     private var isTransitioning = false
     private var hideDelay: TimeInterval = 0.3
     
@@ -22,19 +23,19 @@ final class NotchViewModel: ObservableObject {
         let topInset = screen.safeAreaInsets.top
         let baseScreenWidth: CGFloat = 1440.0
         
-        state.scale = max(0.35, screenWidth / baseScreenWidth)
+        notchModel.scale = max(0.35, screenWidth / baseScreenWidth)
         
         if topInset > 0 {
-            state.baseHeight = topInset
-            state.baseWidth = 188 * state.scale
+            notchModel.baseHeight = topInset
+            notchModel.baseWidth = 188 * notchModel.scale
         } else {
-            state.baseHeight = 32 * state.scale
-            state.baseWidth = 200 * state.scale
+            notchModel.baseHeight = 32 * notchModel.scale
+            notchModel.baseWidth = 200 * notchModel.scale
         }
     }
     
-    func send(_ notchEvent: NotchEvent) {
-        switch notchEvent {
+    func send(_ notchState: NotchState) {
+        switch notchState {
         case .showLiveActivitiy(let content):
             showLiveActivitiy(content)
             
@@ -47,11 +48,18 @@ final class NotchViewModel: ObservableObject {
     }
     
     func handleStrokeVisibility() {
-        if state.content != nil {
-            self.showNotch = true
+        if notchModel.content != nil {
+            showStroke = true
+            showNotch = true
+            
         } else {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                if self.state.liveActivityContent == nil && self.state.temporaryNotificationContent == nil {
+            let delay = hideDelay + 0.5
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
+                guard let self else { return }
+                
+                if self.notchModel.content == nil {
+                    self.showStroke = false
                     self.showNotch = false
                 }
             }
@@ -59,7 +67,7 @@ final class NotchViewModel: ObservableObject {
     }
     
     func toggleMusicExpanded() {
-        guard let currentId = state.liveActivityContent?.id, currentId.contains("music") else { return }
+        guard let currentId = notchModel.liveActivityContent?.id, currentId.contains("music") else { return }
         
         let isExpanded = currentId.contains("expanded")
         let nextDelay: TimeInterval = isExpanded ? 0.3 : 0.2
@@ -68,7 +76,7 @@ final class NotchViewModel: ObservableObject {
             customDelay: nextDelay,
             hide: {
                 withAnimation(.spring(response: 0.5)) {
-                    self.state.liveActivityContent = nil
+                    self.notchModel.liveActivityContent = nil
                 }
             },
             show: {
@@ -81,8 +89,8 @@ final class NotchViewModel: ObservableObject {
         )
     }
     
-    private func showLiveActivitiy(_ content: NotchContentProvider?) {
-        if state.temporaryNotificationContent != nil {
+    private func showLiveActivitiy(_ content: NotchContentProtocol?) {
+        if notchModel.temporaryNotificationContent != nil {
             self.suspendedActivity = content
             return
         }
@@ -90,32 +98,32 @@ final class NotchViewModel: ObservableObject {
         transition(
             hide: {
                 withAnimation(.spring(response: 0.5)) {
-                    self.state.liveActivityContent = nil
+                    self.notchModel.liveActivityContent = nil
                 }
             },
             show: {
                 withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
-                    self.state.liveActivityContent = content
+                    self.notchModel.liveActivityContent = content
                 }
             }
         )
     }
     
-    private func showTemporaryNotification(_ content: NotchContentProvider, duration: TimeInterval) {
+    private func showTemporaryNotification(_ content: NotchContentProtocol, duration: TimeInterval) {
         transition(
             hide: {
                 self.cancelTemporary()
                 withAnimation(.spring(response: 0.5)) {
-                    if self.state.liveActivityContent != nil {
-                        self.suspendedActivity = self.state.liveActivityContent
-                        self.state.liveActivityContent = nil
+                    if self.notchModel.liveActivityContent != nil {
+                        self.suspendedActivity = self.notchModel.liveActivityContent
+                        self.notchModel.liveActivityContent = nil
                     }
-                    self.state.temporaryNotificationContent = nil
+                    self.notchModel.temporaryNotificationContent = nil
                 }
             },
             show: {
                 withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
-                    self.state.temporaryNotificationContent = content
+                    self.notchModel.temporaryNotificationContent = content
                 }
                 
                 if duration.isInfinite { return }
@@ -136,12 +144,12 @@ final class NotchViewModel: ObservableObject {
         transition(
             hide: {
                 withAnimation(.spring(response: 0.5)) {
-                    self.state.temporaryNotificationContent = nil
+                    self.notchModel.temporaryNotificationContent = nil
                 }
             },
             show: {
                 withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
-                    self.state.liveActivityContent = self.suspendedActivity
+                    self.notchModel.liveActivityContent = self.suspendedActivity
                     self.suspendedActivity = nil
                 }
             }

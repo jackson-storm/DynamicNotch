@@ -1,18 +1,18 @@
 //
-//  NetworkViewModel.swift
+//  WifiViewModel.swift
 //  DynamicNotch
 //
-//  Created by Евгений Петрукович on 2/21/26.
+//  Created by Евгений Петрукович on 2/26/26.
 //
 
-import Combine
 import Foundation
+import Combine
 
-final class VpnViewModel: ObservableObject {
+final class WiFiViewModel: ObservableObject {
     @Published var isConnected: Bool = false
-    @Published var event: VpnEvent? = nil
+    @Published var event: WiFiEvent? = nil
     
-    private let monitor = VpnMonitor()
+    private let monitor = WiFiMonitor()
     private var isInitialCheck = true
     
     init() {
@@ -32,6 +32,7 @@ final class VpnViewModel: ObservableObject {
                         self.event = .disconnected
                     }
                 }
+                
                 self.isConnected = connected
             
                 if self.isInitialCheck {

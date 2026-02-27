@@ -38,11 +38,6 @@ struct NotchControlPanel: View {
                 } label: {
                     Label("Onboarding", systemImage: "clipboard")
                 }
-//                Button {
-//                    notchEventCoordinator.handleWifiEvent(.active)
-//                } label: {
-//                    Label("hotspot", systemImage: "personalhotspot")
-//                }
             }
         }
     }
@@ -80,7 +75,12 @@ struct NotchControlPanel: View {
                 Button {
                     notchEventCoordinator.handleBluetoothEvent(.connected)
                 } label: {
-                    Label("Bluetooth", systemImage: "headphones")
+                    Label("Bluetooth con", systemImage: "headphones")
+                }
+                Button {
+                    notchEventCoordinator.handleBluetoothEvent(.disconnected)
+                } label: {
+                    Label("Bluetooth dis", systemImage: "headphones.slash")
                 }
                 
                 Button {

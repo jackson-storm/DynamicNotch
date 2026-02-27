@@ -11,7 +11,7 @@ struct OnboardingNotchContent : NotchContentProtocol {
     let id = "onboarding"
     let notchEventCoordinator: NotchEventCoordinator
     
-    var offsetYTransition: CGFloat { -60 }
+    var offsetYTransition: CGFloat { -90 }
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         return .init(width: baseWidth + 70, height: baseHeight + 120)

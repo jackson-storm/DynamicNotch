@@ -37,7 +37,7 @@ extension BluetoothDeviceType {
     }
 }
 
-final class BluetoothMonitor {
+final class BluetoothService {
     func getLatestDeviceInfo() -> (isConnected: Bool, name: String, battery: Int?, type: BluetoothDeviceType) {
         guard let devices = IOBluetoothDevice.pairedDevices() as? [IOBluetoothDevice] else {
             return (false, "Unknown", nil, .unknown)

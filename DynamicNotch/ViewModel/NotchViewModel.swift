@@ -9,6 +9,7 @@ final class NotchViewModel: ObservableObject {
     
     private var temporaryTask: Task<Void, Never>?
     private var suspendedActivity: NotchContentProtocol? = nil
+    
     private var isTransitioning = false
     private var hideDelay: TimeInterval = 0.3
     

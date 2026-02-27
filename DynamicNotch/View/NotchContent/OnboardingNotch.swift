@@ -70,27 +70,3 @@ private struct OnboardingNotchView: View {
         .foregroundStyle(.white)
     }
 }
-
-#Preview {
-    let notchVM = NotchViewModel()
-    let bluetoothVM = BluetoothViewModel()
-    let powerMonitor = PowerSourceMonitor()
-    let coordinator = NotchEventCoordinator(
-        notchViewModel: notchVM,
-        bluetoothViewModel: bluetoothVM,
-        powerSourceMonitor: powerMonitor
-    )
-    
-    return ZStack(alignment: .top) {
-        NotchShape(topCornerRadius: 28, bottomCornerRadius: 36)
-            .fill(.black)
-            .stroke(.white.opacity(0.1), lineWidth: 1)
-            .overlay(OnboardingNotchView(notchEventCoordinator: coordinator))
-            .frame(width: 296, height: 178)
-        
-        NotchShape(topCornerRadius: 9, bottomCornerRadius: 13)
-            .stroke(.red, lineWidth: 1)
-            .frame(width: 226, height: 38)
-    }
-    .frame(width: 350, height: 200, alignment: .top)
-}

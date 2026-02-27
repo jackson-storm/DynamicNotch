@@ -43,7 +43,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     lazy var notchEventCoordinator = NotchEventCoordinator(
         notchViewModel: notchViewModel,
         bluetoothViewModel: bluetoothViewModel,
-        powerSourceMonitor: powerSourceMonitor
+        powerSourceMonitor: powerSourceMonitor,
+        wifiViewModel: wifiViewModel
     )
     
     var window: NSWindow!

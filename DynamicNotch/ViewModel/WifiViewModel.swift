@@ -7,10 +7,12 @@
 
 import Foundation
 import Combine
+import SwiftUI
 
 final class WiFiViewModel: ObservableObject {
-    @Published var isConnected: Bool = false
     @Published var event: WiFiEvent? = nil
+    @Published var isConnected: Bool = false
+    @Published var isHotspot: Bool = false
     
     private let monitor = WiFiMonitor()
     private var isInitialCheck = true
@@ -18,9 +20,9 @@ final class WiFiViewModel: ObservableObject {
     init() {
         setupMonitoring()
     }
-
+    
     private func setupMonitoring() {
-        monitor.onStatusChange = { [weak self] connected in
+        monitor.onStatusChange = { [weak self] connected, hotspot in
             DispatchQueue.main.async {
                 guard let self = self else { return }
                 
@@ -34,7 +36,8 @@ final class WiFiViewModel: ObservableObject {
                 }
                 
                 self.isConnected = connected
-            
+                self.isHotspot = hotspot
+                
                 if self.isInitialCheck {
                     self.isInitialCheck = false
                 }

@@ -13,16 +13,23 @@ final class NotchEventCoordinator: ObservableObject {
     private let notchViewModel: NotchViewModel
     private let bluetoothViewModel: BluetoothViewModel
     private let powerSourceMonitor: PowerSourceMonitor
+    private let wifiViewModel: WiFiViewModel
     
     private var isOnboardingActive: Bool {
         notchViewModel.notchModel.liveActivityContent?.id == "onboarding" ||
         notchViewModel.notchModel.temporaryNotificationContent?.id == "onboarding"
     }
     
-    init(notchViewModel: NotchViewModel, bluetoothViewModel: BluetoothViewModel, powerSourceMonitor: PowerSourceMonitor) {
+    init (
+        notchViewModel: NotchViewModel,
+        bluetoothViewModel: BluetoothViewModel,
+        powerSourceMonitor: PowerSourceMonitor,
+        wifiViewModel: WiFiViewModel
+    ) {
         self.notchViewModel = notchViewModel
         self.bluetoothViewModel = bluetoothViewModel
         self.powerSourceMonitor = powerSourceMonitor
+        self.wifiViewModel = wifiViewModel
     }
     
     func checkFirstLaunch() {
@@ -79,9 +86,9 @@ final class NotchEventCoordinator: ObservableObject {
         
         switch event {
         case .connected:
-            notchViewModel.send(.showTemporaryNotification(WifiConnectedNotchContent(), duration: 5))
+            notchViewModel.send(.showTemporaryNotification(WifiConnectedNotchContent(wifiViewModel: wifiViewModel), duration: 5))
         case .disconnected:
-            notchViewModel.send(.showTemporaryNotification(WifiDisconnectedNotchContent(), duration: 5))
+            notchViewModel.send(.showTemporaryNotification(WifiDisconnectedNotchContent(wifiViewModel: wifiViewModel), duration: 5))
         }
     }
     

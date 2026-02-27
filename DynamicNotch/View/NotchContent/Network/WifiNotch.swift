@@ -9,6 +9,7 @@ import SwiftUI
 
 struct WifiConnectedNotchContent: NotchContentProtocol {
     let id = "wifi.connected"
+    var group = "wifi"
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         return .init(width: baseWidth + 180, height: baseHeight)
@@ -22,6 +23,7 @@ struct WifiConnectedNotchContent: NotchContentProtocol {
 
 struct WifiDisconnectedNotchContent: NotchContentProtocol {
     let id = "wifi.disconnect"
+    var group = "wifi"
     
     var strokeColor: Color { .red.opacity(0.3) }
     

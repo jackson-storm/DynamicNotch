@@ -24,9 +24,11 @@ struct NotchCustomScaleModifier: ViewModifier {
             )
             .frame(height: baseSize.height, alignment: .top)
             .animation(.spring(response: 0.3, dampingFraction: 0.5), value: isPressed)
-            .onLongPressGesture(minimumDuration: .infinity, maximumDistance: .infinity, pressing: { pressing in
-                self.isPressed = pressing
-            }, perform: {})
+            .gesture(
+                DragGesture(minimumDistance: 0)
+                    .onChanged { _ in isPressed = true }
+                    .onEnded { _ in isPressed = false }
+            )
     }
 }
 

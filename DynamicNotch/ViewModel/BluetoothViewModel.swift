@@ -21,7 +21,7 @@ final class BluetoothViewModel: ObservableObject {
     
     private var hasHandledInitialState = false
     private var isInitialized = false
-    private var monitor = BluetoothMonitor()
+    private var bluetoothService = BluetoothService()
     private var cancellables = Set<AnyCancellable>()
     
     init(notchViewModel: NotchViewModel? = nil) {
@@ -49,7 +49,7 @@ final class BluetoothViewModel: ObservableObject {
     }
     
     private func checkBluetooth() {
-        let info = monitor.getLatestDeviceInfo()
+        let info = bluetoothService.getLatestDeviceInfo()
         
         DispatchQueue.main.async {
             
@@ -67,6 +67,10 @@ final class BluetoothViewModel: ObservableObject {
                 self.event = .connected
             }
             
+            if !info.isConnected && self.isConnected {
+                self.event = .disconnected
+            }
+            
             self.isConnected = info.isConnected
             self.deviceName = info.name
             self.batteryLevel = info.battery
@@ -80,7 +84,17 @@ final class BluetoothViewModel: ObservableObject {
             object: nil,
             queue: .main
         ) { [weak self] _ in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                self?.checkBluetooth()
+            }
+        }
+        
+        NotificationCenter.default.addObserver(
+            forName: NSNotification.Name("IOBluetoothDeviceDisconnectNotification"),
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 self?.checkBluetooth()
             }
         }

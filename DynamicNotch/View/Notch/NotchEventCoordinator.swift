@@ -61,12 +61,10 @@ final class NotchEventCoordinator: ObservableObject {
         
         switch event {
         case .connected:
-            notchViewModel.send(
-                .showTemporaryNotification(
-                    BluetoothNotchContent(bluetoothViewModel: bluetoothViewModel),
-                    duration: 5
-                )
-            )
+            notchViewModel.send(.showTemporaryNotification(BluetoothConnectedNotchContent(bluetoothViewModel: bluetoothViewModel), duration: 5))
+            
+        case .disconnected:
+            notchViewModel.send(.showTemporaryNotification(BluetoothDisconnectedNotchContent(), duration: 5))
         }
     }
     
@@ -75,10 +73,10 @@ final class NotchEventCoordinator: ObservableObject {
         
         switch event {
         case .connected:
-            notchViewModel.send(.showTemporaryNotification(VpnConnectedNotchContent(), duration: 5))
+            notchViewModel.send(.showTemporaryNotification(VpnConnectedNotchContent(), duration: 3))
             
         case .disconnected:
-            notchViewModel.send(.showTemporaryNotification(VpnDisconnectedNotchContent(), duration: 5))
+            notchViewModel.send(.showTemporaryNotification(VpnDisconnectedNotchContent(), duration: 3))
         }
     }
     
@@ -87,9 +85,10 @@ final class NotchEventCoordinator: ObservableObject {
         
         switch event {
         case .connected:
-            notchViewModel.send(.showTemporaryNotification(WifiConnectedNotchContent(), duration: 5))
+            notchViewModel.send(.showTemporaryNotification(WifiConnectedNotchContent(), duration: 3))
+            
         case .disconnected:
-            notchViewModel.send(.showTemporaryNotification(WifiDisconnectedNotchContent(), duration: 5))
+            notchViewModel.send(.showTemporaryNotification(WifiDisconnectedNotchContent(), duration: 3))
         }
     }
 
@@ -104,10 +103,10 @@ final class NotchEventCoordinator: ObservableObject {
             if notchViewModel.notchModel.liveActivityContent?.id == "hotspot.active" {
                 notchViewModel.send(.hide)
             }
-            notchViewModel.send(.showTemporaryNotification(HotspotDisconnectedNotchContent(), duration: 5))
+            notchViewModel.send(.showTemporaryNotification(HotspotDisconnectedNotchContent(), duration: 3))
             
         case .connected:
-            notchViewModel.send(.showTemporaryNotification(HotspotConnectedContent(), duration: 5))
+            notchViewModel.send(.showTemporaryNotification(HotspotConnectedContent(), duration: 3))
         }
     }
     
@@ -131,13 +130,13 @@ final class NotchEventCoordinator: ObservableObject {
         
         switch event {
         case .charger:
-            notchViewModel.send(.showTemporaryNotification(ChargerNotchContent(powerService: powerService), duration: 5))
+            notchViewModel.send(.showTemporaryNotification(ChargerNotchContent(powerService: powerService), duration: 4))
             
         case .lowPower:
-            notchViewModel.send(.showTemporaryNotification(LowPowerNotchContent(powerService: powerService), duration: 5))
+            notchViewModel.send(.showTemporaryNotification(LowPowerNotchContent(powerService: powerService), duration: 4))
             
         case .fullPower:
-            notchViewModel.send(.showTemporaryNotification(FullPowerNotchContent(powerService: powerService), duration: 5))
+            notchViewModel.send(.showTemporaryNotification(FullPowerNotchContent(powerService: powerService), duration: 4))
         }
     }
 }

@@ -2,7 +2,7 @@ import Foundation
 import IOKit.ps
 import Combine
 
-class PowerSourceMonitor: ObservableObject {
+final class PowerService: ObservableObject {
     @Published private(set) var onACPower: Bool = false
     @Published private(set) var batteryLevel: Int = 0
     @Published var isCharging: Bool = false
@@ -69,7 +69,7 @@ class PowerSourceMonitor: ObservableObject {
     private func setupPowerNotifications() {
         let callback: IOPowerSourceCallbackType = { context in
             guard let context = context else { return }
-            let instance = Unmanaged<PowerSourceMonitor>.fromOpaque(context).takeUnretainedValue()
+            let instance = Unmanaged<PowerService>.fromOpaque(context).takeUnretainedValue()
             DispatchQueue.main.async {
                 instance.updatePowerState()
                 instance.updateLowPowerMode()

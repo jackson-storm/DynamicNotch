@@ -33,23 +33,23 @@ struct NotchApp: App {
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
     let notchViewModel = NotchViewModel()
-    let powerSourceMonitor = PowerSourceMonitor()
+    let powerService = PowerService()
     let bluetoothViewModel = BluetoothViewModel()
     let powerViewModel: PowerViewModel
     let playerViewModel = PlayerViewModel()
-    let vpnViewModel = VpnViewModel()
-    let wifiViewModel = WiFiViewModel()
+    let networkViewModel = NetworkViewModel()
     
     lazy var notchEventCoordinator = NotchEventCoordinator(
         notchViewModel: notchViewModel,
         bluetoothViewModel: bluetoothViewModel,
-        powerSourceMonitor: powerSourceMonitor
+        powerService: powerService,
+        networkViewModel: networkViewModel
     )
     
     var window: NSWindow!
     
     override init() {
-        self.powerViewModel = PowerViewModel(powerMonitor: powerSourceMonitor)
+        self.powerViewModel = PowerViewModel(powerService: powerService)
         super.init()
     }
     
@@ -116,8 +116,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 powerViewModel: powerViewModel,
                 playerViewModel: playerViewModel,
                 bluetoothViewModel: bluetoothViewModel,
-                vpnViewModel: vpnViewModel,
-                wifiViewModel: wifiViewModel,
+                networkViewModel: networkViewModel,
                 window: window
             )
         )

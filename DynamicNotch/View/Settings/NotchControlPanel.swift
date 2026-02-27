@@ -38,6 +38,11 @@ struct NotchControlPanel: View {
                 } label: {
                     Label("Onboarding", systemImage: "clipboard")
                 }
+//                Button {
+//                    notchEventCoordinator.handleWifiEvent(.active)
+//                } label: {
+//                    Label("hotspot", systemImage: "personalhotspot")
+//                }
             }
         }
     }
@@ -136,21 +141,4 @@ struct NotchControlPanel: View {
             }
         }
     }
-}
-
-#Preview {
-    let notchVM = NotchViewModel()
-    let bluetoothVM = BluetoothViewModel()
-    let powerMonitor = PowerSourceMonitor()
-    let coordinator = NotchEventCoordinator(
-        notchViewModel: notchVM,
-        bluetoothViewModel: bluetoothVM,
-        powerSourceMonitor: powerMonitor
-    )
-    
-    return NotchControlPanel(
-        notchViewModel: notchVM,
-        notchEventCoordinator: coordinator
-    )
-    .frame(width: 600, height: 400)
 }

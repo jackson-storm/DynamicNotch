@@ -1,14 +1,14 @@
 //
-//  WifiNotch.swift
+//  HotspotNotch.swift
 //  DynamicNotch
 //
-//  Created by Евгений Петрукович on 2/26/26.
+//  Created by Евгений Петрукович on 2/27/26.
 //
 
 import SwiftUI
 
-struct WifiConnectedNotchContent: NotchContentProtocol {
-    let id = "wifi.connected"
+struct HotspotConnectedContent: NotchContentProtocol {
+    let id = "hotspot.connected"
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         return .init(width: baseWidth + 180, height: baseHeight)
@@ -16,12 +16,12 @@ struct WifiConnectedNotchContent: NotchContentProtocol {
     
     @MainActor
     func makeView() -> AnyView {
-        AnyView(WifiConnectedNotchView())
+        AnyView(HotspotConnectedView())
     }
 }
 
-struct WifiDisconnectedNotchContent: NotchContentProtocol {
-    let id = "wifi.disconnect"
+struct HotspotDisconnectedNotchContent: NotchContentProtocol {
+    let id = "hotspot.disconnected"
     
     var strokeColor: Color { .red.opacity(0.3) }
     
@@ -31,11 +31,26 @@ struct WifiDisconnectedNotchContent: NotchContentProtocol {
     
     @MainActor
     func makeView() -> AnyView {
-        AnyView(WifiDisconnectedNotchView())
+        AnyView(HotspotDisconnectedNotchView())
     }
 }
 
-private struct WifiConnectedNotchView: View {
+struct HotspotActiveContent: NotchContentProtocol {
+    let id = "hotspot.active"
+    
+    var strokeColor: Color { .green.opacity(0.3) }
+    
+    func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
+        return .init(width: baseWidth + 80, height: baseHeight)
+    }
+    
+    @MainActor
+    func makeView() -> AnyView {
+        AnyView(HotspotActiveNotchView())
+    }
+}
+
+private struct HotspotConnectedView: View {
     @Environment(\.notchScale) var scale
     
     var body: some View {
@@ -43,15 +58,15 @@ private struct WifiConnectedNotchView: View {
             HStack(spacing: 6) {
                 ZStack {
                     RoundedRectangle(cornerRadius: 6)
-                        .fill(.blue)
+                        .fill(.green)
                         .frame(width: 22, height: 22)
                     
-                    Image(systemName: "wifi")
+                    Image(systemName: "personalhotspot")
                         .font(.system(size: 12, weight: .semibold))
                         .foregroundStyle(.white)
                         .contentTransition(.symbolEffect(.replace))
                 }
-                Text("Wi-Fi")
+                Text("Hotspot")
                     .font(.system(size: 14))
                     .foregroundColor(.white.opacity(0.8))
             }
@@ -66,7 +81,7 @@ private struct WifiConnectedNotchView: View {
     }
 }
 
-private struct WifiDisconnectedNotchView: View {
+private struct HotspotDisconnectedNotchView: View {
     @Environment(\.notchScale) var scale
     
     var body: some View {
@@ -77,12 +92,12 @@ private struct WifiDisconnectedNotchView: View {
                         .fill(.red)
                         .frame(width: 44, height: 22)
                     
-                    Image(systemName: "wifi.slash")
+                    Image(systemName: "personalhotspot.slash")
                         .font(.system(size: 12, weight: .semibold))
                         .foregroundStyle(.white)
                         .contentTransition(.symbolEffect(.replace))
                 }
-                Text("Wi-Fi")
+                Text("Hotspot")
                     .font(.system(size: 14))
                     .foregroundColor(.white.opacity(0.8))
             }
@@ -96,3 +111,17 @@ private struct WifiDisconnectedNotchView: View {
     }
 }
 
+private struct HotspotActiveNotchView: View {
+    @Environment(\.notchScale) var scale
+    
+    var body: some View {
+        HStack {
+            Image(systemName: "personalhotspot")
+                .font(.system(size: 16, weight: .bold))
+                .foregroundStyle(.green)
+            
+            Spacer()
+        }
+        .padding(.horizontal, 14.scaled(by: scale))
+    }
+}

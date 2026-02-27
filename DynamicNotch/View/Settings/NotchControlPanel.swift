@@ -38,6 +38,11 @@ struct NotchControlPanel: View {
                 } label: {
                     Label("Onboarding", systemImage: "clipboard")
                 }
+//                Button {
+//                    notchEventCoordinator.handleWifiEvent(.active)
+//                } label: {
+//                    Label("hotspot", systemImage: "personalhotspot")
+//                }
             }
         }
     }

@@ -8,8 +8,7 @@ struct NotchView: View {
     @ObservedObject var powerViewModel: PowerViewModel
     @ObservedObject var playerViewModel: PlayerViewModel
     @ObservedObject var bluetoothViewModel: BluetoothViewModel
-    @ObservedObject var vpnViewModel: VpnViewModel
-    @ObservedObject var wifiViewModel: WiFiViewModel
+    @ObservedObject var networkViewModel: NetworkViewModel
     
     @Environment(\.openWindow) private var openWindow
     
@@ -23,8 +22,9 @@ struct NotchView: View {
                 .environment(\.notchScale, notchViewModel.notchModel.scale)
                 .onReceive(powerViewModel.$event.compactMap { $0 }.receive(on: RunLoop.main), perform: notchEventCoordinator.handlePowerEvent)
                 .onReceive(bluetoothViewModel.$event.compactMap { $0 }.receive(on: RunLoop.main), perform: notchEventCoordinator.handleBluetoothEvent)
-                .onReceive(vpnViewModel.$event.compactMap { $0 }.receive(on: RunLoop.main), perform: notchEventCoordinator.handleVpnEvent)
-                .onReceive(wifiViewModel.$event.compactMap { $0 }.receive(on: RunLoop.main), perform: notchEventCoordinator.handleWifiEvent)
+                .onReceive(networkViewModel.$wifiEvent.compactMap { $0 }, perform: notchEventCoordinator.handleWifiEvent)
+                .onReceive(networkViewModel.$hotspotEvent.compactMap { $0 }, perform: notchEventCoordinator.handleHotspotEvent)
+                .onReceive(networkViewModel.$vpnEvent.compactMap { $0 }, perform: notchEventCoordinator.handleVpnEvent)
                 .onTapGesture {
                     if let contentId = notchViewModel.notchModel.content?.id, contentId.hasPrefix("player.compact") {
                         notchViewModel.toggleMusicExpanded()

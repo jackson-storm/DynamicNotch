@@ -4,18 +4,18 @@ import Combine
 final class PowerViewModel: ObservableObject {
     @Published var event: PowerEvent?
 
-    let powerMonitor: PowerSourceMonitor
+    let powerService: PowerService
     
     private var cancellables = Set<AnyCancellable>()
     private var isInitialized = false
 
-    init(powerMonitor: PowerSourceMonitor) {
-        self.powerMonitor = powerMonitor
+    init(powerService: PowerService) {
+        self.powerService = powerService
         setupBindings()
     }
 
     private func setupBindings() {
-        powerMonitor.$onACPower
+        powerService.$onACPower
             .removeDuplicates()
             .sink { [weak self] onAC in
                 guard let self else { return }
@@ -27,7 +27,7 @@ final class PowerViewModel: ObservableObject {
             }
             .store(in: &cancellables)
 
-        powerMonitor.$batteryLevel
+        powerService.$batteryLevel
             .removeDuplicates()
             .sink { [weak self] level in
                 guard let self else { return }

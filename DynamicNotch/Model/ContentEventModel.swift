@@ -31,6 +31,12 @@ enum WiFiEvent {
     case disconnected
 }
 
+enum HotspotEvent {
+    case connected
+    case disconnected
+    case active
+}
+
 enum HudEvent {
     case volume
     case display

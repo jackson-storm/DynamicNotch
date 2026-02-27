@@ -2,9 +2,9 @@ import SwiftUI
 
 struct LowPowerNotchContent: NotchContentProtocol {
     let id = "battery.lowPower"
-    let powerMonitor: PowerSourceMonitor
+    let powerService: PowerService
     
-    var strokeColor: Color { powerMonitor.isLowPowerMode ? .yellow.opacity(0.3) : .red.opacity(0.3) }
+    var strokeColor: Color { powerService.isLowPowerMode ? .yellow.opacity(0.3) : .red.opacity(0.3) }
     var offsetYTransition: CGFloat { -60 }
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
@@ -17,12 +17,12 @@ struct LowPowerNotchContent: NotchContentProtocol {
     
     @MainActor
     func makeView() -> AnyView {
-        AnyView(LowPowerNotchView(powerSourceMonitor: powerMonitor))
+        AnyView(LowPowerNotchView(powerService: powerService))
     }
 }
 
 private struct LowPowerNotchView: View {
-    @ObservedObject var powerSourceMonitor: PowerSourceMonitor
+    @ObservedObject var powerService: PowerService
     @State private var pulse = false
     
     private func startPulse() {
@@ -47,7 +47,7 @@ private struct LowPowerNotchView: View {
                 
                 Spacer()
                 
-                if powerSourceMonitor.isLowPowerMode {
+                if powerService.isLowPowerMode {
                     yellowIndicator
                 } else {
                     redIndicator
@@ -66,13 +66,13 @@ private struct LowPowerNotchView: View {
                 .fontWeight(.semibold)
                 .lineLimit(1)
             
-            if powerSourceMonitor.isLowPowerMode {
-                Text("\(powerSourceMonitor.batteryLevel)%")
+            if powerService.isLowPowerMode {
+                Text("\(powerService.batteryLevel)%")
                     .font(.system(size: 12))
                     .fontWeight(.semibold)
                     .foregroundStyle(.yellow)
             } else {
-                Text("\(powerSourceMonitor.batteryLevel)%")
+                Text("\(powerService.batteryLevel)%")
                     .font(.system(size: 12))
                     .fontWeight(.semibold)
                     .foregroundStyle(.red)
@@ -82,7 +82,7 @@ private struct LowPowerNotchView: View {
     
     @ViewBuilder
     var description: some View {
-        if powerSourceMonitor.isLowPowerMode {
+        if powerService.isLowPowerMode {
             Text("Low Power Mode enabled")
                 .foregroundColor(.yellow)
                 .font(.system(size: 10, weight: .medium))

@@ -2,9 +2,9 @@ import SwiftUI
 
 struct ChargerNotchContent: NotchContentProtocol {
     let id = "battery.charger"
-    let powerMonitor: PowerSourceMonitor
+    let powerService: PowerService
     
-    var strokeColor: Color { powerMonitor.isLowPowerMode ? .yellow.opacity(0.3) : .green.opacity(0.3) }
+    var strokeColor: Color { powerService.isLowPowerMode ? .yellow.opacity(0.3) : .green.opacity(0.3) }
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         return .init(width: baseWidth + 180, height: baseHeight)
@@ -12,18 +12,18 @@ struct ChargerNotchContent: NotchContentProtocol {
     
     @MainActor
     func makeView() -> AnyView {
-        AnyView(ChargerNotchView(powerSourceMonitor: powerMonitor))
+        AnyView(ChargerNotchView(powerService: powerService))
     }
 }
 
 private struct ChargerNotchView: View {
     @Environment(\.notchScale) var scale
-    @ObservedObject var powerSourceMonitor: PowerSourceMonitor
+    @ObservedObject var powerService: PowerService
     
     private var batteryColor: Color {
-        if powerSourceMonitor.isLowPowerMode {
+        if powerService.isLowPowerMode {
             return .yellow
-        } else if powerSourceMonitor.batteryLevel <= 20 {
+        } else if powerService.batteryLevel <= 20 {
             return .red
         } else {
             return .green
@@ -39,7 +39,7 @@ private struct ChargerNotchView: View {
             Spacer()
             
             HStack(spacing: 6) {
-                Text("\(powerSourceMonitor.batteryLevel)%")
+                Text("\(powerService.batteryLevel)%")
                     .font(.system(size: 14))
                     .foregroundColor(batteryColor)
                 
@@ -49,7 +49,7 @@ private struct ChargerNotchView: View {
                             .fill(batteryColor.opacity(0.3))
                         
                         GeometryReader { geo in
-                            let clamped = max(0, min(powerSourceMonitor.batteryLevel, 100))
+                            let clamped = max(0, min(powerService.batteryLevel, 100))
                             let fraction = CGFloat(clamped) / 100
                             let width = fraction * geo.size.width
                             
@@ -62,7 +62,7 @@ private struct ChargerNotchView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
                     
                     RoundedRectangle(cornerRadius: 1.5, style: .continuous)
-                        .fill(powerSourceMonitor.batteryLevel == 100 ? batteryColor.gradient : batteryColor.opacity(0.5).gradient)
+                        .fill(powerService.batteryLevel == 100 ? batteryColor.gradient : batteryColor.opacity(0.5).gradient)
                         .frame(width: 2, height: 6)
                 }
             }

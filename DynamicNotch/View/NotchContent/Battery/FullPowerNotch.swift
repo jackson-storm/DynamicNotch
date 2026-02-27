@@ -2,9 +2,9 @@ import SwiftUI
 
 struct FullPowerNotchContent: NotchContentProtocol {
     let id = "battery.fullPower"
-    let powerMonitor: PowerSourceMonitor
+    let powerService: PowerService
     
-    var strokeColor: Color { powerMonitor.isLowPowerMode ? .yellow.opacity(0.3) : .green.opacity(0.3) }
+    var strokeColor: Color { powerService.isLowPowerMode ? .yellow.opacity(0.3) : .green.opacity(0.3) }
     var offsetYTransition: CGFloat { -60 }
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
@@ -17,12 +17,12 @@ struct FullPowerNotchContent: NotchContentProtocol {
     
     @MainActor
     func makeView() -> AnyView {
-        AnyView(FullPowerNotchView(powerSourceMonitor: powerMonitor))
+        AnyView(FullPowerNotchView(powerService: powerService))
     }
 }
 
 private struct FullPowerNotchView: View {
-    @ObservedObject var powerSourceMonitor: PowerSourceMonitor
+    @ObservedObject var powerService: PowerService
     
     @State private var pulse = false
     @State private var showBatteryIndicator = false
@@ -51,7 +51,7 @@ private struct FullPowerNotchView: View {
                 Spacer()
                 
                 if showBatteryIndicator {
-                    if powerSourceMonitor.isLowPowerMode {
+                    if powerService.isLowPowerMode {
                         yellowIndicator
                             .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .scale))
                     } else {
@@ -96,13 +96,13 @@ private struct FullPowerNotchView: View {
                 .fontWeight(.semibold)
                 .lineLimit(1)
             
-            if powerSourceMonitor.isLowPowerMode {
-                Text("\(powerSourceMonitor.batteryLevel)%")
+            if powerService.isLowPowerMode {
+                Text("\(powerService.batteryLevel)%")
                     .font(.system(size: 13))
                     .fontWeight(.semibold)
                     .foregroundStyle(.yellow)
             } else {
-                Text("\(powerSourceMonitor.batteryLevel)%")
+                Text("\(powerService.batteryLevel)%")
                     .font(.system(size: 13))
                     .fontWeight(.semibold)
                     .foregroundStyle(.green)
@@ -197,19 +197,4 @@ private struct FullPowerNotchView: View {
                 .frame(width: 3, height: 32)
         }
     }
-}
-
-#Preview {
-    ZStack(alignment: .top) {
-        NotchShape(topCornerRadius: 18, bottomCornerRadius: 36)
-            .fill(.black)
-            .stroke(.green.opacity(0.3), lineWidth: 2)
-            .overlay{ FullPowerNotchView(powerSourceMonitor: PowerSourceMonitor()) }
-            .frame(width: 316, height: 108)
-        
-        NotchShape(topCornerRadius: 9, bottomCornerRadius: 13)
-            .stroke(.red, lineWidth: 1)
-            .frame(width: 226, height: 38)
-    }
-    .frame(width: 400, height: 250, alignment: .top)
 }

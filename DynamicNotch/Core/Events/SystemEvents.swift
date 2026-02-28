@@ -1,8 +1,8 @@
 //
-//  EventModel.swift
+//  SystemEvents.swift
 //  DynamicNotch
 //
-//  Created by Евгений Петрукович on 2/18/26.
+//  Created by Евгений Петрукович on 2/28/26.
 //
 
 import Foundation

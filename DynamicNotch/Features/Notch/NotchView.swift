@@ -9,6 +9,7 @@ struct NotchView: View {
     @ObservedObject var playerViewModel: PlayerViewModel
     @ObservedObject var bluetoothViewModel: BluetoothViewModel
     @ObservedObject var networkViewModel: NetworkViewModel
+    @ObservedObject var hudViewModel: HudViewModel
     
     @Environment(\.openWindow) private var openWindow
     
@@ -22,9 +23,7 @@ struct NotchView: View {
                 .environment(\.notchScale, notchViewModel.notchModel.scale)
                 .onReceive(powerViewModel.$event.compactMap { $0 }.receive(on: RunLoop.main), perform: notchEventCoordinator.handlePowerEvent)
                 .onReceive(bluetoothViewModel.$event.compactMap { $0 }.receive(on: RunLoop.main), perform: notchEventCoordinator.handleBluetoothEvent)
-                .onReceive(networkViewModel.$wifiEvent.compactMap { $0 }, perform: notchEventCoordinator.handleWifiEvent)
-                .onReceive(networkViewModel.$hotspotEvent.compactMap { $0 }, perform: notchEventCoordinator.handleHotspotEvent)
-                .onReceive(networkViewModel.$vpnEvent.compactMap { $0 }, perform: notchEventCoordinator.handleVpnEvent)
+                .onReceive(networkViewModel.$networkEvent.compactMap { $0 }.receive(on: RunLoop.main), perform: notchEventCoordinator.handleNetworkEvent)
                 .onTapGesture {
                     if let contentId = notchViewModel.notchModel.content?.id, contentId.hasPrefix("player.compact") {
                         notchViewModel.toggleMusicExpanded()

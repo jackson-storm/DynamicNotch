@@ -13,6 +13,10 @@ final class NotchViewModel: ObservableObject {
     private var isTransitioning = false
     private var hideDelay: TimeInterval = 0.3
     
+    private var eventQueue: [NotchState] = []
+    private var isProcessingQueue = false
+    private let queueDelay: TimeInterval = 0.3
+    
     init() {
         updateDimensions()
     }
@@ -37,14 +41,98 @@ final class NotchViewModel: ObservableObject {
     
     func send(_ notchState: NotchState) {
         switch notchState {
+        case .showTemporaryNotification(let content, let duration):
+            
+            if notchModel.temporaryNotificationContent?.id == content.id {
+                withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
+                    self.notchModel.temporaryNotificationContent = content
+                }
+                restartTemporaryTimer(duration: duration)
+                return
+            }
+            
+            if let index = eventQueue.lastIndex(where: {
+                if case .showTemporaryNotification(let queuedContent, _) = $0 { return queuedContent.id == content.id }
+                return false
+            }) {
+                eventQueue[index] = notchState
+                return
+            }
+            
+        case .showLiveActivitiy(let content):
+            if notchModel.liveActivityContent?.id == content.id {
+                withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
+                    self.notchModel.liveActivityContent = content
+                }
+                return
+            }
+            if let index = eventQueue.lastIndex(where: {
+                if case .showLiveActivitiy(let queuedContent) = $0 { return queuedContent.id == content.id }
+                return false
+            }) {
+                eventQueue[index] = notchState
+                return
+            }
+            
+        case .hide:
+            break
+        }
+        
+        eventQueue.append(notchState)
+        processQueue()
+    }
+    
+    private func processQueue() {
+        guard !isProcessingQueue, !eventQueue.isEmpty else { return }
+        isProcessingQueue = true
+        
+        let state = eventQueue.removeFirst()
+        
+        Task {
+            await executeState(state)
+            
+            if !eventQueue.isEmpty {
+                try? await Task.sleep(nanoseconds: UInt64(queueDelay * 300_000_000))
+            }
+            
+            isProcessingQueue = false
+            processQueue()
+        }
+    }
+    
+    private func executeState(_ state: NotchState) async {
+        while isTransitioning {
+            try? await Task.sleep(nanoseconds: 10_000_000)
+        }
+        
+        switch state {
         case .showLiveActivitiy(let content):
             showLiveActivitiy(content)
+            try? await Task.sleep(nanoseconds: UInt64((hideDelay + 0.1) * 300_000_000))
             
         case .showTemporaryNotification(let content, let duration):
             showTemporaryNotification(content, duration: duration)
+            if !duration.isInfinite {
+                let totalWait = hideDelay + duration + hideDelay + 0.1
+                try? await Task.sleep(nanoseconds: UInt64(totalWait * 300_000_000))
+            } else {
+                try? await Task.sleep(nanoseconds: UInt64((hideDelay + 0.1) * 300_000_000))
+            }
             
         case .hide:
             hideTemporaryNotification()
+            try? await Task.sleep(nanoseconds: UInt64((hideDelay + 0.1) * 300_000_000))
+        }
+    }
+    
+    private func restartTemporaryTimer(duration: TimeInterval) {
+        cancelTemporary()
+        if duration.isInfinite { return }
+        temporaryTask = Task {
+            try? await Task.sleep(nanoseconds: UInt64(duration * 300_000_000))
+            await MainActor.run {
+                self.hideTemporaryNotification()
+            }
         }
     }
     

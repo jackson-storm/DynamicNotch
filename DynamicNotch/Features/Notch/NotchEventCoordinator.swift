@@ -14,6 +14,7 @@ final class NotchEventCoordinator: ObservableObject {
     private let bluetoothViewModel: BluetoothViewModel
     private let powerService: PowerService
     private let networkViewModel: NetworkViewModel
+    private let hudViewModel: HudViewModel
     
     private var isOnboardingActive: Bool {
         notchViewModel.notchModel.liveActivityContent?.id == "onboarding" ||
@@ -24,12 +25,14 @@ final class NotchEventCoordinator: ObservableObject {
         notchViewModel: NotchViewModel,
         bluetoothViewModel: BluetoothViewModel,
         powerService: PowerService,
-        networkViewModel: NetworkViewModel
+        networkViewModel: NetworkViewModel,
+        hudViewModel: HudViewModel
     ) {
         self.notchViewModel = notchViewModel
         self.bluetoothViewModel = bluetoothViewModel
         self.powerService = powerService
         self.networkViewModel = networkViewModel
+        self.hudViewModel = hudViewModel
     }
     
     func checkFirstLaunch() {
@@ -49,6 +52,21 @@ final class NotchEventCoordinator: ObservableObject {
         }
     }
     
+    func handleHudEvent(_ event: HudEvent) {
+        guard !isOnboardingActive else { return }
+        
+        switch event {
+        case .display(let level):
+            notchViewModel.send(.showTemporaryNotification(HudDisplayNotchContent(level: level), duration: 2))
+            
+        case .keyboard(let level):
+            notchViewModel.send(.showTemporaryNotification(HudKeyboardNotchContent(level: level), duration: 2))
+            
+        case .volume(let level):
+            notchViewModel.send(.showTemporaryNotification(HudVolumeNotchContent(level: level), duration: 2))
+        }
+    }
+    
     func handleOnboardingEvent(_ event: OnboardingEvent) {
         switch event {
         case .onboarding:
@@ -62,66 +80,26 @@ final class NotchEventCoordinator: ObservableObject {
         switch event {
         case .connected:
             notchViewModel.send(.showTemporaryNotification(BluetoothConnectedNotchContent(bluetoothViewModel: bluetoothViewModel), duration: 5))
-            
-        case .disconnected:
-            notchViewModel.send(.showTemporaryNotification(BluetoothDisconnectedNotchContent(), duration: 5))
         }
     }
     
-    func handleVpnEvent(_ event: VpnEvent) {
+    func handleNetworkEvent(_ event: NetworkEvent) {
         guard !isOnboardingActive else { return }
         
         switch event {
-        case .connected:
-            notchViewModel.send(.showTemporaryNotification(VpnConnectedNotchContent(), duration: 3))
-            
-        case .disconnected:
-            notchViewModel.send(.showTemporaryNotification(VpnDisconnectedNotchContent(), duration: 3))
-        }
-    }
-    
-    func handleWifiEvent(_ event: WiFiEvent) {
-        guard !isOnboardingActive else { return }
-        
-        switch event {
-        case .connected:
+        case .wifiConnected:
             notchViewModel.send(.showTemporaryNotification(WifiConnectedNotchContent(), duration: 3))
             
-        case .disconnected:
-            notchViewModel.send(.showTemporaryNotification(WifiDisconnectedNotchContent(), duration: 3))
-        }
-    }
-
-    func handleHotspotEvent(_ event: HotspotEvent) {
-        guard !isOnboardingActive else { return }
-        
-        switch event {
-        case .active:
+        case .vpnConnected:
+            notchViewModel.send(.showTemporaryNotification(VpnConnectedNotchContent(), duration: 3))
+            
+        case .hotspotActive:
             notchViewModel.send(.showLiveActivitiy(HotspotActiveContent()))
             
-        case .disconnected:
+        case .hotspotHide:
             if notchViewModel.notchModel.liveActivityContent?.id == "hotspot.active" {
                 notchViewModel.send(.hide)
             }
-            notchViewModel.send(.showTemporaryNotification(HotspotDisconnectedNotchContent(), duration: 3))
-            
-        case .connected:
-            notchViewModel.send(.showTemporaryNotification(HotspotConnectedContent(), duration: 3))
-        }
-    }
-    
-    func handleHudEvent(_ event: HudEvent) {
-        guard !isOnboardingActive else { return }
-        
-        switch event {
-        case .display:
-            notchViewModel.send(.showTemporaryNotification(HudDisplayNotchContent(), duration: 2))
-            
-        case .keyboard:
-            notchViewModel.send(.showTemporaryNotification(HudKeyboardNotchContent(), duration: 2))
-            
-        case .volume:
-            notchViewModel.send(.showTemporaryNotification(HudVolumeNotchContent(), duration: 2))
         }
     }
     

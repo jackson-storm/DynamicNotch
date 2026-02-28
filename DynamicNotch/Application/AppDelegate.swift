@@ -14,12 +14,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     let powerViewModel: PowerViewModel
     let playerViewModel = PlayerViewModel()
     let networkViewModel = NetworkViewModel()
+    let hudViewModel = HudViewModel()
     
     lazy var notchEventCoordinator = NotchEventCoordinator(
         notchViewModel: notchViewModel,
         bluetoothViewModel: bluetoothViewModel,
         powerService: powerService,
-        networkViewModel: networkViewModel
+        networkViewModel: networkViewModel,
+        hudViewModel: hudViewModel
     )
     
     var window: NSWindow!
@@ -93,6 +95,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 playerViewModel: playerViewModel,
                 bluetoothViewModel: bluetoothViewModel,
                 networkViewModel: networkViewModel,
+                hudViewModel: hudViewModel,
                 window: window
             )
         )

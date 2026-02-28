@@ -15,31 +15,21 @@ enum PowerEvent {
 
 enum BluetoothEvent {
     case connected
-    case disconnected
 }
 
 enum OnboardingEvent {
     case onboarding
 }
 
-enum VpnEvent {
-    case connected
-    case disconnected
-}
-
-enum WiFiEvent {
-    case connected
-    case disconnected
-}
-
-enum HotspotEvent {
-    case connected
-    case disconnected
-    case active
+enum NetworkEvent {
+    case wifiConnected
+    case vpnConnected
+    case hotspotActive
+    case hotspotHide
 }
 
 enum HudEvent {
-    case volume
-    case display
-    case keyboard
+    case display(Int)
+    case keyboard(Int)
+    case volume(Int)
 }

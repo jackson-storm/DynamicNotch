@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+#if DEBUG
 struct NotchControlPanel: View {
     @ObservedObject var notchViewModel: NotchViewModel
     @ObservedObject var notchEventCoordinator: NotchEventCoordinator
@@ -132,3 +133,15 @@ struct NotchControlPanel: View {
         }
     }
 }
+
+#else
+// Пустая заглушка для Release, чтобы ссылки на тип не ломали сборку.
+struct NotchControlPanel: View {
+    @ObservedObject var notchViewModel: NotchViewModel
+    @ObservedObject var notchEventCoordinator: NotchEventCoordinator
+
+    var body: some View {
+        EmptyView()
+    }
+}
+#endif

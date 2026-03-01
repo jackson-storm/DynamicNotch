@@ -14,7 +14,6 @@ final class NotchEventCoordinator: ObservableObject {
     private let bluetoothViewModel: BluetoothViewModel
     private let powerService: PowerService
     private let networkViewModel: NetworkViewModel
-    private let hudViewModel: HudViewModel
     
     private var isOnboardingActive: Bool {
         notchViewModel.notchModel.liveActivityContent?.id == "onboarding" ||
@@ -26,13 +25,11 @@ final class NotchEventCoordinator: ObservableObject {
         bluetoothViewModel: BluetoothViewModel,
         powerService: PowerService,
         networkViewModel: NetworkViewModel,
-        hudViewModel: HudViewModel
     ) {
         self.notchViewModel = notchViewModel
         self.bluetoothViewModel = bluetoothViewModel
         self.powerService = powerService
         self.networkViewModel = networkViewModel
-        self.hudViewModel = hudViewModel
     }
     
     func checkFirstLaunch() {

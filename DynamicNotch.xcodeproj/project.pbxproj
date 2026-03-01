@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E27B0ED82F536365006DCA6F /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = E27B0ED72F536365006DCA6F /* Defaults */; };
+		E27B0EDA2F536365006DCA6F /* DefaultsMacros in Frameworks */ = {isa = PBXBuildFile; productRef = E27B0ED92F536365006DCA6F /* DefaultsMacros */; };
 		E27E93C72F4B96D800DD12D3 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = E27E93C62F4B96D800DD12D3 /* Lottie */; };
 /* End PBXBuildFile section */
 
@@ -40,6 +42,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E27B0EDA2F536365006DCA6F /* DefaultsMacros in Frameworks */,
+				E27B0ED82F536365006DCA6F /* Defaults in Frameworks */,
 				E27E93C72F4B96D800DD12D3 /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -84,6 +88,8 @@
 			name = DynamicNotch;
 			packageProductDependencies = (
 				E27E93C62F4B96D800DD12D3 /* Lottie */,
+				E27B0ED72F536365006DCA6F /* Defaults */,
+				E27B0ED92F536365006DCA6F /* DefaultsMacros */,
 			);
 			productName = DynamicNotch;
 			productReference = E2EF78512EDDB60E00F96D1E /* DynamicNotch.app */;
@@ -115,6 +121,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				E27E93C52F4B96D800DD12D3 /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				E27B0ED62F536365006DCA6F /* XCRemoteSwiftPackageReference "Defaults" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = E2EF78522EDDB60E00F96D1E /* Products */;
@@ -401,6 +408,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		E27B0ED62F536365006DCA6F /* XCRemoteSwiftPackageReference "Defaults" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/Defaults";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.6;
+			};
+		};
 		E27E93C52F4B96D800DD12D3 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
@@ -412,6 +427,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		E27B0ED72F536365006DCA6F /* Defaults */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E27B0ED62F536365006DCA6F /* XCRemoteSwiftPackageReference "Defaults" */;
+			productName = Defaults;
+		};
+		E27B0ED92F536365006DCA6F /* DefaultsMacros */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E27B0ED62F536365006DCA6F /* XCRemoteSwiftPackageReference "Defaults" */;
+			productName = DefaultsMacros;
+		};
 		E27E93C62F4B96D800DD12D3 /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = E27E93C52F4B96D800DD12D3 /* XCRemoteSwiftPackageReference "lottie-ios" */;

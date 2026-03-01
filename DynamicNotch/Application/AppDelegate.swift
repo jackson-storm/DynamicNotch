@@ -15,6 +15,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     let playerViewModel = PlayerViewModel()
     let networkViewModel = NetworkViewModel()
     let hudViewModel = HudViewModel()
+    let doNotDisturbViewModel = DoNotDisturbViewModel()
     
     lazy var notchEventCoordinator = NotchEventCoordinator(
         notchViewModel: notchViewModel,
@@ -96,6 +97,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 bluetoothViewModel: bluetoothViewModel,
                 networkViewModel: networkViewModel,
                 hudViewModel: hudViewModel,
+                doNotDisturbViewModel: doNotDisturbViewModel,
                 window: window
             )
         )

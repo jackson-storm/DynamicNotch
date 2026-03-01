@@ -13,14 +13,6 @@ enum PowerEvent {
     case fullPower
 }
 
-enum BluetoothEvent {
-    case connected
-}
-
-enum OnboardingEvent {
-    case onboarding
-}
-
 enum NetworkEvent {
     case wifiConnected
     case vpnConnected
@@ -32,4 +24,17 @@ enum HudEvent {
     case display(Int)
     case keyboard(Int)
     case volume(Int)
+}
+
+enum FocusEvent {
+    case on
+    case off
+}
+
+enum BluetoothEvent {
+    case connected
+}
+
+enum OnboardingEvent {
+    case onboarding
 }

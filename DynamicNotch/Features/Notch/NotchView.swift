@@ -10,6 +10,7 @@ struct NotchView: View {
     @ObservedObject var bluetoothViewModel: BluetoothViewModel
     @ObservedObject var networkViewModel: NetworkViewModel
     @ObservedObject var hudViewModel: HudViewModel
+    @ObservedObject var doNotDisturbViewModel: DoNotDisturbViewModel
     
     @Environment(\.openWindow) private var openWindow
     
@@ -24,6 +25,7 @@ struct NotchView: View {
                 .onReceive(powerViewModel.$event.compactMap { $0 }.receive(on: RunLoop.main), perform: notchEventCoordinator.handlePowerEvent)
                 .onReceive(bluetoothViewModel.$event.compactMap { $0 }.receive(on: RunLoop.main), perform: notchEventCoordinator.handleBluetoothEvent)
                 .onReceive(networkViewModel.$networkEvent.compactMap { $0 }.receive(on: RunLoop.main), perform: notchEventCoordinator.handleNetworkEvent)
+                .onReceive(doNotDisturbViewModel.$focusEvent.compactMap{ $0 }.receive(on: RunLoop.main), perform: notchEventCoordinator.handleDoNotDisturbEvent)
                 .onTapGesture {
                     if let contentId = notchViewModel.notchModel.content?.id, contentId.hasPrefix("player.compact") {
                         notchViewModel.toggleMusicExpanded()

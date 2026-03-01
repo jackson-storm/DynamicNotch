@@ -52,6 +52,21 @@ final class NotchEventCoordinator: ObservableObject {
         }
     }
     
+    func handleDoNotDisturbEvent(_ event: FocusEvent) {
+        guard !isOnboardingActive else { return }
+        
+        switch event {
+        case .on:
+            notchViewModel.send(.showLiveActivitiy(DoNotDisturbOnNotchContent()))
+            
+        case .off:
+            notchViewModel.send(.hide)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                self.notchViewModel.send(.showTemporaryNotification(DoNotDisturbOffNotchContent(), duration: 3))
+            }
+        }
+    }
+    
     func handleHudEvent(_ event: HudEvent) {
         guard !isOnboardingActive else { return }
         

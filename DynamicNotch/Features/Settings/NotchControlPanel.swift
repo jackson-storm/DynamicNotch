@@ -95,6 +95,13 @@ struct NotchControlPanel: View {
 //                } label: {
 //                    Label("Keyboard", systemImage: "light.max")
 //                }
+                
+                
+                Button {
+                    notchEventCoordinator.handleDoNotDisturbEvent(.off)
+                } label: {
+                    Label("DoNotDisturb", systemImage: "moon")
+                }
             }
             .controlGroupStyle(.automatic)
             

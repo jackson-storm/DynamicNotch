@@ -6,10 +6,8 @@ struct NotchView: View {
     @ObservedObject var notchViewModel: NotchViewModel
     @ObservedObject var notchEventCoordinator: NotchEventCoordinator
     @ObservedObject var powerViewModel: PowerViewModel
-    @ObservedObject var playerViewModel: PlayerViewModel
     @ObservedObject var bluetoothViewModel: BluetoothViewModel
     @ObservedObject var networkViewModel: NetworkViewModel
-    @ObservedObject var hudViewModel: HudViewModel
     @ObservedObject var doNotDisturbViewModel: DoNotDisturbViewModel
     
     @Environment(\.openWindow) private var openWindow
@@ -76,10 +74,12 @@ private extension NotchView {
             Image(systemName: "gearshape")
             Text("Settings")
         }
+        #if DEBUG
         Divider()
         Button(action: { NSApp.terminate(nil) }) {
             Image(systemName: "rectangle.portrait.and.arrow.right")
             Text("Quit")
         }
+        #endif
     }
 }

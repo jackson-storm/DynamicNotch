@@ -5,6 +5,11 @@
 //  Created by Евгений Петрукович on 2/26/26.
 //
 
+//
+//  NetworkViewModel.swift
+//  DynamicNotch
+//
+
 import Foundation
 import Combine
 import SwiftUI
@@ -14,9 +19,7 @@ final class NetworkViewModel: ObservableObject {
     @Published var hotspotActive: Bool = false
     @Published var vpnConnected: Bool = false
     
-    @Published var wifiEvent: WiFiEvent? = nil
-    @Published var hotspotEvent: HotspotEvent? = nil
-    @Published var vpnEvent: VpnEvent? = nil
+    @Published var networkEvent: NetworkEvent? = nil
     
     private let monitor = NetworkMonitor()
     private var isInitialCheck = true
@@ -29,18 +32,21 @@ final class NetworkViewModel: ObservableObject {
         monitor.onStatusChange = { [weak self] wifi, hotspot, vpn in
             guard let self = self else { return }
             
-            if !self.isInitialCheck && wifi != self.wifiConnected {
-                self.wifiEvent = wifi ? .connected : .disconnected
-            }
-            
-            if !self.isInitialCheck && hotspot != self.hotspotActive {
-                self.hotspotEvent = hotspot ? .active : .disconnected
-            } else if self.isInitialCheck && hotspot {
-                self.hotspotEvent = .active
-            }
-            
-            if !self.isInitialCheck && vpn != self.vpnConnected {
-                self.vpnEvent = vpn ? .connected : .disconnected
+            if !self.isInitialCheck {
+                if wifi && !self.wifiConnected {
+                    self.networkEvent = .wifiConnected
+                }
+                if vpn && !self.vpnConnected {
+                    self.networkEvent = .vpnConnected
+                }
+                if hotspot && !self.hotspotActive {
+                    self.networkEvent = .hotspotActive
+                }
+                if !hotspot && self.hotspotActive {
+                    self.networkEvent = .hotspotHide
+                }
+            } else if hotspot {
+                self.networkEvent = .hotspotActive
             }
             
             self.wifiConnected = wifi

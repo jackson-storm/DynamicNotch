@@ -75,57 +75,47 @@ struct NotchControlPanel: View {
                 Button {
                     notchEventCoordinator.handleBluetoothEvent(.connected)
                 } label: {
-                    Label("Bluetooth con", systemImage: "headphones")
-                }
-                Button {
-                    notchEventCoordinator.handleBluetoothEvent(.disconnected)
-                } label: {
-                    Label("Bluetooth dis", systemImage: "headphones.slash")
+                    Label("Bluetooth", systemImage: "headphones")
                 }
                 
-                Button {
-                    notchEventCoordinator.handleHudEvent(.volume)
-                } label: {
-                    Label("Volume", systemImage: "speaker.wave.3.fill")
-                }
+//                Button {
+//                    notchEventCoordinator.handleHudEvent(.volume)
+//                } label: {
+//                    Label("Volume", systemImage: "speaker.wave.3.fill")
+//                }
+//                
+//                Button {
+//                    notchEventCoordinator.handleHudEvent(.display)
+//                } label: {
+//                    Label("Display", systemImage: "sun.max.fill")
+//                }
+//                
+//                Button {
+//                    notchEventCoordinator.handleHudEvent(.keyboard)
+//                } label: {
+//                    Label("Keyboard", systemImage: "light.max")
+//                }
+                
                 
                 Button {
-                    notchEventCoordinator.handleHudEvent(.display)
+                    notchEventCoordinator.handleDoNotDisturbEvent(.off)
                 } label: {
-                    Label("Display", systemImage: "sun.max.fill")
-                }
-                
-                Button {
-                    notchEventCoordinator.handleHudEvent(.keyboard)
-                } label: {
-                    Label("Keyboard", systemImage: "light.max")
+                    Label("DoNotDisturb", systemImage: "moon")
                 }
             }
             .controlGroupStyle(.automatic)
             
             ControlGroup {
                 Button {
-                    notchEventCoordinator.handleVpnEvent(.connected)
+                    notchEventCoordinator.handleNetworkEvent(.vpnConnected)
                 } label: {
                     Label("Vpn Connected", systemImage: "network")
                 }
                 
                 Button {
-                    notchEventCoordinator.handleVpnEvent(.disconnected)
-                } label: {
-                    Label("Vpn Disconnected", systemImage: "network.slash")
-                }
-                
-                Button {
-                    notchEventCoordinator.handleWifiEvent(.connected)
+                    notchEventCoordinator.handleNetworkEvent(.wifiConnected)
                 } label: {
                     Label("WiFi Connected", systemImage: "wifi")
-                }
-                
-                Button {
-                    notchEventCoordinator.handleWifiEvent(.disconnected)
-                } label: {
-                    Label("WiFi Disconnected", systemImage: "wifi.slash")
                 }
             }
             .controlGroupStyle(.automatic)

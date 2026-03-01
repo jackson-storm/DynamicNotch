@@ -67,10 +67,6 @@ final class BluetoothViewModel: ObservableObject {
                 self.event = .connected
             }
             
-            if !info.isConnected && self.isConnected {
-                self.event = .disconnected
-            }
-            
             self.isConnected = info.isConnected
             self.deviceName = info.name
             self.batteryLevel = info.battery

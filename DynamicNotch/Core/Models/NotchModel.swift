@@ -19,7 +19,7 @@ struct NotchModel: Equatable {
     var temporaryNotificationContent: NotchContentProtocol? = nil
     var content: NotchContentProtocol? { temporaryNotificationContent ?? liveActivityContent }
     
-    var baseWidth: CGFloat = 188
+    var baseWidth: CGFloat = 190
     var baseHeight: CGFloat = 38
     var scale: CGFloat = 1.0
     

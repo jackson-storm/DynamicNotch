@@ -24,11 +24,6 @@ struct NotchView: View {
                 .onReceive(bluetoothViewModel.$event.compactMap { $0 }.receive(on: RunLoop.main), perform: notchEventCoordinator.handleBluetoothEvent)
                 .onReceive(networkViewModel.$networkEvent.compactMap { $0 }.receive(on: RunLoop.main), perform: notchEventCoordinator.handleNetworkEvent)
                 .onReceive(doNotDisturbViewModel.$focusEvent.compactMap{ $0 }.receive(on: RunLoop.main), perform: notchEventCoordinator.handleDoNotDisturbEvent)
-                .onTapGesture {
-                    if let contentId = notchViewModel.notchModel.content?.id, contentId.hasPrefix("player.compact") {
-                        notchViewModel.toggleMusicExpanded()
-                    }
-                }
                 .onChange(of: notchViewModel.notchModel.content?.id) { _, newId in
                     notchViewModel.handleStrokeVisibility()
                 }
@@ -46,11 +41,12 @@ private extension NotchView {
             bottomCornerRadius: notchViewModel.notchModel.cornerRadius.bottom
         )
         .fill(.black)
-        .stroke(notchViewModel.showStroke ? notchViewModel.notchModel.strokeColor : Color.clear, lineWidth: 1.5)
+        .stroke(notchViewModel.showStroke ? notchViewModel.cachedStrokeColor : Color.clear, lineWidth: 1.5)
         .overlay { contentOverlay }
         .customNotchPressable(isPressed: $isPressed, baseSize: notchViewModel.notchModel.size)
         .frame(width: notchViewModel.notchModel.size.width, height: notchViewModel.notchModel.size.height)
         .contextMenu { contextMenuItem }
+        .animation(.easeInOut(duration: 0.3), value: notchViewModel.showStroke)
         .animation(.spring(duration: 0.6), value: notchViewModel.showNotch)
     }
     
@@ -74,12 +70,10 @@ private extension NotchView {
             Image(systemName: "gearshape")
             Text("Settings")
         }
-        #if DEBUG
         Divider()
         Button(action: { NSApp.terminate(nil) }) {
             Image(systemName: "rectangle.portrait.and.arrow.right")
             Text("Quit")
         }
-        #endif
     }
 }

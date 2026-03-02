@@ -8,6 +8,7 @@ struct NotchApp: App {
     var body: some Scene {
         Settings {
             TabView {
+                #if DEBUG
                 NotchControlPanel(
                     notchViewModel: appDelegate.notchViewModel,
                     notchEventCoordinator: appDelegate.notchEventCoordinator
@@ -16,7 +17,7 @@ struct NotchApp: App {
                     Image(systemName: "light.panel")
                     Text("Notch Panel")
                 }
-                
+                #endif
                 SettingsView()
                     .tabItem {
                         Image(systemName: "gearshape")

@@ -6,6 +6,7 @@ final class NotchViewModel: ObservableObject {
     @Published private(set) var notchModel = NotchModel()
     @Published var showNotch = false
     @Published var showStroke = false
+    @Published var cachedStrokeColor: Color = .clear
     
     private var temporaryTask: Task<Void, Never>?
     private var suspendedActivity: NotchContentProtocol? = nil
@@ -32,7 +33,7 @@ final class NotchViewModel: ObservableObject {
         
         if topInset > 0 {
             notchModel.baseHeight = topInset
-            notchModel.baseWidth = 188 * notchModel.scale
+            notchModel.baseWidth = 190 * notchModel.scale
         } else {
             notchModel.baseHeight = 32 * notchModel.scale
             notchModel.baseWidth = 200 * notchModel.scale
@@ -137,12 +138,13 @@ final class NotchViewModel: ObservableObject {
     }
     
     func handleStrokeVisibility() {
-        if notchModel.content != nil {
+        if let content = notchModel.content {
+            cachedStrokeColor = content.strokeColor
             showStroke = true
             showNotch = true
             
         } else {
-            let delay = hideDelay + 0.5
+            let delay = 0.3
             
             DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
                 guard let self else { return }
@@ -153,29 +155,6 @@ final class NotchViewModel: ObservableObject {
                 }
             }
         }
-    }
-    
-    func toggleMusicExpanded() {
-        guard let currentId = notchModel.liveActivityContent?.id, currentId.contains("music") else { return }
-        
-        let isExpanded = currentId.contains("expanded")
-        let nextDelay: TimeInterval = isExpanded ? 0.3 : 0.2
-        
-        transition(
-            customDelay: nextDelay,
-            hide: {
-                withAnimation(.spring(response: 0.5)) {
-                    self.notchModel.liveActivityContent = nil
-                }
-            },
-            show: {
-                withAnimation(.spring(response: 0.5, dampingFraction: 0.8)) {
-                    // Здесь логика переключения: если был compact, создаем expanded версию
-                    // Вам нужно будет реализовать создание нового объекта контента
-                    // self.state.liveActivityContent = isExpanded ? MusicCompact() : MusicExpanded()
-                }
-            }
-        )
     }
     
     private func showLiveActivitiy(_ content: NotchContentProtocol?) {

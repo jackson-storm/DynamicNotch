@@ -66,18 +66,14 @@ final class BluetoothService {
             default: return .headphones
             }
         case 0x05:
-            let minorDevice = minor & 0x30
-            
-            switch minorDevice {
-            case 0x10:
-                return .keyboard
-            case 0x20:
-                return .mouse
-            case 0x30:
-                return .keyboard
-            default:
-                return .unknown
+            let peripheralType = minor & 0xC0
+            switch peripheralType {
+            case 0x40: return .keyboard
+            case 0x80: return .mouse
+            case 0xC0: return .combo
+            default: return .unknown
             }
+            
         case 0x01: return .computer
         case 0x02: return .phone
         default: return .unknown
@@ -110,30 +106,29 @@ final class BluetoothService {
     
     private func getBatteryFromRegistry(for device: IOBluetoothDevice) -> Int? {
         guard let address = device.addressString else { return nil }
-        let normalizedAddr = address.replacingOccurrences(of: ":", with: "-").lowercased()
+
+        let normalizedAddr = address.replacingOccurrences(of: ":", with: "").lowercased()
         
-        let services = ["AppleDeviceManagementHIDEventService", "AppleHSBluetoothDevice", "IOBluetoothDevice"]
+        let matchingDict = IOServiceMatching("AppleDeviceManagementHIDEventService")
+        var iterator: io_iterator_t = 0
         
-        for serviceName in services {
-            let matchingDict = IOServiceMatching(serviceName)
-            var iterator: io_iterator_t = 0
+        guard IOServiceGetMatchingServices(kIOMainPortDefault, matchingDict, &iterator) == kIOReturnSuccess else { return nil }
+        
+        defer { IOObjectRelease(iterator) }
+        
+        while case let service = IOIteratorNext(iterator), service != 0 {
+            defer { IOObjectRelease(service) }
             
-            if IOServiceGetMatchingServices(kIOMainPortDefault, matchingDict, &iterator) == kIOReturnSuccess {
-                while case let service = IOIteratorNext(iterator), service != 0 {
-                    defer { IOObjectRelease(service) }
+            if let deviceAddr = IORegistryEntryCreateCFProperty(service, "DeviceAddress" as CFString, kCFAllocatorDefault, 0)?.takeRetainedValue() as? String {
+                if deviceAddr.replacingOccurrences(of: "-", with: "").lowercased() == normalizedAddr {
                     
-                    if let regAddr = IORegistryEntryCreateCFProperty(service, "DeviceAddress" as CFString, kCFAllocatorDefault, 0)?.takeRetainedValue() as? String {
-                        if regAddr.lowercased().replacingOccurrences(of: ":", with: "-") == normalizedAddr {
-                            let batteryKeys = ["BatteryPercent", "BatteryLevel", "BatteryPercentSingle", "RemoteDeviceBatteryLevel"]
-                            for key in batteryKeys {
-                                if let val = IORegistryEntryCreateCFProperty(service, key as CFString, kCFAllocatorDefault, 0)?.takeRetainedValue() as? Int {
-                                    return val
-                                }
-                            }
+                    let keys = ["BatteryPercent", "BatteryLevel", "RemoteDeviceBatteryLevel", "BatteryPercentSingle"]
+                    for key in keys {
+                        if let val = IORegistryEntryCreateCFProperty(service, key as CFString, kCFAllocatorDefault, 0)?.takeRetainedValue() {
+                            return (val as? Int) ?? (val as? NSNumber)?.intValue
                         }
                     }
                 }
-                IOObjectRelease(iterator)
             }
         }
         return nil

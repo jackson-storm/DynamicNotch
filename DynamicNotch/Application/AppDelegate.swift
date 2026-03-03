@@ -14,12 +14,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     let powerViewModel: PowerViewModel
     let networkViewModel = NetworkViewModel()
     let doNotDisturbViewModel = DoNotDisturbViewModel()
+    let airDropViewModel = AirDropNotchViewModel()
     
     lazy var notchEventCoordinator = NotchEventCoordinator(
         notchViewModel: notchViewModel,
         bluetoothViewModel: bluetoothViewModel,
         powerService: powerService,
-        networkViewModel: networkViewModel
+        networkViewModel: networkViewModel,
+        airDropViewModel: airDropViewModel
     )
     
     var window: NSWindow!
@@ -93,7 +95,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 bluetoothViewModel: bluetoothViewModel,
                 networkViewModel: networkViewModel,
                 doNotDisturbViewModel: doNotDisturbViewModel,
-                window: window
+                airDropViewModel: airDropViewModel
             )
         )
         

@@ -1,12 +1,16 @@
 import SwiftUI
 import Combine
+import AppKit
 
 @MainActor
 final class NotchViewModel: ObservableObject {
     @Published private(set) var notchModel = NotchModel()
     @Published var showNotch = false
     @Published var showStroke = false
+    @Published var isPressed = false
     @Published var cachedStrokeColor: Color = .clear
+    
+    let window: NSWindow? = nil
     
     private var temporaryTask: Task<Void, Never>?
     private var suspendedActivity: NotchContentProtocol? = nil

@@ -1,6 +1,7 @@
 import SwiftUI
 import Combine
 import AppKit
+internal import UniformTypeIdentifiers
 
 struct NotchView: View {
     @ObservedObject var notchViewModel: NotchViewModel
@@ -9,12 +10,7 @@ struct NotchView: View {
     @ObservedObject var bluetoothViewModel: BluetoothViewModel
     @ObservedObject var networkViewModel: NetworkViewModel
     @ObservedObject var doNotDisturbViewModel: DoNotDisturbViewModel
-    
-    @Environment(\.openWindow) private var openWindow
-    
-    @State private var isPressed = false
-    
-    let window: NSWindow?
+    @ObservedObject var airDropViewModel: AirDropNotchViewModel
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -27,8 +23,25 @@ struct NotchView: View {
                 .onChange(of: notchViewModel.notchModel.content?.id) { _, newId in
                     notchViewModel.handleStrokeVisibility()
                 }
+                .onChange(of: airDropViewModel.isDraggingFile) { _, isTargeted in
+                    if isTargeted {
+                        notchEventCoordinator.handleAirDropDragStarted()
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            if !airDropViewModel.isDraggingFile {
+                                notchEventCoordinator.handleAirDropDragEnded()
+                            }
+                        }
+                    }
+                }
+                .onDrop(of: [.fileURL], isTargeted: $airDropViewModel.isDraggingFile) { providers in
+                    let frame = notchViewModel.window?.contentView?.frame ?? .zero
+                    let dropPoint = NSPoint(x: frame.midX, y: frame.midY)
+                    airDropViewModel.handleDrop(providers: providers, point: dropPoint)
+                    return true
+                }
         }
-        .windowHover(window)
+        .windowHover(notchViewModel.window)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
 }
@@ -43,7 +56,7 @@ private extension NotchView {
         .fill(.black)
         .stroke(notchViewModel.showStroke ? notchViewModel.cachedStrokeColor : Color.clear, lineWidth: 1.5)
         .overlay { contentOverlay }
-        .customNotchPressable(isPressed: $isPressed, baseSize: notchViewModel.notchModel.size)
+        .customNotchPressable(isPressed: $notchViewModel.isPressed, baseSize: notchViewModel.notchModel.size)
         .frame(width: notchViewModel.notchModel.size.width, height: notchViewModel.notchModel.size.height)
         .contextMenu { contextMenuItem }
         .animation(.easeInOut(duration: 0.3), value: notchViewModel.showStroke)

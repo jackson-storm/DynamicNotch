@@ -14,10 +14,15 @@ final class NotchEventCoordinator: ObservableObject {
     private let bluetoothViewModel: BluetoothViewModel
     private let powerService: PowerService
     private let networkViewModel: NetworkViewModel
+    private let airDropViewModel: AirDropNotchViewModel
     
     private var isOnboardingActive: Bool {
         notchViewModel.notchModel.liveActivityContent?.id == "onboarding" ||
         notchViewModel.notchModel.temporaryNotificationContent?.id == "onboarding"
+    }
+    
+    private var isAirDropActive: Bool {
+        notchViewModel.notchModel.content?.id == "airdrop"
     }
     
     init (
@@ -25,11 +30,13 @@ final class NotchEventCoordinator: ObservableObject {
         bluetoothViewModel: BluetoothViewModel,
         powerService: PowerService,
         networkViewModel: NetworkViewModel,
+        airDropViewModel: AirDropNotchViewModel
     ) {
         self.notchViewModel = notchViewModel
         self.bluetoothViewModel = bluetoothViewModel
         self.powerService = powerService
         self.networkViewModel = networkViewModel
+        self.airDropViewModel = airDropViewModel
     }
     
     func checkFirstLaunch() {
@@ -49,8 +56,21 @@ final class NotchEventCoordinator: ObservableObject {
         }
     }
     
+    func handleAirDropDragStarted() {
+        guard !isOnboardingActive else { return }
+        
+        notchViewModel.send(.showLiveActivitiy(AirDropNotchContent(airDropViewModel: airDropViewModel,notchViewModel: notchViewModel)))
+    }
+    
+    func handleAirDropDragEnded() {
+        guard isAirDropActive else { return }
+        
+        notchViewModel.send(.hide)
+    }
+    
     func handleDoNotDisturbEvent(_ event: FocusEvent) {
         guard !isOnboardingActive else { return }
+        guard !isOnboardingActive && !isAirDropActive else { return }
         
         switch event {
         case .on:
@@ -66,6 +86,7 @@ final class NotchEventCoordinator: ObservableObject {
     
     func handleHudEvent(_ event: HudEvent) {
         guard !isOnboardingActive else { return }
+        guard !isOnboardingActive && !isAirDropActive else { return }
         
         switch event {
         case .display(let level):
@@ -88,6 +109,7 @@ final class NotchEventCoordinator: ObservableObject {
     
     func handleBluetoothEvent(_ event: BluetoothEvent) {
         guard !isOnboardingActive else { return }
+        guard !isOnboardingActive && !isAirDropActive else { return }
         
         switch event {
         case .connected:
@@ -97,6 +119,7 @@ final class NotchEventCoordinator: ObservableObject {
     
     func handleNetworkEvent(_ event: NetworkEvent) {
         guard !isOnboardingActive else { return }
+        guard !isOnboardingActive && !isAirDropActive else { return }
         
         switch event {
         case .wifiConnected:
@@ -117,6 +140,7 @@ final class NotchEventCoordinator: ObservableObject {
     
     func handlePowerEvent(_ event: PowerEvent) {
         guard !isOnboardingActive else { return }
+        guard !isOnboardingActive && !isAirDropActive else { return }
         
         switch event {
         case .charger:

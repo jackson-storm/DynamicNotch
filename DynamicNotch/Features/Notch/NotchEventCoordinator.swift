@@ -51,30 +51,24 @@ final class NotchEventCoordinator: ObservableObject {
     
     func finishOnboarding() {
         UserDefaults.standard.set(true, forKey: "hasSeenOnboarding")
-        notchViewModel.send(.hide)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-        }
+        notchViewModel.send(.hideLiveActivity(id: "onboarding"))
     }
     
     func handleAirDropEvent(_ event: AirDropEvent) {
         guard !isOnboardingActive else { return }
-
+        
         switch event {
         case .dragStarted:
             notchViewModel.send(.showLiveActivitiy(AirDropNotchContent(airDropViewModel: airDropViewModel, notchViewModel: notchViewModel)))
             
         case .dragEnded:
-            if isAirDropActive {
-                notchViewModel.send(.hide)
-            }
+            notchViewModel.send(.hideLiveActivity(id: "airdrop"))
             
         case .dropped(let urls, let point):
             if let view = NSApp.keyWindow?.contentView {
                 airDropViewModel.shareViaAirDrop(urls: urls, point: point, view: view)
-            } else {
-                airDropViewModel.shareViaAirDrop(urls: urls, point: point, view: NSView())
             }
-            notchViewModel.send(.hide)
+            notchViewModel.send(.hideLiveActivity(id: "airdrop"))
         }
     }
     
@@ -87,10 +81,8 @@ final class NotchEventCoordinator: ObservableObject {
             notchViewModel.send(.showLiveActivitiy(DoNotDisturbOnNotchContent()))
             
         case .FocusOff:
-            notchViewModel.send(.hide)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                self.notchViewModel.send(.showTemporaryNotification(DoNotDisturbOffNotchContent(), duration: 3))
-            }
+            notchViewModel.send(.hideLiveActivity(id: "focus.active"))
+            self.notchViewModel.send(.showTemporaryNotification(DoNotDisturbOffNotchContent(), duration: 3))
         }
     }
     
@@ -142,9 +134,7 @@ final class NotchEventCoordinator: ObservableObject {
             notchViewModel.send(.showLiveActivitiy(HotspotActiveContent()))
             
         case .hotspotHide:
-            if notchViewModel.notchModel.liveActivityContent?.id == "hotspot.active" {
-                notchViewModel.send(.hide)
-            }
+            notchViewModel.send(.hideLiveActivity(id: "hotspot.active"))
         }
     }
     

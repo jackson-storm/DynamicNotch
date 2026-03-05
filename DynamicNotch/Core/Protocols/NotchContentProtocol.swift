@@ -9,6 +9,7 @@ import SwiftUI
 
 protocol NotchContentProtocol {
     var id: String { get }
+    var priority: Int { get }
     var strokeColor: Color { get }
     var offsetYTransition: CGFloat { get }
     
@@ -19,6 +20,7 @@ protocol NotchContentProtocol {
 }
 
 extension NotchContentProtocol {
+    var priority: Int { 0 }
     var strokeColor: Color { .white.opacity(0.15) }
     var offsetYTransition: CGFloat { 0 }
     

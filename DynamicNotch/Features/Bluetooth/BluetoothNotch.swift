@@ -5,7 +5,7 @@ struct BluetoothConnectedNotchContent: NotchContentProtocol {
     let bluetoothViewModel: BluetoothViewModel
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        return .init(width: baseWidth + 240, height: baseHeight)
+        return .init(width: baseWidth + 210, height: baseHeight)
     }
     
     @MainActor

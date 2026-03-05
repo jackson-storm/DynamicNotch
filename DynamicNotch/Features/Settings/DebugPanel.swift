@@ -20,82 +20,69 @@ struct DebugPanel: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 24) {
-                    
-                    // --- ACTIVE SECTION ---
-                    VStack(alignment: .leading, spacing: 12) {
-                        sectionHeader(title: "Live Active Event", systemImage: "dot.radiowaves.left.and.right", color: .blue)
-                        
-                        LazyVGrid(columns: columns, spacing: 10) {
-                            debugTile(title: "Onboarding", icon: "clipboard", color: .orange) {
-                                notchEventCoordinator.handleOnboardingEvent(.onboarding)
-                            }
-                            
-                            debugTile(title: "AirDrop", icon: "dot.radiowaves.left.and.right", color: .blue) {
-                                notchEventCoordinator.handleAirDropEvent(.dragStarted)
-                            }
-                            
-                            debugTile(title: "Hotspot", icon: "personalhotspot", color: .green) {
-                                notchEventCoordinator.handleNetworkEvent(.hotspotActive)
-                            }
-                            debugTile(title: "Focus on", icon: "moon.fill", color: .indigo) {
-                                notchEventCoordinator.handleDoNotDisturbEvent(.FocusOn)
-                            }
-                        }
-                    }
-                    
-                    Divider().opacity(0.5)
-                    
-                    // --- TEMPORARY SECTION ---
-                    VStack(alignment: .leading, spacing: 12) {
-                        sectionHeader(title: "Temporary Events", systemImage: "bolt.badge.clock", color: .purple)
-                        
-                        LazyVGrid(columns: columns, spacing: 10) {
-                            debugTile(title: "Charger", icon: "bolt.fill", color: .yellow) {
-                                notchEventCoordinator.handlePowerEvent(.charger)
-                            }
-                            debugTile(title: "Low Power", icon: "battery.25", color: .red) {
-                                notchEventCoordinator.handlePowerEvent(.lowPower)
-                            }
-                            debugTile(title: "Full Power", icon: "battery.100", color: .green) {
-                                notchEventCoordinator.handlePowerEvent(.fullPower)
-                            }
-                            debugTile(title: "Bluetooth", icon: "headphones", color: .blue) {
-                                notchEventCoordinator.handleBluetoothEvent(.connected)
-                            }
-                            debugTile(title: "Focus off", icon: "moon.fill", color: .indigo) {
-                                notchEventCoordinator.handleDoNotDisturbEvent(.FocusOff)
-                            }
-                            debugTile(title: "VPN", icon: "network", color: .cyan) {
-                                notchEventCoordinator.handleNetworkEvent(.vpnConnected)
-                            }
-                            debugTile(title: "WiFi", icon: "wifi", color: .blue) {
-                                notchEventCoordinator.handleNetworkEvent(.wifiConnected)
-                            }
-                        }
-                    }
-                }
-                .padding(20)
-            }
-            
-            Divider().opacity(0.5)
-            
-            ZStack {
-                Rectangle()
-                    .fill(.ultraThinMaterial)
-                    .frame(height: 50)
+            VStack(alignment: .leading, spacing: 24) {
                 
-                Button(role: .destructive) {
-                    notchViewModel.send(.hide)
-                } label: {
-                    Text("Hide All Temporary")
-                        .frame(maxWidth: .infinity, maxHeight: 25)
+                // --- ACTIVE SECTION ---
+                VStack(alignment: .leading, spacing: 12) {
+                    sectionHeader(title: "Live Active Event", systemImage: "dot.radiowaves.left.and.right", color: .blue)
+                    
+                    LazyVGrid(columns: columns, spacing: 10) {
+                        debugTile(title: "Onboarding", icon: "clipboard", color: .orange) {
+                            notchEventCoordinator.handleOnboardingEvent(.onboarding)
+                        }
+                        
+                        debugTile(title: "AirDrop", icon: "dot.radiowaves.left.and.right", color: .blue) {
+                            notchEventCoordinator.handleAirDropEvent(.dragStarted)
+                        }
+                        
+                        debugTile(title: "Hotspot", icon: "personalhotspot", color: .green) {
+                            notchEventCoordinator.handleNetworkEvent(.hotspotActive)
+                        }
+                        debugTile(title: "Focus on", icon: "moon.fill", color: .indigo) {
+                            notchEventCoordinator.handleDoNotDisturbEvent(.FocusOn)
+                        }
+                    }
                 }
-                .buttonStyle(.borderedProminent)
-                .padding(.horizontal, 10)
+                
+                Divider().opacity(0.5)
+                
+                // --- TEMPORARY SECTION ---
+                VStack(alignment: .leading, spacing: 12) {
+                    sectionHeader(title: "Temporary Events", systemImage: "bolt.badge.clock", color: .purple)
+                    
+                    LazyVGrid(columns: columns, spacing: 10) {
+                        debugTile(title: "Charger", icon: "bolt.fill", color: .yellow) {
+                            notchEventCoordinator.handlePowerEvent(.charger)
+                        }
+                        debugTile(title: "Low Power", icon: "battery.25", color: .red) {
+                            notchEventCoordinator.handlePowerEvent(.lowPower)
+                        }
+                        debugTile(title: "Full Power", icon: "battery.100", color: .green) {
+                            notchEventCoordinator.handlePowerEvent(.fullPower)
+                        }
+                        debugTile(title: "Bluetooth", icon: "headphones", color: .blue) {
+                            notchEventCoordinator.handleBluetoothEvent(.connected)
+                        }
+                        debugTile(title: "Focus off", icon: "moon.fill", color: .indigo) {
+                            notchEventCoordinator.handleDoNotDisturbEvent(.FocusOff)
+                        }
+                        debugTile(title: "VPN", icon: "network", color: .cyan) {
+                            notchEventCoordinator.handleNetworkEvent(.vpnConnected)
+                        }
+                        debugTile(title: "WiFi", icon: "wifi", color: .blue) {
+                            notchEventCoordinator.handleNetworkEvent(.wifiConnected)
+                        }
+                    }
+                }
             }
+            Spacer()
+            
+            Button(action: {notchViewModel.send(.hide)}) {
+                Text("Hide All Temporary")
+            }
+            .buttonStyle(.borderedProminent)
         }
+        .padding(20)
     }
     
     @ViewBuilder

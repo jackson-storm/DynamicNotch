@@ -10,6 +10,7 @@ import SwiftUI
 struct DoNotDisturbOnNotchContent: NotchContentProtocol {
     let id = "doNotDisturb.on"
     
+    var priority: Int { 30 }
     var strokeColor: Color { .indigo.opacity(0.3) }
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {

@@ -62,8 +62,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         
         let screenFrame = screen.frame
         
-        let notchWidth: CGFloat = 500
-        let notchHeight: CGFloat = 300
+        let notchWidth: CGFloat = 1000
+        let notchHeight: CGFloat = 1000
         
         let x = screenFrame.midX - notchWidth / 2
         let y = screenFrame.maxY - notchHeight + 1

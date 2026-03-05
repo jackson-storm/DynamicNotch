@@ -8,10 +8,10 @@
 import Foundation
 import Combine
 
-final class DoNotDisturbViewModel: ObservableObject {
+final class FocusViewModel: ObservableObject {
     @Published var focusEvent: FocusEvent? = nil
     
-    private let service = DoNotDisturbService()
+    private let service = FocusService()
     
     init() {
         service.onEvent = { [weak self] event in

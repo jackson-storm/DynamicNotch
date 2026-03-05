@@ -12,7 +12,7 @@ final class BluetoothViewModel: ObservableObject {
     @Published var deviceType: BluetoothAudioDeviceType = .generic
     @Published var event: BluetoothEvent?
     @Published var isConnected: Bool = false
-    @Published var deviceName: String = ""
+    @Published var deviceName: String = "Unknown"
     @Published var batteryLevel: Int? = nil
     
     var notchViewModel: NotchViewModel?
@@ -44,11 +44,11 @@ final class BluetoothViewModel: ObservableObject {
                 
                 if isNowConnected {
                     let device = devices.last ?? self.bluetoothService.lastConnectedDevice
-                    self.deviceName = device?.name ?? ""
+                    self.deviceName = device?.name ?? "Unknown"
                     self.batteryLevel = device?.batteryLevel
                     self.deviceType = device?.deviceType ?? .generic
                 } else {
-                    self.deviceName = ""
+                    self.deviceName = "Unknown"
                     self.batteryLevel = nil
                     self.deviceType = .generic
                 }

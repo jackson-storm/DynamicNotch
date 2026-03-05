@@ -1,6 +1,7 @@
 import SwiftUI
 import Combine
 import AppKit
+internal import UniformTypeIdentifiers
 
 struct NotchView: View {
     @ObservedObject var notchViewModel: NotchViewModel
@@ -8,28 +9,33 @@ struct NotchView: View {
     @ObservedObject var powerViewModel: PowerViewModel
     @ObservedObject var bluetoothViewModel: BluetoothViewModel
     @ObservedObject var networkViewModel: NetworkViewModel
-    @ObservedObject var doNotDisturbViewModel: DoNotDisturbViewModel
+    @ObservedObject var focusViewModel: FocusViewModel
+    @ObservedObject var airDropViewModel: AirDropNotchViewModel
     
     @Environment(\.openWindow) private var openWindow
     
-    @State private var isPressed = false
-    
-    let window: NSWindow?
-    
     var body: some View {
-        ZStack(alignment: .top) {
+        ZStack {
             notchBody
                 .environment(\.notchScale, notchViewModel.notchModel.scale)
-                .onReceive(powerViewModel.$event.compactMap { $0 }.receive(on: RunLoop.main), perform: notchEventCoordinator.handlePowerEvent)
-                .onReceive(bluetoothViewModel.$event.compactMap { $0 }.receive(on: RunLoop.main), perform: notchEventCoordinator.handleBluetoothEvent)
-                .onReceive(networkViewModel.$networkEvent.compactMap { $0 }.receive(on: RunLoop.main), perform: notchEventCoordinator.handleNetworkEvent)
-                .onReceive(doNotDisturbViewModel.$focusEvent.compactMap{ $0 }.receive(on: RunLoop.main), perform: notchEventCoordinator.handleDoNotDisturbEvent)
-                .onChange(of: notchViewModel.notchModel.content?.id) { _, newId in
+                .onReceive(powerViewModel.$event.compactMap { $0 }, perform: notchEventCoordinator.handlePowerEvent)
+                .onReceive(bluetoothViewModel.$event.compactMap { $0 }, perform: notchEventCoordinator.handleBluetoothEvent)
+                .onReceive(networkViewModel.$networkEvent.compactMap { $0 }, perform: notchEventCoordinator.handleNetworkEvent)
+                .onReceive(focusViewModel.$focusEvent.compactMap{ $0 }, perform: notchEventCoordinator.handleFocusEvent)
+                .onReceive(airDropViewModel.$event.compactMap { $0 }, perform: notchEventCoordinator.handleAirDropEvent)
+                .onChange(of: notchViewModel.notchModel.content?.id) {
                     notchViewModel.handleStrokeVisibility()
                 }
+                .onDrop(of: [.fileURL], isTargeted: $airDropViewModel.isDraggingFile) { providers in
+                    let frame = NSApp.keyWindow?.contentView?.frame ?? .zero
+                    let dropPoint = NSPoint(x: frame.midX, y: frame.midY)
+                    airDropViewModel.handleDrop(providers: providers, point: dropPoint)
+                    return true
+                }
         }
-        .windowHover(window)
+        .offset(y: 1)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .ignoresSafeArea()
     }
 }
 
@@ -43,7 +49,7 @@ private extension NotchView {
         .fill(.black)
         .stroke(notchViewModel.showStroke ? notchViewModel.cachedStrokeColor : Color.clear, lineWidth: 1.5)
         .overlay { contentOverlay }
-        .customNotchPressable(isPressed: $isPressed, baseSize: notchViewModel.notchModel.size)
+        .customNotchPressable(isPressed: $notchViewModel.isPressed, baseSize: notchViewModel.notchModel.size)
         .frame(width: notchViewModel.notchModel.size.width, height: notchViewModel.notchModel.size.height)
         .contextMenu { contextMenuItem }
         .animation(.easeInOut(duration: 0.3), value: notchViewModel.showStroke)
@@ -70,6 +76,7 @@ private extension NotchView {
             Image(systemName: "gearshape")
             Text("Settings")
         }
+        
         Divider()
         Button(action: { NSApp.terminate(nil) }) {
             Image(systemName: "rectangle.portrait.and.arrow.right")

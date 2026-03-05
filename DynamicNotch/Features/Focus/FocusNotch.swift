@@ -7,9 +7,10 @@
 
 import SwiftUI
 
-struct DoNotDisturbOnNotchContent: NotchContentProtocol {
-    let id = "doNotDisturb.on"
+struct FocusOnNotchContent: NotchContentProtocol {
+    let id = "focus.on"
     
+    var priority: Int { 30 }
     var strokeColor: Color { .indigo.opacity(0.3) }
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
@@ -18,12 +19,12 @@ struct DoNotDisturbOnNotchContent: NotchContentProtocol {
     
     @MainActor
     func makeView() -> AnyView {
-        AnyView(DoNotDisturbOnNotchView())
+        AnyView(FocusOnNotchView())
     }
 }
 
-struct DoNotDisturbOffNotchContent: NotchContentProtocol {
-    let id = "doNotDisturb.off"
+struct FocusOffNotchContent: NotchContentProtocol {
+    let id = "focus.off"
     
     var strokeColor: Color { .gray.opacity(0.3) }
     
@@ -33,11 +34,11 @@ struct DoNotDisturbOffNotchContent: NotchContentProtocol {
     
     @MainActor
     func makeView() -> AnyView {
-        AnyView(DoNotDisturbOffNotchView())
+        AnyView(FocusOffNotchView())
     }
 }
 
-private struct DoNotDisturbOnNotchView: View {
+private struct FocusOnNotchView: View {
     @Environment(\.notchScale) var scale
     
     var body: some View {
@@ -54,7 +55,7 @@ private struct DoNotDisturbOnNotchView: View {
     }
 }
 
-private struct DoNotDisturbOffNotchView: View {
+private struct FocusOffNotchView: View {
     @Environment(\.notchScale) var scale
     
     var body: some View {

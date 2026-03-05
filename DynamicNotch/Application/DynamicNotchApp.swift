@@ -9,13 +9,10 @@ struct NotchApp: App {
         Settings {
             TabView {
                 #if DEBUG
-                NotchControlPanel(
-                    notchViewModel: appDelegate.notchViewModel,
-                    notchEventCoordinator: appDelegate.notchEventCoordinator
-                )
+                DebugPanel(notchViewModel: appDelegate.notchViewModel, notchEventCoordinator: appDelegate.notchEventCoordinator)
                 .tabItem {
-                    Image(systemName: "light.panel")
-                    Text("Notch Panel")
+                    Image(systemName: "lock.rectangle.stack")
+                    Text("Debug Panel")
                 }
                 #endif
                 SettingsView()

@@ -26,9 +26,15 @@ enum HudEvent {
     case volume(Int)
 }
 
+enum AirDropEvent {
+    case dragStarted
+    case dragEnded
+    case dropped(urls: [URL], point: NSPoint)
+}
+
 enum FocusEvent {
-    case on
-    case off
+    case FocusOn
+    case FocusOff
 }
 
 enum BluetoothEvent {

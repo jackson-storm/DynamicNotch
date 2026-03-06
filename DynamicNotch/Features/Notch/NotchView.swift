@@ -35,7 +35,6 @@ struct NotchView: View {
         }
         .offset(y: 1)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-        .ignoresSafeArea()
     }
 }
 

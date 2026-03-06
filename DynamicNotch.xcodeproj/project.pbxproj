@@ -7,9 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E27B0ED82F536365006DCA6F /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = E27B0ED72F536365006DCA6F /* Defaults */; };
-		E27B0EDA2F536365006DCA6F /* DefaultsMacros in Frameworks */ = {isa = PBXBuildFile; productRef = E27B0ED92F536365006DCA6F /* DefaultsMacros */; };
-		E27E93C72F4B96D800DD12D3 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = E27E93C62F4B96D800DD12D3 /* Lottie */; };
+		E2C135B42F59F9F200348421 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = E2C135B32F59F9F200348421 /* Defaults */; };
+		E2C135B72F59FA8100348421 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = E2C135B62F59FA8100348421 /* Lottie */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,9 +41,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E27B0EDA2F536365006DCA6F /* DefaultsMacros in Frameworks */,
-				E27B0ED82F536365006DCA6F /* Defaults in Frameworks */,
-				E27E93C72F4B96D800DD12D3 /* Lottie in Frameworks */,
+				E2C135B42F59F9F200348421 /* Defaults in Frameworks */,
+				E2C135B72F59FA8100348421 /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,9 +85,8 @@
 			);
 			name = DynamicNotch;
 			packageProductDependencies = (
-				E27E93C62F4B96D800DD12D3 /* Lottie */,
-				E27B0ED72F536365006DCA6F /* Defaults */,
-				E27B0ED92F536365006DCA6F /* DefaultsMacros */,
+				E2C135B32F59F9F200348421 /* Defaults */,
+				E2C135B62F59FA8100348421 /* Lottie */,
 			);
 			productName = DynamicNotch;
 			productReference = E2EF78512EDDB60E00F96D1E /* DynamicNotch.app */;
@@ -120,8 +117,8 @@
 			mainGroup = E2EF78482EDDB60E00F96D1E;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				E27E93C52F4B96D800DD12D3 /* XCRemoteSwiftPackageReference "lottie-ios" */,
-				E27B0ED62F536365006DCA6F /* XCRemoteSwiftPackageReference "Defaults" */,
+				E2C135B22F59F9F200348421 /* XCRemoteSwiftPackageReference "Defaults" */,
+				E2C135B52F59FA8100348421 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = E2EF78522EDDB60E00F96D1E /* Products */;
@@ -260,6 +257,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -273,7 +271,7 @@
 				OTHER_LDFLAGS = "";
 				"OTHER_LDFLAGS[arch=*]" = "";
 				SDKROOT = macosx;
-				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_COMPILATION_MODE = singlefile;
 			};
 			name = Release;
 		};
@@ -286,7 +284,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = WZHZ6LB2F6;
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -309,7 +307,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.6;
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Jackson.DynamicNotch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -337,7 +335,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = WZHZ6LB2F6;
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -360,7 +358,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.6;
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Jackson.DynamicNotch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -403,7 +401,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		E27B0ED62F536365006DCA6F /* XCRemoteSwiftPackageReference "Defaults" */ = {
+		E2C135B22F59F9F200348421 /* XCRemoteSwiftPackageReference "Defaults" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sindresorhus/Defaults";
 			requirement = {
@@ -411,7 +409,7 @@
 				minimumVersion = 9.0.6;
 			};
 		};
-		E27E93C52F4B96D800DD12D3 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+		E2C135B52F59FA8100348421 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
 			requirement = {
@@ -422,19 +420,14 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		E27B0ED72F536365006DCA6F /* Defaults */ = {
+		E2C135B32F59F9F200348421 /* Defaults */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = E27B0ED62F536365006DCA6F /* XCRemoteSwiftPackageReference "Defaults" */;
+			package = E2C135B22F59F9F200348421 /* XCRemoteSwiftPackageReference "Defaults" */;
 			productName = Defaults;
 		};
-		E27B0ED92F536365006DCA6F /* DefaultsMacros */ = {
+		E2C135B62F59FA8100348421 /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = E27B0ED62F536365006DCA6F /* XCRemoteSwiftPackageReference "Defaults" */;
-			productName = DefaultsMacros;
-		};
-		E27E93C62F4B96D800DD12D3 /* Lottie */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E27E93C52F4B96D800DD12D3 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			package = E2C135B52F59FA8100348421 /* XCRemoteSwiftPackageReference "lottie-ios" */;
 			productName = Lottie;
 		};
 /* End XCSwiftPackageProductDependency section */

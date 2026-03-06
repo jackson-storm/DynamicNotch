@@ -15,10 +15,10 @@ final class NotchViewModel: ObservableObject {
     private var temporaryTask: Task<Void, Never>?
     private var suspendedActivity: NotchContentProtocol? = nil
     private var hideDelay: TimeInterval = 0.3
+    private var queueDelay: TimeInterval = 0.3
     private var eventQueue: [NotchState] = []
     private var isProcessingQueue = false
     private var isTransitioning = false
-    private var queueDelay: TimeInterval = 0.3
     
     init() {
         updateDimensions()
@@ -36,8 +36,8 @@ final class NotchViewModel: ObservableObject {
             notchModel.baseHeight = topInset
             notchModel.baseWidth = 190 * notchModel.scale
         } else {
-            notchModel.baseHeight = 32 * notchModel.scale
-            notchModel.baseWidth = 200 * notchModel.scale
+            notchModel.baseHeight = 25 * notchModel.scale
+            notchModel.baseWidth = 190 * notchModel.scale
         }
     }
     

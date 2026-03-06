@@ -18,7 +18,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     let bluetoothViewModel = BluetoothViewModel()
     let powerViewModel: PowerViewModel
     let networkViewModel = NetworkViewModel()
-    let focusViewModelViewModel = FocusViewModel()
+    let focusViewModel = FocusViewModel()
     let airDropViewModel = AirDropNotchViewModel()
     
     lazy var notchEventCoordinator = NotchEventCoordinator(
@@ -99,7 +99,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 powerViewModel: powerViewModel,
                 bluetoothViewModel: bluetoothViewModel,
                 networkViewModel: networkViewModel,
-                focusViewModel: focusViewModelViewModel,
+                focusViewModel: focusViewModel,
                 airDropViewModel: airDropViewModel
             )
             .ignoresSafeArea()
@@ -128,13 +128,26 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 }
 
-class NotchHostingView<Content: SwiftUI.View>: NSHostingView<Content> {
-    override func acceptsFirstMouse(for event: NSEvent?) -> Bool {
-        return true
+class NotchHostingView: NSHostingView<AnyView> {
+
+    required init(rootView: AnyView) {
+        super.init(rootView: rootView)
     }
-    
+
+    convenience init<Content: View>(rootView: Content) {
+        self.init(rootView: AnyView(rootView))
+    }
+
+    @MainActor @objc required dynamic init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func acceptsFirstMouse(for event: NSEvent?) -> Bool {
+        true
+    }
+
     override func hitTest(_ point: NSPoint) -> NSView? {
-        if self.bounds.contains(point) {
+        if bounds.contains(point) {
             return self
         }
         return super.hitTest(point)

@@ -12,8 +12,6 @@ struct NotchView: View {
     @ObservedObject var focusViewModel: FocusViewModel
     @ObservedObject var airDropViewModel: AirDropNotchViewModel
     
-    @Environment(\.openWindow) private var openWindow
-    
     var body: some View {
         ZStack {
             notchBody

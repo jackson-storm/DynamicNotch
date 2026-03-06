@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SettingsView: View {
+struct GeneralSettingsView: View {
     var body: some View {
         VStack {
             Text("Primer")

@@ -59,7 +59,7 @@ final class NotchEventCoordinator: ObservableObject {
         
         switch event {
         case .dragStarted:
-            notchViewModel.send(.showLiveActivitiy(AirDropNotchContent(airDropViewModel: airDropViewModel, notchViewModel: notchViewModel)))
+            notchViewModel.send(.showLiveActivity(AirDropNotchContent(airDropViewModel: airDropViewModel, notchViewModel: notchViewModel)))
             
         case .dragEnded:
             notchViewModel.send(.hideLiveActivity(id: "airdrop"))
@@ -78,7 +78,7 @@ final class NotchEventCoordinator: ObservableObject {
         
         switch event {
         case .FocusOn:
-            notchViewModel.send(.showLiveActivitiy(FocusOnNotchContent()))
+            notchViewModel.send(.showLiveActivity(FocusOnNotchContent()))
             
         case .FocusOff:
             notchViewModel.send(.hideLiveActivity(id: "focus.on"))
@@ -105,7 +105,7 @@ final class NotchEventCoordinator: ObservableObject {
     func handleOnboardingEvent(_ event: OnboardingEvent) {
         switch event {
         case .onboarding:
-            notchViewModel.send(.showLiveActivitiy(OnboardingNotchContent(notchEventCoordinator: self)))
+            notchViewModel.send(.showLiveActivity(OnboardingNotchContent(notchEventCoordinator: self)))
         }
     }
     
@@ -131,7 +131,7 @@ final class NotchEventCoordinator: ObservableObject {
             notchViewModel.send(.showTemporaryNotification(VpnConnectedNotchContent(), duration: 3))
             
         case .hotspotActive:
-            notchViewModel.send(.showLiveActivitiy(HotspotActiveContent()))
+            notchViewModel.send(.showLiveActivity(HotspotActiveContent()))
             
         case .hotspotHide:
             notchViewModel.send(.hideLiveActivity(id: "hotspot.active"))

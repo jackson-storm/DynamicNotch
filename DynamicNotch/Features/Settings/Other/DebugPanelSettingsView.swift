@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct DebugPanel: View {
+struct DebugPanelSettingsView: View {
     @ObservedObject var notchViewModel: NotchViewModel
     @ObservedObject var notchEventCoordinator: NotchEventCoordinator
     

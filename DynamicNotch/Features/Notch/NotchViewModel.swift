@@ -54,7 +54,7 @@ final class NotchViewModel: ObservableObject {
                 return
             }
             
-        case .showLiveActivitiy(let content):
+        case .showLiveActivity(let content):
             updateLiveActivityStack(with: content)
             
             // Если эта активность уже на экране — просто обновляем её данные без анимации перехода
@@ -72,7 +72,7 @@ final class NotchViewModel: ObservableObject {
             // Если удаляем то, что не было на экране — в очередь добавлять не нужно
             if !wasVisible {
                 eventQueue.removeAll(where: {
-                    if case .showLiveActivitiy(let content) = $0 { return content.id == id }
+                    if case .showLiveActivity(let content) = $0 { return content.id == id }
                     return false
                 })
                 return
@@ -111,7 +111,7 @@ final class NotchViewModel: ObservableObject {
         }
 
         switch state {
-        case .showLiveActivitiy(let content):
+        case .showLiveActivity(let content):
 
             let current = notchModel.liveActivityContent
             let best = highestPriorityActivity

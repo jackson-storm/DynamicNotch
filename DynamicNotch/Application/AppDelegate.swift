@@ -102,7 +102,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 focusViewModel: focusViewModel,
                 airDropViewModel: airDropViewModel
             )
-            .ignoresSafeArea()
         )
         
         window.makeKeyAndOrderFront(nil)
@@ -147,9 +146,6 @@ class NotchHostingView: NSHostingView<AnyView> {
     }
 
     override func hitTest(_ point: NSPoint) -> NSView? {
-        if bounds.contains(point) {
-            return self
-        }
         return super.hitTest(point)
     }
 }

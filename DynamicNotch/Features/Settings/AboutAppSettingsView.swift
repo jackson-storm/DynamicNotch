@@ -11,75 +11,85 @@ struct AboutAppSettingsView: View {
     @Environment(\.openURL) private var openURL
 
     var body: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: 0) {
             logoAndDescription
             Divider().opacity(0.8)
             aboutAppDescription
         }
-        .padding(20)
     }
     
     @ViewBuilder
     var logoAndDescription: some View {
-        VStack(spacing: 15) {
-            Image("logo")
-                .resizable()
-                .frame(width: 60, height: 60)
+        ZStack {
+            Rectangle()
+                .fill(.tint)
+                .frame(width: 250, height: 40)
             
-            VStack(alignment: .center, spacing: 3) {
-                Text("Dynamic Notch")
-                    .font(.system(size: 18, weight: .semibold))
+            Rectangle()
+                .fill(.ultraThinMaterial)
+                .frame(height: 240)
+            
+            VStack(spacing: 15) {
+                Image("logo")
+                    .resizable()
+                    .frame(width: 60, height: 60)
                 
-                Text("Make the cutout area more useful.")
-                    .font(.system(size: 10))
-                    .foregroundStyle(.secondary)
-                
-                RoundedRectangle(cornerRadius: 4)
-                    .fill(.orange.opacity(0.4))
-                    .stroke(.orange.opacity(0.6), lineWidth: 1)
-                    .frame(width: 75, height: 18)
-                    .overlay(
-                        Text("v.1.0.0-beta4")
-                            .font(.system(size: 11))
-                    )
-                    .padding(3)
+                VStack(alignment: .center, spacing: 3) {
+                    Text("Dynamic Notch")
+                        .font(.system(size: 18, weight: .semibold))
+                    
+                    Text("Make the cutout area more useful.")
+                        .font(.system(size: 10))
+                        .foregroundStyle(.secondary)
+                    
+                    RoundedRectangle(cornerRadius: 4)
+                        .fill(.orange.opacity(0.4))
+                        .stroke(.orange.opacity(0.6), lineWidth: 1)
+                        .frame(width: 75, height: 18)
+                        .overlay(
+                            Text("v.1.0.0-beta4")
+                                .font(.system(size: 11))
+                        )
+                        .padding(3)
+                }
+                HStack {
+                    Button(action: {
+                        if let url = URL(string: "https://telegram.me/id10101101") {
+                            openURL(url)
+                        }
+                    }) {
+                        Image("telegram")
+                            .resizable()
+                            .frame(width: 40, height: 40)
+                    }
+                    
+                    Button(action: {
+                        if let url = URL(string: "https://github.com/jackson-storm/DynamicNotch") {
+                            openURL(url)
+                        }
+                    }) {
+                        Image("gitHub")
+                            .resizable()
+                            .frame(width: 40, height: 40)
+                    }
+                    
+                    Button(action: {
+                        let email = "evgeniy.petrukovich@icloud.com"
+                        let subject = "A question about Dynamic Notch"
+                        let body = ""
+                        let urlString = "mailto:\(email)?subject=\(subject.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")&body=\(body.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")"
+                        if let url = URL(string: urlString) {
+                            openURL(url)
+                        }
+                    }) {
+                        Image("email")
+                            .resizable()
+                            .frame(width: 40, height: 40)
+                    }
+                }
+                .buttonStyle(.plain)
             }
-            HStack {
-                Button(action: {
-                    if let url = URL(string: "https://telegram.me/id10101101") {
-                        openURL(url)
-                    }
-                }) {
-                    Image("telegram")
-                        .resizable()
-                        .frame(width: 40, height: 40)
-                }
-                
-                Button(action: {
-                    if let url = URL(string: "https://github.com/jackson-storm/DynamicNotch") {
-                        openURL(url)
-                    }
-                }) {
-                    Image("gitHub")
-                        .resizable()
-                        .frame(width: 40, height: 40)
-                }
-                
-                Button(action: {
-                    let email = "evgeniy.petrukovich@icloud.com"
-                    let subject = "A question about Dynamic Notch"
-                    let body = ""
-                    let urlString = "mailto:\(email)?subject=\(subject.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")&body=\(body.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")"
-                    if let url = URL(string: urlString) {
-                        openURL(url)
-                    }
-                }) {
-                    Image("email")
-                        .resizable()
-                        .frame(width: 40, height: 40)
-                }
-            }
-            .buttonStyle(.plain)
+            .padding(20)
         }
     }
     
@@ -102,6 +112,7 @@ struct AboutAppSettingsView: View {
                 description: "It becomes active when the cursor with the selected file is dragged to the notch zone and sticks there a little bit."
             )
         }
+        .padding(20)
     }
 }
 

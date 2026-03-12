@@ -4,47 +4,37 @@ import Combine
 final class PowerViewModel: ObservableObject {
     @Published var event: PowerEvent?
 
-    let powerService: PowerService
-    
-    private var cancellables = Set<AnyCancellable>()
-    private var isInitialized = false
+    private let powerStateProvider: any PowerStateProviding
+    private var previousOnACPower: Bool
+    private var previousBatteryLevel: Int
 
-    init(powerService: PowerService) {
-        self.powerService = powerService
+    init(powerService: any PowerStateProviding) {
+        self.powerStateProvider = powerService
+        self.previousOnACPower = powerService.onACPower
+        self.previousBatteryLevel = powerService.batteryLevel
         setupBindings()
     }
 
     private func setupBindings() {
-        powerService.$onACPower
-            .removeDuplicates()
-            .sink { [weak self] onAC in
-                guard let self else { return }
-                guard self.isInitialized else { return }
-
-                if onAC {
-                    self.event = .charger
-                }
-            }
-            .store(in: &cancellables)
-
-        powerService.$batteryLevel
-            .removeDuplicates()
-            .sink { [weak self] level in
-                guard let self else { return }
-                guard self.isInitialized else { return }
-
-                if level <= 20 {
-                    self.event = .lowPower
-                }
-
-                if level == 100 {
-                    self.event = .fullPower
-                }
-            }
-            .store(in: &cancellables)
-
-        DispatchQueue.main.async {
-            self.isInitialized = true
+        powerStateProvider.onPowerStateChange = { [weak self] onACPower, batteryLevel in
+            self?.handlePowerStateChange(onACPower: onACPower, batteryLevel: batteryLevel)
         }
+    }
+
+    private func handlePowerStateChange(onACPower: Bool, batteryLevel: Int) {
+        if !previousOnACPower && onACPower {
+            event = .charger
+        }
+
+        if previousBatteryLevel > 20 && batteryLevel <= 20 {
+            event = .lowPower
+        }
+
+        if previousBatteryLevel < 100 && batteryLevel == 100 {
+            event = .fullPower
+        }
+
+        previousOnACPower = onACPower
+        previousBatteryLevel = batteryLevel
     }
 }

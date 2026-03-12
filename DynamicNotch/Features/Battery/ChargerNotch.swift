@@ -16,7 +16,7 @@ struct ChargerNotchContent: NotchContentProtocol {
     }
 }
 
-private struct ChargerNotchView: View {
+struct ChargerNotchView: View {
     @Environment(\.notchScale) var scale
     @ObservedObject var powerService: PowerService
     

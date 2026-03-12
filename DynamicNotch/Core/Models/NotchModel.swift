@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 enum NotchState {
-    case showLiveActivitiy(NotchContentProtocol)
+    case showLiveActivity(NotchContentProtocol)
     case hideLiveActivity(id: String)
     case showTemporaryNotification(NotchContentProtocol, duration: TimeInterval)
     case hide 

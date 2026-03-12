@@ -15,6 +15,7 @@ final class NotchEventCoordinator: ObservableObject {
     private let powerService: PowerService
     private let networkViewModel: NetworkViewModel
     private let airDropViewModel: AirDropNotchViewModel
+    private let generalSettingsViewModel: GeneralSettingsViewModel
     
     private var isOnboardingActive: Bool {
         notchViewModel.notchModel.liveActivityContent?.id == "onboarding" ||
@@ -30,13 +31,15 @@ final class NotchEventCoordinator: ObservableObject {
         bluetoothViewModel: BluetoothViewModel,
         powerService: PowerService,
         networkViewModel: NetworkViewModel,
-        airDropViewModel: AirDropNotchViewModel
+        airDropViewModel: AirDropNotchViewModel,
+        generalSettingsViewModel: GeneralSettingsViewModel
     ) {
         self.notchViewModel = notchViewModel
         self.bluetoothViewModel = bluetoothViewModel
         self.powerService = powerService
         self.networkViewModel = networkViewModel
         self.airDropViewModel = airDropViewModel
+        self.generalSettingsViewModel = generalSettingsViewModel
     }
     
     func checkFirstLaunch() {
@@ -59,16 +62,32 @@ final class NotchEventCoordinator: ObservableObject {
         
         switch event {
         case .dragStarted:
-            notchViewModel.send(.showLiveActivitiy(AirDropNotchContent(airDropViewModel: airDropViewModel, notchViewModel: notchViewModel)))
+            notchViewModel.send(.showLiveActivity(AirDropNotchContent(airDropViewModel: airDropViewModel, notchViewModel: notchViewModel)))
             
         case .dragEnded:
             notchViewModel.send(.hideLiveActivity(id: "airdrop"))
             
         case .dropped(let urls, let point):
-            if let view = NSApp.keyWindow?.contentView {
+            if let view = airDropViewModel.presentationView
+                ?? NSApp.keyWindow?.contentView
+                ?? NSApp.mainWindow?.contentView
+                ?? NSApp.windows.compactMap(\.contentView).first {
                 airDropViewModel.shareViaAirDrop(urls: urls, point: point, view: view)
             }
             notchViewModel.send(.hideLiveActivity(id: "airdrop"))
+        }
+    }
+    
+    func handleNotchWidthEvent(_ event: NotchSizeEvent) {
+        guard !isOnboardingActive else { return }
+        guard !isOnboardingActive && !isAirDropActive else { return }
+        
+        switch event {
+        case .width:
+            notchViewModel.send(.showTemporaryNotification(NotchSizeWidthNotchContent(generalSettingsViewModel: generalSettingsViewModel), duration: 2))
+            
+        case .height:
+            notchViewModel.send(.showTemporaryNotification(NotchSizeHeightNotchContent(generalSettingsViewModel: generalSettingsViewModel), duration: 2))
         }
     }
     
@@ -78,7 +97,7 @@ final class NotchEventCoordinator: ObservableObject {
         
         switch event {
         case .FocusOn:
-            notchViewModel.send(.showLiveActivitiy(FocusOnNotchContent()))
+            notchViewModel.send(.showLiveActivity(FocusOnNotchContent()))
             
         case .FocusOff:
             notchViewModel.send(.hideLiveActivity(id: "focus.on"))
@@ -105,7 +124,7 @@ final class NotchEventCoordinator: ObservableObject {
     func handleOnboardingEvent(_ event: OnboardingEvent) {
         switch event {
         case .onboarding:
-            notchViewModel.send(.showLiveActivitiy(OnboardingNotchContent(notchEventCoordinator: self)))
+            notchViewModel.send(.showLiveActivity(OnboardingNotchContent(notchEventCoordinator: self)))
         }
     }
     
@@ -131,7 +150,7 @@ final class NotchEventCoordinator: ObservableObject {
             notchViewModel.send(.showTemporaryNotification(VpnConnectedNotchContent(), duration: 3))
             
         case .hotspotActive:
-            notchViewModel.send(.showLiveActivitiy(HotspotActiveContent()))
+            notchViewModel.send(.showLiveActivity(HotspotActiveContent()))
             
         case .hotspotHide:
             notchViewModel.send(.hideLiveActivity(id: "hotspot.active"))

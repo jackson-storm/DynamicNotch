@@ -21,11 +21,16 @@ final class NetworkViewModel: ObservableObject {
     
     @Published var networkEvent: NetworkEvent? = nil
     
-    private let monitor = NetworkMonitor()
+    private let monitor: any NetworkMonitoring
     private var isInitialCheck = true
     
-    init() {
+    init(monitor: any NetworkMonitoring = NetworkMonitor()) {
+        self.monitor = monitor
         setupMonitoring()
+    }
+
+    deinit {
+        monitor.stopMonitoring()
     }
     
     private func setupMonitoring() {

@@ -63,6 +63,7 @@ private struct LowPowerNotchView: View {
         HStack {
             Text("Battery Low")
                 .font(.system(size: 13))
+                .foregroundColor(.white.opacity(0.8))
                 .fontWeight(.semibold)
                 .lineLimit(1)
             

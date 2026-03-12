@@ -2,6 +2,8 @@ import SwiftUI
 import Combine
 import AppKit
 
+typealias NotchScreenMetrics = (width: CGFloat, topInset: CGFloat)
+
 /// ViewModel controlling the Dynamic Notch state machine.
 /// Handles event queueing, priority resolution, temporary notifications
 /// and animated transitions between different notch contents.
@@ -10,7 +12,6 @@ import AppKit
 /// External events → send() → eventQueue → executeState() → NotchModel → SwiftUI UI
 @MainActor
 final class NotchViewModel: ObservableObject {
-
     /// Single source of truth for the current notch UI state
     @Published private(set) var notchModel = NotchModel()
 
@@ -26,6 +27,9 @@ final class NotchViewModel: ObservableObject {
 
     /// Settings dependency used to calculate notch dimensions
     private let settings: NotchSettingsProviding
+
+    /// Resolves the screen metrics for the currently selected display
+    private let screenMetricsProvider: (NotchDisplayLocation) -> NotchScreenMetrics?
 
     /// Returns the currently highest priority Live Activity
     private var highestPriorityActivity: NotchContentProtocol? {
@@ -61,21 +65,27 @@ final class NotchViewModel: ObservableObject {
     init(
         settings: NotchSettingsProviding,
         hideDelay: TimeInterval = 0.3,
-        queueDelay: TimeInterval = 0.3
+        queueDelay: TimeInterval = 0.3,
+        screenMetricsProvider: ((NotchDisplayLocation) -> NotchScreenMetrics?)? = nil
     ) {
         self.settings = settings
         self.hideDelay = hideDelay
         self.queueDelay = queueDelay
+        self.screenMetricsProvider = screenMetricsProvider ?? { location in
+            NSScreen.metrics(for: location)
+        }
         updateDimensions()
     }
 
 
     /// Updates notch dimensions based on screen size and user settings
     func updateDimensions() {
-        guard let screen = NSScreen.main else { return }
+        guard let screenMetrics = screenMetricsProvider(settings.displayLocation) else {
+            return
+        }
 
-        let screenWidth = screen.frame.width
-        let topInset = screen.safeAreaInsets.top
+        let screenWidth = screenMetrics.width
+        let topInset = screenMetrics.topInset
         let baseScreenWidth: CGFloat = 1440.0
 
         notchModel.scale = max(0.35, screenWidth / baseScreenWidth)

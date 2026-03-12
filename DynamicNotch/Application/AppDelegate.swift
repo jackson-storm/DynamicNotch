@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 class NotchPanel: NSPanel {
     override var canBecomeKey: Bool { true }
@@ -22,6 +23,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     let focusViewModel = FocusViewModel()
     let airDropViewModel = AirDropNotchViewModel()
     let generalSettingsViewModel = GeneralSettingsViewModel()
+    let nowPlayingViewModel: NowPlayingViewModel
     
     lazy var notchViewModel = NotchViewModel(settings: generalSettingsViewModel)
     lazy var notchEventCoordinator = NotchEventCoordinator(
@@ -30,21 +32,29 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         powerService: powerService,
         networkViewModel: networkViewModel,
         airDropViewModel: airDropViewModel,
-        generalSettingsViewModel: generalSettingsViewModel
+        generalSettingsViewModel: generalSettingsViewModel,
+        nowPlayingViewModel: nowPlayingViewModel
     )
     
     var window: NSWindow!
     private var uiTestSettingsWindow: NSWindow?
     private var localScrollMonitor: Any?
     private var globalScrollMonitor: Any?
+    private var cancellables = Set<AnyCancellable>()
     
     override init() {
         self.powerViewModel = PowerViewModel(powerService: powerService)
+        self.nowPlayingViewModel = NowPlayingViewModel(
+            service: ProcessInfo.processInfo.arguments.contains("-ui-testing") ?
+                InactiveNowPlayingService() :
+                MediaRemoteNowPlayingService()
+        )
         super.init()
     }
     
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(isRunningUITests ? .regular : .accessory)
+        observeDisplayLocationChanges()
 
         if !isRunningUITests {
             createNotchWindow()
@@ -70,6 +80,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         } else {
             notchEventCoordinator.checkFirstLaunch()
         }
+
+        nowPlayingViewModel.startMonitoring()
     }
 
     func applicationWillTerminate(_ notification: Notification) {
@@ -77,7 +89,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func createNotchWindow() {
-        guard let screen = NSScreen.main else { return }
+        guard let screen = NSScreen.preferredNotchScreen(for: generalSettingsViewModel.displayLocation) else {
+            return
+        }
         
         let screenFrame = screen.frame
         
@@ -120,7 +134,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 networkViewModel: networkViewModel,
                 focusViewModel: focusViewModel,
                 airDropViewModel: airDropViewModel,
-                generalSettingsViewModel: generalSettingsViewModel
+                generalSettingsViewModel: generalSettingsViewModel,
+                nowPlayingViewModel: nowPlayingViewModel
             )
         )
         airDropViewModel.presentationView = hostingView
@@ -150,7 +165,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         
         notchViewModel.updateDimensions()
         
-        guard let screen = window.screen ?? NSScreen.main else { return }
+        guard let screen = NSScreen.preferredNotchScreen(for: generalSettingsViewModel.displayLocation) else {
+            return
+        }
         let screenFrame = screen.frame
         let windowSize = window.frame.size
         
@@ -162,6 +179,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             display: true,
             animate: false
         )
+    }
+
+    private func observeDisplayLocationChanges() {
+        generalSettingsViewModel.$displayLocation
+            .removeDuplicates()
+            .sink { [weak self] _ in
+                self?.updateWindowFrame()
+            }
+            .store(in: &cancellables)
     }
 
     private func stopDismissGestureMonitoring() {

@@ -56,8 +56,17 @@ private struct LiveActivityPanelSettingsView: View {
                         DebugTitle(title: "Hotspot", icon: "personalhotspot", color: .green) {
                             notchEventCoordinator.handleNetworkEvent(.hotspotActive)
                         }
+                        
                         DebugTitle(title: "Focus on", icon: "moon.fill", color: .indigo) {
                             notchEventCoordinator.handleFocusEvent(.FocusOn)
+                        }
+                        
+                        DebugTitle(title: "Now playing", icon: "speaker.wave.2.fill", color: .red) {
+                            notchEventCoordinator.handleNowPlayingEvent(.started)
+                        }
+                        
+                        DebugTitle(title: "Now playing", icon: "speaker.slash.fill", color: .red) {
+                            notchEventCoordinator.handleNowPlayingEvent(.stopped)
                         }
                     }
                 }

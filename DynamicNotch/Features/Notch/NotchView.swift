@@ -12,6 +12,7 @@ struct NotchView: View {
     @ObservedObject var focusViewModel: FocusViewModel
     @ObservedObject var airDropViewModel: AirDropNotchViewModel
     @ObservedObject var generalSettingsViewModel: GeneralSettingsViewModel
+    @ObservedObject var nowPlayingViewModel: NowPlayingViewModel
     
     var body: some View {
         ZStack {
@@ -23,6 +24,7 @@ struct NotchView: View {
                 .onReceive(focusViewModel.$focusEvent.compactMap{ $0 }, perform: notchEventCoordinator.handleFocusEvent)
                 .onReceive(airDropViewModel.$event.compactMap { $0 }, perform: notchEventCoordinator.handleAirDropEvent)
                 .onReceive(generalSettingsViewModel.notchSizeEvent, perform: notchEventCoordinator.handleNotchWidthEvent)
+                .onReceive(nowPlayingViewModel.$event.compactMap { $0 }, perform: notchEventCoordinator.handleNowPlayingEvent)
                 .onChange(of: notchViewModel.notchModel.content?.id) {
                     notchViewModel.handleStrokeVisibility()
                 }
@@ -66,6 +68,12 @@ private extension NotchView {
         .frame(
             width: notchViewModel.notchModel.size.width,
             height: notchViewModel.notchModel.size.height
+        )
+        .shadow(
+            color: .black.opacity(
+                generalSettingsViewModel.isShowShadowEnabled && notchViewModel.showNotch ? 0.5 : 0
+            ),
+            radius: 15
         )
         .contextMenu {
             if !generalSettingsViewModel.isMenuBarIconVisible {

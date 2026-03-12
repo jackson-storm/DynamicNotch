@@ -181,13 +181,50 @@ final class NotchViewModelIntegrationTests: XCTestCase {
     func testUpdateDimensionsAppliesSettingsOffsets() {
         let baseSettings = TestNotchSettings()
         let offsetSettings = TestNotchSettings(notchWidth: 7, notchHeight: 3)
+        let screenMetricsProvider: (NotchDisplayLocation) -> NotchScreenMetrics? = { _ in
+            (width: 1440, topInset: 74)
+        }
 
-        let baseViewModel = NotchViewModel(settings: baseSettings)
-        let offsetViewModel = NotchViewModel(settings: offsetSettings)
+        let baseViewModel = NotchViewModel(
+            settings: baseSettings,
+            screenMetricsProvider: screenMetricsProvider
+        )
+        let offsetViewModel = NotchViewModel(
+            settings: offsetSettings,
+            screenMetricsProvider: screenMetricsProvider
+        )
         TestLifetime.retain(baseViewModel)
         TestLifetime.retain(offsetViewModel)
 
         XCTAssertEqual(offsetViewModel.notchModel.baseWidth - baseViewModel.notchModel.baseWidth, 7, accuracy: 0.001)
         XCTAssertEqual(offsetViewModel.notchModel.baseHeight - baseViewModel.notchModel.baseHeight, 3, accuracy: 0.001)
+    }
+
+    @MainActor
+    func testUpdateDimensionsUsesSelectedDisplayMetrics() {
+        let settings = TestNotchSettings(displayLocation: .builtIn)
+        let viewModel = NotchViewModel(
+            settings: settings,
+            screenMetricsProvider: { location in
+                switch location {
+                case .builtIn:
+                    return (width: 1512, topInset: 74)
+                case .main:
+                    return (width: 1728, topInset: 0)
+                }
+            }
+        )
+        TestLifetime.retain(viewModel)
+
+        let builtInScale = max(0.35, CGFloat(1512) / 1440.0)
+        XCTAssertEqual(viewModel.notchModel.baseWidth, 190 * builtInScale, accuracy: 0.001)
+        XCTAssertEqual(viewModel.notchModel.baseHeight, 74, accuracy: 0.001)
+
+        settings.displayLocation = .main
+        viewModel.updateDimensions()
+
+        let mainScale = max(0.35, CGFloat(1728) / 1440.0)
+        XCTAssertEqual(viewModel.notchModel.baseWidth, 190 * mainScale, accuracy: 0.001)
+        XCTAssertEqual(viewModel.notchModel.baseHeight, 25 * mainScale, accuracy: 0.001)
     }
 }

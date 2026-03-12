@@ -13,8 +13,8 @@ enum NotchDisplayLocation: String, CaseIterable {
     
     var title: String {
         switch self {
-        case .builtIn: return "Show on other display"
-        case .main:    return "Show on main screen"
+        case .builtIn: return "Show on built-in display"
+        case .main:    return "Show on main display"
         }
     }
     
@@ -72,16 +72,21 @@ struct GeneralSettingsView: View {
                     .frame(height: 100)
                     .cornerRadius(10)
                 
-                NotchShape(topCornerRadius: notchViewModel.notchModel.cornerRadius.top, bottomCornerRadius: notchViewModel.notchModel.cornerRadius.bottom)
+                NotchShape(topCornerRadius: 9, bottomCornerRadius: 13)
                     .fill(.black)
                     .stroke(generalSettingsViewModel.isShowNotchStrokeEnabled ? .green.opacity(0.3) : Color.clear, lineWidth: generalSettingsViewModel.notchStrokeWidth)
                     .overlay(ChargerNotchView(powerService: powerService))
                     .frame(width: 370, height: 38)
+                    .shadow(color: .black.opacity(generalSettingsViewModel.isShowShadowEnabled ? 0.5 : 0), radius: 15)
             }
             
             Toggle("Show notch stroke ", isOn: $generalSettingsViewModel.isShowNotchStrokeEnabled)
                 .toggleStyle(CustomToggleStyle())
                 .accessibilityIdentifier("settings.general.showNotchStroke")
+            
+            Toggle("Show shadow", isOn: $generalSettingsViewModel.isShowShadowEnabled)
+                .toggleStyle(CustomToggleStyle())
+                .accessibilityIdentifier("settings.general.isShowShadowEnabled")
             
             TickedSlider(
                 title: "Stroke width",

@@ -27,7 +27,8 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
         }
     }
     @AppStorage("isMenuBarIconVisible") var isMenuBarIconVisible: Bool = true
-    @AppStorage("isShowNotchStrokeEnabled") var isShowNotchStrokeEnabled: Bool = true
+    @AppStorage("isShowNotchStrokeEnabled") var isShowNotchStrokeEnabled: Bool = false
+    @AppStorage("isShowShadowEnabled") var isShowShadowEnabled: Bool = true
     @AppStorage("notchStrokeWidth") var notchStrokeWidth: Double = 1.5
     @AppStorage("displayLocation") private var storedDisplayLocationRaw: String = NotchDisplayLocation.main.rawValue
     

@@ -16,10 +16,15 @@ final class NotchEventCoordinator: ObservableObject {
     private let networkViewModel: NetworkViewModel
     private let airDropViewModel: AirDropNotchViewModel
     private let generalSettingsViewModel: GeneralSettingsViewModel
+    private let nowPlayingViewModel: NowPlayingViewModel
     
     private var isOnboardingActive: Bool {
         notchViewModel.notchModel.liveActivityContent?.id == "onboarding" ||
         notchViewModel.notchModel.temporaryNotificationContent?.id == "onboarding"
+    }
+    
+    private var isOnboardingPending: Bool {
+        !UserDefaults.standard.bool(forKey: "hasSeenOnboarding")
     }
     
     private var isAirDropActive: Bool {
@@ -32,7 +37,8 @@ final class NotchEventCoordinator: ObservableObject {
         powerService: PowerService,
         networkViewModel: NetworkViewModel,
         airDropViewModel: AirDropNotchViewModel,
-        generalSettingsViewModel: GeneralSettingsViewModel
+        generalSettingsViewModel: GeneralSettingsViewModel,
+        nowPlayingViewModel: NowPlayingViewModel
     ) {
         self.notchViewModel = notchViewModel
         self.bluetoothViewModel = bluetoothViewModel
@@ -40,6 +46,7 @@ final class NotchEventCoordinator: ObservableObject {
         self.networkViewModel = networkViewModel
         self.airDropViewModel = airDropViewModel
         self.generalSettingsViewModel = generalSettingsViewModel
+        self.nowPlayingViewModel = nowPlayingViewModel
     }
     
     func checkFirstLaunch() {
@@ -170,6 +177,18 @@ final class NotchEventCoordinator: ObservableObject {
             
         case .fullPower:
             notchViewModel.send(.showTemporaryNotification(FullPowerNotchContent(powerService: powerService), duration: 4))
+        }
+    }
+    
+    func handleNowPlayingEvent(_ event: NowPlayingEvent) {
+        guard !isOnboardingActive else { return }
+        guard !isOnboardingActive && !isAirDropActive else { return }
+        
+        switch event {
+        case .started:
+            notchViewModel.send(.showLiveActivity(NowPlayingMinimalNotchContent(nowPlayingViewModel: nowPlayingViewModel)))
+        case .stopped:
+            notchViewModel.send(.hideLiveActivity(id: "nowPlaying.minimal"))
         }
     }
 }

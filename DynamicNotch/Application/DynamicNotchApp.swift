@@ -18,7 +18,7 @@ struct NotchApp: App {
                 notchEventCoordinator: appDelegate.notchEventCoordinator,
                 generalSettingsViewModel: appDelegate.generalSettingsViewModel
             )
-            .frame(width: 500, height: 570)
+            .frame(width: 500, height: 560)
         }
         .defaultPosition(.center)
         .windowResizability(.contentSize)

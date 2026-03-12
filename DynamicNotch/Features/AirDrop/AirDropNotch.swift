@@ -14,7 +14,7 @@ struct AirDropNotchContent: NotchContentProtocol {
     let airDropViewModel: AirDropNotchViewModel
     let notchViewModel: NotchViewModel
     
-    var priority: Int { 50 }
+    var priority: Int { 90 }
     var strokeColor: Color { .blue.opacity(0.3) }
     var offsetYTransition: CGFloat { -90 }
     

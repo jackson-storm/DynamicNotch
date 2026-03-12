@@ -13,6 +13,8 @@ class NotchPanel: NSPanel {
 }
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
+    private let isRunningUITests = ProcessInfo.processInfo.arguments.contains("-ui-testing")
+
     let powerService = PowerService()
     let bluetoothViewModel = BluetoothViewModel()
     let powerViewModel: PowerViewModel
@@ -32,6 +34,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     )
     
     var window: NSWindow!
+    private var uiTestSettingsWindow: NSWindow?
     private var localScrollMonitor: Any?
     private var globalScrollMonitor: Any?
     
@@ -41,25 +44,32 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func applicationDidFinishLaunching(_ notification: Notification) {
-        NSApp.setActivationPolicy(.accessory)
-        createNotchWindow()
-        startDismissGestureMonitoring()
-        
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(updateWindowFrame),
-            name: NSApplication.didChangeScreenParametersNotification,
-            object: nil
-        )
-        
-        DispatchQueue.main.async {
-            for w in NSApp.windows {
-                if w !== self.window {
-                    w.orderOut(nil)
+        NSApp.setActivationPolicy(isRunningUITests ? .regular : .accessory)
+
+        if !isRunningUITests {
+            createNotchWindow()
+
+            NotificationCenter.default.addObserver(
+                self,
+                selector: #selector(updateWindowFrame),
+                name: NSApplication.didChangeScreenParametersNotification,
+                object: nil
+            )
+
+            DispatchQueue.main.async {
+                for w in NSApp.windows {
+                    if w !== self.window {
+                        w.orderOut(nil)
+                    }
                 }
             }
         }
-        notchEventCoordinator.checkFirstLaunch()
+
+        if isRunningUITests {
+            openSettingsWindowForUITests()
+        } else {
+            notchEventCoordinator.checkFirstLaunch()
+        }
     }
 
     func applicationWillTerminate(_ notification: Notification) {
@@ -113,6 +123,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 generalSettingsViewModel: generalSettingsViewModel
             )
         )
+        airDropViewModel.presentationView = hostingView
 
         hostingView.activeNotchSizeProvider = { [weak self] in
             guard let self else { return .zero }
@@ -153,19 +164,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         )
     }
 
-    private func startDismissGestureMonitoring() {
-        stopDismissGestureMonitoring()
-
-        localScrollMonitor = NSEvent.addLocalMonitorForEvents(matching: [.scrollWheel]) { [weak self] event in
-            self?.handleDismissGestureScroll(event, isGlobalEvent: false)
-            return event
-        }
-
-        globalScrollMonitor = NSEvent.addGlobalMonitorForEvents(matching: [.scrollWheel]) { [weak self] event in
-            self?.handleDismissGestureScroll(event, isGlobalEvent: true)
-        }
-    }
-
     private func stopDismissGestureMonitoring() {
         if let localScrollMonitor {
             NSEvent.removeMonitor(localScrollMonitor)
@@ -179,10 +177,33 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         globalScrollMonitor = nil
     }
 
-    private func handleDismissGestureScroll(_ event: NSEvent, isGlobalEvent: Bool) {
-        guard let hostingView = window.contentView as? NotchHostingView else { return }
-        let screenLocation = isGlobalEvent ? NSEvent.mouseLocation : nil
-        _ = hostingView.handleTwoFingerSwipeUp(event, screenLocation: screenLocation)
+    private func openSettingsWindowForUITests() {
+        DispatchQueue.main.async {
+            let hostingController = NSHostingController(
+                rootView: SettingsRootView(
+                    notchViewModel: self.notchViewModel,
+                    powerService: self.powerService,
+                    notchEventCoordinator: self.notchEventCoordinator,
+                    generalSettingsViewModel: self.generalSettingsViewModel
+                )
+            )
+
+            let settingsWindow = NSWindow(
+                contentRect: NSRect(x: 0, y: 0, width: 500, height: 560),
+                styleMask: [.titled, .closable, .miniaturizable],
+                backing: .buffered,
+                defer: false
+            )
+
+            settingsWindow.title = "Settings"
+            settingsWindow.center()
+            settingsWindow.isReleasedWhenClosed = false
+            settingsWindow.contentViewController = hostingController
+
+            self.uiTestSettingsWindow = settingsWindow
+            NSApp.activate(ignoringOtherApps: true)
+            settingsWindow.makeKeyAndOrderFront(nil)
+        }
     }
 }
 
@@ -190,10 +211,6 @@ class NotchHostingView: NSHostingView<AnyView> {
     var activeNotchSizeProvider: (() -> CGSize)?
     var isDismissGestureEnabled: (() -> Bool)?
     var onTwoFingerSwipeUp: (() -> Void)?
-
-    private let swipeDismissThreshold: CGFloat = 24
-    private var accumulatedSwipeUp: CGFloat = 0
-    private var hasTriggeredSwipeDismiss = false
 
     required init(rootView: AnyView) {
         super.init(rootView: rootView)
@@ -217,55 +234,6 @@ class NotchHostingView: NSHostingView<AnyView> {
 
     override func hitTest(_ point: NSPoint) -> NSView? {
         return super.hitTest(point)
-    }
-}
-
-extension NotchHostingView {
-    @discardableResult
-    func handleTwoFingerSwipeUp(_ event: NSEvent, screenLocation: NSPoint? = nil) -> Bool {
-        guard shouldTrackDismissGesture(for: event) else {
-            resetSwipeDismiss()
-            return false
-        }
-
-        if event.phase == .began {
-            resetSwipeDismiss()
-        }
-
-        guard let notchRect = currentActiveNotchRect() else {
-            resetSwipeDismiss()
-            return false
-        }
-
-        let pointerLocation = pointerLocation(for: event, screenLocation: screenLocation)
-        guard notchRect.contains(pointerLocation) else {
-            resetSwipeDismiss()
-            return false
-        }
-
-        let normalizedDeltaY = physicalVerticalDelta(from: event)
-        let normalizedDeltaX = physicalHorizontalDelta(from: event)
-
-        guard abs(normalizedDeltaY) > abs(normalizedDeltaX) * 1.2 else {
-            return false
-        }
-
-        if normalizedDeltaY > 0 {
-            accumulatedSwipeUp += normalizedDeltaY
-
-            if accumulatedSwipeUp >= swipeDismissThreshold, !hasTriggeredSwipeDismiss {
-                hasTriggeredSwipeDismiss = true
-                onTwoFingerSwipeUp?()
-            }
-        } else if normalizedDeltaY < 0 {
-            accumulatedSwipeUp = 0
-        }
-
-        if event.phase == .ended || event.phase == .cancelled {
-            resetSwipeDismiss()
-        }
-
-        return true
     }
 }
 
@@ -309,10 +277,5 @@ private extension NotchHostingView {
     func physicalHorizontalDelta(from event: NSEvent) -> CGFloat {
         let deltaX = CGFloat(event.scrollingDeltaX)
         return event.isDirectionInvertedFromDevice ? -deltaX : deltaX
-    }
-
-    func resetSwipeDismiss() {
-        accumulatedSwipeUp = 0
-        hasTriggeredSwipeDismiss = false
     }
 }

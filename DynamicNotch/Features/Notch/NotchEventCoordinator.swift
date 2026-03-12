@@ -68,7 +68,10 @@ final class NotchEventCoordinator: ObservableObject {
             notchViewModel.send(.hideLiveActivity(id: "airdrop"))
             
         case .dropped(let urls, let point):
-            if let view = NSApp.keyWindow?.contentView {
+            if let view = airDropViewModel.presentationView
+                ?? NSApp.keyWindow?.contentView
+                ?? NSApp.mainWindow?.contentView
+                ?? NSApp.windows.compactMap(\.contentView).first {
                 airDropViewModel.shareViaAirDrop(urls: urls, point: point, view: view)
             }
             notchViewModel.send(.hideLiveActivity(id: "airdrop"))

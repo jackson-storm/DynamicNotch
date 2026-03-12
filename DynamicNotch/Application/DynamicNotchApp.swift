@@ -8,50 +8,38 @@ struct NotchApp: App {
     
     var body: some Scene {
         MenuBarExtra("Dynamic Notch", systemImage: "rectangle.topthird.inset.filled", isInserted: $isMenuBarIconVisible) {
-            SettingsLink {
-                Image(systemName: "gearshape")
-                Text("Settings")
-            }
-            
-            Divider()
-            
-            Button("Quit") {
-                NSApplication.shared.terminate(nil)
-            }
+            MenuBarMenu()
         }
         
-        Settings {
-            TabView {
-                GeneralSettingsView(
-                    notchViewModel: appDelegate.notchViewModel,
-                    powerService: appDelegate.powerService,
-                    generalSettingsViewModel: appDelegate.generalSettingsViewModel
-                )
-                .tabItem {
-                    Image(systemName: "gearshape.fill")
-                    Text("General")
-                }
-                .frame(width: 500, height: 560)
-                
-                ActivitySettingsView(
-                    notchViewModel: appDelegate.notchViewModel,
-                    notchEventCoordinator: appDelegate.notchEventCoordinator
-                )
-                .tabItem {
-                    Image(systemName: "clock.fill")
-                    Text("Activities")
-                }
-                .frame(width: 500, height: 560)
-                
-                AboutAppSettingsView()
-                    .tabItem {
-                        Image(systemName: "info.circle.fill")
-                        Text("About")
-                    }
-                    .frame(width: 500, height: 560)
-            }
+        WindowGroup(id: "settingsWindow") {
+            SettingsRootView(
+                notchViewModel: appDelegate.notchViewModel,
+                powerService: appDelegate.powerService,
+                notchEventCoordinator: appDelegate.notchEventCoordinator,
+                generalSettingsViewModel: appDelegate.generalSettingsViewModel
+            )
+            .frame(width: 500, height: 570)
         }
         .defaultPosition(.center)
         .windowResizability(.contentSize)
+    }
+}
+
+private struct MenuBarMenu: View {
+    @Environment(\.openWindow) private var openWindow
+    
+    var body: some View {
+        Button {
+            openWindow(id: "settingsWindow")
+        } label: {
+            Image(systemName: "gearshape")
+            Text("Settings")
+        }
+        
+        Divider()
+        
+        Button("Quit") {
+            NSApplication.shared.terminate(nil)
+        }
     }
 }

@@ -38,6 +38,7 @@ struct GeneralSettingsView: View {
             animationSection
         }
         .formStyle(.grouped)
+        .accessibilityIdentifier("settings.general.root")
     }
     
     @ViewBuilder
@@ -45,9 +46,11 @@ struct GeneralSettingsView: View {
         Section("System") {
             Toggle("Launch at login", isOn: $generalSettingsViewModel.isLaunchAtLoginEnabled)
                 .toggleStyle(CustomToggleStyle())
+                .accessibilityIdentifier("settings.general.launchAtLogin")
             
             Toggle("Show menu bar icon", isOn: $generalSettingsViewModel.isMenuBarIconVisible)
                 .toggleStyle(CustomToggleStyle())
+                .accessibilityIdentifier("settings.general.menuBarIcon")
             
             CustomPicker(
                 selection: $generalSettingsViewModel.displayLocation,
@@ -56,6 +59,7 @@ struct GeneralSettingsView: View {
                 symbolName: { $0.symbolName }
             )
             .padding(.top, 4)
+            .accessibilityIdentifier("settings.general.displayLocation")
         }
     }
     
@@ -77,6 +81,7 @@ struct GeneralSettingsView: View {
             
             Toggle("Show notch stroke ", isOn: $generalSettingsViewModel.isShowNotchStrokeEnabled)
                 .toggleStyle(CustomToggleStyle())
+                .accessibilityIdentifier("settings.general.showNotchStroke")
             
             TickedSlider(
                 title: "Stroke width",
@@ -85,6 +90,7 @@ struct GeneralSettingsView: View {
                 step: 0.5,
                 valueFormatter: { "\($0) px" }
             )
+            .accessibilityIdentifier("settings.general.notchStrokeWidth")
             
             TickedSlider(
                 title: "Notch width",
@@ -96,6 +102,7 @@ struct GeneralSettingsView: View {
                 step: 1,
                 valueFormatter: { "\(Int($0)) px" }
             )
+            .accessibilityIdentifier("settings.general.notchWidth")
             
             TickedSlider(
                 title: "Notch height",
@@ -107,6 +114,7 @@ struct GeneralSettingsView: View {
                 step: 1,
                 valueFormatter: { "\(Int($0)) px" }
             )
+            .accessibilityIdentifier("settings.general.notchHeight")
         }
     }
     

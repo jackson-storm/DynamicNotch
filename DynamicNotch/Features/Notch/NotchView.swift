@@ -33,8 +33,7 @@ struct NotchView: View {
                     notchViewModel.updateDimensions()
                 }
                 .onDrop(of: [.fileURL], isTargeted: $airDropViewModel.isDraggingFile) { providers in
-                    let frame = NSApp.keyWindow?.contentView?.frame ?? .zero
-                    let dropPoint = NSPoint(x: frame.midX, y: frame.midY)
+                    let dropPoint = NSEvent.mouseLocation
                     airDropViewModel.handleDrop(providers: providers, point: dropPoint)
                     return true
                 }

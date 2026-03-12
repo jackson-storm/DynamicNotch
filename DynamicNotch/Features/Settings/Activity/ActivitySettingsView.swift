@@ -32,17 +32,20 @@ struct ActivitySettingsView: View {
         }
         .padding(12)
         .tabViewStyle(.grouped)
+        .accessibilityIdentifier("settings.activities.root")
     }
 }
 
 private struct LiveActivitySettingsView: View {
     var body: some View {
         Text("primer")
+            .accessibilityIdentifier("settings.activities.live.content")
     }
 }
 
 private struct TemporarySettingsView: View {
     var body: some View {
         Text("pirmer 2")
+            .accessibilityIdentifier("settings.activities.temporary.content")
     }
 }

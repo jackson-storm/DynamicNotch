@@ -11,6 +11,8 @@ internal import UniformTypeIdentifiers
 
 final class AirDropNotchViewModel: ObservableObject {
     @Published var event: AirDropEvent?
+    weak var presentationView: NSView?
+    var shareHandler: (([URL], NSPoint, NSView) -> Void)?
     
     @Published var isDraggingFile = false {
         didSet {
@@ -27,6 +29,14 @@ final class AirDropNotchViewModel: ObservableObject {
     }
     
     func shareViaAirDrop(urls: [URL], point: NSPoint, view: NSView) {
+        if let shareHandler {
+            shareHandler(urls, point, view)
+            return
+        }
+
+        NSApp.activate(ignoringOtherApps: true)
+        view.window?.orderFrontRegardless()
+
         let sharingService = NSSharingService(named: .sendViaAirDrop)
         sharingService?.delegate = nil
         sharingService?.perform(withItems: urls)

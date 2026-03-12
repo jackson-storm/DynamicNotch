@@ -16,6 +16,7 @@ struct AboutAppSettingsView: View {
             Divider().opacity(0.8)
             aboutAppDescription
         }
+        .accessibilityIdentifier("settings.about.root")
     }
     
     @ViewBuilder
@@ -37,6 +38,7 @@ struct AboutAppSettingsView: View {
                 VStack(alignment: .center, spacing: 3) {
                     Text("Dynamic Notch")
                         .font(.system(size: 18, weight: .semibold))
+                        .accessibilityIdentifier("settings.about.title")
                     
                     Text("Make the cutout area more useful.")
                         .font(.system(size: 10))
@@ -62,6 +64,7 @@ struct AboutAppSettingsView: View {
                             .resizable()
                             .frame(width: 40, height: 40)
                     }
+                    .accessibilityIdentifier("settings.about.telegram")
                     
                     Button(action: {
                         if let url = URL(string: "https://github.com/jackson-storm/DynamicNotch") {
@@ -72,6 +75,7 @@ struct AboutAppSettingsView: View {
                             .resizable()
                             .frame(width: 40, height: 40)
                     }
+                    .accessibilityIdentifier("settings.about.github")
                     
                     Button(action: {
                         let email = "evgeniy.petrukovich@icloud.com"
@@ -86,6 +90,7 @@ struct AboutAppSettingsView: View {
                             .resizable()
                             .frame(width: 40, height: 40)
                     }
+                    .accessibilityIdentifier("settings.about.email")
                 }
                 .buttonStyle(.plain)
             }
@@ -157,4 +162,3 @@ private struct RoundedImage: View {
         }
     }
 }
-

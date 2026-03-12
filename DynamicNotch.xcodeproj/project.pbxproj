@@ -19,11 +19,19 @@
 			remoteGlobalIDString = E2EF78502EDDB60E00F96D1E;
 			remoteInfo = DynamicNotch;
 		};
+		F20000000000000000000007 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E2EF78492EDDB60E00F96D1E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E2EF78502EDDB60E00F96D1E;
+			remoteInfo = DynamicNotch;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		E2EF78512EDDB60E00F96D1E /* DynamicNotch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DynamicNotch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F10000000000000000000001 /* DynamicNotchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DynamicNotchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F20000000000000000000001 /* DynamicNotchUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DynamicNotchUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -69,6 +77,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F20000000000000000000003 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -86,6 +101,7 @@
 			children = (
 				E2EF78512EDDB60E00F96D1E /* DynamicNotch.app */,
 				F10000000000000000000001 /* DynamicNotchTests.xctest */,
+				F20000000000000000000001 /* DynamicNotchUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -140,6 +156,26 @@
 			productReference = F10000000000000000000001 /* DynamicNotchTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		F20000000000000000000006 /* DynamicNotchUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F2000000000000000000000B /* Build configuration list for PBXNativeTarget "DynamicNotchUITests" */;
+			buildPhases = (
+				F20000000000000000000004 /* Sources */,
+				F20000000000000000000003 /* Frameworks */,
+				F20000000000000000000005 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F20000000000000000000008 /* PBXTargetDependency */,
+			);
+			name = DynamicNotchUITests;
+			packageProductDependencies = (
+			);
+			productName = DynamicNotchUITests;
+			productReference = F20000000000000000000001 /* DynamicNotchUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -154,6 +190,10 @@
 						CreatedOnToolsVersion = 26.0;
 					};
 					F10000000000000000000006 = {
+						CreatedOnToolsVersion = 26.0;
+						TestTargetID = E2EF78502EDDB60E00F96D1E;
+					};
+					F20000000000000000000006 = {
 						CreatedOnToolsVersion = 26.0;
 						TestTargetID = E2EF78502EDDB60E00F96D1E;
 					};
@@ -179,6 +219,7 @@
 			targets = (
 				E2EF78502EDDB60E00F96D1E /* DynamicNotch */,
 				F10000000000000000000006 /* DynamicNotchTests */,
+				F20000000000000000000006 /* DynamicNotchUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -192,6 +233,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		F10000000000000000000005 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F20000000000000000000005 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -215,6 +263,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F20000000000000000000004 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -222,6 +277,11 @@
 			isa = PBXTargetDependency;
 			target = E2EF78502EDDB60E00F96D1E /* DynamicNotch */;
 			targetProxy = F10000000000000000000007 /* PBXContainerItemProxy */;
+		};
+		F20000000000000000000008 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E2EF78502EDDB60E00F96D1E /* DynamicNotch */;
+			targetProxy = F20000000000000000000007 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -508,6 +568,48 @@
 			};
 			name = Release;
 		};
+		F20000000000000000000009 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = WZHZ6LB2F6;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundlePackageType = BNDL;
+				MACOSX_DEPLOYMENT_TARGET = 15.6;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Jackson.DynamicNotchUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = DynamicNotch;
+			};
+			name = Debug;
+		};
+		F2000000000000000000000A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = WZHZ6LB2F6;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundlePackageType = BNDL;
+				MACOSX_DEPLOYMENT_TARGET = 15.6;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Jackson.DynamicNotchUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = DynamicNotch;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -534,6 +636,15 @@
 			buildConfigurations = (
 				F10000000000000000000009 /* Debug */,
 				F1000000000000000000000A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F2000000000000000000000B /* Build configuration list for PBXNativeTarget "DynamicNotchUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F20000000000000000000009 /* Debug */,
+				F2000000000000000000000A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

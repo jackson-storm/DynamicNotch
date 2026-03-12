@@ -35,6 +35,7 @@ struct GeneralSettingsView: View {
         Form {
             systemSection
             notchShapeSection
+            animationSection
         }
         .formStyle(.grouped)
     }
@@ -107,5 +108,10 @@ struct GeneralSettingsView: View {
                 valueFormatter: { "\(Int($0)) px" }
             )
         }
+    }
+    
+    @ViewBuilder
+    var animationSection: some View {
+        
     }
 }

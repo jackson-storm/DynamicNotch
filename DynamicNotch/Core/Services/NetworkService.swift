@@ -8,7 +8,7 @@
 import Foundation
 import Network
 
-final class NetworkMonitor {
+final class NetworkMonitor: NetworkMonitoring {
     private let monitor = NWPathMonitor()
     private let queue = DispatchQueue(label: "NetworkMonitorQueue")
     

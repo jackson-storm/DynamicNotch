@@ -24,8 +24,8 @@ final class NotchViewModel: ObservableObject {
     /// Cached stroke color used when notch content changes
     @Published var cachedStrokeColor: Color = .clear
 
-    /// Global settings dependency
-    let generalSettingsViewModel: GeneralSettingsViewModel
+    /// Settings dependency used to calculate notch dimensions
+    private let settings: NotchSettingsProviding
 
     /// Returns the currently highest priority Live Activity
     private var highestPriorityActivity: NotchContentProtocol? {
@@ -58,8 +58,14 @@ final class NotchViewModel: ObservableObject {
     private var isTransitioning = false
 
 
-    init(generalSettingsViewModel: GeneralSettingsViewModel) {
-        self.generalSettingsViewModel = generalSettingsViewModel
+    init(
+        settings: NotchSettingsProviding,
+        hideDelay: TimeInterval = 0.3,
+        queueDelay: TimeInterval = 0.3
+    ) {
+        self.settings = settings
+        self.hideDelay = hideDelay
+        self.queueDelay = queueDelay
         updateDimensions()
     }
 
@@ -74,8 +80,8 @@ final class NotchViewModel: ObservableObject {
 
         notchModel.scale = max(0.35, screenWidth / baseScreenWidth)
 
-        let widthOffset = CGFloat(generalSettingsViewModel.notchWidth)
-        let heightOffset = CGFloat(generalSettingsViewModel.notchHeight)
+        let widthOffset = CGFloat(settings.notchWidth)
+        let heightOffset = CGFloat(settings.notchHeight)
 
         if topInset > 0 {
             notchModel.baseHeight = topInset + heightOffset

@@ -11,6 +11,7 @@ final class PowerService: ObservableObject {
     private var runLoopSource: CFRunLoopSource?
     private let startMonitoring: Bool
     private var cancellables = Set<AnyCancellable>()
+    private var powerStateChangeHandler: ((_ onACPower: Bool, _ batteryLevel: Int) -> Void)?
 
     init(startMonitoring: Bool = true) {
         self.startMonitoring = startMonitoring
@@ -56,6 +57,7 @@ final class PowerService: ObservableObject {
         self.onACPower = acPower
         self.batteryLevel = max(0, min(levelPercent, 100))
         self.isCharging = charging
+        powerStateChangeHandler?(self.onACPower, self.batteryLevel)
     }
     
     private func updateLowPowerMode() {
@@ -91,5 +93,12 @@ final class PowerService: ObservableObject {
                 }
                 .store(in: &cancellables)
         }
+    }
+}
+
+extension PowerService: PowerStateProviding {
+    var onPowerStateChange: ((_ onACPower: Bool, _ batteryLevel: Int) -> Void)? {
+        get { powerStateChangeHandler }
+        set { powerStateChangeHandler = newValue }
     }
 }

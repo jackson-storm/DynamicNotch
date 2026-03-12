@@ -21,7 +21,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     let airDropViewModel = AirDropNotchViewModel()
     let generalSettingsViewModel = GeneralSettingsViewModel()
     
-    lazy var notchViewModel = NotchViewModel(generalSettingsViewModel: generalSettingsViewModel)
+    lazy var notchViewModel = NotchViewModel(settings: generalSettingsViewModel)
     lazy var notchEventCoordinator = NotchEventCoordinator(
         notchViewModel: notchViewModel,
         bluetoothViewModel: bluetoothViewModel,

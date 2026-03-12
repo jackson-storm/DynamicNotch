@@ -9,7 +9,7 @@ import Combine
 import SwiftUI
 import ServiceManagement
 
-final class GeneralSettingsViewModel: ObservableObject {
+final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
     @AppStorage("isLaunchAtLoginEnabled") var isLaunchAtLoginEnabled: Bool = true {
         didSet {
             updateLaunchAtLogin()

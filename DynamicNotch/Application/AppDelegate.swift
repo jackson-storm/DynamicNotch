@@ -6,11 +6,7 @@
 //
 
 import SwiftUI
-
-class NotchPanel: NSPanel {
-    override var canBecomeKey: Bool { true }
-    override var canBecomeMain: Bool { true }
-}
+import Combine
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
     private let isRunningUITests = ProcessInfo.processInfo.arguments.contains("-ui-testing")
@@ -22,6 +18,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     let focusViewModel = FocusViewModel()
     let airDropViewModel = AirDropNotchViewModel()
     let generalSettingsViewModel = GeneralSettingsViewModel()
+    let nowPlayingViewModel: NowPlayingViewModel
+    let lockScreenManager: LockScreenManager
     
     lazy var notchViewModel = NotchViewModel(settings: generalSettingsViewModel)
     lazy var notchEventCoordinator = NotchEventCoordinator(
@@ -30,24 +28,55 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         powerService: powerService,
         networkViewModel: networkViewModel,
         airDropViewModel: airDropViewModel,
+        generalSettingsViewModel: generalSettingsViewModel,
+        nowPlayingViewModel: nowPlayingViewModel,
+        lockScreenManager: lockScreenManager
+    )
+    lazy var lockScreenPanelManager = LockScreenPanelManager(
+        nowPlayingViewModel: nowPlayingViewModel,
+        lockScreenManager: lockScreenManager,
+        generalSettingsViewModel: generalSettingsViewModel
+    )
+    lazy var lockScreenLiveActivityWindowManager = LockScreenLiveActivityWindowManager(
+        notchViewModel: notchViewModel,
+        lockScreenManager: lockScreenManager,
         generalSettingsViewModel: generalSettingsViewModel
     )
     
-    var window: NSWindow!
+    var window: OverlayPanelWindow!
     private var uiTestSettingsWindow: NSWindow?
     private var localScrollMonitor: Any?
     private var globalScrollMonitor: Any?
+    private var localClickMonitor: Any?
+    private let globalClickMonitor = GlobalClickMonitor()
+    private var cancellables = Set<AnyCancellable>()
+    private var isPrimaryWindowSuspendedForLock = false
     
     override init() {
         self.powerViewModel = PowerViewModel(powerService: powerService)
+        self.nowPlayingViewModel = NowPlayingViewModel(
+            service: ProcessInfo.processInfo.arguments.contains("-ui-testing") ?
+                InactiveNowPlayingService() :
+                MediaRemoteNowPlayingService()
+        )
+        self.lockScreenManager = LockScreenManager(
+            service: ProcessInfo.processInfo.arguments.contains("-ui-testing") ?
+                InactiveLockScreenMonitoringService() :
+                DistributedLockScreenMonitoringService()
+        )
         super.init()
     }
     
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(isRunningUITests ? .regular : .accessory)
+        observeDisplayLocationChanges()
+        observeLockScreenWindowHandoff()
 
         if !isRunningUITests {
             createNotchWindow()
+            observeOutsideClickDismissal()
+            _ = lockScreenPanelManager
+            _ = lockScreenLiveActivityWindowManager
 
             NotificationCenter.default.addObserver(
                 self,
@@ -55,6 +84,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 name: NSApplication.didChangeScreenParametersNotification,
                 object: nil
             )
+            observeWorkspaceChanges()
 
             DispatchQueue.main.async {
                 for w in NSApp.windows {
@@ -70,46 +100,37 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         } else {
             notchEventCoordinator.checkFirstLaunch()
         }
+
+        lockScreenManager.startMonitoring()
+        nowPlayingViewModel.startMonitoring()
     }
 
     func applicationWillTerminate(_ notification: Notification) {
+        NotificationCenter.default.removeObserver(self)
+        NSWorkspace.shared.notificationCenter.removeObserver(self)
+        lockScreenManager.stopMonitoring()
+        if !isRunningUITests {
+            lockScreenPanelManager.invalidate()
+            lockScreenLiveActivityWindowManager.invalidate()
+        }
+        stopOutsideClickMonitoring()
         stopDismissGestureMonitoring()
     }
     
     func createNotchWindow() {
-        guard let screen = NSScreen.main else { return }
-        
-        let screenFrame = screen.frame
-        
-        let notchWidth: CGFloat = 1000
-        let notchHeight: CGFloat = 1000
-        
-        let x = screenFrame.midX - notchWidth / 2
-        let y = screenFrame.maxY - notchHeight + 1
-        
-        window = NotchPanel(
-            contentRect: NSRect(x: x, y: y, width: notchWidth, height: notchHeight),
-            styleMask: [.borderless, .nonactivatingPanel],
-            backing: .buffered,
-            defer: false
+        guard let screen = NSScreen.preferredNotchScreen(for: generalSettingsViewModel.displayLocation) else {
+            return
+        }
+
+        let frame = OverlayWindowLayout.topAnchoredFrame(
+            on: screen,
+            size: OverlayWindowLayout.appCanvasSize
         )
-        
-        window.isOpaque = false
-        window.titleVisibility = .hidden
-        window.titlebarAppearsTransparent = true
-        window.backgroundColor = .clear
-        window.isMovable = false
-        
-        window.collectionBehavior = [
-            .fullScreenAuxiliary,
-            .stationary,
-            .canJoinAllSpaces,
-            .ignoresCycle,
-        ]
-        
-        window.isReleasedWhenClosed = false
-        window.level = .mainMenu + 3
-        window.hasShadow = false
+
+        window = OverlayPanelFactory.makePanel(
+            frame: frame,
+            level: NSWindow.Level(rawValue: Int(CGShieldingWindowLevel()))
+        )
         
         let hostingView = NotchHostingView(
             rootView: NotchView(
@@ -120,7 +141,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 networkViewModel: networkViewModel,
                 focusViewModel: focusViewModel,
                 airDropViewModel: airDropViewModel,
-                generalSettingsViewModel: generalSettingsViewModel
+                generalSettingsViewModel: generalSettingsViewModel,
+                nowPlayingViewModel: nowPlayingViewModel,
+                lockScreenManager: lockScreenManager
             )
         )
         airDropViewModel.presentationView = hostingView
@@ -141,8 +164,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         window.contentView = hostingView
-        
-        window.makeKeyAndOrderFront(nil)
+        SkyLightOperator.shared.delegateWindow(window)
+
+        window.orderFrontRegardless()
     }
     
     @objc func updateWindowFrame() {
@@ -150,18 +174,184 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         
         notchViewModel.updateDimensions()
         
-        guard let screen = window.screen ?? NSScreen.main else { return }
-        let screenFrame = screen.frame
-        let windowSize = window.frame.size
-        
-        let x = floor(screenFrame.midX - windowSize.width / 2)
-        let y = screenFrame.maxY - windowSize.height + 1
-        
-        window.setFrame(
-            NSRect(origin: CGPoint(x: x, y: y), size: windowSize),
-            display: true,
-            animate: false
+        guard let screen = NSScreen.preferredNotchScreen(for: generalSettingsViewModel.displayLocation) else {
+            return
+        }
+
+        let targetFrame = OverlayWindowLayout.topAnchoredFrame(
+            on: screen,
+            size: window.frame.size
         )
+
+        window.setFrame(targetFrame, display: true, animate: false)
+
+        if !isPrimaryWindowSuspendedForLock {
+            window.orderFrontRegardless()
+        }
+    }
+
+    private func observeDisplayLocationChanges() {
+        generalSettingsViewModel.$displayLocation
+            .removeDuplicates()
+            .sink { [weak self] _ in
+                self?.updateWindowFrame()
+            }
+            .store(in: &cancellables)
+    }
+
+    private func observeLockScreenWindowHandoff() {
+        Publishers.CombineLatest(
+            lockScreenManager.$isLocked.removeDuplicates(),
+            lockScreenManager.$isLockIdle.removeDuplicates()
+        )
+        .receive(on: RunLoop.main)
+        .sink { [weak self] isLocked, isLockIdle in
+            guard let self, !self.isRunningUITests else { return }
+
+            if isLocked {
+                self.suspendPrimaryWindowForLock()
+            } else if self.isPrimaryWindowSuspendedForLock {
+                self.restorePrimaryWindowForUnlockTransition()
+            } else if isLockIdle {
+                self.updateWindowFrame()
+            }
+        }
+        .store(in: &cancellables)
+    }
+
+    private func suspendPrimaryWindowForLock() {
+        guard let window, !isPrimaryWindowSuspendedForLock else { return }
+
+        isPrimaryWindowSuspendedForLock = true
+        window.orderOut(nil)
+    }
+
+    private func restorePrimaryWindowForUnlockTransition() {
+        guard let window, isPrimaryWindowSuspendedForLock else { return }
+
+        isPrimaryWindowSuspendedForLock = false
+        updateWindowFrame()
+        window.orderFrontRegardless()
+    }
+
+    private func observeWorkspaceChanges() {
+        let center = NSWorkspace.shared.notificationCenter
+
+        center.addObserver(
+            self,
+            selector: #selector(handleWorkspaceContextChange),
+            name: NSWorkspace.activeSpaceDidChangeNotification,
+            object: nil
+        )
+
+        center.addObserver(
+            self,
+            selector: #selector(handleWorkspaceContextChange),
+            name: NSWorkspace.didActivateApplicationNotification,
+            object: nil
+        )
+    }
+
+    @objc
+    private func handleWorkspaceContextChange(_ notification: Notification) {
+        DispatchQueue.main.async { [weak self] in
+            self?.updateWindowFrame()
+        }
+    }
+
+    private func observeOutsideClickDismissal() {
+        notchViewModel.$notchModel
+            .map(\.isLiveActivityExpanded)
+            .removeDuplicates()
+            .sink { [weak self] isEnabled in
+                guard let self else { return }
+
+                if isEnabled {
+                    self.startOutsideClickMonitoring()
+                } else {
+                    self.stopOutsideClickMonitoring()
+                }
+            }
+            .store(in: &cancellables)
+    }
+
+    private func startOutsideClickMonitoring() {
+        if localClickMonitor == nil {
+            localClickMonitor = NSEvent.addLocalMonitorForEvents(
+                matching: [.leftMouseDown, .rightMouseDown, .otherMouseDown]
+            ) { [weak self] event in
+                let sourceWindow = event.window
+                let screenLocation =
+                    sourceWindow?.convertPoint(toScreen: event.locationInWindow) ??
+                    NSEvent.mouseLocation
+
+                Task { @MainActor [weak self] in
+                    self?.handleLocalClick(from: sourceWindow, atScreenLocation: screenLocation)
+                }
+                return event
+            }
+        }
+
+        globalClickMonitor.start { [weak self] _ in
+            let screenLocation = NSEvent.mouseLocation
+            Task { @MainActor [weak self] in
+                self?.handleGlobalClick(atScreenLocation: screenLocation)
+            }
+        }
+    }
+
+    private func stopOutsideClickMonitoring() {
+        if let localClickMonitor {
+            NSEvent.removeMonitor(localClickMonitor)
+        }
+
+        localClickMonitor = nil
+        globalClickMonitor.stop()
+    }
+
+    @MainActor
+    private func handleLocalClick(from _: NSWindow?, atScreenLocation screenLocation: NSPoint) {
+        guard shouldHandleOutsideClick else { return }
+        guard let activeNotchScreenRect else {
+            notchViewModel.handleOutsideClick()
+            return
+        }
+
+        guard !activeNotchScreenRect.contains(screenLocation) else { return }
+
+        notchViewModel.handleOutsideClick()
+    }
+
+    @MainActor
+    private func handleGlobalClick(atScreenLocation screenLocation: NSPoint) {
+        guard shouldHandleOutsideClick else { return }
+        guard let activeNotchScreenRect else {
+            notchViewModel.handleOutsideClick()
+            return
+        }
+
+        guard !activeNotchScreenRect.contains(screenLocation) else { return }
+        notchViewModel.handleOutsideClick()
+    }
+
+    @MainActor
+    private var shouldHandleOutsideClick: Bool {
+        notchViewModel.notchModel.isLiveActivityExpanded
+    }
+
+    @MainActor
+    private var activeNotchScreenRect: CGRect? {
+        guard let window else { return nil }
+
+        let notchSize = notchViewModel.notchModel.size
+        guard notchSize.width > 0, notchSize.height > 0 else { return nil }
+
+        let origin = CGPoint(
+            x: floor(window.frame.midX - notchSize.width / 2),
+            y: window.frame.maxY - notchSize.height
+        )
+
+        return CGRect(origin: origin, size: notchSize).insetBy(dx: -12, dy: -8)
     }
 
     private func stopDismissGestureMonitoring() {
@@ -235,6 +425,11 @@ class NotchHostingView: NSHostingView<AnyView> {
     override func hitTest(_ point: NSPoint) -> NSView? {
         return super.hitTest(point)
     }
+
+    func containsActiveNotch(atScreenLocation screenLocation: NSPoint) -> Bool {
+        guard let activeNotchScreenRect = currentActiveNotchScreenRect() else { return false }
+        return activeNotchScreenRect.contains(screenLocation)
+    }
 }
 
 private extension NotchHostingView {
@@ -260,13 +455,14 @@ private extension NotchHostingView {
         return CGRect(origin: origin, size: notchSize).insetBy(dx: -12, dy: -8)
     }
 
-    func pointerLocation(for event: NSEvent, screenLocation: NSPoint?) -> NSPoint {
-        if let screenLocation, let window {
-            let locationInWindow = window.convertPoint(fromScreen: screenLocation)
-            return convert(locationInWindow, from: nil)
+    func currentActiveNotchScreenRect() -> CGRect? {
+        guard let activeNotchRect = currentActiveNotchRect(),
+              let window else {
+            return nil
         }
 
-        return convert(event.locationInWindow, from: nil)
+        let rectInWindow = convert(activeNotchRect, to: nil)
+        return window.convertToScreen(rectInWindow)
     }
 
     func physicalVerticalDelta(from event: NSEvent) -> CGFloat {

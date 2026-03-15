@@ -49,3 +49,13 @@ enum BluetoothEvent: Equatable {
 enum OnboardingEvent: Equatable {
     case onboarding
 }
+
+enum NowPlayingEvent: Equatable {
+    case started
+    case stopped
+}
+
+enum LockScreenEvent: Equatable {
+    case started
+    case stopped
+}

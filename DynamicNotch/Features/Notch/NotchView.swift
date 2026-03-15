@@ -12,17 +12,26 @@ struct NotchView: View {
     @ObservedObject var focusViewModel: FocusViewModel
     @ObservedObject var airDropViewModel: AirDropNotchViewModel
     @ObservedObject var generalSettingsViewModel: GeneralSettingsViewModel
+    @ObservedObject var nowPlayingViewModel: NowPlayingViewModel
+    @ObservedObject var lockScreenManager: LockScreenManager
     
     var body: some View {
         ZStack {
             notchBody
                 .environment(\.notchScale, notchViewModel.notchModel.scale)
-                .onReceive(powerViewModel.$event.compactMap { $0 }, perform: notchEventCoordinator.handlePowerEvent)
-                .onReceive(bluetoothViewModel.$event.compactMap { $0 }, perform: notchEventCoordinator.handleBluetoothEvent)
-                .onReceive(networkViewModel.$networkEvent.compactMap { $0 }, perform: notchEventCoordinator.handleNetworkEvent)
-                .onReceive(focusViewModel.$focusEvent.compactMap{ $0 }, perform: notchEventCoordinator.handleFocusEvent)
-                .onReceive(airDropViewModel.$event.compactMap { $0 }, perform: notchEventCoordinator.handleAirDropEvent)
-                .onReceive(generalSettingsViewModel.notchSizeEvent, perform: notchEventCoordinator.handleNotchWidthEvent)
+                .background(
+                    NotchEventHandlersView(
+                        notchEventCoordinator: notchEventCoordinator,
+                        powerViewModel: powerViewModel,
+                        bluetoothViewModel: bluetoothViewModel,
+                        networkViewModel: networkViewModel,
+                        focusViewModel: focusViewModel,
+                        airDropViewModel: airDropViewModel,
+                        generalSettingsViewModel: generalSettingsViewModel,
+                        nowPlayingViewModel: nowPlayingViewModel,
+                        lockScreenManager: lockScreenManager
+                    )
+                )
                 .onChange(of: notchViewModel.notchModel.content?.id) {
                     notchViewModel.handleStrokeVisibility()
                 }
@@ -60,6 +69,7 @@ private extension NotchView {
             contentOverlay
         }
         .customNotchPressable(
+            notchViewModel: notchViewModel,
             isPressed: $notchViewModel.isPressed,
             baseSize: notchViewModel.notchModel.size
         )
@@ -79,14 +89,41 @@ private extension NotchView {
     @ViewBuilder
     var contentOverlay: some View {
         if let content = notchViewModel.notchModel.content {
+            if notchViewModel.canExpandActiveLiveActivity {
+                renderedContentView(for: content)
+                    .id(notchViewModel.notchModel.presentationID)
+                    .transition(
+                        .blurAndFade
+                            .animation(.spring(duration: 0.5))
+                            .combined(with: .scale)
+                            .combined(with: .offset(
+                                x: notchViewModel.notchModel.offsetXTransition,
+                                y: notchViewModel.notchModel.offsetYTransition)
+                            )
+                    )
+            } else {
+                renderedContentView(for: content)
+                    .id(notchViewModel.notchModel.presentationID)
+                    .transition(
+                        .blurAndFade
+                            .animation(.spring(duration: 0.5))
+                            .combined(with: .scale)
+                            .combined(with: .offset(
+                                x: notchViewModel.notchModel.offsetXTransition,
+                                y: notchViewModel.notchModel.offsetYTransition)
+                            )
+                    )
+            }
+        }
+    }
+    
+    @MainActor
+    @ViewBuilder
+    func renderedContentView(for content: NotchContentProtocol) -> some View {
+        if notchViewModel.notchModel.isPresentingExpandedLiveActivity {
+            content.makeExpandedView()
+        } else {
             content.makeView()
-                .id(content.id)
-                .transition(
-                    .blurAndFade
-                        .animation(.spring(duration: 0.5))
-                        .combined(with: .scale)
-                        .combined(with: .offset(y: notchViewModel.notchModel.offsetYTransition))
-                )
         }
     }
     
@@ -102,5 +139,45 @@ private extension NotchView {
             Image(systemName: "rectangle.portrait.and.arrow.right")
             Text("Quit")
         }
+    }
+}
+
+private struct NotchEventHandlersView: View {
+    let notchEventCoordinator: NotchEventCoordinator
+    let powerViewModel: PowerViewModel
+    let bluetoothViewModel: BluetoothViewModel
+    let networkViewModel: NetworkViewModel
+    let focusViewModel: FocusViewModel
+    let airDropViewModel: AirDropNotchViewModel
+    let generalSettingsViewModel: GeneralSettingsViewModel
+    let nowPlayingViewModel: NowPlayingViewModel
+    let lockScreenManager: LockScreenManager
+    
+    var body: some View {
+        Color.clear
+            .onReceive(powerViewModel.$event.compactMap { $0 }) { event in
+                notchEventCoordinator.handlePowerEvent(event)
+            }
+            .onReceive(bluetoothViewModel.$event.compactMap { $0 }) { event in
+                notchEventCoordinator.handleBluetoothEvent(event)
+            }
+            .onReceive(networkViewModel.$networkEvent.compactMap { $0 }) { event in
+                notchEventCoordinator.handleNetworkEvent(event)
+            }
+            .onReceive(focusViewModel.$focusEvent.compactMap { $0 }) { event in
+                notchEventCoordinator.handleFocusEvent(event)
+            }
+            .onReceive(airDropViewModel.$event.compactMap { $0 }) { event in
+                notchEventCoordinator.handleAirDropEvent(event)
+            }
+            .onReceive(generalSettingsViewModel.notchSizeEvent) { event in
+                notchEventCoordinator.handleNotchWidthEvent(event)
+            }
+            .onReceive(nowPlayingViewModel.$event.compactMap { $0 }) { event in
+                notchEventCoordinator.handleNowPlayingEvent(event)
+            }
+            .onReceive(lockScreenManager.$event.compactMap { $0 }) { event in
+                notchEventCoordinator.handleLockScreenEvent(event)
+            }
     }
 }

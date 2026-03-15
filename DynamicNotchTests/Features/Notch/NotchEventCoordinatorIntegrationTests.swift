@@ -1,4 +1,5 @@
 import AppKit
+import Combine
 import XCTest
 @testable import DynamicNotch
 
@@ -102,6 +103,101 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
             await MainActor.run { context.notchViewModel.notchModel.content == nil }
         }
     }
+
+    func testNowPlayingEventsShowAndHideLiveActivity() async {
+        let context = makeContext()
+
+        context.nowPlayingService.publish(makeNowPlayingSnapshot())
+        context.coordinator.handleNowPlayingEvent(context.nowPlayingViewModel.event ?? .started)
+
+        await assertEventually {
+            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id == "nowPlaying" }
+        }
+
+        context.nowPlayingService.publish(nil)
+        context.coordinator.handleNowPlayingEvent(context.nowPlayingViewModel.event ?? .stopped)
+
+        await assertEventually {
+            await MainActor.run { context.notchViewModel.notchModel.content == nil }
+        }
+    }
+
+    func testLockScreenEventsShowAndHideLockLiveActivity() async {
+        let context = makeContext()
+
+        context.lockScreenService.publish(isLocked: true)
+
+        await assertEventually {
+            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id == "lockScreen" }
+        }
+
+        context.lockScreenService.publish(isLocked: false)
+
+        await assertEventually(timeout: 0.5) {
+            await MainActor.run { context.notchViewModel.notchModel.content == nil }
+        }
+    }
+
+    func testUnlockingRestoresNowPlayingAfterLockScreenActivityStops() async {
+        let context = makeContext()
+        context.nowPlayingService.publish(makeNowPlayingSnapshot())
+
+        context.coordinator.handleNowPlayingEvent(context.nowPlayingViewModel.event ?? .started)
+
+        await assertEventually {
+            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id == "nowPlaying" }
+        }
+
+        context.lockScreenService.publish(isLocked: true)
+
+        await assertEventually {
+            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id == "lockScreen" }
+        }
+
+        context.lockScreenService.publish(isLocked: false)
+
+        await assertEventually(timeout: 0.5) {
+            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id == "nowPlaying" }
+        }
+    }
+
+    func testCheckFirstLaunchSyncsActiveNowPlayingSessionWhenOnboardingIsAlreadyCompleted() async {
+        UserDefaults.standard.set(true, forKey: "hasSeenOnboarding")
+
+        let context = makeContext()
+        context.nowPlayingService.publish(makeNowPlayingSnapshot())
+
+        context.coordinator.checkFirstLaunch()
+
+        await assertEventually {
+            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id == "nowPlaying" }
+        }
+    }
+
+    func testFinishingOnboardingRestoresNowPlayingWhenPlaybackIsActive() async {
+        let context = makeContext()
+
+        context.coordinator.handleOnboardingEvent(.onboarding)
+
+        await assertEventually {
+            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id == "onboarding" }
+        }
+
+        context.nowPlayingService.publish(makeNowPlayingSnapshot())
+
+        try? await Task.sleep(nanoseconds: 50_000_000)
+
+        let activeContentID = await MainActor.run {
+            context.notchViewModel.notchModel.liveActivityContent?.id
+        }
+        XCTAssertEqual(activeContentID, "onboarding")
+
+        context.coordinator.finishOnboarding()
+
+        await assertEventually {
+            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id == "nowPlaying" }
+        }
+    }
 }
 
 private extension NotchEventCoordinatorIntegrationTests {
@@ -109,6 +205,11 @@ private extension NotchEventCoordinatorIntegrationTests {
         let notchViewModel: NotchViewModel
         let coordinator: NotchEventCoordinator
         let airDropViewModel: AirDropNotchViewModel
+        let nowPlayingViewModel: NowPlayingViewModel
+        let nowPlayingService: FakeNowPlayingService
+        let lockScreenManager: LockScreenManager
+        let lockScreenService: FakeLockScreenMonitoringService
+        let cancellables: Set<AnyCancellable>
     }
 
     func makeContext() -> TestContext {
@@ -124,19 +225,46 @@ private extension NotchEventCoordinatorIntegrationTests {
         )
         let networkViewModel = NetworkViewModel(monitor: FakeNetworkMonitor())
         let airDropViewModel = AirDropNotchViewModel()
+        let nowPlayingService = FakeNowPlayingService()
+        let lockScreenService = FakeLockScreenMonitoringService()
+        let nowPlayingViewModel = NowPlayingViewModel(service: nowPlayingService)
+        let lockScreenManager = LockScreenManager(
+            service: lockScreenService,
+            unlockCollapseDelay: 0.05,
+            idleResetDelay: 0.05
+        )
+        TestLifetime.retain(nowPlayingViewModel)
+        TestLifetime.retain(lockScreenManager)
+        nowPlayingViewModel.startMonitoring()
+        lockScreenManager.startMonitoring()
         let coordinator = NotchEventCoordinator(
             notchViewModel: notchViewModel,
             bluetoothViewModel: BluetoothViewModel(),
             powerService: PowerService(startMonitoring: false),
             networkViewModel: networkViewModel,
             airDropViewModel: airDropViewModel,
-            generalSettingsViewModel: generalSettingsViewModel
+            generalSettingsViewModel: generalSettingsViewModel,
+            nowPlayingViewModel: nowPlayingViewModel,
+            lockScreenManager: lockScreenManager
         )
+        var cancellables = Set<AnyCancellable>()
+
+        lockScreenManager.$event
+            .compactMap { $0 }
+            .sink { event in
+                coordinator.handleLockScreenEvent(event)
+            }
+            .store(in: &cancellables)
 
         return TestContext(
             notchViewModel: notchViewModel,
             coordinator: coordinator,
-            airDropViewModel: airDropViewModel
+            airDropViewModel: airDropViewModel,
+            nowPlayingViewModel: nowPlayingViewModel,
+            nowPlayingService: nowPlayingService,
+            lockScreenManager: lockScreenManager,
+            lockScreenService: lockScreenService,
+            cancellables: cancellables
         )
     }
 }

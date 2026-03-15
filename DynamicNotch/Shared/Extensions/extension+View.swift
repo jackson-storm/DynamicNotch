@@ -8,7 +8,17 @@
 import SwiftUI
 
 extension View {
-    func customNotchPressable(isPressed: Binding<Bool>, baseSize: CGSize) -> some View {
-        modifier(NotchCustomScaleModifier(isPressed: isPressed, baseSize: baseSize))
+    func customNotchPressable(
+        notchViewModel: NotchViewModel,
+        isPressed: Binding<Bool>,
+        baseSize: CGSize
+    ) -> some View {
+        modifier(
+            NotchCustomScaleModifier(
+                notchViewModel: notchViewModel,
+                isPressed: isPressed,
+                baseSize: baseSize
+            )
+        )
     }
 }

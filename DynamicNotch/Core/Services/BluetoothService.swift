@@ -59,8 +59,10 @@ class BluetoothService: ObservableObject {
     private var lastPmsetRefreshDate: Date?
     private let pmsetRefreshCooldown: TimeInterval = 5
     private var hudBatteryWaitTasks: [UUID: Task<Void, Never>] = [:]
+    private var postConnectionBatteryRetryTasks: [UUID: Task<Void, Never>] = [:]
     private let hudBatteryWaitInterval: TimeInterval = 0.3
     private let hudBatteryWaitTimeout: TimeInterval = 1.8
+    private let postConnectionBatteryRetryDelays: [TimeInterval] = [0.4, 0.8, 1.2]
     
     // MARK: - Initialization
     private init() {
@@ -239,6 +241,7 @@ class BluetoothService: ObservableObject {
                 isBluetoothAudioConnected = true
 
                 refreshBatteryLevelsForConnectedDevices()
+                schedulePostConnectionBatteryRefreshes(for: audioDevice)
                 
                 // Show HUD for new connection
                 if let refreshedDevice = connectedDevices.last {
@@ -270,7 +273,10 @@ class BluetoothService: ObservableObject {
         
         if !removedDevices.isEmpty {
             print("🎧 [BluetoothAudioManager] 👋 Audio device(s) disconnected")
-            removedDevices.forEach { cancelHUDBatteryWait(for: $0) }
+            removedDevices.forEach {
+                cancelHUDBatteryWait(for: $0)
+                cancelPostConnectionBatteryRefresh(for: $0)
+            }
         }
         
         isBluetoothAudioConnected = !connectedDevices.isEmpty
@@ -305,6 +311,8 @@ class BluetoothService: ObservableObject {
         // Update last connected device
         lastConnectedDevice = audioDevice
         isBluetoothAudioConnected = true
+        refreshBatteryLevelsForConnectedDevices()
+        schedulePostConnectionBatteryRefreshes(for: audioDevice)
         
         // Show HUD
         showDeviceConnectedHUD(audioDevice)
@@ -326,7 +334,10 @@ class BluetoothService: ObservableObject {
         let address = device.addressString ?? "Unknown"
         let removed = connectedDevices.filter { $0.address == address }
         connectedDevices.removeAll { $0.address == address }
-        removed.forEach { cancelHUDBatteryWait(for: $0) }
+        removed.forEach {
+            cancelHUDBatteryWait(for: $0)
+            cancelPostConnectionBatteryRefresh(for: $0)
+        }
         isBluetoothAudioConnected = !connectedDevices.isEmpty
     }
     
@@ -686,6 +697,7 @@ class BluetoothService: ObservableObject {
 
             if refreshedLevel != nil {
                 clearMissingBatteryInfo(forName: device.name, address: device.address)
+                cancelPostConnectionBatteryRefresh(for: device)
             } else {
                 logMissingBatteryInfo(forName: device.name, address: device.address)
             }
@@ -1567,6 +1579,54 @@ class BluetoothService: ObservableObject {
         }
     }
 
+    private func schedulePostConnectionBatteryRefreshes(for device: BluetoothAudioDevice) {
+        cancelPostConnectionBatteryRefresh(for: device)
+
+        let task = Task.detached(priority: .utility) { [weak self] in
+            guard let self else { return }
+
+            for delay in self.postConnectionBatteryRetryDelays {
+                try? await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
+                guard !Task.isCancelled else { return }
+
+                let shouldContinue = await MainActor.run { () -> Bool in
+                    guard let refreshedDevice = self.connectedDevices.first(where: { $0.id == device.id }) else {
+                        return false
+                    }
+
+                    guard refreshedDevice.batteryLevel == nil else {
+                        return false
+                    }
+
+                    self.refreshConnectedDeviceBatteries()
+                    return true
+                }
+
+                guard shouldContinue else { break }
+            }
+
+            await MainActor.run {
+                self.cancelPostConnectionBatteryRefresh(for: device)
+            }
+        }
+
+        postConnectionBatteryRetryTasks[device.id] = task
+    }
+
+    private func cancelPostConnectionBatteryRefresh(for device: BluetoothAudioDevice) {
+        let cancelBlock = { [weak self] in
+            guard let self else { return }
+            self.postConnectionBatteryRetryTasks[device.id]?.cancel()
+            self.postConnectionBatteryRetryTasks.removeValue(forKey: device.id)
+        }
+
+        if Thread.isMainThread {
+            cancelBlock()
+        } else {
+            DispatchQueue.main.async(execute: cancelBlock)
+        }
+    }
+
     private func normalizeBluetoothIdentifier(_ value: String) -> String {
         return value
             .lowercased()
@@ -1655,6 +1715,8 @@ class BluetoothService: ObservableObject {
         cancellables.removeAll()
         hudBatteryWaitTasks.values.forEach { $0.cancel() }
         hudBatteryWaitTasks.removeAll()
+        postConnectionBatteryRetryTasks.values.forEach { $0.cancel() }
+        postConnectionBatteryRetryTasks.removeAll()
     }
 
     @MainActor

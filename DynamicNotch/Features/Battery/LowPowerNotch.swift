@@ -5,6 +5,7 @@ struct LowPowerNotchContent: NotchContentProtocol {
     let powerService: PowerService
     
     var strokeColor: Color { powerService.isLowPowerMode ? .yellow.opacity(0.3) : .red.opacity(0.3) }
+    var offsetXTransition: CGFloat { -30 }
     var offsetYTransition: CGFloat { -60 }
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {

@@ -37,9 +37,27 @@ struct ActivitySettingsView: View {
 }
 
 private struct LiveActivitySettingsView: View {
+    @AppStorage(LockScreenSettings.liveActivityKey) private var isLockScreenLiveActivityEnabled = true
+    @AppStorage(LockScreenSettings.mediaPanelKey) private var isLockScreenMediaPanelEnabled = true
+
     var body: some View {
-        Text("primer")
-            .accessibilityIdentifier("settings.activities.live.content")
+        Form {
+            Section("Lock Screen") {
+                Toggle("Show lock screen live activity", isOn: $isLockScreenLiveActivityEnabled)
+                    .toggleStyle(CustomToggleStyle())
+                    .accessibilityIdentifier("settings.activities.lockScreen.liveActivity")
+
+                Toggle("Show lock screen media panel", isOn: $isLockScreenMediaPanelEnabled)
+                    .toggleStyle(CustomToggleStyle())
+                    .accessibilityIdentifier("settings.activities.lockScreen.mediaPanel")
+
+                Text("The live activity stays in the notch flow, and the media panel appears on the lock screen when playback is active.")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .formStyle(.grouped)
+        .accessibilityIdentifier("settings.activities.live.content")
     }
 }
 

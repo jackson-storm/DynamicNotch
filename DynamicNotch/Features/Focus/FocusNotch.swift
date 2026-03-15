@@ -10,8 +10,10 @@ import SwiftUI
 struct FocusOnNotchContent: NotchContentProtocol {
     let id = "focus.on"
     
-    var priority: Int { 30 }
+    var priority: Int { 60 }
     var strokeColor: Color { .indigo.opacity(0.3) }
+    
+    var offsetXTransition: CGFloat { -90 }
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         return .init(width: baseWidth + 70, height: baseHeight)

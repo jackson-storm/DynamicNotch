@@ -12,18 +12,20 @@ struct DebugPanelSettingsView: View {
     @ObservedObject var notchEventCoordinator: NotchEventCoordinator
     
     var body: some View {
-        VStack(spacing: 20) {
-            LiveActivityPanelSettingsView(notchViewModel: notchViewModel, notchEventCoordinator: notchEventCoordinator)
-            
-            TemporaryActivityPanelSettingsView(notchViewModel: notchViewModel, notchEventCoordinator: notchEventCoordinator)
-            
-            Spacer()
-            
-            Button(action: {notchViewModel.send(.hide)}) {
-                Text("Hide All Temporary")
+        ScrollView {
+            VStack(spacing: 20) {
+                LiveActivityPanelSettingsView(notchViewModel: notchViewModel, notchEventCoordinator: notchEventCoordinator)
+                
+                TemporaryActivityPanelSettingsView(notchViewModel: notchViewModel, notchEventCoordinator: notchEventCoordinator)
+                
+                Spacer()
+                
+                Button(action: {notchViewModel.send(.hide)}) {
+                    Text("Hide All Temporary")
+                }
             }
+            .padding(20)
         }
-        .padding(20)
     }
 }
 
@@ -56,8 +58,20 @@ private struct LiveActivityPanelSettingsView: View {
                         DebugTitle(title: "Hotspot", icon: "personalhotspot", color: .green) {
                             notchEventCoordinator.handleNetworkEvent(.hotspotActive)
                         }
+                        
                         DebugTitle(title: "Focus on", icon: "moon.fill", color: .indigo) {
                             notchEventCoordinator.handleFocusEvent(.FocusOn)
+                        }
+                        
+                        DebugTitle(title: "Now playing", icon: "speaker.wave.2.fill", color: .red) {
+                            notchEventCoordinator.handleNowPlayingEvent(.started)
+                        }
+                        
+                        DebugTitle(title: "Now playing Expanded", icon: "speaker.square.fill", color: .red) {
+                            notchViewModel.handleActiveContentTap()
+                        }
+                        DebugTitle(title: "Lock", icon: "lock.fill", color: .white) {
+                            notchEventCoordinator.handleLockScreenEvent(.started)
                         }
                     }
                 }

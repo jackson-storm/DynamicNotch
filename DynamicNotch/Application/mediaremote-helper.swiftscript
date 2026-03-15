@@ -1,0 +1,323 @@
+import Dispatch
+import Foundation
+
+private typealias MRMediaRemoteGetNowPlayingInfoFunction =
+    @convention(c) (DispatchQueue, @escaping (CFDictionary?) -> Void) -> Void
+private typealias MRMediaRemoteRegisterForNowPlayingNotificationsFunction =
+    @convention(c) (DispatchQueue) -> Void
+
+private struct HelperSnapshot: Codable, Equatable {
+    let active: Bool
+    let title: String?
+    let artist: String?
+    let album: String?
+    let duration: Double?
+    let elapsedTime: Double?
+    let playbackRate: Double?
+    let artworkData: String?
+}
+
+private final class MediaRemoteHelper {
+    private let fallbackPollInterval = DispatchTimeInterval.milliseconds(250)
+    private let resyncInterval = DispatchTimeInterval.seconds(1)
+
+    private enum NotificationName {
+        static let nowPlayingInfoDidChange =
+            "kMRMediaRemoteNowPlayingInfoDidChangeNotification"
+        static let playbackStateDidChange =
+            "kMRMediaRemoteNowPlayingApplicationIsPlayingDidChangeNotification"
+        static let nowPlayingAppDidChange =
+            "kMRMediaRemoteNowPlayingApplicationDidChangeNotification"
+    }
+
+    private enum Key {
+        static let title = "kMRMediaRemoteNowPlayingInfoTitle"
+        static let artist = "kMRMediaRemoteNowPlayingInfoArtist"
+        static let album = "kMRMediaRemoteNowPlayingInfoAlbum"
+        static let duration = "kMRMediaRemoteNowPlayingInfoDuration"
+        static let elapsedTime = "kMRMediaRemoteNowPlayingInfoElapsedTime"
+        static let playbackRate = "kMRMediaRemoteNowPlayingInfoPlaybackRate"
+        static let artworkData = "kMRMediaRemoteNowPlayingInfoArtworkData"
+    }
+
+    private let queue = DispatchQueue(
+        label: "com.dynamicnotch.mediaremote.helper",
+        qos: .userInitiated
+    )
+    private let encoder = JSONEncoder()
+    private let getNowPlayingInfo: MRMediaRemoteGetNowPlayingInfoFunction
+    private let registerForNowPlayingNotifications:
+        MRMediaRemoteRegisterForNowPlayingNotificationsFunction?
+
+    private var timer: DispatchSourceTimer?
+    private var isFetchInFlight = false
+    private var lastEmittedSnapshot: HelperSnapshot?
+    private var lastEmissionDate: Date?
+    private var cachedArtworkData: Data?
+    private var cachedArtworkBase64: String?
+    private var notificationObservers: [NSObjectProtocol] = []
+
+    init?() {
+        let frameworkURL = URL(
+            fileURLWithPath: "/System/Library/PrivateFrameworks/MediaRemote.framework"
+        ) as CFURL
+
+        guard
+            let bundle = CFBundleCreate(kCFAllocatorDefault, frameworkURL),
+            CFBundleLoadExecutable(bundle),
+            let functionPointer = CFBundleGetFunctionPointerForName(
+                bundle,
+                "MRMediaRemoteGetNowPlayingInfo" as CFString
+            )
+        else {
+            fputs("mediaremote-helper: failed to load MediaRemote framework\n", stderr)
+            return nil
+        }
+
+        getNowPlayingInfo = unsafeBitCast(
+            functionPointer,
+            to: MRMediaRemoteGetNowPlayingInfoFunction.self
+        )
+
+        if let registerPointer = CFBundleGetFunctionPointerForName(
+            bundle,
+            "MRMediaRemoteRegisterForNowPlayingNotifications" as CFString
+        ) {
+            registerForNowPlayingNotifications = unsafeBitCast(
+                registerPointer,
+                to: MRMediaRemoteRegisterForNowPlayingNotificationsFunction.self
+            )
+        } else {
+            registerForNowPlayingNotifications = nil
+        }
+    }
+
+    deinit {
+        notificationObservers.forEach(NotificationCenter.default.removeObserver)
+    }
+
+    func run() {
+        installNowPlayingObservers()
+
+        let timer = DispatchSource.makeTimerSource(queue: queue)
+        self.timer = timer
+        let repeatingInterval =
+            registerForNowPlayingNotifications == nil ? fallbackPollInterval : resyncInterval
+        timer.schedule(
+            deadline: .now(),
+            repeating: repeatingInterval,
+            leeway: .milliseconds(50)
+        )
+        timer.setEventHandler { [weak self] in
+            self?.pollNowPlayingInfo()
+        }
+        timer.resume()
+        dispatchMain()
+    }
+
+    private func pollNowPlayingInfo() {
+        guard !isFetchInFlight else { return }
+
+        isFetchInFlight = true
+        getNowPlayingInfo(queue) { [weak self] dictionary in
+            guard let self else { return }
+
+            self.queue.async {
+                self.isFetchInFlight = false
+                self.handleNowPlayingInfo(dictionary)
+            }
+        }
+    }
+
+    private func installNowPlayingObservers() {
+        guard let registerForNowPlayingNotifications else { return }
+
+        registerForNowPlayingNotifications(.main)
+
+        let names = [
+            NotificationName.nowPlayingInfoDidChange,
+            NotificationName.playbackStateDidChange,
+            NotificationName.nowPlayingAppDidChange
+        ]
+
+        notificationObservers = names.map { rawName in
+            NotificationCenter.default.addObserver(
+                forName: Notification.Name(rawValue: rawName),
+                object: nil,
+                queue: nil
+            ) { [weak self] _ in
+                self?.queue.async { [weak self] in
+                    self?.pollNowPlayingInfo()
+                }
+            }
+        }
+    }
+
+    private func handleNowPlayingInfo(_ dictionary: CFDictionary?) {
+        autoreleasepool {
+            let info = dictionary as? [String: Any]
+            let snapshot = makeSnapshot(from: info)
+
+            guard shouldEmit(snapshot) else { return }
+            emit(snapshot)
+        }
+    }
+
+    private func makeSnapshot(from info: [String: Any]?) -> HelperSnapshot {
+        guard let info else {
+            cachedArtworkData = nil
+            cachedArtworkBase64 = nil
+            return HelperSnapshot(
+                active: false,
+                title: nil,
+                artist: nil,
+                album: nil,
+                duration: nil,
+                elapsedTime: nil,
+                playbackRate: nil,
+                artworkData: nil
+            )
+        }
+
+        let title = stringValue(for: Key.title, in: info)
+        let artist = stringValue(for: Key.artist, in: info)
+        let album = stringValue(for: Key.album, in: info)
+        let duration = doubleValue(for: Key.duration, in: info)
+        let elapsedTime = doubleValue(for: Key.elapsedTime, in: info)
+        let playbackRate = doubleValue(for: Key.playbackRate, in: info)
+        let artworkData = artworkBase64(from: info)
+
+        let isActive =
+            !(title?.isEmpty ?? true) ||
+            !(artist?.isEmpty ?? true) ||
+            !(album?.isEmpty ?? true) ||
+            artworkData != nil ||
+            (duration ?? 0) > 0 ||
+            (elapsedTime ?? 0) > 0
+
+        return HelperSnapshot(
+            active: isActive,
+            title: title,
+            artist: artist,
+            album: album,
+            duration: duration,
+            elapsedTime: elapsedTime,
+            playbackRate: playbackRate,
+            artworkData: artworkData
+        )
+    }
+
+    private func shouldEmit(_ snapshot: HelperSnapshot) -> Bool {
+        let now = Date()
+
+        guard let lastSnapshot = lastEmittedSnapshot else {
+            return true
+        }
+
+        if lastSnapshot.active != snapshot.active {
+            return true
+        }
+
+        guard snapshot.active else {
+            return false
+        }
+
+        if lastSnapshot.title != snapshot.title ||
+            lastSnapshot.artist != snapshot.artist ||
+            lastSnapshot.album != snapshot.album ||
+            lastSnapshot.duration != snapshot.duration ||
+            lastSnapshot.playbackRate != snapshot.playbackRate ||
+            lastSnapshot.artworkData != snapshot.artworkData {
+            return true
+        }
+
+        let elapsedDelta = abs((snapshot.elapsedTime ?? 0) - (lastSnapshot.elapsedTime ?? 0))
+        if elapsedDelta >= 2 {
+            return true
+        }
+
+        if (snapshot.playbackRate ?? 0) > 0.001,
+            let lastEmissionDate,
+            now.timeIntervalSince(lastEmissionDate) >= 5 {
+            return true
+        }
+
+        return false
+    }
+
+    private func emit(_ snapshot: HelperSnapshot) {
+        guard let data = try? encoder.encode(snapshot) else { return }
+        guard let line = String(data: data, encoding: .utf8) else { return }
+
+        fputs("\(line)\n", stdout)
+        fflush(stdout)
+
+        lastEmittedSnapshot = snapshot
+        lastEmissionDate = Date()
+    }
+
+    private func stringValue(for key: String, in info: [String: Any]) -> String? {
+        if let value = info[key] as? String {
+            let trimmedValue = value.trimmingCharacters(in: .whitespacesAndNewlines)
+            return trimmedValue.isEmpty ? nil : trimmedValue
+        }
+
+        if let value = info[key] as? NSString {
+            let trimmedValue = (value as String).trimmingCharacters(in: .whitespacesAndNewlines)
+            return trimmedValue.isEmpty ? nil : trimmedValue
+        }
+
+        return nil
+    }
+
+    private func doubleValue(for key: String, in info: [String: Any]) -> Double? {
+        if let value = info[key] as? NSNumber {
+            return value.doubleValue
+        }
+
+        if let value = info[key] as? NSString {
+            return Double(value as String)
+        }
+
+        if let value = info[key] as? String {
+            return Double(value)
+        }
+
+        return nil
+    }
+
+    private func artworkBase64(from info: [String: Any]) -> String? {
+        guard let artworkData = dataValue(for: Key.artworkData, in: info), !artworkData.isEmpty else {
+            cachedArtworkData = nil
+            cachedArtworkBase64 = nil
+            return nil
+        }
+
+        if cachedArtworkData == artworkData {
+            return cachedArtworkBase64
+        }
+
+        let base64 = artworkData.base64EncodedString()
+        cachedArtworkData = artworkData
+        cachedArtworkBase64 = base64
+        return base64
+    }
+
+    private func dataValue(for key: String, in info: [String: Any]) -> Data? {
+        if let value = info[key] as? Data {
+            return value
+        }
+
+        if let value = info[key] as? NSData {
+            return value as Data
+        }
+
+        return nil
+    }
+}
+
+guard let helper = MediaRemoteHelper() else {
+    exit(1)
+}
+
+helper.run()

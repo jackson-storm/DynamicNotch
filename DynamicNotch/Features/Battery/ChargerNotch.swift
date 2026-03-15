@@ -4,6 +4,7 @@ struct ChargerNotchContent: NotchContentProtocol {
     let id = "battery.charger"
     let powerService: PowerService
     
+    var offsetXTransition: CGFloat { -90 }
     var strokeColor: Color { powerService.isLowPowerMode ? .yellow.opacity(0.3) : .green.opacity(0.3) }
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {

@@ -10,8 +10,9 @@ import SwiftUI
 struct HotspotActiveContent: NotchContentProtocol {
     let id = "hotspot.active"
     
-    var priority: Int { 40 }
+    var priority: Int { 70 }
     var strokeColor: Color { .green.opacity(0.3) }
+    var offsetXTransition: CGFloat { -90 }
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         return .init(width: baseWidth + 80, height: baseHeight)

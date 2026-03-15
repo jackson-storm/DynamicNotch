@@ -56,6 +56,7 @@ private struct LiveActivitySettingsView: View {
                     .foregroundStyle(.secondary)
             }
         }
+        .formStyle(.grouped)
         .accessibilityIdentifier("settings.activities.live.content")
     }
 }

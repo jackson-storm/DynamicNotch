@@ -1,76 +1,45 @@
+//
+//  LockScreenNowPlayingPanel.swift
+//  DynamicNotch
+//
+//  Created by Евгений Петрукович on 3/15/26.
+//
+
 import SwiftUI
-import AppKit
 
-struct NowPlayingNotchContent: NotchContentProtocol {
-    let id = "nowPlaying"
-    let nowPlayingViewModel: NowPlayingViewModel
+struct LockScreenNowPlayingPanelView: View {
+    static let panelSize = CGSize(width: 340, height: 200)
     
-    var priority: Int { 81 }
-    var isExpandable: Bool { true }
-    var expandedOffsetXTransition: CGFloat { -100 }
-    var expandedOffsetYTransition: CGFloat { -90 }
+    let snapshot: NowPlayingSnapshot
+    let artworkImage: NSImage?
     
-    func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        .init(width: baseWidth + 70, height: baseHeight)
-    }
-    
-    func expandedSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        .init(width: baseWidth + 200, height: baseHeight + 160)
-    }
-    
-    func expandedCornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
-        (top: 34, bottom: 44)
-    }
-    
-    @MainActor
-    func makeView() -> AnyView {
-        AnyView(NowPlayingMinimalNotchView(nowPlayingViewModel: nowPlayingViewModel))
-    }
-    
-    @MainActor
-    func makeExpandedView() -> AnyView {
-        AnyView(NowPlayingExpandedNotchView(nowPlayingViewModel: nowPlayingViewModel))
-    }
-}
-
-private struct NowPlayingMinimalNotchView: View {
-    @Environment(\.notchScale) var scale
     @ObservedObject var nowPlayingViewModel: NowPlayingViewModel
+    @ObservedObject var lockScreenManager: LockScreenManager
+    @ObservedObject var animator: LockScreenPanelAnimator
     
-    private var resolvedSnapshot: NowPlayingSnapshot {
-        nowPlayingViewModel.snapshot ?? NowPlayingSnapshot(
-            title: "Nothing Playing",
-            artist: "Nothing artists",
-            album: "",
-            duration: 0,
-            elapsedTime: 0,
-            playbackRate: 0,
-            artworkData: nil,
-            refreshedAt: .now
-        )
-    }
+    @State private var scrubProgress: CGFloat?
+    
+    private let animationTick: TimeInterval = 1.0 / 10.0
     
     var body: some View {
-        let snapshot = resolvedSnapshot
-        
-        TimelineView(.periodic(from: .now, by: nowPlayingAnimationTick)) { context in
-            HStack {
-                ArtworkView(nowPlayingViewModel: nowPlayingViewModel, width: 24, height: 24, cornerRadius: 5)
-                Spacer()
-                EqualizerView(
-                    isPlaying: snapshot.isPlaying,
-                    trackSeed: snapshot.waveSeed,
-                    date: context.date,
-                    width: 2,
-                    height: 2
-                )
+        LockScreenNowPlayingView(nowPlayingViewModel: nowPlayingViewModel)
+            .frame(width: Self.panelSize.width, height: Self.panelSize.height, alignment: .topLeading)
+            .background {
+                RoundedRectangle(cornerRadius: 28, style: .continuous)
+                    .fill(.ultraThinMaterial)
             }
-            .padding(.horizontal, 14.scaled(by: scale))
-        }
+            .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
+            .overlay {
+                RoundedRectangle(cornerRadius: 28, style: .continuous)
+                    .stroke(.white.opacity(0.15), lineWidth: 1)
+            }
+            .shadow(color: .black.opacity(0.24), radius: 26, x: 0, y: 14)
+            .opacity(animator.isPresented ? 1 : 0)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
     }
 }
 
-struct NowPlayingExpandedNotchView: View {
+private struct LockScreenNowPlayingView: View {
     @Environment(\.notchScale) var scale
     @ObservedObject var nowPlayingViewModel: NowPlayingViewModel
     @State private var scrubProgress: CGFloat?
@@ -102,8 +71,6 @@ struct NowPlayingExpandedNotchView: View {
             elapsedTime
             
             VStack {
-                Spacer()
-                
                 HStack(spacing: 15) {
                     ArtworkView(nowPlayingViewModel: nowPlayingViewModel, width: 60, height: 60, cornerRadius: 10)
                     
@@ -113,7 +80,7 @@ struct NowPlayingExpandedNotchView: View {
                                 .constant(displayTitle(for: snapshot)),
                                 font: .system(size: 16, weight: .medium),
                                 nsFont: .headline,
-                                textColor: .white.opacity(0.8),
+                                textColor: .primary.opacity(0.8),
                                 backgroundColor: .clear,
                                 minDuration: 2.0,
                                 frameWidth: 170.scaled(by: scale)
@@ -196,9 +163,7 @@ struct NowPlayingExpandedNotchView: View {
                     }
                 }
             }
-            .padding(.horizontal, 55)
-            .padding(.top, 25)
-            .padding(.bottom, 15)
+            .padding(20)
         }
     }
     
@@ -276,11 +241,11 @@ private struct ArtworkView: View {
 private struct EqualizerView: View {
     private struct SeededGenerator {
         private var state: UInt64
-
+        
         init(seed: UInt64) {
             state = seed == 0 ? 0x9E3779B97F4A7C15 : seed
         }
-
+        
         mutating func nextUnit() -> Double {
             state &+= 0x9E3779B97F4A7C15
             var value = state
@@ -289,12 +254,12 @@ private struct EqualizerView: View {
             value = value ^ (value >> 31)
             return Double(value & 0x1FFFFFFFFFFFFF) / Double(0x1FFFFFFFFFFFFF)
         }
-
+        
         mutating func next(in range: ClosedRange<Double>) -> Double {
             range.lowerBound + (nextUnit() * (range.upperBound - range.lowerBound))
         }
     }
-
+    
     private struct BarProfile {
         let restLevel: CGFloat
         let floorLevel: CGFloat
@@ -310,7 +275,7 @@ private struct EqualizerView: View {
         let pulseFrequency: Double
         let pulsePhase: Double
     }
-
+    
     let isPlaying: Bool
     let trackSeed: UInt64
     let date: Date
@@ -319,11 +284,11 @@ private struct EqualizerView: View {
     
     var body: some View {
         let profiles = makeProfiles()
-
+        
         HStack(alignment: .center, spacing: max(width, 2)) {
             ForEach(Array(profiles.indices), id: \.self) { index in
                 RoundedRectangle(cornerRadius: 3)
-                    .fill(.white.opacity(0.6).gradient)
+                    .fill(.primary.opacity(0.6))
                     .frame(width: width, height: barHeight(for: profiles[index], index: index))
                     .animation(.linear(duration: nowPlayingAnimationTick * 1.15), value: date)
             }
@@ -331,56 +296,56 @@ private struct EqualizerView: View {
         .frame(height: maxHeight, alignment: .center)
         .opacity(isPlaying ? 1 : 0.55)
     }
-
+    
     private func barHeight(for profile: BarProfile, index: Int) -> CGFloat {
         let dynamicRange = maxHeight - minHeight
-
+        
         guard isPlaying else {
             return pausedBarHeight(for: index)
         }
-
+        
         let progress = waveProgress(for: profile)
         let resolvedLevel = profile.floorLevel + (progress * profile.amplitude)
         return minHeight + (dynamicRange * min(max(resolvedLevel, 0), 1))
     }
-
+    
     private var minHeight: CGFloat {
         max(height * 0.95, 3)
     }
-
+    
     private var maxHeight: CGFloat {
         max(height * 4.8, minHeight + 10)
     }
-
+    
     private func waveProgress(for profile: BarProfile) -> CGFloat {
         let time = date.timeIntervalSinceReferenceDate
-
+        
         let primary = sin((time * profile.primaryFrequency) + profile.primaryPhase) * 0.48
         let secondary = sin((time * profile.secondaryFrequency) + profile.secondaryPhase) * 0.24
         let accent = cos((time * profile.accentFrequency) + profile.accentPhase) * 0.14
         let drift = ((sin((time * profile.driftFrequency) + profile.driftPhase) + 1) / 2) * 0.28
         let pulse = max(0, sin((time * profile.pulseFrequency) + profile.pulsePhase)) * 0.24
-
+        
         let combined = primary + secondary + accent
         let normalized = (combined + 1) / 2
         let energized = min(max(normalized + drift + pulse, 0), 1)
-
+        
         // Keep the motion expressive but lower the overall peaks.
         return pow(CGFloat(energized), 0.72)
     }
-
+    
     private func pausedBarHeight(for index: Int) -> CGFloat {
         let pausedLevels: [CGFloat] = [0.82, 0.98, 1.16, 0.98, 0.82]
         let baseDotSize = max(width + 0.8, height * 0.9, 2.8)
         return baseDotSize * pausedLevels[index]
     }
-
+    
     private func makeProfiles() -> [BarProfile] {
         var generator = SeededGenerator(seed: trackSeed)
-
+        
         return Array(0..<5).map { index in
             let barOffset = Double(index) * 0.13
-
+            
             return BarProfile(
                 restLevel: CGFloat(generator.next(in: 0.08...0.92)),
                 floorLevel: CGFloat(generator.next(in: 0.08...0.22)),
@@ -405,7 +370,7 @@ private let nowPlayingAnimationTick: TimeInterval = 1.0 / 10.0
 private func stableFNV1A64Hash(of value: String) -> UInt64 {
     let offsetBasis: UInt64 = 0xcbf29ce484222325
     let prime: UInt64 = 0x100000001b3
-
+    
     return value.utf8.reduce(offsetBasis) { partialResult, byte in
         (partialResult ^ UInt64(byte)) &* prime
     }
@@ -422,16 +387,16 @@ private struct PlayerProgressBar: View {
             let resolvedProgress = min(max(progress, 0), 1)
             let trackHeight: CGFloat = 7
             let filledWidth = proxy.size.width * resolvedProgress
-
+            
             ZStack(alignment: .leading) {
                 Capsule(style: .continuous)
-                    .fill(.white.opacity(0.15))
+                    .fill(.primary.opacity(0.15))
                     .frame(height: trackHeight)
-
+                
                 Capsule(style: .continuous)
-                    .fill(.white.opacity(0.5))
+                    .fill(.primary.opacity(0.5))
                     .frame(width: filledWidth, height: trackHeight)
-
+                
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             .contentShape(Rectangle())
@@ -449,7 +414,7 @@ private struct PlayerProgressBar: View {
         }
         .frame(height: 18)
     }
-
+    
     private func progress(at locationX: CGFloat, in width: CGFloat) -> CGFloat {
         guard width > 0 else { return 0 }
         return min(max(locationX / width, 0), 1)
@@ -469,7 +434,7 @@ private struct PlayerControlButton: View {
         Button(action: action) {
             Image(systemName: systemImage)
                 .font(.system(size: fontSize, weight: .semibold))
-                .foregroundStyle(.white.opacity(0.9))
+                .foregroundStyle(.primary.opacity(0.9))
         }
         .buttonStyle(PressedButtonStyle(width: width, height: height))
     }
@@ -490,7 +455,7 @@ private extension NowPlayingSnapshot {
             String(Int(duration.rounded())),
             String(artworkData?.count ?? 0)
         ].joined(separator: "|")
-
+        
         return stableFNV1A64Hash(of: trackIdentity)
     }
 }

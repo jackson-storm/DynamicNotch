@@ -48,7 +48,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         generalSettingsViewModel: generalSettingsViewModel
     )
     
-    var window: NotchPanel!
+    var window: NSWindow!
     private var uiTestSettingsWindow: NSWindow?
     private var localScrollMonitor: Any?
     private var globalScrollMonitor: Any?
@@ -143,7 +143,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         )
         
         window.isOpaque = false
-        window.isFloatingPanel = true
         window.titleVisibility = .hidden
         window.titlebarAppearsTransparent = true
         window.backgroundColor = .clear

@@ -54,3 +54,8 @@ enum NowPlayingEvent: Equatable {
     case started
     case stopped
 }
+
+enum LockScreenEvent: Equatable {
+    case started
+    case stopped
+}

@@ -2,6 +2,10 @@ import AppKit
 import Combine
 import SwiftUI
 
+enum LockScreenWindowLayout {
+    static let canvasSize = CGSize(width: 500, height: 500)
+}
+
 @MainActor
 final class LockScreenLiveActivityAnimator: ObservableObject {
     @Published var scale: CGFloat = 1
@@ -381,6 +385,11 @@ private struct LockScreenLiveActivityOverlayView: View {
             LockScreenNotchView(lockScreenManager: lockScreenManager)
                 .environment(\.notchScale, notchViewModel.notchModel.scale)
         }
+        .customNotchPressable(
+            notchViewModel: notchViewModel,
+            isPressed: $notchViewModel.isPressed,
+            baseSize: notchViewModel.notchModel.size
+        )
         .frame(width: contentSize.width, height: contentSize.height)
         .scaleEffect(animator.scale)
         .opacity(animator.opacity)

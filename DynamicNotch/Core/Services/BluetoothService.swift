@@ -58,6 +58,8 @@ class BluetoothService: ObservableObject {
     private var isPmsetRefreshInFlight = false
     private var lastPmsetRefreshDate: Date?
     private let pmsetRefreshCooldown: TimeInterval = 5
+    private let pollingInterval: TimeInterval = 3.0
+    private let pollingTolerance: TimeInterval = 1.0
     private var hudBatteryWaitTasks: [UUID: Task<Void, Never>] = [:]
     private var postConnectionBatteryRetryTasks: [UUID: Task<Void, Never>] = [:]
     private let hudBatteryWaitInterval: TimeInterval = 0.3
@@ -106,11 +108,12 @@ class BluetoothService: ObservableObject {
     
     /// Starts polling for device connection changes (fallback mechanism)
     private func startPollingForChanges() {
-        print("🎧 [BluetoothAudioManager] Starting polling timer (3s interval)...")
+        print("🎧 [BluetoothAudioManager] Starting polling timer (\(pollingInterval)s interval)...")
         
-        pollingTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { [weak self] _ in
+        pollingTimer = Timer.scheduledTimer(withTimeInterval: pollingInterval, repeats: true) { [weak self] _ in
             self?.checkForDeviceChanges()
         }
+        pollingTimer?.tolerance = pollingTolerance
     }
     
     /// Checks for device connection/disconnection changes

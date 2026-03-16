@@ -371,15 +371,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         DispatchQueue.main.async {
             let hostingController = NSHostingController(
                 rootView: SettingsRootView(
-                    notchViewModel: self.notchViewModel,
                     powerService: self.powerService,
-                    notchEventCoordinator: self.notchEventCoordinator,
                     generalSettingsViewModel: self.generalSettingsViewModel
                 )
             )
 
             let settingsWindow = NSWindow(
-                contentRect: NSRect(x: 0, y: 0, width: 500, height: 560),
+                contentRect: NSRect(
+                    x: 0,
+                    y: 0,
+                    width: SettingsWindowLayout.width,
+                    height: SettingsWindowLayout.height
+                ),
                 styleMask: [.titled, .closable, .miniaturizable],
                 backing: .buffered,
                 defer: false

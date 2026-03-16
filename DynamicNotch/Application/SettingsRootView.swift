@@ -1,41 +1,80 @@
 import SwiftUI
 
+enum SettingsWindowLayout {
+    static let width: CGFloat = 500
+    static let height: CGFloat = 560
+}
+
 struct SettingsRootView: View {
-    @ObservedObject var notchViewModel: NotchViewModel
     @ObservedObject var powerService: PowerService
-    @ObservedObject var notchEventCoordinator: NotchEventCoordinator
     @ObservedObject var generalSettingsViewModel: GeneralSettingsViewModel
 
+    @StateObject private var viewModel: SettingsRootViewModel
+
+    init(
+        powerService: PowerService,
+        generalSettingsViewModel: GeneralSettingsViewModel
+    ) {
+        self.powerService = powerService
+        self.generalSettingsViewModel = generalSettingsViewModel
+        _viewModel = StateObject(
+            wrappedValue: SettingsRootViewModel(settings: generalSettingsViewModel)
+        )
+    }
+
     var body: some View {
-        TabView {
+        TabView(selection: $viewModel.selection) {
             GeneralSettingsView(
-                notchViewModel: notchViewModel,
                 powerService: powerService,
                 generalSettingsViewModel: generalSettingsViewModel
             )
             .tabItem {
-                Label("General", systemImage: "gearshape.fill")
-                    .accessibilityIdentifier("settings.tab.general")
+                Label(
+                    SettingsRootViewModel.Section.general.title,
+                    systemImage: SettingsRootViewModel.Section.general.systemImage
+                )
             }
-            .frame(width: 500, height: 560)
+            .tag(SettingsRootViewModel.Section.general)
+            .accessibilityIdentifier(SettingsRootViewModel.Section.general.accessibilityIdentifier)
 
-            ActivitySettingsView(
-                notchViewModel: notchViewModel,
-                notchEventCoordinator: notchEventCoordinator
+            LiveActivitySettingsView(
+                viewModel: viewModel.liveActivityViewModel
             )
             .tabItem {
-                Label("Activities", systemImage: "clock.fill")
-                    .accessibilityIdentifier("settings.tab.activities")
+                Label(
+                    SettingsRootViewModel.Section.liveActivity.title,
+                    systemImage: SettingsRootViewModel.Section.liveActivity.systemImage
+                )
             }
-            .frame(width: 500, height: 560)
+            .tag(SettingsRootViewModel.Section.liveActivity)
+            .accessibilityIdentifier(SettingsRootViewModel.Section.liveActivity.accessibilityIdentifier)
+
+            TemporaryActivitySettingsView(
+                viewModel: viewModel.temporaryActivityViewModel
+            )
+            .tabItem {
+                Label(
+                    SettingsRootViewModel.Section.temporaryActivity.title,
+                    systemImage: SettingsRootViewModel.Section.temporaryActivity.systemImage
+                )
+            }
+            .tag(SettingsRootViewModel.Section.temporaryActivity)
+            .accessibilityIdentifier(SettingsRootViewModel.Section.temporaryActivity.accessibilityIdentifier)
 
             AboutAppSettingsView()
-                .tabItem {
-                    Label("About", systemImage: "info.circle.fill")
-                        .accessibilityIdentifier("settings.tab.about")
-                }
-                .frame(width: 500, height: 560)
+                .frame(maxWidth: .infinity, alignment: .top)
+                .background(.ultraThinMaterial)
+            
+            .tabItem {
+                Label(
+                    SettingsRootViewModel.Section.about.title,
+                    systemImage: SettingsRootViewModel.Section.about.systemImage
+                )
+            }
+            .tag(SettingsRootViewModel.Section.about)
+            .accessibilityIdentifier(SettingsRootViewModel.Section.about.accessibilityIdentifier)
         }
+        .frame(width: SettingsWindowLayout.width, height: SettingsWindowLayout.height)
         .accessibilityIdentifier("settings.root")
     }
 }

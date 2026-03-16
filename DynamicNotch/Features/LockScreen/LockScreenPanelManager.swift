@@ -46,7 +46,7 @@ final class LockScreenPanelManager {
         workspaceObservers.removeAll()
         
         cancellables.removeAll()
-        panelWindow?.orderOut(nil)
+        releasePanelResources()
     }
     
     private func bindState() {
@@ -155,7 +155,7 @@ final class LockScreenPanelManager {
         artworkImage: NSImage?
     ) {
         guard LockScreenSettings.isMediaPanelEnabled() else {
-            hidePanel(animated: true)
+            hidePanel(animated: true, releaseResources: true)
             return
         }
         
@@ -221,11 +221,16 @@ final class LockScreenPanelManager {
         }
     }
     
-    private func hidePanel(animated: Bool) {
+    private func hidePanel(animated: Bool, releaseResources: Bool = false) {
         animator.disablesTransitionAnimation = !animated
         animator.isPresented = false
         
-        guard let window = panelWindow else { return }
+        guard let window = panelWindow else {
+            if releaseResources {
+                releasePanelResources()
+            }
+            return
+        }
         let delay = animated ? 0.22 : 0
         
         DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self, weak window] in
@@ -242,7 +247,23 @@ final class LockScreenPanelManager {
             guard !shouldRemainVisible else { return }
             
             window?.orderOut(nil)
+
+            if releaseResources {
+                self.releasePanelResources()
+            }
         }
+    }
+
+    private func releasePanelResources() {
+        cachedSnapshot = nil
+        cachedArtworkImage = nil
+        animator.isPresented = false
+
+        panelWindow?.orderOut(nil)
+        panelWindow?.contentView = nil
+        hostingView = nil
+        panelWindow = nil
+        hasDelegatedWindow = false
     }
     
     private func refreshPosition(animated: Bool) {

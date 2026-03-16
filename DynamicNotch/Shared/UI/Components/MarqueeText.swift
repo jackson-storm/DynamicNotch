@@ -23,6 +23,12 @@ private struct MeasureSizeModifier: ViewModifier {
 }
 
 struct MarqueeText: View {
+    private struct RestartKey: Equatable {
+        let text: String
+        let textWidth: CGFloat
+        let frameWidth: CGFloat
+    }
+
     @Binding var text: String
     let font: Font
     let nsFont: NSFont.TextStyle
@@ -48,66 +54,69 @@ struct MarqueeText: View {
     private var needsScrolling: Bool {
         textSize.width > frameWidth
     }
+
+    private var restartKey: RestartKey {
+        RestartKey(text: text, textWidth: textSize.width, frameWidth: frameWidth)
+    }
     
     var body: some View {
-        GeometryReader { geometry in
-            ZStack(alignment: .leading) {
-                HStack(spacing: 20) {
-                    Text(text)
-                    Text(text)
-                        .opacity(needsScrolling ? 1 : 0)
-                }
-                .id(text)
-                .font(font)
-                .foregroundColor(textColor)
-                .fixedSize(horizontal: true, vertical: false)
-                .offset(x: self.animate ? offset : 0)
-                .animation(
-                    self.animate ?
-                        .linear(duration: Double(textSize.width / 30))
-                        .delay(minDuration)
-                        .repeatForever(autoreverses: false) : .none,
-                    value: self.animate
-                )
-                .background(backgroundColor)
-                .modifier(MeasureSizeModifier())
-                .onPreferenceChange(SizePreferenceKey.self) { size in
-                    self.textSize = CGSize(width: size.width / 2, height: NSFont.preferredFont(forTextStyle: nsFont).pointSize)
-                    self.animate = false
-                    self.offset = 0
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.02){
-                        if needsScrolling {
-                            self.animate = true
-                            self.offset = -(textSize.width + 20)
-                        }
-                    }
-                }
-                .onChange(of: text) { _, _ in
-                    self.animate = false
-                    self.offset = 0
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.02){
-                        if needsScrolling {
-                            self.animate = true
-                            self.offset = -(textSize.width + 20)
-                        }
-                    }
-                }
+        ZStack(alignment: .leading) {
+            HStack(spacing: 20) {
+                Text(text)
+                Text(text)
+                    .opacity(needsScrolling ? 1 : 0)
             }
-            .frame(width: frameWidth, alignment: .leading)
-            .clipped()
-            .mask(
-                LinearGradient(
-                    stops: [
-                        .init(color: (animate && offset < 0) ? .clear : .black, location: 0),
-                        .init(color: .black, location: 0.05),
-                        .init(color: .black, location: 0.9),
-                        .init(color: needsScrolling ? .clear : .black, location: 1)
-                    ],
-                    startPoint: .leading,
-                    endPoint: .trailing
-                )
+            .id(text)
+            .font(font)
+            .foregroundColor(textColor)
+            .fixedSize(horizontal: true, vertical: false)
+            .offset(x: animate ? offset : 0)
+            .animation(
+                animate ?
+                    .linear(duration: Double(textSize.width / 30))
+                    .delay(minDuration)
+                    .repeatForever(autoreverses: false) : .none,
+                value: animate
             )
-            .animation(.easeInOut(duration: 0.5), value: animate)
+            .background(backgroundColor)
+            .modifier(MeasureSizeModifier())
+            .onPreferenceChange(SizePreferenceKey.self) { size in
+                textSize = CGSize(
+                    width: size.width / 2,
+                    height: NSFont.preferredFont(forTextStyle: nsFont).pointSize
+                )
+            }
+        }
+        .frame(width: frameWidth, alignment: .leading)
+        .clipped()
+        .mask(
+            LinearGradient(
+                stops: [
+                    .init(color: (animate && offset < 0) ? .clear : .black, location: 0),
+                    .init(color: .black, location: 0.05),
+                    .init(color: .black, location: 0.9),
+                    .init(color: needsScrolling ? .clear : .black, location: 1)
+                ],
+                startPoint: .leading,
+                endPoint: .trailing
+            )
+        )
+        .animation(.easeInOut(duration: 0.5), value: animate)
+        .task(id: restartKey) {
+            animate = false
+            offset = 0
+
+            guard needsScrolling else { return }
+
+            try? await Task.sleep(for: .milliseconds(20))
+            guard !Task.isCancelled, needsScrolling else { return }
+
+            animate = true
+            offset = -(textSize.width + 20)
+        }
+        .onDisappear {
+            animate = false
+            offset = 0
         }
         .frame(height: textSize.height * 1.3)
     }

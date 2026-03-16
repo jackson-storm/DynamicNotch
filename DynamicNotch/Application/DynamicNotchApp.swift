@@ -10,28 +10,20 @@ struct NotchApp: App {
         MenuBarExtra("Dynamic Notch", systemImage: "rectangle.topthird.inset.filled", isInserted: $isMenuBarIconVisible) {
             MenuBarMenu()
         }
-        
-        WindowGroup(id: "settingsWindow") {
+
+        Settings {
             SettingsRootView(
-                notchViewModel: appDelegate.notchViewModel,
                 powerService: appDelegate.powerService,
-                notchEventCoordinator: appDelegate.notchEventCoordinator,
                 generalSettingsViewModel: appDelegate.generalSettingsViewModel
             )
-            .frame(width: 500, height: 560)
+            .frame(width: SettingsWindowLayout.width, height: SettingsWindowLayout.height)
         }
-        .defaultPosition(.center)
-        .windowResizability(.contentSize)
     }
 }
 
 private struct MenuBarMenu: View {
-    @Environment(\.openWindow) private var openWindow
-    
     var body: some View {
-        Button {
-            openWindow(id: "settingsWindow")
-        } label: {
+        SettingsLink {
             Image(systemName: "gearshape")
             Text("Settings")
         }

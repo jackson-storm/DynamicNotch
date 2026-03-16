@@ -18,6 +18,7 @@ final class NotchEventCoordinator: ObservableObject {
     private let generalSettingsViewModel: GeneralSettingsViewModel
     private let nowPlayingViewModel: NowPlayingViewModel
     private let lockScreenManager: LockScreenManager
+    private var cancellables = Set<AnyCancellable>()
     
     private var isOnboardingActive: Bool {
         notchViewModel.notchModel.liveActivityContent?.id == "onboarding" ||
@@ -55,6 +56,7 @@ final class NotchEventCoordinator: ObservableObject {
         self.generalSettingsViewModel = generalSettingsViewModel
         self.nowPlayingViewModel = nowPlayingViewModel
         self.lockScreenManager = lockScreenManager
+        observeSettingsChanges()
     }
     
     func checkFirstLaunch() {
@@ -64,7 +66,8 @@ final class NotchEventCoordinator: ObservableObject {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 self.handleOnboardingEvent(.onboarding)
             }
-        } else if nowPlayingViewModel.hasActiveSession {
+        } else if nowPlayingViewModel.hasActiveSession &&
+                    generalSettingsViewModel.isLiveActivityEnabled(.nowPlaying) {
             notchViewModel.send(.showLiveActivity(NowPlayingNotchContent(nowPlayingViewModel: nowPlayingViewModel)))
         }
     }
@@ -73,7 +76,8 @@ final class NotchEventCoordinator: ObservableObject {
         UserDefaults.standard.set(true, forKey: "hasSeenOnboarding")
         notchViewModel.send(.hideLiveActivity(id: "onboarding"))
 
-        if nowPlayingViewModel.hasActiveSession {
+        if nowPlayingViewModel.hasActiveSession &&
+            generalSettingsViewModel.isLiveActivityEnabled(.nowPlaying) {
             notchViewModel.send(.showLiveActivity(NowPlayingNotchContent(nowPlayingViewModel: nowPlayingViewModel)))
         }
     }
@@ -84,12 +88,17 @@ final class NotchEventCoordinator: ObservableObject {
         
         switch event {
         case .dragStarted:
+            guard generalSettingsViewModel.isLiveActivityEnabled(.airDrop) else { return }
             notchViewModel.send(.showLiveActivity(AirDropNotchContent(airDropViewModel: airDropViewModel, notchViewModel: notchViewModel)))
             
         case .dragEnded:
             notchViewModel.send(.hideLiveActivity(id: "airdrop"))
             
         case .dropped(let urls, let point):
+            guard generalSettingsViewModel.isLiveActivityEnabled(.airDrop) else {
+                notchViewModel.send(.hideLiveActivity(id: "airdrop"))
+                return
+            }
             if let view = airDropViewModel.presentationView
                 ?? NSApp.keyWindow?.contentView
                 ?? NSApp.mainWindow?.contentView
@@ -104,6 +113,7 @@ final class NotchEventCoordinator: ObservableObject {
         guard !isOnboardingActive else { return }
         guard !isLockScreenTransitionActive else { return }
         guard !isOnboardingActive && !isAirDropActive else { return }
+        guard generalSettingsViewModel.isTemporaryActivityEnabled(.notchSize) else { return }
         
         switch event {
         case .width:
@@ -121,10 +131,12 @@ final class NotchEventCoordinator: ObservableObject {
         
         switch event {
         case .FocusOn:
+            guard generalSettingsViewModel.isLiveActivityEnabled(.focus) else { return }
             notchViewModel.send(.showLiveActivity(FocusOnNotchContent()))
             
         case .FocusOff:
             notchViewModel.send(.hideLiveActivity(id: "focus.on"))
+            guard generalSettingsViewModel.isTemporaryActivityEnabled(.focusOff) else { return }
             self.notchViewModel.send(.showTemporaryNotification(FocusOffNotchContent(), duration: 3))
         }
     }
@@ -160,6 +172,7 @@ final class NotchEventCoordinator: ObservableObject {
         
         switch event {
         case .connected:
+            guard generalSettingsViewModel.isTemporaryActivityEnabled(.bluetooth) else { return }
             notchViewModel.send(.showTemporaryNotification(BluetoothConnectedNotchContent(bluetoothViewModel: bluetoothViewModel), duration: 5))
         }
     }
@@ -171,12 +184,15 @@ final class NotchEventCoordinator: ObservableObject {
         
         switch event {
         case .wifiConnected:
+            guard generalSettingsViewModel.isTemporaryActivityEnabled(.wifi) else { return }
             notchViewModel.send(.showTemporaryNotification(WifiConnectedNotchContent(), duration: 3))
             
         case .vpnConnected:
+            guard generalSettingsViewModel.isTemporaryActivityEnabled(.vpn) else { return }
             notchViewModel.send(.showTemporaryNotification(VpnConnectedNotchContent(), duration: 3))
             
         case .hotspotActive:
+            guard generalSettingsViewModel.isLiveActivityEnabled(.hotspot) else { return }
             notchViewModel.send(.showLiveActivity(HotspotActiveContent()))
             
         case .hotspotHide:
@@ -191,12 +207,15 @@ final class NotchEventCoordinator: ObservableObject {
         
         switch event {
         case .charger:
+            guard generalSettingsViewModel.isTemporaryActivityEnabled(.charger) else { return }
             notchViewModel.send(.showTemporaryNotification(ChargerNotchContent(powerService: powerService), duration: 4))
             
         case .lowPower:
+            guard generalSettingsViewModel.isTemporaryActivityEnabled(.lowPower) else { return }
             notchViewModel.send(.showTemporaryNotification(LowPowerNotchContent(powerService: powerService), duration: 4))
             
         case .fullPower:
+            guard generalSettingsViewModel.isTemporaryActivityEnabled(.fullPower) else { return }
             notchViewModel.send(.showTemporaryNotification(FullPowerNotchContent(powerService: powerService), duration: 4))
         }
     }
@@ -207,6 +226,7 @@ final class NotchEventCoordinator: ObservableObject {
         
         switch event {
         case .started:
+            guard generalSettingsViewModel.isLiveActivityEnabled(.nowPlaying) else { return }
             notchViewModel.send(.showLiveActivity(NowPlayingNotchContent(nowPlayingViewModel: nowPlayingViewModel)))
             
         case .stopped:
@@ -215,7 +235,7 @@ final class NotchEventCoordinator: ObservableObject {
     }
 
     func handleLockScreenEvent(_ event: LockScreenEvent) {
-        guard LockScreenSettings.isLiveActivityEnabled() else {
+        guard generalSettingsViewModel.isLiveActivityEnabled(.lockScreen) else {
             notchViewModel.send(.hideLiveActivity(id: "lockScreen"))
             return
         }
@@ -227,5 +247,71 @@ final class NotchEventCoordinator: ObservableObject {
         case .stopped:
             notchViewModel.send(.hideLiveActivity(id: "lockScreen"))
         }
+    }
+
+    private func observeSettingsChanges() {
+        generalSettingsViewModel.$isAirDropLiveActivityEnabled
+            .removeDuplicates()
+            .filter { !$0 }
+            .sink { [weak self] _ in
+                self?.notchViewModel.send(.hideLiveActivity(id: "airdrop"))
+            }
+            .store(in: &cancellables)
+
+        generalSettingsViewModel.$isFocusLiveActivityEnabled
+            .removeDuplicates()
+            .sink { [weak self] isEnabled in
+                guard let self else { return }
+
+                if isEnabled == false {
+                    self.notchViewModel.send(.hideLiveActivity(id: "focus.on"))
+                }
+            }
+            .store(in: &cancellables)
+
+        generalSettingsViewModel.$isHotspotLiveActivityEnabled
+            .removeDuplicates()
+            .sink { [weak self] isEnabled in
+                guard let self else { return }
+
+                if isEnabled {
+                    if self.networkViewModel.hotspotActive {
+                        self.handleNetworkEvent(.hotspotActive)
+                    }
+                } else {
+                    self.notchViewModel.send(.hideLiveActivity(id: "hotspot.active"))
+                }
+            }
+            .store(in: &cancellables)
+
+        generalSettingsViewModel.$isNowPlayingLiveActivityEnabled
+            .removeDuplicates()
+            .sink { [weak self] isEnabled in
+                guard let self else { return }
+
+                if isEnabled {
+                    if self.nowPlayingViewModel.hasActiveSession {
+                        self.handleNowPlayingEvent(.started)
+                    }
+                } else {
+                    self.notchViewModel.send(.hideLiveActivity(id: "nowPlaying"))
+                }
+            }
+            .store(in: &cancellables)
+
+        generalSettingsViewModel.$isLockScreenLiveActivityEnabled
+            .removeDuplicates()
+            .sink { [weak self] isEnabled in
+                guard let self else { return }
+
+                if isEnabled {
+                    if self.lockScreenManager.isLocked {
+                        self.handleLockScreenEvent(.started)
+                    }
+                } else {
+                    self.notchViewModel.send(.hideLiveActivity(id: "lockScreen"))
+                }
+            }
+            .store(in: &cancellables)
     }
 }

@@ -41,7 +41,11 @@ struct NotchView: View {
                 .onChange(of: generalSettingsViewModel.notchHeight) {
                     notchViewModel.updateDimensions()
                 }
-                .onDrop(of: [.fileURL], isTargeted: $airDropViewModel.isDraggingFile) { providers in
+                .onDrop(of: [.fileURL], isTargeted: airDropTargetBinding) { providers in
+                    guard generalSettingsViewModel.isLiveActivityEnabled(.airDrop) else {
+                        return false
+                    }
+
                     let dropPoint = NSEvent.mouseLocation
                     airDropViewModel.handleDrop(providers: providers, point: dropPoint)
                     return true
@@ -53,6 +57,19 @@ struct NotchView: View {
 }
 
 private extension NotchView {
+    var airDropTargetBinding: Binding<Bool> {
+        Binding(
+            get: {
+                generalSettingsViewModel.isLiveActivityEnabled(.airDrop) &&
+                airDropViewModel.isDraggingFile
+            },
+            set: { isTargeted in
+                airDropViewModel.isDraggingFile =
+                generalSettingsViewModel.isLiveActivityEnabled(.airDrop) ? isTargeted : false
+            }
+        )
+    }
+
     @ViewBuilder
     var notchBody: some View {
         NotchShape(
@@ -94,7 +111,7 @@ private extension NotchView {
                     .id(notchViewModel.notchModel.presentationID)
                     .transition(
                         .blurAndFade
-                            .animation(.spring(duration: 0.5))
+                            .animation(.spring(duration: 0.6))
                             .combined(with: .scale)
                             .combined(with: .offset(
                                 x: notchViewModel.notchModel.offsetXTransition,
@@ -106,7 +123,7 @@ private extension NotchView {
                     .id(notchViewModel.notchModel.presentationID)
                     .transition(
                         .blurAndFade
-                            .animation(.spring(duration: 0.5))
+                            .animation(.spring(duration: 0.6))
                             .combined(with: .scale)
                             .combined(with: .offset(
                                 x: notchViewModel.notchModel.offsetXTransition,

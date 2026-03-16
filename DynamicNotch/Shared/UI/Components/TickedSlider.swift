@@ -39,19 +39,13 @@ struct TickedSlider: View {
                 ValuePill(text: valueFormatter(value))
             }
             
-            GeometryReader { geo in
-                ZStack {
-                    Slider(
-                        value: doubleBinding,
-                        in: Double(range.lowerBound)...Double(range.upperBound),
-                        step: Double(step)
-                    )
-                    .tint(.accentColor)
-                    .labelsHidden()
-                    .padding(.horizontal, 0)
-                }
-                .frame(height: 24)
-            }
+            Slider(
+                value: doubleBinding,
+                in: Double(range.lowerBound)...Double(range.upperBound),
+                step: Double(step)
+            )
+            .tint(.accentColor)
+            .labelsHidden()
             .frame(height: 24)
         }
     }

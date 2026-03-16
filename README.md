@@ -46,42 +46,49 @@ The project is implemented as a native macOS app with SwiftUI for presentation a
 - 🪟 Native floating notch window pinned to the top display area
 - 🎛️ Priority-driven live activity and temporary notification orchestration
 - 🎞️ Smooth animated transitions between notch states
-- 🔋 Battery, Bluetooth, network, focus, onboarding, and AirDrop-related flows
+- 🔋 Battery, Bluetooth, network, focus, lock screen, now playing, onboarding, and AirDrop-related flows
+- ⚙️ Native Settings window with dedicated General, Live Activity, Temporary, and About tabs
 - 🧪 Integration tests for the most important service and queue logic
 
 ## 🚀 Current Features
 
-### 🔔 Activity and Notification Types
+### 🔔 Activity Types
 
-- Battery
+- Live activity
+  - Now Playing
+  - Hotspot active
+  - Focus enabled
+  - AirDrop drag target
+  - Lock screen live activity
+- Temporary activity
   - Charger connected
   - Low power warning
   - Fully charged
-- Bluetooth
-  - Device connected
-- Network
   - Wi-Fi connected
   - VPN connected
-  - Hotspot active live activity
-- Focus
-  - Focus on/off state changes
-- AirDrop
-  - Drag target UI and share handoff
-- Onboarding
-  - First-launch walkthrough inside the notch
+  - Bluetooth device connected
+  - Focus disabled
+  - Notch size adjustment feedback
+- Other app surfaces
+  - Lock screen media panel
+  - First-launch onboarding inside the notch
 
 ### 🫳 Interactions
 
 - Press interactions on the notch
-- Pinch-to-dismiss for active notch content
+- Tap to expand supported live content
 - Two-finger swipe up to hide active content when the cursor is inside the notch zone
+- Drag files onto the notch to trigger the AirDrop drop zone
 
 ### 🎨 Customization
 
 - Launch at login
 - Menu bar icon visibility
+- Display selection for main or built-in screen
 - Notch stroke visibility and stroke width
 - Notch width and height tuning
+- Per-feature toggles for live and temporary activity types
+- Lock screen live activity and media panel toggles
 
 ## 🧱 Architecture
 
@@ -96,13 +103,19 @@ DynamicNotch/
 │   ├── Battery/
 │   ├── Bluetooth/
 │   ├── Focus/
-│   ├── HUD/
+│   ├── HUD/   
+│   ├── LockScreen/
 │   ├── Network/
 │   ├── Notch/
+│   ├── NowPlaying/
 │   ├── Onboarding/
 │   └── Settings/
+│       ├── About/
+│       ├── General/
+│       ├── LiveActivity/
+│       └── TemporaryActivity/
 ├── Resources/          # App assets and Lottie files
-└── Shared/             # Shared components, modifiers, environment, extensions
+└── Shared/             # Shared UI, private API, extensions
 
 DynamicNotchTests/
 ├── Features/           # Integration tests by feature
@@ -116,11 +129,17 @@ Core architectural roles:
 - `NotchEventCoordinator` translates app/system events into notch content
 - Feature view models provide domain-specific event streams and data
 
+## 📥 Install Dynamic Notch
+
+1. Download the latest release DMG from the [Releases](https://github.com/jackson-storm/DynamicNotch/releases) page.
+2. Open the DMG and drag `DynamicNotch` into Applications.
+3. Launch Dynamic Notch and grant the requested permissions.
+
 ## 📋 Requirements
 
-- macOS
+- macOS 14.6 or later
 - A MacBook with a hardware notch is recommended for the intended experience
-- Full Xcode installation
+- Xcode 15+ to build from source.
 
 ## 🛠️ Build From Source
 
@@ -144,6 +163,9 @@ Current automated coverage focuses on:
 - Temporary notification restoration flow
 - Power transition events
 - Network monitoring transitions
+- AirDrop drag-and-drop flow
+- Now Playing session lifecycle
+- Lock screen transition behavior
 
 ## 📦 Dependencies
 
@@ -152,7 +174,7 @@ Current automated coverage focuses on:
 
 ## 💫 Project Status
 
-DynamicNotch already has a solid notch presentation core, gesture support, and integration-test coverage for important flows. Some settings and feature surfaces are still evolving, so the project should be viewed as actively developing rather than feature-complete.
+DynamicNotch already has a solid notch presentation core, gesture support, separate live/temporary settings surfaces, and integration-test coverage for important flows. The project is still evolving, but the main notch behaviors and settings experience are already in place.
 
 ## 📄 License
 

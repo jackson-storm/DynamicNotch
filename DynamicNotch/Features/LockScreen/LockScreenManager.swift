@@ -27,13 +27,6 @@ enum LockScreenSettings {
     }
 }
 
-protocol LockScreenMonitoring: AnyObject {
-    var onLockStateChange: ((Bool) -> Void)? { get set }
-
-    func startMonitoring()
-    func stopMonitoring()
-}
-
 final class DistributedLockScreenMonitoringService: LockScreenMonitoring {
     var onLockStateChange: ((Bool) -> Void)?
 

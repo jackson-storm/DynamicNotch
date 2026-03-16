@@ -50,7 +50,7 @@ final class LockScreenLiveActivityWindowManager {
         workspaceObservers.removeAll()
 
         cancellables.removeAll()
-        overlayWindow?.orderOut(nil)
+        releaseOverlayResources()
     }
 
     private func bindState() {
@@ -150,7 +150,7 @@ final class LockScreenLiveActivityWindowManager {
 
     private func syncPresentation(isLocked: Bool, isLockIdle: Bool) {
         guard LockScreenSettings.isLiveActivityEnabled() else {
-            hideOverlay(animated: true)
+            hideOverlay(animated: true, releaseResources: true)
             return
         }
 
@@ -235,8 +235,13 @@ final class LockScreenLiveActivityWindowManager {
         }
     }
 
-    private func hideOverlay(animated: Bool) {
-        guard let window = overlayWindow else { return }
+    private func hideOverlay(animated: Bool, releaseResources: Bool = false) {
+        guard let window = overlayWindow else {
+            if releaseResources {
+                releaseOverlayResources()
+            }
+            return
+        }
 
         let delay = animated ? 0.2 : 0
 
@@ -261,7 +266,22 @@ final class LockScreenLiveActivityWindowManager {
 
             guard !shouldRemainVisible else { return }
             window?.orderOut(nil)
+
+            if releaseResources {
+                self.releaseOverlayResources()
+            }
         }
+    }
+
+    private func releaseOverlayResources() {
+        animator.scale = 1
+        animator.opacity = 0
+
+        overlayWindow?.orderOut(nil)
+        overlayWindow?.contentView = nil
+        hostingView = nil
+        overlayWindow = nil
+        hasDelegatedWindow = false
     }
 
     private func refreshPosition(animated: Bool) {

@@ -21,6 +21,16 @@ final class HardwareHUDMonitor {
         self.brightnessService = brightnessService
     }
 
+    func updateConfiguration(
+        interceptVolume: Bool,
+        interceptBrightness: Bool
+    ) {
+        mediaKeyTap.configuration = SystemMediaKeyTapConfiguration(
+            interceptVolume: interceptVolume,
+            interceptBrightness: interceptBrightness
+        )
+    }
+
     func startMonitoring() {
         guard !isMonitoring else {
             return

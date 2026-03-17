@@ -24,6 +24,7 @@ struct GeneralSettingsView: View {
                     title: "Launch at login",
                     description: "Start Dynamic Notch automatically after you sign in.",
                     systemImage: "power",
+                    color: .blue,
                     isOn: $generalSettingsViewModel.isLaunchAtLoginEnabled,
                     accessibilityIdentifier: "settings.general.launchAtLogin"
                 )
@@ -34,6 +35,7 @@ struct GeneralSettingsView: View {
                     title: "Show menu bar icon",
                     description: "Keep a persistent shortcut in the menu bar for settings and quit.",
                     systemImage: "menubar.rectangle",
+                    color: .purple,
                     isOn: $generalSettingsViewModel.isMenuBarIconVisible,
                     accessibilityIdentifier: "settings.general.menuBarIcon"
                 )
@@ -70,6 +72,7 @@ struct GeneralSettingsView: View {
                     title: "Show notch stroke",
                     description: "Render a subtle outline that adapts to the active content color.",
                     systemImage: "square.on.square.squareshape.controlhandles",
+                    color: .green,
                     isOn: $generalSettingsViewModel.isShowNotchStrokeEnabled,
                     accessibilityIdentifier: "settings.general.showNotchStroke"
                 )

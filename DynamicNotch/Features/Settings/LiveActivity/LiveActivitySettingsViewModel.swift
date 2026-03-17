@@ -28,6 +28,7 @@ final class LiveActivitySettingsViewModel: ObservableObject {
                         title: "Now Playing",
                         description: "Keep the media player pinned in the notch while playback is active.",
                         systemImage: "music.note",
+                        color: .red,
                         accessibilityIdentifier: "settings.activities.live.nowPlaying",
                         keyPath: \.isNowPlayingLiveActivityEnabled
                     ),
@@ -36,6 +37,7 @@ final class LiveActivitySettingsViewModel: ObservableObject {
                         title: "Focus mode",
                         description: "Show a live indicator when Focus mode turns on.",
                         systemImage: "moon.fill",
+                        color: .indigo,
                         accessibilityIdentifier: "settings.activities.live.focus",
                         keyPath: \.isFocusLiveActivityEnabled
                     ),
@@ -44,6 +46,7 @@ final class LiveActivitySettingsViewModel: ObservableObject {
                         title: "Personal Hotspot",
                         description: "Show hotspot status as a long-lived activity while the hotspot remains enabled.",
                         systemImage: "personalhotspot",
+                        color: .green,
                         accessibilityIdentifier: "settings.activities.live.hotspot",
                         keyPath: \.isHotspotLiveActivityEnabled
                     ),
@@ -52,6 +55,7 @@ final class LiveActivitySettingsViewModel: ObservableObject {
                         title: "AirDrop drop zone",
                         description: "Expand the notch into a live AirDrop target while dragging files over it.",
                         systemImage: "dot.radiowaves.left.and.right",
+                        color: .blue,
                         accessibilityIdentifier: "settings.activities.live.airdrop",
                         keyPath: \.isAirDropLiveActivityEnabled
                     )
@@ -67,6 +71,7 @@ final class LiveActivitySettingsViewModel: ObservableObject {
                         title: "Lock screen live activity",
                         description: "Show the dedicated lock screen state in the notch during lock transitions.",
                         systemImage: "lock.fill",
+                        color: .black,
                         accessibilityIdentifier: "settings.activities.lockScreen.liveActivity",
                         keyPath: \.isLockScreenLiveActivityEnabled
                     ),
@@ -75,6 +80,7 @@ final class LiveActivitySettingsViewModel: ObservableObject {
                         title: "Lock screen media panel",
                         description: "Present the detached media panel on the lock screen when playback is active.",
                         systemImage: "play.rectangle.fill",
+                        color: .black,
                         accessibilityIdentifier: "settings.activities.lockScreen.mediaPanel",
                         keyPath: \.isLockScreenMediaPanelEnabled
                     )

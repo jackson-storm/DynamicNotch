@@ -46,6 +46,12 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
         case notchSize
     }
 
+    enum HUDPreference {
+        case brightness
+        case keyboard
+        case volume
+    }
+
     @Published var isLaunchAtLoginEnabled: Bool {
         didSet {
             persist(isLaunchAtLoginEnabled, for: Keys.launchAtLogin)
@@ -90,6 +96,24 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
     @Published var displayLocation: NotchDisplayLocation {
         didSet {
             persist(displayLocation.rawValue, for: Keys.displayLocation)
+        }
+    }
+
+    @Published var isBrightnessHUDEnabled: Bool {
+        didSet {
+            persist(isBrightnessHUDEnabled, for: Keys.brightnessHUDEnabled)
+        }
+    }
+
+    @Published var isKeyboardHUDEnabled: Bool {
+        didSet {
+            persist(isKeyboardHUDEnabled, for: Keys.keyboardHUDEnabled)
+        }
+    }
+
+    @Published var isVolumeHUDEnabled: Bool {
+        didSet {
+            persist(isVolumeHUDEnabled, for: Keys.volumeHUDEnabled)
         }
     }
 
@@ -194,6 +218,9 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
         self.displayLocation = NotchDisplayLocation(
             rawValue: defaults.string(forKey: Keys.displayLocation) ?? NotchDisplayLocation.main.rawValue
         ) ?? .main
+        self.isBrightnessHUDEnabled = defaults.bool(forKey: Keys.brightnessHUDEnabled)
+        self.isKeyboardHUDEnabled = defaults.bool(forKey: Keys.keyboardHUDEnabled)
+        self.isVolumeHUDEnabled = defaults.bool(forKey: Keys.volumeHUDEnabled)
         self.isAirDropLiveActivityEnabled = defaults.bool(forKey: Keys.airDropLiveActivityEnabled)
         self.isHotspotLiveActivityEnabled = defaults.bool(forKey: Keys.hotspotLiveActivityEnabled)
         self.isFocusLiveActivityEnabled = defaults.bool(forKey: Keys.focusLiveActivityEnabled)
@@ -224,6 +251,17 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
             return isNowPlayingLiveActivityEnabled
         case .lockScreen:
             return isLockScreenLiveActivityEnabled
+        }
+    }
+
+    func isHUDEnabled(_ preference: HUDPreference) -> Bool {
+        switch preference {
+        case .brightness:
+            return isBrightnessHUDEnabled
+        case .keyboard:
+            return isKeyboardHUDEnabled
+        case .volume:
+            return isVolumeHUDEnabled
         }
     }
 
@@ -288,6 +326,9 @@ private extension GeneralSettingsViewModel {
         static let notchStrokeEnabled = "isShowNotchStrokeEnabled"
         static let notchStrokeWidth = "notchStrokeWidth"
         static let displayLocation = "displayLocation"
+        static let brightnessHUDEnabled = "settings.hud.brightness"
+        static let keyboardHUDEnabled = "settings.hud.keyboard"
+        static let volumeHUDEnabled = "settings.hud.volume"
         static let airDropLiveActivityEnabled = "settings.live.airdrop"
         static let hotspotLiveActivityEnabled = "settings.live.hotspot"
         static let focusLiveActivityEnabled = "settings.live.focus"
@@ -310,6 +351,9 @@ private extension GeneralSettingsViewModel {
         Keys.notchStrokeEnabled: false,
         Keys.notchStrokeWidth: 1.5,
         Keys.displayLocation: NotchDisplayLocation.main.rawValue,
+        Keys.brightnessHUDEnabled: true,
+        Keys.keyboardHUDEnabled: true,
+        Keys.volumeHUDEnabled: true,
         Keys.airDropLiveActivityEnabled: true,
         Keys.hotspotLiveActivityEnabled: true,
         Keys.focusLiveActivityEnabled: true,

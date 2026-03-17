@@ -89,13 +89,9 @@ private struct HudContent: View {
     
     var body: some View {
         HStack {
-            ZStack(alignment: .leading) {
-                HStack {
-                    Image(systemName: image)
-                    Text(text)
-                }
-                .id(leadingContentIdentity)
-                .transition(.blurAndFade.animation(.spring(duration: 0.4)))
+            HStack {
+                Image(systemName: image)
+                Text(text)
             }
             
             Spacer()
@@ -108,7 +104,6 @@ private struct HudContent: View {
         .padding(.horizontal, 16.scaled(by: scale))
         .font(.system(size: 14))
         .foregroundColor(.white.opacity(0.8))
-        .animation(.spring(duration: 0.4), value: leadingContentIdentity)
     }
     
     private var indicator: some View {
@@ -133,9 +128,5 @@ private struct HudContent: View {
     
     private var filledIndicatorWidth: CGFloat {
         indicatorWidth * CGFloat(clampedLevel) / 100
-    }
-
-    private var leadingContentIdentity: String {
-        "\(image)|\(text)"
     }
 }

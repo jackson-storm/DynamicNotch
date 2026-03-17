@@ -25,6 +25,20 @@ enum MediaKeyGranularity {
     case fine
 }
 
+struct SystemMediaKeyTapConfiguration {
+    var interceptVolume: Bool
+    var interceptBrightness: Bool
+
+    static let disabled = SystemMediaKeyTapConfiguration(
+        interceptVolume: false,
+        interceptBrightness: false
+    )
+
+    var interceptsAnyMediaKey: Bool {
+        interceptVolume || interceptBrightness
+    }
+}
+
 protocol SystemMediaKeyTapDelegate: AnyObject {
     func mediaKeyTap(
         _ tap: SystemMediaKeyTap,
@@ -45,10 +59,16 @@ protocol SystemMediaKeyTapDelegate: AnyObject {
 
 final class SystemMediaKeyTap {
     weak var delegate: SystemMediaKeyTapDelegate?
+    var configuration: SystemMediaKeyTapConfiguration = .disabled {
+        didSet {
+            updateTapState()
+        }
+    }
 
     private var eventTap: CFMachPort?
     private var runLoopSource: CFRunLoopSource?
     private var hasRequestedAccessibilityPrompt = false
+    private var isTapEnabled = false
 
     private var systemDefinedEvent: CGEventType? {
         CGEventType(rawValue: MediaKeyCode.systemDefinedEventType)
@@ -96,7 +116,9 @@ final class SystemMediaKeyTap {
             CFRunLoopAddSource(CFRunLoopGetMain(), runLoopSource, .commonModes)
         }
 
-        CGEvent.tapEnable(tap: createdTap, enable: true)
+        let shouldEnableTap = configuration.interceptsAnyMediaKey
+        CGEvent.tapEnable(tap: createdTap, enable: shouldEnableTap)
+        isTapEnabled = shouldEnableTap
         return true
     }
 
@@ -112,12 +134,14 @@ final class SystemMediaKeyTap {
 
         eventTap = nil
         runLoopSource = nil
+        isTapEnabled = false
     }
 
     private func handleEvent(type: CGEventType, event: CGEvent) -> Unmanaged<CGEvent>? {
         if type == .tapDisabledByTimeout || type == .tapDisabledByUserInput {
-            if let eventTap {
+            if let eventTap, configuration.interceptsAnyMediaKey {
                 CGEvent.tapEnable(tap: eventTap, enable: true)
+                isTapEnabled = true
             }
             return Unmanaged.passUnretained(event)
         }
@@ -142,22 +166,37 @@ final class SystemMediaKeyTap {
 
         switch keyCode {
         case MediaKeyCode.volumeUp:
+            guard configuration.interceptVolume else {
+                return Unmanaged.passUnretained(event)
+            }
             delegate?.mediaKeyTap(self, didReceiveVolumeCommand: .increase, granularity: granularity, modifiers: nsEvent.modifierFlags)
             return nil
 
         case MediaKeyCode.volumeDown:
+            guard configuration.interceptVolume else {
+                return Unmanaged.passUnretained(event)
+            }
             delegate?.mediaKeyTap(self, didReceiveVolumeCommand: .decrease, granularity: granularity, modifiers: nsEvent.modifierFlags)
             return nil
 
         case MediaKeyCode.mute:
+            guard configuration.interceptVolume else {
+                return Unmanaged.passUnretained(event)
+            }
             delegate?.mediaKeyTapDidToggleMute(self)
             return nil
 
         case MediaKeyCode.brightnessUp:
+            guard configuration.interceptBrightness else {
+                return Unmanaged.passUnretained(event)
+            }
             delegate?.mediaKeyTap(self, didReceiveBrightnessCommand: .increase, granularity: granularity, modifiers: nsEvent.modifierFlags)
             return nil
 
         case MediaKeyCode.brightnessDown:
+            guard configuration.interceptBrightness else {
+                return Unmanaged.passUnretained(event)
+            }
             delegate?.mediaKeyTap(self, didReceiveBrightnessCommand: .decrease, granularity: granularity, modifiers: nsEvent.modifierFlags)
             return nil
 
@@ -170,10 +209,11 @@ final class SystemMediaKeyTap {
         switch keyCode {
         case MediaKeyCode.volumeUp,
              MediaKeyCode.volumeDown,
-             MediaKeyCode.mute,
-             MediaKeyCode.brightnessUp,
+             MediaKeyCode.mute:
+            return configuration.interceptVolume
+        case MediaKeyCode.brightnessUp,
              MediaKeyCode.brightnessDown:
-            return true
+            return configuration.interceptBrightness
         default:
             return false
         }
@@ -182,6 +222,20 @@ final class SystemMediaKeyTap {
     private func granularity(for event: NSEvent) -> MediaKeyGranularity {
         let modifiers = event.modifierFlags
         return modifiers.contains(.option) && modifiers.contains(.shift) ? .fine : .standard
+    }
+
+    private func updateTapState() {
+        guard let eventTap else {
+            return
+        }
+
+        let shouldEnableTap = configuration.interceptsAnyMediaKey
+        guard shouldEnableTap != isTapEnabled else {
+            return
+        }
+
+        CGEvent.tapEnable(tap: eventTap, enable: shouldEnableTap)
+        isTapEnabled = shouldEnableTap
     }
 }
 

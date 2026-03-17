@@ -26,6 +26,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         monitor.onEvent = { [weak self] event in
             self?.notchEventCoordinator.handleHudEvent(event)
         }
+        monitor.updateConfiguration(
+            interceptVolume: generalSettingsViewModel.isVolumeHUDEnabled,
+            interceptBrightness: generalSettingsViewModel.isBrightnessHUDEnabled
+        )
         return monitor
     }()
     
@@ -84,6 +88,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(isRunningUITests ? .regular : .accessory)
         observeDisplayLocationChanges()
+        observeHUDConfigurationChanges()
         observeLockScreenWindowHandoff()
 
         if !isRunningUITests {
@@ -213,6 +218,20 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 self?.updateWindowFrame()
             }
             .store(in: &cancellables)
+    }
+
+    private func observeHUDConfigurationChanges() {
+        Publishers.CombineLatest(
+            generalSettingsViewModel.$isVolumeHUDEnabled.removeDuplicates(),
+            generalSettingsViewModel.$isBrightnessHUDEnabled.removeDuplicates()
+        )
+        .sink { [weak self] isVolumeHUDEnabled, isBrightnessHUDEnabled in
+            self?.hardwareHUDMonitor.updateConfiguration(
+                interceptVolume: isVolumeHUDEnabled,
+                interceptBrightness: isBrightnessHUDEnabled
+            )
+        }
+        .store(in: &cancellables)
     }
 
     private func observeLockScreenWindowHandoff() {

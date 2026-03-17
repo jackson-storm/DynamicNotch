@@ -5,6 +5,7 @@ struct SettingsToggleItem: Identifiable {
     let title: String
     let description: String
     let systemImage: String
+    let color: Color
     let accessibilityIdentifier: String
     let keyPath: ReferenceWritableKeyPath<GeneralSettingsViewModel, Bool>
 }
@@ -125,6 +126,7 @@ struct SettingsToggleRow: View {
     let title: String
     let description: String
     let systemImage: String
+    let color: Color
     let accessibilityIdentifier: String?
 
     @Binding var isOn: Bool
@@ -133,12 +135,14 @@ struct SettingsToggleRow: View {
         title: String,
         description: String,
         systemImage: String,
+        color: Color,
         isOn: Binding<Bool>,
         accessibilityIdentifier: String? = nil
     ) {
         self.title = title
         self.description = description
         self.systemImage = systemImage
+        self.color = color
         self._isOn = isOn
         self.accessibilityIdentifier = accessibilityIdentifier
     }
@@ -148,11 +152,11 @@ struct SettingsToggleRow: View {
             HStack(alignment: .center, spacing: 14) {
                 Image(systemName: systemImage)
                     .font(.system(size: 15, weight: .semibold))
-                    .foregroundStyle(.tint)
+                    .foregroundStyle(.white)
                     .frame(width: 30, height: 30)
                     .background(
                         RoundedRectangle(cornerRadius: 10, style: .continuous)
-                            .fill(Color.accentColor.opacity(0.12))
+                            .fill(color.gradient)
                     )
 
                 VStack(alignment: .leading, spacing: 3) {
@@ -191,6 +195,7 @@ struct SettingsToggleGroupCard: View {
                         title: item.title,
                         description: item.description,
                         systemImage: item.systemImage,
+                        color: item.color,
                         isOn: bindingProvider(item),
                         accessibilityIdentifier: item.accessibilityIdentifier
                     )

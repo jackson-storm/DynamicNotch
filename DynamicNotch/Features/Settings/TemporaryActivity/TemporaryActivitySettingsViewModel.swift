@@ -28,6 +28,7 @@ final class TemporaryActivitySettingsViewModel: ObservableObject {
                         title: "Charging",
                         description: "Show a temporary card when power is connected.",
                         systemImage: "bolt.fill",
+                        color: .green,
                         accessibilityIdentifier: "settings.activities.temporary.charger",
                         keyPath: \.isChargerTemporaryActivityEnabled
                     ),
@@ -36,6 +37,7 @@ final class TemporaryActivitySettingsViewModel: ObservableObject {
                         title: "Low Power",
                         description: "Warn when Low Power Mode or a critical battery level is detected.",
                         systemImage: "battery.25",
+                        color: .green,
                         accessibilityIdentifier: "settings.activities.temporary.lowPower",
                         keyPath: \.isLowPowerTemporaryActivityEnabled
                     ),
@@ -44,6 +46,7 @@ final class TemporaryActivitySettingsViewModel: ObservableObject {
                         title: "Fully Charged",
                         description: "Celebrate a full battery with a brief notification.",
                         systemImage: "battery.100",
+                        color: .green,
                         accessibilityIdentifier: "settings.activities.temporary.fullPower",
                         keyPath: \.isFullPowerTemporaryActivityEnabled
                     )
@@ -59,6 +62,7 @@ final class TemporaryActivitySettingsViewModel: ObservableObject {
                         title: "Bluetooth devices",
                         description: "Show a card when a Bluetooth accessory connects.",
                         systemImage: "headphones",
+                        color: .blue,
                         accessibilityIdentifier: "settings.activities.temporary.bluetooth",
                         keyPath: \.isBluetoothTemporaryActivityEnabled
                     ),
@@ -67,6 +71,7 @@ final class TemporaryActivitySettingsViewModel: ObservableObject {
                         title: "Wi-Fi connected",
                         description: "Display a brief toast when Wi-Fi reconnects.",
                         systemImage: "wifi",
+                        color: .blue,
                         accessibilityIdentifier: "settings.activities.temporary.wifi",
                         keyPath: \.isWifiTemporaryActivityEnabled
                     ),
@@ -75,11 +80,46 @@ final class TemporaryActivitySettingsViewModel: ObservableObject {
                         title: "VPN connected",
                         description: "Show a temporary confirmation when a VPN tunnel becomes active.",
                         systemImage: "network",
+                        color: .blue,
                         accessibilityIdentifier: "settings.activities.temporary.vpn",
                         keyPath: \.isVpnTemporaryActivityEnabled
                     )
                 ]
             ),
+            SettingsToggleGroup(
+                    id: "hud",
+                    title: "HUD",
+                    subtitle: "Choose which hardware overlays Dynamic Notch should handle.",
+                    items: [
+                        SettingsToggleItem(
+                            id: "hud.brightness",
+                            title: "Brightness HUD",
+                            description: "Show the custom notch HUD for display brightness changes.",
+                            systemImage: "sun.max.fill",
+                            color: .orange,
+                            accessibilityIdentifier: "settings.general.hud.brightness",
+                            keyPath: \.isBrightnessHUDEnabled
+                        ),
+                        SettingsToggleItem(
+                            id: "hud.keyboard",
+                            title: "Keyboard HUD",
+                            description: "Show the custom notch HUD for keyboard backlight changes.",
+                            systemImage: "light.max",
+                            color: .orange,
+                            accessibilityIdentifier: "settings.general.hud.keyboard",
+                            keyPath: \.isKeyboardHUDEnabled
+                        ),
+                        SettingsToggleItem(
+                            id: "hud.volume",
+                            title: "Volume HUD",
+                            description: "Show the custom notch HUD for output volume changes.",
+                            systemImage: "speaker.wave.2.fill",
+                            color: .orange,
+                            accessibilityIdentifier: "settings.general.hud.volume",
+                            keyPath: \.isVolumeHUDEnabled
+                        )
+                    ]
+                ),
             SettingsToggleGroup(
                 id: "temporary.utility",
                 title: "Utility",
@@ -90,6 +130,7 @@ final class TemporaryActivitySettingsViewModel: ObservableObject {
                         title: "Focus mode off",
                         description: "Show a quick state change message when Focus mode is disabled.",
                         systemImage: "moon.stars.fill",
+                        color: .indigo,
                         accessibilityIdentifier: "settings.activities.temporary.focusOff",
                         keyPath: \.isFocusOffTemporaryActivityEnabled
                     ),
@@ -98,6 +139,7 @@ final class TemporaryActivitySettingsViewModel: ObservableObject {
                         title: "Resize feedback",
                         description: "Show temporary notch-size hints while width or height sliders are adjusted.",
                         systemImage: "arrow.up.left.and.arrow.down.right",
+                        color: .red,
                         accessibilityIdentifier: "settings.activities.temporary.notchSize",
                         keyPath: \.isNotchSizeTemporaryActivityEnabled
                     )

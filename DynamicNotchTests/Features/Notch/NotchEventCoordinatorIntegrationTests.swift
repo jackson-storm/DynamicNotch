@@ -58,6 +58,57 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
         }
     }
 
+    func testVolumeHUDEventsShowTemporaryNotificationWhenEnabled() async {
+        let context = makeContext()
+
+        context.coordinator.handleHudEvent(.volume(72))
+
+        await assertEventually {
+            await MainActor.run {
+                context.notchViewModel.notchModel.temporaryNotificationContent?.id == "hud.system"
+            }
+        }
+    }
+
+    func testDisabledVolumeHUDSuppressesTemporaryNotification() async {
+        let context = makeContext(volumeHUDEnabled: false)
+
+        context.coordinator.handleHudEvent(.volume(72))
+
+        try? await Task.sleep(nanoseconds: 50_000_000)
+
+        let temporaryContent = await MainActor.run {
+            context.notchViewModel.notchModel.temporaryNotificationContent
+        }
+        XCTAssertNil(temporaryContent)
+    }
+
+    func testDisabledBrightnessHUDSuppressesTemporaryNotification() async {
+        let context = makeContext(brightnessHUDEnabled: false)
+
+        context.coordinator.handleHudEvent(.display(44))
+
+        try? await Task.sleep(nanoseconds: 50_000_000)
+
+        let temporaryContent = await MainActor.run {
+            context.notchViewModel.notchModel.temporaryNotificationContent
+        }
+        XCTAssertNil(temporaryContent)
+    }
+
+    func testDisabledKeyboardHUDSuppressesTemporaryNotification() async {
+        let context = makeContext(keyboardHUDEnabled: false)
+
+        context.coordinator.handleHudEvent(.keyboard(61))
+
+        try? await Task.sleep(nanoseconds: 50_000_000)
+
+        let temporaryContent = await MainActor.run {
+            context.notchViewModel.notchModel.temporaryNotificationContent
+        }
+        XCTAssertNil(temporaryContent)
+    }
+
     func testAirDropDragStartAndEndDriveLiveActivityLifecycle() async {
         let context = makeContext()
 
@@ -212,10 +263,17 @@ private extension NotchEventCoordinatorIntegrationTests {
         let cancellables: Set<AnyCancellable>
     }
 
-    func makeContext() -> TestContext {
+    func makeContext(
+        brightnessHUDEnabled: Bool = true,
+        keyboardHUDEnabled: Bool = true,
+        volumeHUDEnabled: Bool = true
+    ) -> TestContext {
         UserDefaults.standard.set(false, forKey: "isLaunchAtLoginEnabled")
         UserDefaults.standard.set(0, forKey: "notchWidth")
         UserDefaults.standard.set(0, forKey: "notchHeight")
+        UserDefaults.standard.set(brightnessHUDEnabled, forKey: "settings.hud.brightness")
+        UserDefaults.standard.set(keyboardHUDEnabled, forKey: "settings.hud.keyboard")
+        UserDefaults.standard.set(volumeHUDEnabled, forKey: "settings.hud.volume")
         UserDefaults.standard.set(true, forKey: "settings.live.airdrop")
         UserDefaults.standard.set(true, forKey: "settings.live.hotspot")
         UserDefaults.standard.set(true, forKey: "settings.live.focus")

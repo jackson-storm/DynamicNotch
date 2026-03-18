@@ -47,7 +47,7 @@ The project is implemented as a native macOS app with SwiftUI for presentation a
 - 🎛️ Priority-driven live activity and temporary notification orchestration
 - 🎚️ Custom hardware HUD for brightness, volume, and keyboard backlight changes
 - 🎞️ Smooth animated transitions between notch states
-- 🔋 Battery, Bluetooth, network, focus, lock screen, now playing, onboarding, and AirDrop-related flows
+- 🔋 Battery, Bluetooth, network, focus, lock screen, now playing, and onboarding-related flows
 - 🔒 Optional lock and unlock sounds for lock screen transitions
 - ⚙️ Native Settings window with dedicated General, Live Activity, Temporary, and About tabs
 - 🧪 Integration tests for the most important service and queue logic
@@ -60,7 +60,6 @@ The project is implemented as a native macOS app with SwiftUI for presentation a
   - Now Playing
   - Hotspot active
   - Focus enabled
-  - AirDrop drag target
   - Lock screen live activity
 - Temporary activity
   - Charger connected
@@ -81,7 +80,6 @@ The project is implemented as a native macOS app with SwiftUI for presentation a
 - Press interactions on the notch
 - Tap to expand supported live content
 - Two-finger swipe up to hide active content when the cursor is inside the notch zone
-- Drag files onto the notch to trigger the AirDrop drop zone
 
 ### 🎨 Customization
 
@@ -102,7 +100,6 @@ DynamicNotch/
 ├── Application/        # App entry point, app delegate, notch window setup
 ├── Core/               # Events, models, protocols, low-level services
 ├── Features/           # Domain-specific notch content and view models
-│   ├── AirDrop/
 │   ├── Battery/
 │   ├── Bluetooth/
 │   ├── Focus/
@@ -167,7 +164,6 @@ Current automated coverage focuses on:
 - Temporary notification restoration flow
 - Power transition events
 - Network monitoring transitions
-- AirDrop drag-and-drop flow
 - Now Playing session lifecycle
 - Lock screen transition behavior
 

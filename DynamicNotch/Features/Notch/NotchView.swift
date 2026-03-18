@@ -1,7 +1,6 @@
 import SwiftUI
 import Combine
 import AppKit
-internal import UniformTypeIdentifiers
 
 struct NotchView: View {
     @ObservedObject var notchViewModel: NotchViewModel
@@ -10,7 +9,6 @@ struct NotchView: View {
     @ObservedObject var bluetoothViewModel: BluetoothViewModel
     @ObservedObject var networkViewModel: NetworkViewModel
     @ObservedObject var focusViewModel: FocusViewModel
-    @ObservedObject var airDropViewModel: AirDropNotchViewModel
     @ObservedObject var generalSettingsViewModel: GeneralSettingsViewModel
     @ObservedObject var nowPlayingViewModel: NowPlayingViewModel
     @ObservedObject var lockScreenManager: LockScreenManager
@@ -26,7 +24,6 @@ struct NotchView: View {
                         bluetoothViewModel: bluetoothViewModel,
                         networkViewModel: networkViewModel,
                         focusViewModel: focusViewModel,
-                        airDropViewModel: airDropViewModel,
                         generalSettingsViewModel: generalSettingsViewModel,
                         nowPlayingViewModel: nowPlayingViewModel,
                         lockScreenManager: lockScreenManager
@@ -35,20 +32,15 @@ struct NotchView: View {
                 .onChange(of: notchViewModel.notchModel.content?.id) {
                     notchViewModel.handleStrokeVisibility()
                 }
+                .onReceive(bluetoothViewModel.objectWillChange) { _ in
+                    guard notchViewModel.notchModel.content?.id == "bluetooth.connected" else { return }
+                    notchViewModel.handleStrokeVisibility()
+                }
                 .onChange(of: generalSettingsViewModel.notchWidth) {
                     notchViewModel.updateDimensions()
                 }
                 .onChange(of: generalSettingsViewModel.notchHeight) {
                     notchViewModel.updateDimensions()
-                }
-                .onDrop(of: [.fileURL], isTargeted: airDropTargetBinding) { providers in
-                    guard generalSettingsViewModel.isLiveActivityEnabled(.airDrop) else {
-                        return false
-                    }
-
-                    let dropPoint = NSEvent.mouseLocation
-                    airDropViewModel.handleDrop(providers: providers, point: dropPoint)
-                    return true
                 }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
@@ -56,19 +48,6 @@ struct NotchView: View {
 }
 
 private extension NotchView {
-    var airDropTargetBinding: Binding<Bool> {
-        Binding(
-            get: {
-                generalSettingsViewModel.isLiveActivityEnabled(.airDrop) &&
-                airDropViewModel.isDraggingFile
-            },
-            set: { isTargeted in
-                airDropViewModel.isDraggingFile =
-                generalSettingsViewModel.isLiveActivityEnabled(.airDrop) ? isTargeted : false
-            }
-        )
-    }
-
     @ViewBuilder
     var notchBody: some View {
         NotchShape(
@@ -78,7 +57,7 @@ private extension NotchView {
         .fill(.black)
         .stroke(
             generalSettingsViewModel.isShowNotchStrokeEnabled ?
-            notchViewModel.cachedStrokeColor : Color.clear,
+            visibleStrokeColor : Color.clear,
             lineWidth: generalSettingsViewModel.notchStrokeWidth
         )
         .overlay {
@@ -104,6 +83,10 @@ private extension NotchView {
         }
         .animation(.easeInOut(duration: 0.3), value: generalSettingsViewModel.isShowNotchStrokeEnabled)
         .animation(.spring(duration: 0.6), value: notchViewModel.showNotch)
+    }
+
+    var visibleStrokeColor: Color {
+        notchViewModel.notchModel.content?.strokeColor ?? notchViewModel.cachedStrokeColor
     }
     
     @ViewBuilder
@@ -168,7 +151,6 @@ private struct NotchEventHandlersView: View {
     let bluetoothViewModel: BluetoothViewModel
     let networkViewModel: NetworkViewModel
     let focusViewModel: FocusViewModel
-    let airDropViewModel: AirDropNotchViewModel
     let generalSettingsViewModel: GeneralSettingsViewModel
     let nowPlayingViewModel: NowPlayingViewModel
     let lockScreenManager: LockScreenManager
@@ -186,9 +168,6 @@ private struct NotchEventHandlersView: View {
             }
             .onReceive(focusViewModel.$focusEvent.compactMap { $0 }) { event in
                 notchEventCoordinator.handleFocusEvent(event)
-            }
-            .onReceive(airDropViewModel.$event.compactMap { $0 }) { event in
-                notchEventCoordinator.handleAirDropEvent(event)
             }
             .onReceive(generalSettingsViewModel.notchSizeEvent) { event in
                 notchEventCoordinator.handleNotchWidthEvent(event)

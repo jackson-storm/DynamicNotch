@@ -109,52 +109,6 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
         XCTAssertNil(temporaryContent)
     }
 
-    func testAirDropDragStartAndEndDriveLiveActivityLifecycle() async {
-        let context = makeContext()
-
-        context.coordinator.handleAirDropEvent(.dragStarted)
-
-        await assertEventually {
-            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id == "airdrop" }
-        }
-
-        context.coordinator.handleAirDropEvent(.dragEnded)
-
-        await assertEventually {
-            await MainActor.run { context.notchViewModel.notchModel.content == nil }
-        }
-    }
-
-    func testAirDropDropUsesPresentationViewWithoutSettingsWindow() async {
-        let context = makeContext()
-        let expectedURL = URL(fileURLWithPath: "/tmp/demo.txt")
-        let expectedPoint = NSPoint(x: 120, y: 80)
-        let presentationView = NSView(frame: NSRect(x: 0, y: 0, width: 100, height: 40))
-
-        context.airDropViewModel.presentationView = presentationView
-
-        var receivedShare: (urls: [URL], point: NSPoint, view: NSView)?
-        context.airDropViewModel.shareHandler = { urls, point, view in
-            receivedShare = (urls, point, view)
-        }
-
-        context.coordinator.handleAirDropEvent(.dragStarted)
-
-        await assertEventually {
-            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id == "airdrop" }
-        }
-
-        context.coordinator.handleAirDropEvent(.dropped(urls: [expectedURL], point: expectedPoint))
-
-        XCTAssertEqual(receivedShare?.urls, [expectedURL])
-        XCTAssertEqual(receivedShare?.point, expectedPoint)
-        XCTAssertTrue(receivedShare?.view === presentationView)
-
-        await assertEventually {
-            await MainActor.run { context.notchViewModel.notchModel.content == nil }
-        }
-    }
-
     func testNowPlayingEventsShowAndHideLiveActivity() async {
         let context = makeContext()
 
@@ -297,7 +251,6 @@ private extension NotchEventCoordinatorIntegrationTests {
     struct TestContext {
         let notchViewModel: NotchViewModel
         let coordinator: NotchEventCoordinator
-        let airDropViewModel: AirDropNotchViewModel
         let nowPlayingViewModel: NowPlayingViewModel
         let nowPlayingService: FakeNowPlayingService
         let lockScreenManager: LockScreenManager
@@ -317,7 +270,6 @@ private extension NotchEventCoordinatorIntegrationTests {
         UserDefaults.standard.set(brightnessHUDEnabled, forKey: "settings.hud.brightness")
         UserDefaults.standard.set(keyboardHUDEnabled, forKey: "settings.hud.keyboard")
         UserDefaults.standard.set(volumeHUDEnabled, forKey: "settings.hud.volume")
-        UserDefaults.standard.set(true, forKey: "settings.live.airdrop")
         UserDefaults.standard.set(true, forKey: "settings.live.hotspot")
         UserDefaults.standard.set(true, forKey: "settings.live.focus")
         UserDefaults.standard.set(true, forKey: "settings.live.nowPlaying")
@@ -339,7 +291,6 @@ private extension NotchEventCoordinatorIntegrationTests {
             queueDelay: 0
         )
         let networkViewModel = NetworkViewModel(monitor: FakeNetworkMonitor())
-        let airDropViewModel = AirDropNotchViewModel()
         let nowPlayingService = FakeNowPlayingService()
         let lockScreenService = FakeLockScreenMonitoringService()
         let nowPlayingViewModel = NowPlayingViewModel(
@@ -360,7 +311,6 @@ private extension NotchEventCoordinatorIntegrationTests {
             bluetoothViewModel: BluetoothViewModel(),
             powerService: PowerService(startMonitoring: false),
             networkViewModel: networkViewModel,
-            airDropViewModel: airDropViewModel,
             generalSettingsViewModel: generalSettingsViewModel,
             nowPlayingViewModel: nowPlayingViewModel,
             lockScreenManager: lockScreenManager
@@ -377,7 +327,6 @@ private extension NotchEventCoordinatorIntegrationTests {
         return TestContext(
             notchViewModel: notchViewModel,
             coordinator: coordinator,
-            airDropViewModel: airDropViewModel,
             nowPlayingViewModel: nowPlayingViewModel,
             nowPlayingService: nowPlayingService,
             lockScreenManager: lockScreenManager,

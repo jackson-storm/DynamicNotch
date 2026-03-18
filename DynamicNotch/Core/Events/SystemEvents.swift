@@ -26,12 +26,6 @@ enum HudEvent: Equatable {
     case volume(Int)
 }
 
-enum AirDropEvent: Equatable {
-    case dragStarted
-    case dragEnded
-    case dropped(urls: [URL], point: NSPoint)
-}
-
 enum FocusEvent: Equatable {
     case FocusOn
     case FocusOff

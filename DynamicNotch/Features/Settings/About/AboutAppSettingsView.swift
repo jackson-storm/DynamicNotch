@@ -111,11 +111,6 @@ struct AboutAppSettingsView: View {
                 title: "Temporary Activity",
                 description: "When an event is triggered, a temporary activity is shown that overlays the live activity."
             )
-            TextWithImage(
-                image: "airDropMode",
-                title: "Drag and drop ",
-                description: "It becomes active when the cursor with the selected file is dragged to the notch zone and sticks there a little bit."
-            )
         }
         .padding(20)
     }

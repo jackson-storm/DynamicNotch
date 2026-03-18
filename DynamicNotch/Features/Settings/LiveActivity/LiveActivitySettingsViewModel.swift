@@ -49,15 +49,6 @@ final class LiveActivitySettingsViewModel: ObservableObject {
                         color: .green,
                         accessibilityIdentifier: "settings.activities.live.hotspot",
                         keyPath: \.isHotspotLiveActivityEnabled
-                    ),
-                    SettingsToggleItem(
-                        id: "live.airdrop",
-                        title: "AirDrop drop zone",
-                        description: "Expand the notch into a live AirDrop target while dragging files over it.",
-                        systemImage: "dot.radiowaves.left.and.right",
-                        color: .blue,
-                        accessibilityIdentifier: "settings.activities.live.airdrop",
-                        keyPath: \.isAirDropLiveActivityEnabled
                     )
                 ]
             ),

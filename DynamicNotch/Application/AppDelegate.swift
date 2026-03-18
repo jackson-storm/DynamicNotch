@@ -16,7 +16,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     let powerViewModel: PowerViewModel
     let networkViewModel = NetworkViewModel()
     let focusViewModel = FocusViewModel()
-    let airDropViewModel = AirDropNotchViewModel()
     let generalSettingsViewModel = GeneralSettingsViewModel()
     let nowPlayingViewModel: NowPlayingViewModel
     let lockScreenManager: LockScreenManager
@@ -40,7 +39,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         bluetoothViewModel: bluetoothViewModel,
         powerService: powerService,
         networkViewModel: networkViewModel,
-        airDropViewModel: airDropViewModel,
         generalSettingsViewModel: generalSettingsViewModel,
         nowPlayingViewModel: nowPlayingViewModel,
         lockScreenManager: lockScreenManager
@@ -158,13 +156,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 bluetoothViewModel: bluetoothViewModel,
                 networkViewModel: networkViewModel,
                 focusViewModel: focusViewModel,
-                airDropViewModel: airDropViewModel,
                 generalSettingsViewModel: generalSettingsViewModel,
                 nowPlayingViewModel: nowPlayingViewModel,
                 lockScreenManager: lockScreenManager
             )
         )
-        airDropViewModel.presentationView = hostingView
 
         window.contentView = hostingView
         SkyLightOperator.shared.delegateWindow(window)

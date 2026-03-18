@@ -28,7 +28,6 @@ enum NotchDisplayLocation: String, CaseIterable {
 @MainActor
 final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
     enum LiveActivityPreference {
-        case airDrop
         case hotspot
         case focus
         case nowPlaying
@@ -114,12 +113,6 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
     @Published var isVolumeHUDEnabled: Bool {
         didSet {
             persist(isVolumeHUDEnabled, for: Keys.volumeHUDEnabled)
-        }
-    }
-
-    @Published var isAirDropLiveActivityEnabled: Bool {
-        didSet {
-            persist(isAirDropLiveActivityEnabled, for: Keys.airDropLiveActivityEnabled)
         }
     }
 
@@ -221,7 +214,6 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
         self.isBrightnessHUDEnabled = defaults.bool(forKey: Keys.brightnessHUDEnabled)
         self.isKeyboardHUDEnabled = defaults.bool(forKey: Keys.keyboardHUDEnabled)
         self.isVolumeHUDEnabled = defaults.bool(forKey: Keys.volumeHUDEnabled)
-        self.isAirDropLiveActivityEnabled = defaults.bool(forKey: Keys.airDropLiveActivityEnabled)
         self.isHotspotLiveActivityEnabled = defaults.bool(forKey: Keys.hotspotLiveActivityEnabled)
         self.isFocusLiveActivityEnabled = defaults.bool(forKey: Keys.focusLiveActivityEnabled)
         self.isNowPlayingLiveActivityEnabled = defaults.bool(forKey: Keys.nowPlayingLiveActivityEnabled)
@@ -241,8 +233,6 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
 
     func isLiveActivityEnabled(_ preference: LiveActivityPreference) -> Bool {
         switch preference {
-        case .airDrop:
-            return isAirDropLiveActivityEnabled
         case .hotspot:
             return isHotspotLiveActivityEnabled
         case .focus:
@@ -329,7 +319,6 @@ private extension GeneralSettingsViewModel {
         static let brightnessHUDEnabled = "settings.hud.brightness"
         static let keyboardHUDEnabled = "settings.hud.keyboard"
         static let volumeHUDEnabled = "settings.hud.volume"
-        static let airDropLiveActivityEnabled = "settings.live.airdrop"
         static let hotspotLiveActivityEnabled = "settings.live.hotspot"
         static let focusLiveActivityEnabled = "settings.live.focus"
         static let nowPlayingLiveActivityEnabled = "settings.live.nowPlaying"
@@ -354,7 +343,6 @@ private extension GeneralSettingsViewModel {
         Keys.brightnessHUDEnabled: true,
         Keys.keyboardHUDEnabled: true,
         Keys.volumeHUDEnabled: true,
-        Keys.airDropLiveActivityEnabled: true,
         Keys.hotspotLiveActivityEnabled: true,
         Keys.focusLiveActivityEnabled: true,
         Keys.nowPlayingLiveActivityEnabled: true,

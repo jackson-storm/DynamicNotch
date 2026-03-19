@@ -50,7 +50,7 @@ struct AboutAppSettingsView: View {
                         .stroke(.orange.opacity(0.6), lineWidth: 1)
                         .frame(width: 45, height: 18)
                         .overlay(
-                            Text("v.1.0.0")
+                            Text("v.1.0.1")
                                 .font(.system(size: 11))
                         )
                         .padding(3)
@@ -103,7 +103,7 @@ struct AboutAppSettingsView: View {
     var aboutAppDescription: some View {
         VStack(spacing: 20) {
             TextWithImage(
-                image: "focusMode",
+                image: "nowPlaying",
                 title: "Live Activity",
                 description: "The notch is active as long as the event is active, as soon as the event disappears the content disappears."
             )
@@ -113,7 +113,7 @@ struct AboutAppSettingsView: View {
                 description: "When an event is triggered, a temporary activity is shown that overlays the live activity."
             )
             TextWithImage(
-                image: "fullPowerMode",
+                image: "lockScreen",
                 title: "Lock screen",
                 description: "Display the notch and active player on the lock screen."
             )

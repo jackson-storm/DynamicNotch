@@ -266,7 +266,7 @@ private struct ArtworkView: View {
                     .overlay {
                         Image(systemName: "music.note")
                             .font(.system(size: 14, weight: .bold))
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(.white.opacity(0.6))
                     }
             }
         }

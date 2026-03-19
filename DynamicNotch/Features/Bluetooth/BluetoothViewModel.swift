@@ -8,6 +8,10 @@
 import Foundation
 import Combine
 
+enum BluetoothEvent: Equatable {
+    case connected
+}
+
 final class BluetoothViewModel: ObservableObject {
     @Published var deviceType: BluetoothAudioDeviceType = .generic
     @Published var event: BluetoothEvent?

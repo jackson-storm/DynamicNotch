@@ -19,6 +19,7 @@ struct NotchApp: App {
                 notchEventCoordinator: appDelegate.notchEventCoordinator,
                 bluetoothViewModel: appDelegate.bluetoothViewModel,
                 networkViewModel: appDelegate.networkViewModel,
+                downloadViewModel: appDelegate.downloadViewModel,
                 nowPlayingViewModel: appDelegate.nowPlayingViewModel,
                 lockScreenManager: appDelegate.lockScreenManager
             )

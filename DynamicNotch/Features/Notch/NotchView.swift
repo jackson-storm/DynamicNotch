@@ -8,6 +8,7 @@ struct NotchView: View {
     @ObservedObject var powerViewModel: PowerViewModel
     @ObservedObject var bluetoothViewModel: BluetoothViewModel
     @ObservedObject var networkViewModel: NetworkViewModel
+    @ObservedObject var downloadViewModel: DownloadViewModel
     @ObservedObject var focusViewModel: FocusViewModel
     @ObservedObject var generalSettingsViewModel: GeneralSettingsViewModel
     @ObservedObject var nowPlayingViewModel: NowPlayingViewModel
@@ -23,6 +24,7 @@ struct NotchView: View {
                         powerViewModel: powerViewModel,
                         bluetoothViewModel: bluetoothViewModel,
                         networkViewModel: networkViewModel,
+                        downloadViewModel: downloadViewModel,
                         focusViewModel: focusViewModel,
                         generalSettingsViewModel: generalSettingsViewModel,
                         nowPlayingViewModel: nowPlayingViewModel,
@@ -150,6 +152,7 @@ private struct NotchEventHandlersView: View {
     let powerViewModel: PowerViewModel
     let bluetoothViewModel: BluetoothViewModel
     let networkViewModel: NetworkViewModel
+    let downloadViewModel: DownloadViewModel
     let focusViewModel: FocusViewModel
     let generalSettingsViewModel: GeneralSettingsViewModel
     let nowPlayingViewModel: NowPlayingViewModel
@@ -165,6 +168,9 @@ private struct NotchEventHandlersView: View {
             }
             .onReceive(networkViewModel.$networkEvent.compactMap { $0 }) { event in
                 notchEventCoordinator.handleNetworkEvent(event)
+            }
+            .onReceive(downloadViewModel.$event.compactMap { $0 }) { event in
+                notchEventCoordinator.handleDownloadEvent(event)
             }
             .onReceive(focusViewModel.$focusEvent.compactMap { $0 }) { event in
                 notchEventCoordinator.handleFocusEvent(event)

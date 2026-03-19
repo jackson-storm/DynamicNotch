@@ -92,6 +92,7 @@ final class SettingsRootViewModel: ObservableObject {
         bluetoothViewModel: BluetoothViewModel? = nil,
         powerService: PowerService? = nil,
         networkViewModel: NetworkViewModel? = nil,
+        downloadViewModel: DownloadViewModel? = nil,
         nowPlayingViewModel: NowPlayingViewModel? = nil,
         lockScreenManager: LockScreenManager? = nil,
         defaults: UserDefaults = .standard
@@ -113,6 +114,9 @@ final class SettingsRootViewModel: ObservableObject {
         let resolvedBluetoothViewModel = bluetoothViewModel ?? BluetoothViewModel()
         let resolvedPowerService = powerService ?? PowerService(startMonitoring: false)
         let resolvedNetworkViewModel = networkViewModel ?? NetworkViewModel()
+        let resolvedDownloadViewModel = downloadViewModel ?? DownloadViewModel(
+            monitor: InactiveDownloadMonitor()
+        )
         let resolvedNowPlayingViewModel = nowPlayingViewModel ?? NowPlayingViewModel(service: InactiveNowPlayingService())
         let resolvedLockScreenManager = lockScreenManager ?? LockScreenManager(
             service: InactiveLockScreenMonitoringService(),
@@ -123,6 +127,7 @@ final class SettingsRootViewModel: ObservableObject {
             bluetoothViewModel: resolvedBluetoothViewModel,
             powerService: resolvedPowerService,
             networkViewModel: resolvedNetworkViewModel,
+            downloadViewModel: resolvedDownloadViewModel,
             generalSettingsViewModel: settings,
             nowPlayingViewModel: resolvedNowPlayingViewModel,
             lockScreenManager: resolvedLockScreenManager
@@ -134,6 +139,7 @@ final class SettingsRootViewModel: ObservableObject {
             bluetoothViewModel: resolvedBluetoothViewModel,
             powerService: resolvedPowerService,
             networkViewModel: resolvedNetworkViewModel,
+            downloadViewModel: resolvedDownloadViewModel,
             nowPlayingViewModel: resolvedNowPlayingViewModel,
             lockScreenManager: resolvedLockScreenManager
         )

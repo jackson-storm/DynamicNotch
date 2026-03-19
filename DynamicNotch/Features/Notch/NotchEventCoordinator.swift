@@ -14,6 +14,7 @@ final class NotchEventCoordinator: ObservableObject {
     private let bluetoothViewModel: BluetoothViewModel
     private let powerService: PowerService
     private let networkViewModel: NetworkViewModel
+    private let downloadViewModel: DownloadViewModel
     private let generalSettingsViewModel: GeneralSettingsViewModel
     private let nowPlayingViewModel: NowPlayingViewModel
     private let lockScreenManager: LockScreenManager
@@ -44,6 +45,7 @@ final class NotchEventCoordinator: ObservableObject {
         bluetoothViewModel: BluetoothViewModel,
         powerService: PowerService,
         networkViewModel: NetworkViewModel,
+        downloadViewModel: DownloadViewModel,
         generalSettingsViewModel: GeneralSettingsViewModel,
         nowPlayingViewModel: NowPlayingViewModel,
         lockScreenManager: LockScreenManager
@@ -52,6 +54,7 @@ final class NotchEventCoordinator: ObservableObject {
         self.bluetoothViewModel = bluetoothViewModel
         self.powerService = powerService
         self.networkViewModel = networkViewModel
+        self.downloadViewModel = downloadViewModel
         self.generalSettingsViewModel = generalSettingsViewModel
         self.nowPlayingViewModel = nowPlayingViewModel
         self.lockScreenManager = lockScreenManager
@@ -188,6 +191,24 @@ final class NotchEventCoordinator: ObservableObject {
             notchViewModel.send(.showTemporaryNotification(FullPowerNotchContent(powerService: powerService), duration: 4))
         }
     }
+
+    func handleDownloadEvent(_ event: DownloadEvent) {
+        guard !isOnboardingActive else { return }
+        guard !isLockScreenTransitionActive else { return }
+
+        switch event {
+        case .started:
+            guard generalSettingsViewModel.isLiveActivityEnabled(.downloads) else { return }
+            notchViewModel.send(
+                .showLiveActivity(
+                    DownloadNotchContent(downloadViewModel: downloadViewModel)
+                )
+            )
+
+        case .stopped:
+            notchViewModel.send(.hideLiveActivity(id: "download.active"))
+        }
+    }
     
     func handleNowPlayingEvent(_ event: NowPlayingEvent) {
         guard !isOnboardingActive else { return }
@@ -263,6 +284,21 @@ final class NotchEventCoordinator: ObservableObject {
                 } else {
                     self.deferredNowPlayingHideWhileExpanded = false
                     self.notchViewModel.send(.hideLiveActivity(id: "nowPlaying"))
+                }
+            }
+            .store(in: &cancellables)
+
+        generalSettingsViewModel.$isDownloadsLiveActivityEnabled
+            .removeDuplicates()
+            .sink { [weak self] isEnabled in
+                guard let self else { return }
+
+                if isEnabled {
+                    if self.downloadViewModel.hasActiveDownloads {
+                        self.handleDownloadEvent(.started)
+                    }
+                } else {
+                    self.notchViewModel.send(.hideLiveActivity(id: "download.active"))
                 }
             }
             .store(in: &cancellables)

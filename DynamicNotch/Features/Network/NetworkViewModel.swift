@@ -5,14 +5,16 @@
 //  Created by Евгений Петрукович on 2/26/26.
 //
 
-//
-//  NetworkViewModel.swift
-//  DynamicNotch
-//
-
 import Foundation
 import Combine
 import SwiftUI
+
+enum NetworkEvent: Equatable {
+    case wifiConnected
+    case vpnConnected
+    case hotspotActive
+    case hotspotHide
+}
 
 final class NetworkViewModel: ObservableObject {
     @Published var wifiConnected: Bool = false

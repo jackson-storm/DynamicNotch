@@ -7,6 +7,11 @@
 
 import SwiftUI
 
+enum NotchSizeEvent: Equatable {
+    case width
+    case height
+}
+
 struct NotchSizeWidthNotchContent: NotchContentProtocol {
     let id = "notchSize.width"
     let generalSettingsViewModel: GeneralSettingsViewModel

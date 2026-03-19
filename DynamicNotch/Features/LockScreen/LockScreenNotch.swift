@@ -1,5 +1,10 @@
 import SwiftUI
 
+enum LockScreenEvent: Equatable {
+    case started
+    case stopped
+}
+
 struct LockScreenNotchContent: NotchContentProtocol {
     let id = "lockScreen"
     let lockScreenManager: LockScreenManager

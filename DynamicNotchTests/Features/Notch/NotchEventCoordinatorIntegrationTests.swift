@@ -127,6 +127,33 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
         }
     }
 
+    func testDownloadEventsShowAndHideLiveActivity() async {
+        let context = makeContext()
+
+        context.downloadMonitor.publish([
+            DownloadSnapshot(
+                url: URL(fileURLWithPath: "/tmp/archive.zip"),
+                displayName: "archive.zip",
+                directoryName: "Downloads",
+                byteCount: 1_024_000,
+                progress: 0.41,
+                startedAt: .now.addingTimeInterval(-3),
+                lastUpdatedAt: .now,
+                isTemporaryFile: false
+            )
+        ])
+
+        await assertEventually {
+            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id == "download.active" }
+        }
+
+        context.downloadMonitor.publish([])
+
+        await assertEventually {
+            await MainActor.run { context.notchViewModel.notchModel.content == nil }
+        }
+    }
+
     func testLockScreenEventsShowAndHideLockLiveActivity() async {
         let context = makeContext()
 
@@ -209,6 +236,8 @@ private extension NotchEventCoordinatorIntegrationTests {
     struct TestContext {
         let notchViewModel: NotchViewModel
         let coordinator: NotchEventCoordinator
+        let downloadViewModel: DownloadViewModel
+        let downloadMonitor: FakeFileDownloadMonitor
         let nowPlayingViewModel: NowPlayingViewModel
         let nowPlayingService: FakeNowPlayingService
         let lockScreenManager: LockScreenManager
@@ -230,6 +259,7 @@ private extension NotchEventCoordinatorIntegrationTests {
         UserDefaults.standard.set(true, forKey: "settings.live.hotspot")
         UserDefaults.standard.set(true, forKey: "settings.live.focus")
         UserDefaults.standard.set(true, forKey: "settings.live.nowPlaying")
+        UserDefaults.standard.set(true, forKey: "settings.live.downloads")
         UserDefaults.standard.set(true, forKey: LockScreenSettings.liveActivityKey)
         UserDefaults.standard.set(true, forKey: LockScreenSettings.mediaPanelKey)
         UserDefaults.standard.set(true, forKey: "settings.temporary.charger")
@@ -248,6 +278,8 @@ private extension NotchEventCoordinatorIntegrationTests {
             queueDelay: 0
         )
         let networkViewModel = NetworkViewModel(monitor: FakeNetworkMonitor())
+        let downloadMonitor = FakeFileDownloadMonitor()
+        let downloadViewModel = DownloadViewModel(monitor: downloadMonitor)
         let nowPlayingService = FakeNowPlayingService()
         let lockScreenService = FakeLockScreenMonitoringService()
         let nowPlayingViewModel = NowPlayingViewModel(service: nowPlayingService)
@@ -256,8 +288,10 @@ private extension NotchEventCoordinatorIntegrationTests {
             unlockCollapseDelay: 0.05,
             idleResetDelay: 0.05
         )
+        TestLifetime.retain(downloadViewModel)
         TestLifetime.retain(nowPlayingViewModel)
         TestLifetime.retain(lockScreenManager)
+        downloadViewModel.startMonitoring()
         nowPlayingViewModel.startMonitoring()
         lockScreenManager.startMonitoring()
         let coordinator = NotchEventCoordinator(
@@ -265,6 +299,7 @@ private extension NotchEventCoordinatorIntegrationTests {
             bluetoothViewModel: BluetoothViewModel(),
             powerService: PowerService(startMonitoring: false),
             networkViewModel: networkViewModel,
+            downloadViewModel: downloadViewModel,
             generalSettingsViewModel: generalSettingsViewModel,
             nowPlayingViewModel: nowPlayingViewModel,
             lockScreenManager: lockScreenManager
@@ -278,9 +313,18 @@ private extension NotchEventCoordinatorIntegrationTests {
             }
             .store(in: &cancellables)
 
+        downloadViewModel.$event
+            .compactMap { $0 }
+            .sink { event in
+                coordinator.handleDownloadEvent(event)
+            }
+            .store(in: &cancellables)
+
         return TestContext(
             notchViewModel: notchViewModel,
             coordinator: coordinator,
+            downloadViewModel: downloadViewModel,
+            downloadMonitor: downloadMonitor,
             nowPlayingViewModel: nowPlayingViewModel,
             nowPlayingService: nowPlayingService,
             lockScreenManager: lockScreenManager,

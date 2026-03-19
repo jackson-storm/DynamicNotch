@@ -91,6 +91,25 @@ final class FakeNowPlayingService: NowPlayingMonitoring {
     }
 }
 
+final class FakeFileDownloadMonitor: DownloadMonitoring {
+    var onSnapshotChange: (([DownloadSnapshot]) -> Void)?
+
+    private(set) var startCalls = 0
+    private(set) var stopCalls = 0
+
+    func startMonitoring() {
+        startCalls += 1
+    }
+
+    func stopMonitoring() {
+        stopCalls += 1
+    }
+
+    func publish(_ transfers: [DownloadSnapshot]) {
+        onSnapshotChange?(transfers)
+    }
+}
+
 final class FakeLockScreenMonitoringService: LockScreenMonitoring {
     var onLockStateChange: ((Bool) -> Void)?
 

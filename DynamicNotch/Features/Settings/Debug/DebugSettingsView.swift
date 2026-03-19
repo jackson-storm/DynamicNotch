@@ -20,6 +20,10 @@ final class DebugSettingsViewModel: ObservableObject {
         didSet { guard isReady else { return }; updateNowPlayingPreview() }
     }
 
+    @Published var isDownloadPreviewEnabled = false {
+        didSet { guard isReady else { return }; updateDownloadPreview() }
+    }
+
     @Published var isLockScreenPreviewEnabled = false {
         didSet { guard isReady else { return }; updateLockScreenPreview() }
     }
@@ -29,6 +33,7 @@ final class DebugSettingsViewModel: ObservableObject {
     private let bluetoothViewModel: BluetoothViewModel
     private let powerService: PowerService
     private let networkViewModel: NetworkViewModel
+    private let downloadViewModel: DownloadViewModel
     private let nowPlayingViewModel: NowPlayingViewModel
     private let lockScreenManager: LockScreenManager
 
@@ -40,6 +45,7 @@ final class DebugSettingsViewModel: ObservableObject {
         bluetoothViewModel: BluetoothViewModel,
         powerService: PowerService,
         networkViewModel: NetworkViewModel,
+        downloadViewModel: DownloadViewModel,
         nowPlayingViewModel: NowPlayingViewModel,
         lockScreenManager: LockScreenManager
     ) {
@@ -48,6 +54,7 @@ final class DebugSettingsViewModel: ObservableObject {
         self.bluetoothViewModel = bluetoothViewModel
         self.powerService = powerService
         self.networkViewModel = networkViewModel
+        self.downloadViewModel = downloadViewModel
         self.nowPlayingViewModel = nowPlayingViewModel
         self.lockScreenManager = lockScreenManager
         self.isReady = true
@@ -138,6 +145,7 @@ final class DebugSettingsViewModel: ObservableObject {
         isFocusLivePreviewEnabled = false
         isHotspotPreviewEnabled = false
         isNowPlayingPreviewEnabled = false
+        isDownloadPreviewEnabled = false
         isLockScreenPreviewEnabled = false
         notchViewModel.hideTemporaryNotification()
     }
@@ -175,6 +183,21 @@ final class DebugSettingsViewModel: ObservableObject {
         } else {
             notchEventCoordinator.handleNowPlayingEvent(.stopped)
             nowPlayingViewModel.hideDebugPreviewSnapshotIfNeeded()
+        }
+    }
+
+    private func updateDownloadPreview() {
+        if isDownloadPreviewEnabled {
+            downloadViewModel.showDebugPreviewDownloadsIfNeeded()
+            notchEventCoordinator.handleDownloadEvent(.started)
+        } else {
+            downloadViewModel.hideDebugPreviewDownloadsIfNeeded()
+
+            if downloadViewModel.hasActiveDownloads {
+                notchEventCoordinator.handleDownloadEvent(.started)
+            } else {
+                notchEventCoordinator.handleDownloadEvent(.stopped)
+            }
         }
     }
 
@@ -250,10 +273,21 @@ struct DebugSettingsView: View {
                 Divider()
 
                 SettingsToggleRow(
+                    title: "Downloads",
+                    description: "Inject sample download activity and preview the live download state.",
+                    systemImage: "arrow.down.doc.fill",
+                    color: .blue,
+                    isOn: $viewModel.isDownloadPreviewEnabled,
+                    accessibilityIdentifier: "settings.debug.downloads"
+                )
+
+                Divider()
+
+                SettingsToggleRow(
                     title: "Lock Screen",
                     description: "Preview the lock live activity without actually locking macOS.",
                     systemImage: "lock.fill",
-                    color: .gray,
+                    color: .black,
                     isOn: $viewModel.isLockScreenPreviewEnabled,
                     accessibilityIdentifier: "settings.debug.lockScreen"
                 )

@@ -13,6 +13,7 @@ struct SettingsRootView: View {
     let notchEventCoordinator: NotchEventCoordinator
     let bluetoothViewModel: BluetoothViewModel
     let networkViewModel: NetworkViewModel
+    let downloadViewModel: DownloadViewModel
     let nowPlayingViewModel: NowPlayingViewModel
     let lockScreenManager: LockScreenManager
 
@@ -25,6 +26,7 @@ struct SettingsRootView: View {
         notchEventCoordinator: NotchEventCoordinator,
         bluetoothViewModel: BluetoothViewModel,
         networkViewModel: NetworkViewModel,
+        downloadViewModel: DownloadViewModel,
         nowPlayingViewModel: NowPlayingViewModel,
         lockScreenManager: LockScreenManager
     ) {
@@ -34,6 +36,7 @@ struct SettingsRootView: View {
         self.notchEventCoordinator = notchEventCoordinator
         self.bluetoothViewModel = bluetoothViewModel
         self.networkViewModel = networkViewModel
+        self.downloadViewModel = downloadViewModel
         self.nowPlayingViewModel = nowPlayingViewModel
         self.lockScreenManager = lockScreenManager
         _viewModel = StateObject(
@@ -44,6 +47,7 @@ struct SettingsRootView: View {
                 bluetoothViewModel: bluetoothViewModel,
                 powerService: powerService,
                 networkViewModel: networkViewModel,
+                downloadViewModel: downloadViewModel,
                 nowPlayingViewModel: nowPlayingViewModel,
                 lockScreenManager: lockScreenManager
             )

@@ -33,6 +33,15 @@ final class LiveActivitySettingsViewModel: ObservableObject {
                         keyPath: \.isNowPlayingLiveActivityEnabled
                     ),
                     SettingsToggleItem(
+                        id: "live.downloads",
+                        title: "Downloads",
+                        description: "Show an activity while files are actively being written in monitored folders like Downloads, Desktop, and Documents.",
+                        systemImage: "arrow.down.doc.fill",
+                        color: .blue,
+                        accessibilityIdentifier: "settings.activities.live.downloads",
+                        keyPath: \.isDownloadsLiveActivityEnabled
+                    ),
+                    SettingsToggleItem(
                         id: "live.focus",
                         title: "Focus mode",
                         description: "Show a live indicator when Focus mode turns on.",

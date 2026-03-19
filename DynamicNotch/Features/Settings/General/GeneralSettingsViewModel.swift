@@ -32,6 +32,7 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
         case focus
         case nowPlaying
         case lockScreen
+        case downloads
     }
 
     enum TemporaryActivityPreference {
@@ -152,6 +153,12 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
         }
     }
 
+    @Published var isDownloadsLiveActivityEnabled: Bool {
+        didSet {
+            persist(isDownloadsLiveActivityEnabled, for: Keys.downloadsLiveActivityEnabled)
+        }
+    }
+
     @Published var isChargerTemporaryActivityEnabled: Bool {
         didSet {
             persist(isChargerTemporaryActivityEnabled, for: Keys.chargerTemporaryActivityEnabled)
@@ -224,6 +231,13 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
         self.isLockScreenLiveActivityEnabled = defaults.bool(forKey: LockScreenSettings.liveActivityKey)
         self.isLockScreenSoundEnabled = defaults.bool(forKey: LockScreenSettings.soundKey)
         self.isLockScreenMediaPanelEnabled = defaults.bool(forKey: LockScreenSettings.mediaPanelKey)
+        let hasLegacyDownloadsValue = defaults.object(forKey: Keys.legacyFileTransfersLiveActivityEnabled) != nil
+        let downloadsSettingValue = defaults.object(forKey: Keys.downloadsLiveActivityEnabled) as? Bool
+        self.isDownloadsLiveActivityEnabled = downloadsSettingValue ?? (
+            hasLegacyDownloadsValue ?
+            defaults.bool(forKey: Keys.legacyFileTransfersLiveActivityEnabled) :
+            (Self.defaultValues[Keys.downloadsLiveActivityEnabled] as? Bool ?? true)
+        )
         self.isChargerTemporaryActivityEnabled = defaults.bool(forKey: Keys.chargerTemporaryActivityEnabled)
         self.isLowPowerTemporaryActivityEnabled = defaults.bool(forKey: Keys.lowPowerTemporaryActivityEnabled)
         self.isFullPowerTemporaryActivityEnabled = defaults.bool(forKey: Keys.fullPowerTemporaryActivityEnabled)
@@ -246,6 +260,8 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
             return isNowPlayingLiveActivityEnabled
         case .lockScreen:
             return isLockScreenLiveActivityEnabled
+        case .downloads:
+            return isDownloadsLiveActivityEnabled
         }
     }
 
@@ -327,6 +343,8 @@ private extension GeneralSettingsViewModel {
         static let hotspotLiveActivityEnabled = "settings.live.hotspot"
         static let focusLiveActivityEnabled = "settings.live.focus"
         static let nowPlayingLiveActivityEnabled = "settings.live.nowPlaying"
+        static let downloadsLiveActivityEnabled = "settings.live.downloads"
+        static let legacyFileTransfersLiveActivityEnabled = "settings.live.fileTransfers"
         static let chargerTemporaryActivityEnabled = "settings.temporary.charger"
         static let lowPowerTemporaryActivityEnabled = "settings.temporary.lowPower"
         static let fullPowerTemporaryActivityEnabled = "settings.temporary.fullPower"
@@ -351,6 +369,7 @@ private extension GeneralSettingsViewModel {
         Keys.hotspotLiveActivityEnabled: true,
         Keys.focusLiveActivityEnabled: true,
         Keys.nowPlayingLiveActivityEnabled: true,
+        Keys.downloadsLiveActivityEnabled: true,
         LockScreenSettings.liveActivityKey: true,
         LockScreenSettings.soundKey: true,
         LockScreenSettings.mediaPanelKey: true,

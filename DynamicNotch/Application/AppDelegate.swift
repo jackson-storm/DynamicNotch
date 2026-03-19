@@ -15,6 +15,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     let bluetoothViewModel = BluetoothViewModel()
     let powerViewModel: PowerViewModel
     let networkViewModel = NetworkViewModel()
+    let downloadViewModel: DownloadViewModel
     let focusViewModel = FocusViewModel()
     let generalSettingsViewModel = GeneralSettingsViewModel()
     let nowPlayingViewModel: NowPlayingViewModel
@@ -39,6 +40,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         bluetoothViewModel: bluetoothViewModel,
         powerService: powerService,
         networkViewModel: networkViewModel,
+        downloadViewModel: downloadViewModel,
         generalSettingsViewModel: generalSettingsViewModel,
         nowPlayingViewModel: nowPlayingViewModel,
         lockScreenManager: lockScreenManager
@@ -69,6 +71,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             service: isRunningUITests ?
                 InactiveNowPlayingService() :
                 MediaRemoteNowPlayingService()
+        )
+        self.downloadViewModel = DownloadViewModel(
+            monitor: isRunningUITests ?
+                InactiveDownloadMonitor() :
+                FolderFileDownloadMonitor()
         )
         self.lockScreenManager = LockScreenManager(
             service: isRunningUITests ?
@@ -119,12 +126,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         lockScreenManager.startMonitoring()
         nowPlayingViewModel.startMonitoring()
+        downloadViewModel.startMonitoring()
     }
 
     func applicationWillTerminate(_ notification: Notification) {
         NotificationCenter.default.removeObserver(self)
         NSWorkspace.shared.notificationCenter.removeObserver(self)
         lockScreenManager.stopMonitoring()
+        downloadViewModel.stopMonitoring()
         hardwareHUDMonitor.stopMonitoring()
         if !isRunningUITests {
             lockScreenPanelManager.invalidate()
@@ -155,6 +164,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 powerViewModel: powerViewModel,
                 bluetoothViewModel: bluetoothViewModel,
                 networkViewModel: networkViewModel,
+                downloadViewModel: downloadViewModel,
                 focusViewModel: focusViewModel,
                 generalSettingsViewModel: generalSettingsViewModel,
                 nowPlayingViewModel: nowPlayingViewModel,
@@ -376,6 +386,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                     notchEventCoordinator: self.notchEventCoordinator,
                     bluetoothViewModel: self.bluetoothViewModel,
                     networkViewModel: self.networkViewModel,
+                    downloadViewModel: self.downloadViewModel,
                     nowPlayingViewModel: self.nowPlayingViewModel,
                     lockScreenManager: self.lockScreenManager
                 )

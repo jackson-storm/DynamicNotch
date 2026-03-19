@@ -7,6 +7,10 @@
 
 import SwiftUI
 
+enum OnboardingEvent: Equatable {
+    case onboarding
+}
+
 struct OnboardingNotchContent : NotchContentProtocol {
     let id = "onboarding"
     let notchEventCoordinator: NotchEventCoordinator

@@ -8,6 +8,11 @@
 import Foundation
 import Combine
 
+enum FocusEvent: Equatable {
+    case FocusOn
+    case FocusOff
+}
+
 final class FocusViewModel: ObservableObject {
     @Published var focusEvent: FocusEvent? = nil
     

@@ -371,7 +371,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             let hostingController = NSHostingController(
                 rootView: SettingsRootView(
                     powerService: self.powerService,
-                    generalSettingsViewModel: self.generalSettingsViewModel
+                    generalSettingsViewModel: self.generalSettingsViewModel,
+                    notchViewModel: self.notchViewModel,
+                    notchEventCoordinator: self.notchEventCoordinator,
+                    bluetoothViewModel: self.bluetoothViewModel,
+                    networkViewModel: self.networkViewModel,
+                    nowPlayingViewModel: self.nowPlayingViewModel,
+                    lockScreenManager: self.lockScreenManager
                 )
             )
 

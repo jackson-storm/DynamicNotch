@@ -112,6 +112,11 @@ struct AboutAppSettingsView: View {
                 title: "Temporary Activity",
                 description: "When an event is triggered, a temporary activity is shown that overlays the live activity."
             )
+            TextWithImage(
+                image: "fullPowerMode",
+                title: "Lock screen",
+                description: "Display the notch and active player on the lock screen."
+            )
         }
         .padding(20)
     }

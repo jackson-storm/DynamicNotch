@@ -90,10 +90,24 @@ final class PowerService: ObservableObject {
                 .receive(on: RunLoop.main)
                 .sink { [weak self] _ in
                     self?.updateLowPowerMode()
-                }
+            }
                 .store(in: &cancellables)
         }
     }
+
+    #if DEBUG
+    func applyDebugState(
+        onACPower: Bool,
+        batteryLevel: Int,
+        isCharging: Bool,
+        isLowPowerMode: Bool
+    ) {
+        self.onACPower = onACPower
+        self.batteryLevel = max(0, min(batteryLevel, 100))
+        self.isCharging = isCharging
+        self.isLowPowerMode = isLowPowerMode
+    }
+    #endif
 }
 
 extension PowerService: PowerStateProviding {

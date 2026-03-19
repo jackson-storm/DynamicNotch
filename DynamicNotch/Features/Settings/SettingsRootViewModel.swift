@@ -7,6 +7,9 @@ final class SettingsRootViewModel: ObservableObject {
         case general
         case liveActivity
         case temporaryActivity
+        #if DEBUG
+        case debug
+        #endif
         case about
 
         var id: String { rawValue }
@@ -19,6 +22,10 @@ final class SettingsRootViewModel: ObservableObject {
                 return "Live Activity"
             case .temporaryActivity:
                 return "Temporary"
+            #if DEBUG
+            case .debug:
+                return "Debug"
+            #endif
             case .about:
                 return "About"
             }
@@ -32,6 +39,10 @@ final class SettingsRootViewModel: ObservableObject {
                 return "Persistent notch events"
             case .temporaryActivity:
                 return "Short-lived notch notifications"
+            #if DEBUG
+            case .debug:
+                return "Manual event previews and test triggers"
+            #endif
             case .about:
                 return "Project, links and feature overview"
             }
@@ -45,6 +56,10 @@ final class SettingsRootViewModel: ObservableObject {
                 return "waveform.path.ecg.rectangle.fill"
             case .temporaryActivity:
                 return "timer"
+            #if DEBUG
+            case .debug:
+                return "ladybug.fill"
+            #endif
             case .about:
                 return "info.circle.fill"
             }
@@ -63,12 +78,22 @@ final class SettingsRootViewModel: ObservableObject {
 
     let liveActivityViewModel: LiveActivitySettingsViewModel
     let temporaryActivityViewModel: TemporaryActivitySettingsViewModel
+    #if DEBUG
+    let debugViewModel: DebugSettingsViewModel
+    #endif
 
     private let defaults: UserDefaults
     private static let selectionKey = "settings.root.selection"
 
     init(
         settings: GeneralSettingsViewModel,
+        notchViewModel: NotchViewModel? = nil,
+        notchEventCoordinator: NotchEventCoordinator? = nil,
+        bluetoothViewModel: BluetoothViewModel? = nil,
+        powerService: PowerService? = nil,
+        networkViewModel: NetworkViewModel? = nil,
+        nowPlayingViewModel: NowPlayingViewModel? = nil,
+        lockScreenManager: LockScreenManager? = nil,
         defaults: UserDefaults = .standard
     ) {
         self.defaults = defaults
@@ -83,6 +108,36 @@ final class SettingsRootViewModel: ObservableObject {
 
         self.liveActivityViewModel = LiveActivitySettingsViewModel(settings: settings)
         self.temporaryActivityViewModel = TemporaryActivitySettingsViewModel(settings: settings)
+        #if DEBUG
+        let resolvedNotchViewModel = notchViewModel ?? NotchViewModel(settings: settings)
+        let resolvedBluetoothViewModel = bluetoothViewModel ?? BluetoothViewModel()
+        let resolvedPowerService = powerService ?? PowerService(startMonitoring: false)
+        let resolvedNetworkViewModel = networkViewModel ?? NetworkViewModel()
+        let resolvedNowPlayingViewModel = nowPlayingViewModel ?? NowPlayingViewModel(service: InactiveNowPlayingService())
+        let resolvedLockScreenManager = lockScreenManager ?? LockScreenManager(
+            service: InactiveLockScreenMonitoringService(),
+            soundPlayer: InactiveLockScreenSoundPlayer()
+        )
+        let resolvedCoordinator = notchEventCoordinator ?? NotchEventCoordinator(
+            notchViewModel: resolvedNotchViewModel,
+            bluetoothViewModel: resolvedBluetoothViewModel,
+            powerService: resolvedPowerService,
+            networkViewModel: resolvedNetworkViewModel,
+            generalSettingsViewModel: settings,
+            nowPlayingViewModel: resolvedNowPlayingViewModel,
+            lockScreenManager: resolvedLockScreenManager
+        )
+
+        self.debugViewModel = DebugSettingsViewModel(
+            notchViewModel: resolvedNotchViewModel,
+            notchEventCoordinator: resolvedCoordinator,
+            bluetoothViewModel: resolvedBluetoothViewModel,
+            powerService: resolvedPowerService,
+            networkViewModel: resolvedNetworkViewModel,
+            nowPlayingViewModel: resolvedNowPlayingViewModel,
+            lockScreenManager: resolvedLockScreenManager
+        )
+        #endif
     }
 
     var sections: [Section] {

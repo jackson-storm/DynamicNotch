@@ -11,6 +11,9 @@ final class NowPlayingViewModel: ObservableObject {
 
     private var service: any NowPlayingMonitoring
     private var hasStartedMonitoring = false
+    #if DEBUG
+    private var isShowingDebugPreviewSnapshot = false
+    #endif
 
     var hasActiveSession: Bool {
         snapshot != nil
@@ -70,10 +73,68 @@ final class NowPlayingViewModel: ObservableObject {
     func elapsedTime(at date: Date) -> TimeInterval {
         snapshot?.elapsedTime(at: date) ?? 0
     }
+
+    #if DEBUG
+    func showDebugPreviewSnapshotIfNeeded() {
+        guard snapshot == nil else { return }
+        isShowingDebugPreviewSnapshot = true
+        apply(snapshot: Self.makeDebugPreviewSnapshot(), emitEvent: false)
+    }
+
+    func hideDebugPreviewSnapshotIfNeeded() {
+        guard isShowingDebugPreviewSnapshot else { return }
+        isShowingDebugPreviewSnapshot = false
+        apply(snapshot: nil, emitEvent: false)
+    }
+
+    private static func makeDebugPreviewSnapshot() -> NowPlayingSnapshot {
+        NowPlayingSnapshot(
+            title: "Midnight Echoes",
+            artist: "Debug Ensemble",
+            album: "Preview Mode",
+            duration: 214,
+            elapsedTime: 81,
+            playbackRate: 1,
+            artworkData: makeDebugArtworkData(),
+            refreshedAt: .now
+        )
+    }
+
+    private static func makeDebugArtworkData() -> Data? {
+        let size = NSSize(width: 48, height: 48)
+        let rep = NSBitmapImageRep(
+            bitmapDataPlanes: nil,
+            pixelsWide: Int(size.width),
+            pixelsHigh: Int(size.height),
+            bitsPerSample: 8,
+            samplesPerPixel: 4,
+            hasAlpha: true,
+            isPlanar: false,
+            colorSpaceName: .deviceRGB,
+            bytesPerRow: 0,
+            bitsPerPixel: 0
+        )
+
+        guard let rep else { return nil }
+
+        NSGraphicsContext.saveGraphicsState()
+        NSGraphicsContext.current = NSGraphicsContext(bitmapImageRep: rep)
+
+        let bounds = NSRect(origin: .zero, size: size)
+        NSColor(calibratedRed: 0.96, green: 0.48, blue: 0.2, alpha: 1).setFill()
+        NSBezierPath(rect: bounds).fill()
+
+        NSColor(calibratedRed: 1, green: 0.79, blue: 0.29, alpha: 1).setFill()
+        NSBezierPath(rect: NSRect(x: 0, y: 0, width: size.width * 0.42, height: size.height)).fill()
+
+        NSGraphicsContext.restoreGraphicsState()
+        return rep.representation(using: .png, properties: [:])
+    }
+    #endif
 }
 
 private extension NowPlayingViewModel {
-    func apply(snapshot newSnapshot: NowPlayingSnapshot?) {
+    func apply(snapshot newSnapshot: NowPlayingSnapshot?, emitEvent: Bool = true) {
         let wasActive = snapshot != nil
         let artworkDidChange = snapshot?.artworkData != newSnapshot?.artworkData
 
@@ -86,10 +147,12 @@ private extension NowPlayingViewModel {
 
         let isActive = newSnapshot != nil
 
-        if !wasActive && isActive {
-            event = .started
-        } else if wasActive && !isActive {
-            event = .stopped
+        if emitEvent {
+            if !wasActive && isActive {
+                event = .started
+            } else if wasActive && !isActive {
+                event = .stopped
+            }
         }
     }
 }

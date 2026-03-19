@@ -130,6 +130,15 @@ final class LockScreenManager: ObservableObject {
         isLocked || !isLockIdle
     }
 
+    #if DEBUG
+    func setDebugLockState(_ locked: Bool) {
+        unlockWorkItem?.cancel()
+        unlockWorkItem = nil
+        isLocked = locked
+        isLockIdle = !locked
+    }
+    #endif
+
     private func apply(lockState locked: Bool) {
         guard isLocked != locked else { return }
 

@@ -8,14 +8,45 @@ enum SettingsWindowLayout {
 struct SettingsRootView: View {
     @ObservedObject var powerService: PowerService
     @ObservedObject var generalSettingsViewModel: GeneralSettingsViewModel
+    
+    let notchViewModel: NotchViewModel
+    let notchEventCoordinator: NotchEventCoordinator
+    let bluetoothViewModel: BluetoothViewModel
+    let networkViewModel: NetworkViewModel
+    let nowPlayingViewModel: NowPlayingViewModel
+    let lockScreenManager: LockScreenManager
 
     @StateObject private var viewModel: SettingsRootViewModel
 
-    init(powerService: PowerService, generalSettingsViewModel: GeneralSettingsViewModel) {
+    init(
+        powerService: PowerService,
+        generalSettingsViewModel: GeneralSettingsViewModel,
+        notchViewModel: NotchViewModel,
+        notchEventCoordinator: NotchEventCoordinator,
+        bluetoothViewModel: BluetoothViewModel,
+        networkViewModel: NetworkViewModel,
+        nowPlayingViewModel: NowPlayingViewModel,
+        lockScreenManager: LockScreenManager
+    ) {
         self.powerService = powerService
         self.generalSettingsViewModel = generalSettingsViewModel
+        self.notchViewModel = notchViewModel
+        self.notchEventCoordinator = notchEventCoordinator
+        self.bluetoothViewModel = bluetoothViewModel
+        self.networkViewModel = networkViewModel
+        self.nowPlayingViewModel = nowPlayingViewModel
+        self.lockScreenManager = lockScreenManager
         _viewModel = StateObject(
-            wrappedValue: SettingsRootViewModel(settings: generalSettingsViewModel)
+            wrappedValue: SettingsRootViewModel(
+                settings: generalSettingsViewModel,
+                notchViewModel: notchViewModel,
+                notchEventCoordinator: notchEventCoordinator,
+                bluetoothViewModel: bluetoothViewModel,
+                powerService: powerService,
+                networkViewModel: networkViewModel,
+                nowPlayingViewModel: nowPlayingViewModel,
+                lockScreenManager: lockScreenManager
+            )
         )
     }
 
@@ -57,6 +88,20 @@ struct SettingsRootView: View {
             }
             .tag(SettingsRootViewModel.Section.temporaryActivity)
             .accessibilityIdentifier(SettingsRootViewModel.Section.temporaryActivity.accessibilityIdentifier)
+
+            #if DEBUG
+            DebugSettingsView(
+                viewModel: viewModel.debugViewModel
+            )
+            .tabItem {
+                Label(
+                    SettingsRootViewModel.Section.debug.title,
+                    systemImage: SettingsRootViewModel.Section.debug.systemImage
+                )
+            }
+            .tag(SettingsRootViewModel.Section.debug)
+            .accessibilityIdentifier(SettingsRootViewModel.Section.debug.accessibilityIdentifier)
+            #endif
 
             AboutAppSettingsView()
                 .frame(maxWidth: .infinity, alignment: .top)

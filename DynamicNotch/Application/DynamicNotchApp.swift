@@ -14,7 +14,13 @@ struct NotchApp: App {
         Settings {
             SettingsRootView(
                 powerService: appDelegate.powerService,
-                generalSettingsViewModel: appDelegate.generalSettingsViewModel
+                generalSettingsViewModel: appDelegate.generalSettingsViewModel,
+                notchViewModel: appDelegate.notchViewModel,
+                notchEventCoordinator: appDelegate.notchEventCoordinator,
+                bluetoothViewModel: appDelegate.bluetoothViewModel,
+                networkViewModel: appDelegate.networkViewModel,
+                nowPlayingViewModel: appDelegate.nowPlayingViewModel,
+                lockScreenManager: appDelegate.lockScreenManager
             )
             .frame(width: SettingsWindowLayout.width, height: SettingsWindowLayout.height)
         }

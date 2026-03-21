@@ -2,213 +2,6 @@
 import SwiftUI
 import Combine
 
-@MainActor
-final class DebugSettingsViewModel: ObservableObject {
-    @Published var isOnboardingPreviewEnabled = false {
-        didSet { guard isReady else { return }; updateOnboardingPreview() }
-    }
-
-    @Published var isFocusLivePreviewEnabled = false {
-        didSet { guard isReady else { return }; updateFocusPreview() }
-    }
-
-    @Published var isHotspotPreviewEnabled = false {
-        didSet { guard isReady else { return }; updateHotspotPreview() }
-    }
-
-    @Published var isNowPlayingPreviewEnabled = false {
-        didSet { guard isReady else { return }; updateNowPlayingPreview() }
-    }
-
-    @Published var isDownloadPreviewEnabled = false {
-        didSet { guard isReady else { return }; updateDownloadPreview() }
-    }
-
-    @Published var isLockScreenPreviewEnabled = false {
-        didSet { guard isReady else { return }; updateLockScreenPreview() }
-    }
-
-    private let notchViewModel: NotchViewModel
-    private let notchEventCoordinator: NotchEventCoordinator
-    private let bluetoothViewModel: BluetoothViewModel
-    private let powerService: PowerService
-    private let networkViewModel: NetworkViewModel
-    private let downloadViewModel: DownloadViewModel
-    private let nowPlayingViewModel: NowPlayingViewModel
-    private let lockScreenManager: LockScreenManager
-
-    private var isReady = false
-
-    init(
-        notchViewModel: NotchViewModel,
-        notchEventCoordinator: NotchEventCoordinator,
-        bluetoothViewModel: BluetoothViewModel,
-        powerService: PowerService,
-        networkViewModel: NetworkViewModel,
-        downloadViewModel: DownloadViewModel,
-        nowPlayingViewModel: NowPlayingViewModel,
-        lockScreenManager: LockScreenManager
-    ) {
-        self.notchViewModel = notchViewModel
-        self.notchEventCoordinator = notchEventCoordinator
-        self.bluetoothViewModel = bluetoothViewModel
-        self.powerService = powerService
-        self.networkViewModel = networkViewModel
-        self.downloadViewModel = downloadViewModel
-        self.nowPlayingViewModel = nowPlayingViewModel
-        self.lockScreenManager = lockScreenManager
-        self.isReady = true
-    }
-
-    func triggerBluetoothPreview() {
-        bluetoothViewModel.isConnected = true
-        bluetoothViewModel.deviceName = "AirPods Pro"
-        bluetoothViewModel.batteryLevel = 76
-        bluetoothViewModel.deviceType = .airpodsPro
-        notchEventCoordinator.handleBluetoothEvent(.connected)
-    }
-
-    func triggerWifiPreview() {
-        networkViewModel.wifiConnected = true
-        networkViewModel.wifiName = "Debug Wi-Fi"
-        notchEventCoordinator.handleNetworkEvent(.wifiConnected)
-    }
-
-    func triggerVPNPreview() {
-        networkViewModel.vpnConnected = true
-        networkViewModel.vpnName = "WireGuard Tunnel"
-        networkViewModel.vpnConnectedAt = .now.addingTimeInterval(-513)
-        notchEventCoordinator.handleNetworkEvent(.vpnConnected)
-    }
-
-    func triggerChargingPreview() {
-        powerService.applyDebugState(
-            onACPower: true,
-            batteryLevel: 67,
-            isCharging: true,
-            isLowPowerMode: false
-        )
-        notchEventCoordinator.handlePowerEvent(.charger)
-    }
-
-    func triggerLowPowerPreview() {
-        powerService.applyDebugState(
-            onACPower: false,
-            batteryLevel: 14,
-            isCharging: false,
-            isLowPowerMode: false
-        )
-        notchEventCoordinator.handlePowerEvent(.lowPower)
-    }
-
-    func triggerFullBatteryPreview() {
-        powerService.applyDebugState(
-            onACPower: true,
-            batteryLevel: 100,
-            isCharging: false,
-            isLowPowerMode: false
-        )
-        notchEventCoordinator.handlePowerEvent(.fullPower)
-    }
-
-    func triggerFocusOffPreview() {
-        isFocusLivePreviewEnabled = false
-        notchEventCoordinator.handleFocusEvent(.FocusOff)
-    }
-
-    func triggerBrightnessHUDPreview() {
-        notchEventCoordinator.handleHudEvent(.display(72))
-    }
-
-    func triggerKeyboardHUDPreview() {
-        notchEventCoordinator.handleHudEvent(.keyboard(64))
-    }
-
-    func triggerVolumeHUDPreview() {
-        notchEventCoordinator.handleHudEvent(.volume(42))
-    }
-
-    func triggerNotchWidthPreview() {
-        notchEventCoordinator.handleNotchWidthEvent(.width)
-    }
-
-    func triggerNotchHeightPreview() {
-        notchEventCoordinator.handleNotchWidthEvent(.height)
-    }
-
-    func hideCurrentTemporaryPreview() {
-        notchViewModel.hideTemporaryNotification()
-    }
-
-    func resetAllPreviews() {
-        isOnboardingPreviewEnabled = false
-        isFocusLivePreviewEnabled = false
-        isHotspotPreviewEnabled = false
-        isNowPlayingPreviewEnabled = false
-        isDownloadPreviewEnabled = false
-        isLockScreenPreviewEnabled = false
-        notchViewModel.hideTemporaryNotification()
-    }
-
-    private func updateOnboardingPreview() {
-        if isOnboardingPreviewEnabled {
-            notchViewModel.send(.showLiveActivity(DebugOnboardingPreviewNotchContent()))
-        } else {
-            notchViewModel.send(.hideLiveActivity(id: "onboarding"))
-        }
-    }
-
-    private func updateFocusPreview() {
-        if isFocusLivePreviewEnabled {
-            notchEventCoordinator.handleFocusEvent(.FocusOn)
-        } else {
-            notchViewModel.send(.hideLiveActivity(id: "focus.on"))
-        }
-    }
-
-    private func updateHotspotPreview() {
-        if isHotspotPreviewEnabled {
-            networkViewModel.hotspotActive = true
-            notchEventCoordinator.handleNetworkEvent(.hotspotActive)
-        } else {
-            networkViewModel.hotspotActive = false
-            notchEventCoordinator.handleNetworkEvent(.hotspotHide)
-        }
-    }
-
-    private func updateNowPlayingPreview() {
-        if isNowPlayingPreviewEnabled {
-            nowPlayingViewModel.showDebugPreviewSnapshotIfNeeded()
-            notchEventCoordinator.handleNowPlayingEvent(.started)
-        } else {
-            notchEventCoordinator.handleNowPlayingEvent(.stopped)
-            nowPlayingViewModel.hideDebugPreviewSnapshotIfNeeded()
-        }
-    }
-
-    private func updateDownloadPreview() {
-        if isDownloadPreviewEnabled {
-            downloadViewModel.showDebugPreviewDownloadsIfNeeded()
-            notchEventCoordinator.handleDownloadEvent(.started)
-        } else {
-            downloadViewModel.hideDebugPreviewDownloadsIfNeeded()
-
-            if downloadViewModel.hasActiveDownloads {
-                notchEventCoordinator.handleDownloadEvent(.started)
-            } else {
-                notchEventCoordinator.handleDownloadEvent(.stopped)
-            }
-        }
-    }
-
-    private func updateLockScreenPreview() {
-        lockScreenManager.setDebugLockState(isLockScreenPreviewEnabled)
-        notchEventCoordinator.handleLockScreenEvent(
-            isLockScreenPreviewEnabled ? .started : .stopped
-        )
-    }
-}
-
 struct DebugSettingsView: View {
     @ObservedObject var viewModel: DebugSettingsViewModel
 
@@ -301,6 +94,17 @@ struct DebugSettingsView: View {
             subtitle: "Fire one-shot notifications exactly when you need them."
         ) {
             VStack(spacing: 14) {
+                DebugActionRow(
+                    title: "Play All Events",
+                    description: "Runs every debug event in sequence, keeps each item on screen for its configured time, waits 1 second, and skips onboarding, notch size, plus lock screen previews.",
+                    systemImage: viewModel.isPreviewSequenceRunning ? "stop.circle.fill" : "play.circle.fill",
+                    color: .accentColor,
+                    buttonTitle: viewModel.isPreviewSequenceRunning ? "Stop" : "Start",
+                    action: viewModel.togglePreviewSequence
+                )
+
+                Divider()
+
                 DebugActionRow(
                     title: "Focus Off",
                     description: "Hides Focus live state and shows the short \"Off\" notification.",
@@ -450,12 +254,29 @@ struct DebugSettingsView: View {
     }
 }
 
-private struct DebugActionRow: View {
+struct DebugActionRow: View {
     let title: String
     let description: String
     let systemImage: String
     let color: Color
+    let buttonTitle: String
     let action: () -> Void
+
+    init(
+        title: String,
+        description: String,
+        systemImage: String,
+        color: Color,
+        buttonTitle: String = "Start",
+        action: @escaping () -> Void
+    ) {
+        self.title = title
+        self.description = description
+        self.systemImage = systemImage
+        self.color = color
+        self.buttonTitle = buttonTitle
+        self.action = action
+    }
 
     var body: some View {
         HStack(alignment: .center, spacing: 14) {
@@ -480,13 +301,55 @@ private struct DebugActionRow: View {
 
             Spacer(minLength: 16)
 
-            Button("Start", action: action)
+            Button(buttonTitle, action: action)
                 .controlSize(.small)
         }
     }
 }
 
-private struct DebugOnboardingPreviewNotchContent: NotchContentProtocol {
+// Wraps preview content in a debug-only identity so the sequence does not evict
+// the app's real live activities that reuse the same content types.
+struct DebugSequenceNotchContent: NotchContentProtocol {
+    let id: String
+    let priority: Int
+    let base: any NotchContentProtocol
+
+    var strokeColor: Color { base.strokeColor }
+    var offsetXTransition: CGFloat { base.offsetXTransition }
+    var offsetYTransition: CGFloat { base.offsetYTransition }
+    var expandedOffsetXTransition: CGFloat { base.expandedOffsetXTransition }
+    var expandedOffsetYTransition: CGFloat { base.expandedOffsetYTransition }
+    var isExpandable: Bool { base.isExpandable }
+    var expandsOnTap: Bool { base.expandsOnTap }
+
+    func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
+        base.size(baseWidth: baseWidth, baseHeight: baseHeight)
+    }
+
+    func expandedSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
+        base.expandedSize(baseWidth: baseWidth, baseHeight: baseHeight)
+    }
+
+    func cornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
+        base.cornerRadius(baseRadius: baseRadius)
+    }
+
+    func expandedCornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
+        base.expandedCornerRadius(baseRadius: baseRadius)
+    }
+
+    @MainActor
+    func makeView() -> AnyView {
+        base.makeView()
+    }
+
+    @MainActor
+    func makeExpandedView() -> AnyView {
+        base.makeExpandedView()
+    }
+}
+
+struct DebugOnboardingPreviewNotchContent: NotchContentProtocol {
     let id = "onboarding"
 
     var priority: Int { 100 }
@@ -507,7 +370,7 @@ private struct DebugOnboardingPreviewNotchContent: NotchContentProtocol {
     }
 }
 
-private struct DebugOnboardingPreviewView: View {
+struct DebugOnboardingPreviewView: View {
     var body: some View {
         VStack(spacing: 12) {
             Spacer()

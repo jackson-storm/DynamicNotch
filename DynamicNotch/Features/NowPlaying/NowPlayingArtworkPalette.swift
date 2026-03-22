@@ -7,8 +7,8 @@ struct NowPlayingArtworkPalette: Equatable {
     let equalizerHighlightColor: NSColor
 
     static let fallback = Self(
-        equalizerBaseColor: NSColor.gray.withAlphaComponent(0.06),
-        equalizerHighlightColor: NSColor.gray.withAlphaComponent(0.1)
+        equalizerBaseColor: NSColor.gray.withAlphaComponent(0.36),
+        equalizerHighlightColor: NSColor.gray.withAlphaComponent(0.6)
     )
 
     var equalizerGradient: LinearGradient {

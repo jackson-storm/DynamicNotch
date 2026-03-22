@@ -8,9 +8,11 @@ struct DownloadNotchContent: NotchContentProtocol {
     
     var priority: Int { 82 }
     var isExpandable: Bool { true }
+    
     var strokeColor: Color { .accentColor.opacity(0.30) }
-    var offsetXTransition: CGFloat { -60 }
-    var expandedOffsetXTransition: CGFloat { -60 }
+    
+    var offsetXTransition: CGFloat { -80 }
+    var expandedOffsetXTransition: CGFloat { -80 }
     var expandedOffsetYTransition: CGFloat { -60 }
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {

@@ -9,6 +9,7 @@ struct NowPlayingNotchContent: NotchContentProtocol {
     var isExpandable: Bool { true }
     var strokeColor: Color { Color(nsColor: nowPlayingViewModel.artworkPalette.equalizerBaseColor.withAlphaComponent(0.35)) }
     
+    var offsetXTransition: CGFloat { -100 }
     var expandedOffsetXTransition: CGFloat { -100 }
     var expandedOffsetYTransition: CGFloat { -90 }
     

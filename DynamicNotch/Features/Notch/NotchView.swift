@@ -40,6 +40,28 @@ struct NotchView: View {
                 .onChange(of: generalSettingsViewModel.notchHeight) {
                     notchViewModel.updateDimensions()
                 }
+            
+            if notchViewModel.notchModel.content == nil {
+                NotchShape(
+                    topCornerRadius: notchViewModel.notchModel.cornerRadius.top,
+                    bottomCornerRadius: notchViewModel.notchModel.cornerRadius.bottom
+                )
+                .fill(Color.black)
+                .frame(
+                    width: notchViewModel.notchModel.baseWidth - 20,
+                    height: notchViewModel.notchModel.baseHeight
+                )
+                .customNotchPressable(
+                    notchViewModel: notchViewModel,
+                    isPressed: $notchViewModel.isPressed,
+                    baseSize: notchViewModel.interactiveNotchSize
+                )
+                .contextMenu {
+                    if !generalSettingsViewModel.isMenuBarIconVisible {
+                        contextMenuItem
+                    }
+                }
+            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }

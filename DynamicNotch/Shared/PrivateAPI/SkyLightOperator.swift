@@ -2,7 +2,7 @@ internal import AppKit
 import Darwin
 
 enum SkyLightSpaceLevel: Int32 {
-    case notificationCenterAtScreenLock = 400
+    case notchSurface = 2_147_483_647
 }
 
 @MainActor
@@ -61,7 +61,7 @@ final class SkyLightOperator {
         _ = spaceSetAbsoluteLevel(
             connection,
             space,
-            SkyLightSpaceLevel.notificationCenterAtScreenLock.rawValue
+            SkyLightSpaceLevel.notchSurface.rawValue
         )
         _ = showSpaces(connection, [space] as CFArray)
 

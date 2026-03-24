@@ -5,6 +5,11 @@ final class OverlayPanelWindow: NSPanel {
     override var canBecomeMain: Bool { true }
 }
 
+enum OverlayWindowLevel {
+    static let interactiveNotch = NSWindow.Level.mainMenu + 3
+    static let shieldingOverlay = NSWindow.Level(rawValue: Int(CGShieldingWindowLevel()))
+}
+
 enum OverlayWindowLayout {
     static let appCanvasSize = CGSize(width: 1000, height: 1000)
     static let lockScreenCanvasSize = CGSize(width: 500, height: 500)

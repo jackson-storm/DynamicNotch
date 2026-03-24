@@ -117,6 +117,7 @@ final class SettingsRootViewModel: ObservableObject {
         let resolvedDownloadViewModel = downloadViewModel ?? DownloadViewModel(
             monitor: InactiveDownloadMonitor()
         )
+        let resolvedAirDropViewModel = AirDropNotchViewModel()
         let resolvedNowPlayingViewModel = nowPlayingViewModel ?? NowPlayingViewModel(service: InactiveNowPlayingService())
         let resolvedLockScreenManager = lockScreenManager ?? LockScreenManager(
             service: InactiveLockScreenMonitoringService(),
@@ -128,6 +129,7 @@ final class SettingsRootViewModel: ObservableObject {
             powerService: resolvedPowerService,
             networkViewModel: resolvedNetworkViewModel,
             downloadViewModel: resolvedDownloadViewModel,
+            airDropViewModel: resolvedAirDropViewModel,
             generalSettingsViewModel: settings,
             nowPlayingViewModel: resolvedNowPlayingViewModel,
             lockScreenManager: resolvedLockScreenManager

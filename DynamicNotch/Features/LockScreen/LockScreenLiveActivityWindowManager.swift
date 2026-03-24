@@ -318,7 +318,7 @@ final class LockScreenLiveActivityWindowManager {
 
         let window = OverlayPanelFactory.makePanel(
             frame: NSRect(origin: .zero, size: overlaySize),
-            level: NSWindow.Level(rawValue: Int(CGShieldingWindowLevel()))
+            level: OverlayWindowLevel.shieldingOverlay
         )
 
         overlayWindow = window

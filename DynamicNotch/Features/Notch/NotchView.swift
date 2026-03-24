@@ -1,6 +1,7 @@
 import SwiftUI
 import Combine
 internal import AppKit
+import UniformTypeIdentifiers
 
 struct NotchView: View {
     @ObservedObject var notchViewModel: NotchViewModel
@@ -10,6 +11,8 @@ struct NotchView: View {
     @ObservedObject var networkViewModel: NetworkViewModel
     @ObservedObject var downloadViewModel: DownloadViewModel
     @ObservedObject var focusViewModel: FocusViewModel
+    @ObservedObject var airDropViewModel: AirDropNotchViewModel
+    @ObservedObject var airDropController: NotchAirDropController
     @ObservedObject var generalSettingsViewModel: GeneralSettingsViewModel
     @ObservedObject var nowPlayingViewModel: NowPlayingViewModel
     @ObservedObject var lockScreenManager: LockScreenManager
@@ -26,6 +29,7 @@ struct NotchView: View {
                         networkViewModel: networkViewModel,
                         downloadViewModel: downloadViewModel,
                         focusViewModel: focusViewModel,
+                        airDropViewModel: airDropViewModel,
                         generalSettingsViewModel: generalSettingsViewModel,
                         nowPlayingViewModel: nowPlayingViewModel,
                         lockScreenManager: lockScreenManager
@@ -82,6 +86,14 @@ private extension NotchView {
         )
         .overlay {
             contentOverlay
+        }
+        .overlay {
+            AirDropDestinationView(
+                isTargeted: $airDropController.isTargeted,
+                onDropPasteboard: { pasteboard in
+                    airDropController.handlePasteboardDrop(pasteboard)
+                }
+            )
         }
         .frame(
             width: notchViewModel.interactiveNotchSize.width,
@@ -158,6 +170,7 @@ private struct NotchEventHandlersView: View {
     let networkViewModel: NetworkViewModel
     let downloadViewModel: DownloadViewModel
     let focusViewModel: FocusViewModel
+    let airDropViewModel: AirDropNotchViewModel
     let generalSettingsViewModel: GeneralSettingsViewModel
     let nowPlayingViewModel: NowPlayingViewModel
     let lockScreenManager: LockScreenManager
@@ -178,6 +191,9 @@ private struct NotchEventHandlersView: View {
             }
             .onReceive(focusViewModel.$focusEvent.compactMap { $0 }) { event in
                 notchEventCoordinator.handleFocusEvent(event)
+            }
+            .onReceive(airDropViewModel.$event.compactMap { $0 }) { event in
+                notchEventCoordinator.handleAirDropEvent(event)
             }
             .onReceive(generalSettingsViewModel.notchSizeEvent) { event in
                 notchEventCoordinator.handleNotchWidthEvent(event)

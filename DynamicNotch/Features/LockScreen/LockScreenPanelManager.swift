@@ -331,7 +331,7 @@ final class LockScreenPanelManager {
 
         let window = OverlayPanelFactory.makePanel(
             frame: NSRect(origin: .zero, size: OverlayWindowLayout.lockScreenCanvasSize),
-            level: NSWindow.Level(rawValue: Int(CGShieldingWindowLevel()))
+            level: OverlayWindowLevel.shieldingOverlay
         )
 
         panelWindow = window

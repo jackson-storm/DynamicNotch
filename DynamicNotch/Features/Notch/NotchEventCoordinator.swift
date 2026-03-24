@@ -15,6 +15,7 @@ final class NotchEventCoordinator: ObservableObject {
     private let powerService: PowerService
     private let networkViewModel: NetworkViewModel
     private let downloadViewModel: DownloadViewModel
+    private let airDropViewModel: AirDropNotchViewModel
     private let generalSettingsViewModel: GeneralSettingsViewModel
     private let nowPlayingViewModel: NowPlayingViewModel
     private let lockScreenManager: LockScreenManager
@@ -46,6 +47,7 @@ final class NotchEventCoordinator: ObservableObject {
         powerService: PowerService,
         networkViewModel: NetworkViewModel,
         downloadViewModel: DownloadViewModel,
+        airDropViewModel: AirDropNotchViewModel,
         generalSettingsViewModel: GeneralSettingsViewModel,
         nowPlayingViewModel: NowPlayingViewModel,
         lockScreenManager: LockScreenManager
@@ -55,6 +57,7 @@ final class NotchEventCoordinator: ObservableObject {
         self.powerService = powerService
         self.networkViewModel = networkViewModel
         self.downloadViewModel = downloadViewModel
+        self.airDropViewModel = airDropViewModel
         self.generalSettingsViewModel = generalSettingsViewModel
         self.nowPlayingViewModel = nowPlayingViewModel
         self.lockScreenManager = lockScreenManager
@@ -207,6 +210,23 @@ final class NotchEventCoordinator: ObservableObject {
 
         case .stopped:
             notchViewModel.send(.hideLiveActivity(id: "download.active"))
+        }
+    }
+
+    func handleAirDropEvent(_ event: AirDropEvent) {
+        guard !isLockScreenTransitionActive else { return }
+
+        switch event {
+        case .dragStarted:
+            guard generalSettingsViewModel.isLiveActivityEnabled(.airDrop) else { return }
+            notchViewModel.send(
+                .showLiveActivity(
+                    AirDropNotchContent(airDropViewModel: airDropViewModel)
+                )
+            )
+
+        case .dragEnded, .dropped:
+            notchViewModel.send(.hideLiveActivity(id: "airdrop"))
         }
     }
     

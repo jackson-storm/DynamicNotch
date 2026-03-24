@@ -19,6 +19,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     let focusViewModel = FocusViewModel()
     let generalSettingsViewModel = GeneralSettingsViewModel()
     let nowPlayingViewModel: NowPlayingViewModel
+    let airDropViewModel = AirDropNotchViewModel()
     let lockScreenManager: LockScreenManager
     
     lazy var hardwareHUDMonitor: HardwareHUDMonitor = {
@@ -34,6 +35,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }()
     
     lazy var notchViewModel = NotchViewModel(settings: generalSettingsViewModel)
+    lazy var airDropController = NotchAirDropController(airDropViewModel: airDropViewModel)
     
     lazy var notchEventCoordinator = NotchEventCoordinator(
         notchViewModel: notchViewModel,
@@ -41,6 +43,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         powerService: powerService,
         networkViewModel: networkViewModel,
         downloadViewModel: downloadViewModel,
+        airDropViewModel: airDropViewModel,
         generalSettingsViewModel: generalSettingsViewModel,
         nowPlayingViewModel: nowPlayingViewModel,
         lockScreenManager: lockScreenManager
@@ -154,7 +157,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         window = OverlayPanelFactory.makePanel(
             frame: frame,
-            level: NSWindow.Level(rawValue: Int(CGShieldingWindowLevel()))
+            level: OverlayWindowLevel.interactiveNotch
         )
         
         let hostingView = NotchHostingView(
@@ -166,6 +169,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 networkViewModel: networkViewModel,
                 downloadViewModel: downloadViewModel,
                 focusViewModel: focusViewModel,
+                airDropViewModel: airDropViewModel,
+                airDropController: airDropController,
                 generalSettingsViewModel: generalSettingsViewModel,
                 nowPlayingViewModel: nowPlayingViewModel,
                 lockScreenManager: lockScreenManager

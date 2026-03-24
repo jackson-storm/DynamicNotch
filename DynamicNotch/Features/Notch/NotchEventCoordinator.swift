@@ -218,6 +218,7 @@ final class NotchEventCoordinator: ObservableObject {
 
         switch event {
         case .dragStarted:
+            guard generalSettingsViewModel.isLiveActivityEnabled(.airDrop) else { return }
             notchViewModel.send(
                 .showLiveActivity(
                     AirDropNotchContent(airDropViewModel: airDropViewModel)

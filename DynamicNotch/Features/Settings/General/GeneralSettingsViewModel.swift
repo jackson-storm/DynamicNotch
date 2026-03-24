@@ -33,6 +33,7 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
         case nowPlaying
         case lockScreen
         case downloads
+        case airDrop
     }
 
     enum TemporaryActivityPreference {
@@ -159,6 +160,12 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
         }
     }
 
+    @Published var isAirDropLiveActivityEnabled: Bool {
+        didSet {
+            persist(isAirDropLiveActivityEnabled, for: Keys.airDropLiveActivityEnabled)
+        }
+    }
+
     @Published var isChargerTemporaryActivityEnabled: Bool {
         didSet {
             persist(isChargerTemporaryActivityEnabled, for: Keys.chargerTemporaryActivityEnabled)
@@ -238,6 +245,7 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
             defaults.bool(forKey: Keys.legacyFileTransfersLiveActivityEnabled) :
             (Self.defaultValues[Keys.downloadsLiveActivityEnabled] as? Bool ?? true)
         )
+        self.isAirDropLiveActivityEnabled = defaults.bool(forKey: Keys.airDropLiveActivityEnabled)
         self.isChargerTemporaryActivityEnabled = defaults.bool(forKey: Keys.chargerTemporaryActivityEnabled)
         self.isLowPowerTemporaryActivityEnabled = defaults.bool(forKey: Keys.lowPowerTemporaryActivityEnabled)
         self.isFullPowerTemporaryActivityEnabled = defaults.bool(forKey: Keys.fullPowerTemporaryActivityEnabled)
@@ -262,6 +270,8 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
             return isLockScreenLiveActivityEnabled
         case .downloads:
             return isDownloadsLiveActivityEnabled
+        case .airDrop:
+            return isAirDropLiveActivityEnabled
         }
     }
 
@@ -344,6 +354,7 @@ private extension GeneralSettingsViewModel {
         static let focusLiveActivityEnabled = "settings.live.focus"
         static let nowPlayingLiveActivityEnabled = "settings.live.nowPlaying"
         static let downloadsLiveActivityEnabled = "settings.live.downloads"
+        static let airDropLiveActivityEnabled = "settings.live.airDrop"
         static let legacyFileTransfersLiveActivityEnabled = "settings.live.fileTransfers"
         static let chargerTemporaryActivityEnabled = "settings.temporary.charger"
         static let lowPowerTemporaryActivityEnabled = "settings.temporary.lowPower"
@@ -370,6 +381,7 @@ private extension GeneralSettingsViewModel {
         Keys.focusLiveActivityEnabled: true,
         Keys.nowPlayingLiveActivityEnabled: true,
         Keys.downloadsLiveActivityEnabled: true,
+        Keys.airDropLiveActivityEnabled: true,
         LockScreenSettings.liveActivityKey: true,
         LockScreenSettings.soundKey: true,
         LockScreenSettings.mediaPanelKey: true,

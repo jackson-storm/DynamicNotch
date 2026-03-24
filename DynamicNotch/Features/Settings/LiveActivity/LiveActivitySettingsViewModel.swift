@@ -42,6 +42,15 @@ final class LiveActivitySettingsViewModel: ObservableObject {
                         keyPath: \.isDownloadsLiveActivityEnabled
                     ),
                     SettingsToggleItem(
+                        id: "live.airDrop",
+                        title: "AirDrop",
+                        description: "Show an AirDrop live activity when you drag a file over the notch before sharing it.",
+                        systemImage: "dot.radiowaves.left.and.right",
+                        color: .blue,
+                        accessibilityIdentifier: "settings.activities.live.airDrop",
+                        keyPath: \.isAirDropLiveActivityEnabled
+                    ),
+                    SettingsToggleItem(
                         id: "live.focus",
                         title: "Focus mode",
                         description: "Show a live indicator when Focus mode turns on.",

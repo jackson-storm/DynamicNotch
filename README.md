@@ -47,7 +47,8 @@ The project is implemented as a native macOS app with SwiftUI for presentation a
 - 🎛️ Priority-driven live activity and temporary notification orchestration
 - 🎚️ Custom hardware HUD for brightness, volume, and keyboard backlight changes
 - 🎞️ Smooth animated transitions between notch states
-- 🔋 Battery, Bluetooth, network, focus, lock screen, now playing, and onboarding-related flows
+- 🫳 AirDrop handoff by dragging files directly onto the notch
+- 🔋 Battery, Bluetooth, network, focus, lock screen, now playing, AirDrop, and onboarding-related flows
 - 🔒 Optional lock and unlock sounds for lock screen transitions
 - ⚙️ Native Settings window with dedicated General, Live Activity, Temporary, and About tabs
 - 🧪 Integration tests for the most important service and queue logic
@@ -58,6 +59,7 @@ The project is implemented as a native macOS app with SwiftUI for presentation a
 
 - Live activity
   - Now Playing
+  - AirDrop drag target
   - Hotspot active
   - Focus enabled
   - Lock screen live activity
@@ -78,6 +80,7 @@ The project is implemented as a native macOS app with SwiftUI for presentation a
 ### 🫳 Interactions
 
 - Press interactions on the notch
+- Drag a file from Finder onto the notch to open the AirDrop share flow
 - Tap to expand supported live content
 - Two-finger swipe up to hide active content when the cursor is inside the notch zone
 
@@ -90,6 +93,11 @@ The project is implemented as a native macOS app with SwiftUI for presentation a
 - Notch width and height tuning
 - Per-feature toggles for live, temporary, and HUD activity types
 - Lock screen live activity and media panel toggles
+- AirDrop live activity toggle in `Settings > Live Activity`
+
+## 📤 AirDrop
+
+DynamicNotch can present AirDrop as a live activity when you drag a file over the notch. If the AirDrop live activity is enabled in Settings, the notch expands into a dedicated drop target and hands the dropped files off to the system AirDrop share sheet.
 
 ## 🧱 Architecture
 

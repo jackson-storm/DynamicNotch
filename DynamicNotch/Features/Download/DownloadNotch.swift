@@ -76,18 +76,10 @@ private struct DownloadNotchView: View {
     
     var body: some View {
         HStack {
-            ZStack {
-                RoundedRectangle(cornerRadius: 7)
-                    .fill(Color.accentColor)
-                    .frame(width: 24, height: 24)
-                
-                Image(systemName: "arrow.down.circle.fill")
-                    .font(.system(size: 14, weight: .semibold))
-                    .foregroundStyle(.white)
+            if let url = download?.url {
+                DownloadFileThumbnailView(url: url, size: 25)
             }
-            
             Spacer()
-            
             DownloadActivityIndicator(progress: download?.progress ?? 0.08)
         }
         .padding(.horizontal, 14.scaled(by: scale))
@@ -137,7 +129,7 @@ private struct DownloadExpandedNotchView: View {
     @ViewBuilder
     private func header(for download: DownloadModel) -> some View {
         HStack(alignment: .top, spacing: 2) {
-            DownloadFileThumbnailView(url: download.url)
+            DownloadFileThumbnailView(url: download.url, size: 45)
 
             VStack(alignment: .leading, spacing: 4) {
                 MarqueeText(
@@ -229,11 +221,9 @@ private struct DownloadExpandedNotchView: View {
 
 private struct DownloadFileThumbnailView: View {
     let url: URL
-
+    let size: CGFloat
+    
     @State private var thumbnailImage: NSImage?
-
-    private let size: CGFloat = 45
-    private let cornerRadius: CGFloat = 11
 
     private var fallbackIcon: NSImage {
         let icon = NSWorkspace.shared.icon(forFile: url.path)
@@ -246,19 +236,12 @@ private struct DownloadFileThumbnailView: View {
             if let thumbnailImage {
                 Image(nsImage: thumbnailImage)
                     .resizable()
-                    .scaledToFill()
             } else {
                 Image(nsImage: fallbackIcon)
                     .resizable()
-                    .scaledToFit()
-                    .padding(6)
             }
         }
         .frame(width: size, height: size)
-        .background(
-            RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-                .fill(Color.white.opacity(0.1))
-        )
         .task(id: url.path) {
             loadThumbnailIfNeeded()
         }

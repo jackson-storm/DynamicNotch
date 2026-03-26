@@ -113,8 +113,8 @@ private extension NotchView {
                 contextMenuItem
             }
         }
-        .animation(.easeInOut(duration: 0.3), value: generalSettingsViewModel.isShowNotchStrokeEnabled)
-        .animation(.spring(duration: 0.6), value: notchViewModel.showNotch)
+        .animation(notchViewModel.animations.strokeVisibility, value: generalSettingsViewModel.isShowNotchStrokeEnabled)
+        .animation(notchViewModel.animations.notchVisibility, value: notchViewModel.showNotch)
     }
 
     var visibleStrokeColor: Color {
@@ -127,13 +127,10 @@ private extension NotchView {
             renderedContentView(for: content)
                 .id(notchViewModel.notchModel.presentationID)
                 .transition(
-                    .blurAndFade
-                        .animation(.spring(duration: 0.5))
-                        .combined(with: .scale)
-                        .combined(with: .offset(
-                            x: notchViewModel.notchModel.offsetXTransition,
-                            y: notchViewModel.notchModel.offsetYTransition)
-                        )
+                    notchViewModel.contentTransition(
+                        offsetX: notchViewModel.notchModel.offsetXTransition,
+                        offsetY: notchViewModel.notchModel.offsetYTransition
+                    )
                 )
         }
     }

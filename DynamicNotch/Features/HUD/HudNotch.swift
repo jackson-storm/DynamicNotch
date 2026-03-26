@@ -83,6 +83,8 @@ struct HudNotchContent: NotchContentProtocol {
 
 private struct HudContent: View {
     @Environment(\.notchScale) var scale
+
+    private let levelAnimation = Animation.snappy(duration: 0.28, extraBounce: 0.12)
     
     var image: String
     var text: String
@@ -100,11 +102,8 @@ private struct HudContent: View {
             
             Spacer()
             
-            HStack {
-                Text("\(level)")
-                    .font(.system(size: 14))
-                    .foregroundColor(.white.opacity(0.8))
-                
+            HStack(spacing: 10) {
+                AnimatedHudLevelText(level: clampedLevel)
                 indicator
             }
         }
@@ -117,10 +116,11 @@ private struct HudContent: View {
             .frame(width: indicatorWidth, height: indicatorHeight)
             .overlay(alignment: .leading) {
                 RoundedRectangle(cornerRadius: indicatorHeight / 2, style: .continuous)
-                    .fill(Color.white)
+                    .fill(indicatorFill)
                     .frame(width: filledIndicatorWidth, height: indicatorHeight)
+                    .shadow(color: levelTint.opacity(0.35), radius: 5, y: 0)
             }
-            .animation(.easeInOut(duration: 0.1), value: clampedLevel)
+            .animation(levelAnimation, value: clampedLevel)
     }
     
     private var clampedLevel: Int {
@@ -133,5 +133,42 @@ private struct HudContent: View {
     
     private var filledIndicatorWidth: CGFloat {
         indicatorWidth * CGFloat(clampedLevel) / 100
+    }
+
+    private var indicatorFill: some ShapeStyle {
+        LinearGradient(
+            colors: [
+                levelTint.opacity(0.82),
+                levelTint,
+            ],
+            startPoint: .leading,
+            endPoint: .trailing
+        )
+    }
+
+    private var levelTint: Color {
+        guard clampedLevel > 0 else {
+            return .white.opacity(0.45)
+        }
+
+        let progress = Double(clampedLevel) / 100
+        return Color(
+            hue: 0.02 + (0.28 * progress),
+            saturation: 0.86,
+            brightness: 0.98
+        )
+    }
+}
+
+private struct AnimatedHudLevelText: View {
+    let level: Int
+
+    var body: some View {
+        Text(level, format: .number)
+            .font(.system(size: 14, design: .rounded))
+            .monospacedDigit()
+            .foregroundStyle(.white.opacity(0.8))
+            .contentTransition(.numericText())
+            .animation(.snappy(duration: 0.28, extraBounce: 0.12), value: level)
     }
 }

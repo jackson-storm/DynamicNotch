@@ -50,15 +50,17 @@ final class LockScreenPanelManager {
     }
     
     private func bindState() {
-        Publishers.CombineLatest3(
+        Publishers.CombineLatest4(
             lockScreenManager.$isLocked.removeDuplicates(),
+            lockScreenManager.$isPreparingLock.removeDuplicates(),
             nowPlayingViewModel.$snapshot,
             nowPlayingViewModel.$artworkImage
         )
         .receive(on: RunLoop.main)
-        .sink { [weak self] isLocked, liveSnapshot, artworkImage in
+        .sink { [weak self] isLocked, isPreparingLock, liveSnapshot, artworkImage in
             self?.syncPlaybackPresentation(
                 isLocked: isLocked,
+                isPreparingLock: isPreparingLock,
                 liveSnapshot: liveSnapshot,
                 artworkImage: artworkImage
             )
@@ -117,6 +119,7 @@ final class LockScreenPanelManager {
     private func syncCurrentPresentation() {
         syncPlaybackPresentation(
             isLocked: lockScreenManager.isLocked,
+            isPreparingLock: lockScreenManager.isPreparingLock,
             liveSnapshot: nowPlayingViewModel.snapshot,
             artworkImage: nowPlayingViewModel.artworkImage
         )
@@ -124,33 +127,39 @@ final class LockScreenPanelManager {
     
     private func syncPlaybackPresentation(
         isLocked: Bool,
+        isPreparingLock: Bool,
         liveSnapshot: NowPlayingSnapshot?,
         artworkImage: NSImage?
     ) {
+        let isShowingLockPresentation = isLocked || isPreparingLock
+
         if let liveSnapshot {
             cachedSnapshot = liveSnapshot
             cachedArtworkImage = artworkImage
-        } else if !isLocked {
+        } else if !isShowingLockPresentation {
             cachedSnapshot = nil
             cachedArtworkImage = nil
         }
         
-        let resolvedSnapshot = resolvedSnapshot(isLocked: isLocked, liveSnapshot: liveSnapshot)
+        let resolvedSnapshot = resolvedSnapshot(
+            isShowingLockPresentation: isShowingLockPresentation,
+            liveSnapshot: liveSnapshot
+        )
         let resolvedArtworkImage = resolvedArtworkImage(
-            isLocked: isLocked,
+            isShowingLockPresentation: isShowingLockPresentation,
             liveSnapshot: liveSnapshot,
             artworkImage: artworkImage
         )
         
         updatePresentation(
-            isLocked: isLocked,
+            isShowingLockPresentation: isShowingLockPresentation,
             snapshot: resolvedSnapshot,
             artworkImage: resolvedArtworkImage
         )
     }
     
     private func updatePresentation(
-        isLocked: Bool,
+        isShowingLockPresentation: Bool,
         snapshot: NowPlayingSnapshot?,
         artworkImage: NSImage?
     ) {
@@ -159,7 +168,7 @@ final class LockScreenPanelManager {
             return
         }
         
-        if isLocked, let snapshot {
+        if isShowingLockPresentation, let snapshot {
             showPanel(snapshot: snapshot, artworkImage: artworkImage, animated: false)
         } else {
             hidePanel(animated: true)
@@ -203,7 +212,7 @@ final class LockScreenPanelManager {
         }
         
         if !hasDelegatedWindow {
-            SkyLightOperator.shared.delegateWindow(window)
+            SkyLightOperator.shared.delegateWindow(window, to: .lockScreenOverlay)
             hasDelegatedWindow = true
         }
         
@@ -237,9 +246,9 @@ final class LockScreenPanelManager {
             guard let self else { return }
             
             let shouldRemainVisible =
-            self.lockScreenManager.isLocked &&
+            self.lockScreenManager.isShowingLockPresentation &&
             self.resolvedSnapshot(
-                isLocked: self.lockScreenManager.isLocked,
+                isShowingLockPresentation: self.lockScreenManager.isShowingLockPresentation,
                 liveSnapshot: self.nowPlayingViewModel.snapshot
             ) != nil &&
             LockScreenSettings.isMediaPanelEnabled()
@@ -273,11 +282,11 @@ final class LockScreenPanelManager {
         
         let targetFrame = panelFrame(for: screen)
         let resolvedSnapshot = resolvedSnapshot(
-            isLocked: lockScreenManager.isLocked,
+            isShowingLockPresentation: lockScreenManager.isShowingLockPresentation,
             liveSnapshot: nowPlayingViewModel.snapshot
         )
         let resolvedArtworkImage = resolvedArtworkImage(
-            isLocked: lockScreenManager.isLocked,
+            isShowingLockPresentation: lockScreenManager.isShowingLockPresentation,
             liveSnapshot: nowPlayingViewModel.snapshot,
             artworkImage: nowPlayingViewModel.artworkImage
         )
@@ -306,14 +315,14 @@ final class LockScreenPanelManager {
     }
     
     private func resolvedSnapshot(
-        isLocked: Bool,
+        isShowingLockPresentation: Bool,
         liveSnapshot: NowPlayingSnapshot?
     ) -> NowPlayingSnapshot? {
-        liveSnapshot ?? (isLocked ? cachedSnapshot : nil)
+        liveSnapshot ?? (isShowingLockPresentation ? cachedSnapshot : nil)
     }
     
     private func resolvedArtworkImage(
-        isLocked: Bool,
+        isShowingLockPresentation: Bool,
         liveSnapshot: NowPlayingSnapshot?,
         artworkImage: NSImage?
     ) -> NSImage? {
@@ -321,7 +330,7 @@ final class LockScreenPanelManager {
             return artworkImage
         }
         
-        return isLocked ? cachedArtworkImage : nil
+        return isShowingLockPresentation ? cachedArtworkImage : nil
     }
     
     private func makeWindowIfNeeded() -> OverlayPanelWindow {

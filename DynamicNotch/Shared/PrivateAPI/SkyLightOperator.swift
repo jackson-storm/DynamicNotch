@@ -1,8 +1,9 @@
 internal import AppKit
 import Darwin
 
-enum SkyLightSpaceLevel: Int32 {
+enum SkyLightSpaceLevel: Int32, CaseIterable {
     case notchSurface = 2_147_483_647
+    case lockScreenOverlay = 400
 }
 
 @MainActor
@@ -16,7 +17,7 @@ final class SkyLightOperator {
     private typealias AddWindowsAndRemoveFromSpacesFunction = @convention(c) (Int32, Int32, CFArray, Int32) -> Int32
 
     private let connection: Int32?
-    private let space: Int32?
+    private let spaces: [SkyLightSpaceLevel: Int32]
     private let addWindowsAndRemoveFromSpaces: AddWindowsAndRemoveFromSpacesFunction?
 
     private init() {
@@ -29,7 +30,7 @@ final class SkyLightOperator {
               let showSpacesSymbol = dlsym(handle, "SLSShowSpaces"),
               let addWindowsAndRemoveFromSpacesSymbol = dlsym(handle, "SLSSpaceAddWindowsAndRemoveFromSpaces") else {
             connection = nil
-            space = nil
+            spaces = [:]
             addWindowsAndRemoveFromSpaces = nil
             return
         }
@@ -56,28 +57,39 @@ final class SkyLightOperator {
         )
 
         let connection = mainConnectionID()
-        let space = spaceCreate(connection, 1, 0)
+        var spaces: [SkyLightSpaceLevel: Int32] = [:]
 
-        _ = spaceSetAbsoluteLevel(
-            connection,
-            space,
-            SkyLightSpaceLevel.notchSurface.rawValue
-        )
-        _ = showSpaces(connection, [space] as CFArray)
+        for level in SkyLightSpaceLevel.allCases {
+            let space = spaceCreate(connection, 1, 0)
+            guard space != 0 else { continue }
+
+            _ = spaceSetAbsoluteLevel(
+                connection,
+                space,
+                level.rawValue
+            )
+            _ = showSpaces(connection, [space] as CFArray)
+            spaces[level] = space
+        }
 
         self.connection = connection
-        self.space = space
+        self.spaces = spaces
         self.addWindowsAndRemoveFromSpaces = addWindowsAndRemoveFromSpaces
     }
 
     var isAvailable: Bool {
         connection != nil &&
-        space != nil &&
+        !spaces.isEmpty &&
         addWindowsAndRemoveFromSpaces != nil
     }
 
-    func delegateWindow(_ window: NSWindow) {
-        guard let connection, let space, let addWindowsAndRemoveFromSpaces else {
+    func delegateWindow(
+        _ window: NSWindow,
+        to level: SkyLightSpaceLevel = .notchSurface
+    ) {
+        guard let connection,
+              let space = spaces[level],
+              let addWindowsAndRemoveFromSpaces else {
             return
         }
 

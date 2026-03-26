@@ -2,6 +2,28 @@ import SwiftUI
 import Combine
 internal import AppKit
 
+struct Animations {
+    let contentUpdate: Animation
+    let contentHide: Animation
+    let contentShow: Animation
+    let stretchReset: Animation
+    let expandLiveActivity: Animation
+    let strokeVisibility: Animation
+    let notchVisibility: Animation
+    let contentTransition: Animation
+
+    static let `default` = Self(
+        contentUpdate: .spring(response: 0.4, dampingFraction: 0.8),
+        contentHide: .spring(response: 0.5),
+        contentShow: .spring(response: 0.4, dampingFraction: 0.8),
+        stretchReset: .spring(response: 0.4, dampingFraction: 0.4),
+        expandLiveActivity: .spring(response: 0.4, dampingFraction: 0.8),
+        strokeVisibility: .spring(duration: 0.3),
+        notchVisibility: .spring(duration: 0.6),
+        contentTransition: .spring(duration: 0.5)
+    )
+}
+
 typealias NotchScreenMetrics = (width: CGFloat, topInset: CGFloat)
 
 private enum RestorableDismissedContent {
@@ -33,6 +55,7 @@ final class NotchViewModel: ObservableObject {
     
     /// Settings dependency used to calculate notch dimensions
     private let settings: NotchSettingsProviding
+    let animations: Animations
     
     /// Resolves the screen metrics for the currently selected display
     private let screenMetricsProvider: (NotchDisplayLocation) -> NotchScreenMetrics?
@@ -109,11 +132,13 @@ final class NotchViewModel: ObservableObject {
     
     init(
         settings: NotchSettingsProviding,
+        animations: Animations? = nil,
         hideDelay: TimeInterval = 0.3,
         queueDelay: TimeInterval = 0.3,
         screenMetricsProvider: ((NotchDisplayLocation) -> NotchScreenMetrics?)? = nil
     ) {
         self.settings = settings
+        self.animations = animations ?? .default
         self.hideDelay = hideDelay
         self.queueDelay = queueDelay
         self.screenMetricsProvider = screenMetricsProvider ?? { location in
@@ -162,7 +187,7 @@ final class NotchViewModel: ObservableObject {
             if notchModel.temporaryNotificationContent?.id == content.id {
                 currentTemporaryNotificationDuration = duration
                 
-                withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
+                withAnimation(animations.contentUpdate) {
                     self.notchModel.temporaryNotificationContent = content
                 }
                 
@@ -186,7 +211,7 @@ final class NotchViewModel: ObservableObject {
             /// If activity is already visible just update its data
             if notchModel.liveActivityContent?.id == content.id {
                 
-                withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
+                withAnimation(animations.contentUpdate) {
                     self.notchModel.liveActivityContent = content
                 }
                 
@@ -314,13 +339,13 @@ final class NotchViewModel: ObservableObject {
             
             transition(
                 hide: {
-                    withAnimation(.spring(response: 0.5)) {
+                    withAnimation(self.animations.contentHide) {
                         self.notchModel.isLiveActivityExpanded = false
                         self.notchModel.liveActivityContent = nil
                     }
                 },
                 show: {
-                    withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
+                    withAnimation(self.animations.contentShow) {
                         self.notchModel.liveActivityContent = content
                     }
                     continuation.resume()
@@ -343,7 +368,7 @@ final class NotchViewModel: ObservableObject {
                     
                     self.cancelTemporary()
                     
-                    withAnimation(.spring(response: 0.5)) {
+                    withAnimation(self.animations.contentHide) {
                         
                         if self.notchModel.liveActivityContent != nil {
                             
@@ -359,7 +384,7 @@ final class NotchViewModel: ObservableObject {
                 },
                 show: {
                     
-                    withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
+                    withAnimation(self.animations.contentShow) {
                         self.notchModel.temporaryNotificationContent = content
                     }
                     self.currentTemporaryNotificationDuration = duration
@@ -383,7 +408,7 @@ final class NotchViewModel: ObservableObject {
             transition(
                 hide: {
                     
-                    withAnimation(.spring(response: 0.5)) {
+                    withAnimation(self.animations.contentHide) {
                         
                         self.notchModel.isLiveActivityExpanded = false
                         self.notchModel.temporaryNotificationContent = nil
@@ -425,14 +450,14 @@ final class NotchViewModel: ObservableObject {
         transition(
             hide: {
                 
-                withAnimation(.spring(response: 0.5)) {
+                withAnimation(self.animations.contentHide) {
                     self.notchModel.temporaryNotificationContent = nil
                     self.currentTemporaryNotificationDuration = nil
                 }
             },
             show: {
                 
-                withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
+                withAnimation(self.animations.contentShow) {
                     self.notchModel.liveActivityContent = contentToRestore
                     self.suspendedActivity = nil
                 }
@@ -481,7 +506,7 @@ final class NotchViewModel: ObservableObject {
     func resetDownwardSwipeStretch() {
         guard downwardSwipeStretchProgress > 0 else { return }
 
-        withAnimation(.spring(response: 0.4, dampingFraction: 0.4)) {
+        withAnimation(animations.stretchReset) {
             downwardSwipeStretchProgress = 0
         }
     }
@@ -491,7 +516,7 @@ final class NotchViewModel: ObservableObject {
     func handleActiveContentTap() {
         guard canExpandActiveLiveActivity else { return }
         
-        withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+        withAnimation(animations.expandLiveActivity) {
             notchModel.isLiveActivityExpanded = true
         }
     }
@@ -505,13 +530,13 @@ final class NotchViewModel: ObservableObject {
         
         transition(
             hide: {
-                withAnimation(.spring(response: 0.5)) {
+                withAnimation(self.animations.contentHide) {
                     self.notchModel.isLiveActivityExpanded = false
                     self.notchModel.liveActivityContent = nil
                 }
             },
             show: {
-                withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
+                withAnimation(self.animations.contentShow) {
                     self.notchModel.liveActivityContent = liveActivityContent
                 }
             }
@@ -597,4 +622,12 @@ final class NotchViewModel: ObservableObject {
     private var easedDownwardSwipeStretchProgress: CGFloat {
         1 - pow(1 - downwardSwipeStretchProgress, 2)
     }
+
+    func contentTransition(offsetX: CGFloat, offsetY: CGFloat) -> AnyTransition {
+        .blurAndFade
+            .animation(animations.contentTransition)
+            .combined(with: .scale)
+            .combined(with: .offset(x: offsetX, y: offsetY))
+    }
 }
+

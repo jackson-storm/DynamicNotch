@@ -19,13 +19,21 @@ final class HardwareHUDMonitor {
     private(set) var isMonitoring = false
 
     init(
-        mediaKeyTap: SystemMediaKeyTap = SystemMediaKeyTap(),
-        audioService: SystemAudioVolumeService = SystemAudioVolumeService(),
-        brightnessService: SystemDisplayBrightnessService = SystemDisplayBrightnessService()
+        mediaKeyTap: SystemMediaKeyTap,
+        audioService: SystemAudioVolumeService,
+        brightnessService: SystemDisplayBrightnessService
     ) {
         self.mediaKeyTap = mediaKeyTap
         self.audioService = audioService
         self.brightnessService = brightnessService
+    }
+
+    convenience init() {
+        self.init(
+            mediaKeyTap: SystemMediaKeyTap(),
+            audioService: SystemAudioVolumeService(),
+            brightnessService: SystemDisplayBrightnessService()
+        )
     }
 
     func updateConfiguration(
@@ -129,3 +137,4 @@ extension HardwareHUDMonitor: SystemMediaKeyTapDelegate {
         emit(.display(level))
     }
 }
+

@@ -23,6 +23,7 @@ final class NetworkViewModel: ObservableObject {
     @Published var wifiName: String = ""
     @Published var vpnName: String = ""
     @Published var vpnConnectedAt: Date?
+    @Published var isShowingVPNDetail: Bool = false
     
     @Published var networkEvent: NetworkEvent? = nil
     
@@ -48,9 +49,11 @@ final class NetworkViewModel: ObservableObject {
             if vpn {
                 if self.vpnConnected == false {
                     self.vpnConnectedAt = .now
+                    self.isShowingVPNDetail = false
                 }
             } else {
                 self.vpnConnectedAt = nil
+                self.isShowingVPNDetail = false
             }
             
             if !self.isInitialCheck {

@@ -50,7 +50,7 @@ struct AboutAppSettingsView: View {
                         .stroke(.orange.opacity(0.6), lineWidth: 1)
                         .frame(width: 45, height: 18)
                         .overlay(
-                            Text("v.1.0.1")
+                            Text("v.1.1.0")
                                 .font(.system(size: 11))
                         )
                         .padding(3)

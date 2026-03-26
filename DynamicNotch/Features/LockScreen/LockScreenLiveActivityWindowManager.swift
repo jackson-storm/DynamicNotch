@@ -63,13 +63,18 @@ final class LockScreenLiveActivityWindowManager {
                 )
             }
 
-        Publishers.CombineLatest(
+        Publishers.CombineLatest3(
             lockScreenManager.$isLocked.removeDuplicates(),
+            lockScreenManager.$isPreparingLock.removeDuplicates(),
             lockScreenManager.$isLockIdle.removeDuplicates()
         )
         .receive(on: RunLoop.main)
-        .sink { [weak self] isLocked, isLockIdle in
-            self?.syncPresentation(isLocked: isLocked, isLockIdle: isLockIdle)
+        .sink { [weak self] isLocked, isPreparingLock, isLockIdle in
+            self?.syncPresentation(
+                isLocked: isLocked,
+                isPreparingLock: isPreparingLock,
+                isLockIdle: isLockIdle
+            )
         }
         .store(in: &cancellables)
 
@@ -144,17 +149,22 @@ final class LockScreenLiveActivityWindowManager {
     private func syncCurrentPresentation() {
         syncPresentation(
             isLocked: lockScreenManager.isLocked,
+            isPreparingLock: lockScreenManager.isPreparingLock,
             isLockIdle: lockScreenManager.isLockIdle
         )
     }
 
-    private func syncPresentation(isLocked: Bool, isLockIdle: Bool) {
+    private func syncPresentation(
+        isLocked: Bool,
+        isPreparingLock: Bool,
+        isLockIdle: Bool
+    ) {
         guard LockScreenSettings.isLiveActivityEnabled() else {
             hideOverlay(animated: true, releaseResources: true)
             return
         }
 
-        if isLocked {
+        if isLocked || isPreparingLock {
             showLockedOverlay()
         } else if !isLockIdle {
             showUnlockingOverlay()
@@ -211,7 +221,7 @@ final class LockScreenLiveActivityWindowManager {
         }
 
         if !hasDelegatedWindow {
-            SkyLightOperator.shared.delegateWindow(window)
+            SkyLightOperator.shared.delegateWindow(window, to: .lockScreenOverlay)
             hasDelegatedWindow = true
         }
 

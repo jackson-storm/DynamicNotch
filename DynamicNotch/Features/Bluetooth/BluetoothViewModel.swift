@@ -18,6 +18,7 @@ final class BluetoothViewModel: ObservableObject {
     @Published var isConnected: Bool = false
     @Published var deviceName: String = "Unknown"
     @Published var batteryLevel: Int? = nil
+    @Published var isShowingBluetoothDetail: Bool = false
     
     var notchViewModel: NotchViewModel?
     
@@ -51,10 +52,15 @@ final class BluetoothViewModel: ObservableObject {
                     self.deviceName = device?.name ?? "Unknown"
                     self.batteryLevel = device?.batteryLevel
                     self.deviceType = device?.deviceType ?? .generic
+
+                    if !wasConnected {
+                        self.isShowingBluetoothDetail = false
+                    }
                 } else {
                     self.deviceName = "Unknown"
                     self.batteryLevel = nil
                     self.deviceType = .generic
+                    self.isShowingBluetoothDetail = false
                 }
                 
                 if isNowConnected && !wasConnected {
@@ -78,4 +84,3 @@ final class BluetoothViewModel: ObservableObject {
             .store(in: &cancellables)
     }
 }
-

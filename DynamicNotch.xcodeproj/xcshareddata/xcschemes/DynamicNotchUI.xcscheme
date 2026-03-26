@@ -21,20 +21,6 @@
                ReferencedContainer = "container:DynamicNotch.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "NO"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F20000000000000000000006"
-               BuildableName = "DynamicNotchUITests.xctest"
-               BlueprintName = "DynamicNotchUITests"
-               ReferencedContainer = "container:DynamicNotch.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction

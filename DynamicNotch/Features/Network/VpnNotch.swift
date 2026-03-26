@@ -14,7 +14,8 @@ struct VpnConnectedNotchContent : NotchContentProtocol {
     var offsetXTransition: CGFloat { -90 }
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        return .init(width: baseWidth + 210, height: baseHeight)
+        let width = networkViewModel.isShowingVPNDetail ? 210 : 170
+        return .init(width: baseWidth + CGFloat(width), height: baseHeight)
     }
     
     @MainActor
@@ -26,14 +27,12 @@ struct VpnConnectedNotchContent : NotchContentProtocol {
 private struct VpnConnectedNotchView: View {
     @Environment(\.notchScale) var scale
     @ObservedObject var networkViewModel: NetworkViewModel
-
-    @State private var isShowingDetail = false
-
+    
     private var resolvedVPNName: String {
         let trimmedText = networkViewModel.vpnName.trimmingCharacters(in: .whitespacesAndNewlines)
         return trimmedText.isEmpty ? "Secure Tunnel" : trimmedText
     }
-
+    
     private func formattedElapsedTime(since startDate: Date, currentDate: Date) -> String {
         let totalSeconds = max(0, Int(currentDate.timeIntervalSince(startDate)))
         let hours = totalSeconds / 3600
@@ -41,10 +40,33 @@ private struct VpnConnectedNotchView: View {
         let seconds = totalSeconds % 60
         return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
     }
-
+    
     var body: some View {
         HStack {
-            if !isShowingDetail {
+            leftContent
+            Spacer()
+            rightContent
+        }
+        .padding(.horizontal, 14.scaled(by: scale))
+        .font(.system(size: 14))
+        .onAppear {
+            networkViewModel.isShowingVPNDetail = false
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                withAnimation(.spring(duration: 0.4)) {
+                    networkViewModel.isShowingVPNDetail = true
+                }
+            }
+        }
+        .onDisappear {
+            networkViewModel.isShowingVPNDetail = false
+        }
+    }
+    
+    @ViewBuilder
+    private var leftContent: some View {
+        if !networkViewModel.isShowingVPNDetail {
+            HStack {
                 ZStack {
                     RoundedRectangle(cornerRadius: 6)
                         .fill(.blue)
@@ -55,10 +77,14 @@ private struct VpnConnectedNotchView: View {
                         .foregroundStyle(.white)
                         .contentTransition(.symbolEffect(.replace))
                 }
-                .transition(.blurAndFade.animation(.spring(duration: 0.4)))
+                Text("VPN")
+                    .foregroundStyle(.white.opacity(0.8))
+                    .lineLimit(1)
             }
-
-            if isShowingDetail {
+            .transition(.blurAndFade.animation(.spring(duration: 0.4)))
+            
+        } else {
+            if networkViewModel.isShowingVPNDetail {
                 MarqueeText(
                     .constant(resolvedVPNName),
                     font: .system(size: 14),
@@ -68,49 +94,33 @@ private struct VpnConnectedNotchView: View {
                     minDuration: 0.5,
                     frameWidth: 110
                 )
-                .transition(.blurAndFade.animation(.spring(duration: 0.4)))
                 .lineLimit(1)
-                
-            } else {
-                Text("VPN")
-                    .transition(.blurAndFade.animation(.spring(duration: 0.4)))
-                    .foregroundStyle(.white.opacity(0.8))
-                    .lineLimit(1)
-            }
-            
-            Spacer()
-            
-            if isShowingDetail {
-                HStack {
-                    TimelineView(.periodic(from: .now, by: 1)) { context in
-                        Text(networkViewModel.vpnConnectedAt.map {formattedElapsedTime(since: $0, currentDate: context.date)} ?? "--:--:--")
-                            .monospacedDigit()
-                            .foregroundStyle(.orange.gradient)
-                    }
-                    .transition(.blurAndFade.animation(.spring(duration: 0.4)))
-                    
-                    Image(systemName: "gauge.with.needle")
-                        .font(Font.system(size: 18))
-                        .foregroundStyle(.orange)
-                }
-                
-            } else {
-                Text("Connected")
-                    .transition(.blurAndFade.animation(.spring(duration: 0.4)))
-                    .foregroundStyle(.white.opacity(0.8))
-                    .lineLimit(1)
+                .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .push(from: .trailing)))
             }
         }
-        .padding(.horizontal, 14.scaled(by: scale))
-        .font(.system(size: 14))
-        .onAppear {
-            guard !isShowingDetail else { return }
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                withAnimation(.spring(duration: 0.4)) {
-                    isShowingDetail = true
+    }
+    
+    @ViewBuilder
+    private var rightContent: some View {
+        if !networkViewModel.isShowingVPNDetail {
+            Text("Connected")
+                .transition(.blurAndFade.animation(.spring(duration: 0.4)))
+                .foregroundStyle(.white.opacity(0.8))
+                .lineLimit(1)
+            
+        } else {
+            HStack {
+                TimelineView(.periodic(from: .now, by: 1)) { context in
+                    Text(networkViewModel.vpnConnectedAt.map {formattedElapsedTime(since: $0, currentDate: context.date)} ?? "--:--:--")
+                        .monospacedDigit()
+                        .foregroundStyle(.orange.gradient)
                 }
+                
+                Image(systemName: "gauge.with.needle")
+                    .font(Font.system(size: 18))
+                    .foregroundStyle(.orange)
             }
+            .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .push(from: .leading)))
         }
     }
 }

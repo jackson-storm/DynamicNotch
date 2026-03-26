@@ -7,7 +7,8 @@ struct BluetoothConnectedNotchContent: NotchContentProtocol {
     var offsetXTransition: CGFloat { -90 }
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        return .init(width: baseWidth + 210, height: baseHeight)
+        let width = bluetoothViewModel.isShowingBluetoothDetail ? 175 : 210
+        return .init(width: baseWidth + CGFloat(width), height: baseHeight)
     }
     
     @MainActor
@@ -19,7 +20,6 @@ struct BluetoothConnectedNotchContent: NotchContentProtocol {
 private struct BluetoothConnectedNotchView: View {
     @Environment(\.notchScale) var scale
     @ObservedObject var bluetoothViewModel: BluetoothViewModel
-    @State private var isSecondText = false
     
     private func color(for level: Int) -> Color {
         if level < 20 { return .red }
@@ -29,7 +29,30 @@ private struct BluetoothConnectedNotchView: View {
     
     var body: some View {
         HStack {
-            if !isSecondText {
+            leftContent
+            Spacer()
+            rightContent
+        }
+        .padding(.horizontal, 14.scaled(by: scale))
+        .font(.system(size: 14))
+        .onAppear {
+            bluetoothViewModel.isShowingBluetoothDetail = false
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                withAnimation(.spring(duration: 0.4)) {
+                    bluetoothViewModel.isShowingBluetoothDetail = true
+                }
+            }
+        }
+        .onDisappear {
+            bluetoothViewModel.isShowingBluetoothDetail = false
+        }
+    }
+    
+    @ViewBuilder
+    private var leftContent: some View {
+        if !bluetoothViewModel.isShowingBluetoothDetail {
+            HStack {
                 ZStack {
                     RoundedRectangle(cornerRadius: 6)
                         .fill(.blue)
@@ -41,9 +64,14 @@ private struct BluetoothConnectedNotchView: View {
                         .foregroundStyle(.white)
                         .contentTransition(.symbolEffect(.replace))
                 }
+                Text("Bluetooth")
+                    .foregroundStyle(.white.opacity(0.8))
+                    .lineLimit(1)
             }
+            .transition(.blurAndFade.animation(.spring(duration: 0.4)))
             
-            if isSecondText {
+        } else {
+            if bluetoothViewModel.isShowingBluetoothDetail {
                 MarqueeText(
                     $bluetoothViewModel.deviceName,
                     font: .system(size: 14),
@@ -51,53 +79,36 @@ private struct BluetoothConnectedNotchView: View {
                     textColor: .white.opacity(0.8),
                     backgroundColor: .clear,
                     minDuration: 0.5,
-                    frameWidth: 100
+                    frameWidth: 90
                 )
-                .transition(.blurAndFade.animation(.spring(duration: 0.4)))
                 .lineLimit(1)
-                
-            } else {
-                Text("Bluetooth")
-                    .transition(.blurAndFade.animation(.spring(duration: 0.4)))
-                    .foregroundStyle(.white.opacity(0.8))
-                    .lineLimit(1)
-            }
-            
-            Spacer()
-            
-            if isSecondText {
-                if bluetoothViewModel.isConnected {
-                    HStack(spacing: 6) {
-                        if let level = bluetoothViewModel.batteryLevel {
-                            Text("\(level)%")
-                                .foregroundStyle(color(for: level).gradient)
-                        } else {
-                            Text("---")
-                                .foregroundStyle(.white.opacity(0.6))
-                        }
-                        Image(systemName: bluetoothViewModel.deviceType.sfSymbol)
-                            .font(.system(size: 18))
-                            .foregroundStyle(.white.opacity(0.8))
-                    }
-                }
-            } else {
-                Text("Connected")
-                    .transition(.blurAndFade.animation(.spring(duration: 0.4)))
-                    .foregroundStyle(.white.opacity(0.8))
-                    .lineLimit(1)
-            }
-        }
-        .padding(.horizontal, 14.scaled(by: scale))
-        .font(.system(size: 14))
-        .onAppear {
-            if !isSecondText {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                    withAnimation(.spring(duration: 0.4)) {
-                        isSecondText = true
-                    }
-                }
+                .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .push(from: .trailing)))
             }
         }
     }
+    
+    @ViewBuilder
+    private var rightContent: some View {
+        if !bluetoothViewModel.isShowingBluetoothDetail {
+            Text("Connected")
+                .transition(.blurAndFade.animation(.spring(duration: 0.4)))
+                .foregroundStyle(.white.opacity(0.8))
+                .lineLimit(1)
+            
+        } else {
+            HStack(spacing: 6) {
+                if let level = bluetoothViewModel.batteryLevel {
+                    Text("\(level)%")
+                        .foregroundStyle(color(for: level).gradient)
+                } else {
+                    Text("---")
+                        .foregroundStyle(.white.opacity(0.6))
+                }
+                Image(systemName: bluetoothViewModel.deviceType.sfSymbol)
+                    .font(.system(size: 18))
+                    .foregroundStyle(.white.opacity(0.8))
+            }
+            .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .push(from: .leading)))
+        }
+    }
 }
-

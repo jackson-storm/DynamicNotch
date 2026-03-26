@@ -178,7 +178,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         )
 
         window.contentView = hostingView
-        SkyLightOperator.shared.delegateWindow(window)
+        SkyLightOperator.shared.delegateWindow(window, to: .notchSurface)
 
         window.orderFrontRegardless()
     }
@@ -228,15 +228,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func observeLockScreenWindowHandoff() {
-        Publishers.CombineLatest(
+        Publishers.CombineLatest3(
             lockScreenManager.$isLocked.removeDuplicates(),
+            lockScreenManager.$isPreparingLock.removeDuplicates(),
             lockScreenManager.$isLockIdle.removeDuplicates()
         )
         .receive(on: RunLoop.main)
-        .sink { [weak self] isLocked, isLockIdle in
+        .sink { [weak self] isLocked, isPreparingLock, isLockIdle in
             guard let self, !self.isRunningUITests else { return }
 
-            if isLocked {
+            if isLocked || isPreparingLock {
                 self.suspendPrimaryWindowForLock()
             } else if self.isPrimaryWindowSuspendedForLock {
                 self.restorePrimaryWindowForUnlockTransition()

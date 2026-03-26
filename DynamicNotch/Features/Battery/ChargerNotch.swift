@@ -63,7 +63,7 @@ struct ChargerNotchView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
                     
                     RoundedRectangle(cornerRadius: 1.5, style: .continuous)
-                        .fill(powerService.batteryLevel == 100 ? batteryColor.gradient : batteryColor.opacity(0.5).gradient)
+                        .fill(powerService.batteryLevel == 100 ? batteryColor.gradient : batteryColor.opacity(0.3).gradient)
                         .frame(width: 2, height: 6)
                 }
             }

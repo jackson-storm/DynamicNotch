@@ -1,8 +1,8 @@
 import SwiftUI
 
 enum SettingsWindowLayout {
-    static let width: CGFloat = 500
-    static let height: CGFloat = 565
+    static let width: CGFloat = 760
+    static let height: CGFloat = 610
 }
 
 struct SettingsRootView: View {
@@ -17,7 +17,9 @@ struct SettingsRootView: View {
     let nowPlayingViewModel: NowPlayingViewModel
     let lockScreenManager: LockScreenManager
 
-    @StateObject private var viewModel: SettingsRootViewModel
+    private let viewModel: SettingsRootViewModel
+    @State private var searchText = ""
+    @State private var selectedSection: SettingsRootViewModel.Section
 
     init(
         powerService: PowerService,
@@ -39,88 +41,160 @@ struct SettingsRootView: View {
         self.downloadViewModel = downloadViewModel
         self.nowPlayingViewModel = nowPlayingViewModel
         self.lockScreenManager = lockScreenManager
-        _viewModel = StateObject(
-            wrappedValue: SettingsRootViewModel(
-                settings: generalSettingsViewModel,
-                notchViewModel: notchViewModel,
-                notchEventCoordinator: notchEventCoordinator,
-                bluetoothViewModel: bluetoothViewModel,
-                powerService: powerService,
-                networkViewModel: networkViewModel,
-                downloadViewModel: downloadViewModel,
-                nowPlayingViewModel: nowPlayingViewModel,
-                lockScreenManager: lockScreenManager
-            )
+        let rootViewModel = SettingsRootViewModel(
+            settings: generalSettingsViewModel,
+            notchViewModel: notchViewModel,
+            notchEventCoordinator: notchEventCoordinator,
+            bluetoothViewModel: bluetoothViewModel,
+            powerService: powerService,
+            networkViewModel: networkViewModel,
+            downloadViewModel: downloadViewModel,
+            nowPlayingViewModel: nowPlayingViewModel,
+            lockScreenManager: lockScreenManager
         )
+        self.viewModel = rootViewModel
+        _selectedSection = State(initialValue: rootViewModel.initialSelection())
     }
 
     var body: some View {
-        TabView(selection: $viewModel.selection) {
+        NavigationSplitView {
+            List(selection: $selectedSection) {
+                ForEach(groupedSections, id: \.group.id) { group in
+                    Section {
+                        ForEach(group.sections) { section in
+                            NavigationLink(value: section) {
+                                SettingsSidebarRow(
+                                    title: section.title,
+                                    systemImage: section.systemImage,
+                                    tint: section.tint
+                                )
+                            }
+                        }
+                    } header: {
+                        if let title = group.group.title {
+                            Text(title)
+                        }
+                    }
+                }
+            }
+            .searchable(text: $searchText, placement: .sidebar, prompt: "Search")
+            .navigationSplitViewColumnWidth(min: 170, ideal: 200, max: 200)
+            
+        } detail: {
+            Group {
+                if filteredSections.isEmpty {
+                    SettingsSearchEmptyState(query: searchText)
+                } else {
+                    detailView(for: resolvedSelection)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                }
+            }
+        }
+        .navigationTitle(filteredSections.isEmpty ? "Search" : resolvedSelection.title)
+        .navigationSubtitle(filteredSections.isEmpty ? "" : resolvedSelection.subtitle)
+        .onChange(of: searchText) { _, _ in
+            guard !filteredSections.isEmpty else { return }
+            if !filteredSections.contains(selectedSection) {
+                let newSelection = filteredSections[0]
+                if selectedSection != newSelection {
+                    selectedSection = newSelection
+                }
+            }
+        }
+        .onChange(of: selectedSection) { oldValue, newValue in
+            viewModel.persistSelection(newValue)
+        }
+        .onAppear {
+            selectedSection = viewModel.initialSelection()
+        }
+        .accessibilityIdentifier("settings.root")
+    }
+
+    private var filteredSections: [SettingsRootViewModel.Section] {
+        let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !query.isEmpty else {
+            return viewModel.sections
+        }
+
+        return viewModel.sections.filter { section in
+            section.title.localizedCaseInsensitiveContains(query) ||
+            section.subtitle.localizedCaseInsensitiveContains(query)
+        }
+    }
+
+    private var groupedSections: [(group: SettingsRootViewModel.SidebarGroup, sections: [SettingsRootViewModel.Section])] {
+        SettingsRootViewModel.SidebarGroup.allCases.compactMap { group in
+            let sections = filteredSections.filter { $0.sidebarGroup == group }
+            guard !sections.isEmpty else { return nil }
+            return (group, sections)
+        }
+    }
+
+    private var resolvedSelection: SettingsRootViewModel.Section {
+        if filteredSections.contains(selectedSection) {
+            return selectedSection
+        }
+
+        return filteredSections.first ?? .general
+    }
+
+    @ViewBuilder
+    private func detailView(for section: SettingsRootViewModel.Section) -> some View {
+        switch section {
+        case .general:
             GeneralSettingsView(
                 powerService: powerService,
                 generalSettingsViewModel: generalSettingsViewModel
             )
-            .tabItem {
-                Label(
-                    SettingsRootViewModel.Section.general.title,
-                    systemImage: SettingsRootViewModel.Section.general.systemImage
-                )
-            }
-            .tag(SettingsRootViewModel.Section.general)
-            .accessibilityIdentifier(SettingsRootViewModel.Section.general.accessibilityIdentifier)
+            .accessibilityIdentifier(section.accessibilityIdentifier)
 
-            LiveActivitySettingsView(
-                viewModel: viewModel.liveActivityViewModel
-            )
-            .tabItem {
-                Label(
-                    SettingsRootViewModel.Section.liveActivity.title,
-                    systemImage: SettingsRootViewModel.Section.liveActivity.systemImage
-                )
-            }
-            .tag(SettingsRootViewModel.Section.liveActivity)
-            .accessibilityIdentifier(SettingsRootViewModel.Section.liveActivity.accessibilityIdentifier)
+        case .nowPlaying:
+            NowPlayingSettingsView(generalSettingsViewModel: generalSettingsViewModel)
+            .accessibilityIdentifier(section.accessibilityIdentifier)
 
-            TemporaryActivitySettingsView(
-                viewModel: viewModel.temporaryActivityViewModel
-            )
-            .tabItem {
-                Label(
-                    SettingsRootViewModel.Section.temporaryActivity.title,
-                    systemImage: SettingsRootViewModel.Section.temporaryActivity.systemImage
-                )
-            }
-            .tag(SettingsRootViewModel.Section.temporaryActivity)
-            .accessibilityIdentifier(SettingsRootViewModel.Section.temporaryActivity.accessibilityIdentifier)
+        case .downloads:
+            DownloadsSettingsView(generalSettingsViewModel: generalSettingsViewModel)
+            .accessibilityIdentifier(section.accessibilityIdentifier)
 
-            #if DEBUG
+        case .airDrop:
+            AirDropSettingsView(generalSettingsViewModel: generalSettingsViewModel)
+            .accessibilityIdentifier(section.accessibilityIdentifier)
+
+        case .focus:
+            FocusSettingsView(generalSettingsViewModel: generalSettingsViewModel)
+            .accessibilityIdentifier(section.accessibilityIdentifier)
+
+        case .bluetooth:
+            BluetoothSettingsView(generalSettingsViewModel: generalSettingsViewModel)
+            .accessibilityIdentifier(section.accessibilityIdentifier)
+
+        case .network:
+            NetworkSettingsView(generalSettingsViewModel: generalSettingsViewModel)
+            .accessibilityIdentifier(section.accessibilityIdentifier)
+
+        case .battery:
+            BatterySettingsView(generalSettingsViewModel: generalSettingsViewModel)
+            .accessibilityIdentifier(section.accessibilityIdentifier)
+
+        case .hud:
+            HUDSettingsView(generalSettingsViewModel: generalSettingsViewModel)
+            .accessibilityIdentifier(section.accessibilityIdentifier)
+
+        case .lockScreen:
+            LockScreenSettingsView(generalSettingsViewModel: generalSettingsViewModel)
+            .accessibilityIdentifier(section.accessibilityIdentifier)
+
+        #if DEBUG
+        case .debug:
             DebugSettingsView(
                 viewModel: viewModel.debugViewModel
             )
-            .tabItem {
-                Label(
-                    SettingsRootViewModel.Section.debug.title,
-                    systemImage: SettingsRootViewModel.Section.debug.systemImage
-                )
-            }
-            .tag(SettingsRootViewModel.Section.debug)
-            .accessibilityIdentifier(SettingsRootViewModel.Section.debug.accessibilityIdentifier)
-            #endif
+            .accessibilityIdentifier(section.accessibilityIdentifier)
+        #endif
 
+        case .about:
             AboutAppSettingsView()
-                .frame(maxWidth: .infinity, alignment: .top)
-                .background(.ultraThinMaterial)
-            
-            .tabItem {
-                Label(
-                    SettingsRootViewModel.Section.about.title,
-                    systemImage: SettingsRootViewModel.Section.about.systemImage
-                )
-            }
-            .tag(SettingsRootViewModel.Section.about)
-            .accessibilityIdentifier(SettingsRootViewModel.Section.about.accessibilityIdentifier)
+                .accessibilityIdentifier(section.accessibilityIdentifier)
         }
-        .frame(width: SettingsWindowLayout.width, height: SettingsWindowLayout.height)
-        .accessibilityIdentifier("settings.root")
     }
 }

@@ -1,6 +1,10 @@
 import Cocoa
 import SwiftUI
 
+enum SettingsScene {
+    static let id = "settings"
+}
+
 @main
 struct NotchApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
@@ -11,7 +15,7 @@ struct NotchApp: App {
             MenuBarMenu()
         }
 
-        Settings {
+        WindowGroup(id: SettingsScene.id) {
             SettingsRootView(
                 powerService: appDelegate.powerService,
                 generalSettingsViewModel: appDelegate.generalSettingsViewModel,
@@ -25,12 +29,18 @@ struct NotchApp: App {
             )
             .frame(width: SettingsWindowLayout.width, height: SettingsWindowLayout.height)
         }
+        .defaultSize(width: SettingsWindowLayout.width, height: SettingsWindowLayout.height)
+        .windowResizability(.contentSize)
     }
 }
 
 private struct MenuBarMenu: View {
+    @Environment(\.openWindow) private var openWindow
+
     var body: some View {
-        SettingsLink {
+        Button {
+            openWindow(id: SettingsScene.id)
+        } label: {
             Image(systemName: "gearshape")
             Text("Settings")
         }

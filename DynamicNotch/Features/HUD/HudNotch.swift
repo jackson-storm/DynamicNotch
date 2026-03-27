@@ -83,18 +83,51 @@ struct HudNotchContent: NotchContentProtocol {
 
 private struct HudContent: View {
     @Environment(\.notchScale) var scale
-
-    private let levelAnimation = Animation.snappy(duration: 0.28, extraBounce: 0.12)
     
     var image: String
     var text: String
     var level: Int
+    
+    private let levelAnimation = Animation.snappy(duration: 0.28, extraBounce: 0.12)
+    
+    private var indicatorWidth: CGFloat { 64 }
+    private var indicatorHeight: CGFloat { 6 }
+    private var clampedLevel: Int { max(0, min(100, level)) }
+    private var filledIndicatorWidth: CGFloat { indicatorWidth * CGFloat(clampedLevel) / 100 }
+    
+    private var indicatorFill: some ShapeStyle {
+        LinearGradient(
+            colors: [
+                levelTint.opacity(0.82),
+                levelTint,
+            ],
+            startPoint: .leading,
+            endPoint: .trailing
+        )
+    }
+    private var levelTint: Color {
+        guard clampedLevel > 0 else {
+            return .white.opacity(0.45)
+        }
+        
+        let progress = Double(clampedLevel) / 100
+        let startHue: Double = 0.33
+        let endHue: Double = 0.0
+        let hue = startHue + (endHue - startHue) * progress
+        return Color(
+            hue: hue,
+            saturation: 0.86,
+            brightness: 0.98
+        )
+    }
     
     var body: some View {
         HStack {
             HStack {
                 Image(systemName: image)
                     .font(.system(size: 18))
+                    .foregroundColor(.white)
+                
                 Text(text)
                     .font(.system(size: 14))
                     .foregroundColor(.white.opacity(0.8))
@@ -110,6 +143,7 @@ private struct HudContent: View {
         .padding(.horizontal, 16.scaled(by: scale))
     }
     
+    @ViewBuilder
     private var indicator: some View {
         RoundedRectangle(cornerRadius: indicatorHeight / 2, style: .continuous)
             .fill(Color.white.opacity(0.18))
@@ -122,47 +156,11 @@ private struct HudContent: View {
             }
             .animation(levelAnimation, value: clampedLevel)
     }
-    
-    private var clampedLevel: Int {
-        max(0, min(100, level))
-    }
-    
-    private var indicatorWidth: CGFloat { 64 }
-    
-    private var indicatorHeight: CGFloat { 6 }
-    
-    private var filledIndicatorWidth: CGFloat {
-        indicatorWidth * CGFloat(clampedLevel) / 100
-    }
-
-    private var indicatorFill: some ShapeStyle {
-        LinearGradient(
-            colors: [
-                levelTint.opacity(0.82),
-                levelTint,
-            ],
-            startPoint: .leading,
-            endPoint: .trailing
-        )
-    }
-
-    private var levelTint: Color {
-        guard clampedLevel > 0 else {
-            return .white.opacity(0.45)
-        }
-
-        let progress = Double(clampedLevel) / 100
-        return Color(
-            hue: 0.02 + (0.28 * progress),
-            saturation: 0.86,
-            brightness: 0.98
-        )
-    }
 }
 
 private struct AnimatedHudLevelText: View {
     let level: Int
-
+    
     var body: some View {
         Text(level, format: .number)
             .font(.system(size: 14, design: .rounded))
@@ -172,3 +170,4 @@ private struct AnimatedHudLevelText: View {
             .animation(.snappy(duration: 0.28, extraBounce: 0.12), value: level)
     }
 }
+

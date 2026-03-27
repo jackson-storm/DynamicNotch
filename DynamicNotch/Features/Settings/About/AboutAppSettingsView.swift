@@ -9,27 +9,36 @@ import SwiftUI
 
 struct AboutAppSettingsView: View {
     @Environment(\.openURL) private var openURL
-
+    
+    private var appVersionText: String {
+        let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
+        
+        switch (version) {
+        case let (version?):
+            return "v\(version)"
+        default:
+            return "DynamicNotch"
+        }
+    }
+    
     var body: some View {
         VStack(spacing: 0) {
-            logoAndDescription
-            Divider().opacity(0.8)
-            aboutAppDescription
-            Spacer()
+            heroCard
+            Divider()
+            ScrollView(showsIndicators: false) {
+                highlightsCard
+                Spacer(minLength: 0)
+            }
         }
+        .edgesIgnoringSafeArea(.top)
         .accessibilityIdentifier("settings.about.root")
     }
     
-    @ViewBuilder
-    var logoAndDescription: some View {
+    private var heroCard: some View {
         ZStack {
             Rectangle()
-                .fill(.tint)
-                .frame(width: 250, height: 40)
-            
-            Rectangle()
-                .fill(.ultraThinMaterial)
-                .frame(height: 240)
+                .fill(Gradient(colors: [Color.black.opacity(0.08), Color.accentColor.opacity(0.18), Color.black.opacity(0.08)]))
+                .frame(height: 300)
             
             VStack(spacing: 15) {
                 Image("logo")
@@ -45,17 +54,20 @@ struct AboutAppSettingsView: View {
                         .font(.system(size: 10))
                         .foregroundStyle(.secondary)
                     
-                    RoundedRectangle(cornerRadius: 4)
-                        .fill(.orange.opacity(0.4))
-                        .stroke(.orange.opacity(0.6), lineWidth: 1)
-                        .frame(width: 45, height: 18)
-                        .overlay(
-                            Text("v.1.1.0")
-                                .font(.system(size: 11))
-                        )
-                        .padding(3)
+                    RoundedRectangle(cornerRadius: 4, style: .continuous)
+                        .fill(.blue.opacity(0.4))
+                        .frame(width: 52, height: 20)
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 4, style: .continuous)
+                                .stroke(.blue.opacity(0.6), lineWidth: 1)
+                        }
+                        .overlay {
+                            Text(appVersionText)
+                                .font(.system(size: 11, weight: .medium))
+                        }
+                        .padding(.top, 4)
                 }
-                HStack {
+                HStack(spacing: 14) {
                     Button(action: {
                         if let url = URL(string: "https://telegram.me/id10101101") {
                             openURL(url)
@@ -95,71 +107,93 @@ struct AboutAppSettingsView: View {
                 }
                 .buttonStyle(.plain)
             }
-            .padding(20)
+            .padding(.top, 50)
         }
     }
     
-    @ViewBuilder
-    var aboutAppDescription: some View {
-        VStack(spacing: 20) {
-            TextWithImage(
+    private var highlightsCard: some View {
+        VStack(spacing: 18) {
+            AboutFeatureRow(
                 image: "nowPlaying",
                 title: "Live Activity",
-                description: "The notch is active as long as the event is active, as soon as the event disappears the content disappears."
+                description: "Persistent notch content stays visible as long as the source event remains active, then quietly disappears when it ends."
             )
-            TextWithImage(
+            
+            Divider()
+                .overlay(Color.white.opacity(0.06))
+            
+            AboutFeatureRow(
                 image: "fullPowerMode",
                 title: "Temporary Activity",
-                description: "When an event is triggered, a temporary activity is shown that overlays the live activity."
+                description: "Short-lived overlays sit above the live activity layer so quick system events still feel prominent."
             )
-            TextWithImage(
+            
+            Divider()
+                .overlay(Color.white.opacity(0.06))
+            
+            AboutFeatureRow(
                 image: "lockScreen",
-                title: "Lock screen",
-                description: "Display the notch and active player on the lock screen."
+                title: "Lock Screen",
+                description: "Carry the notch presentation and media context into the lock screen transition for a more cohesive system feel."
             )
         }
-        .padding(20)
+        .padding(.vertical, 20)
+        .frame(maxWidth: .infinity, alignment: .top)
+    }
+    
+    private func open(_ value: String) {
+        guard let url = URL(string: value) else { return }
+        openURL(url)
     }
 }
 
-private struct TextWithImage: View {
-    var image: String
-    var title: String
-    var description: String
+private struct AboutFeatureRow: View {
+    let image: String
+    let title: String
+    let description: String
     
     var body: some View {
-        HStack(alignment: .top, spacing: 15) {
-            RoundedImage(image: image, width: 180, height: 80, cornerRadius: 12)
-            VStack(alignment: .leading, spacing: 5) {
+        HStack(alignment: .center, spacing: 16) {
+            RoundedPreviewImage(
+                image: image,
+                width: 168,
+                height: 82,
+                cornerRadius: 14
+            )
+            
+            VStack(alignment: .leading, spacing: 6) {
                 Text(title)
                     .font(.system(size: 16, weight: .semibold))
                 
                 Text(description)
-                    .font(.system(size: 10))
+                    .font(.system(size: 12))
                     .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.leading)
+                    .fixedSize(horizontal: false, vertical: true)
             }
-            Spacer()
+            
+            Spacer(minLength: 0)
         }
+        .padding(.horizontal, 20)
     }
 }
 
-private struct RoundedImage: View {
-    var image: String
-    var width: CGFloat
-    var height: CGFloat
-    var cornerRadius: CGFloat
+private struct RoundedPreviewImage: View {
+    let image: String
+    let width: CGFloat
+    let height: CGFloat
+    let cornerRadius: CGFloat
     
     var body: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: cornerRadius + 1)
-                .stroke(.gray.opacity(0.3), lineWidth: 2)
+            RoundedRectangle(cornerRadius: cornerRadius + 1, style: .continuous)
+                .stroke(Color.white.opacity(0.1), lineWidth: 1)
                 .frame(width: width + 2, height: height + 2)
             
             Image(image)
                 .resizable()
+                .scaledToFill()
                 .frame(width: width, height: height)
-                .cornerRadius(cornerRadius)
+                .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
         }
     }
 }

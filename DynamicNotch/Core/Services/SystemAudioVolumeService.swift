@@ -48,20 +48,20 @@ final class SystemAudioVolumeService {
         let targetElements = volumeElements(on: deviceID)
         if targetElements.isEmpty {
             var scalar = clampedValue
-            _ = setData(
+            _ = setDataFloat32(
                 deviceID: deviceID,
                 selector: kAudioDevicePropertyVolumeScalar,
                 element: kAudioObjectPropertyElementMain,
-                data: &scalar
+                value: &scalar
             )
         } else {
             for element in targetElements {
                 var scalar = clampedValue
-                _ = setData(
+                _ = setDataFloat32(
                     deviceID: deviceID,
                     selector: kAudioDevicePropertyVolumeScalar,
                     element: element,
-                    data: &scalar
+                    value: &scalar
                 )
             }
         }
@@ -198,11 +198,11 @@ final class SystemAudioVolumeService {
 
         for element in targetElements {
             var value: UInt32 = isMuted ? 1 : 0
-            _ = setData(
+            _ = setDataUInt32(
                 deviceID: deviceID,
                 selector: kAudioDevicePropertyMute,
                 element: element,
-                data: &value
+                value: &value
             )
         }
     }
@@ -219,22 +219,58 @@ final class SystemAudioVolumeService {
             mElement: element
         )
         var size = UInt32(MemoryLayout<T>.size)
-        return AudioObjectGetPropertyData(deviceID, &address, 0, nil, &size, &data)
+        return withUnsafeMutablePointer(to: &data) { ptr in
+            AudioObjectGetPropertyData(deviceID, &address, 0, nil, &size, ptr)
+        }
     }
 
-    private func setData<T>(
+    private func setDataRaw(
         deviceID: AudioDeviceID,
         selector: AudioObjectPropertySelector,
         element: AudioObjectPropertyElement,
-        data: inout T
+        data: UnsafeRawPointer,
+        dataSize: UInt32
     ) -> OSStatus {
         var address = AudioObjectPropertyAddress(
             mSelector: selector,
             mScope: kAudioDevicePropertyScopeOutput,
             mElement: element
         )
-        let size = UInt32(MemoryLayout<T>.size)
-        return AudioObjectSetPropertyData(deviceID, &address, 0, nil, size, &data)
+        return AudioObjectSetPropertyData(deviceID, &address, 0, nil, dataSize, data)
+    }
+
+    private func setDataFloat32(
+        deviceID: AudioDeviceID,
+        selector: AudioObjectPropertySelector,
+        element: AudioObjectPropertyElement,
+        value: inout Float32
+    ) -> OSStatus {
+        return withUnsafePointer(to: &value) { ptr in
+            setDataRaw(
+                deviceID: deviceID,
+                selector: selector,
+                element: element,
+                data: UnsafeRawPointer(ptr),
+                dataSize: UInt32(MemoryLayout<Float32>.size)
+            )
+        }
+    }
+
+    private func setDataUInt32(
+        deviceID: AudioDeviceID,
+        selector: AudioObjectPropertySelector,
+        element: AudioObjectPropertyElement,
+        value: inout UInt32
+    ) -> OSStatus {
+        return withUnsafePointer(to: &value) { ptr in
+            setDataRaw(
+                deviceID: deviceID,
+                selector: selector,
+                element: element,
+                data: UnsafeRawPointer(ptr),
+                dataSize: UInt32(MemoryLayout<UInt32>.size)
+            )
+        }
     }
 
     private func stepSize(for granularity: MediaKeyGranularity) -> Float {

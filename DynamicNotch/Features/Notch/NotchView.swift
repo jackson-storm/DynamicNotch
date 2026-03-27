@@ -4,6 +4,7 @@ internal import AppKit
 import UniformTypeIdentifiers
 
 struct NotchView: View {
+    @Environment(\.openWindow) private var openWindow
     @ObservedObject var notchViewModel: NotchViewModel
     @ObservedObject var notchEventCoordinator: NotchEventCoordinator
     @ObservedObject var powerViewModel: PowerViewModel
@@ -90,6 +91,10 @@ private extension NotchView {
         .overlay {
             AirDropDestinationView(
                 isTargeted: $airDropController.isTargeted,
+                isDropZoneTargeted: Binding(
+                    get: { airDropViewModel.isDropZoneTargeted },
+                    set: { airDropViewModel.setDropZoneTargeted($0) }
+                ),
                 onDropPasteboard: { pasteboard in
                     airDropController.handlePasteboardDrop(pasteboard)
                 }
@@ -147,7 +152,9 @@ private extension NotchView {
     
     @ViewBuilder
     var contextMenuItem: some View {
-        SettingsLink {
+        Button {
+            openWindow(id: SettingsScene.id)
+        } label: {
             Image(systemName: "gearshape")
             Text("Settings")
         }

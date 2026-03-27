@@ -11,7 +11,6 @@ struct DebugSettingsView: View {
             triggerEventsCard
             utilitiesCard
         }
-        .background(Color(nsColor: .windowBackgroundColor))
         .accessibilityIdentifier("settings.debug.root")
     }
 
@@ -20,7 +19,7 @@ struct DebugSettingsView: View {
             title: "Persistent Events",
             subtitle: "Toggle long-lived states on and off to inspect their live activity UI."
         ) {
-            VStack(spacing: 16) {
+            VStack {
                 SettingsToggleRow(
                     title: "Onboarding",
                     description: "Show a safe debug preview of the onboarding live activity.",
@@ -93,7 +92,7 @@ struct DebugSettingsView: View {
             title: "Trigger Events",
             subtitle: "Fire one-shot notifications exactly when you need them."
         ) {
-            VStack(spacing: 14) {
+            VStack {
                 DebugActionRow(
                     title: "Play All Events",
                     description: "Runs every debug event in sequence, keeps each item on screen for its configured time, waits 1 second, and skips onboarding, notch size, plus lock screen previews.",
@@ -304,6 +303,7 @@ struct DebugActionRow: View {
             Button(buttonTitle, action: action)
                 .controlSize(.small)
         }
+        .padding(10)
     }
 }
 

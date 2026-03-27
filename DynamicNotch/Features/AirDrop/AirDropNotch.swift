@@ -7,6 +7,13 @@
 
 import SwiftUI
 
+enum AirDropDropZoneMetrics {
+    static let cornerRadius: CGFloat = 18
+    static let height: CGFloat = 90
+    static let horizontalPadding: CGFloat = 40
+    static let verticalPadding: CGFloat = 16
+}
+
 struct AirDropNotchContent: NotchContentProtocol {
     let id = "airdrop"
     let airDropViewModel: AirDropNotchViewModel
@@ -38,11 +45,11 @@ struct AirDropNotchView: View {
             Spacer()
             
             ZStack {
-                RoundedRectangle(cornerRadius: 18)
-                    .fill(airDropViewModel.isDraggingFile ? .blue.opacity(0.2) : .clear.opacity(0))
-                    .stroke(.blue,style: StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round, dash: [20, 10]))
-                    .frame(height: 90)
-                    .overlay{
+                RoundedRectangle(cornerRadius: AirDropDropZoneMetrics.cornerRadius)
+                    .fill(airDropViewModel.isDropZoneTargeted ? .blue.opacity(0.2) : .clear.opacity(0))
+                    .stroke(.blue, style: StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round, dash: [20, 10]))
+                    .frame(height: AirDropDropZoneMetrics.height)
+                    .overlay {
                         VStack(spacing: 8) {
                             Image(systemName: "dot.radiowaves.left.and.right")
                                 .font(.system(size: 22, weight: .semibold))
@@ -54,7 +61,7 @@ struct AirDropNotchView: View {
                     }
             }
         }
-        .padding(.horizontal, 40)
-        .padding(.vertical, 16)
+        .padding(.horizontal, AirDropDropZoneMetrics.horizontalPadding)
+        .padding(.vertical, AirDropDropZoneMetrics.verticalPadding)
     }
 }

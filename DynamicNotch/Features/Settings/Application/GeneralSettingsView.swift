@@ -10,7 +10,6 @@ struct GeneralSettingsView: View {
             displayCard
             appearanceCard
         }
-        .background(Color(nsColor: .windowBackgroundColor))
         .accessibilityIdentifier("settings.general.root")
     }
 
@@ -19,7 +18,7 @@ struct GeneralSettingsView: View {
             title: "System",
             subtitle: "Choose how Dynamic Notch integrates with macOS."
         ) {
-            VStack(spacing: 16) {
+            VStack {
                 SettingsToggleRow(
                     title: "Launch at login",
                     description: "Start Dynamic Notch automatically after you sign in.",
@@ -48,15 +47,13 @@ struct GeneralSettingsView: View {
             title: "Display",
             subtitle: "Pick which screen should host the notch overlay."
         ) {
-            VStack(alignment: .leading, spacing: 10) {
-                CustomPicker(
-                    selection: $generalSettingsViewModel.displayLocation,
-                    options: Array(NotchDisplayLocation.allCases),
-                    title: { $0.title },
-                    symbolName: { $0.symbolName }
-                )
-                .accessibilityIdentifier("settings.general.displayLocation")
-            }
+            CustomPicker(
+                selection: $generalSettingsViewModel.displayLocation,
+                options: Array(NotchDisplayLocation.allCases),
+                title: { $0.title },
+                symbolName: { $0.symbolName }
+            )
+            .accessibilityIdentifier("settings.general.displayLocation")
         }
     }
 
@@ -65,7 +62,7 @@ struct GeneralSettingsView: View {
             title: "Notch appearance",
             subtitle: "Fine-tune the frame and stroke so the overlay matches your hardware."
         ) {
-            VStack(alignment: .leading, spacing: 18) {
+            VStack(alignment: .leading) {
                 notchPreview
 
                 SettingsToggleRow(
@@ -77,38 +74,54 @@ struct GeneralSettingsView: View {
                     accessibilityIdentifier: "settings.general.showNotchStroke"
                 )
 
-                TickedSlider(
+                Divider()
+                
+                SettingsSliderRow(
                     title: "Stroke width",
-                    value: $generalSettingsViewModel.notchStrokeWidth,
+                    description: "Adjust the thickness of the visible notch outline.",
+                    valueText: String(format: "%.1f px", generalSettingsViewModel.notchStrokeWidth),
                     range: 1...3,
                     step: 0.5,
-                    valueFormatter: { String(format: "%.1f px", $0) }
+                    accessibilityIdentifier: "settings.general.notchStrokeWidth",
+                    value: $generalSettingsViewModel.notchStrokeWidth
                 )
-                .accessibilityIdentifier("settings.general.notchStrokeWidth")
 
-                TickedSlider(
+                SettingsSliderRow(
                     title: "Notch width",
+                    description: "Offset the notch width to better match your display cutout.",
+                    valueText: "\(generalSettingsViewModel.notchWidth) px",
+                    range: -8...8,
+                    step: 1,
+                    accessibilityIdentifier: "settings.general.notchWidth",
                     value: Binding(
                         get: { Double(generalSettingsViewModel.notchWidth) },
                         set: { generalSettingsViewModel.notchWidth = Int($0.rounded()) }
-                    ),
-                    range: -8...8,
-                    step: 1,
-                    valueFormatter: { "\(Int($0)) px" }
+                    )
                 )
-                .accessibilityIdentifier("settings.general.notchWidth")
 
-                TickedSlider(
+                SettingsSliderRow(
                     title: "Notch height",
+                    description: "Offset the notch height to better match your display cutout.",
+                    valueText: "\(generalSettingsViewModel.notchHeight) px",
+                    range: -4...4,
+                    step: 1,
+                    accessibilityIdentifier: "settings.general.notchHeight",
                     value: Binding(
                         get: { Double(generalSettingsViewModel.notchHeight) },
                         set: { generalSettingsViewModel.notchHeight = Int($0.rounded()) }
-                    ),
-                    range: -4...4,
-                    step: 1,
-                    valueFormatter: { "\(Int($0)) px" }
+                    )
                 )
-                .accessibilityIdentifier("settings.general.notchHeight")
+
+                Divider()
+
+                SettingsToggleRow(
+                    title: "Resize feedback",
+                    description: "Show temporary notch-size hints while width or height sliders are adjusted.",
+                    systemImage: "arrow.up.left.and.arrow.down.right",
+                    color: .red,
+                    isOn: $generalSettingsViewModel.isNotchSizeTemporaryActivityEnabled,
+                    accessibilityIdentifier: "settings.activities.temporary.notchSize"
+                )
             }
         }
     }

@@ -4,6 +4,7 @@ internal import AppKit
 import UniformTypeIdentifiers
 
 struct NotchView: View {
+    @Environment(\.openWindow) private var openWindow
     @ObservedObject var notchViewModel: NotchViewModel
     @ObservedObject var notchEventCoordinator: NotchEventCoordinator
     @ObservedObject var powerViewModel: PowerViewModel
@@ -18,7 +19,7 @@ struct NotchView: View {
     @ObservedObject var lockScreenManager: LockScreenManager
     
     var body: some View {
-        ZStack {
+        ZStack(alignment: .top) {
             notchBody
                 .environment(\.notchScale, notchViewModel.notchModel.scale)
                 .background(
@@ -45,16 +46,14 @@ struct NotchView: View {
                     notchViewModel.updateDimensions()
                 }
             
-            if notchViewModel.notchModel.content == nil {
-                NotchShape(
-                    topCornerRadius: notchViewModel.notchModel.cornerRadius.top,
-                    bottomCornerRadius: notchViewModel.notchModel.cornerRadius.bottom
-                )
+            NotchShape(topCornerRadius: 9, bottomCornerRadius: 13)
                 .fill(Color.black)
+                .blur(radius: 3)
                 .frame(
-                    width: notchViewModel.notchModel.baseWidth - 20,
-                    height: notchViewModel.notchModel.baseHeight
+                    width: notchViewModel.notchModel.baseWidth - 10,
+                    height: notchViewModel.notchModel.baseHeight - 5
                 )
+                .offset(y: 1)
                 .customNotchPressable(
                     notchViewModel: notchViewModel,
                     isPressed: $notchViewModel.isPressed,
@@ -65,7 +64,6 @@ struct NotchView: View {
                         contextMenuItem
                     }
                 }
-            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
@@ -90,6 +88,10 @@ private extension NotchView {
         .overlay {
             AirDropDestinationView(
                 isTargeted: $airDropController.isTargeted,
+                isDropZoneTargeted: Binding(
+                    get: { airDropViewModel.isDropZoneTargeted },
+                    set: { airDropViewModel.setDropZoneTargeted($0) }
+                ),
                 onDropPasteboard: { pasteboard in
                     airDropController.handlePasteboardDrop(pasteboard)
                 }
@@ -116,7 +118,7 @@ private extension NotchView {
         .animation(notchViewModel.animations.strokeVisibility, value: generalSettingsViewModel.isShowNotchStrokeEnabled)
         .animation(notchViewModel.animations.notchVisibility, value: notchViewModel.showNotch)
     }
-
+    
     var visibleStrokeColor: Color {
         notchViewModel.notchModel.content?.strokeColor ?? notchViewModel.cachedStrokeColor
     }
@@ -147,7 +149,9 @@ private extension NotchView {
     
     @ViewBuilder
     var contextMenuItem: some View {
-        SettingsLink {
+        Button {
+            openWindow(id: SettingsScene.id)
+        } label: {
             Image(systemName: "gearshape")
             Text("Settings")
         }

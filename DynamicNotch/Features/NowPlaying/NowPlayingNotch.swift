@@ -8,7 +8,7 @@ struct NowPlayingNotchContent: NotchContentProtocol {
     var priority: Int { 81 }
     var isExpandable: Bool { true }
     
-    var offsetXTransition: CGFloat { -80 }
+    var offsetXTransition: CGFloat { 0 }
     var expandedOffsetXTransition: CGFloat { -100 }
     var expandedOffsetYTransition: CGFloat { -90 }
     

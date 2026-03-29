@@ -1,146 +1,88 @@
 <p align="center">
-  <img src="DynamicNotch/Resources/Assets.xcassets/logo.imageset/logo128.png" alt="DynamicNotch logo" width="96" />
+  <img src="DynamicNotch/Resources/Assets.xcassets/AppIcon.appiconset/logo256.png" alt="DynamicNotch logo" width="96" />
 </p>
 
 <h1 align="center">DynamicNotch</h1>
 
 <p align="center">
-  Dynamic Island-inspired notch interactions for macOS, built specifically for MacBook displays with a hardware notch.
+  <strong>Turn the MacBook notch into a living system surface.</strong>
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/platform-macOS-111111?logo=apple" alt="macOS" />
-  <img src="https://img.shields.io/badge/Swift-5-F05138?logo=swift&logoColor=white" alt="Swift 5" />
+  DynamicNotch is a native macOS utility that brings Dynamic Island-inspired live activities,
+  temporary alerts, AirDrop handoff, and custom hardware HUD controls to notched MacBooks.
+</p>
+
+<p align="center">
+  <a href="https://github.com/jackson-storm/DynamicNotch/releases/latest">
+    <img src="https://img.shields.io/github/v/release/jackson-storm/DynamicNotch?display_name=release&sort=semver" alt="Latest release" />
+  </a>
+  <img src="https://img.shields.io/badge/macOS-14.6%2B-111111?logo=apple" alt="macOS 14.6 or later" />
   <img src="https://img.shields.io/badge/UI-SwiftUI%20%2B%20AppKit-0A84FF" alt="SwiftUI and AppKit" />
-  <img src="https://img.shields.io/badge/license-GPL--3.0-2EA043" alt="GNU GPL v3.0" />
+  <img src="https://img.shields.io/badge/Swift-5-F05138?logo=swift&logoColor=white" alt="Swift 5" />
+  <a href="LICENSE">
+    <img src="https://img.shields.io/github/license/jackson-storm/DynamicNotch" alt="License" />
+  </a>
 </p>
 
-<p align="center">
-  ⚡ Minimal • 🎯 Native • 🖥️ Notch-first • ✨ Animated
-</p>
+## ✨ Why DynamicNotch
 
----
+DynamicNotch treats the MacBook notch like a compact system surface instead of a static cutout.
+It stays close to the hardware shape until something important happens, then expands with native
+motion, priority-aware presentation, and focused interactions.
 
-## 🖼️ Preview
+The app is built natively with SwiftUI and AppKit, so the experience feels integrated with macOS
+rather than layered on top of it.
 
-| Light Background | Dark Background |
-| --- | --- |
-| ![DynamicNotch light mode](https://github.com/user-attachments/assets/28779b2a-a80b-4b49-a5a9-40a061f2d984) | ![DynamicNotch dark mode](https://github.com/user-attachments/assets/7cb4330c-fb90-4303-892a-0f9a19e0061f) |
+## 🚀 Highlights
 
-## 🌊 Overview
+- 🪟 Native floating notch window aligned to the top display area
+- 🎛️ Priority-based live activity and temporary notification orchestration
+- 🎵 Persistent live surfaces for Now Playing, Downloads, AirDrop, Focus mode, Personal Hotspot, and Lock Screen
+- ⚡ Temporary alerts for charging, battery, Bluetooth, Wi-Fi, VPN, Focus, and resize feedback
+- 🎚️ Custom notch HUD for brightness, keyboard backlight, and volume changes
+- ⚙️ Native Settings experience with General, Live Activity, Temporary Activity, Debug, and About sections
+- 📡 AirDrop handoff directly from Finder onto the notch
+- 🧪 Integration tests around queue behavior, restore flows, and core feature transitions
 
-DynamicNotch turns the MacBook notch into a compact UI surface for live activity and short-lived system notifications. It stays visually close to the existing hardware cutout, expands only when needed, and uses a priority-based presentation model to decide what should appear on top.
+## 🎬 Preview
 
-The project is implemented as a native macOS app with SwiftUI for presentation and AppKit for windowing and input handling.
+<table>
+  <tr>
+    <td>
+      <video src="https://github.com/user-attachments/assets/88040eb4-a41c-4699-98b7-3242570f4918" controls muted playsinline width="100%"></video>
+      <br />
+    </td>
+    <td>
+      <video src="https://github.com/user-attachments/assets/7ec1661d-ff3e-4dc6-9e76-92b00576094f" controls muted playsinline width="100%"></video>
+      <br />
+    </td>
+  </tr>
+</table>
 
-## ✨ Highlights
+>It is demonstrated how the notch appears against various backgrounds. The outline can be removed in the settings, if desired.
 
-- 🪟 Native floating notch window pinned to the top display area
-- 🎛️ Priority-driven live activity and temporary notification orchestration
-- 🎚️ Custom hardware HUD for brightness, volume, and keyboard backlight changes
-- 🎞️ Smooth animated transitions between notch states
-- 🫳 AirDrop handoff by dragging files directly onto the notch
-- 🔋 Battery, Bluetooth, network, focus, lock screen, now playing, AirDrop, and onboarding-related flows
-- 🔒 Optional lock and unlock sounds for lock screen transitions
-- ⚙️ Native Settings window with dedicated General, Live Activity, Temporary, and About tabs
-- 🧪 Integration tests for the most important service and queue logic
+## 📡 AirDrop Experience
 
-## 🚀 Current Features
+DynamicNotch can reveal an AirDrop live activity as soon as you drag a file over the notch.
+Once expanded, the file must be dropped inside the highlighted AirDrop target area before the
+system AirDrop share flow is handed off.
 
-### 🔔 Activity Types
+## 📦 Installation
 
-- Live activity
-  - Now Playing
-  - AirDrop drag target
-  - Hotspot active
-  - Focus enabled
-  - Lock screen live activity
-- Temporary activity
-  - Charger connected
-  - Low power warning
-  - Fully charged
-  - Wi-Fi connected
-  - VPN connected
-  - Bluetooth device connected
-  - Focus disabled
-  - Notch size adjustment feedback
-- Other app surfaces
-  - Lock screen media panel
-  - First-launch onboarding inside the notch
-  - Custom notch HUD for brightness, keyboard backlight, and volume
-
-### 🫳 Interactions
-
-- Press interactions on the notch
-- Drag a file from Finder onto the notch to open the AirDrop share flow
-- Tap to expand supported live content
-- Two-finger swipe up to hide active content when the cursor is inside the notch zone
-
-### 🎨 Customization
-
-- Launch at login
-- Menu bar icon visibility
-- Display selection for main or built-in screen
-- Notch stroke visibility and stroke width
-- Notch width and height tuning
-- Per-feature toggles for live, temporary, and HUD activity types
-- Lock screen live activity and media panel toggles
-- AirDrop live activity toggle in `Settings > Live Activity`
-
-## 📤 AirDrop
-
-DynamicNotch can present AirDrop as a live activity when you drag a file over the notch. If the AirDrop live activity is enabled in Settings, the notch expands into a dedicated drop target and hands the dropped files off to the system AirDrop share sheet.
-
-## 🧱 Architecture
-
-The project is organized around application, core, shared UI, and feature layers:
-
-```text
-DynamicNotch/
-├── Application/        # App entry point, app delegate, notch window setup
-├── Core/               # Events, models, protocols, low-level services
-├── Features/           # Domain-specific notch content and view models
-│   ├── Battery/
-│   ├── Bluetooth/
-│   ├── Focus/
-│   ├── HUD/   
-│   ├── LockScreen/
-│   ├── Network/
-│   ├── Notch/
-│   ├── NowPlaying/
-│   ├── Onboarding/
-│   └── Settings/
-│       ├── About/
-│       ├── General/
-│       ├── LiveActivity/
-│       └── TemporaryActivity/
-├── Resources/          # App assets and Lottie files
-└── Shared/             # Shared UI, private API, extensions
-
-DynamicNotchTests/
-├── Features/           # Integration tests by feature
-└── TestSupport/        # Test doubles and async helpers
-```
-
-Core architectural roles:
-
-- `AppDelegate` creates and manages the floating notch panel
-- `NotchViewModel` owns notch state, transitions, and content priority
-- `NotchEventCoordinator` translates app/system events into notch content
-- Feature view models provide domain-specific event streams and data
-
-## 📥 Install Dynamic Notch
-
-1. Download the latest release DMG from the [Releases](https://github.com/jackson-storm/DynamicNotch/releases) page.
-2. Open the DMG and drag `DynamicNotch` into Applications.
-3. Launch Dynamic Notch and grant the requested permissions.
+1. Download the latest DMG from the [Releases](https://github.com/jackson-storm/DynamicNotch/releases) page.
+2. Open the DMG and drag `DynamicNotch` into `Applications`.
+3. Launch the app and grant any requested permissions.
 4. If macOS blocks the first launch, open `System Settings > Privacy & Security` and choose `Open Anyway`.
 
-## 📋 Requirements
+> Note
+> DynamicNotch is currently unsigned, so the first launch may require manual confirmation in macOS.
+
+## ✅ Requirements
 
 - macOS 14.6 or later
-- A MacBook with a hardware notch is recommended for the intended experience
-- Xcode 15+ to build from source.
+- A MacBook with a hardware notch for the intended experience
+- Xcode 15 or later to build from source
 
 ## 🛠️ Build From Source
 
@@ -152,7 +94,7 @@ open DynamicNotch.xcodeproj
 
 Then run the `DynamicNotch` scheme from Xcode.
 
-## ✅ Run Tests
+## 🧪 Run Tests
 
 ```bash
 xcodebuild -project DynamicNotch.xcodeproj -scheme DynamicNotch -destination 'platform=macOS' test
@@ -160,21 +102,81 @@ xcodebuild -project DynamicNotch.xcodeproj -scheme DynamicNotch -destination 'pl
 
 Current automated coverage focuses on:
 
-- Notch live activity queue behavior
-- Temporary notification restoration flow
-- Power transition events
-- Network monitoring transitions
+- notch live activity queue behavior
+- temporary notification restoration flow
+- power transition events
+- download monitoring
+- network monitoring transitions
 - Now Playing session lifecycle
-- Lock screen transition behavior
 
-## 📦 Dependencies
+## 🗂️ Repository Layout
 
-- [Defaults](https://github.com/sindresorhus/Defaults)
-- [Lottie](https://github.com/airbnb/lottie-ios)
+```text
+DynamicNotch/
+├── Application/        # App entry point, app delegate, panel setup
+├── Core/               # Models, protocols, event plumbing, low-level services
+├── Features/
+│   ├── AirDrop/
+│   ├── Battery/
+│   ├── Bluetooth/
+│   ├── Download/
+│   ├── Focus/
+│   ├── HUD/
+│   ├── LockScreen/
+│   ├── Network/
+│   ├── Notch/
+│   ├── NowPlaying/
+│   ├── Onboarding/
+│   └── Settings/
+│       ├── About/
+│       ├── Debug/
+│       ├── General/
+│       ├── LiveActivity/
+│       └── TemporaryActivity/
+├── Resources/          # App assets and bundled media
+└── Shared/             # Shared UI, extensions, and helpers
 
-## 💫 Project Status
+DynamicNotchTests/
+├── Features/
+│   ├── Battery/
+│   ├── Download/
+│   ├── Network/
+│   ├── Notch/
+│   └── NowPlaying/
+└── TestSupport/
+```
 
-DynamicNotch already has a solid notch presentation core, gesture support, separate live/temporary settings surfaces, and integration-test coverage for important flows. The project is still evolving, but the main notch behaviors and settings experience are already in place.
+## 🏗️ Architecture at a Glance
+
+- `AppDelegate` boots the app and manages the floating notch panel
+- `NotchViewModel` owns notch state, transitions, geometry, and presentation
+- `NotchEventCoordinator` translates system and app events into notch content
+- feature view models provide domain-specific state and event streams
+
+## 🧰 Tech Stack
+
+- SwiftUI for notch content and settings UI
+- AppKit for windowing, input handling, and system integration
+- Combine for feature event streams
+- [Defaults](https://github.com/sindresorhus/Defaults) for preferences
+- [Lottie](https://github.com/airbnb/lottie-ios) for animation assets
+
+## 🙏 Acknowledgements
+
+DynamicNotch benefited from ideas and selected implementation details inspired by other open-source work on GitHub.
+Thank you to the maintainers and contributors behind these projects:
+
+- [Ebullioscopic/Atoll](https://github.com/Ebullioscopic/Atoll)
+- [MrKai77/DynamicNotchKit](https://github.com/MrKai77/DynamicNotchKit)
+
+## 📈 Project Status
+
+DynamicNotch is actively evolving, but the core notch system is already in place: live activities,
+temporary alerts, AirDrop handoff, lock screen transitions, and a dedicated settings experience are
+all working today.
+
+Some flows, especially lock-screen-related behavior, rely on private system behavior and may vary
+between macOS environments.
 
 ## 📄 License
 

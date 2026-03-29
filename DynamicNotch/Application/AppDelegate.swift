@@ -60,7 +60,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     )
     
     var window: OverlayPanelWindow!
-    private var uiTestSettingsWindow: NSWindow?
     private var localClickMonitor: Any?
     private let globalClickMonitor = GlobalClickMonitor()
     private var cancellables = Set<AnyCancellable>()
@@ -121,9 +120,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
 
-        if isRunningUITests {
-            openSettingsWindowForUITests()
-        } else {
+        if !isRunningUITests {
             notchEventCoordinator.checkFirstLaunch()
         }
 
@@ -381,44 +378,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         )
 
         return CGRect(origin: origin, size: notchSize).insetBy(dx: -12, dy: -8)
-    }
-    private func openSettingsWindowForUITests() {
-        DispatchQueue.main.async {
-            let hostingController = NSHostingController(
-                rootView: SettingsRootView(
-                    powerService: self.powerService,
-                    generalSettingsViewModel: self.generalSettingsViewModel,
-                    notchViewModel: self.notchViewModel,
-                    notchEventCoordinator: self.notchEventCoordinator,
-                    bluetoothViewModel: self.bluetoothViewModel,
-                    networkViewModel: self.networkViewModel,
-                    downloadViewModel: self.downloadViewModel,
-                    nowPlayingViewModel: self.nowPlayingViewModel,
-                    lockScreenManager: self.lockScreenManager
-                )
-            )
-
-            let settingsWindow = NSWindow(
-                contentRect: NSRect(
-                    x: 0,
-                    y: 0,
-                    width: SettingsWindowLayout.width,
-                    height: SettingsWindowLayout.height
-                ),
-                styleMask: [.titled, .closable, .miniaturizable],
-                backing: .buffered,
-                defer: false
-            )
-
-            settingsWindow.title = "Settings"
-            settingsWindow.center()
-            settingsWindow.isReleasedWhenClosed = false
-            settingsWindow.contentViewController = hostingController
-
-            self.uiTestSettingsWindow = settingsWindow
-            NSApp.activate(ignoringOtherApps: true)
-            settingsWindow.makeKeyAndOrderFront(nil)
-        }
     }
 }
 

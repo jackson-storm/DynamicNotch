@@ -25,16 +25,6 @@
   </a>
 </p>
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Native%20macOS-0A84FF?style=for-the-badge&labelColor=0A84FF" alt="Native macOS" />
-  <img src="https://img.shields.io/badge/Live%20Activities-FF8A65?style=for-the-badge&labelColor=FF8A65" alt="Live Activities" />
-  <img src="https://img.shields.io/badge/Open%20Source-2EA043?style=for-the-badge&labelColor=2EA043" alt="Open Source" />
-</p>
-
-<p align="center">
-  <img src="assets/readme/Player.png" alt="DynamicNotch preview" width="100%" />
-</p>
-
 ## ✨ Why DynamicNotch
 
 DynamicNotch treats the MacBook notch like a compact system surface instead of a static cutout.

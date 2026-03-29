@@ -160,12 +160,6 @@ struct GeneralSettingsView: View {
                     symbolName: { $0.symbolName }
                 )
                 .accessibilityIdentifier("settings.general.animationPreset")
-
-                Text(generalSettingsViewModel.notchAnimationPreset.description)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .padding(.horizontal, 10)
             }
         }
     }

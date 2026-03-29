@@ -29,7 +29,7 @@ enum NotchAnimationPreset: String, CaseIterable {
         case .fast:
             return "speedometer"
         case .balanced:
-            return "circle.grid.2x2.fill"
+            return ""
         case .slow:
             return "hourglass"
         case .relaxed:

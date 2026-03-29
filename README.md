@@ -25,6 +25,10 @@
   </a>
 </p>
 
+<p>
+<img src="assets/readme/Player.png" alt="DynamicNotch preview" width="100%" />
+</p>
+
 ## ✨ Why DynamicNotch
 
 DynamicNotch treats the MacBook notch like a compact system surface instead of a static cutout.
@@ -47,18 +51,10 @@ rather than layered on top of it.
 
 ## 🎬 Preview
 
-<table>
-  <tr>
-    <td>
-      <video src="https://github.com/user-attachments/assets/88040eb4-a41c-4699-98b7-3242570f4918" controls muted playsinline width="100%"></video>
-      <br />
-    </td>
-    <td>
-      <video src="https://github.com/user-attachments/assets/7ec1661d-ff3e-4dc6-9e76-92b00576094f" controls muted playsinline width="100%"></video>
-      <br />
-    </td>
-  </tr>
-</table>
+<p align="center">
+  <video src="assets/readme/LightBackgroundDemo.mp4" controls muted playsinline width="49%"></video>
+  <video src="assets/readme/DarkBackgroundDemo.mp4" controls muted playsinline width="49%"></video>
+</p>
 
 >It is demonstrated how the notch appears against various backgrounds. The outline can be removed in the settings, if desired.
 

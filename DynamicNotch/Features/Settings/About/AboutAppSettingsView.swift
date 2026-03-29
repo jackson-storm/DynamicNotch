@@ -55,11 +55,11 @@ struct AboutAppSettingsView: View {
                         .foregroundStyle(.secondary)
                     
                     RoundedRectangle(cornerRadius: 4, style: .continuous)
-                        .fill(.blue.opacity(0.4))
+                        .fill(Color.accentColor.opacity(0.4))
                         .frame(width: 52, height: 20)
                         .overlay {
                             RoundedRectangle(cornerRadius: 4, style: .continuous)
-                                .stroke(.blue.opacity(0.6), lineWidth: 1)
+                                .stroke(Color.accentColor.opacity(0.6), lineWidth: 1)
                         }
                         .overlay {
                             Text(appVersionText)

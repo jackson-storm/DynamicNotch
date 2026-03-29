@@ -27,6 +27,19 @@ enum NotchDisplayLocation: String, CaseIterable {
 
 @MainActor
 final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
+    enum ResetGroup {
+        case general
+        case nowPlaying
+        case downloads
+        case airDrop
+        case focus
+        case bluetooth
+        case network
+        case battery
+        case hud
+        case lockScreen
+    }
+
     enum LiveActivityPreference {
         case hotspot
         case focus
@@ -97,6 +110,12 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
     @Published var displayLocation: NotchDisplayLocation {
         didSet {
             persist(displayLocation.rawValue, for: Keys.displayLocation)
+        }
+    }
+
+    @Published var notchAnimationPreset: NotchAnimationPreset {
+        didSet {
+            persist(notchAnimationPreset.rawValue, for: Keys.notchAnimationPreset)
         }
     }
 
@@ -229,6 +248,9 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
         self.isShowNotchStrokeEnabled = defaults.bool(forKey: Keys.notchStrokeEnabled)
         self.notchStrokeWidth = defaults.double(forKey: Keys.notchStrokeWidth)
         self.displayLocation = NotchDisplayLocation(rawValue: defaults.string(forKey: Keys.displayLocation) ?? NotchDisplayLocation.main.rawValue) ?? .main
+        self.notchAnimationPreset = NotchAnimationPreset(
+            rawValue: defaults.string(forKey: Keys.notchAnimationPreset) ?? NotchAnimationPreset.balanced.rawValue
+        ) ?? .balanced
         self.isBrightnessHUDEnabled = defaults.bool(forKey: Keys.brightnessHUDEnabled)
         self.isKeyboardHUDEnabled = defaults.bool(forKey: Keys.keyboardHUDEnabled)
         self.isVolumeHUDEnabled = defaults.bool(forKey: Keys.volumeHUDEnabled)
@@ -307,6 +329,61 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
         }
     }
 
+    func reset(_ group: ResetGroup) {
+        switch group {
+        case .general:
+            isLaunchAtLoginEnabled = defaultBool(for: Keys.launchAtLogin)
+            isMenuBarIconVisible = defaultBool(for: Keys.menuBarIcon)
+            displayLocation = NotchDisplayLocation(
+                rawValue: defaultString(for: Keys.displayLocation)
+            ) ?? .main
+            notchAnimationPreset = NotchAnimationPreset(
+                rawValue: defaultString(for: Keys.notchAnimationPreset)
+            ) ?? .balanced
+            isShowNotchStrokeEnabled = defaultBool(for: Keys.notchStrokeEnabled)
+            isNotchSizeTemporaryActivityEnabled = defaultBool(for: Keys.notchSizeTemporaryActivityEnabled)
+            notchStrokeWidth = defaultDouble(for: Keys.notchStrokeWidth)
+            notchWidth = defaultInt(for: Keys.notchWidth)
+            notchHeight = defaultInt(for: Keys.notchHeight)
+
+        case .nowPlaying:
+            isNowPlayingLiveActivityEnabled = defaultBool(for: Keys.nowPlayingLiveActivityEnabled)
+
+        case .downloads:
+            isDownloadsLiveActivityEnabled = defaultBool(for: Keys.downloadsLiveActivityEnabled)
+
+        case .airDrop:
+            isAirDropLiveActivityEnabled = defaultBool(for: Keys.airDropLiveActivityEnabled)
+
+        case .focus:
+            isFocusLiveActivityEnabled = defaultBool(for: Keys.focusLiveActivityEnabled)
+            isFocusOffTemporaryActivityEnabled = defaultBool(for: Keys.focusOffTemporaryActivityEnabled)
+
+        case .bluetooth:
+            isBluetoothTemporaryActivityEnabled = defaultBool(for: Keys.bluetoothTemporaryActivityEnabled)
+
+        case .network:
+            isHotspotLiveActivityEnabled = defaultBool(for: Keys.hotspotLiveActivityEnabled)
+            isWifiTemporaryActivityEnabled = defaultBool(for: Keys.wifiTemporaryActivityEnabled)
+            isVpnTemporaryActivityEnabled = defaultBool(for: Keys.vpnTemporaryActivityEnabled)
+
+        case .battery:
+            isChargerTemporaryActivityEnabled = defaultBool(for: Keys.chargerTemporaryActivityEnabled)
+            isLowPowerTemporaryActivityEnabled = defaultBool(for: Keys.lowPowerTemporaryActivityEnabled)
+            isFullPowerTemporaryActivityEnabled = defaultBool(for: Keys.fullPowerTemporaryActivityEnabled)
+
+        case .hud:
+            isBrightnessHUDEnabled = defaultBool(for: Keys.brightnessHUDEnabled)
+            isKeyboardHUDEnabled = defaultBool(for: Keys.keyboardHUDEnabled)
+            isVolumeHUDEnabled = defaultBool(for: Keys.volumeHUDEnabled)
+
+        case .lockScreen:
+            isLockScreenLiveActivityEnabled = defaultBool(for: LockScreenSettings.liveActivityKey)
+            isLockScreenSoundEnabled = defaultBool(for: LockScreenSettings.soundKey)
+            isLockScreenMediaPanelEnabled = defaultBool(for: LockScreenSettings.mediaPanelKey)
+        }
+    }
+
     private func persist(_ value: Bool, for key: String) {
         defaults.set(value, forKey: key)
     }
@@ -321,6 +398,22 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
 
     private func persist(_ value: String, for key: String) {
         defaults.set(value, forKey: key)
+    }
+
+    private func defaultBool(for key: String) -> Bool {
+        (Self.defaultValues[key] as? Bool) ?? false
+    }
+
+    private func defaultInt(for key: String) -> Int {
+        (Self.defaultValues[key] as? Int) ?? 0
+    }
+
+    private func defaultDouble(for key: String) -> Double {
+        (Self.defaultValues[key] as? Double) ?? 0
+    }
+
+    private func defaultString(for key: String) -> String {
+        (Self.defaultValues[key] as? String) ?? ""
     }
 
     private func updateLaunchAtLogin() {
@@ -347,6 +440,7 @@ private extension GeneralSettingsViewModel {
         static let notchStrokeEnabled = "isShowNotchStrokeEnabled"
         static let notchStrokeWidth = "notchStrokeWidth"
         static let displayLocation = "displayLocation"
+        static let notchAnimationPreset = "settings.general.notchAnimationPreset"
         static let brightnessHUDEnabled = "settings.hud.brightness"
         static let keyboardHUDEnabled = "settings.hud.keyboard"
         static let volumeHUDEnabled = "settings.hud.volume"
@@ -374,6 +468,7 @@ private extension GeneralSettingsViewModel {
         Keys.notchStrokeEnabled: true,
         Keys.notchStrokeWidth: 1.5,
         Keys.displayLocation: NotchDisplayLocation.main.rawValue,
+        Keys.notchAnimationPreset: NotchAnimationPreset.balanced.rawValue,
         Keys.brightnessHUDEnabled: true,
         Keys.keyboardHUDEnabled: true,
         Keys.volumeHUDEnabled: true,

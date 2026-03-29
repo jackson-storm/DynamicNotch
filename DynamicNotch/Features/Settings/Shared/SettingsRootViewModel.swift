@@ -173,13 +173,15 @@ final class SettingsRootViewModel {
             case .nowPlaying:
                 return .red
             case .downloads:
-                return .blue
+                return .purple
             case .airDrop:
                 return .blue
             case .focus:
                 return .indigo
-            case .bluetooth, .network:
+            case .bluetooth:
                 return .blue
+            case .network:
+                return .pink
             case .battery:
                 return .green
             case .hud:
@@ -204,6 +206,7 @@ final class SettingsRootViewModel {
     let debugViewModel: DebugSettingsViewModel
     #endif
 
+    private let settings: GeneralSettingsViewModel
     private let defaults: UserDefaults
     private static let selectionKey = "settings.root.selection"
 
@@ -219,6 +222,7 @@ final class SettingsRootViewModel {
         lockScreenManager: LockScreenManager? = nil,
         defaults: UserDefaults = .standard
     ) {
+        self.settings = settings
         self.defaults = defaults
 
         #if DEBUG
@@ -280,5 +284,57 @@ final class SettingsRootViewModel {
 
     func persistSelection(_ selection: Section) {
         defaults.set(selection.rawValue, forKey: Self.selectionKey)
+    }
+
+    func canReset(_ section: Section) -> Bool {
+        resetGroup(for: section) != nil
+    }
+
+    func reset(_ section: Section) {
+        guard let group = resetGroup(for: section) else { return }
+        settings.reset(group)
+    }
+
+    func resetHelpText(for section: Section?) -> String {
+        guard let section else {
+            return "No settings tab selected"
+        }
+
+        guard canReset(section) else {
+            return "\(section.title) has no resettable settings"
+        }
+
+        return "Reset \(section.title) settings to defaults"
+    }
+
+    private func resetGroup(for section: Section) -> GeneralSettingsViewModel.ResetGroup? {
+        switch section {
+        case .general:
+            return .general
+        case .nowPlaying:
+            return .nowPlaying
+        case .downloads:
+            return .downloads
+        case .airDrop:
+            return .airDrop
+        case .focus:
+            return .focus
+        case .bluetooth:
+            return .bluetooth
+        case .network:
+            return .network
+        case .battery:
+            return .battery
+        case .hud:
+            return .hud
+        case .lockScreen:
+            return .lockScreen
+        #if DEBUG
+        case .debug:
+            return nil
+        #endif
+        case .about:
+            return nil
+        }
     }
 }

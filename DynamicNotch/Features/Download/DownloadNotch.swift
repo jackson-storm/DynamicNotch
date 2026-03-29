@@ -11,7 +11,6 @@ struct DownloadNotchContent: NotchContentProtocol {
     
     var strokeColor: Color { .accentColor.opacity(0.30) }
     
-    var offsetXTransition: CGFloat { -80 }
     var expandedOffsetXTransition: CGFloat { -80 }
     var expandedOffsetYTransition: CGFloat { -60 }
     

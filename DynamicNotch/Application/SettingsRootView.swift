@@ -20,6 +20,7 @@ struct SettingsRootView: View {
     private let viewModel: SettingsRootViewModel
     @State private var searchText = ""
     @State private var selectedSection: SettingsRootViewModel.Section
+    @State private var pendingResetSection: SettingsRootViewModel.Section?
 
     init(
         powerService: PowerService,
@@ -107,6 +108,29 @@ struct SettingsRootView: View {
         .onAppear {
             selectedSection = viewModel.initialSelection()
         }
+        .toolbar {
+            ToolbarItem(placement: .confirmationAction) {
+                Button {
+                    guard let toolbarSection else { return }
+                    pendingResetSection = toolbarSection
+                } label: {
+                    Text("Default settings")
+                }
+                .disabled(!(toolbarSection.map { viewModel.canReset($0) } ?? false))
+                .help(viewModel.resetHelpText(for: toolbarSection))
+                .accessibilityIdentifier("settings.toolbar.resetCurrentTab")
+            }
+        }
+        .alert(item: $pendingResetSection) { section in
+            Alert(
+                title: Text("Reset \(section.title) settings?"),
+                message: Text("This will restore default values only for the current tab. This action cannot be undone."),
+                primaryButton: .destructive(Text("Reset")) {
+                    viewModel.reset(section)
+                },
+                secondaryButton: .cancel()
+            )
+        }
         .accessibilityIdentifier("settings.root")
     }
 
@@ -136,6 +160,11 @@ struct SettingsRootView: View {
         }
 
         return filteredSections.first ?? .general
+    }
+
+    private var toolbarSection: SettingsRootViewModel.Section? {
+        guard !filteredSections.isEmpty else { return nil }
+        return resolvedSelection
     }
 
     @ViewBuilder

@@ -5,15 +5,18 @@ final class TestNotchSettings: NotchSettingsProviding {
     var notchWidth: Int
     var notchHeight: Int
     var displayLocation: NotchDisplayLocation
+    var notchAnimationPreset: NotchAnimationPreset
 
     init(
         notchWidth: Int = 0,
         notchHeight: Int = 0,
-        displayLocation: NotchDisplayLocation = .main
+        displayLocation: NotchDisplayLocation = .main,
+        notchAnimationPreset: NotchAnimationPreset = .balanced
     ) {
         self.notchWidth = notchWidth
         self.notchHeight = notchHeight
         self.displayLocation = displayLocation
+        self.notchAnimationPreset = notchAnimationPreset
     }
 }
 

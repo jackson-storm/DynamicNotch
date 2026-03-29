@@ -160,7 +160,6 @@ private struct SettingsIconBadge: View {
                 RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
                     .stroke(Color.white.opacity(0.18), lineWidth: 0.8)
             }
-            .shadow(color: tint.opacity(0.18), radius: 4, y: 1)
     }
 }
 

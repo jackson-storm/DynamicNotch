@@ -3,16 +3,18 @@ import SwiftUI
 struct GeneralSettingsView: View {
     @ObservedObject var powerService: PowerService
     @ObservedObject var generalSettingsViewModel: GeneralSettingsViewModel
-
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
+    
     var body: some View {
         SettingsPageScrollView {
             systemCard
             displayCard
             appearanceCard
+            animationCard
         }
         .accessibilityIdentifier("settings.general.root")
     }
-
+    
     private var systemCard: some View {
         SettingsCard(
             title: "System",
@@ -27,9 +29,9 @@ struct GeneralSettingsView: View {
                     isOn: $generalSettingsViewModel.isLaunchAtLoginEnabled,
                     accessibilityIdentifier: "settings.general.launchAtLogin"
                 )
-
+                
                 Divider()
-
+                
                 SettingsToggleRow(
                     title: "Show menu bar icon",
                     description: "Keep a persistent shortcut in the menu bar for settings and quit.",
@@ -41,7 +43,7 @@ struct GeneralSettingsView: View {
             }
         }
     }
-
+    
     private var displayCard: some View {
         SettingsCard(
             title: "Display",
@@ -56,15 +58,34 @@ struct GeneralSettingsView: View {
             .accessibilityIdentifier("settings.general.displayLocation")
         }
     }
-
+    
     private var appearanceCard: some View {
         SettingsCard(
             title: "Notch appearance",
             subtitle: "Fine-tune the frame and stroke so the overlay matches your hardware."
         ) {
             VStack(alignment: .leading) {
-                notchPreview
-
+                ZStack(alignment: .top) {
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(colorScheme == .dark ? Color.gray.opacity(0.08) : Color .gray.opacity(0.18))
+                        .stroke(Color.gray.opacity(0.1), lineWidth: 1)
+                        .frame(height: 138)
+                    
+                    NotchShape(topCornerRadius: 9, bottomCornerRadius: 13)
+                        .fill(.black)
+                        .overlay {
+                            NotchShape(topCornerRadius: 9, bottomCornerRadius: 13)
+                                .stroke(
+                                    generalSettingsViewModel.isShowNotchStrokeEnabled ? .green.opacity(0.3) : .clear,
+                                    lineWidth: generalSettingsViewModel.notchStrokeWidth
+                                )
+                        }
+                        .overlay {
+                            ChargerNotchView(powerService: powerService)
+                        }
+                        .frame(width: 370, height: 38)
+                }
+                
                 SettingsToggleRow(
                     title: "Show notch stroke",
                     description: "Render a subtle outline that adapts to the active content color.",
@@ -73,7 +94,18 @@ struct GeneralSettingsView: View {
                     isOn: $generalSettingsViewModel.isShowNotchStrokeEnabled,
                     accessibilityIdentifier: "settings.general.showNotchStroke"
                 )
-
+                
+                Divider()
+                
+                SettingsToggleRow(
+                    title: "Resize feedback",
+                    description: "Show temporary notch-size hints while width or height sliders are adjusted.",
+                    systemImage: "arrow.up.left.and.arrow.down.right",
+                    color: .red,
+                    isOn: $generalSettingsViewModel.isNotchSizeTemporaryActivityEnabled,
+                    accessibilityIdentifier: "settings.activities.temporary.notchSize"
+                )
+                
                 Divider()
                 
                 SettingsSliderRow(
@@ -85,7 +117,7 @@ struct GeneralSettingsView: View {
                     accessibilityIdentifier: "settings.general.notchStrokeWidth",
                     value: $generalSettingsViewModel.notchStrokeWidth
                 )
-
+                
                 SettingsSliderRow(
                     title: "Notch width",
                     description: "Offset the notch width to better match your display cutout.",
@@ -98,7 +130,7 @@ struct GeneralSettingsView: View {
                         set: { generalSettingsViewModel.notchWidth = Int($0.rounded()) }
                     )
                 )
-
+                
                 SettingsSliderRow(
                     title: "Notch height",
                     description: "Offset the notch height to better match your display cutout.",
@@ -111,50 +143,30 @@ struct GeneralSettingsView: View {
                         set: { generalSettingsViewModel.notchHeight = Int($0.rounded()) }
                     )
                 )
-
-                Divider()
-
-                SettingsToggleRow(
-                    title: "Resize feedback",
-                    description: "Show temporary notch-size hints while width or height sliders are adjusted.",
-                    systemImage: "arrow.up.left.and.arrow.down.right",
-                    color: .red,
-                    isOn: $generalSettingsViewModel.isNotchSizeTemporaryActivityEnabled,
-                    accessibilityIdentifier: "settings.activities.temporary.notchSize"
-                )
             }
         }
     }
+    
+    private var animationCard: some View {
+        SettingsCard(
+            title: "Animation",
+            subtitle: "Choose one global motion preset for notch transitions, expansion, and visibility."
+        ) {
+            VStack(alignment: .leading, spacing: 12) {
+                CustomPicker(
+                    selection: $generalSettingsViewModel.notchAnimationPreset,
+                    options: Array(NotchAnimationPreset.allCases),
+                    title: { $0.title },
+                    symbolName: { $0.symbolName }
+                )
+                .accessibilityIdentifier("settings.general.animationPreset")
 
-    private var notchPreview: some View {
-        ZStack(alignment: .top) {
-            Image("backgroundDark")
-                .resizable()
-                .scaledToFill()
-                .frame(height: 138)
-                .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
-
-            LinearGradient(
-                colors: [Color.black.opacity(0.12), Color.black.opacity(0.45)],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .frame(height: 138)
-            .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
-
-            NotchShape(topCornerRadius: 9, bottomCornerRadius: 13)
-                .fill(.black)
-                .overlay {
-                    NotchShape(topCornerRadius: 9, bottomCornerRadius: 13)
-                        .stroke(
-                            generalSettingsViewModel.isShowNotchStrokeEnabled ? .green.opacity(0.3) : .clear,
-                            lineWidth: generalSettingsViewModel.notchStrokeWidth
-                        )
-                }
-                .overlay {
-                    ChargerNotchView(powerService: powerService)
-                }
-                .frame(width: 370, height: 38)
+                Text(generalSettingsViewModel.notchAnimationPreset.description)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(.horizontal, 10)
+            }
         }
     }
 }

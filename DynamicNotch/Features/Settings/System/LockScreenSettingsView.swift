@@ -14,7 +14,7 @@ struct LockScreenSettingsView: View {
                         title: "Lock screen live activity",
                         description: "Show the dedicated lock screen state in the notch during lock transitions.",
                         systemImage: "lock.fill",
-                        color: .gray,
+                        color: .black,
                         isOn: $generalSettingsViewModel.isLockScreenLiveActivityEnabled,
                         accessibilityIdentifier: "settings.activities.lockScreen.liveActivity"
                     )

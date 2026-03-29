@@ -25,6 +25,10 @@
   </a>
 </p>
 
+<p>
+<img src="assets/readme/Player.png" alt="DynamicNotch preview" width="100%" />
+</p>
+
 ## ✨ Why DynamicNotch
 
 DynamicNotch treats the MacBook notch like a compact system surface instead of a static cutout.

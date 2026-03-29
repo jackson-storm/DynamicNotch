@@ -32,21 +32,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/jackson-storm/DynamicNotch/releases/latest"><strong>Download Latest Release</strong></a>
-  ·
-  <a href="https://dynamicnotch.evgeniy-petrukovich.workers.dev">Project Website</a>
-  ·
-  <a href="#build-from-source">Build from Source</a>
-  ·
-  <a href="#run-tests">Run Tests</a>
-</p>
-
-<p align="center">
-  <img src="assets/readme/hero-background.png" alt="DynamicNotch preview" width="100%" />
-</p>
-
-<p align="center">
-  🖥️ ✨ 📡 🎵 ⚡
+  <img src="assets/readme/Player.png" alt="DynamicNotch preview" width="100%" />
 </p>
 
 ## ✨ Why DynamicNotch
@@ -69,28 +55,22 @@ rather than layered on top of it.
 - 📡 AirDrop handoff directly from Finder onto the notch
 - 🧪 Integration tests around queue behavior, restore flows, and core feature transitions
 
-## 🎨 What DynamicNotch Can Show
-
-| Surface | Included |
-| --- | --- |
-| Live activities | Now Playing, Downloads, AirDrop, Focus mode, Personal Hotspot, Lock Screen |
-| Temporary activities | Charging, Low Power, Fully Charged, Bluetooth devices, Wi-Fi connected, VPN connected, Focus mode off, Resize feedback |
-| System overlays | Brightness HUD, Keyboard HUD, Volume HUD, Lock Screen media panel, onboarding flow |
-| Customization | Launch at login, menu bar icon visibility, display target, notch width and height, stroke visibility and width, per-feature toggles |
-
 ## 🎬 Preview
 
-<p align="center">
-  <a href="assets/video/charger.mp4">⚡ Charger Demo</a>
-  ·
-  <a href="assets/video/lowBattery.mp4">🔋 Low Battery Demo</a>
-  ·
-  <a href="assets/video/fullCharger.mp4">✅ Full Charge Demo</a>
-</p>
+<table>
+  <tr>
+    <td>
+      <video src="assets/readme/LightBackgroundDemo.mp4" controls muted playsinline width="100%"></video>
+      <br />
+    </td>
+    <td>
+      <video src="assets/readme/DarkBackgroundDemo.mp4" controls muted playsinline width="100%"></video>
+      <br />
+    </td>
+  </tr>
+</table>
 
-| Light background | Dark background |
-| --- | --- |
-| ![DynamicNotch on a light background](https://github.com/user-attachments/assets/28779b2a-a80b-4b49-a5a9-40a061f2d984) | ![DynamicNotch on a dark background](https://github.com/user-attachments/assets/7cb4330c-fb90-4303-892a-0f9a19e0061f) |
+>It is demonstrated how the notch appears against various backgrounds. The outline can be removed in the settings, if desired.
 
 ## 📡 AirDrop Experience
 
@@ -190,6 +170,14 @@ DynamicNotchTests/
 - Combine for feature event streams
 - [Defaults](https://github.com/sindresorhus/Defaults) for preferences
 - [Lottie](https://github.com/airbnb/lottie-ios) for animation assets
+
+## 🙏 Acknowledgements
+
+DynamicNotch benefited from ideas and selected implementation details inspired by other open-source work on GitHub.
+Thank you to the maintainers and contributors behind these projects:
+
+- [Ebullioscopic/Atoll](https://github.com/Ebullioscopic/Atoll)
+- [MrKai77/DynamicNotchKit](https://github.com/MrKai77/DynamicNotchKit)
 
 ## 📈 Project Status
 

@@ -2,22 +2,59 @@ import SwiftUI
 
 struct DownloadsSettingsView: View {
     @ObservedObject var generalSettingsViewModel: GeneralSettingsViewModel
-
+    @ObservedObject var downloadViewModel: DownloadViewModel
+    
     var body: some View {
         SettingsPageScrollView {
-            SettingsCard(
-                title: "Download activity",
-                subtitle: "Track active file transfers from monitored folders in the notch."
+            downloadActivity
+            downloadAppearance
+        }
+    }
+    
+    private var downloadActivity: some View {
+        SettingsCard(
+            title: "Download activity",
+            subtitle: "Show live download progress from monitored folders in the notch."
+        ) {
+            
+            SettingsToggleRow(
+                title: "Downloads live activity",
+                description: "Show a live activity while files are being downloaded to monitored folders like Downloads, Desktop, and Documents.",
+                systemImage: "arrow.down.doc.fill",
+                color: .purple,
+                isOn: $generalSettingsViewModel.isDownloadsLiveActivityEnabled,
+                accessibilityIdentifier: "settings.activities.live.downloads"
+            )
+        }
+    }
+    
+    private var downloadAppearance: some View {
+        SettingsCard(
+            title: "Download appearance",
+            subtitle: "Preview the download notch and adjust its accent stroke."
+        ) {
+            NotchPreview(
+                width: 340,
+                height: 128,
+                topCornerRadius: 24,
+                bottomCornerRadius: 34,
+                showsStroke: generalSettingsViewModel.isShowNotchStrokeEnabled,
+                strokeColor: generalSettingsViewModel.isDownloadsDefaultStrokeEnabled ?
+                    .white.opacity(0.2) :
+                        .accentColor.opacity(0.3),
+                strokeWidth: CGFloat(generalSettingsViewModel.notchStrokeWidth)
             ) {
-                SettingsToggleRow(
-                    title: "Downloads live activity",
-                    description: "Show an activity while files are actively being written in monitored folders like Downloads, Desktop, and Documents.",
-                    systemImage: "arrow.down.doc.fill",
-                    color: .blue,
-                    isOn: $generalSettingsViewModel.isDownloadsLiveActivityEnabled,
-                    accessibilityIdentifier: "settings.activities.live.downloads"
-                )
+                DownloadExpandedPreviewNotchView()
             }
+            
+            SettingsToggleRow(
+                title: "Use default stroke color",
+                description: "Use the default notch stroke color instead of the blue download accent.",
+                systemImage: "paintbrush.pointed.fill",
+                color: .indigo,
+                isOn: $generalSettingsViewModel.isDownloadsDefaultStrokeEnabled,
+                accessibilityIdentifier: "settings.activities.live.downloads.defaultStroke"
+            )
         }
     }
 }

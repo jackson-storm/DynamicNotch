@@ -3,9 +3,14 @@ import SwiftUI
 struct ChargerNotchContent: NotchContentProtocol {
     let id = "battery.charger"
     let powerService: PowerService
+    let generalSettingsViewModel: GeneralSettingsViewModel
     
     var offsetXTransition: CGFloat { -90 }
-    var strokeColor: Color { powerService.isLowPowerMode ? .yellow.opacity(0.3) : .green.opacity(0.3) }
+    var strokeColor: Color {
+        generalSettingsViewModel.isBatteryDefaultStrokeEnabled ?
+        .white.opacity(0.2) :
+        (powerService.isLowPowerMode ? .yellow.opacity(0.3) : .green.opacity(0.3))
+    }
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         return .init(width: baseWidth + 180, height: baseHeight)
@@ -69,5 +74,18 @@ struct ChargerNotchView: View {
             }
         }
         .padding(.horizontal, 16.scaled(by: scale))
+    }
+}
+
+struct ChargerPreviewNotchView: View {
+    @StateObject private var powerService = PowerService.settingsPreview(
+        onACPower: true,
+        batteryLevel: 73,
+        isCharging: true,
+        isLowPowerMode: false
+    )
+
+    var body: some View {
+        ChargerNotchView(powerService: powerService)
     }
 }

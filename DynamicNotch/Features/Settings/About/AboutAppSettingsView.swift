@@ -116,7 +116,7 @@ struct AboutAppSettingsView: View {
             AboutFeatureRow(
                 image: "nowPlaying",
                 title: "Live Activity",
-                description: "Persistent notch content stays visible as long as the source event remains active, then quietly disappears when it ends."
+                description: "Persistent notch content stays visible for as long as the source event is active, then fades away when it ends."
             )
             
             Divider()
@@ -125,7 +125,7 @@ struct AboutAppSettingsView: View {
             AboutFeatureRow(
                 image: "fullPowerMode",
                 title: "Temporary Activity",
-                description: "Short-lived overlays sit above the live activity layer so quick system events still feel prominent."
+                description: "Short-lived overlays appear above live activities so quick system events still feel prominent."
             )
             
             Divider()
@@ -134,7 +134,7 @@ struct AboutAppSettingsView: View {
             AboutFeatureRow(
                 image: "lockScreen",
                 title: "Lock Screen",
-                description: "Carry the notch presentation and media context into the lock screen transition for a more cohesive system feel."
+                description: "Carry notch context and media playback into the lock screen transition for a more cohesive experience."
             )
         }
         .padding(.vertical, 20)

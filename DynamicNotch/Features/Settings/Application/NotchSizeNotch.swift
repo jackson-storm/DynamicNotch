@@ -58,7 +58,7 @@ private struct NotchSizeWidthNotchView: View {
             HStack {
                 Image(systemName: "chevron.left")
                 Spacer()
-                Text(generalSettingsViewModel.notchWidth.description)
+                AnimatedLevelText(level: generalSettingsViewModel.notchWidth, fontSize: 18)
                 Spacer()
                 Image(systemName: "chevron.right")
             }
@@ -78,7 +78,7 @@ private struct NotchSizeHeightNotchView: View {
         HStack {
             Image(systemName: "chevron.up.chevron.down")
             Spacer()
-            Text(generalSettingsViewModel.notchHeight.description)
+            AnimatedLevelText(level: generalSettingsViewModel.notchHeight, fontSize: 18)
         }
         .font(.system(size: 18))
         .foregroundColor(.white)

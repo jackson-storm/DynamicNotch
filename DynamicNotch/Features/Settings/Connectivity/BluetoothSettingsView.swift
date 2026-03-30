@@ -7,11 +7,11 @@ struct BluetoothSettingsView: View {
         SettingsPageScrollView {
             SettingsCard(
                 title: "Bluetooth activity",
-                subtitle: "Short-lived Bluetooth connection feedback for accessories and audio devices."
+                subtitle: "Show a short notification when Bluetooth accessories connect."
             ) {
                 SettingsToggleRow(
                     title: "Bluetooth temporary activity",
-                    description: "Show a card when a Bluetooth accessory connects.",
+                    description: "Show a temporary activity when a Bluetooth accessory connects.",
                     systemImage: "headphones",
                     color: .blue,
                     isOn: $generalSettingsViewModel.isBluetoothTemporaryActivityEnabled,

@@ -116,3 +116,19 @@ extension PowerService: PowerStateProviding {
         set { powerStateChangeHandler = newValue }
     }
 }
+
+extension PowerService {
+    static func settingsPreview(
+        onACPower: Bool = false,
+        batteryLevel: Int,
+        isCharging: Bool,
+        isLowPowerMode: Bool
+    ) -> PowerService {
+        let service = PowerService(startMonitoring: false)
+        service.onACPower = onACPower
+        service.batteryLevel = max(0, min(batteryLevel, 100))
+        service.isCharging = isCharging
+        service.isLowPowerMode = isLowPowerMode
+        return service
+    }
+}

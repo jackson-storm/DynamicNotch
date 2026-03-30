@@ -108,12 +108,21 @@ final class NotchEventCoordinator: ObservableObject {
         switch event {
         case .FocusOn:
             guard generalSettingsViewModel.isLiveActivityEnabled(.focus) else { return }
-            notchViewModel.send(.showLiveActivity(FocusOnNotchContent()))
+            notchViewModel.send(
+                .showLiveActivity(
+                    FocusOnNotchContent(generalSettingsViewModel: generalSettingsViewModel)
+                )
+            )
             
         case .FocusOff:
             notchViewModel.send(.hideLiveActivity(id: "focus.on"))
             guard generalSettingsViewModel.isTemporaryActivityEnabled(.focusOff) else { return }
-            self.notchViewModel.send(.showTemporaryNotification(FocusOffNotchContent(), duration: 3))
+            self.notchViewModel.send(
+                .showTemporaryNotification(
+                    FocusOffNotchContent(generalSettingsViewModel: generalSettingsViewModel),
+                    duration: 3
+                )
+            )
         }
     }
     
@@ -169,7 +178,11 @@ final class NotchEventCoordinator: ObservableObject {
             
         case .hotspotActive:
             guard generalSettingsViewModel.isLiveActivityEnabled(.hotspot) else { return }
-            notchViewModel.send(.showLiveActivity(HotspotActiveContent()))
+            notchViewModel.send(
+                .showLiveActivity(
+                    HotspotActiveContent(generalSettingsViewModel: generalSettingsViewModel)
+                )
+            )
             
         case .hotspotHide:
             notchViewModel.send(.hideLiveActivity(id: "hotspot.active"))
@@ -183,15 +196,39 @@ final class NotchEventCoordinator: ObservableObject {
         switch event {
         case .charger:
             guard generalSettingsViewModel.isTemporaryActivityEnabled(.charger) else { return }
-            notchViewModel.send(.showTemporaryNotification(ChargerNotchContent(powerService: powerService), duration: 4))
+            notchViewModel.send(
+                .showTemporaryNotification(
+                    ChargerNotchContent(
+                        powerService: powerService,
+                        generalSettingsViewModel: generalSettingsViewModel
+                    ),
+                    duration: 4
+                )
+            )
             
         case .lowPower:
             guard generalSettingsViewModel.isTemporaryActivityEnabled(.lowPower) else { return }
-            notchViewModel.send(.showTemporaryNotification(LowPowerNotchContent(powerService: powerService), duration: 4))
+            notchViewModel.send(
+                .showTemporaryNotification(
+                    LowPowerNotchContent(
+                        powerService: powerService,
+                        generalSettingsViewModel: generalSettingsViewModel
+                    ),
+                    duration: 4
+                )
+            )
             
         case .fullPower:
             guard generalSettingsViewModel.isTemporaryActivityEnabled(.fullPower) else { return }
-            notchViewModel.send(.showTemporaryNotification(FullPowerNotchContent(powerService: powerService), duration: 4))
+            notchViewModel.send(
+                .showTemporaryNotification(
+                    FullPowerNotchContent(
+                        powerService: powerService,
+                        generalSettingsViewModel: generalSettingsViewModel
+                    ),
+                    duration: 4
+                )
+            )
         }
     }
 
@@ -204,7 +241,10 @@ final class NotchEventCoordinator: ObservableObject {
             guard generalSettingsViewModel.isLiveActivityEnabled(.downloads) else { return }
             notchViewModel.send(
                 .showLiveActivity(
-                    DownloadNotchContent(downloadViewModel: downloadViewModel)
+                    DownloadNotchContent(
+                        downloadViewModel: downloadViewModel,
+                        generalSettingsViewModel: generalSettingsViewModel
+                    )
                 )
             )
 
@@ -221,7 +261,10 @@ final class NotchEventCoordinator: ObservableObject {
             guard generalSettingsViewModel.isLiveActivityEnabled(.airDrop) else { return }
             notchViewModel.send(
                 .showLiveActivity(
-                    AirDropNotchContent(airDropViewModel: airDropViewModel)
+                    AirDropNotchContent(
+                        airDropViewModel: airDropViewModel,
+                        generalSettingsViewModel: generalSettingsViewModel
+                    )
                 )
             )
 

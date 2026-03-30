@@ -2,7 +2,7 @@ import SwiftUI
 
 struct SettingsSearchEmptyState: View {
     let query: String
-
+    
     var body: some View {
         ContentUnavailableView(
             "No Settings Found",
@@ -15,11 +15,11 @@ struct SettingsSearchEmptyState: View {
 
 struct SettingsPageScrollView<Content: View>: View {
     private let content: Content
-
+    
     init(@ViewBuilder content: () -> Content) {
         self.content = content()
     }
-
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
@@ -34,9 +34,9 @@ struct SettingsPageScrollView<Content: View>: View {
 struct SettingsCard<Content: View>: View {
     let title: String
     let subtitle: String?
-
+    
     private let content: Content
-
+    
     init(
         title: String,
         subtitle: String? = nil,
@@ -46,10 +46,10 @@ struct SettingsCard<Content: View>: View {
         self.subtitle = subtitle
         self.content = content()
     }
-
+    
     var body: some View {
         GroupBox {
-            VStack(alignment: .leading, spacing: 16) {
+            VStack(alignment: .leading, spacing: 10) {
                 content
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -71,7 +71,7 @@ struct SettingsSidebarRow: View {
     let title: String
     let systemImage: String
     let tint: Color
-
+    
     var body: some View {
         Label {
             Text(title)
@@ -93,9 +93,9 @@ struct SettingsToggleRow: View {
     let systemImage: String
     let color: Color
     let accessibilityIdentifier: String?
-
+    
     @Binding var isOn: Bool
-
+    
     init(
         title: String,
         description: String,
@@ -111,7 +111,7 @@ struct SettingsToggleRow: View {
         self._isOn = isOn
         self.accessibilityIdentifier = accessibilityIdentifier
     }
-
+    
     var body: some View {
         Toggle(isOn: $isOn) {
             HStack(alignment: .center, spacing: 12) {
@@ -122,7 +122,7 @@ struct SettingsToggleRow: View {
                     iconSize: 14,
                     cornerRadius: 9
                 )
-
+                
                 VStack(alignment: .leading, spacing: 2) {
                     Text(title)
                     Text(description)
@@ -146,7 +146,7 @@ private struct SettingsIconBadge: View {
     let size: CGFloat
     let iconSize: CGFloat
     let cornerRadius: CGFloat
-
+    
     var body: some View {
         RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
             .fill(tint.gradient)
@@ -166,13 +166,14 @@ private struct SettingsIconBadge: View {
 struct SettingsSliderRow: View {
     let title: String
     let description: String?
-    let valueText: String
     let range: ClosedRange<Double>
     let step: Double
+    let fractionLength: Int
+    let suffix: String?
     let accessibilityIdentifier: String?
-
+    
     @Binding var value: Double
-
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(alignment: .firstTextBaseline) {
@@ -185,14 +186,18 @@ struct SettingsSliderRow: View {
                             .fixedSize(horizontal: false, vertical: true)
                     }
                 }
-
+                
                 Spacer()
-
-                Text(valueText)
-                    .foregroundStyle(.secondary)
-                    .monospacedDigit()
+                
+                AnimatedLevelText(
+                    value: value,
+                    fontSize: 12,
+                    fractionLength: fractionLength,
+                    suffix: suffix,
+                    color: .secondary
+                )
             }
-
+            
             Slider(value: $value, in: range, step: step)
         }
         .padding(10)
@@ -200,9 +205,75 @@ struct SettingsSliderRow: View {
     }
 }
 
+struct NotchPreview<Overlay: View>: View {
+    @Environment(\.colorScheme) private var colorScheme
+
+    let width: CGFloat
+    let height: CGFloat
+    let previewHeight: CGFloat
+    let topCornerRadius: CGFloat
+    let bottomCornerRadius: CGFloat
+    let showsStroke: Bool
+    let strokeColor: Color
+    let strokeWidth: CGFloat
+
+    private let overlay: Overlay
+
+    init(
+        width: CGFloat = 370,
+        height: CGFloat = 38,
+        previewHeight: CGFloat = 138,
+        topCornerRadius: CGFloat = 9,
+        bottomCornerRadius: CGFloat = 13,
+        showsStroke: Bool = true,
+        strokeColor: Color = .green.opacity(0.3),
+        strokeWidth: CGFloat = 1.5,
+        @ViewBuilder overlay: () -> Overlay
+    ) {
+        self.width = width
+        self.height = height
+        self.previewHeight = previewHeight
+        self.topCornerRadius = topCornerRadius
+        self.bottomCornerRadius = bottomCornerRadius
+        self.showsStroke = showsStroke
+        self.strokeColor = strokeColor
+        self.strokeWidth = strokeWidth
+        self.overlay = overlay()
+    }
+
+    var body: some View {
+        ZStack(alignment: .top) {
+            RoundedRectangle(cornerRadius: 10)
+                .fill(colorScheme == .dark ? Color.gray.opacity(0.08) : Color.gray.opacity(0.18))
+                .stroke(Color.gray.opacity(0.1), lineWidth: 1)
+                .frame(height: previewHeight)
+
+            NotchShape(
+                topCornerRadius: topCornerRadius,
+                bottomCornerRadius: bottomCornerRadius
+            )
+            .fill(.black)
+            .overlay {
+                NotchShape(
+                    topCornerRadius: topCornerRadius,
+                    bottomCornerRadius: bottomCornerRadius
+                )
+                .stroke(
+                    showsStroke ? strokeColor : .clear,
+                    lineWidth: strokeWidth
+                )
+            }
+            .overlay {
+                overlay
+            }
+            .frame(width: width, height: height)
+        }
+    }
+}
+
 private struct SettingsAccessibilityModifier: ViewModifier {
     let identifier: String?
-
+    
     @ViewBuilder
     func body(content: Content) -> some View {
         if let identifier {

@@ -182,7 +182,10 @@ struct SettingsRootView: View {
             .accessibilityIdentifier(section.accessibilityIdentifier)
 
         case .downloads:
-            DownloadsSettingsView(generalSettingsViewModel: generalSettingsViewModel)
+            DownloadsSettingsView(
+                generalSettingsViewModel: generalSettingsViewModel,
+                downloadViewModel: downloadViewModel
+            )
             .accessibilityIdentifier(section.accessibilityIdentifier)
 
         case .airDrop:

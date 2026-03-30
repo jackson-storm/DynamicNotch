@@ -61,6 +61,7 @@ final class DebugSettingsViewModel: ObservableObject {
     private let downloadViewModel: DownloadViewModel
     private let nowPlayingViewModel: NowPlayingViewModel
     private let lockScreenManager: LockScreenManager
+    private let generalSettingsViewModel: GeneralSettingsViewModel
 
     private var isReady = false
     private var previewSequenceTask: Task<Void, Never>?
@@ -72,6 +73,7 @@ final class DebugSettingsViewModel: ObservableObject {
         powerService: PowerService,
         networkViewModel: NetworkViewModel,
         downloadViewModel: DownloadViewModel,
+        generalSettingsViewModel: GeneralSettingsViewModel,
         nowPlayingViewModel: NowPlayingViewModel,
         lockScreenManager: LockScreenManager
     ) {
@@ -81,6 +83,7 @@ final class DebugSettingsViewModel: ObservableObject {
         self.powerService = powerService
         self.networkViewModel = networkViewModel
         self.downloadViewModel = downloadViewModel
+        self.generalSettingsViewModel = generalSettingsViewModel
         self.nowPlayingViewModel = nowPlayingViewModel
         self.lockScreenManager = lockScreenManager
         self.isReady = true
@@ -240,16 +243,16 @@ final class DebugSettingsViewModel: ObservableObject {
 
             do {
                 try await self.playLivePreview(
-                    FocusOnNotchContent(),
+                    FocusOnNotchContent(generalSettingsViewModel: generalSettingsViewModel),
                     id: Self.sequenceFocusID
                 )
                 try await self.playTemporaryPreview(
-                    FocusOffNotchContent(),
+                    FocusOffNotchContent(generalSettingsViewModel: generalSettingsViewModel),
                     id: "\(Self.sequenceContentPrefix)focus.off",
                     duration: 3
                 )
                 try await self.playLivePreview(
-                    HotspotActiveContent(),
+                    HotspotActiveContent(generalSettingsViewModel: generalSettingsViewModel),
                     id: Self.sequenceHotspotID
                 )
                 try await self.playNowPlayingPreview()
@@ -313,7 +316,10 @@ final class DebugSettingsViewModel: ObservableObject {
     private func playChargingPreview() async throws {
         applyChargingPreviewState()
         try await playTemporaryPreview(
-            ChargerNotchContent(powerService: powerService),
+            ChargerNotchContent(
+                powerService: powerService,
+                generalSettingsViewModel: generalSettingsViewModel
+            ),
             id: "\(Self.sequenceContentPrefix)charger",
             duration: 4
         )
@@ -322,7 +328,10 @@ final class DebugSettingsViewModel: ObservableObject {
     private func playLowPowerPreview() async throws {
         applyLowPowerPreviewState()
         try await playTemporaryPreview(
-            LowPowerNotchContent(powerService: powerService),
+            LowPowerNotchContent(
+                powerService: powerService,
+                generalSettingsViewModel: generalSettingsViewModel
+            ),
             id: "\(Self.sequenceContentPrefix)lowPower",
             duration: 4
         )
@@ -331,7 +340,10 @@ final class DebugSettingsViewModel: ObservableObject {
     private func playFullBatteryPreview() async throws {
         applyFullBatteryPreviewState()
         try await playTemporaryPreview(
-            FullPowerNotchContent(powerService: powerService),
+            FullPowerNotchContent(
+                powerService: powerService,
+                generalSettingsViewModel: generalSettingsViewModel
+            ),
             id: "\(Self.sequenceContentPrefix)fullPower",
             duration: 4
         )
@@ -353,7 +365,10 @@ final class DebugSettingsViewModel: ObservableObject {
     private func playDownloadsPreview() async throws {
         downloadViewModel.showDebugPreviewDownloadsIfNeeded()
         try await playLivePreview(
-            DownloadNotchContent(downloadViewModel: downloadViewModel),
+            DownloadNotchContent(
+                downloadViewModel: downloadViewModel,
+                generalSettingsViewModel: generalSettingsViewModel
+            ),
             id: Self.sequenceDownloadsID
         )
         downloadViewModel.hideDebugPreviewDownloadsIfNeeded()

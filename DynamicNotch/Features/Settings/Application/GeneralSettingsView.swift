@@ -3,7 +3,6 @@ import SwiftUI
 struct GeneralSettingsView: View {
     @ObservedObject var powerService: PowerService
     @ObservedObject var generalSettingsViewModel: GeneralSettingsViewModel
-    @Environment(\.colorScheme) var colorScheme: ColorScheme
     
     var body: some View {
         SettingsPageScrollView {
@@ -18,12 +17,12 @@ struct GeneralSettingsView: View {
     private var systemCard: some View {
         SettingsCard(
             title: "System",
-            subtitle: "Choose how Dynamic Notch integrates with macOS."
+            subtitle: "Control how Dynamic Notch integrates with macOS."
         ) {
             VStack {
                 SettingsToggleRow(
                     title: "Launch at login",
-                    description: "Start Dynamic Notch automatically after you sign in.",
+                    description: "Launch Dynamic Notch automatically when you sign in.",
                     systemImage: "power",
                     color: .blue,
                     isOn: $generalSettingsViewModel.isLaunchAtLoginEnabled,
@@ -34,7 +33,7 @@ struct GeneralSettingsView: View {
                 
                 SettingsToggleRow(
                     title: "Show menu bar icon",
-                    description: "Keep a persistent shortcut in the menu bar for settings and quit.",
+                    description: "Show a menu bar shortcut for quick access to Settings and Quit.",
                     systemImage: "menubar.rectangle",
                     color: .purple,
                     isOn: $generalSettingsViewModel.isMenuBarIconVisible,
@@ -47,7 +46,7 @@ struct GeneralSettingsView: View {
     private var displayCard: some View {
         SettingsCard(
             title: "Display",
-            subtitle: "Pick which screen should host the notch overlay."
+            subtitle: "Choose which display should host the notch overlay."
         ) {
             CustomPicker(
                 selection: $generalSettingsViewModel.displayLocation,
@@ -62,33 +61,24 @@ struct GeneralSettingsView: View {
     private var appearanceCard: some View {
         SettingsCard(
             title: "Notch appearance",
-            subtitle: "Fine-tune the frame and stroke so the overlay matches your hardware."
+            subtitle: "Fine-tune the notch frame and stroke so it better matches your hardware."
         ) {
             VStack(alignment: .leading) {
-                ZStack(alignment: .top) {
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(colorScheme == .dark ? Color.gray.opacity(0.08) : Color .gray.opacity(0.18))
-                        .stroke(Color.gray.opacity(0.1), lineWidth: 1)
-                        .frame(height: 138)
-                    
-                    NotchShape(topCornerRadius: 9, bottomCornerRadius: 13)
-                        .fill(.black)
-                        .overlay {
-                            NotchShape(topCornerRadius: 9, bottomCornerRadius: 13)
-                                .stroke(
-                                    generalSettingsViewModel.isShowNotchStrokeEnabled ? .green.opacity(0.3) : .clear,
-                                    lineWidth: generalSettingsViewModel.notchStrokeWidth
-                                )
-                        }
-                        .overlay {
-                            ChargerNotchView(powerService: powerService)
-                        }
-                        .frame(width: 370, height: 38)
+                NotchPreview(
+                    width: 370,
+                    height: 38,
+                    topCornerRadius: 9,
+                    bottomCornerRadius: 13,
+                    showsStroke: generalSettingsViewModel.isShowNotchStrokeEnabled,
+                    strokeColor: .green.opacity(0.3),
+                    strokeWidth: CGFloat(generalSettingsViewModel.notchStrokeWidth)
+                ) {
+                    ChargerNotchView(powerService: powerService)
                 }
                 
                 SettingsToggleRow(
                     title: "Show notch stroke",
-                    description: "Render a subtle outline that adapts to the active content color.",
+                    description: "Show a subtle outline that adapts to the active content color.",
                     systemImage: "square.on.square.squareshape.controlhandles",
                     color: .green,
                     isOn: $generalSettingsViewModel.isShowNotchStrokeEnabled,
@@ -99,7 +89,7 @@ struct GeneralSettingsView: View {
                 
                 SettingsToggleRow(
                     title: "Resize feedback",
-                    description: "Show temporary notch-size hints while width or height sliders are adjusted.",
+                    description: "Show temporary size hints while adjusting the notch width or height.",
                     systemImage: "arrow.up.left.and.arrow.down.right",
                     color: .red,
                     isOn: $generalSettingsViewModel.isNotchSizeTemporaryActivityEnabled,
@@ -110,20 +100,22 @@ struct GeneralSettingsView: View {
                 
                 SettingsSliderRow(
                     title: "Stroke width",
-                    description: "Adjust the thickness of the visible notch outline.",
-                    valueText: String(format: "%.1f px", generalSettingsViewModel.notchStrokeWidth),
+                    description: "Adjust the thickness of the notch outline.",
                     range: 1...3,
                     step: 0.5,
+                    fractionLength: 1,
+                    suffix: "px",
                     accessibilityIdentifier: "settings.general.notchStrokeWidth",
                     value: $generalSettingsViewModel.notchStrokeWidth
                 )
                 
                 SettingsSliderRow(
                     title: "Notch width",
-                    description: "Offset the notch width to better match your display cutout.",
-                    valueText: "\(generalSettingsViewModel.notchWidth) px",
+                    description: "Fine-tune the notch width to better match your display cutout.",
                     range: -8...8,
                     step: 1,
+                    fractionLength: 0,
+                    suffix: "px",
                     accessibilityIdentifier: "settings.general.notchWidth",
                     value: Binding(
                         get: { Double(generalSettingsViewModel.notchWidth) },
@@ -133,10 +125,11 @@ struct GeneralSettingsView: View {
                 
                 SettingsSliderRow(
                     title: "Notch height",
-                    description: "Offset the notch height to better match your display cutout.",
-                    valueText: "\(generalSettingsViewModel.notchHeight) px",
+                    description: "Fine-tune the notch height to better match your display cutout.",
                     range: -4...4,
                     step: 1,
+                    fractionLength: 0,
+                    suffix: "px",
                     accessibilityIdentifier: "settings.general.notchHeight",
                     value: Binding(
                         get: { Double(generalSettingsViewModel.notchHeight) },

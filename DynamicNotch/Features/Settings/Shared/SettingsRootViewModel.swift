@@ -107,31 +107,31 @@ final class SettingsRootViewModel {
         var subtitle: String {
             switch self {
             case .general:
-                return "App startup, placement, appearance, and notch sizing."
+                return "Startup, placement, appearance, and notch sizing."
             case .nowPlaying:
-                return "Media playback activity shown in the notch."
+                return "Media playback controls shown in the notch."
             case .downloads:
-                return "Download tracking and expanded transfer presentation."
+                return "Live download tracking and transfer previews."
             case .airDrop:
-                return "Drag-and-drop sharing flow through the notch."
+                return "Drag-and-drop sharing through the notch."
             case .focus:
-                return "Focus mode state changes and visibility behavior."
+                return "Focus mode state changes and quick status updates."
             case .bluetooth:
-                return "Bluetooth connection feedback and device activity."
+                return "Connection feedback for Bluetooth accessories."
             case .network:
-                return "Wi-Fi, VPN, and Hotspot visibility in one place."
+                return "Wi-Fi, VPN, and Hotspot activity in one place."
             case .battery:
-                return "Charging state updates, low power warnings, and battery completion."
+                return "Charging, low battery, and full battery notifications."
             case .hud:
-                return "System HUD replacement for volume, brightness, and keyboard backlight."
+                return "Custom replacements for volume, brightness, and keyboard HUDs."
             case .lockScreen:
-                return "Lock transition, sound, and media panel behavior."
+                return "Lock transitions, sound, and lock-screen media behavior."
             #if DEBUG
             case .debug:
-                return "Manual event previews and test triggers."
+                return "Manual previews and event triggers for testing."
             #endif
             case .about:
-                return "Project, links, and release information."
+                return "Project details, links, and release information."
             }
         }
 
@@ -258,6 +258,7 @@ final class SettingsRootViewModel {
             powerService: resolvedPowerService,
             networkViewModel: resolvedNetworkViewModel,
             downloadViewModel: resolvedDownloadViewModel,
+            generalSettingsViewModel: settings,
             nowPlayingViewModel: resolvedNowPlayingViewModel,
             lockScreenManager: resolvedLockScreenManager
         )

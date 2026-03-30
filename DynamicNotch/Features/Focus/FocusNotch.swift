@@ -9,9 +9,14 @@ import SwiftUI
 
 struct FocusOnNotchContent: NotchContentProtocol {
     let id = "focus.on"
+    let generalSettingsViewModel: GeneralSettingsViewModel
     
     var priority: Int { 60 }
-    var strokeColor: Color { .indigo.opacity(0.3) }
+    var strokeColor: Color {
+        generalSettingsViewModel.isFocusDefaultStrokeEnabled ?
+        .white.opacity(0.2) :
+        .indigo.opacity(0.3)
+    }
     
     var offsetXTransition: CGFloat { -90 }
     
@@ -27,8 +32,13 @@ struct FocusOnNotchContent: NotchContentProtocol {
 
 struct FocusOffNotchContent: NotchContentProtocol {
     let id = "focus.off"
+    let generalSettingsViewModel: GeneralSettingsViewModel
     
-    var strokeColor: Color { .gray.opacity(0.3) }
+    var strokeColor: Color {
+        generalSettingsViewModel.isFocusDefaultStrokeEnabled ?
+        .white.opacity(0.2) :
+        .gray.opacity(0.3)
+    }
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         return .init(width: baseWidth + 70, height: baseHeight)
@@ -41,25 +51,23 @@ struct FocusOffNotchContent: NotchContentProtocol {
 }
 
 private struct FocusOnNotchView: View {
-    @Environment(\.notchScale) var scale
-    
-    var body: some View {
-        HStack {
-            Image(systemName: "moon.fill")
-                .font(.system(size: 16, weight: .bold))
-            
-            Spacer()
-            
-            Text("On")
-        }
-        .foregroundStyle(.indigo)
-        .padding(.horizontal, 14.scaled(by: scale))
-    }
+    var body: some View { FocusStatusNotchView(title: "On", tint: .indigo) }
 }
 
 private struct FocusOffNotchView: View {
+    var body: some View { FocusStatusNotchView(title: "Off", tint: .gray.opacity(0.6)) }
+}
+
+struct FocusPreviewNotchView: View {
+    var body: some View { FocusOnNotchView() }
+}
+
+private struct FocusStatusNotchView: View {
     @Environment(\.notchScale) var scale
-    
+
+    let title: String
+    let tint: Color
+
     var body: some View {
         HStack {
             Image(systemName: "moon.fill")
@@ -67,9 +75,9 @@ private struct FocusOffNotchView: View {
             
             Spacer()
             
-            Text("Off")
+            Text(title)
         }
-        .foregroundStyle(.gray.opacity(0.6))
+        .foregroundStyle(tint)
         .padding(.horizontal, 14.scaled(by: scale))
     }
 }

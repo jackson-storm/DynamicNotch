@@ -9,9 +9,14 @@ import SwiftUI
 
 struct HotspotActiveContent: NotchContentProtocol {
     let id = "hotspot.active"
+    let generalSettingsViewModel: GeneralSettingsViewModel
     
     var priority: Int { 70 }
-    var strokeColor: Color { .green.opacity(0.3) }
+    var strokeColor: Color {
+        generalSettingsViewModel.isHotspotDefaultStrokeEnabled ?
+        .white.opacity(0.2) :
+        .green.opacity(0.3)
+    }
     var offsetXTransition: CGFloat { -90 }
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
@@ -36,5 +41,11 @@ private struct HotspotActiveNotchView: View {
             Spacer()
         }
         .padding(.horizontal, 14.scaled(by: scale))
+    }
+}
+
+struct HotspotPreviewNotchView: View {
+    var body: some View {
+        HotspotActiveNotchView()
     }
 }

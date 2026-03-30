@@ -7,12 +7,12 @@ struct HUDSettingsView: View {
         SettingsPageScrollView {
             SettingsCard(
                 title: "Custom HUD",
-                subtitle: "Choose which system overlays Dynamic Notch should replace."
+                subtitle: "Choose which system HUDs Dynamic Notch should replace."
             ) {
                 VStack {
                     SettingsToggleRow(
                         title: "Brightness HUD",
-                        description: "Show the custom notch HUD for display brightness changes.",
+                        description: "Replace the system brightness HUD with the notch HUD.",
                         systemImage: "sun.max.fill",
                         color: .orange,
                         isOn: $generalSettingsViewModel.isBrightnessHUDEnabled,
@@ -23,7 +23,7 @@ struct HUDSettingsView: View {
 
                     SettingsToggleRow(
                         title: "Keyboard HUD",
-                        description: "Show the custom notch HUD for keyboard backlight changes.",
+                        description: "Replace the keyboard backlight HUD with the notch HUD.",
                         systemImage: "light.max",
                         color: .orange,
                         isOn: $generalSettingsViewModel.isKeyboardHUDEnabled,
@@ -34,7 +34,7 @@ struct HUDSettingsView: View {
 
                     SettingsToggleRow(
                         title: "Volume HUD",
-                        description: "Show the custom notch HUD for output volume changes.",
+                        description: "Replace the system volume HUD with the notch HUD.",
                         systemImage: "speaker.wave.2.fill",
                         color: .orange,
                         isOn: $generalSettingsViewModel.isVolumeHUDEnabled,

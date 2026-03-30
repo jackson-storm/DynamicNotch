@@ -179,9 +179,21 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
         }
     }
 
+    @Published var isDownloadsDefaultStrokeEnabled: Bool {
+        didSet {
+            persist(isDownloadsDefaultStrokeEnabled, for: Keys.downloadsDefaultStrokeEnabled)
+        }
+    }
+
     @Published var isAirDropLiveActivityEnabled: Bool {
         didSet {
             persist(isAirDropLiveActivityEnabled, for: Keys.airDropLiveActivityEnabled)
+        }
+    }
+
+    @Published var isAirDropDefaultStrokeEnabled: Bool {
+        didSet {
+            persist(isAirDropDefaultStrokeEnabled, for: Keys.airDropDefaultStrokeEnabled)
         }
     }
 
@@ -227,9 +239,27 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
         }
     }
 
+    @Published var isFocusDefaultStrokeEnabled: Bool {
+        didSet {
+            persist(isFocusDefaultStrokeEnabled, for: Keys.focusDefaultStrokeEnabled)
+        }
+    }
+
     @Published var isNotchSizeTemporaryActivityEnabled: Bool {
         didSet {
             persist(isNotchSizeTemporaryActivityEnabled, for: Keys.notchSizeTemporaryActivityEnabled)
+        }
+    }
+
+    @Published var isHotspotDefaultStrokeEnabled: Bool {
+        didSet {
+            persist(isHotspotDefaultStrokeEnabled, for: Keys.hotspotDefaultStrokeEnabled)
+        }
+    }
+
+    @Published var isBatteryDefaultStrokeEnabled: Bool {
+        didSet {
+            persist(isBatteryDefaultStrokeEnabled, for: Keys.batteryDefaultStrokeEnabled)
         }
     }
 
@@ -267,7 +297,9 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
             defaults.bool(forKey: Keys.legacyFileTransfersLiveActivityEnabled) :
             (Self.defaultValues[Keys.downloadsLiveActivityEnabled] as? Bool ?? true)
         )
+        self.isDownloadsDefaultStrokeEnabled = defaults.bool(forKey: Keys.downloadsDefaultStrokeEnabled)
         self.isAirDropLiveActivityEnabled = defaults.bool(forKey: Keys.airDropLiveActivityEnabled)
+        self.isAirDropDefaultStrokeEnabled = defaults.bool(forKey: Keys.airDropDefaultStrokeEnabled)
         self.isChargerTemporaryActivityEnabled = defaults.bool(forKey: Keys.chargerTemporaryActivityEnabled)
         self.isLowPowerTemporaryActivityEnabled = defaults.bool(forKey: Keys.lowPowerTemporaryActivityEnabled)
         self.isFullPowerTemporaryActivityEnabled = defaults.bool(forKey: Keys.fullPowerTemporaryActivityEnabled)
@@ -276,6 +308,9 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
         self.isVpnTemporaryActivityEnabled = defaults.bool(forKey: Keys.vpnTemporaryActivityEnabled)
         self.isFocusOffTemporaryActivityEnabled = defaults.bool(forKey: Keys.focusOffTemporaryActivityEnabled)
         self.isNotchSizeTemporaryActivityEnabled = defaults.bool(forKey: Keys.notchSizeTemporaryActivityEnabled)
+        self.isFocusDefaultStrokeEnabled = defaults.bool(forKey: Keys.focusDefaultStrokeEnabled)
+        self.isHotspotDefaultStrokeEnabled = defaults.bool(forKey: Keys.hotspotDefaultStrokeEnabled)
+        self.isBatteryDefaultStrokeEnabled = defaults.bool(forKey: Keys.batteryDefaultStrokeEnabled)
 
         updateLaunchAtLogin()
     }
@@ -351,13 +386,16 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
 
         case .downloads:
             isDownloadsLiveActivityEnabled = defaultBool(for: Keys.downloadsLiveActivityEnabled)
+            isDownloadsDefaultStrokeEnabled = defaultBool(for: Keys.downloadsDefaultStrokeEnabled)
 
         case .airDrop:
             isAirDropLiveActivityEnabled = defaultBool(for: Keys.airDropLiveActivityEnabled)
+            isAirDropDefaultStrokeEnabled = defaultBool(for: Keys.airDropDefaultStrokeEnabled)
 
         case .focus:
             isFocusLiveActivityEnabled = defaultBool(for: Keys.focusLiveActivityEnabled)
             isFocusOffTemporaryActivityEnabled = defaultBool(for: Keys.focusOffTemporaryActivityEnabled)
+            isFocusDefaultStrokeEnabled = defaultBool(for: Keys.focusDefaultStrokeEnabled)
 
         case .bluetooth:
             isBluetoothTemporaryActivityEnabled = defaultBool(for: Keys.bluetoothTemporaryActivityEnabled)
@@ -366,11 +404,13 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
             isHotspotLiveActivityEnabled = defaultBool(for: Keys.hotspotLiveActivityEnabled)
             isWifiTemporaryActivityEnabled = defaultBool(for: Keys.wifiTemporaryActivityEnabled)
             isVpnTemporaryActivityEnabled = defaultBool(for: Keys.vpnTemporaryActivityEnabled)
+            isHotspotDefaultStrokeEnabled = defaultBool(for: Keys.hotspotDefaultStrokeEnabled)
 
         case .battery:
             isChargerTemporaryActivityEnabled = defaultBool(for: Keys.chargerTemporaryActivityEnabled)
             isLowPowerTemporaryActivityEnabled = defaultBool(for: Keys.lowPowerTemporaryActivityEnabled)
             isFullPowerTemporaryActivityEnabled = defaultBool(for: Keys.fullPowerTemporaryActivityEnabled)
+            isBatteryDefaultStrokeEnabled = defaultBool(for: Keys.batteryDefaultStrokeEnabled)
 
         case .hud:
             isBrightnessHUDEnabled = defaultBool(for: Keys.brightnessHUDEnabled)
@@ -448,7 +488,9 @@ private extension GeneralSettingsViewModel {
         static let focusLiveActivityEnabled = "settings.live.focus"
         static let nowPlayingLiveActivityEnabled = "settings.live.nowPlaying"
         static let downloadsLiveActivityEnabled = "settings.live.downloads"
+        static let downloadsDefaultStrokeEnabled = "settings.live.downloads.defaultStroke"
         static let airDropLiveActivityEnabled = "settings.live.airDrop"
+        static let airDropDefaultStrokeEnabled = "settings.live.airDrop.defaultStroke"
         static let legacyFileTransfersLiveActivityEnabled = "settings.live.fileTransfers"
         static let chargerTemporaryActivityEnabled = "settings.temporary.charger"
         static let lowPowerTemporaryActivityEnabled = "settings.temporary.lowPower"
@@ -458,6 +500,9 @@ private extension GeneralSettingsViewModel {
         static let vpnTemporaryActivityEnabled = "settings.temporary.vpn"
         static let focusOffTemporaryActivityEnabled = "settings.temporary.focusOff"
         static let notchSizeTemporaryActivityEnabled = "settings.temporary.notchSize"
+        static let focusDefaultStrokeEnabled = "settings.focus.defaultStroke"
+        static let hotspotDefaultStrokeEnabled = "settings.live.hotspot.defaultStroke"
+        static let batteryDefaultStrokeEnabled = "settings.battery.defaultStroke"
     }
 
     static let defaultValues: [String: Any] = [
@@ -476,7 +521,9 @@ private extension GeneralSettingsViewModel {
         Keys.focusLiveActivityEnabled: true,
         Keys.nowPlayingLiveActivityEnabled: true,
         Keys.downloadsLiveActivityEnabled: true,
+        Keys.downloadsDefaultStrokeEnabled: false,
         Keys.airDropLiveActivityEnabled: true,
+        Keys.airDropDefaultStrokeEnabled: false,
         LockScreenSettings.liveActivityKey: true,
         LockScreenSettings.soundKey: true,
         LockScreenSettings.mediaPanelKey: true,
@@ -487,6 +534,9 @@ private extension GeneralSettingsViewModel {
         Keys.wifiTemporaryActivityEnabled: true,
         Keys.vpnTemporaryActivityEnabled: true,
         Keys.focusOffTemporaryActivityEnabled: true,
-        Keys.notchSizeTemporaryActivityEnabled: true
+        Keys.notchSizeTemporaryActivityEnabled: true,
+        Keys.focusDefaultStrokeEnabled: false,
+        Keys.hotspotDefaultStrokeEnabled: false,
+        Keys.batteryDefaultStrokeEnabled: false
     ]
 }

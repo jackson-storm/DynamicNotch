@@ -7,11 +7,11 @@ struct NowPlayingSettingsView: View {
         SettingsPageScrollView {
             SettingsCard(
                 title: "Playback activity",
-                subtitle: "Keep music and media controls anchored in the notch while playback is active."
+                subtitle: "Keep playback controls in the notch while media is playing."
             ) {
                 SettingsToggleRow(
                     title: "Now Playing live activity",
-                    description: "Keep the media player pinned in the notch while playback is active.",
+                    description: "Show the Now Playing live activity while audio or video playback is active.",
                     systemImage: "music.note",
                     color: .red,
                     isOn: $generalSettingsViewModel.isNowPlayingLiveActivityEnabled,

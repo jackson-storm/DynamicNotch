@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct NowPlayingSettingsView: View {
-    @ObservedObject var generalSettingsViewModel: GeneralSettingsViewModel
+    @ObservedObject var settings: MediaAndFilesSettingsStore
 
     var body: some View {
         SettingsPageScrollView {
@@ -14,7 +14,7 @@ struct NowPlayingSettingsView: View {
                     description: "Show the Now Playing live activity while audio or video playback is active.",
                     systemImage: "music.note",
                     color: .red,
-                    isOn: $generalSettingsViewModel.isNowPlayingLiveActivityEnabled,
+                    isOn: $settings.isNowPlayingLiveActivityEnabled,
                     accessibilityIdentifier: "settings.activities.live.nowPlaying"
                 )
             }

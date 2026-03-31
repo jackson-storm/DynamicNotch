@@ -1,7 +1,8 @@
 import SwiftUI
 
 struct FocusSettingsView: View {
-    @ObservedObject var generalSettingsViewModel: GeneralSettingsViewModel
+    @ObservedObject var connectivitySettings: ConnectivitySettingsStore
+    @ObservedObject var appearanceSettings: ApplicationSettingsStore
 
     var body: some View {
         SettingsPageScrollView {
@@ -21,7 +22,7 @@ struct FocusSettingsView: View {
                     description: "Show a live activity while Focus mode is enabled.",
                     systemImage: "moon.fill",
                     color: .indigo,
-                    isOn: $generalSettingsViewModel.isFocusLiveActivityEnabled,
+                    isOn: $connectivitySettings.isFocusLiveActivityEnabled,
                     accessibilityIdentifier: "settings.activities.live.focus"
                 )
 
@@ -32,7 +33,7 @@ struct FocusSettingsView: View {
                     description: "Show a short notification when Focus mode turns off.",
                     systemImage: "moon.stars.fill",
                     color: .indigo,
-                    isOn: $generalSettingsViewModel.isFocusOffTemporaryActivityEnabled,
+                    isOn: $connectivitySettings.isFocusOffTemporaryActivityEnabled,
                     accessibilityIdentifier: "settings.activities.temporary.focusOff"
                 )
             }
@@ -48,11 +49,11 @@ struct FocusSettingsView: View {
                 NotchPreview(
                     width: 260,
                     height: 38,
-                    showsStroke: generalSettingsViewModel.isShowNotchStrokeEnabled,
-                    strokeColor: generalSettingsViewModel.isFocusDefaultStrokeEnabled ?
+                    showsStroke: appearanceSettings.isShowNotchStrokeEnabled,
+                    strokeColor: connectivitySettings.isFocusDefaultStrokeEnabled ?
                         .white.opacity(0.2) :
                             .indigo.opacity(0.3),
-                    strokeWidth: CGFloat(generalSettingsViewModel.notchStrokeWidth)
+                    strokeWidth: CGFloat(appearanceSettings.notchStrokeWidth)
                 ) {
                     FocusPreviewNotchView()
                 }
@@ -62,7 +63,7 @@ struct FocusSettingsView: View {
                     description: "Use the default notch stroke color instead of the Focus accent colors.",
                     systemImage: "paintbrush.pointed.fill",
                     color: .indigo,
-                    isOn: $generalSettingsViewModel.isFocusDefaultStrokeEnabled,
+                    isOn: $connectivitySettings.isFocusDefaultStrokeEnabled,
                     accessibilityIdentifier: "settings.activities.focus.defaultStroke"
                 )
             }

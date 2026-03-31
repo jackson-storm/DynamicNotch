@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct BluetoothSettingsView: View {
-    @ObservedObject var generalSettingsViewModel: GeneralSettingsViewModel
+    @ObservedObject var settings: ConnectivitySettingsStore
 
     var body: some View {
         SettingsPageScrollView {
@@ -14,7 +14,7 @@ struct BluetoothSettingsView: View {
                     description: "Show a temporary activity when a Bluetooth accessory connects.",
                     systemImage: "headphones",
                     color: .blue,
-                    isOn: $generalSettingsViewModel.isBluetoothTemporaryActivityEnabled,
+                    isOn: $settings.isBluetoothTemporaryActivityEnabled,
                     accessibilityIdentifier: "settings.activities.temporary.bluetooth"
                 )
             }

@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct HUDSettingsView: View {
-    @ObservedObject var generalSettingsViewModel: GeneralSettingsViewModel
+    @ObservedObject var settings: HUDSettingsStore
 
     var body: some View {
         SettingsPageScrollView {
@@ -15,7 +15,7 @@ struct HUDSettingsView: View {
                         description: "Replace the system brightness HUD with the notch HUD.",
                         systemImage: "sun.max.fill",
                         color: .orange,
-                        isOn: $generalSettingsViewModel.isBrightnessHUDEnabled,
+                        isOn: $settings.isBrightnessHUDEnabled,
                         accessibilityIdentifier: "settings.general.hud.brightness"
                     )
 
@@ -26,7 +26,7 @@ struct HUDSettingsView: View {
                         description: "Replace the keyboard backlight HUD with the notch HUD.",
                         systemImage: "light.max",
                         color: .orange,
-                        isOn: $generalSettingsViewModel.isKeyboardHUDEnabled,
+                        isOn: $settings.isKeyboardHUDEnabled,
                         accessibilityIdentifier: "settings.general.hud.keyboard"
                     )
 
@@ -37,7 +37,7 @@ struct HUDSettingsView: View {
                         description: "Replace the system volume HUD with the notch HUD.",
                         systemImage: "speaker.wave.2.fill",
                         color: .orange,
-                        isOn: $generalSettingsViewModel.isVolumeHUDEnabled,
+                        isOn: $settings.isVolumeHUDEnabled,
                         accessibilityIdentifier: "settings.general.hud.volume"
                     )
                 }

@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct LockScreenSettingsView: View {
-    @ObservedObject var generalSettingsViewModel: GeneralSettingsViewModel
+    @ObservedObject var settings: LockScreenFeatureSettingsStore
 
     var body: some View {
         SettingsPageScrollView {
@@ -15,7 +15,7 @@ struct LockScreenSettingsView: View {
                         description: "Show the lock-screen live activity during lock and unlock transitions.",
                         systemImage: "lock.fill",
                         color: .black,
-                        isOn: $generalSettingsViewModel.isLockScreenLiveActivityEnabled,
+                        isOn: $settings.isLockScreenLiveActivityEnabled,
                         accessibilityIdentifier: "settings.activities.lockScreen.liveActivity"
                     )
 
@@ -26,7 +26,7 @@ struct LockScreenSettingsView: View {
                         description: "Play a sound when locking or unlocking your Mac.",
                         systemImage: "speaker.wave.2.fill",
                         color: .red,
-                        isOn: $generalSettingsViewModel.isLockScreenSoundEnabled,
+                        isOn: $settings.isLockScreenSoundEnabled,
                         accessibilityIdentifier: "settings.activities.lockScreen.sound"
                     )
 
@@ -37,7 +37,7 @@ struct LockScreenSettingsView: View {
                         description: "Show the detached media panel on the lock screen while playback is active.",
                         systemImage: "play.rectangle.fill",
                         color: .pink,
-                        isOn: $generalSettingsViewModel.isLockScreenMediaPanelEnabled,
+                        isOn: $settings.isLockScreenMediaPanelEnabled,
                         accessibilityIdentifier: "settings.activities.lockScreen.mediaPanel"
                     )
                 }

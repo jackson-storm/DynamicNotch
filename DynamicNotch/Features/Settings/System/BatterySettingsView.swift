@@ -1,7 +1,8 @@
 import SwiftUI
 
 struct BatterySettingsView: View {
-    @ObservedObject var generalSettingsViewModel: GeneralSettingsViewModel
+    @ObservedObject var batterySettings: BatterySettingsStore
+    @ObservedObject var appearanceSettings: ApplicationSettingsStore
     
     var body: some View {
         SettingsPageScrollView {
@@ -20,7 +21,7 @@ struct BatterySettingsView: View {
                 description: "Show a temporary activity when your Mac starts charging.",
                 systemImage: "bolt.fill",
                 color: .green,
-                isOn: $generalSettingsViewModel.isChargerTemporaryActivityEnabled,
+                isOn: $batterySettings.isChargerTemporaryActivityEnabled,
                 accessibilityIdentifier: "settings.activities.temporary.charger"
             )
             
@@ -31,7 +32,7 @@ struct BatterySettingsView: View {
                 description: "Show a warning when Low Power Mode is enabled or the battery is critically low.",
                 systemImage: "battery.25",
                 color: .green,
-                isOn: $generalSettingsViewModel.isLowPowerTemporaryActivityEnabled,
+                isOn: $batterySettings.isLowPowerTemporaryActivityEnabled,
                 accessibilityIdentifier: "settings.activities.temporary.lowPower"
             )
             
@@ -42,7 +43,7 @@ struct BatterySettingsView: View {
                 description: "Show a temporary activity when the battery reaches full charge.",
                 systemImage: "battery.100",
                 color: .green,
-                isOn: $generalSettingsViewModel.isFullPowerTemporaryActivityEnabled,
+                isOn: $batterySettings.isFullPowerTemporaryActivityEnabled,
                 accessibilityIdentifier: "settings.activities.temporary.fullPower"
             )
         }
@@ -58,11 +59,11 @@ struct BatterySettingsView: View {
                 height: 120,
                 topCornerRadius: 22,
                 bottomCornerRadius: 40,
-                showsStroke: generalSettingsViewModel.isShowNotchStrokeEnabled,
-                strokeColor: generalSettingsViewModel.isBatteryDefaultStrokeEnabled ?
+                showsStroke: appearanceSettings.isShowNotchStrokeEnabled,
+                strokeColor: batterySettings.isBatteryDefaultStrokeEnabled ?
                     .white.opacity(0.2) :
                         .red.opacity(0.3),
-                strokeWidth: CGFloat(generalSettingsViewModel.notchStrokeWidth)
+                strokeWidth: CGFloat(appearanceSettings.notchStrokeWidth)
             ) {
                 LowPowerPreviewNotchView()
             }
@@ -72,7 +73,7 @@ struct BatterySettingsView: View {
                 description: "Use the default notch stroke color instead of the battery accent colors.",
                 systemImage: "paintbrush.pointed.fill",
                 color: .indigo,
-                isOn: $generalSettingsViewModel.isBatteryDefaultStrokeEnabled,
+                isOn: $batterySettings.isBatteryDefaultStrokeEnabled,
                 accessibilityIdentifier: "settings.activities.battery.defaultStroke"
             )
         }

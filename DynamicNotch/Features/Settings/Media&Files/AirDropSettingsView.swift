@@ -1,7 +1,8 @@
 import SwiftUI
 
 struct AirDropSettingsView: View {
-    @ObservedObject var generalSettingsViewModel: GeneralSettingsViewModel
+    @ObservedObject var mediaSettings: MediaAndFilesSettingsStore
+    @ObservedObject var appearanceSettings: ApplicationSettingsStore
     
     var body: some View {
         SettingsPageScrollView {
@@ -20,7 +21,7 @@ struct AirDropSettingsView: View {
                 description: "Show the AirDrop drop target when you drag files over the notch.",
                 systemImage: "dot.radiowaves.left.and.right",
                 color: .blue,
-                isOn: $generalSettingsViewModel.isAirDropLiveActivityEnabled,
+                isOn: $mediaSettings.isAirDropLiveActivityEnabled,
                 accessibilityIdentifier: "settings.activities.live.airDrop"
             )
         }
@@ -36,11 +37,11 @@ struct AirDropSettingsView: View {
                 height: 128,
                 topCornerRadius: 24,
                 bottomCornerRadius: 36,
-                showsStroke: generalSettingsViewModel.isShowNotchStrokeEnabled,
-                strokeColor: generalSettingsViewModel.isAirDropDefaultStrokeEnabled ?
+                showsStroke: appearanceSettings.isShowNotchStrokeEnabled,
+                strokeColor: mediaSettings.isAirDropDefaultStrokeEnabled ?
                     .white.opacity(0.2) :
                         .blue.opacity(0.3),
-                strokeWidth: CGFloat(generalSettingsViewModel.notchStrokeWidth)
+                strokeWidth: CGFloat(appearanceSettings.notchStrokeWidth)
             ) {
                 AirDropPreviewNotchView()
             }
@@ -50,7 +51,7 @@ struct AirDropSettingsView: View {
                 description: "Use the default notch stroke color instead of the blue AirDrop accent.",
                 systemImage: "paintbrush.pointed.fill",
                 color: .indigo,
-                isOn: $generalSettingsViewModel.isAirDropDefaultStrokeEnabled,
+                isOn: $mediaSettings.isAirDropDefaultStrokeEnabled,
                 accessibilityIdentifier: "settings.activities.live.airDrop.defaultStroke"
             )
         }

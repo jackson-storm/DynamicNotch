@@ -2,7 +2,7 @@ import SwiftUI
 
 struct GeneralSettingsView: View {
     @ObservedObject var powerService: PowerService
-    @ObservedObject var generalSettingsViewModel: GeneralSettingsViewModel
+    @ObservedObject var applicationSettings: ApplicationSettingsStore
     
     var body: some View {
         SettingsPageScrollView {
@@ -25,7 +25,7 @@ struct GeneralSettingsView: View {
                     description: "Launch Dynamic Notch automatically when you sign in.",
                     systemImage: "power",
                     color: .blue,
-                    isOn: $generalSettingsViewModel.isLaunchAtLoginEnabled,
+                    isOn: $applicationSettings.isLaunchAtLoginEnabled,
                     accessibilityIdentifier: "settings.general.launchAtLogin"
                 )
                 
@@ -36,7 +36,7 @@ struct GeneralSettingsView: View {
                     description: "Show a menu bar shortcut for quick access to Settings and Quit.",
                     systemImage: "menubar.rectangle",
                     color: .purple,
-                    isOn: $generalSettingsViewModel.isMenuBarIconVisible,
+                    isOn: $applicationSettings.isMenuBarIconVisible,
                     accessibilityIdentifier: "settings.general.menuBarIcon"
                 )
             }
@@ -49,7 +49,7 @@ struct GeneralSettingsView: View {
             subtitle: "Choose which display should host the notch overlay."
         ) {
             CustomPicker(
-                selection: $generalSettingsViewModel.displayLocation,
+                selection: $applicationSettings.displayLocation,
                 options: Array(NotchDisplayLocation.allCases),
                 title: { $0.title },
                 symbolName: { $0.symbolName }
@@ -69,9 +69,9 @@ struct GeneralSettingsView: View {
                     height: 38,
                     topCornerRadius: 9,
                     bottomCornerRadius: 13,
-                    showsStroke: generalSettingsViewModel.isShowNotchStrokeEnabled,
+                    showsStroke: applicationSettings.isShowNotchStrokeEnabled,
                     strokeColor: .green.opacity(0.3),
-                    strokeWidth: CGFloat(generalSettingsViewModel.notchStrokeWidth)
+                    strokeWidth: CGFloat(applicationSettings.notchStrokeWidth)
                 ) {
                     ChargerNotchView(powerService: powerService)
                 }
@@ -81,7 +81,7 @@ struct GeneralSettingsView: View {
                     description: "Show a subtle outline that adapts to the active content color.",
                     systemImage: "square.on.square.squareshape.controlhandles",
                     color: .green,
-                    isOn: $generalSettingsViewModel.isShowNotchStrokeEnabled,
+                    isOn: $applicationSettings.isShowNotchStrokeEnabled,
                     accessibilityIdentifier: "settings.general.showNotchStroke"
                 )
                 
@@ -92,7 +92,7 @@ struct GeneralSettingsView: View {
                     description: "Show temporary size hints while adjusting the notch width or height.",
                     systemImage: "arrow.up.left.and.arrow.down.right",
                     color: .red,
-                    isOn: $generalSettingsViewModel.isNotchSizeTemporaryActivityEnabled,
+                    isOn: $applicationSettings.isNotchSizeTemporaryActivityEnabled,
                     accessibilityIdentifier: "settings.activities.temporary.notchSize"
                 )
                 
@@ -106,7 +106,7 @@ struct GeneralSettingsView: View {
                     fractionLength: 1,
                     suffix: "px",
                     accessibilityIdentifier: "settings.general.notchStrokeWidth",
-                    value: $generalSettingsViewModel.notchStrokeWidth
+                    value: $applicationSettings.notchStrokeWidth
                 )
                 
                 SettingsSliderRow(
@@ -118,8 +118,8 @@ struct GeneralSettingsView: View {
                     suffix: "px",
                     accessibilityIdentifier: "settings.general.notchWidth",
                     value: Binding(
-                        get: { Double(generalSettingsViewModel.notchWidth) },
-                        set: { generalSettingsViewModel.notchWidth = Int($0.rounded()) }
+                        get: { Double(applicationSettings.notchWidth) },
+                        set: { applicationSettings.notchWidth = Int($0.rounded()) }
                     )
                 )
                 
@@ -132,8 +132,8 @@ struct GeneralSettingsView: View {
                     suffix: "px",
                     accessibilityIdentifier: "settings.general.notchHeight",
                     value: Binding(
-                        get: { Double(generalSettingsViewModel.notchHeight) },
-                        set: { generalSettingsViewModel.notchHeight = Int($0.rounded()) }
+                        get: { Double(applicationSettings.notchHeight) },
+                        set: { applicationSettings.notchHeight = Int($0.rounded()) }
                     )
                 )
             }
@@ -147,7 +147,7 @@ struct GeneralSettingsView: View {
         ) {
             VStack(alignment: .leading, spacing: 12) {
                 CustomPicker(
-                    selection: $generalSettingsViewModel.notchAnimationPreset,
+                    selection: $applicationSettings.notchAnimationPreset,
                     options: Array(NotchAnimationPreset.allCases),
                     title: { $0.title },
                     symbolName: { $0.symbolName }

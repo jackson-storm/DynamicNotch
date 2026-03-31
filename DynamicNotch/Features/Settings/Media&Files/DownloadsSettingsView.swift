@@ -1,7 +1,8 @@
 import SwiftUI
 
 struct DownloadsSettingsView: View {
-    @ObservedObject var generalSettingsViewModel: GeneralSettingsViewModel
+    @ObservedObject var mediaSettings: MediaAndFilesSettingsStore
+    @ObservedObject var appearanceSettings: ApplicationSettingsStore
     @ObservedObject var downloadViewModel: DownloadViewModel
     
     var body: some View {
@@ -22,7 +23,7 @@ struct DownloadsSettingsView: View {
                 description: "Show a live activity while files are being downloaded to monitored folders like Downloads, Desktop, and Documents.",
                 systemImage: "arrow.down.doc.fill",
                 color: .purple,
-                isOn: $generalSettingsViewModel.isDownloadsLiveActivityEnabled,
+                isOn: $mediaSettings.isDownloadsLiveActivityEnabled,
                 accessibilityIdentifier: "settings.activities.live.downloads"
             )
         }
@@ -38,11 +39,11 @@ struct DownloadsSettingsView: View {
                 height: 128,
                 topCornerRadius: 24,
                 bottomCornerRadius: 34,
-                showsStroke: generalSettingsViewModel.isShowNotchStrokeEnabled,
-                strokeColor: generalSettingsViewModel.isDownloadsDefaultStrokeEnabled ?
+                showsStroke: appearanceSettings.isShowNotchStrokeEnabled,
+                strokeColor: mediaSettings.isDownloadsDefaultStrokeEnabled ?
                     .white.opacity(0.2) :
                         .accentColor.opacity(0.3),
-                strokeWidth: CGFloat(generalSettingsViewModel.notchStrokeWidth)
+                strokeWidth: CGFloat(appearanceSettings.notchStrokeWidth)
             ) {
                 DownloadExpandedPreviewNotchView()
             }
@@ -52,7 +53,7 @@ struct DownloadsSettingsView: View {
                 description: "Use the default notch stroke color instead of the blue download accent.",
                 systemImage: "paintbrush.pointed.fill",
                 color: .indigo,
-                isOn: $generalSettingsViewModel.isDownloadsDefaultStrokeEnabled,
+                isOn: $mediaSettings.isDownloadsDefaultStrokeEnabled,
                 accessibilityIdentifier: "settings.activities.live.downloads.defaultStroke"
             )
         }

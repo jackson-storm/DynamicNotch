@@ -9,9 +9,6 @@ final class SettingsRootViewModel {
         case media
         case connectivity
         case system
-        #if DEBUG
-        case developer
-        #endif
         case info
 
         var id: String { rawValue }
@@ -26,10 +23,6 @@ final class SettingsRootViewModel {
                 return "Connectivity"
             case .system:
                 return "System"
-            #if DEBUG
-            case .developer:
-                return "Developer"
-            #endif
             case .info:
                 return "Info"
             }
@@ -58,16 +51,16 @@ final class SettingsRootViewModel {
             switch self {
             case .general:
                 return .app
+            #if DEBUG
+            case .debug:
+                return .app
+            #endif
             case .nowPlaying, .downloads, .airDrop:
                 return .media
             case .focus, .bluetooth, .network:
                 return .connectivity
             case .battery, .hud, .lockScreen:
                 return .system
-            #if DEBUG
-            case .debug:
-                return .developer
-            #endif
             case .about:
                 return .info
             }
@@ -226,7 +219,7 @@ final class SettingsRootViewModel {
         self.defaults = defaults
 
         #if DEBUG
-        let resolvedNotchViewModel = notchViewModel ?? NotchViewModel(settings: settings)
+        let resolvedNotchViewModel = notchViewModel ?? NotchViewModel(settings: settings.application)
         let resolvedBluetoothViewModel = bluetoothViewModel ?? BluetoothViewModel()
         let resolvedPowerService = powerService ?? PowerService(startMonitoring: false)
         let resolvedNetworkViewModel = networkViewModel ?? NetworkViewModel()

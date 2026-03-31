@@ -25,6 +25,10 @@
   </a>
 </p>
 
+<p>
+<img src="assets/readme/Player.png" alt="DynamicNotch preview" width="100%" />
+</p>
+
 ## ✨ Why DynamicNotch
 
 DynamicNotch treats the MacBook notch like a compact system surface instead of a static cutout.
@@ -61,12 +65,6 @@ rather than layered on top of it.
 </table>
 
 >It is demonstrated how the notch appears against various backgrounds. The outline can be removed in the settings, if desired.
-
-## 📡 AirDrop Experience
-
-DynamicNotch can reveal an AirDrop live activity as soon as you drag a file over the notch.
-Once expanded, the file must be dropped inside the highlighted AirDrop target area before the
-system AirDrop share flow is handed off.
 
 ## 📦 Installation
 

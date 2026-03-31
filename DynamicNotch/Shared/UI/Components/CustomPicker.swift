@@ -60,17 +60,21 @@ struct CustomPicker<Option: Hashable>: View {
                 HStack(spacing: 10) {
                     Image(systemName: symbolName(option))
                         .font(.system(size: 18, weight: .semibold))
-                        .foregroundStyle(isSelected ? Color.primary : Color.secondary)
+                        .foregroundStyle(isSelected ? Color.accentColor : Color.secondary)
                 }
                 .frame(maxWidth: .infinity, minHeight: 62, alignment: .center)
                 .padding(.horizontal, 12)
                 .background(
                     RoundedRectangle(cornerRadius: 10, style: .continuous)
-                        .fill(colorScheme == .dark ? Color.gray.opacity(isSelected ? 0.12 : 0.08) : Color .gray.opacity(isSelected ? 0.22 : 0.18))
+                        .fill(
+                            isSelected ?
+                            Color.accentColor.opacity(colorScheme == .dark ? 0.14 : 0.10) :
+                            (colorScheme == .dark ? Color.gray.opacity(0.08) : Color.gray.opacity(0.18))
+                        )
                 )
                 .overlay(
                     RoundedRectangle(cornerRadius: 10, style: .continuous)
-                        .stroke(isSelected ? Color.blue.opacity(0.9) : Color.gray.opacity(0.1), lineWidth: isSelected ? 2 : 1)
+                        .stroke(isSelected ? Color.accentColor.opacity(0.9) : Color.gray.opacity(0.1), lineWidth: isSelected ? 2 : 1)
                 )
                 .contentShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
             }
@@ -78,7 +82,7 @@ struct CustomPicker<Option: Hashable>: View {
             
             Text(title(option))
                 .font(.system(size: 13))
-                .foregroundStyle(isSelected ? Color.primary : Color.secondary)
+                .foregroundStyle(isSelected ? Color.accentColor : Color.secondary)
                 .lineLimit(1)
                 .truncationMode(.tail)
         }

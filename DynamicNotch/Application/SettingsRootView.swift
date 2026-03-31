@@ -173,44 +173,60 @@ struct SettingsRootView: View {
         case .general:
             GeneralSettingsView(
                 powerService: powerService,
-                generalSettingsViewModel: generalSettingsViewModel
+                applicationSettings: generalSettingsViewModel.application
             )
             .accessibilityIdentifier(section.accessibilityIdentifier)
 
         case .nowPlaying:
-            NowPlayingSettingsView(generalSettingsViewModel: generalSettingsViewModel)
+            NowPlayingSettingsView(settings: generalSettingsViewModel.mediaAndFiles)
             .accessibilityIdentifier(section.accessibilityIdentifier)
 
         case .downloads:
-            DownloadsSettingsView(generalSettingsViewModel: generalSettingsViewModel)
+            DownloadsSettingsView(
+                mediaSettings: generalSettingsViewModel.mediaAndFiles,
+                appearanceSettings: generalSettingsViewModel.application,
+                downloadViewModel: downloadViewModel
+            )
             .accessibilityIdentifier(section.accessibilityIdentifier)
 
         case .airDrop:
-            AirDropSettingsView(generalSettingsViewModel: generalSettingsViewModel)
+            AirDropSettingsView(
+                mediaSettings: generalSettingsViewModel.mediaAndFiles,
+                appearanceSettings: generalSettingsViewModel.application
+            )
             .accessibilityIdentifier(section.accessibilityIdentifier)
 
         case .focus:
-            FocusSettingsView(generalSettingsViewModel: generalSettingsViewModel)
+            FocusSettingsView(
+                connectivitySettings: generalSettingsViewModel.connectivity,
+                appearanceSettings: generalSettingsViewModel.application
+            )
             .accessibilityIdentifier(section.accessibilityIdentifier)
 
         case .bluetooth:
-            BluetoothSettingsView(generalSettingsViewModel: generalSettingsViewModel)
+            BluetoothSettingsView(settings: generalSettingsViewModel.connectivity)
             .accessibilityIdentifier(section.accessibilityIdentifier)
 
         case .network:
-            NetworkSettingsView(generalSettingsViewModel: generalSettingsViewModel)
+            NetworkSettingsView(
+                connectivitySettings: generalSettingsViewModel.connectivity,
+                appearanceSettings: generalSettingsViewModel.application
+            )
             .accessibilityIdentifier(section.accessibilityIdentifier)
 
         case .battery:
-            BatterySettingsView(generalSettingsViewModel: generalSettingsViewModel)
+            BatterySettingsView(
+                batterySettings: generalSettingsViewModel.battery,
+                appearanceSettings: generalSettingsViewModel.application
+            )
             .accessibilityIdentifier(section.accessibilityIdentifier)
 
         case .hud:
-            HUDSettingsView(generalSettingsViewModel: generalSettingsViewModel)
+            HUDSettingsView(settings: generalSettingsViewModel.hud)
             .accessibilityIdentifier(section.accessibilityIdentifier)
 
         case .lockScreen:
-            LockScreenSettingsView(generalSettingsViewModel: generalSettingsViewModel)
+            LockScreenSettingsView(settings: generalSettingsViewModel.lockScreen)
             .accessibilityIdentifier(section.accessibilityIdentifier)
 
         #if DEBUG

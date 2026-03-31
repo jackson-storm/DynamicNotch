@@ -8,56 +8,29 @@
 import SwiftUI
 import Combine
 
+@MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate {
     private let isRunningUITests = ProcessInfo.processInfo.arguments.contains("-ui-testing")
+    private let container: AppContainer
 
-    let powerService = PowerService()
-    let bluetoothViewModel = BluetoothViewModel()
-    let powerViewModel: PowerViewModel
-    let networkViewModel = NetworkViewModel()
-    let downloadViewModel: DownloadViewModel
-    let focusViewModel = FocusViewModel()
-    let generalSettingsViewModel = GeneralSettingsViewModel()
-    let nowPlayingViewModel: NowPlayingViewModel
-    let airDropViewModel = AirDropNotchViewModel()
-    let lockScreenManager: LockScreenManager
-    
-    lazy var hardwareHUDMonitor: HardwareHUDMonitor = {
-        let monitor = HardwareHUDMonitor()
-        monitor.onEvent = { [weak self] event in
-            self?.notchEventCoordinator.handleHudEvent(event)
-        }
-        monitor.updateConfiguration(
-            interceptVolume: generalSettingsViewModel.isVolumeHUDEnabled,
-            interceptBrightness: generalSettingsViewModel.isBrightnessHUDEnabled
-        )
-        return monitor
-    }()
-    
-    lazy var notchViewModel = NotchViewModel(settings: generalSettingsViewModel)
-    lazy var airDropController = NotchAirDropController(airDropViewModel: airDropViewModel)
-    
-    lazy var notchEventCoordinator = NotchEventCoordinator(
-        notchViewModel: notchViewModel,
-        bluetoothViewModel: bluetoothViewModel,
-        powerService: powerService,
-        networkViewModel: networkViewModel,
-        downloadViewModel: downloadViewModel,
-        airDropViewModel: airDropViewModel,
-        generalSettingsViewModel: generalSettingsViewModel,
-        nowPlayingViewModel: nowPlayingViewModel,
-        lockScreenManager: lockScreenManager
-    )
-    lazy var lockScreenPanelManager = LockScreenPanelManager(
-        nowPlayingViewModel: nowPlayingViewModel,
-        lockScreenManager: lockScreenManager,
-        generalSettingsViewModel: generalSettingsViewModel
-    )
-    lazy var lockScreenLiveActivityWindowManager = LockScreenLiveActivityWindowManager(
-        notchViewModel: notchViewModel,
-        lockScreenManager: lockScreenManager,
-        generalSettingsViewModel: generalSettingsViewModel
-    )
+    var powerService: PowerService { container.powerService }
+    var bluetoothViewModel: BluetoothViewModel { container.bluetoothViewModel }
+    var powerViewModel: PowerViewModel { container.powerViewModel }
+    var networkViewModel: NetworkViewModel { container.networkViewModel }
+    var downloadViewModel: DownloadViewModel { container.downloadViewModel }
+    var focusViewModel: FocusViewModel { container.focusViewModel }
+    var generalSettingsViewModel: GeneralSettingsViewModel { container.generalSettingsViewModel }
+    var nowPlayingViewModel: NowPlayingViewModel { container.nowPlayingViewModel }
+    var airDropViewModel: AirDropNotchViewModel { container.airDropViewModel }
+    var lockScreenManager: LockScreenManager { container.lockScreenManager }
+    var hardwareHUDMonitor: HardwareHUDMonitor { container.hardwareHUDMonitor }
+    var notchViewModel: NotchViewModel { container.notchViewModel }
+    var airDropController: NotchAirDropController { container.airDropController }
+    var notchEventCoordinator: NotchEventCoordinator { container.notchEventCoordinator }
+    var lockScreenPanelManager: LockScreenPanelManager { container.lockScreenPanelManager }
+    var lockScreenLiveActivityWindowManager: LockScreenLiveActivityWindowManager {
+        container.lockScreenLiveActivityWindowManager
+    }
     
     var window: OverlayPanelWindow!
     private var localClickMonitor: Any?
@@ -66,27 +39,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var isPrimaryWindowSuspendedForLock = false
     
     override init() {
-        let isRunningUITests = ProcessInfo.processInfo.arguments.contains("-ui-testing")
-
-        self.powerViewModel = PowerViewModel(powerService: powerService)
-        self.nowPlayingViewModel = NowPlayingViewModel(
-            service: isRunningUITests ?
-                InactiveNowPlayingService() :
-                MediaRemoteNowPlayingService()
-        )
-        self.downloadViewModel = DownloadViewModel(
-            monitor: isRunningUITests ?
-                InactiveDownloadMonitor() :
-                FolderFileDownloadMonitor()
-        )
-        self.lockScreenManager = LockScreenManager(
-            service: isRunningUITests ?
-                InactiveLockScreenMonitoringService() :
-                DistributedLockScreenMonitoringService(),
-            soundPlayer: isRunningUITests ?
-                InactiveLockScreenSoundPlayer() :
-                LockScreenSoundPlayer()
-        )
+        self.container = AppContainer(isRunningUITests: isRunningUITests)
         super.init()
     }
     
@@ -202,7 +155,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func observeDisplayLocationChanges() {
-        generalSettingsViewModel.$displayLocation
+        generalSettingsViewModel.application.$displayLocation
             .removeDuplicates()
             .sink { [weak self] _ in
                 self?.updateWindowFrame()
@@ -212,8 +165,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func observeHUDConfigurationChanges() {
         Publishers.CombineLatest(
-            generalSettingsViewModel.$isVolumeHUDEnabled.removeDuplicates(),
-            generalSettingsViewModel.$isBrightnessHUDEnabled.removeDuplicates()
+            generalSettingsViewModel.hud.$isVolumeHUDEnabled.removeDuplicates(),
+            generalSettingsViewModel.hud.$isBrightnessHUDEnabled.removeDuplicates()
         )
         .sink { [weak self] isVolumeHUDEnabled, isBrightnessHUDEnabled in
             self?.hardwareHUDMonitor.updateConfiguration(

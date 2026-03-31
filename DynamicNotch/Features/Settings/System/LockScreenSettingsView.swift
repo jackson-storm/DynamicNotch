@@ -1,21 +1,21 @@
 import SwiftUI
 
 struct LockScreenSettingsView: View {
-    @ObservedObject var generalSettingsViewModel: GeneralSettingsViewModel
+    @ObservedObject var settings: LockScreenFeatureSettingsStore
 
     var body: some View {
         SettingsPageScrollView {
             SettingsCard(
                 title: "Lock screen behavior",
-                subtitle: "Control the lock transition overlay, sound, and detached media presentation."
+                subtitle: "Control the lock-screen live activity, sound, and detached media panel."
             ) {
                 VStack {
                     SettingsToggleRow(
                         title: "Lock screen live activity",
-                        description: "Show the dedicated lock screen state in the notch during lock transitions.",
+                        description: "Show the lock-screen live activity during lock and unlock transitions.",
                         systemImage: "lock.fill",
                         color: .black,
-                        isOn: $generalSettingsViewModel.isLockScreenLiveActivityEnabled,
+                        isOn: $settings.isLockScreenLiveActivityEnabled,
                         accessibilityIdentifier: "settings.activities.lockScreen.liveActivity"
                     )
 
@@ -23,10 +23,10 @@ struct LockScreenSettingsView: View {
 
                     SettingsToggleRow(
                         title: "Lock screen sound",
-                        description: "When locking and unlocking, a sound is played.",
+                        description: "Play a sound when locking or unlocking your Mac.",
                         systemImage: "speaker.wave.2.fill",
                         color: .red,
-                        isOn: $generalSettingsViewModel.isLockScreenSoundEnabled,
+                        isOn: $settings.isLockScreenSoundEnabled,
                         accessibilityIdentifier: "settings.activities.lockScreen.sound"
                     )
 
@@ -34,10 +34,10 @@ struct LockScreenSettingsView: View {
 
                     SettingsToggleRow(
                         title: "Lock screen media panel",
-                        description: "Present the detached media panel on the lock screen when playback is active.",
+                        description: "Show the detached media panel on the lock screen while playback is active.",
                         systemImage: "play.rectangle.fill",
                         color: .pink,
-                        isOn: $generalSettingsViewModel.isLockScreenMediaPanelEnabled,
+                        isOn: $settings.isLockScreenMediaPanelEnabled,
                         accessibilityIdentifier: "settings.activities.lockScreen.mediaPanel"
                     )
                 }

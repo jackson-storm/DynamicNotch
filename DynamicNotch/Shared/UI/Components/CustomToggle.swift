@@ -24,7 +24,7 @@ struct CustomToggleStyle: ToggleStyle {
                 
                 ZStack {
                     RoundedRectangle(cornerRadius: 30)
-                        .fill(configuration.isOn ? .blue : .gray.opacity(0.3))
+                        .fill(configuration.isOn ? Color.accentColor : .gray.opacity(0.3))
                         .frame(width: 40, height: 22)
                     
                     Circle()

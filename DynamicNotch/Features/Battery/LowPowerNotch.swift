@@ -3,8 +3,13 @@ import SwiftUI
 struct LowPowerNotchContent: NotchContentProtocol {
     let id = "battery.lowPower"
     let powerService: PowerService
+    let generalSettingsViewModel: GeneralSettingsViewModel
     
-    var strokeColor: Color { powerService.isLowPowerMode ? .yellow.opacity(0.3) : .red.opacity(0.3) }
+    var strokeColor: Color {
+        generalSettingsViewModel.isBatteryDefaultStrokeEnabled ?
+        .white.opacity(0.2) :
+        (powerService.isLowPowerMode ? .yellow.opacity(0.3) : .red.opacity(0.3))
+    }
     var offsetXTransition: CGFloat { -30 }
     var offsetYTransition: CGFloat { -60 }
     
@@ -157,5 +162,18 @@ private struct LowPowerNotchView: View {
                 .frame(width: 8, height: 14)
                 .offset(x: -15)
         }
+    }
+}
+
+struct LowPowerPreviewNotchView: View {
+    @StateObject private var powerService = PowerService.settingsPreview(
+        onACPower: false,
+        batteryLevel: 14,
+        isCharging: false,
+        isLowPowerMode: false
+    )
+
+    var body: some View {
+        LowPowerNotchView(powerService: powerService)
     }
 }

@@ -67,7 +67,7 @@ final class LockScreenPanelManager {
         }
         .store(in: &cancellables)
         
-        generalSettingsViewModel.$displayLocation
+        generalSettingsViewModel.application.$displayLocation
             .removeDuplicates()
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in

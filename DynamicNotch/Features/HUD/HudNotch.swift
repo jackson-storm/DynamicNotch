@@ -88,8 +88,6 @@ private struct HudContent: View {
     var text: String
     var level: Int
     
-    private let levelAnimation = Animation.snappy(duration: 0.28, extraBounce: 0.12)
-    
     private var indicatorWidth: CGFloat { 64 }
     private var indicatorHeight: CGFloat { 6 }
     private var clampedLevel: Int { max(0, min(100, level)) }
@@ -136,7 +134,7 @@ private struct HudContent: View {
             Spacer()
             
             HStack(spacing: 10) {
-                AnimatedHudLevelText(level: clampedLevel)
+                AnimatedLevelText(level: clampedLevel, fontSize: 14)
                 indicator
             }
         }
@@ -154,20 +152,6 @@ private struct HudContent: View {
                     .frame(width: filledIndicatorWidth, height: indicatorHeight)
                     .shadow(color: levelTint.opacity(0.35), radius: 5, y: 0)
             }
-            .animation(levelAnimation, value: clampedLevel)
+            .animation(.snappy(duration: 0.28, extraBounce: 0.12), value: clampedLevel)
     }
 }
-
-private struct AnimatedHudLevelText: View {
-    let level: Int
-    
-    var body: some View {
-        Text(level, format: .number)
-            .font(.system(size: 14, design: .rounded))
-            .monospacedDigit()
-            .foregroundStyle(.white.opacity(0.8))
-            .contentTransition(.numericText())
-            .animation(.snappy(duration: 0.28, extraBounce: 0.12), value: level)
-    }
-}
-

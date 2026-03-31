@@ -2,170 +2,31 @@ import SwiftUI
 import Combine
 internal import AppKit
 
-struct Animations {
-    let contentUpdate: Animation
-    let contentHide: Animation
-    let contentShow: Animation
-    let stretchReset: Animation
-    let expandLiveActivity: Animation
-    let strokeVisibility: Animation
-    let notchVisibility: Animation
-    let contentTransition: Animation
-
-    static let `default` = preset(.balanced)
-
-    static func preset(_ preset: NotchAnimationPreset) -> Self {
-        switch preset {
-        case .snappy:
-            return Self(
-                contentUpdate: .spring(response: 0.28, dampingFraction: 0.82),
-                contentHide: .spring(response: 0.34, dampingFraction: 0.9),
-                contentShow: .spring(response: 0.3, dampingFraction: 0.82),
-                stretchReset: .spring(response: 0.26, dampingFraction: 0.5),
-                expandLiveActivity: .spring(response: 0.3, dampingFraction: 0.82),
-                strokeVisibility: .smooth(duration: 0.2),
-                notchVisibility: .smooth(duration: 0.3),
-                contentTransition: .smooth(duration: 0.24)
-            )
-
-        case .fast:
-            return Self(
-                contentUpdate: .spring(response: 0.34, dampingFraction: 0.82),
-                contentHide: .spring(response: 0.42, dampingFraction: 0.9),
-                contentShow: .spring(response: 0.35, dampingFraction: 0.82),
-                stretchReset: .spring(response: 0.32, dampingFraction: 0.48),
-                expandLiveActivity: .spring(response: 0.35, dampingFraction: 0.82),
-                strokeVisibility: .smooth(duration: 0.26),
-                notchVisibility: .smooth(duration: 0.42),
-                contentTransition: .smooth(duration: 0.34)
-            )
-
-        case .balanced:
-            return Self(
-                contentUpdate: .spring(response: 0.4, dampingFraction: 0.8),
-                contentHide: .spring(response: 0.5),
-                contentShow: .spring(response: 0.4, dampingFraction: 0.8),
-                stretchReset: .spring(response: 0.4, dampingFraction: 0.4),
-                expandLiveActivity: .spring(response: 0.4, dampingFraction: 0.8),
-                strokeVisibility: .spring(duration: 0.3),
-                notchVisibility: .spring(duration: 0.6),
-                contentTransition: .spring(duration: 0.5)
-            )
-
-        case .slow:
-            return Self(
-                contentUpdate: .spring(response: 0.48, dampingFraction: 0.82),
-                contentHide: .spring(response: 0.6, dampingFraction: 0.92),
-                contentShow: .spring(response: 0.48, dampingFraction: 0.82),
-                stretchReset: .spring(response: 0.46, dampingFraction: 0.48),
-                expandLiveActivity: .spring(response: 0.48, dampingFraction: 0.82),
-                strokeVisibility: .smooth(duration: 0.36),
-                notchVisibility: .smooth(duration: 0.62),
-                contentTransition: .smooth(duration: 0.54)
-            )
-
-        case .relaxed:
-            return Self(
-                contentUpdate: .spring(response: 0.55, dampingFraction: 0.84),
-                contentHide: .spring(response: 0.7, dampingFraction: 0.92),
-                contentShow: .spring(response: 0.55, dampingFraction: 0.84),
-                stretchReset: .spring(response: 0.52, dampingFraction: 0.5),
-                expandLiveActivity: .spring(response: 0.55, dampingFraction: 0.84),
-                strokeVisibility: .smooth(duration: 0.42),
-                notchVisibility: .smooth(duration: 0.75),
-                contentTransition: .smooth(duration: 0.6)
-            )
-        }
-    }
-}
-
 typealias NotchScreenMetrics = (width: CGFloat, topInset: CGFloat)
 
-private enum RestorableDismissedContent {
-    case live(NotchContentProtocol)
-    case temporary(NotchContentProtocol, duration: TimeInterval)
-}
-
-/// ViewModel controlling the Dynamic Notch state machine.
-/// Handles event queueing, priority resolution, temporary notifications
-/// and animated transitions between different notch contents.
-///
-/// Architecture:
-/// External events → send() → eventQueue → executeState() → NotchModel → SwiftUI UI
 @MainActor
 final class NotchViewModel: ObservableObject {
-    /// Single source of truth for the current notch UI state
     @Published private(set) var notchModel = NotchModel()
-    
-    /// Stack of active Live Activities (sorted by priority)
-    @Published private var activeLiveActivities: [NotchContentProtocol] = []
-    
-    /// UI interaction state
     @Published var showNotch = false
     @Published var isPressed = false
     @Published private(set) var downwardSwipeStretchProgress: CGFloat = 0
-    
-    /// Cached stroke color used when notch content changes
     @Published var cachedStrokeColor: Color = .clear
-    
-    /// Settings dependency used to calculate notch dimensions
+
     private let settings: NotchSettingsProviding
-    private let animationOverride: Animations?
-    
-    /// Resolves the screen metrics for the currently selected display
+    private let engine: NotchEngine
     private let screenMetricsProvider: (NotchDisplayLocation) -> NotchScreenMetrics?
-    
-    /// Returns the currently highest priority Live Activity
-    private var highestPriorityActivity: NotchContentProtocol? {
-        activeLiveActivities.sorted { $0.priority > $1.priority }.first
+    private var cancellables = Set<AnyCancellable>()
+
+    var animations: NotchAnimations {
+        engine.animations
     }
-    
-    /// Async task controlling lifetime of temporary notifications
-    private var temporaryTask: Task<Void, Never>?
-    
-    /// Unique token identifying the currently active temporary timer.
-    /// Prevents outdated timers from closing newer notifications.
-    private var temporaryTimerID = UUID()
-    
-    /// Suspended activity while temporary notification is visible
-    private var suspendedActivity: NotchContentProtocol? = nil
 
-    /// Last content dismissed manually with a gesture.
-    private var lastDismissedContent: RestorableDismissedContent?
-
-    /// Cached duration of the current temporary notification.
-    private var currentTemporaryNotificationDuration: TimeInterval?
-    
-    /// Animation delay used between hide/show phases
-    private var hideDelay: TimeInterval = 0.3
-    
-    /// Delay between queue events
-    private var queueDelay: TimeInterval = 0.3
-    
-    /// Event queue ensuring sequential processing of notch events
-    private var eventQueue: [NotchState] = []
-    
-    /// Prevents parallel queue execution
-    private var isProcessingQueue = false
-    
-    /// Prevents overlapping transitions
-    private var isTransitioning = false
-
-    var animations: Animations {
-        animationOverride ?? .preset(settings.notchAnimationPreset)
-    }
-    
     var canExpandActiveLiveActivity: Bool {
-        guard notchModel.temporaryNotificationContent == nil else { return false }
-        guard let liveActivityContent = notchModel.liveActivityContent else { return false }
-        
-        return !notchModel.isLiveActivityExpanded &&
-        liveActivityContent.isExpandable &&
-        liveActivityContent.expandsOnTap
+        engine.canExpandActiveLiveActivity
     }
 
     var canRestoreDismissedContent: Bool {
-        lastDismissedContent != nil
+        engine.canRestoreDismissedContent
     }
 
     var interactiveNotchSize: CGSize {
@@ -191,23 +52,27 @@ final class NotchViewModel: ObservableObject {
     
     init(
         settings: NotchSettingsProviding,
-        animations: Animations? = nil,
+        animations: NotchAnimations? = nil,
         hideDelay: TimeInterval = 0.3,
         queueDelay: TimeInterval = 0.3,
+        engine: NotchEngine? = nil,
         screenMetricsProvider: ((NotchDisplayLocation) -> NotchScreenMetrics?)? = nil
     ) {
         self.settings = settings
-        self.animationOverride = animations
-        self.hideDelay = hideDelay
-        self.queueDelay = queueDelay
+        self.engine = engine ?? NotchEngine(
+            animations: {
+                animations ?? .preset(settings.notchAnimationPreset)
+            },
+            hideDelay: hideDelay,
+            queueDelay: queueDelay
+        )
         self.screenMetricsProvider = screenMetricsProvider ?? { location in
             NSScreen.metrics(for: location)
         }
+        bindEngine()
         updateDimensions()
     }
-    
-    
-    /// Updates notch dimensions based on screen size and user settings
+
     func updateDimensions() {
         guard let screenMetrics = screenMetricsProvider(settings.displayLocation) else {
             return
@@ -216,346 +81,40 @@ final class NotchViewModel: ObservableObject {
         let screenWidth = screenMetrics.width
         let topInset = screenMetrics.topInset
         let baseScreenWidth: CGFloat = 1440.0
-        
-        notchModel.scale = max(0.35, screenWidth / baseScreenWidth)
+        let scale = max(0.35, screenWidth / baseScreenWidth)
         
         let widthOffset = CGFloat(settings.notchWidth)
         let heightOffset = CGFloat(settings.notchHeight)
         
         if topInset > 0 {
-            notchModel.baseHeight = topInset + heightOffset
-            notchModel.baseWidth = (190 * notchModel.scale) + widthOffset
+            engine.updateBaseGeometry(
+                width: (190 * scale) + widthOffset,
+                height: topInset + heightOffset,
+                scale: scale
+            )
         } else {
-            notchModel.baseHeight = (25 * notchModel.scale) + heightOffset
-            notchModel.baseWidth = (190 * notchModel.scale) + widthOffset
+            engine.updateBaseGeometry(
+                width: (190 * scale) + widthOffset,
+                height: (25 * scale) + heightOffset,
+                scale: scale
+            )
         }
     }
-    
-    
-    /// Main entry point for all notch events.
-    /// Events are normalized, deduplicated and then queued for processing.
+
     func send(_ notchState: NotchState) {
-        
-        switch notchState {
-            
-        case .showTemporaryNotification(let content, let duration):
-            
-            /// If the same temporary notification is already visible,
-            /// update its content and restart the timer instead of creating
-            /// a new transition.
-            if notchModel.temporaryNotificationContent?.id == content.id {
-                currentTemporaryNotificationDuration = duration
-                
-                withAnimation(animations.contentUpdate) {
-                    self.notchModel.temporaryNotificationContent = content
-                }
-                
-                restartTemporaryTimer(duration: duration)
-                
-                /// Remove duplicate notifications from queue
-                eventQueue.removeAll {
-                    if case .showTemporaryNotification(let queuedContent, _) = $0 {
-                        return queuedContent.id == content.id
-                    }
-                    return false
-                }
-                
-                return
-            }
-            
-        case .showLiveActivity(let content):
-            
-            updateLiveActivityStack(with: content)
-            
-            /// If activity is already visible just update its data
-            if notchModel.liveActivityContent?.id == content.id {
-                
-                withAnimation(animations.contentUpdate) {
-                    self.notchModel.liveActivityContent = content
-                }
-                
-                return
-            }
-            
-        case .hideLiveActivity(let id):
-            
-            let wasVisible = notchModel.liveActivityContent?.id == id
-            activeLiveActivities.removeAll(where: { $0.id == id })
-            
-            /// If removed activity was not visible we simply
-            /// clean the queue instead of triggering transitions
-            if !wasVisible {
-                
-                eventQueue.removeAll {
-                    if case .showLiveActivity(let content) = $0 {
-                        return content.id == id
-                    }
-                    return false
-                }
-                
-                return
-            }
-            
-        case .hide:
-            
-            /// Clear all queued events
-            eventQueue.removeAll()
-        }
-        
-        eventQueue.append(notchState)
-        processQueue()
+        engine.send(notchState)
     }
-    
-    
-    /// Sequentially processes events from the queue.
-    /// Guarantees deterministic UI transitions.
-    private func processQueue() {
-        
-        guard !isProcessingQueue, !eventQueue.isEmpty else { return }
-        
-        isProcessingQueue = true
-        let state = eventQueue.removeFirst()
-        
-        Task {
-            
-            await executeState(state)
-            
-            if !eventQueue.isEmpty {
-                try? await Task.sleep(
-                    nanoseconds: UInt64(queueDelay * 1_000_000_000)
-                )
-            }
-            
-            isProcessingQueue = false
-            processQueue()
-        }
-    }
-    
-    
-    /// Executes a single notch state change.
-    /// Waits for ongoing transitions to complete.
-    private func executeState(_ state: NotchState) async {
-        
-        while isTransitioning {
-            try? await Task.sleep(nanoseconds: 10_000_000)
-        }
-        
-        switch state {
-            
-        case .showLiveActivity(let content):
-            
-            let current = notchModel.liveActivityContent
-            let best = highestPriorityActivity
-            
-            /// Only display the highest priority activity
-            if best?.id == content.id {
-                await showLiveContentTransition(content)
-            }
-            else if let current, current.priority >= content.priority {
-                return
-            }
-            else {
-                await showLiveContentTransition(content)
-            }
-            
-        case .hideLiveActivity(let id):
-            
-            let currentID = notchModel.liveActivityContent?.id
-            
-            if currentID == id {
-                
-                if let nextBest = highestPriorityActivity {
-                    await showLiveContentTransition(nextBest)
-                } else {
-                    await hideAllTransition()
-                }
-            }
-            
-        case .showTemporaryNotification(let content, let duration):
-            
-            await showTemporaryTransition(content, duration: duration)
-            
-        case .hide:
-            
-            await hideAllTransition()
-        }
-    }
-    
-    
-    /// Animated transition between live activities
-    private func showLiveContentTransition(_ content: NotchContentProtocol?) async {
-        
-        if notchModel.temporaryNotificationContent != nil {
-            self.suspendedActivity = content
-            return
-        }
-        
-        if notchModel.liveActivityContent?.id == content?.id {
-            return
-        }
-        
-        return await withCheckedContinuation { continuation in
-            
-            transition(
-                hide: {
-                    withAnimation(self.animations.contentHide) {
-                        self.notchModel.isLiveActivityExpanded = false
-                        self.notchModel.liveActivityContent = nil
-                    }
-                },
-                show: {
-                    withAnimation(self.animations.contentShow) {
-                        self.notchModel.liveActivityContent = content
-                    }
-                    continuation.resume()
-                }
-            )
-        }
-    }
-    
-    
-    /// Shows temporary notification and suspends current live activity
-    private func showTemporaryTransition(
-        _ content: NotchContentProtocol,
-        duration: TimeInterval
-    ) async {
-        
-        return await withCheckedContinuation { continuation in
-            
-            transition(
-                hide: {
-                    
-                    self.cancelTemporary()
-                    
-                    withAnimation(self.animations.contentHide) {
-                        
-                        if self.notchModel.liveActivityContent != nil {
-                            
-                            self.suspendedActivity =
-                            self.notchModel.liveActivityContent
-                            
-                            self.notchModel.isLiveActivityExpanded = false
-                            self.notchModel.liveActivityContent = nil
-                        }
-                        
-                        self.notchModel.temporaryNotificationContent = nil
-                    }
-                },
-                show: {
-                    
-                    withAnimation(self.animations.contentShow) {
-                        self.notchModel.temporaryNotificationContent = content
-                    }
-                    self.currentTemporaryNotificationDuration = duration
-                    
-                    if !duration.isInfinite {
-                        self.restartTemporaryTimer(duration: duration)
-                    }
-                    
-                    continuation.resume()
-                }
-            )
-        }
-    }
-    
-    
-    /// Hides all notch content
-    private func hideAllTransition() async {
-        
-        return await withCheckedContinuation { continuation in
-            
-            transition(
-                hide: {
-                    
-                    withAnimation(self.animations.contentHide) {
-                        
-                        self.notchModel.isLiveActivityExpanded = false
-                        self.notchModel.temporaryNotificationContent = nil
-                        self.notchModel.liveActivityContent = nil
-                        self.suspendedActivity = nil
-                        self.currentTemporaryNotificationDuration = nil
-                    }
-                },
-                show: {
-                    continuation.resume()
-                }
-            )
-        }
-    }
-    
-    
-    /// Maintains live activity stack and sorts by priority
-    private func updateLiveActivityStack(with content: NotchContentProtocol) {
-        
-        if let index = activeLiveActivities.firstIndex(where: { $0.id == content.id }) {
-            activeLiveActivities[index] = content
-        } else {
-            activeLiveActivities.append(content)
-        }
-        
-        activeLiveActivities.sort { $0.priority > $1.priority }
-    }
-    
-    
-    /// Hides temporary notification and restores suspended activity
+
     func hideTemporaryNotification() {
-        
-        guard notchModel.temporaryNotificationContent != nil else { return }
-        
-        cancelTemporary()
-        
-        let contentToRestore = highestPriorityActivity
-        
-        transition(
-            hide: {
-                
-                withAnimation(self.animations.contentHide) {
-                    self.notchModel.temporaryNotificationContent = nil
-                    self.currentTemporaryNotificationDuration = nil
-                }
-            },
-            show: {
-                
-                withAnimation(self.animations.contentShow) {
-                    self.notchModel.liveActivityContent = contentToRestore
-                    self.suspendedActivity = nil
-                }
-            }
-        )
+        engine.hideTemporaryNotification()
     }
-    
-    
-    /// Dismisses the currently visible notch content.
-    /// Temporary notifications collapse first; live activities are removed from the stack.
+
     func dismissActiveContent() {
-        
-        if let temporaryContent = notchModel.temporaryNotificationContent {
-            lastDismissedContent = .temporary(
-                temporaryContent,
-                duration: currentTemporaryNotificationDuration ?? .infinity
-            )
-            hideTemporaryNotification()
-            return
-        }
-        
-        guard let liveActivityContent = notchModel.liveActivityContent else { return }
-        lastDismissedContent = .live(liveActivityContent)
-        let liveActivityID = liveActivityContent.id
-        send(.hideLiveActivity(id: liveActivityID))
+        engine.dismissActiveContent()
     }
 
     func restoreDismissedContent() {
-        guard let lastDismissedContent else { return }
-
-        self.lastDismissedContent = nil
-
-        switch lastDismissedContent {
-        case .live(let content):
-            send(.showLiveActivity(content))
-
-        case .temporary(let content, let duration):
-            send(.showTemporaryNotification(content, duration: duration))
-        }
+        engine.restoreDismissedContent()
     }
 
     func updateDownwardSwipeStretch(progress: CGFloat) {
@@ -569,113 +128,17 @@ final class NotchViewModel: ObservableObject {
             downwardSwipeStretchProgress = 0
         }
     }
-    
-    
-    /// Expands the active live activity if the content provides an expanded presentation.
+
     func handleActiveContentTap() {
-        guard canExpandActiveLiveActivity else { return }
-        
-        withAnimation(animations.expandLiveActivity) {
-            notchModel.isLiveActivityExpanded = true
-        }
+        engine.handleActiveContentTap()
     }
-    
-    
-    /// Handles clicks outside the notch.
-    /// Only tap-expanded live activities collapse on outside clicks.
+
     func handleOutsideClick() {
-        guard notchModel.isLiveActivityExpanded,
-              let liveActivityContent = notchModel.liveActivityContent else { return }
-        
-        transition(
-            hide: {
-                withAnimation(self.animations.contentHide) {
-                    self.notchModel.isLiveActivityExpanded = false
-                    self.notchModel.liveActivityContent = nil
-                }
-            },
-            show: {
-                withAnimation(self.animations.contentShow) {
-                    self.notchModel.liveActivityContent = liveActivityContent
-                }
-            }
-        )
+        engine.handleOutsideClick()
     }
-    
-    
-    /// Generic hide/show transition helper
-    private func transition(
-        customDelay: TimeInterval? = nil,
-        hide: @escaping () -> Void,
-        show: @escaping () -> Void
-    ) {
-        
-        guard !isTransitioning else { return }
-        
-        isTransitioning = true
-        let currentDelay = customDelay ?? self.hideDelay
-        
-        DispatchQueue.main.async {
-            
-            hide()
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + currentDelay) {
-                
-                show()
-                self.isTransitioning = false
-            }
-        }
-    }
-    
-    
-    /// Cancels active temporary notification timer
-    private func cancelTemporary() {
-        temporaryTask?.cancel()
-        temporaryTask = nil
-    }
-    
-    
-    /// Restarts lifetime timer for temporary notifications.
-    /// Uses a token system to ignore outdated timers.
-    private func restartTemporaryTimer(duration: TimeInterval) {
-        
-        cancelTemporary()
-        
-        if duration.isInfinite { return }
-        
-        let timerID = UUID()
-        temporaryTimerID = timerID
-        
-        temporaryTask = Task {
-            
-            try? await Task.sleep(
-                nanoseconds: UInt64(duration * 1_000_000_000)
-            )
-            
-            await MainActor.run {
-                
-                /// Ignore outdated timers
-                guard self.temporaryTimerID == timerID else { return }
-                
-                self.hideTemporaryNotification()
-            }
-        }
-    }
-    
-    
-    /// Handles notch stroke visibility when content changes
+
     func handleStrokeVisibility() {
-        if let content = notchModel.content {
-            cachedStrokeColor = content.strokeColor
-            showNotch = true
-            
-        } else {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
-                guard let self, self.notchModel.content == nil else { return }
-                self.cachedStrokeColor = .clear
-                self.showNotch = false
-            }
-        }
+        engine.handleStrokeVisibility()
     }
 
     private var easedDownwardSwipeStretchProgress: CGFloat {
@@ -687,5 +150,29 @@ final class NotchViewModel: ObservableObject {
             .animation(animations.contentTransition)
             .combined(with: .scale)
             .combined(with: .offset(x: offsetX, y: offsetY))
+    }
+
+    private func bindEngine() {
+        notchModel = engine.notchModel
+        showNotch = engine.showNotch
+        cachedStrokeColor = engine.cachedStrokeColor
+
+        engine.$notchModel
+            .sink { [weak self] in
+                self?.notchModel = $0
+            }
+            .store(in: &cancellables)
+
+        engine.$showNotch
+            .sink { [weak self] in
+                self?.showNotch = $0
+            }
+            .store(in: &cancellables)
+
+        engine.$cachedStrokeColor
+            .sink { [weak self] in
+                self?.cachedStrokeColor = $0
+            }
+            .store(in: &cancellables)
     }
 }

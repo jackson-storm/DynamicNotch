@@ -5,11 +5,16 @@ import SwiftUI
 struct DownloadNotchContent: NotchContentProtocol {
     let id = "download.active"
     let downloadViewModel: DownloadViewModel
+    let generalSettingsViewModel: GeneralSettingsViewModel
     
     var priority: Int { 82 }
     var isExpandable: Bool { true }
     
-    var strokeColor: Color { .accentColor.opacity(0.30) }
+    var strokeColor: Color {
+        generalSettingsViewModel.isDownloadsDefaultStrokeEnabled ?
+        .white.opacity(0.2) :
+        .accentColor.opacity(0.30)
+    }
     
     var expandedOffsetXTransition: CGFloat { -80 }
     var expandedOffsetYTransition: CGFloat { -60 }
@@ -37,7 +42,7 @@ struct DownloadNotchContent: NotchContentProtocol {
     }
 }
 
-private struct DownloadNotchView: View {
+struct DownloadNotchView: View {
     @Environment(\.notchScale) private var scale
     @ObservedObject var downloadViewModel: DownloadViewModel
     
@@ -85,9 +90,31 @@ private struct DownloadNotchView: View {
     }
 }
 
-private struct DownloadExpandedNotchView: View {
-    @Environment(\.notchScale) private var scale
+struct DownloadExpandedNotchView: View {
     @ObservedObject var downloadViewModel: DownloadViewModel
+
+    private var primaryDownload: DownloadModel? {
+        downloadViewModel.primaryDownload
+    }
+
+    var body: some View {
+        TimelineView(.periodic(from: .now, by: 1)) { _ in
+            if let primaryDownload {
+                DownloadExpandedNotchContentView(download: primaryDownload)
+            }
+        }
+    }
+}
+
+struct DownloadExpandedPreviewNotchView: View {
+    var body: some View {
+        DownloadExpandedNotchContentView(download: .settingsPreview)
+    }
+}
+
+private struct DownloadExpandedNotchContentView: View {
+    @Environment(\.notchScale) private var scale
+    let download: DownloadModel
 
     private static let byteCountFormatter: ByteCountFormatter = {
         let formatter = ByteCountFormatter()
@@ -98,33 +125,16 @@ private struct DownloadExpandedNotchView: View {
         return formatter
     }()
 
-    private var primaryDownload: DownloadModel? {
-        downloadViewModel.primaryDownload
-    }
-
-    private var queuedDownloads: [DownloadModel] {
-        Array(downloadViewModel.activeDownloads.dropFirst().prefix(3))
-    }
-
-    private var remainingQueueCount: Int {
-        max(0, downloadViewModel.additionalDownloadCount - queuedDownloads.count)
-    }
-
     var body: some View {
-        TimelineView(.periodic(from: .now, by: 1)) { context in
-            VStack(alignment: .leading, spacing: 16) {
-                if let primaryDownload {
-                    Spacer()
-                    header(for: primaryDownload)
-                    progressSection(for: primaryDownload)
-                    
-                }
-            }
-            .padding(.horizontal, 45)
-            .padding(.bottom, 25)
+        VStack(alignment: .leading, spacing: 16) {
+            Spacer()
+            header(for: download)
+            progressSection(for: download)
         }
+        .padding(.horizontal, 45)
+        .padding(.bottom, 25)
     }
-        
+
     @ViewBuilder
     private func header(for download: DownloadModel) -> some View {
         HStack(alignment: .top, spacing: 2) {
@@ -156,7 +166,7 @@ private struct DownloadExpandedNotchView: View {
                 Text(speedLabel(for: download))
                     .font(.system(size: 10, weight: .semibold, design: .rounded))
             }
-            .foregroundStyle(.blue.opacity(0.8).gradient)
+            .foregroundStyle(Color.accentColor.opacity(0.8).gradient)
             .lineLimit(1)
             .minimumScaleFactor(0.7)
         }
@@ -216,6 +226,21 @@ private struct DownloadExpandedNotchView: View {
     private func clampedProgress(_ progress: Double) -> Double {
         min(max(progress, 0), 1)
     }
+}
+
+private extension DownloadModel {
+    static let settingsPreview = DownloadModel(
+        url: URL(fileURLWithPath: "/tmp/DynamicNotchPreview.zip"),
+        displayName: "DynamicNotchPreview.zip",
+        directoryName: "Downloads",
+        byteCount: 148_320_256,
+        estimatedTotalByteCount: 247_200_427,
+        progress: 0.60,
+        startedAt: .now.addingTimeInterval(-24),
+        lastUpdatedAt: .now,
+        isTemporaryFile: false,
+        bytesPerSecond: 12_845_056
+    )
 }
 
 private struct DownloadFileThumbnailView: View {

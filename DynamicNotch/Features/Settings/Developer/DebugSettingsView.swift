@@ -17,7 +17,7 @@ struct DebugSettingsView: View {
     private var persistentPreviewsCard: some View {
         SettingsCard(
             title: "Persistent Events",
-            subtitle: "Toggle long-lived states on and off to inspect their live activity UI."
+            subtitle: "Toggle persistent previews to inspect their live activity UI."
         ) {
             VStack {
                 SettingsToggleRow(
@@ -55,7 +55,7 @@ struct DebugSettingsView: View {
 
                 SettingsToggleRow(
                     title: "Now Playing",
-                    description: "Inject a sample track and show the music live activity.",
+                    description: "Show the music live activity with sample track data.",
                     systemImage: "music.note",
                     color: .orange,
                     isOn: $viewModel.isNowPlayingPreviewEnabled,
@@ -66,7 +66,7 @@ struct DebugSettingsView: View {
 
                 SettingsToggleRow(
                     title: "Downloads",
-                    description: "Inject sample download activity and preview the live download state.",
+                    description: "Show the download live activity with sample transfer data.",
                     systemImage: "arrow.down.doc.fill",
                     color: .blue,
                     isOn: $viewModel.isDownloadPreviewEnabled,
@@ -90,12 +90,12 @@ struct DebugSettingsView: View {
     private var triggerEventsCard: some View {
         SettingsCard(
             title: "Trigger Events",
-            subtitle: "Fire one-shot notifications exactly when you need them."
+            subtitle: "Trigger one-shot notifications whenever you need them."
         ) {
             VStack {
                 DebugActionRow(
                     title: "Play All Events",
-                    description: "Runs every debug event in sequence, keeps each item on screen for its configured time, waits 1 second, and skips onboarding, notch size, plus lock screen previews.",
+                    description: "Run every debug event in sequence, keep each item visible for its configured duration, wait 1 second between items, and skip onboarding, notch size, and lock screen previews.",
                     systemImage: viewModel.isPreviewSequenceRunning ? "stop.circle.fill" : "play.circle.fill",
                     color: .accentColor,
                     buttonTitle: viewModel.isPreviewSequenceRunning ? "Stop" : "Start",
@@ -106,7 +106,7 @@ struct DebugSettingsView: View {
 
                 DebugActionRow(
                     title: "Focus Off",
-                    description: "Hides Focus live state and shows the short \"Off\" notification.",
+                    description: "Hide the Focus live activity and show the short \"Off\" notification.",
                     systemImage: "moon.zzz.fill",
                     color: .gray,
                     action: viewModel.triggerFocusOffPreview
@@ -116,7 +116,7 @@ struct DebugSettingsView: View {
 
                 DebugActionRow(
                     title: "Bluetooth Connected",
-                    description: "Uses sample AirPods metadata and shows the Bluetooth notification.",
+                    description: "Show the Bluetooth notification with sample AirPods data.",
                     systemImage: "bolt.horizontal.circle.fill",
                     color: .blue,
                     action: viewModel.triggerBluetoothPreview
@@ -136,7 +136,7 @@ struct DebugSettingsView: View {
 
                 DebugActionRow(
                     title: "VPN Connected",
-                    description: "Uses sample VPN metadata and shows the secure tunnel notification.",
+                    description: "Show the VPN notification with sample tunnel data.",
                     systemImage: "network.badge.shield.half.filled",
                     color: .blue,
                     action: viewModel.triggerVPNPreview
@@ -146,7 +146,7 @@ struct DebugSettingsView: View {
 
                 DebugActionRow(
                     title: "Charging",
-                    description: "Applies a sample charging battery state and shows the charger banner.",
+                    description: "Apply a sample charging state and show the charger notification.",
                     systemImage: "battery.75",
                     color: .green,
                     action: viewModel.triggerChargingPreview
@@ -156,7 +156,7 @@ struct DebugSettingsView: View {
 
                 DebugActionRow(
                     title: "Battery Low",
-                    description: "Applies a low battery sample and shows the low power alert.",
+                    description: "Apply a low battery sample and show the low-power alert.",
                     systemImage: "battery.25",
                     color: .red,
                     action: viewModel.triggerLowPowerPreview
@@ -166,7 +166,7 @@ struct DebugSettingsView: View {
 
                 DebugActionRow(
                     title: "Full Battery",
-                    description: "Applies a fully charged sample and shows the completion state.",
+                    description: "Apply a full battery sample and show the completion notification.",
                     systemImage: "battery.100percent",
                     color: .green,
                     action: viewModel.triggerFullBatteryPreview
@@ -176,7 +176,7 @@ struct DebugSettingsView: View {
 
                 DebugActionRow(
                     title: "Brightness HUD",
-                    description: "Triggers the brightness HUD preview at 72%.",
+                    description: "Show the brightness HUD preview at 72%.",
                     systemImage: "sun.max.fill",
                     color: .yellow,
                     action: viewModel.triggerBrightnessHUDPreview
@@ -186,7 +186,7 @@ struct DebugSettingsView: View {
 
                 DebugActionRow(
                     title: "Keyboard HUD",
-                    description: "Triggers the keyboard backlight HUD preview at 64%.",
+                    description: "Show the keyboard backlight HUD preview at 64%.",
                     systemImage: "light.max",
                     color: .mint,
                     action: viewModel.triggerKeyboardHUDPreview
@@ -196,7 +196,7 @@ struct DebugSettingsView: View {
 
                 DebugActionRow(
                     title: "Volume HUD",
-                    description: "Triggers the volume HUD preview at 42%.",
+                    description: "Show the volume HUD preview at 42%.",
                     systemImage: "speaker.wave.2.fill",
                     color: .purple,
                     action: viewModel.triggerVolumeHUDPreview
@@ -206,7 +206,7 @@ struct DebugSettingsView: View {
 
                 DebugActionRow(
                     title: "Notch Width Changed",
-                    description: "Shows the width sizing helper using the current settings values.",
+                    description: "Show the width resize helper using the current settings.",
                     systemImage: "arrow.left.and.right",
                     color: .red,
                     action: viewModel.triggerNotchWidthPreview
@@ -216,7 +216,7 @@ struct DebugSettingsView: View {
 
                 DebugActionRow(
                     title: "Notch Height Changed",
-                    description: "Shows the height sizing helper using the current settings values.",
+                    description: "Show the height resize helper using the current settings.",
                     systemImage: "arrow.up.and.down",
                     color: .red,
                     action: viewModel.triggerNotchHeightPreview
@@ -233,7 +233,7 @@ struct DebugSettingsView: View {
             VStack(spacing: 14) {
                 DebugActionRow(
                     title: "Hide Current Temporary",
-                    description: "Dismiss the currently visible temporary notification immediately.",
+                    description: "Dismiss the currently visible temporary notification.",
                     systemImage: "eye.slash.fill",
                     color: .gray,
                     action: viewModel.hideCurrentTemporaryPreview
@@ -243,7 +243,7 @@ struct DebugSettingsView: View {
 
                 DebugActionRow(
                     title: "Reset All Previews",
-                    description: "Turns off every persistent preview and closes temporary content.",
+                    description: "Turn off every persistent preview and close any temporary content.",
                     systemImage: "arrow.counterclockwise.circle.fill",
                     color: .red,
                     action: viewModel.resetAllPreviews

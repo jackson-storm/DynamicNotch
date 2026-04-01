@@ -68,7 +68,7 @@ struct CustomPicker<Option: Hashable>: View {
                     RoundedRectangle(cornerRadius: 10, style: .continuous)
                         .fill(
                             isSelected ?
-                            Color.accentColor.opacity(colorScheme == .dark ? 0.14 : 0.10) :
+                            Color.accentColor.opacity(colorScheme == .dark ? 0.10 : 0.06) :
                             (colorScheme == .dark ? Color.gray.opacity(0.08) : Color.gray.opacity(0.18))
                         )
                 )

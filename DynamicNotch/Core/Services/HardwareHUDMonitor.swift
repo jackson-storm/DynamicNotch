@@ -1,12 +1,6 @@
 internal import AppKit
 import Foundation
 
-enum HudEvent: Equatable {
-    case display(Int)
-    case keyboard(Int)
-    case volume(Int)
-}
-
 @MainActor
 final class HardwareHUDMonitor {
     var onEvent: ((HudEvent) -> Void)?
@@ -137,4 +131,3 @@ extension HardwareHUDMonitor: SystemMediaKeyTapDelegate {
         emit(.display(level))
     }
 }
-

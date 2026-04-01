@@ -1,16 +1,6 @@
 import Foundation
 import Dispatch
 
-final class InactiveDownloadMonitor: DownloadMonitoring {
-    var onSnapshotChange: (([DownloadModel]) -> Void)?
-
-    func startMonitoring() {
-        onSnapshotChange?([])
-    }
-
-    func stopMonitoring() {}
-}
-
 final class FolderFileDownloadMonitor: DownloadMonitoring {
     var onSnapshotChange: (([DownloadModel]) -> Void)?
 

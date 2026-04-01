@@ -8,9 +8,13 @@ enum GeneralSettingsStorage {
         static let notchStrokeWidth = "notchStrokeWidth"
         static let displayLocation = "displayLocation"
         static let notchAnimationPreset = "settings.general.notchAnimationPreset"
+        static let temporaryActivityDurationScale = "settings.temporary.durationScale"
         static let brightnessHUDEnabled = "settings.hud.brightness"
         static let keyboardHUDEnabled = "settings.hud.keyboard"
         static let volumeHUDEnabled = "settings.hud.volume"
+        static let hudStyle = "settings.hud.style"
+        static let hudColoredLevelEnabled = "settings.hud.coloredLevel"
+        static let hudColoredStrokeEnabled = "settings.hud.coloredStroke"
         static let hotspotLiveActivityEnabled = "settings.live.hotspot"
         static let focusLiveActivityEnabled = "settings.live.focus"
         static let nowPlayingLiveActivityEnabled = "settings.live.nowPlaying"
@@ -41,9 +45,13 @@ enum GeneralSettingsStorage {
         Keys.notchStrokeWidth: 1.5,
         Keys.displayLocation: NotchDisplayLocation.main.rawValue,
         Keys.notchAnimationPreset: NotchAnimationPreset.balanced.rawValue,
+        Keys.temporaryActivityDurationScale: 1.0,
         Keys.brightnessHUDEnabled: true,
         Keys.keyboardHUDEnabled: true,
         Keys.volumeHUDEnabled: true,
+        Keys.hudStyle: HudStyle.standard.rawValue,
+        Keys.hudColoredLevelEnabled: true,
+        Keys.hudColoredStrokeEnabled: false,
         Keys.hotspotLiveActivityEnabled: true,
         Keys.focusLiveActivityEnabled: true,
         Keys.nowPlayingLiveActivityEnabled: true,

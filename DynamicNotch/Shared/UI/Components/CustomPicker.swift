@@ -13,7 +13,7 @@ struct CustomPicker<Option: Hashable>: View {
     @Binding var selection: Option
     let options: [Option]
     let title: (Option) -> String
-    let symbolName: (Option) -> String
+    private let content: (Option, Bool) -> AnyView
     
     init(
         selection: Binding<Option>,
@@ -21,10 +21,15 @@ struct CustomPicker<Option: Hashable>: View {
         title: @escaping (Option) -> String,
         symbolName: @escaping (Option) -> String
     ) {
-        self._selection = selection
-        self.options = options
-        self.title = title
-        self.symbolName = symbolName
+        self.init(
+            selection: selection,
+            options: options,
+            title: title
+        ) { option, isSelected in
+            Image(systemName: symbolName(option))
+                .font(.system(size: 18, weight: .semibold))
+                .foregroundStyle(isSelected ? Color.accentColor : Color.secondary)
+        }
     }
     
     init(
@@ -32,10 +37,39 @@ struct CustomPicker<Option: Hashable>: View {
         title: @escaping (Option) -> String,
         symbolName: @escaping (Option) -> String
     ) where Option: CaseIterable {
+        self.init(
+            selection: selection,
+            options: Array(Option.allCases),
+            title: title,
+            symbolName: symbolName
+        )
+    }
+
+    init<Content: View>(
+        selection: Binding<Option>,
+        options: [Option],
+        title: @escaping (Option) -> String,
+        @ViewBuilder content: @escaping (Option, Bool) -> Content
+    ) {
         self._selection = selection
-        self.options = Array(Option.allCases)
+        self.options = options
         self.title = title
-        self.symbolName = symbolName
+        self.content = { option, isSelected in
+            AnyView(content(option, isSelected))
+        }
+    }
+
+    init<Content: View>(
+        selection: Binding<Option>,
+        title: @escaping (Option) -> String,
+        @ViewBuilder content: @escaping (Option, Bool) -> Content
+    ) where Option: CaseIterable {
+        self.init(
+            selection: selection,
+            options: Array(Option.allCases),
+            title: title,
+            content: content
+        )
     }
     
     var body: some View {
@@ -57,11 +91,7 @@ struct CustomPicker<Option: Hashable>: View {
                     selection = option
                 }
             } label: {
-                HStack(spacing: 10) {
-                    Image(systemName: symbolName(option))
-                        .font(.system(size: 18, weight: .semibold))
-                        .foregroundStyle(isSelected ? Color.accentColor : Color.secondary)
-                }
+                content(option, isSelected)
                 .frame(maxWidth: .infinity, minHeight: 62, alignment: .center)
                 .padding(.horizontal, 12)
                 .background(

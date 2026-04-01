@@ -14,13 +14,21 @@ final class NotchHUDEventsHandler {
     }
 
     func handle(_ event: HudEvent) {
+        let duration = generalSettingsViewModel.resolvedTemporaryActivityDuration(2)
+
         switch event {
         case .display(let level):
             guard generalSettingsViewModel.isHUDEnabled(.brightness) else { return }
             notchViewModel.send(
                 .showTemporaryNotification(
-                    HudNotchContent(kind: .brightness, level: level),
-                    duration: 2
+                    HudNotchContent(
+                        kind: .brightness,
+                        level: level,
+                        style: generalSettingsViewModel.hudStyle,
+                        usesColoredLevelTint: generalSettingsViewModel.isHUDColoredLevelEnabled,
+                        usesColoredLevelStroke: generalSettingsViewModel.isHUDColoredLevelStrokeEnabled
+                    ),
+                    duration: duration
                 )
             )
 
@@ -28,8 +36,14 @@ final class NotchHUDEventsHandler {
             guard generalSettingsViewModel.isHUDEnabled(.keyboard) else { return }
             notchViewModel.send(
                 .showTemporaryNotification(
-                    HudNotchContent(kind: .keyboard, level: level),
-                    duration: 2
+                    HudNotchContent(
+                        kind: .keyboard,
+                        level: level,
+                        style: generalSettingsViewModel.hudStyle,
+                        usesColoredLevelTint: generalSettingsViewModel.isHUDColoredLevelEnabled,
+                        usesColoredLevelStroke: generalSettingsViewModel.isHUDColoredLevelStrokeEnabled
+                    ),
+                    duration: duration
                 )
             )
 
@@ -37,8 +51,14 @@ final class NotchHUDEventsHandler {
             guard generalSettingsViewModel.isHUDEnabled(.volume) else { return }
             notchViewModel.send(
                 .showTemporaryNotification(
-                    HudNotchContent(kind: .volume, level: level),
-                    duration: 2
+                    HudNotchContent(
+                        kind: .volume,
+                        level: level,
+                        style: generalSettingsViewModel.hudStyle,
+                        usesColoredLevelTint: generalSettingsViewModel.isHUDColoredLevelEnabled,
+                        usesColoredLevelStroke: generalSettingsViewModel.isHUDColoredLevelStrokeEnabled
+                    ),
+                    duration: duration
                 )
             )
         }

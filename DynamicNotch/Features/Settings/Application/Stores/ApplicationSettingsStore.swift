@@ -57,6 +57,15 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         }
     }
 
+    @Published var temporaryActivityDurationScale: Double {
+        didSet {
+            persist(
+                temporaryActivityDurationScale,
+                for: GeneralSettingsStorage.Keys.temporaryActivityDurationScale
+            )
+        }
+    }
+
     @Published var isNotchSizeTemporaryActivityEnabled: Bool {
         didSet {
             persist(
@@ -81,6 +90,11 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         self.notchAnimationPreset = NotchAnimationPreset(
             rawValue: defaults.string(forKey: GeneralSettingsStorage.Keys.notchAnimationPreset) ?? NotchAnimationPreset.balanced.rawValue
         ) ?? .balanced
+        self.temporaryActivityDurationScale = (
+            defaults.object(forKey: GeneralSettingsStorage.Keys.temporaryActivityDurationScale) as? Double
+        ) ?? (
+            GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.temporaryActivityDurationScale] as? Double ?? 1
+        )
         self.isNotchSizeTemporaryActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.notchSizeTemporaryActivityEnabled)
         super.init(defaults: defaults)
         updateLaunchAtLogin()
@@ -95,6 +109,7 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         notchAnimationPreset = NotchAnimationPreset(
             rawValue: defaultString(for: GeneralSettingsStorage.Keys.notchAnimationPreset)
         ) ?? .balanced
+        temporaryActivityDurationScale = defaultDouble(for: GeneralSettingsStorage.Keys.temporaryActivityDurationScale)
         isShowNotchStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchStrokeEnabled)
         isNotchSizeTemporaryActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchSizeTemporaryActivityEnabled)
         notchStrokeWidth = defaultDouble(for: GeneralSettingsStorage.Keys.notchStrokeWidth)

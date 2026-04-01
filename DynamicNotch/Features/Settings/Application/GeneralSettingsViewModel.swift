@@ -101,6 +101,11 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
         set { application.notchAnimationPreset = newValue }
     }
 
+    var temporaryActivityDurationScale: Double {
+        get { application.temporaryActivityDurationScale }
+        set { application.temporaryActivityDurationScale = newValue }
+    }
+
     var isNotchSizeTemporaryActivityEnabled: Bool {
         get { application.isNotchSizeTemporaryActivityEnabled }
         set { application.isNotchSizeTemporaryActivityEnabled = newValue }
@@ -123,6 +128,21 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
     var isVolumeHUDEnabled: Bool {
         get { hud.isVolumeHUDEnabled }
         set { hud.isVolumeHUDEnabled = newValue }
+    }
+
+    var hudStyle: HudStyle {
+        get { hud.hudStyle }
+        set { hud.hudStyle = newValue }
+    }
+
+    var isHUDColoredLevelEnabled: Bool {
+        get { hud.isColoredLevelEnabled }
+        set { hud.isColoredLevelEnabled = newValue }
+    }
+
+    var isHUDColoredLevelStrokeEnabled: Bool {
+        get { hud.isColoredLevelStrokeEnabled }
+        set { hud.isColoredLevelStrokeEnabled = newValue }
     }
 
     var isHotspotLiveActivityEnabled: Bool {
@@ -272,6 +292,10 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
         case .notchSize:
             return application.isNotchSizeTemporaryActivityEnabled
         }
+    }
+
+    func resolvedTemporaryActivityDuration(_ baseDuration: TimeInterval) -> TimeInterval {
+        max(0.2, baseDuration * application.temporaryActivityDurationScale)
     }
 
     func reset(_ group: ResetGroup) {

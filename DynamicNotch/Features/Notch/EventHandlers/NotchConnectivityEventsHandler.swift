@@ -26,7 +26,7 @@ final class NotchConnectivityEventsHandler {
             notchViewModel.send(
                 .showTemporaryNotification(
                     BluetoothConnectedNotchContent(bluetoothViewModel: bluetoothViewModel),
-                    duration: 5
+                    duration: generalSettingsViewModel.resolvedTemporaryActivityDuration(5)
                 )
             )
         }
@@ -36,14 +36,19 @@ final class NotchConnectivityEventsHandler {
         switch event {
         case .wifiConnected:
             guard generalSettingsViewModel.isTemporaryActivityEnabled(.wifi) else { return }
-            notchViewModel.send(.showTemporaryNotification(WifiConnectedNotchContent(), duration: 3))
+            notchViewModel.send(
+                .showTemporaryNotification(
+                    WifiConnectedNotchContent(),
+                    duration: generalSettingsViewModel.resolvedTemporaryActivityDuration(3)
+                )
+            )
 
         case .vpnConnected:
             guard generalSettingsViewModel.isTemporaryActivityEnabled(.vpn) else { return }
             notchViewModel.send(
                 .showTemporaryNotification(
                     VpnConnectedNotchContent(networkViewModel: networkViewModel),
-                    duration: 5
+                    duration: generalSettingsViewModel.resolvedTemporaryActivityDuration(5)
                 )
             )
 

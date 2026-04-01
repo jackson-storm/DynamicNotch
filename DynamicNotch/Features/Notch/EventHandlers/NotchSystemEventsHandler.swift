@@ -14,12 +14,14 @@ final class NotchSystemEventsHandler {
     }
 
     func handleNotchSize(_ event: NotchSizeEvent) {
+        let duration = generalSettingsViewModel.resolvedTemporaryActivityDuration(2)
+
         switch event {
         case .width:
             notchViewModel.send(
                 .showTemporaryNotification(
                     NotchSizeWidthNotchContent(generalSettingsViewModel: generalSettingsViewModel),
-                    duration: 2
+                    duration: duration
                 )
             )
 
@@ -27,7 +29,7 @@ final class NotchSystemEventsHandler {
             notchViewModel.send(
                 .showTemporaryNotification(
                     NotchSizeHeightNotchContent(generalSettingsViewModel: generalSettingsViewModel),
-                    duration: 2
+                    duration: duration
                 )
             )
         }

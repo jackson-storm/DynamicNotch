@@ -26,7 +26,7 @@ final class NotchPowerEventsHandler {
                         powerService: powerService,
                         generalSettingsViewModel: generalSettingsViewModel
                     ),
-                    duration: 4
+                    duration: generalSettingsViewModel.resolvedTemporaryActivityDuration(4)
                 )
             )
 
@@ -38,7 +38,7 @@ final class NotchPowerEventsHandler {
                         powerService: powerService,
                         generalSettingsViewModel: generalSettingsViewModel
                     ),
-                    duration: 4
+                    duration: generalSettingsViewModel.resolvedTemporaryActivityDuration(4)
                 )
             )
 
@@ -50,7 +50,7 @@ final class NotchPowerEventsHandler {
                         powerService: powerService,
                         generalSettingsViewModel: generalSettingsViewModel
                     ),
-                    duration: 4
+                    duration: generalSettingsViewModel.resolvedTemporaryActivityDuration(4)
                 )
             )
         }

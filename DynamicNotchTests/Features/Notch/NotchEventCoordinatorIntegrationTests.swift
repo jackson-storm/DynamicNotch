@@ -109,6 +109,24 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
         XCTAssertNil(temporaryContent)
     }
 
+    func testTemporaryDurationScaleShortensHUDLifetime() async {
+        let context = makeContext(temporaryActivityDurationScale: 0.5)
+
+        context.coordinator.handleHudEvent(.volume(72))
+
+        await assertEventually {
+            await MainActor.run {
+                context.notchViewModel.notchModel.temporaryNotificationContent?.id == "hud.system"
+            }
+        }
+
+        await assertEventually(timeout: 1.3) {
+            await MainActor.run {
+                context.notchViewModel.notchModel.temporaryNotificationContent == nil
+            }
+        }
+    }
+
     func testNowPlayingEventsShowAndHideLiveActivity() async {
         let context = makeContext()
 
@@ -250,7 +268,8 @@ private extension NotchEventCoordinatorIntegrationTests {
     func makeContext(
         brightnessHUDEnabled: Bool = true,
         keyboardHUDEnabled: Bool = true,
-        volumeHUDEnabled: Bool = true
+        volumeHUDEnabled: Bool = true,
+        temporaryActivityDurationScale: Double = 1
     ) -> TestContext {
         UserDefaults.standard.set(false, forKey: "isLaunchAtLoginEnabled")
         UserDefaults.standard.set(0, forKey: "notchWidth")
@@ -258,6 +277,8 @@ private extension NotchEventCoordinatorIntegrationTests {
         UserDefaults.standard.set(brightnessHUDEnabled, forKey: "settings.hud.brightness")
         UserDefaults.standard.set(keyboardHUDEnabled, forKey: "settings.hud.keyboard")
         UserDefaults.standard.set(volumeHUDEnabled, forKey: "settings.hud.volume")
+        UserDefaults.standard.set(HudStyle.standard.rawValue, forKey: "settings.hud.style")
+        UserDefaults.standard.set(temporaryActivityDurationScale, forKey: "settings.temporary.durationScale")
         UserDefaults.standard.set(true, forKey: "settings.live.hotspot")
         UserDefaults.standard.set(true, forKey: "settings.live.focus")
         UserDefaults.standard.set(true, forKey: "settings.live.nowPlaying")
@@ -302,6 +323,7 @@ private extension NotchEventCoordinatorIntegrationTests {
             powerService: PowerService(startMonitoring: false),
             networkViewModel: networkViewModel,
             downloadViewModel: downloadViewModel,
+            airDropViewModel: AirDropNotchViewModel(),
             generalSettingsViewModel: generalSettingsViewModel,
             nowPlayingViewModel: nowPlayingViewModel,
             lockScreenManager: lockScreenManager

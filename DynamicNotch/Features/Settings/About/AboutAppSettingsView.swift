@@ -112,25 +112,17 @@ struct AboutAppSettingsView: View {
     }
     
     private var highlightsCard: some View {
-        VStack(spacing: 18) {
+        VStack(spacing: 28) {
             AboutFeatureRow(
                 image: "nowPlaying",
                 title: "Live Activity",
                 description: "Persistent notch content stays visible for as long as the source event is active, then fades away when it ends."
             )
-            
-            Divider()
-                .overlay(Color.white.opacity(0.06))
-            
             AboutFeatureRow(
                 image: "fullPowerMode",
                 title: "Temporary Activity",
                 description: "Short-lived overlays appear above live activities so quick system events still feel prominent."
             )
-            
-            Divider()
-                .overlay(Color.white.opacity(0.06))
-            
             AboutFeatureRow(
                 image: "lockScreen",
                 title: "Lock Screen",

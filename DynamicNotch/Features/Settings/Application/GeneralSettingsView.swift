@@ -10,6 +10,7 @@ struct GeneralSettingsView: View {
             displayCard
             appearanceCard
             animationCard
+            temporaryActivitiesCard
         }
         .accessibilityIdentifier("settings.general.root")
     }
@@ -154,6 +155,24 @@ struct GeneralSettingsView: View {
                 )
                 .accessibilityIdentifier("settings.general.animationPreset")
             }
+        }
+    }
+
+    private var temporaryActivitiesCard: some View {
+        SettingsCard(
+            title: "Temporary activities",
+            subtitle: "Control how long short-lived notifications stay visible."
+        ) {
+            SettingsSliderRow(
+                title: "Notification duration",
+                description: "Scale the duration of temporary activities across HUD, battery, connectivity, and resize feedback.",
+                range: 0.5...2,
+                step: 0.25,
+                fractionLength: 2,
+                suffix: "x",
+                accessibilityIdentifier: "settings.general.temporaryDurationScale",
+                value: $applicationSettings.temporaryActivityDurationScale
+            )
         }
     }
 }

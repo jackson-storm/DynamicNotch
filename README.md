@@ -45,7 +45,8 @@ rather than layered on top of it.
 - 🎵 Persistent live surfaces for Now Playing, Downloads, AirDrop, Focus mode, Personal Hotspot, and Lock Screen
 - ⚡ Temporary alerts for charging, battery, Bluetooth, Wi-Fi, VPN, Focus, and resize feedback
 - 🎚️ Custom notch HUD for brightness, keyboard backlight, and volume changes
-- ⚙️ Native Settings experience with General, Live Activity, Temporary Activity, Debug, and About sections
+- ⚙️ Native Settings experience grouped into Application, Media & Files, Connectivity, System, and Info sections
+- 🧱 Modular notch architecture with `AppContainer`, `NotchEngine`, feature event handlers, and split settings stores
 - 📡 AirDrop handoff directly from Finder onto the notch
 - 🧪 Integration tests around queue behavior, restore flows, and core feature transitions
 
@@ -111,8 +112,8 @@ Current automated coverage focuses on:
 
 ```text
 DynamicNotch/
-├── Application/        # App entry point, app delegate, panel setup
-├── Core/               # Models, protocols, event plumbing, low-level services
+├── Application/        # App entry point, dependency container, app delegate, panel setup
+├── Core/               # Models, protocols, settings contracts, and low-level services
 ├── Features/
 │   ├── AirDrop/
 │   ├── Battery/
@@ -122,15 +123,17 @@ DynamicNotch/
 │   ├── HUD/
 │   ├── LockScreen/
 │   ├── Network/
-│   ├── Notch/
+│   ├── Notch/          # Notch engine, coordinator, handlers, view model, and UI
 │   ├── NowPlaying/
 │   ├── Onboarding/
 │   └── Settings/
 │       ├── About/
-│       ├── Debug/
-│       ├── General/
-│       ├── LiveActivity/
-│       └── TemporaryActivity/
+│       ├── Application/
+│       ├── Connectivity/
+│       ├── Developer/
+│       ├── Media&Files/
+│       ├── Shared/
+│       └── System/
 ├── Resources/          # App assets and bundled media
 └── Shared/             # Shared UI, extensions, and helpers
 
@@ -146,10 +149,13 @@ DynamicNotchTests/
 
 ## 🏗️ Architecture at a Glance
 
-- `AppDelegate` boots the app and manages the floating notch panel
-- `NotchViewModel` owns notch state, transitions, geometry, and presentation
-- `NotchEventCoordinator` translates system and app events into notch content
-- feature view models provide domain-specific state and event streams
+- `AppContainer` composes services, feature view models, coordinators, and window managers in one place
+- `AppDelegate` manages app lifecycle, floating notch window setup, window handoff, and platform observers
+- `NotchEngine` owns the queue-driven notch state machine for live activities, temporary alerts, transitions, and restore flows
+- `NotchViewModel` is the SwiftUI-facing facade for geometry, gestures, interactive sizing, and engine-backed presentation state
+- `NotchEventCoordinator` orchestrates routing while feature-specific handlers translate system events into notch content
+- `GeneralSettingsViewModel` acts as a facade over dedicated settings stores for Application, Media & Files, Connectivity, Battery, HUD, and Lock Screen preferences
+- feature view models and services provide domain-specific state streams that feed the notch layer
 
 ## 🧰 Tech Stack
 

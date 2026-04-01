@@ -77,6 +77,7 @@ private final class NotchSwipeDismissMonitorView: NSView {
     private var onSwipeDownProgressChanged: ((CGFloat) -> Void)?
 
     private var isTrackingSwipe = false
+    private var isGestureActionLocked = false
     private var accumulatedUpwardSwipe: CGFloat = 0
     private var accumulatedDownwardSwipe: CGFloat = 0
     private var accumulatedHorizontalSwipe: CGFloat = 0
@@ -178,7 +179,14 @@ private extension NotchSwipeDismissMonitorView {
 
         if event.phase.contains(.mayBegin) || event.phase.contains(.began) {
             resetSwipeTracking()
+            isGestureActionLocked = false
             isTrackingSwipe = isInsideNotch
+        } else if event.phase.contains(.ended) || event.phase.contains(.cancelled) {
+            resetSwipeTracking()
+            isGestureActionLocked = false
+            return
+        } else if isGestureActionLocked {
+            return
         } else if !isTrackingSwipe && isInsideNotch {
             isTrackingSwipe = true
         }
@@ -211,6 +219,7 @@ private extension NotchSwipeDismissMonitorView {
                accumulatedUpwardSwipe > dominanceThreshold,
                accumulatedUpwardSwipe >= SwipeMetrics.verticalThreshold {
                 didTriggerSwipe = true
+                isGestureActionLocked = true
                 DispatchQueue.main.async { [weak self] in
                     self?.onSwipeUp?()
                 }
@@ -222,16 +231,13 @@ private extension NotchSwipeDismissMonitorView {
                accumulatedDownwardSwipe > dominanceThreshold,
                accumulatedDownwardSwipe >= SwipeMetrics.verticalThreshold {
                 didTriggerSwipe = true
+                isGestureActionLocked = true
                 DispatchQueue.main.async { [weak self] in
                     self?.onSwipeDown?()
                 }
                 resetSwipeTracking()
                 return
             }
-        }
-
-        if event.phase.contains(.ended) || event.phase.contains(.cancelled) {
-            resetSwipeTracking()
         }
     }
 

@@ -17,6 +17,7 @@ final class NotchEngine: ObservableObject {
     private let queueDelay: TimeInterval
 
     private var activeLiveActivities: [NotchContentProtocol] = []
+    private var dismissedLiveActivityIDs: [String] = []
     private var temporaryTask: Task<Void, Never>?
     private var temporaryTimerID = UUID()
     private var suspendedActivity: NotchContentProtocol?
@@ -50,7 +51,7 @@ final class NotchEngine: ObservableObject {
     }
 
     var canRestoreDismissedContent: Bool {
-        lastDismissedContent != nil
+        lastDismissedContent != nil || !dismissedLiveActivityIDs.isEmpty
     }
 
     func updateBaseGeometry(width: CGFloat, height: CGFloat, scale: CGFloat) {
@@ -92,6 +93,11 @@ final class NotchEngine: ObservableObject {
         case .hideLiveActivity(let id):
             let wasVisible = notchModel.liveActivityContent?.id == id
             activeLiveActivities.removeAll(where: { $0.id == id })
+            dismissedLiveActivityIDs.removeAll(where: { $0 == id })
+            if case .live(let dismissedContent) = lastDismissedContent,
+               dismissedContent.id == id {
+                lastDismissedContent = nil
+            }
 
             if !wasVisible {
                 eventQueue.removeAll {
@@ -105,6 +111,9 @@ final class NotchEngine: ObservableObject {
 
         case .hide:
             eventQueue.removeAll()
+
+        case .dismissLiveActivity:
+            break
         }
 
         eventQueue.append(notchState)
@@ -115,7 +124,7 @@ final class NotchEngine: ObservableObject {
         guard notchModel.temporaryNotificationContent != nil else { return }
 
         cancelTemporary()
-        let contentToRestore = highestPriorityActivity
+        let contentToRestore = highestPriorityVisibleActivity
 
         transition(
             hide: {
@@ -145,21 +154,25 @@ final class NotchEngine: ObservableObject {
 
         guard let liveActivityContent = notchModel.liveActivityContent else { return }
         lastDismissedContent = .live(liveActivityContent)
-        send(.hideLiveActivity(id: liveActivityContent.id))
+        recordDismissedLiveActivity(id: liveActivityContent.id)
+        send(.dismissLiveActivity(id: liveActivityContent.id))
     }
 
     func restoreDismissedContent() {
-        guard let lastDismissedContent else { return }
+        if let lastDismissedContent {
+            self.lastDismissedContent = nil
 
-        self.lastDismissedContent = nil
+            switch lastDismissedContent {
+            case .live(let content):
+                restoreDismissedLiveActivity(preferredID: content.id)
 
-        switch lastDismissedContent {
-        case .live(let content):
-            send(.showLiveActivity(content))
-
-        case .temporary(let content, let duration):
-            send(.showTemporaryNotification(content, duration: duration))
+            case .temporary(let content, let duration):
+                send(.showTemporaryNotification(content, duration: duration))
+            }
+            return
         }
+
+        restoreDismissedLiveActivity()
     }
 
     func handleActiveContentTap() {
@@ -202,8 +215,31 @@ final class NotchEngine: ObservableObject {
         }
     }
 
-    private var highestPriorityActivity: NotchContentProtocol? {
-        activeLiveActivities.sorted { $0.priority > $1.priority }.first
+    private var highestPriorityVisibleActivity: NotchContentProtocol? {
+        activeLiveActivities.first { dismissedLiveActivityIDs.contains($0.id) == false }
+    }
+
+    private func recordDismissedLiveActivity(id: String) {
+        dismissedLiveActivityIDs.removeAll(where: { $0 == id })
+        dismissedLiveActivityIDs.append(id)
+    }
+
+    private func restoreDismissedLiveActivity(preferredID: String? = nil) {
+        if let preferredID {
+            dismissedLiveActivityIDs.removeAll(where: { $0 == preferredID })
+
+            if let content = activeLiveActivities.first(where: { $0.id == preferredID }) {
+                send(.showLiveActivity(content))
+                return
+            }
+        }
+
+        while let nextID = dismissedLiveActivityIDs.popLast() {
+            if let content = activeLiveActivities.first(where: { $0.id == nextID }) {
+                send(.showLiveActivity(content))
+                return
+            }
+        }
     }
 
     private func processQueue() {
@@ -231,25 +267,30 @@ final class NotchEngine: ObservableObject {
 
         switch state {
         case .showLiveActivity(let content):
-            let current = notchModel.liveActivityContent
-            let best = highestPriorityActivity
-
-            if best?.id == content.id {
-                await showLiveContentTransition(content)
-            } else if let current, current.priority >= content.priority {
+            if dismissedLiveActivityIDs.contains(content.id) {
                 return
-            } else {
-                await showLiveContentTransition(content)
             }
+
+            let bestVisible = highestPriorityVisibleActivity
+
+            if bestVisible?.id == notchModel.liveActivityContent?.id {
+                return
+            }
+
+            await showLiveContentTransition(bestVisible)
 
         case .hideLiveActivity(let id):
             if notchModel.liveActivityContent?.id == id {
-                if let nextBest = highestPriorityActivity {
+                if let nextBest = highestPriorityVisibleActivity {
                     await showLiveContentTransition(nextBest)
                 } else {
-                    await hideAllTransition()
+                    await showLiveContentTransition(nil)
                 }
             }
+
+        case .dismissLiveActivity(let id):
+            guard notchModel.liveActivityContent?.id == id else { return }
+            await showLiveContentTransition(highestPriorityVisibleActivity)
 
         case .showTemporaryNotification(let content, let duration):
             await showTemporaryTransition(content, duration: duration)

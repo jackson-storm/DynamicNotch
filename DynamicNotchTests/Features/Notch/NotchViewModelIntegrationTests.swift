@@ -172,6 +172,100 @@ final class NotchViewModelIntegrationTests: XCTestCase {
     }
 
     @MainActor
+    func testRestoreDismissedContentWalksBackThroughDismissedLiveActivityStack() async {
+        let viewModel = NotchViewModel(
+            settings: TestNotchSettings(),
+            hideDelay: 0.01,
+            queueDelay: 0
+        )
+        TestLifetime.retain(viewModel)
+
+        viewModel.send(.showLiveActivity(TestNotchContent(id: "low", priority: 10)))
+        viewModel.send(.showLiveActivity(TestNotchContent(id: "mid", priority: 30)))
+        viewModel.send(.showLiveActivity(TestNotchContent(id: "high", priority: 50)))
+
+        await assertEventually {
+            await MainActor.run { viewModel.notchModel.liveActivityContent?.id == "high" }
+        }
+
+        viewModel.dismissActiveContent()
+
+        await assertEventually {
+            await MainActor.run {
+                viewModel.notchModel.liveActivityContent?.id == "mid" &&
+                viewModel.canRestoreDismissedContent
+            }
+        }
+
+        viewModel.dismissActiveContent()
+
+        await assertEventually {
+            await MainActor.run {
+                viewModel.notchModel.liveActivityContent?.id == "low" &&
+                viewModel.canRestoreDismissedContent
+            }
+        }
+
+        viewModel.restoreDismissedContent()
+
+        await assertEventually {
+            await MainActor.run {
+                viewModel.notchModel.liveActivityContent?.id == "mid" &&
+                viewModel.canRestoreDismissedContent
+            }
+        }
+
+        viewModel.restoreDismissedContent()
+
+        await assertEventually {
+            await MainActor.run {
+                viewModel.notchModel.liveActivityContent?.id == "high" &&
+                viewModel.canRestoreDismissedContent == false
+            }
+        }
+    }
+
+    @MainActor
+    func testHidingDismissedLiveActivityRemovesItFromRestoreStack() async {
+        let viewModel = NotchViewModel(
+            settings: TestNotchSettings(),
+            hideDelay: 0.01,
+            queueDelay: 0
+        )
+        TestLifetime.retain(viewModel)
+
+        viewModel.send(.showLiveActivity(TestNotchContent(id: "low", priority: 10)))
+        viewModel.send(.showLiveActivity(TestNotchContent(id: "high", priority: 50)))
+
+        await assertEventually {
+            await MainActor.run { viewModel.notchModel.liveActivityContent?.id == "high" }
+        }
+
+        viewModel.dismissActiveContent()
+
+        await assertEventually {
+            await MainActor.run {
+                viewModel.notchModel.liveActivityContent?.id == "low" &&
+                viewModel.canRestoreDismissedContent
+            }
+        }
+
+        viewModel.send(.hideLiveActivity(id: "high"))
+
+        try? await Task.sleep(nanoseconds: 50_000_000)
+
+        let canRestore = await MainActor.run { viewModel.canRestoreDismissedContent }
+        XCTAssertFalse(canRestore)
+
+        viewModel.restoreDismissedContent()
+
+        try? await Task.sleep(nanoseconds: 50_000_000)
+
+        let visibleID = await MainActor.run { viewModel.notchModel.liveActivityContent?.id }
+        XCTAssertEqual(visibleID, "low")
+    }
+
+    @MainActor
     func testRestoreDismissedContentBringsBackLastTemporaryNotification() async {
         let viewModel = NotchViewModel(
             settings: TestNotchSettings(),

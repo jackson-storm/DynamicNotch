@@ -167,7 +167,7 @@ struct HUDSettingsView: View {
                     Spacer()
                     
                     Text("72")
-                        .font(.system(size: 13, weight: .semibold, design: .rounded))
+                        .font(.system(size: 10, weight: .semibold, design: .rounded))
                 }
                 .foregroundStyle(.white.opacity(0.8))
                 .padding(.horizontal, 8)

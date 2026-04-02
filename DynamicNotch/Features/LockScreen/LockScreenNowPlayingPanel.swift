@@ -182,7 +182,6 @@ private struct LockScreenNowPlayingView: View {
                             fontSize: 22
                         )
                     }
-                    .padding(.horizontal, 5)
                 }
                 .frame(maxWidth: .infinity)
             }

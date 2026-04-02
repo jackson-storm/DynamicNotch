@@ -21,17 +21,10 @@ final class BatterySettingsStore: SettingsStoreBase {
         }
     }
 
-    @Published var isBatteryDefaultStrokeEnabled: Bool {
-        didSet {
-            persist(isBatteryDefaultStrokeEnabled, for: GeneralSettingsStorage.Keys.batteryDefaultStrokeEnabled)
-        }
-    }
-
     override init(defaults: UserDefaults) {
         self.isChargerTemporaryActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.chargerTemporaryActivityEnabled)
         self.isLowPowerTemporaryActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.lowPowerTemporaryActivityEnabled)
         self.isFullPowerTemporaryActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.fullPowerTemporaryActivityEnabled)
-        self.isBatteryDefaultStrokeEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.batteryDefaultStrokeEnabled)
         super.init(defaults: defaults)
     }
 
@@ -39,6 +32,5 @@ final class BatterySettingsStore: SettingsStoreBase {
         isChargerTemporaryActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.chargerTemporaryActivityEnabled)
         isLowPowerTemporaryActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.lowPowerTemporaryActivityEnabled)
         isFullPowerTemporaryActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.fullPowerTemporaryActivityEnabled)
-        isBatteryDefaultStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.batteryDefaultStrokeEnabled)
     }
 }

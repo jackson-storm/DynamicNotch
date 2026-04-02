@@ -6,7 +6,7 @@ struct FullPowerNotchContent: NotchContentProtocol {
     let generalSettingsViewModel: GeneralSettingsViewModel
     
     var strokeColor: Color {
-        generalSettingsViewModel.isBatteryDefaultStrokeEnabled ?
+        generalSettingsViewModel.isDefaultActivityStrokeEnabled ?
         .white.opacity(0.2) :
         (powerService.isLowPowerMode ? .yellow.opacity(0.3) : .green.opacity(0.3))
     }

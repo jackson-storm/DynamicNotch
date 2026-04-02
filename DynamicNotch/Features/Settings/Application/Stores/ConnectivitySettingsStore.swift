@@ -39,18 +39,6 @@ final class ConnectivitySettingsStore: SettingsStoreBase {
         }
     }
 
-    @Published var isFocusDefaultStrokeEnabled: Bool {
-        didSet {
-            persist(isFocusDefaultStrokeEnabled, for: GeneralSettingsStorage.Keys.focusDefaultStrokeEnabled)
-        }
-    }
-
-    @Published var isHotspotDefaultStrokeEnabled: Bool {
-        didSet {
-            persist(isHotspotDefaultStrokeEnabled, for: GeneralSettingsStorage.Keys.hotspotDefaultStrokeEnabled)
-        }
-    }
-
     override init(defaults: UserDefaults) {
         self.isHotspotLiveActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.hotspotLiveActivityEnabled)
         self.isFocusLiveActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.focusLiveActivityEnabled)
@@ -58,15 +46,12 @@ final class ConnectivitySettingsStore: SettingsStoreBase {
         self.isWifiTemporaryActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.wifiTemporaryActivityEnabled)
         self.isVpnTemporaryActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.vpnTemporaryActivityEnabled)
         self.isFocusOffTemporaryActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.focusOffTemporaryActivityEnabled)
-        self.isFocusDefaultStrokeEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.focusDefaultStrokeEnabled)
-        self.isHotspotDefaultStrokeEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.hotspotDefaultStrokeEnabled)
         super.init(defaults: defaults)
     }
 
     func resetFocus() {
         isFocusLiveActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.focusLiveActivityEnabled)
         isFocusOffTemporaryActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.focusOffTemporaryActivityEnabled)
-        isFocusDefaultStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.focusDefaultStrokeEnabled)
     }
 
     func resetBluetooth() {
@@ -77,6 +62,5 @@ final class ConnectivitySettingsStore: SettingsStoreBase {
         isHotspotLiveActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.hotspotLiveActivityEnabled)
         isWifiTemporaryActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.wifiTemporaryActivityEnabled)
         isVpnTemporaryActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.vpnTemporaryActivityEnabled)
-        isHotspotDefaultStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.hotspotDefaultStrokeEnabled)
     }
 }

@@ -7,7 +7,6 @@ struct AirDropSettingsView: View {
     var body: some View {
         SettingsPageScrollView {
             airDropActivity
-            airDropAppearance
         }
     }
     
@@ -23,36 +22,6 @@ struct AirDropSettingsView: View {
                 color: .blue,
                 isOn: $mediaSettings.isAirDropLiveActivityEnabled,
                 accessibilityIdentifier: "settings.activities.live.airDrop"
-            )
-        }
-    }
-    
-    private var airDropAppearance: some View {
-        SettingsCard(
-            title: "AirDrop appearance",
-            subtitle: "Preview the AirDrop notch and adjust its accent stroke."
-        ) {
-            NotchPreview(
-                width: 230,
-                height: 128,
-                topCornerRadius: 24,
-                bottomCornerRadius: 36,
-                showsStroke: appearanceSettings.isShowNotchStrokeEnabled,
-                strokeColor: mediaSettings.isAirDropDefaultStrokeEnabled ?
-                    .white.opacity(0.2) :
-                        .blue.opacity(0.3),
-                strokeWidth: CGFloat(appearanceSettings.notchStrokeWidth)
-            ) {
-                AirDropPreviewNotchView()
-            }
-            
-            SettingsToggleRow(
-                title: "Use default stroke color",
-                description: "Use the default notch stroke color instead of the blue AirDrop accent.",
-                systemImage: "paintbrush.pointed.fill",
-                color: .indigo,
-                isOn: $mediaSettings.isAirDropDefaultStrokeEnabled,
-                accessibilityIdentifier: "settings.activities.live.airDrop.defaultStroke"
             )
         }
     }

@@ -36,7 +36,7 @@ struct GeneralSettingsView: View {
                     title: "Show menu bar icon",
                     description: "Show a menu bar shortcut for quick access to Settings and Quit.",
                     systemImage: "menubar.rectangle",
-                    color: .purple,
+                    color: .blue,
                     isOn: $applicationSettings.isMenuBarIconVisible,
                     accessibilityIdentifier: "settings.general.menuBarIcon"
                 )
@@ -71,7 +71,7 @@ struct GeneralSettingsView: View {
                     topCornerRadius: 9,
                     bottomCornerRadius: 13,
                     showsStroke: applicationSettings.isShowNotchStrokeEnabled,
-                    strokeColor: .green.opacity(0.3),
+                    strokeColor: applicationSettings.isDefaultActivityStrokeEnabled ? .white.opacity(0.2) : .green.opacity(0.3),
                     strokeWidth: CGFloat(applicationSettings.notchStrokeWidth)
                 ) {
                     ChargerNotchView(powerService: powerService)
@@ -86,6 +86,17 @@ struct GeneralSettingsView: View {
                     accessibilityIdentifier: "settings.general.showNotchStroke"
                 )
                 
+                Divider()
+
+                SettingsToggleRow(
+                    title: "Use default activity stroke color",
+                    description: "Apply the standard white stroke to supported activities instead of feature accent colors.",
+                    systemImage: "paintbrush.pointed.fill",
+                    color: .purple,
+                    isOn: $applicationSettings.isDefaultActivityStrokeEnabled,
+                    accessibilityIdentifier: "settings.general.defaultActivityStroke"
+                )
+
                 Divider()
                 
                 SettingsToggleRow(

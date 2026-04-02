@@ -7,7 +7,6 @@ struct NetworkSettingsView: View {
     var body: some View {
         SettingsPageScrollView {
             networkActivity
-            networkAppearance
         }
     }
     
@@ -42,37 +41,9 @@ struct NetworkSettingsView: View {
                 title: "Personal Hotspot live activity",
                 description: "Show a live activity while Personal Hotspot is enabled.",
                 systemImage: "personalhotspot",
-                color: .green,
+                color: .blue,
                 isOn: $connectivitySettings.isHotspotLiveActivityEnabled,
                 accessibilityIdentifier: "settings.activities.live.hotspot"
-            )
-        }
-    }
-    
-    private var networkAppearance: some View {
-        SettingsCard(
-                title: "Network appearance",
-                subtitle: "Preview the hotspot notch and adjust its accent stroke."
-        ) {
-            NotchPreview(
-                width: 270,
-                height: 38,
-                showsStroke: appearanceSettings.isShowNotchStrokeEnabled,
-                strokeColor: connectivitySettings.isHotspotDefaultStrokeEnabled ?
-                    .white.opacity(0.2) :
-                        .green.opacity(0.3),
-                strokeWidth: CGFloat(appearanceSettings.notchStrokeWidth)
-            ) {
-                HotspotPreviewNotchView()
-            }
-            
-            SettingsToggleRow(
-                title: "Use default stroke color",
-                description: "Use the default notch stroke color instead of the green hotspot accent.",
-                systemImage: "paintbrush.pointed.fill",
-                color: .indigo,
-                isOn: $connectivitySettings.isHotspotDefaultStrokeEnabled,
-                accessibilityIdentifier: "settings.activities.live.hotspot.defaultStroke"
             )
         }
     }

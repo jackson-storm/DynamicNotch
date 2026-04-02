@@ -5,6 +5,7 @@ enum GeneralSettingsStorage {
         static let notchHeight = "notchHeight"
         static let menuBarIcon = "isMenuBarIconVisible"
         static let notchStrokeEnabled = "isShowNotchStrokeEnabled"
+        static let defaultActivityStrokeEnabled = "settings.general.defaultActivityStroke"
         static let notchStrokeWidth = "notchStrokeWidth"
         static let displayLocation = "displayLocation"
         static let notchAnimationPreset = "settings.general.notchAnimationPreset"
@@ -42,6 +43,7 @@ enum GeneralSettingsStorage {
         Keys.notchHeight: 0,
         Keys.menuBarIcon: true,
         Keys.notchStrokeEnabled: true,
+        Keys.defaultActivityStrokeEnabled: false,
         Keys.notchStrokeWidth: 1.5,
         Keys.displayLocation: NotchDisplayLocation.main.rawValue,
         Keys.notchAnimationPreset: NotchAnimationPreset.balanced.rawValue,

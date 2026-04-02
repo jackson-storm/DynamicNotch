@@ -21,7 +21,7 @@ struct AirDropNotchContent: NotchContentProtocol {
     
     var priority: Int { 90 }
     var strokeColor: Color {
-        generalSettingsViewModel.isAirDropDefaultStrokeEnabled ?
+        generalSettingsViewModel.isDefaultActivityStrokeEnabled ?
         .white.opacity(0.2) :
         .blue.opacity(0.3)
     }

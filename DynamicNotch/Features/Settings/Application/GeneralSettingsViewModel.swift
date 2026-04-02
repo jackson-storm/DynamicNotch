@@ -86,6 +86,11 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
         set { application.isShowNotchStrokeEnabled = newValue }
     }
 
+    var isDefaultActivityStrokeEnabled: Bool {
+        get { application.isDefaultActivityStrokeEnabled }
+        set { application.isDefaultActivityStrokeEnabled = newValue }
+    }
+
     var notchStrokeWidth: Double {
         get { application.notchStrokeWidth }
         set { application.notchStrokeWidth = newValue }
@@ -180,19 +185,9 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
         set { mediaAndFiles.isDownloadsLiveActivityEnabled = newValue }
     }
 
-    var isDownloadsDefaultStrokeEnabled: Bool {
-        get { mediaAndFiles.isDownloadsDefaultStrokeEnabled }
-        set { mediaAndFiles.isDownloadsDefaultStrokeEnabled = newValue }
-    }
-
     var isAirDropLiveActivityEnabled: Bool {
         get { mediaAndFiles.isAirDropLiveActivityEnabled }
         set { mediaAndFiles.isAirDropLiveActivityEnabled = newValue }
-    }
-
-    var isAirDropDefaultStrokeEnabled: Bool {
-        get { mediaAndFiles.isAirDropDefaultStrokeEnabled }
-        set { mediaAndFiles.isAirDropDefaultStrokeEnabled = newValue }
     }
 
     var isChargerTemporaryActivityEnabled: Bool {
@@ -228,21 +223,6 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
     var isFocusOffTemporaryActivityEnabled: Bool {
         get { connectivity.isFocusOffTemporaryActivityEnabled }
         set { connectivity.isFocusOffTemporaryActivityEnabled = newValue }
-    }
-
-    var isFocusDefaultStrokeEnabled: Bool {
-        get { connectivity.isFocusDefaultStrokeEnabled }
-        set { connectivity.isFocusDefaultStrokeEnabled = newValue }
-    }
-
-    var isHotspotDefaultStrokeEnabled: Bool {
-        get { connectivity.isHotspotDefaultStrokeEnabled }
-        set { connectivity.isHotspotDefaultStrokeEnabled = newValue }
-    }
-
-    var isBatteryDefaultStrokeEnabled: Bool {
-        get { battery.isBatteryDefaultStrokeEnabled }
-        set { battery.isBatteryDefaultStrokeEnabled = newValue }
     }
 
     func isLiveActivityEnabled(_ preference: LiveActivityPreference) -> Bool {

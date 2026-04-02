@@ -39,6 +39,12 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         }
     }
 
+    @Published var isDefaultActivityStrokeEnabled: Bool {
+        didSet {
+            persist(isDefaultActivityStrokeEnabled, for: GeneralSettingsStorage.Keys.defaultActivityStrokeEnabled)
+        }
+    }
+
     @Published var notchStrokeWidth: Double {
         didSet {
             persist(notchStrokeWidth, for: GeneralSettingsStorage.Keys.notchStrokeWidth)
@@ -83,6 +89,7 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         self.notchHeight = defaults.integer(forKey: GeneralSettingsStorage.Keys.notchHeight)
         self.isMenuBarIconVisible = defaults.bool(forKey: GeneralSettingsStorage.Keys.menuBarIcon)
         self.isShowNotchStrokeEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.notchStrokeEnabled)
+        self.isDefaultActivityStrokeEnabled = Self.resolvedDefaultActivityStrokeEnabled(defaults: defaults)
         self.notchStrokeWidth = defaults.double(forKey: GeneralSettingsStorage.Keys.notchStrokeWidth)
         self.displayLocation = NotchDisplayLocation(
             rawValue: defaults.string(forKey: GeneralSettingsStorage.Keys.displayLocation) ?? NotchDisplayLocation.main.rawValue
@@ -111,10 +118,30 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         ) ?? .balanced
         temporaryActivityDurationScale = defaultDouble(for: GeneralSettingsStorage.Keys.temporaryActivityDurationScale)
         isShowNotchStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchStrokeEnabled)
+        isDefaultActivityStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.defaultActivityStrokeEnabled)
         isNotchSizeTemporaryActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchSizeTemporaryActivityEnabled)
         notchStrokeWidth = defaultDouble(for: GeneralSettingsStorage.Keys.notchStrokeWidth)
         notchWidth = defaultInt(for: GeneralSettingsStorage.Keys.notchWidth)
         notchHeight = defaultInt(for: GeneralSettingsStorage.Keys.notchHeight)
+    }
+
+    private static func resolvedDefaultActivityStrokeEnabled(defaults: UserDefaults) -> Bool {
+        if let currentValue = defaults.object(forKey: GeneralSettingsStorage.Keys.defaultActivityStrokeEnabled) as? Bool {
+            return currentValue
+        }
+
+        let legacyKeys = [
+            GeneralSettingsStorage.Keys.downloadsDefaultStrokeEnabled,
+            GeneralSettingsStorage.Keys.airDropDefaultStrokeEnabled,
+            GeneralSettingsStorage.Keys.focusDefaultStrokeEnabled,
+            GeneralSettingsStorage.Keys.hotspotDefaultStrokeEnabled,
+            GeneralSettingsStorage.Keys.batteryDefaultStrokeEnabled
+        ]
+
+        return legacyKeys.contains { key in
+            guard defaults.object(forKey: key) != nil else { return false }
+            return defaults.bool(forKey: key)
+        }
     }
 
     private func updateLaunchAtLogin() {

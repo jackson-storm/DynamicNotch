@@ -172,9 +172,9 @@ final class SettingsRootViewModel {
             case .focus:
                 return .indigo
             case .bluetooth:
-                return .blue
+                return .orange
             case .network:
-                return .pink
+                return .blue
             case .battery:
                 return .green
             case .hud:

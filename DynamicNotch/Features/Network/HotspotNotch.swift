@@ -13,7 +13,7 @@ struct HotspotActiveContent: NotchContentProtocol {
     
     var priority: Int { 70 }
     var strokeColor: Color {
-        generalSettingsViewModel.isHotspotDefaultStrokeEnabled ?
+        generalSettingsViewModel.isDefaultActivityStrokeEnabled ?
         .white.opacity(0.2) :
         .green.opacity(0.3)
     }

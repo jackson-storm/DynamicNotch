@@ -13,7 +13,7 @@ struct FocusOnNotchContent: NotchContentProtocol {
     
     var priority: Int { 60 }
     var strokeColor: Color {
-        generalSettingsViewModel.isFocusDefaultStrokeEnabled ?
+        generalSettingsViewModel.isDefaultActivityStrokeEnabled ?
         .white.opacity(0.2) :
         .indigo.opacity(0.3)
     }
@@ -35,7 +35,7 @@ struct FocusOffNotchContent: NotchContentProtocol {
     let generalSettingsViewModel: GeneralSettingsViewModel
     
     var strokeColor: Color {
-        generalSettingsViewModel.isFocusDefaultStrokeEnabled ?
+        generalSettingsViewModel.isDefaultActivityStrokeEnabled ?
         .white.opacity(0.2) :
         .gray.opacity(0.3)
     }

@@ -52,7 +52,7 @@ struct NowPlayingSnapshot: Equatable {
     }
 }
 
-private extension String {
+extension String {
     var trimmed: String {
         trimmingCharacters(in: .whitespacesAndNewlines)
     }

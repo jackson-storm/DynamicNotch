@@ -138,7 +138,7 @@ struct NowPlayingExpandedNotchView: View {
                             .constant(displayArtist(for: snapshot)),
                             font: .system(size: 14),
                             nsFont: .headline,
-                            textColor: .white.opacity(0.4),
+                            textColor: .white.opacity(0.5),
                             backgroundColor: .clear,
                             minDuration: 3.0,
                             frameWidth: 170.scaled(by: scale)
@@ -171,34 +171,56 @@ struct NowPlayingExpandedNotchView: View {
                 
                 Spacer()
                 
-                HStack(spacing: 25) {
-                    PlayerControlButton(
-                        systemImage: "backward.fill",
-                        fontSize: 22,
-                        width: 42,
-                        height: 42
-                    ) {
-                        nowPlayingViewModel.previousTrack()
+                ZStack {
+                    HStack(spacing: 25) {
+                        PlayerControlButton(
+                            systemImage: "backward.fill",
+                            fontSize: 22,
+                            width: 42,
+                            height: 42
+                        ) {
+                            nowPlayingViewModel.previousTrack()
+                        }
+                        
+                        PlayerControlButton(
+                            systemImage: snapshot.isPlaying ? "pause.fill" : "play.fill",
+                            fontSize: 32,
+                            width: 42,
+                            height: 42
+                        ) {
+                            nowPlayingViewModel.togglePlayPause()
+                        }
+                        
+                        PlayerControlButton(
+                            systemImage: "forward.fill",
+                            fontSize: 22,
+                            width: 42,
+                            height: 42
+                        ) {
+                            nowPlayingViewModel.nextTrack()
+                        }
                     }
-                    
-                    PlayerControlButton(
-                        systemImage: snapshot.isPlaying ? "pause.fill" : "play.fill",
-                        fontSize: 32,
-                        width: 42,
-                        height: 42
-                    ) {
-                        nowPlayingViewModel.togglePlayPause()
+
+                    HStack {
+                        FavoriteTrackButton(
+                            nowPlayingViewModel: nowPlayingViewModel,
+                            width: 42,
+                            height: 42,
+                            fontSize: 21
+                        )
+
+                        Spacer()
+
+                        AudioOutputRoutePickerButton(
+                            nowPlayingViewModel: nowPlayingViewModel,
+                            width: 42,
+                            height: 42,
+                            fontSize: 21
+                        )
                     }
-                    
-                    PlayerControlButton(
-                        systemImage: "forward.fill",
-                        fontSize: 22,
-                        width: 42,
-                        height: 42
-                    ) {
-                        nowPlayingViewModel.nextTrack()
-                    }
+                    .padding(.horizontal, 5)
                 }
+                .frame(maxWidth: .infinity)
             }
             .padding(.horizontal, 55)
             .padding(.top, 25)
@@ -480,9 +502,91 @@ private struct PlayerControlButton: View {
     }
 }
 
-private extension String {
-    var trimmed: String {
-        trimmingCharacters(in: .whitespacesAndNewlines)
+struct FavoriteTrackButton: View {
+    @ObservedObject var nowPlayingViewModel: NowPlayingViewModel
+
+    let width: CGFloat
+    let height: CGFloat
+    let fontSize: CGFloat
+
+    var body: some View {
+        Button {
+            nowPlayingViewModel.toggleFavorite()
+        } label: {
+            Image(systemName: nowPlayingViewModel.isCurrentTrackFavorite ? "star.fill" : "star")
+                .font(.system(size: fontSize, weight: .semibold))
+                .foregroundStyle(iconColor)
+        }
+        .buttonStyle(PressedButtonStyle(width: width, height: height))
+        .disabled(!nowPlayingViewModel.canToggleFavorite)
+        .opacity(nowPlayingViewModel.canToggleFavorite ? 1 : 0.45)
+    }
+
+    private var iconColor: Color {
+        if nowPlayingViewModel.isCurrentTrackFavorite {
+            return Color.white.opacity(0.5)
+        }
+
+        return .white.opacity(0.5)
+    }
+}
+
+struct AudioOutputRoutePickerButton: View {
+    @ObservedObject var nowPlayingViewModel: NowPlayingViewModel
+    
+    var width: CGFloat = 42
+    var height: CGFloat = 42
+    var fontSize: CGFloat = 20
+
+    var body: some View {
+        Menu {
+            if nowPlayingViewModel.audioOutputRoutes.isEmpty {
+                Text("No audio outputs available")
+            } else {
+                ForEach(nowPlayingViewModel.audioOutputRoutes) { route in
+                    Button {
+                        nowPlayingViewModel.switchAudioOutput(to: route)
+                    } label: {
+                        routeMenuLabel(route)
+                    }
+                }
+            }
+        } label: {
+            Image(systemName: currentRouteSymbolName)
+                .font(.system(size: fontSize, weight: .semibold))
+                .foregroundStyle(.white.opacity(0.5))
+        }
+        .menuIndicator(.hidden)
+        .buttonStyle(PressedButtonStyle(width: width, height: height))
+        .onAppear {
+            nowPlayingViewModel.refreshAudioOutputRoutes()
+        }
+    }
+
+    private var currentRouteSymbolName: String {
+        if let currentRoute = nowPlayingViewModel.currentAudioOutputRoute {
+            return currentRoute.systemImageName
+        }
+
+        if let selectedRoute = nowPlayingViewModel.audioOutputRoutes.first(where: \.isCurrent) {
+            return selectedRoute.systemImageName
+        }
+
+        return "airplayaudio"
+    }
+
+    private func routeMenuLabel(_ route: AudioOutputRoute) -> some View {
+        HStack(spacing: 8) {
+            Image(systemName: route.systemImageName)
+                .frame(width: 18)
+
+            Text(route.name)
+
+            if route.isCurrent {
+                Spacer(minLength: 12)
+                Image(systemName: "checkmark")
+            }
+        }
     }
 }
 

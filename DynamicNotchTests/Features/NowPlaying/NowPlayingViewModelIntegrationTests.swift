@@ -105,6 +105,129 @@ final class NowPlayingViewModelIntegrationTests: XCTestCase {
 
         XCTAssertEqual(viewModel.artworkPalette, .fallback)
     }
+
+    func testAudioOutputRoutesLoadFromRoutingService() {
+        let service = FakeNowPlayingService()
+        let audioOutputRouting = FakeAudioOutputRoutingService(
+            routes: [
+                AudioOutputRoute(
+                    id: 1,
+                    name: "MacBook Pro Speakers",
+                    transportType: kAudioDeviceTransportTypeBuiltIn,
+                    isCurrent: true
+                ),
+                AudioOutputRoute(
+                    id: 2,
+                    name: "AirPods Pro",
+                    transportType: kAudioDeviceTransportTypeBluetooth,
+                    isCurrent: false
+                )
+            ]
+        )
+        let viewModel = NowPlayingViewModel(
+            service: service,
+            audioOutputRouting: audioOutputRouting
+        )
+        TestLifetime.retain(viewModel)
+
+        XCTAssertEqual(viewModel.audioOutputRoutes.count, 2)
+        XCTAssertEqual(viewModel.currentAudioOutputRoute?.name, "MacBook Pro Speakers")
+    }
+
+    func testSwitchAudioOutputDelegatesToRoutingServiceAndRefreshesCurrentRoute() {
+        let service = FakeNowPlayingService()
+        let audioOutputRouting = FakeAudioOutputRoutingService(
+            routes: [
+                AudioOutputRoute(
+                    id: 1,
+                    name: "MacBook Pro Speakers",
+                    transportType: kAudioDeviceTransportTypeBuiltIn,
+                    isCurrent: true
+                ),
+                AudioOutputRoute(
+                    id: 2,
+                    name: "AirPods Pro",
+                    transportType: kAudioDeviceTransportTypeBluetooth,
+                    isCurrent: false
+                )
+            ]
+        )
+        let viewModel = NowPlayingViewModel(
+            service: service,
+            audioOutputRouting: audioOutputRouting
+        )
+        TestLifetime.retain(viewModel)
+
+        let targetRoute = audioOutputRouting.routes[1]
+        viewModel.switchAudioOutput(to: targetRoute)
+
+        XCTAssertEqual(audioOutputRouting.selectedRouteIDs, [2])
+        XCTAssertEqual(viewModel.currentAudioOutputRoute?.name, "AirPods Pro")
+        XCTAssertEqual(viewModel.audioOutputRoutes.first(where: { $0.id == 2 })?.isCurrent, true)
+    }
+
+    func testFavoriteStatePersistsForTrackIdentity() {
+        let service = FakeNowPlayingService()
+        let favoritesStore = makeFavoriteStore(named: #function)
+        let viewModel = NowPlayingViewModel(
+            service: service,
+            favoritesStore: favoritesStore
+        )
+        TestLifetime.retain(viewModel)
+
+        let snapshot = makeNowPlayingSnapshot(
+            title: "Midnight Echoes",
+            artist: "Debug Ensemble",
+            album: "Preview Mode"
+        )
+        service.publish(snapshot)
+
+        XCTAssertFalse(viewModel.isCurrentTrackFavorite)
+
+        viewModel.toggleFavorite()
+        XCTAssertTrue(viewModel.isCurrentTrackFavorite)
+
+        let restoredService = FakeNowPlayingService()
+        let restoredViewModel = NowPlayingViewModel(
+            service: restoredService,
+            favoritesStore: favoritesStore
+        )
+        TestLifetime.retain(restoredViewModel)
+        restoredViewModel.startMonitoring()
+        restoredService.publish(snapshot)
+
+        XCTAssertTrue(restoredViewModel.isCurrentTrackFavorite)
+    }
+
+    func testFavoriteStateResetsForDifferentTrack() {
+        let service = FakeNowPlayingService()
+        let favoritesStore = makeFavoriteStore(named: #function)
+        let viewModel = NowPlayingViewModel(
+            service: service,
+            favoritesStore: favoritesStore
+        )
+        TestLifetime.retain(viewModel)
+
+        service.publish(
+            makeNowPlayingSnapshot(
+                title: "Midnight Echoes",
+                artist: "Debug Ensemble",
+                album: "Preview Mode"
+            )
+        )
+        viewModel.toggleFavorite()
+        XCTAssertTrue(viewModel.isCurrentTrackFavorite)
+
+        service.publish(
+            makeNowPlayingSnapshot(
+                title: "Second Signal",
+                artist: "Debug Ensemble",
+                album: "Preview Mode"
+            )
+        )
+
+        XCTAssertFalse(viewModel.isCurrentTrackFavorite)
+    }
 }
 
 private func makeArtworkData(
@@ -143,4 +266,11 @@ private func rgbaComponents(from color: NSColor) -> (red: CGFloat, green: CGFloa
         resolvedColor.blueComponent,
         resolvedColor.alphaComponent
     )
+}
+
+private func makeFavoriteStore(named name: String) -> UserDefaults {
+    let suiteName = "DynamicNotchTests.\(name)"
+    let defaults = UserDefaults(suiteName: suiteName)!
+    defaults.removePersistentDomain(forName: suiteName)
+    return defaults
 }

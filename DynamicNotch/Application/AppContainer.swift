@@ -58,7 +58,10 @@ final class AppContainer {
         self.nowPlayingViewModel = NowPlayingViewModel(
             service: isRunningUITests ?
                 InactiveNowPlayingService() :
-                MediaRemoteNowPlayingService()
+                MediaRemoteNowPlayingService(),
+            audioOutputRouting: isRunningUITests ?
+                InactiveAudioOutputRoutingService() :
+                SystemAudioOutputRoutingService()
         )
         self.downloadViewModel = DownloadViewModel(
             monitor: isRunningUITests ?

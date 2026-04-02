@@ -1,3 +1,4 @@
+import CoreAudio
 import SwiftUI
 @testable import DynamicNotch
 
@@ -91,6 +92,43 @@ final class FakeNowPlayingService: NowPlayingMonitoring {
 
     func publish(_ snapshot: NowPlayingSnapshot?) {
         onSnapshotChange?(snapshot)
+    }
+}
+
+final class FakeAudioOutputRoutingService: AudioOutputRouting {
+    var routes: [AudioOutputRoute]
+    private(set) var selectedRouteIDs: [AudioDeviceID] = []
+
+    init(routes: [AudioOutputRoute] = []) {
+        self.routes = routes
+    }
+
+    func availableRoutes() -> [AudioOutputRoute] {
+        routes
+    }
+
+    func currentRoute() -> AudioOutputRoute? {
+        routes.first(where: \.isCurrent)
+    }
+
+    @discardableResult
+    func setCurrentRoute(_ id: AudioDeviceID) -> Bool {
+        selectedRouteIDs.append(id)
+
+        guard routes.contains(where: { $0.id == id }) else {
+            return false
+        }
+
+        routes = routes.map { route in
+            AudioOutputRoute(
+                id: route.id,
+                name: route.name,
+                transportType: route.transportType,
+                isCurrent: route.id == id
+            )
+        }
+
+        return true
     }
 }
 

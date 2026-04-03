@@ -1,16 +1,18 @@
+import SwiftUI
+
 enum HudStyle: String, CaseIterable {
     case standard
     case compact
     case minimal
 
-    var title: String {
+    var title: LocalizedStringKey {
         switch self {
         case .standard:
-            return "Standard"
+            return "settings.hud.style.standard"
         case .compact:
-            return "Compact"
+            return "settings.hud.style.compact"
         case .minimal:
-            return "Minimal"
+            return "settings.hud.style.minimal"
         }
     }
 

@@ -9,12 +9,19 @@ enum NowPlayingEvent: Equatable {
 
 @MainActor
 final class NowPlayingViewModel: ObservableObject {
+    private static let favoriteTrackKeysStorageKey = "settings.nowPlaying.favoriteTrackKeys"
+
     @Published private(set) var snapshot: NowPlayingSnapshot?
     @Published private(set) var artworkImage: NSImage?
     @Published private(set) var artworkPalette = NowPlayingArtworkPalette.fallback
+    @Published private(set) var audioOutputRoutes: [AudioOutputRoute] = []
+    @Published private(set) var currentAudioOutputRoute: AudioOutputRoute?
+    @Published private(set) var isCurrentTrackFavorite = false
     @Published var event: NowPlayingEvent?
 
     private var service: any NowPlayingMonitoring
+    private let audioOutputRouting: any AudioOutputRouting
+    private let favoritesStore: UserDefaults
     private var hasStartedMonitoring = false
     #if DEBUG
     private var isShowingDebugPreviewSnapshot = false
@@ -25,11 +32,21 @@ final class NowPlayingViewModel: ObservableObject {
     }
 
     convenience init() {
-        self.init(service: MediaRemoteNowPlayingService())
+        self.init(
+            service: MediaRemoteNowPlayingService(),
+            audioOutputRouting: SystemAudioOutputRoutingService(),
+            favoritesStore: .standard
+        )
     }
 
-    init(service: any NowPlayingMonitoring) {
+    init(
+        service: any NowPlayingMonitoring,
+        audioOutputRouting: any AudioOutputRouting = InactiveAudioOutputRoutingService(),
+        favoritesStore: UserDefaults = .standard
+    ) {
         self.service = service
+        self.audioOutputRouting = audioOutputRouting
+        self.favoritesStore = favoritesStore
         self.service.onSnapshotChange = { [weak self] snapshot in
             guard let self else { return }
 
@@ -43,6 +60,7 @@ final class NowPlayingViewModel: ObservableObject {
                 }
             }
         }
+        refreshAudioOutputRoutes()
     }
 
     func startMonitoring() {
@@ -73,6 +91,40 @@ final class NowPlayingViewModel: ObservableObject {
         let clampedElapsedTime = min(max(elapsedTime, 0), snapshot.duration)
         apply(snapshot: snapshot.settingElapsedTime(clampedElapsedTime))
         service.send(.seek(clampedElapsedTime))
+    }
+
+    func refreshAudioOutputRoutes() {
+        let routes = audioOutputRouting.availableRoutes()
+        audioOutputRoutes = routes
+        currentAudioOutputRoute = routes.first(where: \.isCurrent)
+    }
+
+    func switchAudioOutput(to route: AudioOutputRoute) {
+        guard audioOutputRouting.setCurrentRoute(route.id) else {
+            refreshAudioOutputRoutes()
+            return
+        }
+
+        refreshAudioOutputRoutes()
+    }
+
+    var canToggleFavorite: Bool {
+        snapshot?.favoriteTrackKey != nil
+    }
+
+    func toggleFavorite() {
+        guard let favoriteTrackKey = snapshot?.favoriteTrackKey else { return }
+
+        var favoriteTrackKeys = storedFavoriteTrackKeys
+
+        if favoriteTrackKeys.contains(favoriteTrackKey) {
+            favoriteTrackKeys.remove(favoriteTrackKey)
+        } else {
+            favoriteTrackKeys.insert(favoriteTrackKey)
+        }
+
+        favoritesStore.set(Array(favoriteTrackKeys).sorted(), forKey: Self.favoriteTrackKeysStorageKey)
+        isCurrentTrackFavorite = favoriteTrackKeys.contains(favoriteTrackKey)
     }
 
     func elapsedTime(at date: Date) -> TimeInterval {
@@ -139,11 +191,16 @@ final class NowPlayingViewModel: ObservableObject {
 }
 
 private extension NowPlayingViewModel {
+    var storedFavoriteTrackKeys: Set<String> {
+        Set(favoritesStore.stringArray(forKey: Self.favoriteTrackKeysStorageKey) ?? [])
+    }
+
     func apply(snapshot newSnapshot: NowPlayingSnapshot?, emitEvent: Bool = true) {
         let wasActive = snapshot != nil
         let artworkDidChange = snapshot?.artworkData != newSnapshot?.artworkData
 
         snapshot = newSnapshot
+        isCurrentTrackFavorite = newSnapshot?.favoriteTrackKey.map(storedFavoriteTrackKeys.contains) ?? false
 
         if artworkDidChange {
             artworkImage = newSnapshot?.artworkData.flatMap(NSImage.init(data:))
@@ -163,6 +220,12 @@ private extension NowPlayingViewModel {
 }
 
 private extension NowPlayingSnapshot {
+    var favoriteTrackKey: String? {
+        let components = [title.trimmed, artist.trimmed, album.trimmed]
+        let joined = components.joined(separator: "|")
+        return joined.replacingOccurrences(of: "|", with: "").isEmpty ? nil : joined
+    }
+
     func togglingPlaybackState() -> Self {
         Self(
             title: title,

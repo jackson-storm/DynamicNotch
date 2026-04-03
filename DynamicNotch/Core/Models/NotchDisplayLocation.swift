@@ -1,15 +1,16 @@
 import Foundation
+import SwiftUI
 
 enum NotchDisplayLocation: String, CaseIterable {
     case main
     case builtIn
 
-    var title: String {
+    var title: LocalizedStringKey {
         switch self {
         case .main:
-            return "Show on main display"
+            return "settings.general.display.main"
         case .builtIn:
-            return "Show on built-in display"
+            return "settings.general.display.builtin"
         }
     }
 

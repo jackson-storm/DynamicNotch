@@ -1,12 +1,15 @@
 enum GeneralSettingsStorage {
     enum Keys {
         static let launchAtLogin = "isLaunchAtLoginEnabled"
+        static let dockIcon = "isDockIconVisible"
         static let notchWidth = "notchWidth"
         static let notchHeight = "notchHeight"
         static let menuBarIcon = "isMenuBarIconVisible"
         static let notchStrokeEnabled = "isShowNotchStrokeEnabled"
+        static let defaultActivityStrokeEnabled = "settings.general.defaultActivityStroke"
         static let notchStrokeWidth = "notchStrokeWidth"
         static let displayLocation = "displayLocation"
+        static let appLanguage = "settings.general.language.app"
         static let notchAnimationPreset = "settings.general.notchAnimationPreset"
         static let temporaryActivityDurationScale = "settings.temporary.durationScale"
         static let brightnessHUDEnabled = "settings.hud.brightness"
@@ -38,12 +41,15 @@ enum GeneralSettingsStorage {
 
     static let defaultValues: [String: Any] = [
         Keys.launchAtLogin: true,
+        Keys.dockIcon: false,
         Keys.notchWidth: 0,
         Keys.notchHeight: 0,
         Keys.menuBarIcon: true,
         Keys.notchStrokeEnabled: true,
+        Keys.defaultActivityStrokeEnabled: false,
         Keys.notchStrokeWidth: 1.5,
         Keys.displayLocation: NotchDisplayLocation.main.rawValue,
+        Keys.appLanguage: DynamicNotchLanguage.system.rawValue,
         Keys.notchAnimationPreset: NotchAnimationPreset.balanced.rawValue,
         Keys.temporaryActivityDurationScale: 1.0,
         Keys.brightnessHUDEnabled: true,

@@ -17,11 +17,11 @@ enum AirDropDropZoneMetrics {
 struct AirDropNotchContent: NotchContentProtocol {
     let id = "airdrop"
     let airDropViewModel: AirDropNotchViewModel
-    let generalSettingsViewModel: GeneralSettingsViewModel
+    let settingsViewModel: SettingsViewModel
     
     var priority: Int { 90 }
     var strokeColor: Color {
-        generalSettingsViewModel.isAirDropDefaultStrokeEnabled ?
+        settingsViewModel.isDefaultActivityStrokeEnabled ?
         .white.opacity(0.2) :
         .blue.opacity(0.3)
     }

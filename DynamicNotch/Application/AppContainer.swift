@@ -7,7 +7,7 @@ final class AppContainer {
     let networkViewModel = NetworkViewModel()
     let focusViewModel = FocusViewModel()
     let airDropViewModel = AirDropNotchViewModel()
-    let generalSettingsViewModel = GeneralSettingsViewModel()
+    let settingsViewModel = SettingsViewModel()
 
     let powerViewModel: PowerViewModel
     let downloadViewModel: DownloadViewModel
@@ -20,13 +20,13 @@ final class AppContainer {
             self?.notchEventCoordinator.handleHudEvent(event)
         }
         monitor.updateConfiguration(
-            interceptVolume: generalSettingsViewModel.hud.isVolumeHUDEnabled,
-            interceptBrightness: generalSettingsViewModel.hud.isBrightnessHUDEnabled
+            interceptVolume: settingsViewModel.hud.isVolumeHUDEnabled,
+            interceptBrightness: settingsViewModel.hud.isBrightnessHUDEnabled
         )
         return monitor
     }()
 
-    lazy var notchViewModel = NotchViewModel(settings: generalSettingsViewModel.application)
+    lazy var notchViewModel = NotchViewModel(settings: settingsViewModel.application)
     lazy var airDropController = NotchAirDropController(airDropViewModel: airDropViewModel)
 
     lazy var notchEventCoordinator = NotchEventCoordinator(
@@ -36,7 +36,7 @@ final class AppContainer {
         networkViewModel: networkViewModel,
         downloadViewModel: downloadViewModel,
         airDropViewModel: airDropViewModel,
-        generalSettingsViewModel: generalSettingsViewModel,
+        settingsViewModel: settingsViewModel,
         nowPlayingViewModel: nowPlayingViewModel,
         lockScreenManager: lockScreenManager
     )
@@ -44,13 +44,13 @@ final class AppContainer {
     lazy var lockScreenPanelManager = LockScreenPanelManager(
         nowPlayingViewModel: nowPlayingViewModel,
         lockScreenManager: lockScreenManager,
-        generalSettingsViewModel: generalSettingsViewModel
+        settingsViewModel: settingsViewModel
     )
 
     lazy var lockScreenLiveActivityWindowManager = LockScreenLiveActivityWindowManager(
         notchViewModel: notchViewModel,
         lockScreenManager: lockScreenManager,
-        generalSettingsViewModel: generalSettingsViewModel
+        settingsViewModel: settingsViewModel
     )
 
     init(isRunningUITests: Bool = ProcessInfo.processInfo.arguments.contains("-ui-testing")) {
@@ -58,7 +58,10 @@ final class AppContainer {
         self.nowPlayingViewModel = NowPlayingViewModel(
             service: isRunningUITests ?
                 InactiveNowPlayingService() :
-                MediaRemoteNowPlayingService()
+                MediaRemoteNowPlayingService(),
+            audioOutputRouting: isRunningUITests ?
+                InactiveAudioOutputRoutingService() :
+                SystemAudioOutputRoutingService()
         )
         self.downloadViewModel = DownloadViewModel(
             monitor: isRunningUITests ?

@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "bluetooth-slash-svgrepo-com.svg",
+      "filename" : "bluetooth-slash-svgrepo-com.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "bluetooth-slash-svgrepo-com 1.svg",
+      "filename" : "bluetooth-slash-svgrepo-com 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "bluetooth-slash-svgrepo-com 2.svg",
+      "filename" : "bluetooth-slash-svgrepo-com 2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

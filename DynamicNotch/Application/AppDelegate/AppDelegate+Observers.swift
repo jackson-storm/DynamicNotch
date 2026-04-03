@@ -3,8 +3,18 @@ internal import AppKit
 import Combine
 
 extension AppDelegate {
+    func observeDockIconVisibilityChanges() {
+        settingsViewModel.application.$isDockIconVisible
+            .removeDuplicates()
+            .sink { [weak self] isDockIconVisible in
+                guard let self, !isRunningUITests else { return }
+                applyActivationPolicy(showsDockIcon: isDockIconVisible)
+            }
+            .store(in: &cancellables)
+    }
+
     func observeDisplayLocationChanges() {
-        generalSettingsViewModel.application.$displayLocation
+        settingsViewModel.application.$displayLocation
             .removeDuplicates()
             .sink { [weak self] _ in
                 self?.updateWindowFrame()
@@ -14,8 +24,8 @@ extension AppDelegate {
 
     func observeHUDConfigurationChanges() {
         Publishers.CombineLatest(
-            generalSettingsViewModel.hud.$isVolumeHUDEnabled.removeDuplicates(),
-            generalSettingsViewModel.hud.$isBrightnessHUDEnabled.removeDuplicates()
+            settingsViewModel.hud.$isVolumeHUDEnabled.removeDuplicates(),
+            settingsViewModel.hud.$isBrightnessHUDEnabled.removeDuplicates()
         )
         .sink { [weak self] isVolumeHUDEnabled, isBrightnessHUDEnabled in
             self?.hardwareHUDMonitor.updateConfiguration(

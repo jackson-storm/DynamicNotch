@@ -5,7 +5,7 @@ final class NotchMediaEventsHandler {
     private let notchViewModel: NotchViewModel
     private let downloadViewModel: DownloadViewModel
     private let airDropViewModel: AirDropNotchViewModel
-    private let generalSettingsViewModel: GeneralSettingsViewModel
+    private let settingsViewModel: SettingsViewModel
     private let nowPlayingViewModel: NowPlayingViewModel
     private var deferredNowPlayingHideWhileExpanded = false
 
@@ -13,25 +13,25 @@ final class NotchMediaEventsHandler {
         notchViewModel: NotchViewModel,
         downloadViewModel: DownloadViewModel,
         airDropViewModel: AirDropNotchViewModel,
-        generalSettingsViewModel: GeneralSettingsViewModel,
+        settingsViewModel: SettingsViewModel,
         nowPlayingViewModel: NowPlayingViewModel
     ) {
         self.notchViewModel = notchViewModel
         self.downloadViewModel = downloadViewModel
         self.airDropViewModel = airDropViewModel
-        self.generalSettingsViewModel = generalSettingsViewModel
+        self.settingsViewModel = settingsViewModel
         self.nowPlayingViewModel = nowPlayingViewModel
     }
 
     func handleDownload(_ event: DownloadEvent) {
         switch event {
         case .started:
-            guard generalSettingsViewModel.isLiveActivityEnabled(.downloads) else { return }
+            guard settingsViewModel.isLiveActivityEnabled(.downloads) else { return }
             notchViewModel.send(
                 .showLiveActivity(
                     DownloadNotchContent(
                         downloadViewModel: downloadViewModel,
-                        generalSettingsViewModel: generalSettingsViewModel
+                        settingsViewModel: settingsViewModel
                     )
                 )
             )
@@ -44,12 +44,12 @@ final class NotchMediaEventsHandler {
     func handleAirDrop(_ event: AirDropEvent) {
         switch event {
         case .dragStarted:
-            guard generalSettingsViewModel.isLiveActivityEnabled(.airDrop) else { return }
+            guard settingsViewModel.isLiveActivityEnabled(.airDrop) else { return }
             notchViewModel.send(
                 .showLiveActivity(
                     AirDropNotchContent(
                         airDropViewModel: airDropViewModel,
-                        generalSettingsViewModel: generalSettingsViewModel
+                        settingsViewModel: settingsViewModel
                     )
                 )
             )
@@ -63,7 +63,7 @@ final class NotchMediaEventsHandler {
         switch event {
         case .started:
             deferredNowPlayingHideWhileExpanded = false
-            guard generalSettingsViewModel.isLiveActivityEnabled(.nowPlaying) else { return }
+            guard settingsViewModel.isLiveActivityEnabled(.nowPlaying) else { return }
             notchViewModel.send(
                 .showLiveActivity(
                     NowPlayingNotchContent(nowPlayingViewModel: nowPlayingViewModel)

@@ -7,7 +7,6 @@ struct FocusSettingsView: View {
     var body: some View {
         SettingsPageScrollView {
             focusActivity
-            focusAppearance
         }
     }
     
@@ -37,34 +36,6 @@ struct FocusSettingsView: View {
                     accessibilityIdentifier: "settings.activities.temporary.focusOff"
                 )
             }
-        }
-    }
-    
-    private var focusAppearance: some View {
-        SettingsCard(
-            title: "Focus appearance",
-            subtitle: "Preview the Focus notch and adjust its accent stroke."
-        ) {
-            NotchPreview(
-                width: 260,
-                height: 38,
-                showsStroke: appearanceSettings.isShowNotchStrokeEnabled,
-                strokeColor: connectivitySettings.isFocusDefaultStrokeEnabled ?
-                    .white.opacity(0.2) :
-                        .indigo.opacity(0.3),
-                strokeWidth: CGFloat(appearanceSettings.notchStrokeWidth)
-            ) {
-                FocusPreviewNotchView()
-            }
-            
-            SettingsToggleRow(
-                title: "Use default stroke color",
-                description: "Use the default notch stroke color instead of the Focus accent colors.",
-                systemImage: "paintbrush.pointed.fill",
-                color: .indigo,
-                isOn: $connectivitySettings.isFocusDefaultStrokeEnabled,
-                accessibilityIdentifier: "settings.activities.focus.defaultStroke"
-            )
         }
     }
 }

@@ -135,34 +135,55 @@ private struct LockScreenNowPlayingView: View {
                 
                 Spacer()
                 
-                HStack(spacing: 25) {
-                    PlayerControlButton(
-                        systemImage: "backward.fill",
-                        fontSize: 22,
-                        width: 42,
-                        height: 42
-                    ) {
-                        nowPlayingViewModel.previousTrack()
+                ZStack {
+                    HStack(spacing: 25) {
+                        PlayerControlButton(
+                            systemImage: "backward.fill",
+                            fontSize: 22,
+                            width: 42,
+                            height: 42
+                        ) {
+                            nowPlayingViewModel.previousTrack()
+                        }
+                        
+                        PlayerControlButton(
+                            systemImage: snapshot.isPlaying ? "pause.fill" : "play.fill",
+                            fontSize: 32,
+                            width: 42,
+                            height: 42
+                        ) {
+                            nowPlayingViewModel.togglePlayPause()
+                        }
+                        
+                        PlayerControlButton(
+                            systemImage: "forward.fill",
+                            fontSize: 22,
+                            width: 42,
+                            height: 42
+                        ) {
+                            nowPlayingViewModel.nextTrack()
+                        }
                     }
-                    
-                    PlayerControlButton(
-                        systemImage: snapshot.isPlaying ? "pause.fill" : "play.fill",
-                        fontSize: 32,
-                        width: 42,
-                        height: 42
-                    ) {
-                        nowPlayingViewModel.togglePlayPause()
-                    }
-                    
-                    PlayerControlButton(
-                        systemImage: "forward.fill",
-                        fontSize: 22,
-                        width: 42,
-                        height: 42
-                    ) {
-                        nowPlayingViewModel.nextTrack()
+
+                    HStack {
+                        FavoriteTrackButton(
+                            nowPlayingViewModel: nowPlayingViewModel,
+                            width: 42,
+                            height: 42,
+                            fontSize: 22
+                        )
+
+                        Spacer()
+
+                        AudioOutputRoutePickerButton(
+                            nowPlayingViewModel: nowPlayingViewModel,
+                            width: 42,
+                            height: 42,
+                            fontSize: 22
+                        )
                     }
                 }
+                .frame(maxWidth: .infinity)
             }
             .padding(20)
         }
@@ -439,12 +460,6 @@ private struct PlayerControlButton: View {
                 .foregroundStyle(.primary.opacity(0.9))
         }
         .buttonStyle(PressedButtonStyle(width: width, height: height))
-    }
-}
-
-private extension String {
-    var trimmed: String {
-        trimmingCharacters(in: .whitespacesAndNewlines)
     }
 }
 

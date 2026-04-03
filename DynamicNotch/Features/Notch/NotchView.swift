@@ -14,7 +14,7 @@ struct NotchView: View {
     @ObservedObject var focusViewModel: FocusViewModel
     @ObservedObject var airDropViewModel: AirDropNotchViewModel
     @ObservedObject var airDropController: NotchAirDropController
-    @ObservedObject var generalSettingsViewModel: GeneralSettingsViewModel
+    @ObservedObject var settingsViewModel: SettingsViewModel
     @ObservedObject var nowPlayingViewModel: NowPlayingViewModel
     @ObservedObject var lockScreenManager: LockScreenManager
     
@@ -31,7 +31,7 @@ struct NotchView: View {
                         downloadViewModel: downloadViewModel,
                         focusViewModel: focusViewModel,
                         airDropViewModel: airDropViewModel,
-                        generalSettingsViewModel: generalSettingsViewModel,
+                        settingsViewModel: settingsViewModel,
                         nowPlayingViewModel: nowPlayingViewModel,
                         lockScreenManager: lockScreenManager
                     )
@@ -39,10 +39,10 @@ struct NotchView: View {
                 .onChange(of: notchViewModel.notchModel.content?.id) {
                     notchViewModel.handleStrokeVisibility()
                 }
-                .onChange(of: generalSettingsViewModel.notchWidth) {
+                .onChange(of: settingsViewModel.notchWidth) {
                     notchViewModel.updateDimensions()
                 }
-                .onChange(of: generalSettingsViewModel.notchHeight) {
+                .onChange(of: settingsViewModel.notchHeight) {
                     notchViewModel.updateDimensions()
                 }
             
@@ -60,7 +60,7 @@ struct NotchView: View {
                     baseSize: notchViewModel.interactiveNotchSize
                 )
                 .contextMenu {
-                    if !generalSettingsViewModel.isMenuBarIconVisible {
+                    if !settingsViewModel.isMenuBarIconVisible {
                         contextMenuItem
                     }
                 }
@@ -78,9 +78,9 @@ private extension NotchView {
         )
         .fill(.black)
         .stroke(
-            generalSettingsViewModel.isShowNotchStrokeEnabled ?
+            settingsViewModel.isShowNotchStrokeEnabled ?
             visibleStrokeColor : Color.clear,
-            lineWidth: generalSettingsViewModel.notchStrokeWidth
+            lineWidth: settingsViewModel.notchStrokeWidth
         )
         .overlay {
             contentOverlay
@@ -111,11 +111,11 @@ private extension NotchView {
             notchViewModel: notchViewModel
         )
         .contextMenu {
-            if !generalSettingsViewModel.isMenuBarIconVisible {
+            if !settingsViewModel.isMenuBarIconVisible {
                 contextMenuItem
             }
         }
-        .animation(notchViewModel.animations.strokeVisibility, value: generalSettingsViewModel.isShowNotchStrokeEnabled)
+        .animation(notchViewModel.animations.strokeVisibility, value: settingsViewModel.isShowNotchStrokeEnabled)
         .animation(notchViewModel.animations.notchVisibility, value: notchViewModel.showNotch)
     }
     
@@ -172,7 +172,7 @@ private struct NotchEventHandlersView: View {
     let downloadViewModel: DownloadViewModel
     let focusViewModel: FocusViewModel
     let airDropViewModel: AirDropNotchViewModel
-    let generalSettingsViewModel: GeneralSettingsViewModel
+    let settingsViewModel: SettingsViewModel
     let nowPlayingViewModel: NowPlayingViewModel
     let lockScreenManager: LockScreenManager
     
@@ -196,7 +196,7 @@ private struct NotchEventHandlersView: View {
             .onReceive(airDropViewModel.$event.compactMap { $0 }) { event in
                 notchEventCoordinator.handleAirDropEvent(event)
             }
-            .onReceive(generalSettingsViewModel.notchSizeEvent) { event in
+            .onReceive(settingsViewModel.notchSizeEvent) { event in
                 notchEventCoordinator.handleNotchWidthEvent(event)
             }
             .onReceive(nowPlayingViewModel.$event.compactMap { $0 }) { event in

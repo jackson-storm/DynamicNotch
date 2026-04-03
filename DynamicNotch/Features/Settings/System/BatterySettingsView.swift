@@ -7,7 +7,6 @@ struct BatterySettingsView: View {
     var body: some View {
         SettingsPageScrollView {
             batteryActivity
-            batteryAppearance
         }
     }
     
@@ -45,36 +44,6 @@ struct BatterySettingsView: View {
                 color: .green,
                 isOn: $batterySettings.isFullPowerTemporaryActivityEnabled,
                 accessibilityIdentifier: "settings.activities.temporary.fullPower"
-            )
-        }
-    }
-    
-    private var batteryAppearance: some View {
-        SettingsCard(
-            title: "Battery appearance",
-            subtitle: "Preview the battery notch and adjust its accent stroke."
-        ) {
-            NotchPreview(
-                width: 340,
-                height: 120,
-                topCornerRadius: 22,
-                bottomCornerRadius: 40,
-                showsStroke: appearanceSettings.isShowNotchStrokeEnabled,
-                strokeColor: batterySettings.isBatteryDefaultStrokeEnabled ?
-                    .white.opacity(0.2) :
-                        .red.opacity(0.3),
-                strokeWidth: CGFloat(appearanceSettings.notchStrokeWidth)
-            ) {
-                LowPowerPreviewNotchView()
-            }
-            
-            SettingsToggleRow(
-                title: "Use default stroke color",
-                description: "Use the default notch stroke color instead of the battery accent colors.",
-                systemImage: "paintbrush.pointed.fill",
-                color: .indigo,
-                isOn: $batterySettings.isBatteryDefaultStrokeEnabled,
-                accessibilityIdentifier: "settings.activities.battery.defaultStroke"
             )
         }
     }

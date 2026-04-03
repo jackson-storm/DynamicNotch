@@ -12,7 +12,7 @@ final class LockScreenPanelAnimator: ObservableObject {
 final class LockScreenPanelManager {
     private let nowPlayingViewModel: NowPlayingViewModel
     private let lockScreenManager: LockScreenManager
-    private let generalSettingsViewModel: GeneralSettingsViewModel
+    private let settingsViewModel: SettingsViewModel
     private let animator = LockScreenPanelAnimator()
     
     private var panelWindow: OverlayPanelWindow?
@@ -27,11 +27,11 @@ final class LockScreenPanelManager {
     init(
         nowPlayingViewModel: NowPlayingViewModel,
         lockScreenManager: LockScreenManager,
-        generalSettingsViewModel: GeneralSettingsViewModel
+        settingsViewModel: SettingsViewModel
     ) {
         self.nowPlayingViewModel = nowPlayingViewModel
         self.lockScreenManager = lockScreenManager
-        self.generalSettingsViewModel = generalSettingsViewModel
+        self.settingsViewModel = settingsViewModel
         
         bindState()
         registerObservers()
@@ -67,7 +67,7 @@ final class LockScreenPanelManager {
         }
         .store(in: &cancellables)
         
-        generalSettingsViewModel.application.$displayLocation
+        settingsViewModel.application.$displayLocation
             .removeDuplicates()
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in
@@ -349,7 +349,7 @@ final class LockScreenPanelManager {
     
     private func currentScreen() -> NSScreen? {
         NSScreen.preferredLockScreen ??
-        NSScreen.preferredNotchScreen(for: generalSettingsViewModel.displayLocation) ??
+        NSScreen.preferredNotchScreen(for: settingsViewModel.displayLocation) ??
         NSScreen.main ??
         NSScreen.screens.first
     }

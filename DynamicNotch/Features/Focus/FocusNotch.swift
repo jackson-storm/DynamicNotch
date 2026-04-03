@@ -9,11 +9,11 @@ import SwiftUI
 
 struct FocusOnNotchContent: NotchContentProtocol {
     let id = "focus.on"
-    let generalSettingsViewModel: GeneralSettingsViewModel
+    let settingsViewModel: SettingsViewModel
     
     var priority: Int { 60 }
     var strokeColor: Color {
-        generalSettingsViewModel.isFocusDefaultStrokeEnabled ?
+        settingsViewModel.isDefaultActivityStrokeEnabled ?
         .white.opacity(0.2) :
         .indigo.opacity(0.3)
     }
@@ -32,10 +32,10 @@ struct FocusOnNotchContent: NotchContentProtocol {
 
 struct FocusOffNotchContent: NotchContentProtocol {
     let id = "focus.off"
-    let generalSettingsViewModel: GeneralSettingsViewModel
+    let settingsViewModel: SettingsViewModel
     
     var strokeColor: Color {
-        generalSettingsViewModel.isFocusDefaultStrokeEnabled ?
+        settingsViewModel.isDefaultActivityStrokeEnabled ?
         .white.opacity(0.2) :
         .gray.opacity(0.3)
     }
@@ -65,7 +65,7 @@ struct FocusPreviewNotchView: View {
 private struct FocusStatusNotchView: View {
     @Environment(\.notchScale) var scale
 
-    let title: String
+    let title: LocalizedStringKey
     let tint: Color
 
     var body: some View {

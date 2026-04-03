@@ -5,13 +5,13 @@ import SwiftUI
 struct DownloadNotchContent: NotchContentProtocol {
     let id = "download.active"
     let downloadViewModel: DownloadViewModel
-    let generalSettingsViewModel: GeneralSettingsViewModel
+    let settingsViewModel: SettingsViewModel
     
     var priority: Int { 82 }
     var isExpandable: Bool { true }
     
     var strokeColor: Color {
-        generalSettingsViewModel.isDownloadsDefaultStrokeEnabled ?
+        settingsViewModel.isDefaultActivityStrokeEnabled ?
         .white.opacity(0.2) :
         .accentColor.opacity(0.30)
     }

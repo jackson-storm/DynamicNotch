@@ -2,9 +2,10 @@ import Combine
 import Foundation
 
 @MainActor
-final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
+final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
     enum ResetGroup {
         case general
+        case notch
         case nowPlaying
         case downloads
         case airDrop
@@ -66,6 +67,11 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
         set { application.isLaunchAtLoginEnabled = newValue }
     }
 
+    var isDockIconVisible: Bool {
+        get { application.isDockIconVisible }
+        set { application.isDockIconVisible = newValue }
+    }
+
     var notchWidth: Int {
         get { application.notchWidth }
         set { application.notchWidth = newValue }
@@ -86,6 +92,11 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
         set { application.isShowNotchStrokeEnabled = newValue }
     }
 
+    var isDefaultActivityStrokeEnabled: Bool {
+        get { application.isDefaultActivityStrokeEnabled }
+        set { application.isDefaultActivityStrokeEnabled = newValue }
+    }
+
     var notchStrokeWidth: Double {
         get { application.notchStrokeWidth }
         set { application.notchStrokeWidth = newValue }
@@ -94,6 +105,11 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
     var displayLocation: NotchDisplayLocation {
         get { application.displayLocation }
         set { application.displayLocation = newValue }
+    }
+
+    var appLanguage: DynamicNotchLanguage {
+        get { application.appLanguage }
+        set { application.appLanguage = newValue }
     }
 
     var notchAnimationPreset: NotchAnimationPreset {
@@ -180,19 +196,9 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
         set { mediaAndFiles.isDownloadsLiveActivityEnabled = newValue }
     }
 
-    var isDownloadsDefaultStrokeEnabled: Bool {
-        get { mediaAndFiles.isDownloadsDefaultStrokeEnabled }
-        set { mediaAndFiles.isDownloadsDefaultStrokeEnabled = newValue }
-    }
-
     var isAirDropLiveActivityEnabled: Bool {
         get { mediaAndFiles.isAirDropLiveActivityEnabled }
         set { mediaAndFiles.isAirDropLiveActivityEnabled = newValue }
-    }
-
-    var isAirDropDefaultStrokeEnabled: Bool {
-        get { mediaAndFiles.isAirDropDefaultStrokeEnabled }
-        set { mediaAndFiles.isAirDropDefaultStrokeEnabled = newValue }
     }
 
     var isChargerTemporaryActivityEnabled: Bool {
@@ -228,21 +234,6 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
     var isFocusOffTemporaryActivityEnabled: Bool {
         get { connectivity.isFocusOffTemporaryActivityEnabled }
         set { connectivity.isFocusOffTemporaryActivityEnabled = newValue }
-    }
-
-    var isFocusDefaultStrokeEnabled: Bool {
-        get { connectivity.isFocusDefaultStrokeEnabled }
-        set { connectivity.isFocusDefaultStrokeEnabled = newValue }
-    }
-
-    var isHotspotDefaultStrokeEnabled: Bool {
-        get { connectivity.isHotspotDefaultStrokeEnabled }
-        set { connectivity.isHotspotDefaultStrokeEnabled = newValue }
-    }
-
-    var isBatteryDefaultStrokeEnabled: Bool {
-        get { battery.isBatteryDefaultStrokeEnabled }
-        set { battery.isBatteryDefaultStrokeEnabled = newValue }
     }
 
     func isLiveActivityEnabled(_ preference: LiveActivityPreference) -> Bool {
@@ -301,7 +292,9 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
     func reset(_ group: ResetGroup) {
         switch group {
         case .general:
-            application.reset()
+            application.resetGeneral()
+        case .notch:
+            application.resetNotch()
         case .nowPlaying:
             mediaAndFiles.resetNowPlaying()
         case .downloads:

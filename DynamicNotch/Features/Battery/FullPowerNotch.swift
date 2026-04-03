@@ -3,10 +3,10 @@ import SwiftUI
 struct FullPowerNotchContent: NotchContentProtocol {
     let id = "battery.fullPower"
     let powerService: PowerService
-    let generalSettingsViewModel: GeneralSettingsViewModel
+    let settingsViewModel: SettingsViewModel
     
     var strokeColor: Color {
-        generalSettingsViewModel.isBatteryDefaultStrokeEnabled ?
+        settingsViewModel.isDefaultActivityStrokeEnabled ?
         .white.opacity(0.2) :
         (powerService.isLowPowerMode ? .yellow.opacity(0.3) : .green.opacity(0.3))
     }

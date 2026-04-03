@@ -153,13 +153,13 @@ private extension NotchView {
             openWindow(id: SettingsScene.id)
         } label: {
             Image(systemName: "gearshape")
-            Text("Settings")
+            Text(verbatim: "Settings")
         }
         
         Divider()
         Button(action: { NSApp.terminate(nil) }) {
             Image(systemName: "rectangle.portrait.and.arrow.right")
-            Text("Quit")
+            Text(verbatim: "Quit")
         }
     }
 }

@@ -83,7 +83,7 @@ private struct AirDropDropZoneView: View {
                     Image(systemName: "dot.radiowaves.left.and.right")
                         .font(.system(size: 22, weight: .semibold))
                     
-                    Text("AirDrop")
+                    Text(verbatim: "AirDrop")
                         .font(.system(size: 12))
                 }
                 .foregroundColor(.blue)

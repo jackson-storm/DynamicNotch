@@ -63,14 +63,14 @@ private struct OnboardingNotchView: View {
     var buttons: some View {
         HStack {
             Button(action: { NSApp.terminate(nil) }) {
-                Text("Exit")
+                Text(verbatim: "Exit")
             }
             .buttonStyle(PrimaryButtonStyle(height: 30, backgroundColor: .red))
             
             Spacer()
             
             Button(action: { notchEventCoordinator.finishOnboarding() }) {
-                Text("Start")
+                Text(verbatim: "Start")
             }
             .buttonStyle(PrimaryButtonStyle(height: 30))
         }

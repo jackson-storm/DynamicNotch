@@ -12,8 +12,7 @@ struct NotchApp: App {
     
     var body: some Scene {
         MenuBarExtra("Dynamic Notch", systemImage: "rectangle.topthird.inset.filled", isInserted: $isMenuBarIconVisible) {
-            MenuBarMenu(applicationSettings: appDelegate.settingsViewModel.application)
-                .environment(\.locale, appDelegate.settingsViewModel.application.appLanguage.locale)
+            MenuBarMenu()
         }
 
         WindowGroup(id: SettingsScene.id) {
@@ -37,7 +36,6 @@ struct NotchApp: App {
 
 private struct MenuBarMenu: View {
     @Environment(\.openWindow) private var openWindow
-    @ObservedObject var applicationSettings: ApplicationSettingsStore
 
     var body: some View {
         Group {
@@ -45,15 +43,14 @@ private struct MenuBarMenu: View {
                 openWindow(id: SettingsScene.id)
             } label: {
                 Image(systemName: "gearshape")
-                Text("Settings")
+                Text(verbatim: "Settings")
             }
             
             Divider()
             
-            Button("Quit") {
-                NSApplication.shared.terminate(nil)
+            Button(action: { NSApplication.shared.terminate(nil) }) {
+                Text(verbatim: "Quit")
             }
         }
-        .environment(\.locale, applicationSettings.appLanguage.locale)
     }
 }

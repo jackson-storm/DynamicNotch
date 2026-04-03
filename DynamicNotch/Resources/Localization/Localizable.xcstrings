@@ -54,6 +54,7 @@
       }
     },
     ", it is recommended to charge it." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -262,6 +263,7 @@
       }
     },
     "AirDrop" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -782,6 +784,7 @@
       }
     },
     "Bluetooth" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1511,6 +1514,7 @@
       }
     },
     "Connected" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2291,6 +2295,7 @@
       }
     },
     "Exit" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3123,6 +3128,7 @@
       }
     },
     "hud.brightness" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3175,6 +3181,7 @@
       }
     },
     "hud.keyboard" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3227,6 +3234,7 @@
       }
     },
     "hud.volume" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3958,6 +3966,7 @@
       }
     },
     "Low Power Mode enabled" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4114,6 +4123,7 @@
       }
     },
     "No audio outputs available" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4582,6 +4592,7 @@
       }
     },
     "Off" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4634,6 +4645,7 @@
       }
     },
     "On" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -5258,6 +5270,7 @@
       }
     },
     "Quit" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -5674,6 +5687,7 @@
       }
     },
     "Settings" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11343,6 +11357,7 @@
       }
     },
     "Turn on Low Power Mode or it \nis recommended to charge it." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11655,6 +11670,7 @@
       }
     },
     "VPN" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11863,6 +11879,7 @@
       }
     },
     "Wi-Fi" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12019,6 +12036,7 @@
       }
     },
     "Your Mac is fully charged." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12069,9 +12087,6 @@
           }
         }
       }
-    },
-    "Сonnected" : {
-
     }
   },
   "version" : "1.1"

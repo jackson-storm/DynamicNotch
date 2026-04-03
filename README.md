@@ -127,13 +127,6 @@ DynamicNotch/
 │   ├── NowPlaying/
 │   ├── Onboarding/
 │   └── Settings/
-│       ├── About/
-│       ├── Application/
-│       ├── Connectivity/
-│       ├── Developer/
-│       ├── Media&Files/
-│       ├── Shared/
-│       └── System/
 ├── Resources/          # App assets and bundled media
 └── Shared/             # Shared UI, extensions, and helpers
 
@@ -154,7 +147,7 @@ DynamicNotchTests/
 - `NotchEngine` owns the queue-driven notch state machine for live activities, temporary alerts, transitions, and restore flows
 - `NotchViewModel` is the SwiftUI-facing facade for geometry, gestures, interactive sizing, and engine-backed presentation state
 - `NotchEventCoordinator` orchestrates routing while feature-specific handlers translate system events into notch content
-- `GeneralSettingsViewModel` acts as a facade over dedicated settings stores for Application, Media & Files, Connectivity, Battery, HUD, and Lock Screen preferences
+- `SettingsViewModel` acts as a facade over dedicated settings stores for Application, Media & Files, Connectivity, Battery, HUD, and Lock Screen preferences
 - feature view models and services provide domain-specific state streams that feed the notch layer
 
 ## 🧰 Tech Stack

@@ -14,7 +14,7 @@ enum NotchSizeEvent: Equatable {
 
 struct NotchSizeWidthNotchContent: NotchContentProtocol {
     let id = "notchSize.width"
-    let generalSettingsViewModel: GeneralSettingsViewModel
+    let settingsViewModel: SettingsViewModel
     
     var priority: Int { 60 }
     var strokeColor: Color { .red }
@@ -26,13 +26,13 @@ struct NotchSizeWidthNotchContent: NotchContentProtocol {
     
     @MainActor
     func makeView() -> AnyView {
-        AnyView(NotchSizeWidthNotchView(generalSettingsViewModel: generalSettingsViewModel))
+        AnyView(NotchSizeWidthNotchView(settingsViewModel: settingsViewModel))
     }
 }
 
 struct NotchSizeHeightNotchContent: NotchContentProtocol {
     let id = "notchSize.height"
-    let generalSettingsViewModel: GeneralSettingsViewModel
+    let settingsViewModel: SettingsViewModel
     
     var priority: Int { 61 }
     var strokeColor: Color { .red }
@@ -43,13 +43,13 @@ struct NotchSizeHeightNotchContent: NotchContentProtocol {
     
     @MainActor
     func makeView() -> AnyView {
-        AnyView(NotchSizeHeightNotchView(generalSettingsViewModel: generalSettingsViewModel))
+        AnyView(NotchSizeHeightNotchView(settingsViewModel: settingsViewModel))
     }
 }
 
 private struct NotchSizeWidthNotchView: View {
     @Environment(\.notchScale) var scale
-    @ObservedObject var generalSettingsViewModel: GeneralSettingsViewModel
+    @ObservedObject var settingsViewModel: SettingsViewModel
     
     var body: some View {
         VStack {
@@ -58,7 +58,7 @@ private struct NotchSizeWidthNotchView: View {
             HStack {
                 Image(systemName: "chevron.left")
                 Spacer()
-                AnimatedLevelText(level: generalSettingsViewModel.notchWidth, fontSize: 18)
+                AnimatedLevelText(level: settingsViewModel.notchWidth, fontSize: 18)
                 Spacer()
                 Image(systemName: "chevron.right")
             }
@@ -72,13 +72,13 @@ private struct NotchSizeWidthNotchView: View {
 
 private struct NotchSizeHeightNotchView: View {
     @Environment(\.notchScale) var scale
-    @ObservedObject var generalSettingsViewModel: GeneralSettingsViewModel
+    @ObservedObject var settingsViewModel: SettingsViewModel
     
     var body: some View {
         HStack {
             Image(systemName: "chevron.up.chevron.down")
             Spacer()
-            AnimatedLevelText(level: generalSettingsViewModel.notchHeight, fontSize: 18)
+            AnimatedLevelText(level: settingsViewModel.notchHeight, fontSize: 18)
         }
         .font(.system(size: 18))
         .foregroundColor(.white)

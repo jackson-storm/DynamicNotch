@@ -2,7 +2,7 @@ import SwiftUI
 
 extension AppDelegate {
     func createNotchWindow() {
-        guard let screen = NSScreen.preferredNotchScreen(for: generalSettingsViewModel.displayLocation) else {
+        guard let screen = NSScreen.preferredNotchScreen(for: settingsViewModel.displayLocation) else {
             return
         }
 
@@ -27,7 +27,7 @@ extension AppDelegate {
                 focusViewModel: focusViewModel,
                 airDropViewModel: airDropViewModel,
                 airDropController: airDropController,
-                generalSettingsViewModel: generalSettingsViewModel,
+                settingsViewModel: settingsViewModel,
                 nowPlayingViewModel: nowPlayingViewModel,
                 lockScreenManager: lockScreenManager
             )
@@ -45,7 +45,7 @@ extension AppDelegate {
 
         notchViewModel.updateDimensions()
 
-        guard let screen = NSScreen.preferredNotchScreen(for: generalSettingsViewModel.displayLocation) else {
+        guard let screen = NSScreen.preferredNotchScreen(for: settingsViewModel.displayLocation) else {
             return
         }
 

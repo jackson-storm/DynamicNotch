@@ -3,24 +3,24 @@ import SwiftUI
 @MainActor
 final class NotchSystemEventsHandler {
     private let notchViewModel: NotchViewModel
-    private let generalSettingsViewModel: GeneralSettingsViewModel
+    private let settingsViewModel: SettingsViewModel
 
     init(
         notchViewModel: NotchViewModel,
-        generalSettingsViewModel: GeneralSettingsViewModel
+        settingsViewModel: SettingsViewModel
     ) {
         self.notchViewModel = notchViewModel
-        self.generalSettingsViewModel = generalSettingsViewModel
+        self.settingsViewModel = settingsViewModel
     }
 
     func handleNotchSize(_ event: NotchSizeEvent) {
-        let duration = generalSettingsViewModel.resolvedTemporaryActivityDuration(2)
+        let duration = settingsViewModel.resolvedTemporaryActivityDuration(2)
 
         switch event {
         case .width:
             notchViewModel.send(
                 .showTemporaryNotification(
-                    NotchSizeWidthNotchContent(generalSettingsViewModel: generalSettingsViewModel),
+                    NotchSizeWidthNotchContent(settingsViewModel: settingsViewModel),
                     duration: duration
                 )
             )
@@ -28,7 +28,7 @@ final class NotchSystemEventsHandler {
         case .height:
             notchViewModel.send(
                 .showTemporaryNotification(
-                    NotchSizeHeightNotchContent(generalSettingsViewModel: generalSettingsViewModel),
+                    NotchSizeHeightNotchContent(settingsViewModel: settingsViewModel),
                     duration: duration
                 )
             )

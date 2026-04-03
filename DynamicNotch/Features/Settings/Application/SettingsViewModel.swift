@@ -2,9 +2,10 @@ import Combine
 import Foundation
 
 @MainActor
-final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
+final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
     enum ResetGroup {
         case general
+        case notch
         case nowPlaying
         case downloads
         case airDrop
@@ -64,6 +65,11 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
     var isLaunchAtLoginEnabled: Bool {
         get { application.isLaunchAtLoginEnabled }
         set { application.isLaunchAtLoginEnabled = newValue }
+    }
+
+    var isDockIconVisible: Bool {
+        get { application.isDockIconVisible }
+        set { application.isDockIconVisible = newValue }
     }
 
     var notchWidth: Int {
@@ -286,7 +292,9 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
     func reset(_ group: ResetGroup) {
         switch group {
         case .general:
-            application.reset()
+            application.resetGeneral()
+        case .notch:
+            application.resetNotch()
         case .nowPlaying:
             mediaAndFiles.resetNowPlaying()
         case .downloads:

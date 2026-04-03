@@ -1,6 +1,7 @@
 enum GeneralSettingsStorage {
     enum Keys {
         static let launchAtLogin = "isLaunchAtLoginEnabled"
+        static let dockIcon = "isDockIconVisible"
         static let notchWidth = "notchWidth"
         static let notchHeight = "notchHeight"
         static let menuBarIcon = "isMenuBarIconVisible"
@@ -40,6 +41,7 @@ enum GeneralSettingsStorage {
 
     static let defaultValues: [String: Any] = [
         Keys.launchAtLogin: true,
+        Keys.dockIcon: false,
         Keys.notchWidth: 0,
         Keys.notchHeight: 0,
         Keys.menuBarIcon: true,

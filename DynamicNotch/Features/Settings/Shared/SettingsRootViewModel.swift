@@ -46,7 +46,7 @@ final class SettingsRootViewModel {
 
     enum Section: String, CaseIterable, Identifiable {
         case general
-        case language
+        case notch
         case nowPlaying
         case downloads
         case airDrop
@@ -65,7 +65,7 @@ final class SettingsRootViewModel {
 
         var sidebarGroup: SidebarGroup {
             switch self {
-            case .general, .language:
+            case .general, .notch, .about:
                 return .app
             #if DEBUG
             case .debug:
@@ -77,8 +77,6 @@ final class SettingsRootViewModel {
                 return .connectivity
             case .battery, .hud, .lockScreen:
                 return .system
-            case .about:
-                return .info
             }
         }
 
@@ -86,8 +84,8 @@ final class SettingsRootViewModel {
             switch self {
             case .general:
                 return "settings.section.general.title"
-            case .language:
-                return "settings.section.language.title"
+            case .notch:
+                return "settings.section.notch.title"
             case .nowPlaying:
                 return "settings.section.nowPlaying.title"
             case .downloads:
@@ -119,8 +117,8 @@ final class SettingsRootViewModel {
             switch self {
             case .general:
                 return "General"
-            case .language:
-                return "Language"
+            case .notch:
+                return "Notch"
             case .nowPlaying:
                 return "Now Playing"
             case .downloads:
@@ -152,8 +150,8 @@ final class SettingsRootViewModel {
             switch self {
             case .general:
                 return "settings.section.general.subtitle"
-            case .language:
-                return "settings.section.language.subtitle"
+            case .notch:
+                return "settings.section.notch.subtitle"
             case .nowPlaying:
                 return "settings.section.nowPlaying.subtitle"
             case .downloads:
@@ -184,9 +182,9 @@ final class SettingsRootViewModel {
         var fallbackSubtitle: String {
             switch self {
             case .general:
-                return "Startup, placement, appearance, and notch sizing."
-            case .language:
-                return "Choose the language for the app interface and the notch."
+                return "Startup, display placement, and app language."
+            case .notch:
+                return "Appearance, animation, and temporary activity timing."
             case .nowPlaying:
                 return "Media playback controls shown in the notch."
             case .downloads:
@@ -218,8 +216,8 @@ final class SettingsRootViewModel {
             switch self {
             case .general:
                 return "gear"
-            case .language:
-                return "globe"
+            case .notch:
+                return "rectangle.topthird.inset.filled"
             case .nowPlaying:
                 return "music.note"
             case .downloads:
@@ -251,8 +249,8 @@ final class SettingsRootViewModel {
             switch self {
             case .general:
                 return .blue
-            case .language:
-                return .brown
+            case .notch:
+                return .purple
             case .nowPlaying:
                 return .red
             case .downloads:
@@ -289,12 +287,12 @@ final class SettingsRootViewModel {
     let debugViewModel: DebugSettingsViewModel
     #endif
 
-    private let settings: GeneralSettingsViewModel
+    private let settingsViewModel: SettingsViewModel
     private let defaults: UserDefaults
     private static let selectionKey = "settings.root.selection"
 
     init(
-        settings: GeneralSettingsViewModel,
+        settingsViewModel: SettingsViewModel,
         notchViewModel: NotchViewModel? = nil,
         notchEventCoordinator: NotchEventCoordinator? = nil,
         bluetoothViewModel: BluetoothViewModel? = nil,
@@ -305,11 +303,11 @@ final class SettingsRootViewModel {
         lockScreenManager: LockScreenManager? = nil,
         defaults: UserDefaults = .standard
     ) {
-        self.settings = settings
+        self.settingsViewModel = settingsViewModel
         self.defaults = defaults
 
         #if DEBUG
-        let resolvedNotchViewModel = notchViewModel ?? NotchViewModel(settings: settings.application)
+        let resolvedNotchViewModel = notchViewModel ?? NotchViewModel(settings: settingsViewModel.application)
         let resolvedBluetoothViewModel = bluetoothViewModel ?? BluetoothViewModel()
         let resolvedPowerService = powerService ?? PowerService(startMonitoring: false)
         let resolvedNetworkViewModel = networkViewModel ?? NetworkViewModel()
@@ -329,7 +327,7 @@ final class SettingsRootViewModel {
             networkViewModel: resolvedNetworkViewModel,
             downloadViewModel: resolvedDownloadViewModel,
             airDropViewModel: resolvedAirDropViewModel,
-            generalSettingsViewModel: settings,
+            settingsViewModel: settingsViewModel,
             nowPlayingViewModel: resolvedNowPlayingViewModel,
             lockScreenManager: resolvedLockScreenManager
         )
@@ -341,7 +339,7 @@ final class SettingsRootViewModel {
             powerService: resolvedPowerService,
             networkViewModel: resolvedNetworkViewModel,
             downloadViewModel: resolvedDownloadViewModel,
-            generalSettingsViewModel: settings,
+            settingsViewModel: settingsViewModel,
             nowPlayingViewModel: resolvedNowPlayingViewModel,
             lockScreenManager: resolvedLockScreenManager
         )
@@ -355,6 +353,8 @@ final class SettingsRootViewModel {
     func initialSelection() -> Section {
         let storedSelection = defaults.string(forKey: Self.selectionKey) ?? ""
         switch storedSelection {
+        case "language":
+            return .general
         case "activities", "liveActivity":
             return .nowPlaying
         case "temporaryActivity":
@@ -376,7 +376,7 @@ final class SettingsRootViewModel {
 
     func reset(_ section: Section) {
         guard let group = resetGroup(for: section) else { return }
-        settings.reset(group)
+        settingsViewModel.reset(group)
     }
 
     func resetHelpText(for section: Section?, locale: Locale) -> String {
@@ -402,12 +402,12 @@ final class SettingsRootViewModel {
         )
     }
 
-    private func resetGroup(for section: Section) -> GeneralSettingsViewModel.ResetGroup? {
+    private func resetGroup(for section: Section) -> SettingsViewModel.ResetGroup? {
         switch section {
         case .general:
             return .general
-        case .language:
-            return nil
+        case .notch:
+            return .notch
         case .nowPlaying:
             return .nowPlaying
         case .downloads:

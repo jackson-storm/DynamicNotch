@@ -5,28 +5,28 @@ final class NotchConnectivityEventsHandler {
     private let notchViewModel: NotchViewModel
     private let bluetoothViewModel: BluetoothViewModel
     private let networkViewModel: NetworkViewModel
-    private let generalSettingsViewModel: GeneralSettingsViewModel
+    private let settingsViewModel: SettingsViewModel
 
     init(
         notchViewModel: NotchViewModel,
         bluetoothViewModel: BluetoothViewModel,
         networkViewModel: NetworkViewModel,
-        generalSettingsViewModel: GeneralSettingsViewModel
+        settingsViewModel: SettingsViewModel
     ) {
         self.notchViewModel = notchViewModel
         self.bluetoothViewModel = bluetoothViewModel
         self.networkViewModel = networkViewModel
-        self.generalSettingsViewModel = generalSettingsViewModel
+        self.settingsViewModel = settingsViewModel
     }
 
     func handleBluetooth(_ event: BluetoothEvent) {
         switch event {
         case .connected:
-            guard generalSettingsViewModel.isTemporaryActivityEnabled(.bluetooth) else { return }
+            guard settingsViewModel.isTemporaryActivityEnabled(.bluetooth) else { return }
             notchViewModel.send(
                 .showTemporaryNotification(
                     BluetoothConnectedNotchContent(bluetoothViewModel: bluetoothViewModel),
-                    duration: generalSettingsViewModel.resolvedTemporaryActivityDuration(5)
+                    duration: settingsViewModel.resolvedTemporaryActivityDuration(5)
                 )
             )
         }
@@ -35,28 +35,28 @@ final class NotchConnectivityEventsHandler {
     func handleNetwork(_ event: NetworkEvent) {
         switch event {
         case .wifiConnected:
-            guard generalSettingsViewModel.isTemporaryActivityEnabled(.wifi) else { return }
+            guard settingsViewModel.isTemporaryActivityEnabled(.wifi) else { return }
             notchViewModel.send(
                 .showTemporaryNotification(
                     WifiConnectedNotchContent(),
-                    duration: generalSettingsViewModel.resolvedTemporaryActivityDuration(3)
+                    duration: settingsViewModel.resolvedTemporaryActivityDuration(3)
                 )
             )
 
         case .vpnConnected:
-            guard generalSettingsViewModel.isTemporaryActivityEnabled(.vpn) else { return }
+            guard settingsViewModel.isTemporaryActivityEnabled(.vpn) else { return }
             notchViewModel.send(
                 .showTemporaryNotification(
                     VpnConnectedNotchContent(networkViewModel: networkViewModel),
-                    duration: generalSettingsViewModel.resolvedTemporaryActivityDuration(5)
+                    duration: settingsViewModel.resolvedTemporaryActivityDuration(5)
                 )
             )
 
         case .hotspotActive:
-            guard generalSettingsViewModel.isLiveActivityEnabled(.hotspot) else { return }
+            guard settingsViewModel.isLiveActivityEnabled(.hotspot) else { return }
             notchViewModel.send(
                 .showLiveActivity(
-                    HotspotActiveContent(generalSettingsViewModel: generalSettingsViewModel)
+                    HotspotActiveContent(settingsViewModel: settingsViewModel)
                 )
             )
 

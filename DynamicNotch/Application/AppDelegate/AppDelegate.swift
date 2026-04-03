@@ -19,7 +19,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     var networkViewModel: NetworkViewModel { container.networkViewModel }
     var downloadViewModel: DownloadViewModel { container.downloadViewModel }
     var focusViewModel: FocusViewModel { container.focusViewModel }
-    var generalSettingsViewModel: GeneralSettingsViewModel { container.generalSettingsViewModel }
+    var settingsViewModel: SettingsViewModel { container.settingsViewModel }
     var nowPlayingViewModel: NowPlayingViewModel { container.nowPlayingViewModel }
     var airDropViewModel: AirDropNotchViewModel { container.airDropViewModel }
     var lockScreenManager: LockScreenManager { container.lockScreenManager }
@@ -46,8 +46,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func applicationDidFinishLaunching(_ notification: Notification) {
-        NSApp.setActivationPolicy(isRunningUITests ? .regular : .accessory)
+        applyActivationPolicy(
+            showsDockIcon: isRunningUITests || settingsViewModel.application.isDockIconVisible
+        )
         observeDisplayLocationChanges()
+        observeDockIconVisibilityChanges()
         observeHUDConfigurationChanges()
         observeLockScreenWindowHandoff()
 
@@ -95,5 +98,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             lockScreenLiveActivityWindowManager.invalidate()
         }
         stopOutsideClickMonitoring()
+    }
+
+    func applyActivationPolicy(showsDockIcon: Bool) {
+        let targetPolicy: NSApplication.ActivationPolicy = showsDockIcon ? .regular : .accessory
+
+        guard NSApp.activationPolicy() != targetPolicy else { return }
+
+        NSApp.setActivationPolicy(targetPolicy)
+
+        if showsDockIcon {
+            NSApp.activate(ignoringOtherApps: false)
+        }
     }
 }

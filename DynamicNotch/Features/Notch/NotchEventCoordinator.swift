@@ -13,7 +13,7 @@ final class NotchEventCoordinator: ObservableObject {
     private let notchViewModel: NotchViewModel
     private let networkViewModel: NetworkViewModel
     private let downloadViewModel: DownloadViewModel
-    private let generalSettingsViewModel: GeneralSettingsViewModel
+    private let settingsViewModel: SettingsViewModel
     private let nowPlayingViewModel: NowPlayingViewModel
     private let lockScreenManager: LockScreenManager
     private let systemHandler: NotchSystemEventsHandler
@@ -41,44 +41,44 @@ final class NotchEventCoordinator: ObservableObject {
         networkViewModel: NetworkViewModel,
         downloadViewModel: DownloadViewModel,
         airDropViewModel: AirDropNotchViewModel,
-        generalSettingsViewModel: GeneralSettingsViewModel,
+        settingsViewModel: SettingsViewModel,
         nowPlayingViewModel: NowPlayingViewModel,
         lockScreenManager: LockScreenManager
     ) {
         self.notchViewModel = notchViewModel
         self.networkViewModel = networkViewModel
         self.downloadViewModel = downloadViewModel
-        self.generalSettingsViewModel = generalSettingsViewModel
+        self.settingsViewModel = settingsViewModel
         self.nowPlayingViewModel = nowPlayingViewModel
         self.lockScreenManager = lockScreenManager
         self.systemHandler = NotchSystemEventsHandler(
             notchViewModel: notchViewModel,
-            generalSettingsViewModel: generalSettingsViewModel
+            settingsViewModel: settingsViewModel
         )
         self.focusHandler = NotchFocusEventsHandler(
             notchViewModel: notchViewModel,
-            generalSettingsViewModel: generalSettingsViewModel
+            settingsViewModel: settingsViewModel
         )
         self.hudHandler = NotchHUDEventsHandler(
             notchViewModel: notchViewModel,
-            generalSettingsViewModel: generalSettingsViewModel
+            settingsViewModel: settingsViewModel
         )
         self.connectivityHandler = NotchConnectivityEventsHandler(
             notchViewModel: notchViewModel,
             bluetoothViewModel: bluetoothViewModel,
             networkViewModel: networkViewModel,
-            generalSettingsViewModel: generalSettingsViewModel
+            settingsViewModel: settingsViewModel
         )
         self.powerHandler = NotchPowerEventsHandler(
             notchViewModel: notchViewModel,
             powerService: powerService,
-            generalSettingsViewModel: generalSettingsViewModel
+            settingsViewModel: settingsViewModel
         )
         self.mediaHandler = NotchMediaEventsHandler(
             notchViewModel: notchViewModel,
             downloadViewModel: downloadViewModel,
             airDropViewModel: airDropViewModel,
-            generalSettingsViewModel: generalSettingsViewModel,
+            settingsViewModel: settingsViewModel,
             nowPlayingViewModel: nowPlayingViewModel
         )
         observeSettingsChanges()
@@ -92,7 +92,7 @@ final class NotchEventCoordinator: ObservableObject {
                 self.handleOnboardingEvent(.onboarding)
             }
         } else if nowPlayingViewModel.hasActiveSession &&
-                    generalSettingsViewModel.isLiveActivityEnabled(.nowPlaying) {
+                    settingsViewModel.isLiveActivityEnabled(.nowPlaying) {
             mediaHandler.handleNowPlaying(.started)
         }
     }
@@ -102,7 +102,7 @@ final class NotchEventCoordinator: ObservableObject {
         notchViewModel.send(.hideLiveActivity(id: "onboarding"))
 
         if nowPlayingViewModel.hasActiveSession &&
-            generalSettingsViewModel.isLiveActivityEnabled(.nowPlaying) {
+            settingsViewModel.isLiveActivityEnabled(.nowPlaying) {
             mediaHandler.handleNowPlaying(.started)
         }
     }
@@ -110,7 +110,7 @@ final class NotchEventCoordinator: ObservableObject {
     func handleNotchWidthEvent(_ event: NotchSizeEvent) {
         guard !isOnboardingActive else { return }
         guard !isLockScreenTransitionActive else { return }
-        guard generalSettingsViewModel.isTemporaryActivityEnabled(.notchSize) else { return }
+        guard settingsViewModel.isTemporaryActivityEnabled(.notchSize) else { return }
 
         systemHandler.handleNotchSize(event)
     }
@@ -177,7 +177,7 @@ final class NotchEventCoordinator: ObservableObject {
     }
 
     func handleLockScreenEvent(_ event: LockScreenEvent) {
-        guard generalSettingsViewModel.isLiveActivityEnabled(.lockScreen) else {
+        guard settingsViewModel.isLiveActivityEnabled(.lockScreen) else {
             notchViewModel.send(.hideLiveActivity(id: "lockScreen"))
             return
         }
@@ -192,7 +192,7 @@ final class NotchEventCoordinator: ObservableObject {
     }
 
     private func observeSettingsChanges() {
-        generalSettingsViewModel.connectivity.$isFocusLiveActivityEnabled
+        settingsViewModel.connectivity.$isFocusLiveActivityEnabled
             .removeDuplicates()
             .sink { [weak self] isEnabled in
                 guard let self else { return }
@@ -203,7 +203,7 @@ final class NotchEventCoordinator: ObservableObject {
             }
             .store(in: &cancellables)
 
-        generalSettingsViewModel.connectivity.$isHotspotLiveActivityEnabled
+        settingsViewModel.connectivity.$isHotspotLiveActivityEnabled
             .removeDuplicates()
             .sink { [weak self] isEnabled in
                 guard let self else { return }
@@ -218,7 +218,7 @@ final class NotchEventCoordinator: ObservableObject {
             }
             .store(in: &cancellables)
 
-        generalSettingsViewModel.mediaAndFiles.$isNowPlayingLiveActivityEnabled
+        settingsViewModel.mediaAndFiles.$isNowPlayingLiveActivityEnabled
             .removeDuplicates()
             .sink { [weak self] isEnabled in
                 guard let self else { return }
@@ -234,7 +234,7 @@ final class NotchEventCoordinator: ObservableObject {
             }
             .store(in: &cancellables)
 
-        generalSettingsViewModel.mediaAndFiles.$isDownloadsLiveActivityEnabled
+        settingsViewModel.mediaAndFiles.$isDownloadsLiveActivityEnabled
             .removeDuplicates()
             .sink { [weak self] isEnabled in
                 guard let self else { return }
@@ -257,7 +257,7 @@ final class NotchEventCoordinator: ObservableObject {
             }
             .store(in: &cancellables)
 
-        generalSettingsViewModel.lockScreen.$isLockScreenLiveActivityEnabled
+        settingsViewModel.lockScreen.$isLockScreenLiveActivityEnabled
             .removeDuplicates()
             .sink { [weak self] isEnabled in
                 guard let self else { return }

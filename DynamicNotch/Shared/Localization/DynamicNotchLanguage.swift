@@ -6,7 +6,6 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
     case english = "en"
     case russian = "ru"
     case spanish = "es"
-    case german = "de"
     case french = "fr"
     case portuguese = "pt"
     case japanese = "ja"
@@ -45,8 +44,6 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
             return "settings.language.option.russian"
         case .spanish:
             return "settings.language.option.spanish"
-        case .german:
-            return "settings.language.option.german"
         case .french:
             return "settings.language.option.french"
         case .portuguese:
@@ -64,6 +61,29 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
         LocalizedStringKey(titleKeyString)
     }
 
+    var flagAssetName: String? {
+        switch self {
+        case .system:
+            return nil
+        case .english:
+            return "english"
+        case .russian:
+            return "russian"
+        case .spanish:
+            return "spanish"
+        case .french:
+            return "french"
+        case .portuguese:
+            return "portuguese"
+        case .japanese:
+            return "japanese"
+        case .korean:
+            return "korean"
+        case .simplifiedChinese:
+            return "chinese"
+        }
+    }
+
     var fallbackDisplayName: String {
         switch self {
         case .system:
@@ -74,8 +94,6 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
             return "Russian"
         case .spanish:
             return "Spanish"
-        case .german:
-            return "German"
         case .french:
             return "French"
         case .portuguese:
@@ -99,8 +117,6 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
             return "Русский"
         case .spanish:
             return "Español"
-        case .german:
-            return "Deutsch"
         case .french:
             return "Français"
         case .portuguese:
@@ -114,56 +130,6 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
         }
     }
 
-    var codeLabel: String {
-        switch self {
-        case .system:
-            return "AUTO"
-        case .english:
-            return "EN"
-        case .russian:
-            return "RU"
-        case .spanish:
-            return "ES"
-        case .german:
-            return "DE"
-        case .french:
-            return "FR"
-        case .portuguese:
-            return "PT"
-        case .japanese:
-            return "JA"
-        case .korean:
-            return "KO"
-        case .simplifiedChinese:
-            return "ZH"
-        }
-    }
-
-    var badgeLabel: String {
-        switch self {
-        case .system:
-            return "••"
-        case .english:
-            return "EN"
-        case .russian:
-            return "RU"
-        case .spanish:
-            return "ES"
-        case .german:
-            return "DE"
-        case .french:
-            return "FR"
-        case .portuguese:
-            return "PT"
-        case .japanese:
-            return "あ"
-        case .korean:
-            return "가"
-        case .simplifiedChinese:
-            return "汉"
-        }
-    }
-
     var accentColors: [Color] {
         switch self {
         case .system:
@@ -174,8 +140,6 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
             return [Color.blue, Color.red]
         case .spanish:
             return [Color.orange, Color.red]
-        case .german:
-            return [Color.orange.opacity(0.9), Color.red.opacity(0.9)]
         case .french:
             return [Color.indigo, Color.blue]
         case .portuguese:

@@ -4,53 +4,53 @@ import SwiftUI
 final class NotchPowerEventsHandler {
     private let notchViewModel: NotchViewModel
     private let powerService: PowerService
-    private let generalSettingsViewModel: GeneralSettingsViewModel
+    private let settingsViewModel: SettingsViewModel
 
     init(
         notchViewModel: NotchViewModel,
         powerService: PowerService,
-        generalSettingsViewModel: GeneralSettingsViewModel
+        settingsViewModel: SettingsViewModel
     ) {
         self.notchViewModel = notchViewModel
         self.powerService = powerService
-        self.generalSettingsViewModel = generalSettingsViewModel
+        self.settingsViewModel = settingsViewModel
     }
 
     func handle(_ event: PowerEvent) {
         switch event {
         case .charger:
-            guard generalSettingsViewModel.isTemporaryActivityEnabled(.charger) else { return }
+            guard settingsViewModel.isTemporaryActivityEnabled(.charger) else { return }
             notchViewModel.send(
                 .showTemporaryNotification(
                     ChargerNotchContent(
                         powerService: powerService,
-                        generalSettingsViewModel: generalSettingsViewModel
+                        settingsViewModel: settingsViewModel
                     ),
-                    duration: generalSettingsViewModel.resolvedTemporaryActivityDuration(4)
+                    duration: settingsViewModel.resolvedTemporaryActivityDuration(4)
                 )
             )
 
         case .lowPower:
-            guard generalSettingsViewModel.isTemporaryActivityEnabled(.lowPower) else { return }
+            guard settingsViewModel.isTemporaryActivityEnabled(.lowPower) else { return }
             notchViewModel.send(
                 .showTemporaryNotification(
                     LowPowerNotchContent(
                         powerService: powerService,
-                        generalSettingsViewModel: generalSettingsViewModel
+                        settingsViewModel: settingsViewModel
                     ),
-                    duration: generalSettingsViewModel.resolvedTemporaryActivityDuration(4)
+                    duration: settingsViewModel.resolvedTemporaryActivityDuration(4)
                 )
             )
 
         case .fullPower:
-            guard generalSettingsViewModel.isTemporaryActivityEnabled(.fullPower) else { return }
+            guard settingsViewModel.isTemporaryActivityEnabled(.fullPower) else { return }
             notchViewModel.send(
                 .showTemporaryNotification(
                     FullPowerNotchContent(
                         powerService: powerService,
-                        generalSettingsViewModel: generalSettingsViewModel
+                        settingsViewModel: settingsViewModel
                     ),
-                    duration: generalSettingsViewModel.resolvedTemporaryActivityDuration(4)
+                    duration: settingsViewModel.resolvedTemporaryActivityDuration(4)
                 )
             )
         }

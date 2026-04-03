@@ -61,7 +61,7 @@ final class DebugSettingsViewModel: ObservableObject {
     private let downloadViewModel: DownloadViewModel
     private let nowPlayingViewModel: NowPlayingViewModel
     private let lockScreenManager: LockScreenManager
-    private let generalSettingsViewModel: GeneralSettingsViewModel
+    private let settingsViewModel: SettingsViewModel
 
     private var isReady = false
     private var previewSequenceTask: Task<Void, Never>?
@@ -73,7 +73,7 @@ final class DebugSettingsViewModel: ObservableObject {
         powerService: PowerService,
         networkViewModel: NetworkViewModel,
         downloadViewModel: DownloadViewModel,
-        generalSettingsViewModel: GeneralSettingsViewModel,
+        settingsViewModel: SettingsViewModel,
         nowPlayingViewModel: NowPlayingViewModel,
         lockScreenManager: LockScreenManager
     ) {
@@ -83,7 +83,7 @@ final class DebugSettingsViewModel: ObservableObject {
         self.powerService = powerService
         self.networkViewModel = networkViewModel
         self.downloadViewModel = downloadViewModel
-        self.generalSettingsViewModel = generalSettingsViewModel
+        self.settingsViewModel = settingsViewModel
         self.nowPlayingViewModel = nowPlayingViewModel
         self.lockScreenManager = lockScreenManager
         self.isReady = true
@@ -243,16 +243,16 @@ final class DebugSettingsViewModel: ObservableObject {
 
             do {
                 try await self.playLivePreview(
-                    FocusOnNotchContent(generalSettingsViewModel: generalSettingsViewModel),
+                    FocusOnNotchContent(settingsViewModel: settingsViewModel),
                     id: Self.sequenceFocusID
                 )
                 try await self.playTemporaryPreview(
-                    FocusOffNotchContent(generalSettingsViewModel: generalSettingsViewModel),
+                    FocusOffNotchContent(settingsViewModel: settingsViewModel),
                     id: "\(Self.sequenceContentPrefix)focus.off",
                     duration: 3
                 )
                 try await self.playLivePreview(
-                    HotspotActiveContent(generalSettingsViewModel: generalSettingsViewModel),
+                    HotspotActiveContent(settingsViewModel: settingsViewModel),
                     id: Self.sequenceHotspotID
                 )
                 try await self.playNowPlayingPreview()
@@ -318,7 +318,7 @@ final class DebugSettingsViewModel: ObservableObject {
         try await playTemporaryPreview(
             ChargerNotchContent(
                 powerService: powerService,
-                generalSettingsViewModel: generalSettingsViewModel
+                settingsViewModel: settingsViewModel
             ),
             id: "\(Self.sequenceContentPrefix)charger",
             duration: 4
@@ -330,7 +330,7 @@ final class DebugSettingsViewModel: ObservableObject {
         try await playTemporaryPreview(
             LowPowerNotchContent(
                 powerService: powerService,
-                generalSettingsViewModel: generalSettingsViewModel
+                settingsViewModel: settingsViewModel
             ),
             id: "\(Self.sequenceContentPrefix)lowPower",
             duration: 4
@@ -342,7 +342,7 @@ final class DebugSettingsViewModel: ObservableObject {
         try await playTemporaryPreview(
             FullPowerNotchContent(
                 powerService: powerService,
-                generalSettingsViewModel: generalSettingsViewModel
+                settingsViewModel: settingsViewModel
             ),
             id: "\(Self.sequenceContentPrefix)fullPower",
             duration: 4
@@ -367,7 +367,7 @@ final class DebugSettingsViewModel: ObservableObject {
         try await playLivePreview(
             DownloadNotchContent(
                 downloadViewModel: downloadViewModel,
-                generalSettingsViewModel: generalSettingsViewModel
+                settingsViewModel: settingsViewModel
             ),
             id: Self.sequenceDownloadsID
         )

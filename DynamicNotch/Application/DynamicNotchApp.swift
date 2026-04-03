@@ -12,14 +12,14 @@ struct NotchApp: App {
     
     var body: some Scene {
         MenuBarExtra("Dynamic Notch", systemImage: "rectangle.topthird.inset.filled", isInserted: $isMenuBarIconVisible) {
-            MenuBarMenu(applicationSettings: appDelegate.generalSettingsViewModel.application)
-                .environment(\.locale, appDelegate.generalSettingsViewModel.application.appLanguage.locale)
+            MenuBarMenu(applicationSettings: appDelegate.settingsViewModel.application)
+                .environment(\.locale, appDelegate.settingsViewModel.application.appLanguage.locale)
         }
 
         WindowGroup(id: SettingsScene.id) {
             SettingsRootView(
                 powerService: appDelegate.powerService,
-                generalSettingsViewModel: appDelegate.generalSettingsViewModel,
+                settingsViewModel: appDelegate.settingsViewModel,
                 notchViewModel: appDelegate.notchViewModel,
                 notchEventCoordinator: appDelegate.notchEventCoordinator,
                 bluetoothViewModel: appDelegate.bluetoothViewModel,

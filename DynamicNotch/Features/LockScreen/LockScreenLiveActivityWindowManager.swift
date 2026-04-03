@@ -18,7 +18,7 @@ private struct LockScreenOverlayGeometry: Equatable {
 final class LockScreenLiveActivityWindowManager {
     private let notchViewModel: NotchViewModel
     private let lockScreenManager: LockScreenManager
-    private let generalSettingsViewModel: GeneralSettingsViewModel
+    private let settingsViewModel: SettingsViewModel
     private let animator = LockScreenLiveActivityAnimator()
 
     private var overlayWindow: OverlayPanelWindow?
@@ -31,11 +31,11 @@ final class LockScreenLiveActivityWindowManager {
     init(
         notchViewModel: NotchViewModel,
         lockScreenManager: LockScreenManager,
-        generalSettingsViewModel: GeneralSettingsViewModel
+        settingsViewModel: SettingsViewModel
     ) {
         self.notchViewModel = notchViewModel
         self.lockScreenManager = lockScreenManager
-        self.generalSettingsViewModel = generalSettingsViewModel
+        self.settingsViewModel = settingsViewModel
 
         bindState()
         registerObservers()
@@ -78,7 +78,7 @@ final class LockScreenLiveActivityWindowManager {
         }
         .store(in: &cancellables)
 
-        generalSettingsViewModel.application.$displayLocation
+        settingsViewModel.application.$displayLocation
             .removeDuplicates()
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in
@@ -200,7 +200,7 @@ final class LockScreenLiveActivityWindowManager {
 
         let rootView = LockScreenLiveActivityOverlayView(
             notchViewModel: notchViewModel,
-            generalSettingsViewModel: generalSettingsViewModel,
+            settingsViewModel: settingsViewModel,
             lockScreenManager: lockScreenManager,
             animator: animator
         )
@@ -313,7 +313,7 @@ final class LockScreenLiveActivityWindowManager {
         hostingView?.frame = NSRect(origin: .zero, size: targetFrame.size)
         hostingView?.rootView = LockScreenLiveActivityOverlayView(
             notchViewModel: notchViewModel,
-            generalSettingsViewModel: generalSettingsViewModel,
+            settingsViewModel: settingsViewModel,
             lockScreenManager: lockScreenManager,
             animator: animator
         )
@@ -345,14 +345,14 @@ final class LockScreenLiveActivityWindowManager {
 
     private func currentScreen() -> NSScreen? {
         NSScreen.preferredLockScreen ??
-        NSScreen.preferredNotchScreen(for: generalSettingsViewModel.displayLocation) ??
+        NSScreen.preferredNotchScreen(for: settingsViewModel.displayLocation) ??
         NSScreen.screens.first
     }
 }
 
 private struct LockScreenLiveActivityOverlayView: View {
     @ObservedObject var notchViewModel: NotchViewModel
-    @ObservedObject var generalSettingsViewModel: GeneralSettingsViewModel
+    @ObservedObject var settingsViewModel: SettingsViewModel
     @ObservedObject var lockScreenManager: LockScreenManager
     @ObservedObject var animator: LockScreenLiveActivityAnimator
 
@@ -378,8 +378,8 @@ private struct LockScreenLiveActivityOverlayView: View {
         )
         .fill(.black)
         .stroke(
-            generalSettingsViewModel.isShowNotchStrokeEnabled ? content.strokeColor : Color.clear,
-            lineWidth: generalSettingsViewModel.notchStrokeWidth
+            settingsViewModel.isShowNotchStrokeEnabled ? content.strokeColor : Color.clear,
+            lineWidth: settingsViewModel.notchStrokeWidth
         )
         .overlay {
             LockScreenNotchView(lockScreenManager: lockScreenManager)

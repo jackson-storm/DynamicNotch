@@ -3,12 +3,6 @@
   "strings" : {
     "---" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "---"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -61,12 +55,6 @@
     },
     ", it is recommended to charge it." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : ", es wird empfohlen, es aufzuladen."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -119,12 +107,6 @@
     },
     "%lld%%" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld%%"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -177,12 +159,6 @@
     },
     "72" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "72"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -235,12 +211,6 @@
     },
     "Adjust the thickness of the notch outline." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Passen Sie die Dicke der Kerbenkontur an."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -293,12 +263,6 @@
     },
     "AirDrop" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "AirDrop"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -351,12 +315,6 @@
     },
     "AirDrop activity" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "AirDrop-Aktivität"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -409,12 +367,6 @@
     },
     "AirDrop live activity" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "AirDrop-Live-Aktivität"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -467,12 +419,6 @@
     },
     "Animation" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Animation"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -525,12 +471,6 @@
     },
     "Apply a full battery sample and show the completion notification." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Legen Sie eine vollständige Batterieprobe an und zeigen Sie die Abschlussbenachrichtigung an."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -583,12 +523,6 @@
     },
     "Apply a low battery sample and show the low-power alert." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Führen Sie eine Probe mit niedrigem Batteriestand durch und zeigen Sie die Warnung bei niedrigem Stromverbrauch an."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -641,12 +575,6 @@
     },
     "Apply a sample charging state and show the charger notification." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Legen Sie einen Beispielladezustand fest und zeigen Sie die Benachrichtigung des Ladegeräts an."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -699,12 +627,6 @@
     },
     "Apply the standard white stroke to supported activities instead of feature accent colors." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wenden Sie den standardmäßigen weißen Strich auf unterstützte Aktivitäten anstelle von Akzentfarben an."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -757,12 +679,6 @@
     },
     "Battery activity" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Batterieaktivität"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -815,12 +731,6 @@
     },
     "Battery Low" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Batterie schwach"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -873,12 +783,6 @@
     },
     "Bluetooth" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bluetooth"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -931,12 +835,6 @@
     },
     "Bluetooth activity" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bluetooth-Aktivität"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -989,12 +887,6 @@
     },
     "Bluetooth Connected" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bluetooth verbunden"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1047,12 +939,6 @@
     },
     "Bluetooth temporary activity" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Temporäre Bluetooth-Aktivität"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1105,12 +991,6 @@
     },
     "Brightness HUD" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Helligkeits-HUD"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1163,12 +1043,6 @@
     },
     "Carry notch context and media playback into the lock screen transition for a more cohesive experience." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Übernehmen Sie Notch-Kontext und Medienwiedergabe in den Sperrbildschirmübergang für ein zusammenhängenderes Erlebnis."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1221,12 +1095,6 @@
     },
     "Charging" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aufladen"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1279,12 +1147,6 @@
     },
     "Choose how hardware HUD feedback is laid out inside the notch." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wählen Sie, wie das Hardware-HUD-Feedback innerhalb der Kerbe angeordnet wird."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1337,12 +1199,6 @@
     },
     "Choose one global motion preset for notch transitions, expansion, and visibility." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wählen Sie eine globale Bewegungsvoreinstellung für Kerbenübergänge, Erweiterung und Sichtbarkeit."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1395,12 +1251,6 @@
     },
     "Choose which display should host the notch overlay." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wählen Sie aus, welches Display das Notch-Overlay hosten soll."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1453,12 +1303,6 @@
     },
     "Choose which system HUDs Dynamic Notch should replace." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wählen Sie aus, welches System-HUDs Dynamic Notch ersetzen soll."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1511,12 +1355,6 @@
     },
     "Clean up previews without restarting the app." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bereinigen Sie Vorschauen, ohne die App neu zu starten."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1569,12 +1407,6 @@
     },
     "Colored level tint" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Farbige, gleichmäßige Tönung"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1628,12 +1460,6 @@
     "common.cancel" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Abbrechen"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1686,12 +1512,6 @@
     },
     "Connected" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verbunden"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1744,12 +1564,6 @@
     },
     "Control charging, low battery, and full battery notifications." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kontrollieren Sie Benachrichtigungen zum Aufladen, bei niedrigem Akkustand und vollem Akku."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1802,12 +1616,6 @@
     },
     "Control how Dynamic Notch integrates with macOS." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Steuern Sie, wie Dynamic Notch in macOS integriert wird."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1860,12 +1668,6 @@
     },
     "Control how long short-lived notifications stay visible." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Steuern Sie, wie lange kurzlebige Benachrichtigungen sichtbar bleiben."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1918,12 +1720,6 @@
     },
     "Control network-related live and temporary activities." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Steuern Sie netzwerkbezogene Live- und temporäre Aktivitäten."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1976,12 +1772,6 @@
     },
     "Control the lock-screen live activity, sound, and detached media panel." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Steuern Sie die Live-Aktivität, den Ton und das separate Medienfeld auf dem Sperrbildschirm."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2034,12 +1824,6 @@
     },
     "Control the persistent Focus state and the short Focus Off notification." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Steuern Sie den dauerhaften Fokusstatus und die kurze Fokus-Aus-Benachrichtigung."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2092,12 +1876,6 @@
     },
     "Debug-only safe preview of the onboarding live activity." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nur Debug-sichere Vorschau der Onboarding-Live-Aktivität."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2150,12 +1928,6 @@
     },
     "Default settings" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Standardeinstellungen"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2208,12 +1980,6 @@
     },
     "Dismiss the currently visible temporary notification." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verwerfen Sie die derzeit sichtbare temporäre Benachrichtigung."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2266,12 +2032,6 @@
     },
     "Display" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Anzeige"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2324,12 +2084,6 @@
     },
     "Download activity" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aktivität herunterladen"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2382,12 +2136,6 @@
     },
     "Downloads" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Downloads"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2440,12 +2188,6 @@
     },
     "Downloads live activity" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lädt Live-Aktivitäten herunter"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2498,12 +2240,6 @@
     },
     "Dynamic Notch" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dynamische Kerbe"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2556,12 +2292,6 @@
     },
     "Exit" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ausstieg"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2614,12 +2344,6 @@
     },
     "Fine-tune the notch frame and stroke so it better matches your hardware." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Passen Sie den Kerbenrahmen und den Hub genau an, damit er besser zu Ihrer Hardware passt."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2672,12 +2396,6 @@
     },
     "Fine-tune the notch height to better match your display cutout." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Passen Sie die Kerbenhöhe genau an, damit sie besser zu Ihrem Displayausschnitt passt."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2730,12 +2448,6 @@
     },
     "Fine-tune the notch width to better match your display cutout." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Passen Sie die Kerbenbreite genau an, damit sie besser zu Ihrem Displayausschnitt passt."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2788,12 +2500,6 @@
     },
     "Focus activity" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Konzentrieren Sie sich auf die Aktivität"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2846,12 +2552,6 @@
     },
     "Focus live activity" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Konzentrieren Sie sich auf Live-Aktivitäten"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2904,12 +2604,6 @@
     },
     "Focus Off" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fokus aus"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2962,12 +2656,6 @@
     },
     "Focus off activity" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Konzentrieren Sie sich auf Aktivitäten"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3020,12 +2708,6 @@
     },
     "Focus On" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Konzentrieren Sie sich auf"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3078,12 +2760,6 @@
     },
     "Full Battery" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Volle Batterie"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3136,12 +2812,6 @@
     },
     "Fully Charged" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vollständig aufgeladen"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3194,12 +2864,6 @@
     },
     "Hide Current Temporary" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aktuelles Temporär ausblenden"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3252,12 +2916,6 @@
     },
     "Hide the Focus live activity and show the short \"Off\" notification." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Blenden Sie die Focus-Live-Aktivität aus und zeigen Sie die kurze „Aus“-Benachrichtigung an."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3310,12 +2968,6 @@
     },
     "Hotspot Active" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hotspot aktiv"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3368,12 +3020,6 @@
     },
     "HUD activity" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "HUD-Aktivität"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3426,12 +3072,6 @@
     },
     "HUD appearance" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "HUD-Erscheinungsbild"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3484,12 +3124,6 @@
     },
     "hud.brightness" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Helligkeit"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3542,12 +3176,6 @@
     },
     "hud.keyboard" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tastatur"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3600,12 +3228,6 @@
     },
     "hud.volume" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lautstärke"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3658,12 +3280,6 @@
     },
     "Keep playback controls in the notch while media is playing." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lassen Sie die Wiedergabesteuerung während der Medienwiedergabe in der Kerbe."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3714,14 +3330,11 @@
         }
       }
     },
+    "Keep the app visible in the Dock for faster switching and window access." : {
+
+    },
     "Keep the hotspot live activity visible until you turn it off." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Halten Sie die Live-Aktivität des Hotspots sichtbar, bis Sie sie deaktivieren."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3774,12 +3387,6 @@
     },
     "Keyboard HUD" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tastatur-HUD"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3832,12 +3439,6 @@
     },
     "Launch at login" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bei der Anmeldung starten"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3890,12 +3491,6 @@
     },
     "Launch Dynamic Notch automatically when you sign in." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Starten Sie Dynamic Notch automatisch, wenn Sie sich anmelden."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3948,12 +3543,6 @@
     },
     "Level-based stroke color" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ebenenbasierte Strichfarbe"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4006,12 +3595,6 @@
     },
     "Live Activity" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Live-Aktivität"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4064,12 +3647,6 @@
     },
     "Lock Screen" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bildschirm sperren"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4122,12 +3699,6 @@
     },
     "Lock screen behavior" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verhalten beim Sperrbildschirm"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4180,12 +3751,6 @@
     },
     "Lock screen live activity" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Live-Aktivität auf dem Sperrbildschirm"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4238,12 +3803,6 @@
     },
     "Lock screen media panel" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Medienfeld auf dem Bildschirm sperren"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4296,12 +3855,6 @@
     },
     "Lock screen sound" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ton des Sperrbildschirms"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4354,12 +3907,6 @@
     },
     "Low Power" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Geringe Leistung"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4412,12 +3959,6 @@
     },
     "Low Power Mode enabled" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Energiesparmodus aktiviert"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4470,12 +4011,6 @@
     },
     "Make the cutout area more useful." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Machen Sie den Ausschnittbereich nützlicher."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4528,12 +4063,6 @@
     },
     "Network activity" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Netzwerkaktivität"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4586,12 +4115,6 @@
     },
     "No audio outputs available" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Keine Audioausgänge verfügbar"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4644,12 +4167,6 @@
     },
     "Notch appearance" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kerbiges Aussehen"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4702,12 +4219,6 @@
     },
     "Notch height" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kerbhöhe"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4760,12 +4271,6 @@
     },
     "Notch Height Changed" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kerbenhöhe geändert"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4818,12 +4323,6 @@
     },
     "Notch width" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kerbenbreite"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4876,12 +4375,6 @@
     },
     "Notch Width Changed" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kerbenbreite geändert"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4934,12 +4427,6 @@
     },
     "Notification duration" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Benachrichtigungsdauer"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4992,12 +4479,6 @@
     },
     "Now Playing" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Jetzt gespielt"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5050,12 +4531,6 @@
     },
     "Now Playing live activity" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Derzeit wird eine Live-Aktivität abgespielt"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5108,12 +4583,6 @@
     },
     "Off" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aus"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5166,12 +4635,6 @@
     },
     "On" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Auf"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5224,12 +4687,6 @@
     },
     "Onboarding" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Onboarding"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5282,12 +4739,6 @@
     },
     "Onboarding Preview" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Onboarding-Vorschau"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5340,12 +4791,6 @@
     },
     "Open the DynamicNotch website" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Öffnen Sie die DynamicNotch-Website"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5398,12 +4843,6 @@
     },
     "Persistent Events" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Anhaltende Ereignisse"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5456,12 +4895,6 @@
     },
     "Persistent notch content stays visible for as long as the source event is active, then fades away when it ends." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Persistenter Notch-Inhalt bleibt so lange sichtbar, wie das Quellereignis aktiv ist, und wird dann ausgeblendet, wenn es endet."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5514,12 +4947,6 @@
     },
     "Personal Hotspot live activity" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Persönliche Hotspot-Live-Aktivität"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5572,12 +4999,6 @@
     },
     "Play a sound when locking or unlocking your Mac." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Spielen Sie einen Ton ab, wenn Sie Ihren Mac sperren oder entsperren."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5630,12 +5051,6 @@
     },
     "Play All Events" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alle Events abspielen"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5688,12 +5103,6 @@
     },
     "Playback activity" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wiedergabeaktivität"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5746,12 +5155,6 @@
     },
     "Preview the lock live activity without actually locking macOS." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zeigen Sie eine Vorschau der Live-Aktivität zum Sperren an, ohne macOS tatsächlich zu sperren."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5804,12 +5207,6 @@
     },
     "Preview the persistent Focus live activity." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sehen Sie sich eine Vorschau der dauerhaften Focus-Live-Aktivität an."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5862,12 +5259,6 @@
     },
     "Quit" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hör auf"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5920,12 +5311,6 @@
     },
     "Replace the keyboard backlight HUD with DynamicNotch HUD." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ersetzen Sie das HUD für die Tastaturhintergrundbeleuchtung durch das DynamicNotch-HUD."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5978,12 +5363,6 @@
     },
     "Replace the system brightness HUD with DynamicNotch HUD." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ersetzen Sie das HUD für die Systemhelligkeit durch das DynamicNotch-HUD."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6036,12 +5415,6 @@
     },
     "Replace the system volume HUD with DynamicNotch HUD." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ersetzen Sie das HUD der Systemlautstärke durch das DynamicNotch-HUD."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6094,12 +5467,6 @@
     },
     "Reset All Previews" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alle Vorschauen zurücksetzen"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6152,12 +5519,6 @@
     },
     "Resize feedback" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Feedback zur Größe ändern"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6210,12 +5571,6 @@
     },
     "Run every debug event in sequence, keep each item visible for its configured duration, wait 1 second between items, and skip onboarding, notch size, and lock screen previews." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Führen Sie jedes Debug-Ereignis nacheinander aus, lassen Sie jedes Element für die konfigurierte Dauer sichtbar, warten Sie 1 Sekunde zwischen den Elementen und überspringen Sie Onboarding, Notch-Größe und Sperrbildschirmvorschauen."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6268,12 +5623,6 @@
     },
     "Scale the duration of temporary activities across HUD, battery, connectivity, and resize feedback." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Skalieren Sie die Dauer temporärer Aktivitäten über HUD, Batterie, Konnektivität und Größenänderungsfeedback."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6326,12 +5675,6 @@
     },
     "Settings" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Einstellungen"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6384,12 +5727,6 @@
     },
     "settings.general.animation.balanced" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ausgewogen"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6442,12 +5779,6 @@
     },
     "settings.general.animation.fast" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Schnell"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6500,12 +5831,6 @@
     },
     "settings.general.animation.faster" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Schneller"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6558,12 +5883,6 @@
     },
     "settings.general.animation.slow" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Langsam"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6616,12 +5935,6 @@
     },
     "settings.general.animation.slower" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Langsamer"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6674,12 +5987,6 @@
     },
     "settings.general.display.builtin" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Anzeige auf integriertem Display"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6732,12 +6039,6 @@
     },
     "settings.general.display.main" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Auf dem Hauptdisplay anzeigen"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6791,12 +6092,6 @@
     "settings.group.application" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bewerbung"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6850,12 +6145,6 @@
     "settings.group.connectivity" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Konnektivität"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6909,12 +6198,6 @@
     "settings.group.info" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Infos"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6968,12 +6251,6 @@
     "settings.group.media" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Medien und Dateien"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7027,12 +6304,6 @@
     "settings.group.system" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "System"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7085,12 +6356,6 @@
     },
     "settings.hud.style.compact" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kompakt"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7143,12 +6408,6 @@
     },
     "settings.hud.style.minimal" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Minimal"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7201,12 +6460,6 @@
     },
     "settings.hud.style.standard" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Standard"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7259,12 +6512,6 @@
     },
     "settings.language.card.subtitle" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wähle die Sprache der App-Oberfläche."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7317,12 +6564,6 @@
     },
     "settings.language.card.title" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sprache"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7376,12 +6617,6 @@
     "settings.language.option.chineseSimplified" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vereinfachtes Chinesisch"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7435,12 +6670,6 @@
     "settings.language.option.english" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Englisch"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7494,12 +6723,6 @@
     "settings.language.option.french" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Französisch"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7550,74 +6773,9 @@
         }
       }
     },
-    "settings.language.option.german" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deutsch"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "German"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "alemán"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Allemand"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ドイツ語"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "독일어"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alemão"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Немецкий"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "德语"
-          }
-        }
-      }
-    },
     "settings.language.option.japanese" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Japanisch"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7671,12 +6829,6 @@
     "settings.language.option.korean" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Koreanisch"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7730,12 +6882,6 @@
     "settings.language.option.portuguese" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Portugiesisch"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7789,12 +6935,6 @@
     "settings.language.option.russian" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Russisch"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7848,12 +6988,6 @@
     "settings.language.option.spanish" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Spanisch"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7907,12 +7041,6 @@
     "settings.language.option.system" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "System"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7966,12 +7094,6 @@
     "settings.reset.action" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zurücksetzen"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8025,12 +7147,6 @@
     "settings.reset.help.available" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Setzen Sie die %@-Einstellungen auf die Standardwerte zurück"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8084,12 +7200,6 @@
     "settings.reset.help.none" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Keine Einstellungsregisterkarte ausgewählt"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8143,12 +7253,6 @@
     "settings.reset.help.unavailable" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ hat keine zurücksetzbaren Einstellungen"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8202,12 +7306,6 @@
     "settings.reset.message" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dadurch werden die Standardwerte nur für die aktuelle Registerkarte wiederhergestellt. Diese Aktion kann nicht rückgängig gemacht werden."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8261,12 +7359,6 @@
     "settings.reset.title" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@-Einstellungen zurücksetzen?"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8320,12 +7412,6 @@
     "settings.search.prompt" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Suchen"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8379,12 +7465,6 @@
     "settings.search.title" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Suchen"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8438,12 +7518,6 @@
     "settings.section.about.subtitle" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Projektdetails, Links und Release-Informationen."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8497,12 +7571,6 @@
     "settings.section.about.title" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Über"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8556,12 +7624,6 @@
     "settings.section.airDrop.subtitle" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Teilen per Drag-and-Drop durch die Kerbe."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8615,12 +7677,6 @@
     "settings.section.airDrop.title" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "AirDrop"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8674,12 +7730,6 @@
     "settings.section.battery.subtitle" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Benachrichtigungen zum Laden, niedrigem Akkustand und vollem Akku."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8733,12 +7783,6 @@
     "settings.section.battery.title" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Batterie"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8792,12 +7836,6 @@
     "settings.section.bluetooth.subtitle" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verbindungsrückmeldung für Bluetooth-Zubehör."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8851,12 +7889,6 @@
     "settings.section.bluetooth.title" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bluetooth"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8910,12 +7942,6 @@
     "settings.section.debug.subtitle" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Manuelle Vorschauen und Ereignisauslöser zum Testen."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8969,12 +7995,6 @@
     "settings.section.debug.title" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Debuggen"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9028,12 +8048,6 @@
     "settings.section.downloads.subtitle" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Live-Download-Verfolgung und Übertragungsvorschau."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9087,12 +8101,6 @@
     "settings.section.downloads.title" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Downloads"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9146,12 +8154,6 @@
     "settings.section.focus.subtitle" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Statusänderungen im Fokusmodus und schnelle Statusaktualisierungen."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9205,12 +8207,6 @@
     "settings.section.focus.title" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Konzentrieren Sie sich"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9264,58 +8260,52 @@
     "settings.section.general.subtitle" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Start, Platzierung, Aussehen und Kerbendimensionierung."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Startup, placement, appearance, and notch sizing."
+            "value" : "Startup, display placement, and app language."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inicio, ubicación, apariencia y tamaño de muesca."
+            "value" : "Inicio, ubicación en la pantalla e idioma de la aplicación."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Démarrage, placement, apparence et dimensionnement de l'encoche."
+            "value" : "Démarrage, emplacement sur l’écran et langue de l’application."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "起動、配置、外観、ノッチのサイズ。"
+            "value" : "起動、表示位置、アプリの言語。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "시작, 배치, 모양 및 노치 크기 조정."
+            "value" : "시작, 디스플레이 배치 및 앱 언어."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inicialização, posicionamento, aparência e dimensionamento do entalhe."
+            "value" : "Inicialização, posicionamento na tela e idioma do app."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Автозапуск, расположение, внешний вид и размер выреза."
+            "value" : "Автозапуск, размещение на дисплее и язык приложения."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "启动、放置、外观和凹口尺寸。"
+            "value" : "启动、显示位置和应用语言。"
           }
         }
       }
@@ -9323,12 +8313,6 @@
     "settings.section.general.title" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Allgemein"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9382,12 +8366,6 @@
     "settings.section.hud.subtitle" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Benutzerdefinierte Ersetzungen für Lautstärke, Helligkeit und Tastatur-HUDs."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9441,12 +8419,6 @@
     "settings.section.hud.title" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "HUD"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9500,12 +8472,6 @@
     "settings.section.language.subtitle" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wähle die Sprache der App-Oberfläche."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9559,12 +8525,6 @@
     "settings.section.language.title" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sprache"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9618,12 +8578,6 @@
     "settings.section.lockScreen.subtitle" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sperren Sie Übergänge, Ton und Medienverhalten auf dem Sperrbildschirm."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9677,12 +8631,6 @@
     "settings.section.lockScreen.title" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bildschirm sperren"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9736,12 +8684,6 @@
     "settings.section.network.subtitle" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "WLAN-, VPN- und Hotspot-Aktivitäten an einem Ort."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9795,12 +8737,6 @@
     "settings.section.network.title" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Netzwerk"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9851,15 +8787,115 @@
         }
       }
     },
+    "settings.section.notch.subtitle" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appearance, animation, and temporary activity timing."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apariencia, animación y duración de las actividades temporales."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apparence, animation et durée des activités temporaires."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "外観、アニメーション、一時的なアクティビティの表示時間。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "모양, 애니메이션 및 임시 활동 표시 시간."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aparência, animação e duração das atividades temporárias."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Внешний вид, анимация и время показа временных активностей."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "外观、动画和临时活动显示时长。"
+          }
+        }
+      }
+    },
+    "settings.section.notch.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notch"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Muesca"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Encoche"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ノッチ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "노치"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entalhe"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вырез"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "刘海"
+          }
+        }
+      }
+    },
     "settings.section.nowPlaying.subtitle" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "In der Kerbe angezeigte Bedienelemente für die Medienwiedergabe."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9913,12 +8949,6 @@
     "settings.section.nowPlaying.title" : {
       "extractionState" : "stale",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Jetzt gespielt"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9971,12 +9001,6 @@
     },
     "Short-lived overlays appear above live activities so quick system events still feel prominent." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kurzlebige Überlagerungen werden über Live-Aktivitäten angezeigt, sodass schnelle Systemereignisse immer noch hervorstechen."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10029,12 +9053,6 @@
     },
     "Show a dedicated drop target in the notch while sharing files with AirDrop." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zeigen Sie ein dediziertes Drop-Ziel in der Kerbe an, während Sie Dateien mit AirDrop teilen."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10087,12 +9105,6 @@
     },
     "Show a live activity while files are being downloaded to monitored folders like Downloads, Desktop, and Documents." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zeigen Sie eine Live-Aktivität an, während Dateien in überwachte Ordner wie „Downloads“, „Desktop“ und „Dokumente“ heruntergeladen werden."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10145,12 +9157,6 @@
     },
     "Show a live activity while Focus mode is enabled." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zeigen Sie eine Live-Aktivität an, während der Fokusmodus aktiviert ist."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10203,12 +9209,6 @@
     },
     "Show a live activity while Personal Hotspot is enabled." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zeigen Sie eine Live-Aktivität an, während der persönliche Hotspot aktiviert ist."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10261,12 +9261,6 @@
     },
     "Show a menu bar shortcut for quick access to Settings and Quit." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zeigen Sie eine Menüleistenverknüpfung für den schnellen Zugriff auf „Einstellungen“ und „Beenden“ an."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10319,12 +9313,6 @@
     },
     "Show a safe debug preview of the onboarding live activity." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zeigen Sie eine sichere Debug-Vorschau der Onboarding-Live-Aktivität an."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10377,12 +9365,6 @@
     },
     "Show a short notification when a VPN connection becomes active." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zeigt eine kurze Benachrichtigung an, wenn eine VPN-Verbindung aktiv wird."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10435,12 +9417,6 @@
     },
     "Show a short notification when Bluetooth accessories connect." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zeigt eine kurze Benachrichtigung an, wenn Bluetooth-Zubehör eine Verbindung herstellt."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10493,12 +9469,6 @@
     },
     "Show a short notification when Focus mode turns off." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zeigt eine kurze Benachrichtigung an, wenn der Fokusmodus ausgeschaltet wird."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10551,12 +9521,6 @@
     },
     "Show a short notification when Wi-Fi reconnects." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zeigt eine kurze Benachrichtigung an, wenn die WLAN-Verbindung wiederhergestellt wird."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10609,12 +9573,6 @@
     },
     "Show a subtle outline that adapts to the active content color." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zeigen Sie eine subtile Kontur an, die sich an die Farbe des aktiven Inhalts anpasst."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10667,12 +9625,6 @@
     },
     "Show a temporary activity when a Bluetooth accessory connects." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zeigt eine vorübergehende Aktivität an, wenn ein Bluetooth-Zubehör eine Verbindung herstellt."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10725,12 +9677,6 @@
     },
     "Show a temporary activity when the battery reaches full charge." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zeigt eine vorübergehende Aktivität an, wenn der Akku die volle Ladung erreicht."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10783,12 +9729,6 @@
     },
     "Show a temporary activity when your Mac starts charging." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zeigen Sie eine vorübergehende Aktivität an, wenn Ihr Mac mit dem Aufladen beginnt."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10841,12 +9781,6 @@
     },
     "Show a warning when Low Power Mode is enabled or the battery is critically low." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zeigt eine Warnung an, wenn der Energiesparmodus aktiviert ist oder der Akku kritisch schwach ist."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10897,14 +9831,11 @@
         }
       }
     },
+    "Show Dock icon" : {
+
+    },
     "Show live download progress from monitored folders in the notch." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zeigen Sie den Live-Download-Fortschritt aus überwachten Ordnern in der Kerbe an."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10957,12 +9888,6 @@
     },
     "Show menu bar icon" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Menüleistensymbol anzeigen"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11015,12 +9940,6 @@
     },
     "Show notch stroke" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kerbstrich anzeigen"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11073,12 +9992,6 @@
     },
     "Show temporary size hints while adjusting the notch width or height." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zeigen Sie beim Anpassen der Kerbenbreite oder -höhe temporäre Größenhinweise an."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11131,12 +10044,6 @@
     },
     "Show the AirDrop drop target when you drag files over the notch." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zeigen Sie das AirDrop-Ablageziel an, wenn Sie Dateien über die Kerbe ziehen."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11189,12 +10096,6 @@
     },
     "Show the Bluetooth notification with sample AirPods data." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zeigen Sie die Bluetooth-Benachrichtigung mit Beispiel-AirPod-Daten an."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11247,12 +10148,6 @@
     },
     "Show the brightness HUD preview at 72%." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zeigt die Helligkeits-HUD-Vorschau bei 72 % an."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11305,12 +10200,6 @@
     },
     "Show the detached media panel on the lock screen while playback is active." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zeigen Sie das getrennte Medienfeld auf dem Sperrbildschirm an, während die Wiedergabe aktiv ist."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11363,12 +10252,6 @@
     },
     "Show the download live activity with sample transfer data." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zeigen Sie die Download-Live-Aktivität mit Beispielübertragungsdaten an."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11421,12 +10304,6 @@
     },
     "Show the height resize helper using the current settings." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zeigt den Helfer zur Größenänderung der Höhe mit den aktuellen Einstellungen an."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11479,12 +10356,6 @@
     },
     "Show the keyboard backlight HUD preview at 64%." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zeigt die HUD-Vorschau der Tastaturhintergrundbeleuchtung mit 64 % an."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11537,12 +10408,6 @@
     },
     "Show the lock-screen live activity during lock and unlock transitions." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zeigen Sie die Live-Aktivität des Sperrbildschirms während der Sperr- und Entsperrübergänge an."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11595,12 +10460,6 @@
     },
     "Show the music live activity with sample track data." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zeigen Sie die Musik-Live-Aktivität mit Beispiel-Trackdaten."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11653,12 +10512,6 @@
     },
     "Show the Now Playing live activity while audio or video playback is active." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zeigen Sie die Live-Aktivität „Aktuelle Wiedergabe“ an, während die Audio- oder Videowiedergabe aktiv ist."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11711,12 +10564,6 @@
     },
     "Show the volume HUD preview at 42%." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zeigt die Lautstärke-HUD-Vorschau bei 42 % an."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11769,12 +10616,6 @@
     },
     "Show the VPN notification with sample tunnel data." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zeigen Sie die VPN-Benachrichtigung mit Beispieltunneldaten an."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11827,12 +10668,6 @@
     },
     "Show the width resize helper using the current settings." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zeigt den Helfer zur Größenänderung der Breite mit den aktuellen Einstellungen an."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11885,12 +10720,6 @@
     },
     "Shows the Wi-Fi temporary notification." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zeigt die temporäre WLAN-Benachrichtigung an."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11943,12 +10772,6 @@
     },
     "Start" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Starten"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12001,12 +10824,6 @@
     },
     "Stop" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Stopp"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12059,12 +10876,6 @@
     },
     "Stroke width" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Strichbreite"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12117,12 +10928,6 @@
     },
     "System" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "System"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12175,12 +10980,6 @@
     },
     "Temporary activities" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Temporäre Aktivitäten"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12233,12 +11032,6 @@
     },
     "Temporary Activity" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Temporäre Aktivität"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12291,12 +11084,6 @@
     },
     "Tint the notch stroke using the current HUD level color instead of the default white stroke." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Färben Sie den Kerbstrich mit der aktuellen HUD-Ebenenfarbe anstelle des standardmäßigen weißen Strichs."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12349,12 +11136,6 @@
     },
     "Toggle persistent previews to inspect their live activity UI." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Schalten Sie die dauerhafte Vorschau um, um die Benutzeroberfläche für Live-Aktivitäten zu überprüfen."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12407,12 +11188,6 @@
     },
     "Trigger Events" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Trigger-Ereignisse"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12465,12 +11240,6 @@
     },
     "Trigger one-shot notifications whenever you need them." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lösen Sie einmalige Benachrichtigungen aus, wann immer Sie sie benötigen."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12523,12 +11292,6 @@
     },
     "Turn off every persistent preview and close any temporary content." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deaktivieren Sie jede dauerhafte Vorschau und schließen Sie alle temporären Inhalte."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12581,12 +11344,6 @@
     },
     "Turn on Low Power Mode or it \nis recommended to charge it." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Schalten Sie den Energiesparmodus ein oder es \nEs wird empfohlen, es aufzuladen."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12639,12 +11396,6 @@
     },
     "Use default activity stroke color" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verwenden Sie die standardmäßige Aktivitätsstrichfarbe"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12697,12 +11448,6 @@
     },
     "Use the dynamic green-to-red fill for the HUD level bar instead of a plain white fill." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verwenden Sie die dynamische Grün-zu-Rot-Füllung für die HUD-Ebenenleiste anstelle einer einfachen weißen Füllung."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12755,12 +11500,6 @@
     },
     "Utilities" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dienstprogramme"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12813,12 +11552,6 @@
     },
     "Volume" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lautstärke"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12871,12 +11604,6 @@
     },
     "Volume HUD" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lautstärke-HUD"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12929,12 +11656,6 @@
     },
     "VPN" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "VPN"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12987,12 +11708,6 @@
     },
     "VPN Connected" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "VPN-verbunden"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13045,12 +11760,6 @@
     },
     "VPN temporary activity" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Temporäre VPN-Aktivität"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13103,12 +11812,6 @@
     },
     "Website" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Website"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13161,12 +11864,6 @@
     },
     "Wi-Fi" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "WLAN"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13219,12 +11916,6 @@
     },
     "Wi-Fi Connected" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wi-Fi verbunden"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13277,12 +11968,6 @@
     },
     "Wi-Fi temporary activity" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vorübergehende WLAN-Aktivität"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13335,12 +12020,6 @@
     },
     "Your Mac is fully charged." : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ihr Mac ist vollständig aufgeladen."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",

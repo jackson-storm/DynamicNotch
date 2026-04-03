@@ -11,6 +11,12 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         }
     }
 
+    @Published var isDockIconVisible: Bool {
+        didSet {
+            persist(isDockIconVisible, for: GeneralSettingsStorage.Keys.dockIcon)
+        }
+    }
+
     @Published var notchWidth: Int {
         didSet {
             guard oldValue != notchWidth else { return }
@@ -91,6 +97,7 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
 
     override init(defaults: UserDefaults) {
         self.isLaunchAtLoginEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.launchAtLogin)
+        self.isDockIconVisible = defaults.bool(forKey: GeneralSettingsStorage.Keys.dockIcon)
         self.notchWidth = defaults.integer(forKey: GeneralSettingsStorage.Keys.notchWidth)
         self.notchHeight = defaults.integer(forKey: GeneralSettingsStorage.Keys.notchHeight)
         self.isMenuBarIconVisible = defaults.bool(forKey: GeneralSettingsStorage.Keys.menuBarIcon)
@@ -116,12 +123,19 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         updateLaunchAtLogin()
     }
 
-    func reset() {
+    func resetGeneral() {
         isLaunchAtLoginEnabled = defaultBool(for: GeneralSettingsStorage.Keys.launchAtLogin)
+        isDockIconVisible = defaultBool(for: GeneralSettingsStorage.Keys.dockIcon)
         isMenuBarIconVisible = defaultBool(for: GeneralSettingsStorage.Keys.menuBarIcon)
         displayLocation = NotchDisplayLocation(
             rawValue: defaultString(for: GeneralSettingsStorage.Keys.displayLocation)
         ) ?? .main
+        appLanguage = DynamicNotchLanguage.resolved(
+            defaultString(for: GeneralSettingsStorage.Keys.appLanguage)
+        )
+    }
+
+    func resetNotch() {
         notchAnimationPreset = NotchAnimationPreset(
             rawValue: defaultString(for: GeneralSettingsStorage.Keys.notchAnimationPreset)
         ) ?? .balanced
@@ -132,6 +146,11 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         notchStrokeWidth = defaultDouble(for: GeneralSettingsStorage.Keys.notchStrokeWidth)
         notchWidth = defaultInt(for: GeneralSettingsStorage.Keys.notchWidth)
         notchHeight = defaultInt(for: GeneralSettingsStorage.Keys.notchHeight)
+    }
+
+    func reset() {
+        resetGeneral()
+        resetNotch()
     }
 
     private static func resolvedDefaultActivityStrokeEnabled(defaults: UserDefaults) -> Bool {

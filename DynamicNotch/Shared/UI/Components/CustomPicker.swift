@@ -111,7 +111,7 @@ struct CustomPicker<Option: Hashable>: View {
             .buttonStyle(.plain)
             
             Text(title(option))
-                .font(.system(size: 13))
+                .font(.system(size: 10))
                 .foregroundStyle(isSelected ? Color.accentColor : Color.secondary)
                 .lineLimit(1)
                 .truncationMode(.tail)

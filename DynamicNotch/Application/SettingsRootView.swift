@@ -9,7 +9,7 @@ struct SettingsRootView: View {
     @Environment(\.openURL) private var openURL
 
     @ObservedObject var powerService: PowerService
-    @ObservedObject var generalSettingsViewModel: GeneralSettingsViewModel
+    @ObservedObject var settingsViewModel: SettingsViewModel
     
     let notchViewModel: NotchViewModel
     let notchEventCoordinator: NotchEventCoordinator
@@ -27,7 +27,7 @@ struct SettingsRootView: View {
 
     init(
         powerService: PowerService,
-        generalSettingsViewModel: GeneralSettingsViewModel,
+        settingsViewModel: SettingsViewModel,
         notchViewModel: NotchViewModel,
         notchEventCoordinator: NotchEventCoordinator,
         bluetoothViewModel: BluetoothViewModel,
@@ -37,7 +37,7 @@ struct SettingsRootView: View {
         lockScreenManager: LockScreenManager
     ) {
         self.powerService = powerService
-        self.generalSettingsViewModel = generalSettingsViewModel
+        self.settingsViewModel = settingsViewModel
         self.notchViewModel = notchViewModel
         self.notchEventCoordinator = notchEventCoordinator
         self.bluetoothViewModel = bluetoothViewModel
@@ -46,7 +46,7 @@ struct SettingsRootView: View {
         self.nowPlayingViewModel = nowPlayingViewModel
         self.lockScreenManager = lockScreenManager
         let rootViewModel = SettingsRootViewModel(
-            settings: generalSettingsViewModel,
+            settingsViewModel: settingsViewModel,
             notchViewModel: notchViewModel,
             notchEventCoordinator: notchEventCoordinator,
             bluetoothViewModel: bluetoothViewModel,
@@ -61,7 +61,7 @@ struct SettingsRootView: View {
     }
 
     private func localized(_ key: String, fallback: String? = nil) -> String {
-        generalSettingsViewModel.application.appLanguage.locale.dn(key, fallback: fallback)
+        settingsViewModel.application.appLanguage.locale.dn(key, fallback: fallback)
     }
 
     var body: some View {
@@ -143,7 +143,7 @@ struct SettingsRootView: View {
             )
         }
         .accessibilityIdentifier("settings.root")
-        .environment(\.locale, generalSettingsViewModel.application.appLanguage.locale)
+        .environment(\.locale, settingsViewModel.application.appLanguage.locale)
     }
 
     private var filteredSections: [SettingsRootViewModel.Section] {
@@ -180,26 +180,28 @@ struct SettingsRootView: View {
         case .general:
             detailContainer(for: section) {
                 GeneralSettingsView(
-                powerService: powerService,
-                applicationSettings: generalSettingsViewModel.application
-            )
+                    applicationSettings: settingsViewModel.application
+                )
             }
 
-        case .language:
+        case .notch:
             detailContainer(for: section) {
-                LanguageSettingsView(settings: generalSettingsViewModel.application)
+                NotchSettingsView(
+                    powerService: powerService,
+                    applicationSettings: settingsViewModel.application
+                )
             }
 
         case .nowPlaying:
             detailContainer(for: section) {
-                NowPlayingSettingsView(settings: generalSettingsViewModel.mediaAndFiles)
+                NowPlayingSettingsView(settings: settingsViewModel.mediaAndFiles)
             }
 
         case .downloads:
             detailContainer(for: section) {
                 DownloadsSettingsView(
-                mediaSettings: generalSettingsViewModel.mediaAndFiles,
-                appearanceSettings: generalSettingsViewModel.application,
+                mediaSettings: settingsViewModel.mediaAndFiles,
+                appearanceSettings: settingsViewModel.application,
                 downloadViewModel: downloadViewModel
             )
             }
@@ -207,48 +209,48 @@ struct SettingsRootView: View {
         case .airDrop:
             detailContainer(for: section) {
                 AirDropSettingsView(
-                mediaSettings: generalSettingsViewModel.mediaAndFiles,
-                appearanceSettings: generalSettingsViewModel.application
+                mediaSettings: settingsViewModel.mediaAndFiles,
+                appearanceSettings: settingsViewModel.application
             )
             }
 
         case .focus:
             detailContainer(for: section) {
                 FocusSettingsView(
-                connectivitySettings: generalSettingsViewModel.connectivity,
-                appearanceSettings: generalSettingsViewModel.application
+                connectivitySettings: settingsViewModel.connectivity,
+                appearanceSettings: settingsViewModel.application
             )
             }
 
         case .bluetooth:
             detailContainer(for: section) {
-                BluetoothSettingsView(settings: generalSettingsViewModel.connectivity)
+                BluetoothSettingsView(settings: settingsViewModel.connectivity)
             }
 
         case .network:
             detailContainer(for: section) {
                 NetworkSettingsView(
-                connectivitySettings: generalSettingsViewModel.connectivity,
-                appearanceSettings: generalSettingsViewModel.application
+                connectivitySettings: settingsViewModel.connectivity,
+                appearanceSettings: settingsViewModel.application
             )
             }
 
         case .battery:
             detailContainer(for: section) {
                 BatterySettingsView(
-                batterySettings: generalSettingsViewModel.battery,
-                appearanceSettings: generalSettingsViewModel.application
+                batterySettings: settingsViewModel.battery,
+                appearanceSettings: settingsViewModel.application
             )
             }
 
         case .hud:
             detailContainer(for: section) {
-                HUDSettingsView(settings: generalSettingsViewModel.hud)
+                HUDSettingsView(settings: settingsViewModel.hud)
             }
 
         case .lockScreen:
             detailContainer(for: section) {
-                LockScreenSettingsView(settings: generalSettingsViewModel.lockScreen)
+                LockScreenSettingsView(settings: settingsViewModel.lockScreen)
             }
 
         #if DEBUG
@@ -300,7 +302,7 @@ struct SettingsRootView: View {
                 .help(
                     viewModel.resetHelpText(
                         for: section,
-                        locale: generalSettingsViewModel.application.appLanguage.locale
+                        locale: settingsViewModel.application.appLanguage.locale
                     )
                 )
                 .accessibilityIdentifier("settings.toolbar.resetCurrentTab")

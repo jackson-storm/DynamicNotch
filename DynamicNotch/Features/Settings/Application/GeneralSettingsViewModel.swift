@@ -101,6 +101,11 @@ final class GeneralSettingsViewModel: ObservableObject, NotchSettingsProviding {
         set { application.displayLocation = newValue }
     }
 
+    var appLanguage: DynamicNotchLanguage {
+        get { application.appLanguage }
+        set { application.appLanguage = newValue }
+    }
+
     var notchAnimationPreset: NotchAnimationPreset {
         get { application.notchAnimationPreset }
         set { application.notchAnimationPreset = newValue }

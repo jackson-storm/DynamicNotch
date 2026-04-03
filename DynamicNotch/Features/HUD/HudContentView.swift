@@ -4,7 +4,7 @@ struct HudContentView: View {
     @Environment(\.notchScale) var scale
     
     let image: String
-    let text: String
+    let text: LocalizedStringKey
     let level: Int
     let style: HudStyle
     let usesColoredLevelTint: Bool

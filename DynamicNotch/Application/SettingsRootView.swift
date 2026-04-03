@@ -6,6 +6,8 @@ enum SettingsWindowLayout {
 }
 
 struct SettingsRootView: View {
+    @Environment(\.openURL) private var openURL
+
     @ObservedObject var powerService: PowerService
     @ObservedObject var generalSettingsViewModel: GeneralSettingsViewModel
     
@@ -17,6 +19,7 @@ struct SettingsRootView: View {
     let nowPlayingViewModel: NowPlayingViewModel
     let lockScreenManager: LockScreenManager
 
+    private let aboutWebsiteURL = URL(string: "https://dynamicnotch.evgeniy-petrukovich.workers.dev")!
     private let viewModel: SettingsRootViewModel
     @State private var searchText = ""
     @State private var selectedSection: SettingsRootViewModel.Section
@@ -57,6 +60,10 @@ struct SettingsRootView: View {
         _selectedSection = State(initialValue: rootViewModel.initialSelection())
     }
 
+    private func localized(_ key: String, fallback: String? = nil) -> String {
+        generalSettingsViewModel.application.appLanguage.locale.dn(key, fallback: fallback)
+    }
+
     var body: some View {
         NavigationSplitView {
             List(selection: $selectedSection) {
@@ -65,20 +72,24 @@ struct SettingsRootView: View {
                         ForEach(group.sections) { section in
                             NavigationLink(value: section) {
                                 SettingsSidebarRow(
-                                    title: section.title,
+                                    title: localized(section.titleKey, fallback: section.fallbackTitle),
                                     systemImage: section.systemImage,
                                     tint: section.tint
                                 )
                             }
                         }
                     } header: {
-                        if let title = group.group.title {
-                            Text(title)
+                        if let titleKey = group.group.titleKey {
+                            Text(localized(titleKey, fallback: group.group.fallbackTitle))
                         }
                     }
                 }
             }
-            .searchable(text: $searchText, placement: .sidebar, prompt: "Search")
+            .searchable(
+                text: $searchText,
+                placement: .sidebar,
+                prompt: localized("settings.search.prompt")
+            )
             .navigationSplitViewColumnWidth(min: 170, ideal: 200, max: 200)
             
         } detail: {
@@ -91,8 +102,16 @@ struct SettingsRootView: View {
                 }
             }
         }
-        .navigationTitle(filteredSections.isEmpty ? "Search" : resolvedSelection.title)
-        .navigationSubtitle(filteredSections.isEmpty ? "" : resolvedSelection.subtitle)
+        .navigationTitle(
+            filteredSections.isEmpty
+            ? localized("settings.search.title")
+            : localized(resolvedSelection.titleKey, fallback: resolvedSelection.fallbackTitle)
+        )
+        .navigationSubtitle(
+            filteredSections.isEmpty
+            ? ""
+            : localized(resolvedSelection.subtitleKey, fallback: resolvedSelection.fallbackSubtitle)
+        )
         .onChange(of: searchText) { _, _ in
             guard !filteredSections.isEmpty else { return }
             if !filteredSections.contains(selectedSection) {
@@ -108,30 +127,23 @@ struct SettingsRootView: View {
         .onAppear {
             selectedSection = viewModel.initialSelection()
         }
-        .toolbar {
-            ToolbarItem(placement: .confirmationAction) {
-                Button {
-                    guard let toolbarSection else { return }
-                    pendingResetSection = toolbarSection
-                } label: {
-                    Text("Default settings")
-                }
-                .disabled(!(toolbarSection.map { viewModel.canReset($0) } ?? false))
-                .help(viewModel.resetHelpText(for: toolbarSection))
-                .accessibilityIdentifier("settings.toolbar.resetCurrentTab")
-            }
-        }
         .alert(item: $pendingResetSection) { section in
             Alert(
-                title: Text("Reset \(section.title) settings?"),
-                message: Text("This will restore default values only for the current tab. This action cannot be undone."),
-                primaryButton: .destructive(Text("Reset")) {
+                title: Text(
+                    String(
+                        format: localized("settings.reset.title"),
+                        localized(section.titleKey, fallback: section.fallbackTitle)
+                    )
+                ),
+                message: Text(localized("settings.reset.message")),
+                primaryButton: .destructive(Text(localized("settings.reset.action"))) {
                     viewModel.reset(section)
                 },
-                secondaryButton: .cancel()
+                secondaryButton: .cancel(Text(localized("common.cancel")))
             )
         }
         .accessibilityIdentifier("settings.root")
+        .environment(\.locale, generalSettingsViewModel.application.appLanguage.locale)
     }
 
     private var filteredSections: [SettingsRootViewModel.Section] {
@@ -141,8 +153,8 @@ struct SettingsRootView: View {
         }
 
         return viewModel.sections.filter { section in
-            section.title.localizedCaseInsensitiveContains(query) ||
-            section.subtitle.localizedCaseInsensitiveContains(query)
+            localized(section.titleKey, fallback: section.fallbackTitle).localizedCaseInsensitiveContains(query) ||
+            localized(section.subtitleKey, fallback: section.fallbackSubtitle).localizedCaseInsensitiveContains(query)
         }
     }
 
@@ -162,84 +174,137 @@ struct SettingsRootView: View {
         return filteredSections.first ?? .general
     }
 
-    private var toolbarSection: SettingsRootViewModel.Section? {
-        guard !filteredSections.isEmpty else { return nil }
-        return resolvedSelection
-    }
-
     @ViewBuilder
     private func detailView(for section: SettingsRootViewModel.Section) -> some View {
         switch section {
         case .general:
-            GeneralSettingsView(
+            detailContainer(for: section) {
+                GeneralSettingsView(
                 powerService: powerService,
                 applicationSettings: generalSettingsViewModel.application
             )
-            .accessibilityIdentifier(section.accessibilityIdentifier)
+            }
+
+        case .language:
+            detailContainer(for: section) {
+                LanguageSettingsView(settings: generalSettingsViewModel.application)
+            }
 
         case .nowPlaying:
-            NowPlayingSettingsView(settings: generalSettingsViewModel.mediaAndFiles)
-            .accessibilityIdentifier(section.accessibilityIdentifier)
+            detailContainer(for: section) {
+                NowPlayingSettingsView(settings: generalSettingsViewModel.mediaAndFiles)
+            }
 
         case .downloads:
-            DownloadsSettingsView(
+            detailContainer(for: section) {
+                DownloadsSettingsView(
                 mediaSettings: generalSettingsViewModel.mediaAndFiles,
                 appearanceSettings: generalSettingsViewModel.application,
                 downloadViewModel: downloadViewModel
             )
-            .accessibilityIdentifier(section.accessibilityIdentifier)
+            }
 
         case .airDrop:
-            AirDropSettingsView(
+            detailContainer(for: section) {
+                AirDropSettingsView(
                 mediaSettings: generalSettingsViewModel.mediaAndFiles,
                 appearanceSettings: generalSettingsViewModel.application
             )
-            .accessibilityIdentifier(section.accessibilityIdentifier)
+            }
 
         case .focus:
-            FocusSettingsView(
+            detailContainer(for: section) {
+                FocusSettingsView(
                 connectivitySettings: generalSettingsViewModel.connectivity,
                 appearanceSettings: generalSettingsViewModel.application
             )
-            .accessibilityIdentifier(section.accessibilityIdentifier)
+            }
 
         case .bluetooth:
-            BluetoothSettingsView(settings: generalSettingsViewModel.connectivity)
-            .accessibilityIdentifier(section.accessibilityIdentifier)
+            detailContainer(for: section) {
+                BluetoothSettingsView(settings: generalSettingsViewModel.connectivity)
+            }
 
         case .network:
-            NetworkSettingsView(
+            detailContainer(for: section) {
+                NetworkSettingsView(
                 connectivitySettings: generalSettingsViewModel.connectivity,
                 appearanceSettings: generalSettingsViewModel.application
             )
-            .accessibilityIdentifier(section.accessibilityIdentifier)
+            }
 
         case .battery:
-            BatterySettingsView(
+            detailContainer(for: section) {
+                BatterySettingsView(
                 batterySettings: generalSettingsViewModel.battery,
                 appearanceSettings: generalSettingsViewModel.application
             )
-            .accessibilityIdentifier(section.accessibilityIdentifier)
+            }
 
         case .hud:
-            HUDSettingsView(settings: generalSettingsViewModel.hud)
-            .accessibilityIdentifier(section.accessibilityIdentifier)
+            detailContainer(for: section) {
+                HUDSettingsView(settings: generalSettingsViewModel.hud)
+            }
 
         case .lockScreen:
-            LockScreenSettingsView(settings: generalSettingsViewModel.lockScreen)
-            .accessibilityIdentifier(section.accessibilityIdentifier)
+            detailContainer(for: section) {
+                LockScreenSettingsView(settings: generalSettingsViewModel.lockScreen)
+            }
 
         #if DEBUG
         case .debug:
-            DebugSettingsView(
+            detailContainer(for: section) {
+                DebugSettingsView(
                 viewModel: viewModel.debugViewModel
             )
-            .accessibilityIdentifier(section.accessibilityIdentifier)
+            }
         #endif
 
         case .about:
-            AboutAppSettingsView()
-                .accessibilityIdentifier(section.accessibilityIdentifier)
+            detailContainer(for: section) {
+                AboutAppSettingsView()
+            }
+        }
+    }
+
+    private func detailContainer<Content: View>(
+        for section: SettingsRootViewModel.Section,
+        @ViewBuilder content: () -> Content
+    ) -> some View {
+        content()
+            .accessibilityIdentifier(section.accessibilityIdentifier)
+            .toolbar { toolbarContent(for: section) }
+    }
+
+    @ToolbarContentBuilder
+    private func toolbarContent(for section: SettingsRootViewModel.Section) -> some ToolbarContent {
+        if section == .about {
+            ToolbarItem(placement: .primaryAction) {
+                Button {
+                    openURL(aboutWebsiteURL)
+                } label: {
+                    Label("Website", systemImage: "globe")
+                }
+                .help("Open the DynamicNotch website")
+                .accessibilityIdentifier("settings.toolbar.aboutWebsite")
+            }
+        }
+
+        if viewModel.canReset(section) {
+            ToolbarItem(placement: .confirmationAction) {
+                Button {
+                    pendingResetSection = section
+                } label: {
+                    Text("Default settings")
+                }
+                .help(
+                    viewModel.resetHelpText(
+                        for: section,
+                        locale: generalSettingsViewModel.application.appLanguage.locale
+                    )
+                )
+                .accessibilityIdentifier("settings.toolbar.resetCurrentTab")
+            }
         }
     }
 }

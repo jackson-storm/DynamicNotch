@@ -13,7 +13,22 @@ final class SettingsRootViewModel {
 
         var id: String { rawValue }
 
-        var title: String? {
+        var titleKey: String? {
+            switch self {
+            case .app:
+                return "settings.group.application"
+            case .media:
+                return "settings.group.media"
+            case .connectivity:
+                return "settings.group.connectivity"
+            case .system:
+                return "settings.group.system"
+            case .info:
+                return "settings.group.info"
+            }
+        }
+
+        var fallbackTitle: String? {
             switch self {
             case .app:
                 return "Application"
@@ -31,11 +46,12 @@ final class SettingsRootViewModel {
 
     enum Section: String, CaseIterable, Identifiable {
         case general
+        case language
         case nowPlaying
         case downloads
         case airDrop
-        case focus
         case bluetooth
+        case focus
         case network
         case battery
         case hud
@@ -49,7 +65,7 @@ final class SettingsRootViewModel {
 
         var sidebarGroup: SidebarGroup {
             switch self {
-            case .general:
+            case .general, .language:
                 return .app
             #if DEBUG
             case .debug:
@@ -57,7 +73,7 @@ final class SettingsRootViewModel {
             #endif
             case .nowPlaying, .downloads, .airDrop:
                 return .media
-            case .focus, .bluetooth, .network:
+            case .bluetooth, .focus, .network:
                 return .connectivity
             case .battery, .hud, .lockScreen:
                 return .system
@@ -66,10 +82,45 @@ final class SettingsRootViewModel {
             }
         }
 
-        var title: String {
+        var titleKey: String {
+            switch self {
+            case .general:
+                return "settings.section.general.title"
+            case .language:
+                return "settings.section.language.title"
+            case .nowPlaying:
+                return "settings.section.nowPlaying.title"
+            case .downloads:
+                return "settings.section.downloads.title"
+            case .airDrop:
+                return "settings.section.airDrop.title"
+            case .focus:
+                return "settings.section.focus.title"
+            case .bluetooth:
+                return "settings.section.bluetooth.title"
+            case .network:
+                return "settings.section.network.title"
+            case .battery:
+                return "settings.section.battery.title"
+            case .hud:
+                return "settings.section.hud.title"
+            case .lockScreen:
+                return "settings.section.lockScreen.title"
+            #if DEBUG
+            case .debug:
+                return "settings.section.debug.title"
+            #endif
+            case .about:
+                return "settings.section.about.title"
+            }
+        }
+
+        var fallbackTitle: String {
             switch self {
             case .general:
                 return "General"
+            case .language:
+                return "Language"
             case .nowPlaying:
                 return "Now Playing"
             case .downloads:
@@ -97,10 +148,45 @@ final class SettingsRootViewModel {
             }
         }
 
-        var subtitle: String {
+        var subtitleKey: String {
+            switch self {
+            case .general:
+                return "settings.section.general.subtitle"
+            case .language:
+                return "settings.section.language.subtitle"
+            case .nowPlaying:
+                return "settings.section.nowPlaying.subtitle"
+            case .downloads:
+                return "settings.section.downloads.subtitle"
+            case .airDrop:
+                return "settings.section.airDrop.subtitle"
+            case .focus:
+                return "settings.section.focus.subtitle"
+            case .bluetooth:
+                return "settings.section.bluetooth.subtitle"
+            case .network:
+                return "settings.section.network.subtitle"
+            case .battery:
+                return "settings.section.battery.subtitle"
+            case .hud:
+                return "settings.section.hud.subtitle"
+            case .lockScreen:
+                return "settings.section.lockScreen.subtitle"
+            #if DEBUG
+            case .debug:
+                return "settings.section.debug.subtitle"
+            #endif
+            case .about:
+                return "settings.section.about.subtitle"
+            }
+        }
+
+        var fallbackSubtitle: String {
             switch self {
             case .general:
                 return "Startup, placement, appearance, and notch sizing."
+            case .language:
+                return "Choose the language for the app interface and the notch."
             case .nowPlaying:
                 return "Media playback controls shown in the notch."
             case .downloads:
@@ -132,6 +218,8 @@ final class SettingsRootViewModel {
             switch self {
             case .general:
                 return "gear"
+            case .language:
+                return "globe"
             case .nowPlaying:
                 return "music.note"
             case .downloads:
@@ -163,6 +251,8 @@ final class SettingsRootViewModel {
             switch self {
             case .general:
                 return .blue
+            case .language:
+                return .brown
             case .nowPlaying:
                 return .red
             case .downloads:
@@ -172,7 +262,7 @@ final class SettingsRootViewModel {
             case .focus:
                 return .indigo
             case .bluetooth:
-                return .orange
+                return .blue
             case .network:
                 return .blue
             case .battery:
@@ -289,22 +379,35 @@ final class SettingsRootViewModel {
         settings.reset(group)
     }
 
-    func resetHelpText(for section: Section?) -> String {
+    func resetHelpText(for section: Section?, locale: Locale) -> String {
         guard let section else {
-            return "No settings tab selected"
+            return locale.dn(
+                "settings.reset.help.none",
+                fallback: "No settings tab selected"
+            )
         }
 
         guard canReset(section) else {
-            return "\(section.title) has no resettable settings"
+            return locale.dnFormat(
+                "settings.reset.help.unavailable",
+                fallback: "%@ has no resettable settings",
+                localized(section.titleKey, fallback: section.fallbackTitle)
+            )
         }
 
-        return "Reset \(section.title) settings to defaults"
+        return locale.dnFormat(
+            "settings.reset.help.available",
+            fallback: "Reset %@ settings to defaults",
+            localized(section.titleKey, fallback: section.fallbackTitle)
+        )
     }
 
     private func resetGroup(for section: Section) -> GeneralSettingsViewModel.ResetGroup? {
         switch section {
         case .general:
             return .general
+        case .language:
+            return nil
         case .nowPlaying:
             return .nowPlaying
         case .downloads:
@@ -330,5 +433,9 @@ final class SettingsRootViewModel {
         case .about:
             return nil
         }
+    }
+    
+    private func localized(_ key: String, fallback: String? = nil) -> String {
+        L10n.app(key, fallback: fallback)
     }
 }

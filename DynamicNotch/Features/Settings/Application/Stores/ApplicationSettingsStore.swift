@@ -57,6 +57,12 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         }
     }
 
+    @Published var appLanguage: DynamicNotchLanguage {
+        didSet {
+            persist(appLanguage.rawValue, for: GeneralSettingsStorage.Keys.appLanguage)
+        }
+    }
+
     @Published var notchAnimationPreset: NotchAnimationPreset {
         didSet {
             persist(notchAnimationPreset.rawValue, for: GeneralSettingsStorage.Keys.notchAnimationPreset)
@@ -94,6 +100,9 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         self.displayLocation = NotchDisplayLocation(
             rawValue: defaults.string(forKey: GeneralSettingsStorage.Keys.displayLocation) ?? NotchDisplayLocation.main.rawValue
         ) ?? .main
+        self.appLanguage = DynamicNotchLanguage.resolved(
+            defaults.string(forKey: GeneralSettingsStorage.Keys.appLanguage)
+        )
         self.notchAnimationPreset = NotchAnimationPreset(
             rawValue: defaults.string(forKey: GeneralSettingsStorage.Keys.notchAnimationPreset) ?? NotchAnimationPreset.balanced.rawValue
         ) ?? .balanced

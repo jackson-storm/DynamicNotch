@@ -8,6 +8,7 @@ enum GeneralSettingsStorage {
         static let defaultActivityStrokeEnabled = "settings.general.defaultActivityStroke"
         static let notchStrokeWidth = "notchStrokeWidth"
         static let displayLocation = "displayLocation"
+        static let appLanguage = "settings.general.language.app"
         static let notchAnimationPreset = "settings.general.notchAnimationPreset"
         static let temporaryActivityDurationScale = "settings.temporary.durationScale"
         static let brightnessHUDEnabled = "settings.hud.brightness"
@@ -46,6 +47,7 @@ enum GeneralSettingsStorage {
         Keys.defaultActivityStrokeEnabled: false,
         Keys.notchStrokeWidth: 1.5,
         Keys.displayLocation: NotchDisplayLocation.main.rawValue,
+        Keys.appLanguage: DynamicNotchLanguage.system.rawValue,
         Keys.notchAnimationPreset: NotchAnimationPreset.balanced.rawValue,
         Keys.temporaryActivityDurationScale: 1.0,
         Keys.brightnessHUDEnabled: true,

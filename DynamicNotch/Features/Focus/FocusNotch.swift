@@ -65,7 +65,7 @@ struct FocusPreviewNotchView: View {
 private struct FocusStatusNotchView: View {
     @Environment(\.notchScale) var scale
 
-    let title: String
+    let title: LocalizedStringKey
     let tint: Color
 
     var body: some View {

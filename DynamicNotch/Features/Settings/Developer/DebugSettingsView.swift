@@ -98,7 +98,7 @@ struct DebugSettingsView: View {
                     description: "Run every debug event in sequence, keep each item visible for its configured duration, wait 1 second between items, and skip onboarding, notch size, and lock screen previews.",
                     systemImage: viewModel.isPreviewSequenceRunning ? "stop.circle.fill" : "play.circle.fill",
                     color: .accentColor,
-                    buttonTitle: viewModel.isPreviewSequenceRunning ? "Stop" : "Start",
+                    buttonTitle: viewModel.isPreviewSequenceRunning ? LocalizedStringKey("Stop") : LocalizedStringKey("Start"),
                     action: viewModel.togglePreviewSequence
                 )
 
@@ -254,19 +254,19 @@ struct DebugSettingsView: View {
 }
 
 struct DebugActionRow: View {
-    let title: String
-    let description: String
+    let title: LocalizedStringKey
+    let description: LocalizedStringKey
     let systemImage: String
     let color: Color
-    let buttonTitle: String
+    let buttonTitle: LocalizedStringKey
     let action: () -> Void
 
     init(
-        title: String,
-        description: String,
+        title: LocalizedStringKey,
+        description: LocalizedStringKey,
         systemImage: String,
         color: Color,
-        buttonTitle: String = "Start",
+        buttonTitle: LocalizedStringKey = "Start",
         action: @escaping () -> Void
     ) {
         self.title = title

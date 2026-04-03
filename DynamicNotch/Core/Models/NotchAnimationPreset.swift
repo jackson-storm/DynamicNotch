@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 enum NotchAnimationPreset: String, CaseIterable {
     case snappy
@@ -7,18 +8,18 @@ enum NotchAnimationPreset: String, CaseIterable {
     case slow
     case relaxed
 
-    var title: String {
+    var title: LocalizedStringKey {
         switch self {
         case .snappy:
-            return "Faster"
+            return "settings.general.animation.faster"
         case .fast:
-            return "Fast"
+            return "settings.general.animation.fast"
         case .balanced:
-            return "Balanced"
+            return "settings.general.animation.balanced"
         case .slow:
-            return "Slow"
+            return "settings.general.animation.slow"
         case .relaxed:
-            return "Slower"
+            return "settings.general.animation.slower"
         }
     }
 

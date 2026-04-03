@@ -1,13 +1,20 @@
 import SwiftUI
 
 struct SettingsSearchEmptyState: View {
+    @Environment(\.locale) private var locale
     let query: String
     
     var body: some View {
         ContentUnavailableView(
-            "No Settings Found",
+            locale.dn("No Settings Found", fallback: "No Settings Found"),
             systemImage: "magnifyingglass",
-            description: Text("Try a different keyword for \"\(query.trimmingCharacters(in: .whitespacesAndNewlines))\".")
+            description: Text(
+                locale.dnFormat(
+                    "Try a different keyword for \"%@\".",
+                    fallback: "Try a different keyword for \"%@\".",
+                    query.trimmingCharacters(in: .whitespacesAndNewlines)
+                )
+            )
         )
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
@@ -32,14 +39,14 @@ struct SettingsPageScrollView<Content: View>: View {
 }
 
 struct SettingsCard<Content: View>: View {
-    let title: String
-    let subtitle: String?
+    let title: LocalizedStringKey
+    let subtitle: LocalizedStringKey?
     
     private let content: Content
     
     init(
-        title: String,
-        subtitle: String? = nil,
+        title: LocalizedStringKey,
+        subtitle: LocalizedStringKey? = nil,
         @ViewBuilder content: () -> Content
     ) {
         self.title = title
@@ -88,8 +95,8 @@ struct SettingsSidebarRow: View {
 }
 
 struct SettingsToggleRow: View {
-    let title: String
-    let description: String
+    let title: LocalizedStringKey
+    let description: LocalizedStringKey
     let systemImage: String
     let color: Color
     let accessibilityIdentifier: String?
@@ -97,8 +104,8 @@ struct SettingsToggleRow: View {
     @Binding var isOn: Bool
     
     init(
-        title: String,
-        description: String,
+        title: LocalizedStringKey,
+        description: LocalizedStringKey,
         systemImage: String,
         color: Color,
         isOn: Binding<Bool>,
@@ -164,8 +171,8 @@ private struct SettingsIconBadge: View {
 }
 
 struct SettingsSliderRow: View {
-    let title: String
-    let description: String?
+    let title: LocalizedStringKey
+    let description: LocalizedStringKey?
     let range: ClosedRange<Double>
     let step: Double
     let fractionLength: Int

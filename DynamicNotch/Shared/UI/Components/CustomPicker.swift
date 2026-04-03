@@ -12,13 +12,13 @@ struct CustomPicker<Option: Hashable>: View {
     
     @Binding var selection: Option
     let options: [Option]
-    let title: (Option) -> String
+    let title: (Option) -> LocalizedStringKey
     private let content: (Option, Bool) -> AnyView
     
     init(
         selection: Binding<Option>,
         options: [Option],
-        title: @escaping (Option) -> String,
+        title: @escaping (Option) -> LocalizedStringKey,
         symbolName: @escaping (Option) -> String
     ) {
         self.init(
@@ -34,7 +34,7 @@ struct CustomPicker<Option: Hashable>: View {
     
     init(
         selection: Binding<Option>,
-        title: @escaping (Option) -> String,
+        title: @escaping (Option) -> LocalizedStringKey,
         symbolName: @escaping (Option) -> String
     ) where Option: CaseIterable {
         self.init(
@@ -48,7 +48,7 @@ struct CustomPicker<Option: Hashable>: View {
     init<Content: View>(
         selection: Binding<Option>,
         options: [Option],
-        title: @escaping (Option) -> String,
+        title: @escaping (Option) -> LocalizedStringKey,
         @ViewBuilder content: @escaping (Option, Bool) -> Content
     ) {
         self._selection = selection
@@ -61,7 +61,7 @@ struct CustomPicker<Option: Hashable>: View {
 
     init<Content: View>(
         selection: Binding<Option>,
-        title: @escaping (Option) -> String,
+        title: @escaping (Option) -> LocalizedStringKey,
         @ViewBuilder content: @escaping (Option, Bool) -> Content
     ) where Option: CaseIterable {
         self.init(

@@ -1,3 +1,5 @@
+import SwiftUI
+
 enum HudPresentationKind {
     case brightness
     case keyboard
@@ -12,14 +14,14 @@ enum HudPresentationKind {
         }
     }
 
-    var title: String {
+    var title: LocalizedStringKey {
         switch self {
         case .brightness:
-            return "Brightness"
+            return "hud.brightness"
         case .keyboard:
-            return "Keyboard"
+            return "hud.keyboard"
         case .volume:
-            return "Volume"
+            return "hud.volume"
         }
     }
 

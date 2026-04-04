@@ -26,7 +26,7 @@ struct NotchSettingsView: View {
             subtitle: "Fine-tune the notch frame and stroke so it better matches your hardware."
         ) {
             VStack(alignment: .leading) {
-                NotchPreview(
+                SettingsNotchPreview(
                     width: 370,
                     height: 38,
                     topCornerRadius: 9,

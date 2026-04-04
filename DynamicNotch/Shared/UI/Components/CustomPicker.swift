@@ -28,7 +28,7 @@ struct CustomPicker<Option: Hashable>: View {
         ) { option, isSelected in
             Image(systemName: symbolName(option))
                 .font(.system(size: 18, weight: .semibold))
-                .foregroundStyle(isSelected ? Color.accentColor : Color.secondary)
+                .foregroundStyle(isSelected ? Color.accentColor : Color.primary)
         }
     }
     
@@ -99,7 +99,7 @@ struct CustomPicker<Option: Hashable>: View {
                         .fill(
                             isSelected ?
                             Color.accentColor.opacity(colorScheme == .dark ? 0.10 : 0.06) :
-                            (colorScheme == .dark ? Color.gray.opacity(0.08) : Color.gray.opacity(0.18))
+                            (colorScheme == .dark ? Color.gray.opacity(0.08) : Color.gray.opacity(0.1))
                         )
                 )
                 .overlay(

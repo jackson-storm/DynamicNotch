@@ -72,6 +72,11 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
         set { application.isDockIconVisible = newValue }
     }
 
+    var appearanceMode: SettingsAppearanceMode {
+        get { application.appearanceMode }
+        set { application.appearanceMode = newValue }
+    }
+
     var notchWidth: Int {
         get { application.notchWidth }
         set { application.notchWidth = newValue }

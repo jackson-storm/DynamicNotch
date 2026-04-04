@@ -27,6 +27,7 @@ struct NotchApp: App {
                 nowPlayingViewModel: appDelegate.nowPlayingViewModel,
                 lockScreenManager: appDelegate.lockScreenManager
             )
+            .background(.ultraThinMaterial)
             .frame(width: SettingsWindowLayout.width, height: SettingsWindowLayout.height)
         }
         .defaultSize(width: SettingsWindowLayout.width, height: SettingsWindowLayout.height)

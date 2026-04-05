@@ -19,7 +19,7 @@ struct SettingsRootView: View {
     let nowPlayingViewModel: NowPlayingViewModel
     let lockScreenManager: LockScreenManager
     
-    private let aboutWebsiteURL = URL(string: "https://dynamicnotch.evgeniy-petrukovich.workers.dev")!
+    private let aboutWebsiteURL = URL(string: "https://dynamicnotch.evgeniy-petrukovich.workers.dev/download")!
     private let viewModel: SettingsRootViewModel
     @State private var searchText = ""
     @State private var selectedSection: SettingsRootViewModel.Section
@@ -266,7 +266,7 @@ struct SettingsRootView: View {
             
         case .about:
             detailContainer(for: section) {
-                AboutAppSettingsView()
+                AboutAppSettingsView(applicationSettings: settingsViewModel.application)
             }
         }
     }
@@ -308,7 +308,7 @@ struct SettingsRootView: View {
                 Button {
                     openURL(aboutWebsiteURL)
                 } label: {
-                    Label("Website", systemImage: "globe")
+                    Text("Check update")
                 }
                 .help("Open the DynamicNotch website")
                 .accessibilityIdentifier("settings.toolbar.aboutWebsite")

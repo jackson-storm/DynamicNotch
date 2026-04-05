@@ -9,47 +9,85 @@ import SwiftUI
 
 struct SettingsNotchPreview<Overlay: View>: View {
     @Environment(\.colorScheme) private var colorScheme
-
+    
     let width: CGFloat
     let height: CGFloat
+    let previewWidth: CGFloat
     let previewHeight: CGFloat
     let topCornerRadius: CGFloat
     let bottomCornerRadius: CGFloat
     let showsStroke: Bool
     let strokeColor: Color
     let strokeWidth: CGFloat
-
+    let lightBackgroundImage: Image?
+    let darkBackgroundImage: Image?
+    let backgroundImageContentMode: ContentMode
+    let backgroundImageOpacity: Double
+    
     private let overlay: Overlay
-
+    
     init(
         width: CGFloat = 370,
         height: CGFloat = 38,
+        previewWidth: CGFloat = .infinity,
         previewHeight: CGFloat = 138,
         topCornerRadius: CGFloat = 9,
         bottomCornerRadius: CGFloat = 13,
         showsStroke: Bool = true,
         strokeColor: Color = .green.opacity(0.3),
         strokeWidth: CGFloat = 1.5,
+        lightBackgroundImage: Image? = nil,
+        darkBackgroundImage: Image? = nil,
+        backgroundImageContentMode: ContentMode = .fill,
+        backgroundImageOpacity: Double = 1,
         @ViewBuilder overlay: () -> Overlay
     ) {
         self.width = width
         self.height = height
+        self.previewWidth = previewWidth
         self.previewHeight = previewHeight
         self.topCornerRadius = topCornerRadius
         self.bottomCornerRadius = bottomCornerRadius
         self.showsStroke = showsStroke
         self.strokeColor = strokeColor
         self.strokeWidth = strokeWidth
+        self.lightBackgroundImage = lightBackgroundImage
+        self.darkBackgroundImage = darkBackgroundImage
+        self.backgroundImageContentMode = backgroundImageContentMode
+        self.backgroundImageOpacity = backgroundImageOpacity
         self.overlay = overlay()
     }
-
+    
     var body: some View {
         ZStack(alignment: .top) {
-            RoundedRectangle(cornerRadius: 10)
-                .fill(colorScheme == .dark ? Color.gray.opacity(0.08) : Color.gray.opacity(0.18))
-                .stroke(Color.gray.opacity(0.1), lineWidth: 1)
-                .frame(height: previewHeight)
-
+            ZStack {
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(colorScheme == .dark ? Color.gray.opacity(0.08) : Color.gray.opacity(0.18))
+                
+                if colorScheme == .light {
+                    if let lightBackgroundImage {
+                        lightBackgroundImage
+                            .resizable()
+                            .aspectRatio(contentMode: backgroundImageContentMode)
+                            .opacity(backgroundImageOpacity)
+                        
+                    }
+                } else if colorScheme == .dark {
+                    if let darkBackgroundImage {
+                        darkBackgroundImage
+                            .resizable()
+                            .aspectRatio(contentMode: backgroundImageContentMode)
+                            .opacity(backgroundImageOpacity)
+                    }
+                }
+            }
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .overlay {
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(Color.gray.opacity(0.1), lineWidth: 1)
+            }
+            .frame(maxWidth: previewWidth, minHeight: previewHeight)
+            
             NotchShape(
                 topCornerRadius: topCornerRadius,
                 bottomCornerRadius: bottomCornerRadius

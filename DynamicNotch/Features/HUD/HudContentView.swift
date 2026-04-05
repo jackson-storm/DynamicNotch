@@ -73,9 +73,7 @@ struct HudContentView: View {
                 }
                 
             case .compact:
-                Text(verbatim: text)
-                    .font(.system(size: 14))
-                    .foregroundColor(.white.opacity(0.8))
+                icon
                 Spacer()
                 indicator
                 

@@ -1148,6 +1148,9 @@
         }
       }
     },
+    "Check update" : {
+
+    },
     "Choose how hardware HUD feedback is laid out inside the notch." : {
       "localizations" : {
         "en" : {
@@ -4800,7 +4803,6 @@
       }
     },
     "On" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12344,6 +12346,7 @@
       }
     },
     "Website" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

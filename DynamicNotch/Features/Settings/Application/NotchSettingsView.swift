@@ -29,11 +29,14 @@ struct NotchSettingsView: View {
                 SettingsNotchPreview(
                     width: 370,
                     height: 38,
+                    previewHeight: 80,
                     topCornerRadius: 9,
                     bottomCornerRadius: 13,
                     showsStroke: applicationSettings.isShowNotchStrokeEnabled,
                     strokeColor: applicationSettings.isDefaultActivityStrokeEnabled ? .white.opacity(0.2) : .green.opacity(0.3),
-                    strokeWidth: CGFloat(applicationSettings.notchStrokeWidth)
+                    strokeWidth: CGFloat(applicationSettings.notchStrokeWidth),
+                    lightBackgroundImage: Image("backgroundLight"),
+                    darkBackgroundImage: Image("backgroundDark")
                 ) {
                     ChargerNotchView(powerService: powerService)
                 }

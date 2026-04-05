@@ -136,9 +136,8 @@ struct HUDSettingsView: View {
                     .frame(height: 30)
                 
                 HStack(spacing: 8) {
-                    Text("Volume")
-                        .font(.system(size: 10))
-                        .lineLimit(1)
+                    Image(systemName: "speaker.wave.2.fill")
+                        .font(.system(size: 12, weight: .semibold))
                     
                     Spacer()
                     

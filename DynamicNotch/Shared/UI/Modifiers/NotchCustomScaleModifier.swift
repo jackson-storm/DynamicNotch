@@ -14,6 +14,7 @@ struct NotchCustomScaleModifier: ViewModifier {
     
     private let scaleFactor: CGFloat = 1.04
     private let tapTriggerDelay: TimeInterval = 0.12
+    private let tapMovementTolerance: CGFloat = 6
     
     func body(content: Content) -> some View {
         let hitBounds = CGRect(origin: .zero, size: baseSize)
@@ -28,32 +29,20 @@ struct NotchCustomScaleModifier: ViewModifier {
             .gesture(
                 DragGesture(minimumDistance: 0)
                     .onChanged { value in
-                        let shouldAnimatePress = !notchViewModel.canExpandActiveLiveActivity
-                        if !shouldAnimatePress {
-                            if isPressed {
-                                isPressed = false
-                            }
-                            return
-                        }
-
                         let shouldBePressed = hitBounds.contains(value.location)
                         guard isPressed != shouldBePressed else { return }
                         isPressed = shouldBePressed
                     }
                     .onEnded { value in
-                        let shouldAnimatePress = !notchViewModel.canExpandActiveLiveActivity
-                        let shouldTriggerTap = hitBounds.contains(value.location)
+                        let shouldTriggerTap = hitBounds.contains(value.location) && isTapLike(value.translation)
 
-                        if shouldAnimatePress {
-                            guard isPressed || shouldTriggerTap else { return }
-                            isPressed = false
-                        } else if isPressed {
+                        if isPressed {
                             isPressed = false
                         }
 
                         guard shouldTriggerTap else { return }
 
-                        if !shouldAnimatePress {
+                        if notchViewModel.canExpandActiveLiveActivity {
                             notchViewModel.handleActiveContentTap()
                             return
                         }
@@ -63,5 +52,12 @@ struct NotchCustomScaleModifier: ViewModifier {
                         }
                     }
             , including: .gesture)
+    }
+}
+
+private extension NotchCustomScaleModifier {
+    private func isTapLike(_ translation: CGSize) -> Bool {
+        abs(translation.width) <= tapMovementTolerance &&
+        abs(translation.height) <= tapMovementTolerance
     }
 }

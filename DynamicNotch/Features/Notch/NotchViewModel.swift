@@ -9,7 +9,7 @@ final class NotchViewModel: ObservableObject {
     @Published private(set) var notchModel = NotchModel()
     @Published var showNotch = false
     @Published var isPressed = false
-    @Published private(set) var downwardSwipeStretchProgress: CGFloat = 0
+    @Published private(set) var swipeStretchProgress: CGFloat = 0
     @Published var cachedStrokeColor: Color = .clear
 
     private let settings: NotchSettingsProviding
@@ -31,7 +31,7 @@ final class NotchViewModel: ObservableObject {
 
     var interactiveNotchSize: CGSize {
         let baseSize = notchModel.size
-        let progress = easedDownwardSwipeStretchProgress
+        let progress = easedSwipeStretchProgress
 
         return CGSize(
             width: baseSize.width,
@@ -41,7 +41,7 @@ final class NotchViewModel: ObservableObject {
 
     var interactiveCornerRadius: (top: CGFloat, bottom: CGFloat) {
         let baseCornerRadius = notchModel.cornerRadius
-        let progress = easedDownwardSwipeStretchProgress
+        let progress = easedSwipeStretchProgress
 
         return (
             top: baseCornerRadius.top,
@@ -117,15 +117,15 @@ final class NotchViewModel: ObservableObject {
         engine.restoreDismissedContent()
     }
 
-    func updateDownwardSwipeStretch(progress: CGFloat) {
-        downwardSwipeStretchProgress = min(max(progress, 0), 1)
+    func updateSwipeStretch(progress: CGFloat) {
+        swipeStretchProgress = min(max(progress, 0), 1)
     }
 
-    func resetDownwardSwipeStretch() {
-        guard downwardSwipeStretchProgress > 0 else { return }
+    func resetSwipeStretch() {
+        guard swipeStretchProgress > 0 else { return }
 
         withAnimation(animations.stretchReset) {
-            downwardSwipeStretchProgress = 0
+            swipeStretchProgress = 0
         }
     }
 
@@ -141,8 +141,8 @@ final class NotchViewModel: ObservableObject {
         engine.handleStrokeVisibility()
     }
 
-    private var easedDownwardSwipeStretchProgress: CGFloat {
-        1 - pow(1 - downwardSwipeStretchProgress, 2)
+    private var easedSwipeStretchProgress: CGFloat {
+        1 - pow(1 - swipeStretchProgress, 2)
     }
 
     func contentTransition(offsetX: CGFloat, offsetY: CGFloat) -> AnyTransition {

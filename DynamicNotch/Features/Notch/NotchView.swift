@@ -106,6 +106,9 @@ private extension NotchView {
             isPressed: $notchViewModel.isPressed,
             baseSize: notchViewModel.interactiveNotchSize
         )
+        .customNotchMouseSwipeable(
+            notchViewModel: notchViewModel
+        )
         .customNotchSwipeDismissable(
             notchViewModel: notchViewModel
         )

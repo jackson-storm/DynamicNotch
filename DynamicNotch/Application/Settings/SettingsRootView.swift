@@ -255,14 +255,14 @@ struct SettingsRootView: View {
                 LockScreenSettingsView(settings: settingsViewModel.lockScreen)
             }
             
-#if DEBUG
+        #if DEBUG
         case .debug:
             detailContainer(for: section) {
                 DebugSettingsView(
                     viewModel: viewModel.debugViewModel
                 )
             }
-#endif
+        #endif
             
         case .about:
             detailContainer(for: section) {

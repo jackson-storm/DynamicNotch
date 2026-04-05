@@ -41,7 +41,7 @@ private struct MenuBarMenu: View {
     var body: some View {
         Group {
             Button {
-                openWindow(id: SettingsScene.id)
+                openWindow(id: "settings")
             } label: {
                 Image(systemName: "gearshape")
                 Text(verbatim: "Settings")

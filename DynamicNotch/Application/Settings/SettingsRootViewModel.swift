@@ -45,6 +45,11 @@ final class SettingsRootViewModel {
     }
 
     enum Section: String, CaseIterable, Identifiable {
+        enum PermissionRequirement {
+            case accessibility
+            case postEventAccess
+        }
+
         case general
         case notch
         case nowPlaying
@@ -62,6 +67,17 @@ final class SettingsRootViewModel {
         case about
 
         var id: String { rawValue }
+
+        var permissionRequirement: PermissionRequirement? {
+            switch self {
+            case .hud:
+                return .accessibility
+            case .nowPlaying:
+                return .postEventAccess
+            default:
+                return nil
+            }
+        }
 
         var sidebarGroup: SidebarGroup {
             switch self {
@@ -250,7 +266,7 @@ final class SettingsRootViewModel {
             case .general:
                 return .blue
             case .notch:
-                return .purple
+                return .black
             case .nowPlaying:
                 return .red
             case .downloads:
@@ -271,7 +287,7 @@ final class SettingsRootViewModel {
                 return .black
             #if DEBUG
             case .debug:
-                return .green
+                return .red
             #endif
             case .about:
                 return .secondary

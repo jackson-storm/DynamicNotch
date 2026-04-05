@@ -14,7 +14,7 @@ struct NotchApp: App {
         MenuBarExtra("Dynamic Notch", systemImage: "rectangle.topthird.inset.filled", isInserted: $isMenuBarIconVisible) {
             MenuBarMenu()
         }
-
+        
         WindowGroup(id: SettingsScene.id) {
             SettingsRootView(
                 powerService: appDelegate.powerService,
@@ -37,7 +37,7 @@ struct NotchApp: App {
 
 private struct MenuBarMenu: View {
     @Environment(\.openWindow) private var openWindow
-
+    
     var body: some View {
         Group {
             Button {
@@ -49,7 +49,13 @@ private struct MenuBarMenu: View {
             
             Divider()
             
+            Button(action: { AppRelauncher.restartApp() }) {
+                Image(systemName: "arrow.trianglehead.2.counterclockwise.rotate.90")
+                Text(verbatim: "Restart")
+            }
+            
             Button(action: { NSApplication.shared.terminate(nil) }) {
+                Image(systemName: "rectangle.portrait.and.arrow.right")
                 Text(verbatim: "Quit")
             }
         }

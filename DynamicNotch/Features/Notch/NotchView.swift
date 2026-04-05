@@ -48,7 +48,6 @@ struct NotchView: View {
             
             NotchShape(topCornerRadius: 9, bottomCornerRadius: 13)
                 .fill(Color.black)
-                .blur(radius: 3)
                 .frame(
                     width: notchViewModel.notchModel.baseWidth - 10,
                     height: notchViewModel.notchModel.baseHeight - 5
@@ -157,6 +156,12 @@ private extension NotchView {
         }
         
         Divider()
+        
+        Button(action: { AppRelauncher.restartApp() }) {
+            Image(systemName: "arrow.trianglehead.2.counterclockwise.rotate.90")
+            Text(verbatim: "Restart")
+        }
+        
         Button(action: { NSApp.terminate(nil) }) {
             Image(systemName: "rectangle.portrait.and.arrow.right")
             Text(verbatim: "Quit")

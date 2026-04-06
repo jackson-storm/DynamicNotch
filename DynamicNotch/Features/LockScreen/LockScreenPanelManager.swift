@@ -187,6 +187,7 @@ final class LockScreenPanelManager {
         let rootView = LockScreenNowPlayingPanelView(
             snapshot: snapshot,
             artworkImage: artworkImage,
+            settingsViewModel: settingsViewModel,
             nowPlayingViewModel: nowPlayingViewModel,
             lockScreenManager: lockScreenManager,
             animator: animator
@@ -305,6 +306,7 @@ final class LockScreenPanelManager {
             hostingView.rootView = LockScreenNowPlayingPanelView(
                 snapshot: resolvedSnapshot,
                 artworkImage: resolvedArtworkImage,
+                settingsViewModel: settingsViewModel,
                 nowPlayingViewModel: nowPlayingViewModel,
                 lockScreenManager: lockScreenManager,
                 animator: animator

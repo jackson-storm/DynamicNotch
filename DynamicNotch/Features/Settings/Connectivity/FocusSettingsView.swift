@@ -25,7 +25,7 @@ struct FocusSettingsView: View {
                     accessibilityIdentifier: "settings.activities.live.focus"
                 )
                 
-                Divider()
+                Divider().opacity(0.6)
                 
                 SettingsToggleRow(
                     title: "Focus off activity",

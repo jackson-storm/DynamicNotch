@@ -77,7 +77,7 @@ private struct VpnConnectedNotchView: View {
                         .foregroundStyle(.white)
                         .contentTransition(.symbolEffect(.replace))
                 }
-                Text("VPN")
+                Text(verbatim: "VPN")
                     .foregroundStyle(.white.opacity(0.8))
                     .lineLimit(1)
             }
@@ -103,7 +103,7 @@ private struct VpnConnectedNotchView: View {
     @ViewBuilder
     private var rightContent: some View {
         if !networkViewModel.isShowingVPNDetail {
-            Text("Connected")
+            Text(verbatim: "Connected")
                 .transition(.blurAndFade.animation(.spring(duration: 0.4)))
                 .foregroundStyle(.white.opacity(0.8))
                 .lineLimit(1)

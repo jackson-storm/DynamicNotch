@@ -65,7 +65,7 @@ struct FocusPreviewNotchView: View {
 private struct FocusStatusNotchView: View {
     @Environment(\.notchScale) var scale
 
-    let title: LocalizedStringKey
+    let title: String
     let tint: Color
 
     var body: some View {
@@ -75,7 +75,7 @@ private struct FocusStatusNotchView: View {
             
             Spacer()
             
-            Text(title)
+            Text(verbatim: title)
         }
         .foregroundStyle(tint)
         .padding(.horizontal, 14.scaled(by: scale))

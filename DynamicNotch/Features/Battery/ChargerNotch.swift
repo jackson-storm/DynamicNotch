@@ -38,7 +38,7 @@ struct ChargerNotchView: View {
     
     var body: some View {
         HStack {
-            Text("Charging")
+            Text(verbatim: "Charging")
                 .font(.system(size: 14))
                 .foregroundColor(.white.opacity(0.8))
             

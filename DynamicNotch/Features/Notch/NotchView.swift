@@ -36,6 +36,18 @@ struct NotchView: View {
                         lockScreenManager: lockScreenManager
                     )
                 )
+                .overlay {
+                    AirDropDestinationView(
+                        isTargeted: $airDropController.isTargeted,
+                        isDropZoneTargeted: Binding(
+                            get: { airDropViewModel.isDropZoneTargeted },
+                            set: { airDropViewModel.setDropZoneTargeted($0) }
+                        ),
+                        onDropPasteboard: { pasteboard in
+                            airDropController.handlePasteboardDrop(pasteboard)
+                        }
+                    )
+                }
                 .onChange(of: notchViewModel.notchModel.content?.id) {
                     notchViewModel.handleStrokeVisibility()
                 }
@@ -45,82 +57,77 @@ struct NotchView: View {
                 .onChange(of: settingsViewModel.notchHeight) {
                     notchViewModel.updateDimensions()
                 }
-            
-            NotchShape(topCornerRadius: 9, bottomCornerRadius: 13)
-                .fill(Color.black)
-                .blur(radius: 3)
-                .frame(
-                    width: notchViewModel.notchModel.baseWidth - 10,
-                    height: notchViewModel.notchModel.baseHeight - 5
-                )
-                .offset(y: 1)
-                .customNotchPressable(
-                    notchViewModel: notchViewModel,
-                    isPressed: $notchViewModel.isPressed,
-                    baseSize: notchViewModel.interactiveNotchSize
-                )
-                .contextMenu {
-                    if !settingsViewModel.isMenuBarIconVisible {
-                        contextMenuItem
-                    }
-                }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .tint(settingsViewModel.application.appTint.color)
+        .accentColor(settingsViewModel.application.appTint.color)
     }
 }
 
 private extension NotchView {
     @ViewBuilder
     var notchBody: some View {
-        NotchShape(
-            topCornerRadius: notchViewModel.interactiveCornerRadius.top,
-            bottomCornerRadius: notchViewModel.interactiveCornerRadius.bottom
-        )
-        .fill(.black)
-        .stroke(
-            settingsViewModel.isShowNotchStrokeEnabled ?
-            visibleStrokeColor : Color.clear,
-            lineWidth: settingsViewModel.notchStrokeWidth
-        )
-        .overlay {
-            contentOverlay
-        }
-        .overlay {
-            AirDropDestinationView(
-                isTargeted: $airDropController.isTargeted,
-                isDropZoneTargeted: Binding(
-                    get: { airDropViewModel.isDropZoneTargeted },
-                    set: { airDropViewModel.setDropZoneTargeted($0) }
-                ),
-                onDropPasteboard: { pasteboard in
-                    airDropController.handlePasteboardDrop(pasteboard)
-                }
-            )
-        }
-        .frame(
-            width: notchViewModel.interactiveNotchSize.width,
-            height: notchViewModel.interactiveNotchSize.height
-        )
-        .offset(y: 1)
-        .customNotchPressable(
-            notchViewModel: notchViewModel,
-            isPressed: $notchViewModel.isPressed,
-            baseSize: notchViewModel.interactiveNotchSize
-        )
-        .customNotchSwipeDismissable(
-            notchViewModel: notchViewModel
-        )
-        .contextMenu {
-            if !settingsViewModel.isMenuBarIconVisible {
-                contextMenuItem
+        notchSurface
+            .overlay {
+                contentOverlay
             }
-        }
-        .animation(notchViewModel.animations.strokeVisibility, value: settingsViewModel.isShowNotchStrokeEnabled)
-        .animation(notchViewModel.animations.notchVisibility, value: notchViewModel.showNotch)
+            .frame(
+                width: notchViewModel.interactiveNotchSize.width,
+                height: notchViewModel.interactiveNotchSize.height
+            )
+            .offset(y: 1)
+            .customNotchPressable(
+                notchViewModel: notchViewModel,
+                isPressed: $notchViewModel.isPressed,
+                baseSize: notchViewModel.interactiveNotchSize
+            )
+            .customNotchMouseSwipeable(
+                notchViewModel: notchViewModel
+            )
+            .customNotchSwipeDismissable(
+                notchViewModel: notchViewModel
+            )
+            .contextMenu {
+                if !settingsViewModel.isMenuBarIconVisible {
+                    contextMenuItem
+                }
+            }
+            .environment(\.colorScheme, .dark)
+            .animation(notchViewModel.animations.strokeVisibility, value: settingsViewModel.isShowNotchStrokeEnabled)
+            .animation(notchViewModel.animations.notchVisibility, value: notchViewModel.showNotch)
     }
     
     var visibleStrokeColor: Color {
         notchViewModel.notchModel.content?.strokeColor ?? notchViewModel.cachedStrokeColor
+    }
+    
+    @ViewBuilder
+    var notchSurface: some View {
+        switch settingsViewModel.application.notchBackgroundStyle {
+        case .black:
+            NotchShape(
+                topCornerRadius: notchViewModel.interactiveCornerRadius.top,
+                bottomCornerRadius: notchViewModel.interactiveCornerRadius.bottom
+            )
+            .fill(.black)
+            .stroke(
+                settingsViewModel.isShowNotchStrokeEnabled ?
+                visibleStrokeColor : Color.clear,
+                lineWidth: settingsViewModel.notchStrokeWidth
+            )
+            
+        case .ultraThickMaterial:
+            NotchShape(
+                topCornerRadius: notchViewModel.interactiveCornerRadius.top,
+                bottomCornerRadius: notchViewModel.interactiveCornerRadius.bottom
+            )
+            .fill(.ultraThinMaterial)
+            .stroke(
+                settingsViewModel.isShowNotchStrokeEnabled ?
+                visibleStrokeColor : Color.clear,
+                lineWidth: settingsViewModel.notchStrokeWidth
+            )
+        }
     }
     
     @ViewBuilder
@@ -153,13 +160,19 @@ private extension NotchView {
             openWindow(id: SettingsScene.id)
         } label: {
             Image(systemName: "gearshape")
-            Text("Settings")
+            Text(verbatim: "Settings")
         }
         
         Divider()
+        
+        Button(action: { AppRelauncher.restartApp() }) {
+            Image(systemName: "arrow.trianglehead.2.counterclockwise.rotate.90")
+            Text(verbatim: "Restart")
+        }
+        
         Button(action: { NSApp.terminate(nil) }) {
             Image(systemName: "rectangle.portrait.and.arrow.right")
-            Text("Quit")
+            Text(verbatim: "Quit")
         }
     }
 }

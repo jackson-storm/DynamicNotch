@@ -15,11 +15,11 @@ struct NotchSwipeDismissModifier: ViewModifier {
                 onSwipeDown: {
                     notchViewModel.restoreDismissedContent()
                 },
-                onSwipeDownProgressChanged: { progress in
+                onSwipeStretchProgressChanged: { progress in
                     if progress > 0 {
-                        notchViewModel.updateDownwardSwipeStretch(progress: progress)
+                        notchViewModel.updateSwipeStretch(progress: progress)
                     } else {
-                        notchViewModel.resetDownwardSwipeStretch()
+                        notchViewModel.resetSwipeStretch()
                     }
                 }
             )
@@ -32,7 +32,7 @@ private struct NotchSwipeDismissMonitorRepresentable: NSViewRepresentable {
     let canSwipeDown: Bool
     let onSwipeUp: () -> Void
     let onSwipeDown: () -> Void
-    let onSwipeDownProgressChanged: (CGFloat) -> Void
+    let onSwipeStretchProgressChanged: (CGFloat) -> Void
 
     func makeNSView(context: Context) -> NotchSwipeDismissMonitorView {
         let view = NotchSwipeDismissMonitorView()
@@ -41,7 +41,7 @@ private struct NotchSwipeDismissMonitorRepresentable: NSViewRepresentable {
             canSwipeDown: canSwipeDown,
             onSwipeUp: onSwipeUp,
             onSwipeDown: onSwipeDown,
-            onSwipeDownProgressChanged: onSwipeDownProgressChanged
+            onSwipeStretchProgressChanged: onSwipeStretchProgressChanged
         )
         return view
     }
@@ -52,7 +52,7 @@ private struct NotchSwipeDismissMonitorRepresentable: NSViewRepresentable {
             canSwipeDown: canSwipeDown,
             onSwipeUp: onSwipeUp,
             onSwipeDown: onSwipeDown,
-            onSwipeDownProgressChanged: onSwipeDownProgressChanged
+            onSwipeStretchProgressChanged: onSwipeStretchProgressChanged
         )
     }
 
@@ -74,7 +74,7 @@ private final class NotchSwipeDismissMonitorView: NSView {
     private var canSwipeDown = false
     private var onSwipeUp: (() -> Void)?
     private var onSwipeDown: (() -> Void)?
-    private var onSwipeDownProgressChanged: ((CGFloat) -> Void)?
+    private var onSwipeStretchProgressChanged: ((CGFloat) -> Void)?
 
     private var isTrackingSwipe = false
     private var isGestureActionLocked = false
@@ -106,13 +106,13 @@ private final class NotchSwipeDismissMonitorView: NSView {
         canSwipeDown: Bool,
         onSwipeUp: @escaping () -> Void,
         onSwipeDown: @escaping () -> Void,
-        onSwipeDownProgressChanged: @escaping (CGFloat) -> Void
+        onSwipeStretchProgressChanged: @escaping (CGFloat) -> Void
     ) {
         self.canSwipeUp = canSwipeUp
         self.canSwipeDown = canSwipeDown
         self.onSwipeUp = onSwipeUp
         self.onSwipeDown = onSwipeDown
-        self.onSwipeDownProgressChanged = onSwipeDownProgressChanged
+        self.onSwipeStretchProgressChanged = onSwipeStretchProgressChanged
 
         if !canSwipeUp && !canSwipeDown {
             resetSwipeTracking()
@@ -209,10 +209,20 @@ private extension NotchSwipeDismissMonitorView {
         let dominanceThreshold =
             accumulatedHorizontalSwipe * SwipeMetrics.directionDominanceMultiplier
 
+        let upwardProgress = canSwipeUp
+            ? min(accumulatedUpwardSwipe / SwipeMetrics.verticalThreshold, 1)
+            : 0
         let downwardProgress = canSwipeDown
             ? min(accumulatedDownwardSwipe / SwipeMetrics.verticalThreshold, 1)
             : 0
-        onSwipeDownProgressChanged?(downwardProgress)
+
+        let stretchProgress: CGFloat
+        if upwardProgress > downwardProgress {
+            stretchProgress = upwardProgress
+        } else {
+            stretchProgress = downwardProgress
+        }
+        onSwipeStretchProgressChanged?(stretchProgress)
 
         if !didTriggerSwipe {
             if canSwipeUp,
@@ -273,6 +283,6 @@ private extension NotchSwipeDismissMonitorView {
         accumulatedDownwardSwipe = 0
         accumulatedHorizontalSwipe = 0
         didTriggerSwipe = false
-        onSwipeDownProgressChanged?(0)
+        onSwipeStretchProgressChanged?(0)
     }
 }

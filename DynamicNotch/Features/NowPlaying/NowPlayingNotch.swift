@@ -541,7 +541,7 @@ struct AudioOutputRoutePickerButton: View {
     var body: some View {
         Menu {
             if nowPlayingViewModel.audioOutputRoutes.isEmpty {
-                Text("No audio outputs available")
+                Text(verbatim: "No audio outputs available")
             } else {
                 ForEach(nowPlayingViewModel.audioOutputRoutes) { route in
                     Button {

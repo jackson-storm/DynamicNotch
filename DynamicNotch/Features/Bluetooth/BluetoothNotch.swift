@@ -64,7 +64,7 @@ private struct BluetoothConnectedNotchView: View {
                         .foregroundStyle(.white)
                         .contentTransition(.symbolEffect(.replace))
                 }
-                Text("Bluetooth")
+                Text(verbatim: "Bluetooth")
                     .foregroundStyle(.white.opacity(0.8))
                     .lineLimit(1)
             }
@@ -90,7 +90,7 @@ private struct BluetoothConnectedNotchView: View {
     @ViewBuilder
     private var rightContent: some View {
         if !bluetoothViewModel.isShowingBluetoothDetail {
-            Text("Connected")
+            Text(verbatim: "Connected")
                 .transition(.blurAndFade.animation(.spring(duration: 0.4)))
                 .foregroundStyle(.white.opacity(0.8))
                 .lineLimit(1)

@@ -9,6 +9,9 @@ import SwiftUI
 
 struct AboutAppSettingsView: View {
     @Environment(\.openURL) private var openURL
+    @ObservedObject var applicationSettings: ApplicationSettingsStore
+
+    private let heroCardHeight: CGFloat = 300
     
     private var appVersionText: String {
         let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
@@ -24,7 +27,8 @@ struct AboutAppSettingsView: View {
     var body: some View {
         VStack(spacing: 0) {
             heroCard
-            Divider()
+            Divider().opacity(0.6)
+            
             ScrollView(showsIndicators: false) {
                 highlightsCard
                 Spacer(minLength: 0)
@@ -36,9 +40,8 @@ struct AboutAppSettingsView: View {
     
     private var heroCard: some View {
         ZStack {
-            Rectangle()
-                .fill(Gradient(colors: [Color.black.opacity(0.08), Color.accentColor.opacity(0.18), Color.black.opacity(0.08)]))
-                .frame(height: 300)
+            AboutHeroBackground()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             
             VStack(spacing: 15) {
                 Image("logo")
@@ -109,25 +112,49 @@ struct AboutAppSettingsView: View {
             }
             .padding(.top, 50)
         }
+        .frame(maxWidth: .infinity)
+        .frame(height: heroCardHeight, alignment: .top)
+        .clipped()
     }
     
     private var highlightsCard: some View {
-        VStack(spacing: 28) {
+        VStack(spacing: 18) {
             AboutFeatureRow(
-                image: "nowPlaying",
                 title: "Live Activity",
-                description: "Persistent notch content stays visible for as long as the source event is active, then fades away when it ends."
-            )
+                description: "Persistent notch content stays visible for as long as the source event is active, then fades away when it ends.",
+                notchWidth: 166,
+                notchHeight: 26,
+                topCornerRadius: 5,
+                bottomCornerRadius: 9,
+                strokeColor: .indigo.opacity(0.3),
+                applicationSettings: applicationSettings
+            ) {
+                AboutLiveActivityPreviewNotchView()
+            }
             AboutFeatureRow(
-                image: "fullPowerMode",
                 title: "Temporary Activity",
-                description: "Short-lived overlays appear above live activities so quick system events still feel prominent."
-            )
+                description: "Short-lived overlays appear above live activities so quick system events still feel prominent.",
+                notchWidth: 166,
+                notchHeight: 26,
+                topCornerRadius: 5,
+                bottomCornerRadius: 9,
+                strokeColor: .white.opacity(0.2),
+                applicationSettings: applicationSettings
+            ) {
+                AboutTemporaryActivityPreviewNotchView()
+            }
             AboutFeatureRow(
-                image: "lockScreen",
                 title: "Lock Screen",
-                description: "Carry notch context and media playback into the lock screen transition for a more cohesive experience."
-            )
+                description: "Carry notch context and media playback into the lock screen transition for a more cohesive experience.",
+                notchWidth: 166,
+                notchHeight: 26,
+                topCornerRadius: 5,
+                bottomCornerRadius: 9,
+                strokeColor: .white.opacity(0.2),
+                applicationSettings: applicationSettings
+            ) {
+                AboutLockScreenPreviewNotchView()
+            }
         }
         .padding(.vertical, 20)
         .frame(maxWidth: .infinity, alignment: .top)
@@ -139,19 +166,99 @@ struct AboutAppSettingsView: View {
     }
 }
 
+private struct AboutHeroBackground: View {
+    @Environment(\.colorScheme) private var colorScheme
+
+    private var baseGradient: LinearGradient {
+        LinearGradient(
+            colors: colorScheme == .dark
+            ? [
+                Color(red: 0.03, green: 0.05, blue: 0.11),
+                Color(red: 0.06, green: 0.16, blue: 0.21),
+                Color(red: 0.03, green: 0.05, blue: 0.11)
+            ]
+            : [
+                Color(red: 0.93, green: 0.97, blue: 1.00),
+                Color(red: 0.86, green: 0.96, blue: 0.93),
+                Color(red: 0.93, green: 0.97, blue: 1.00)
+            ],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+    }
+
+    var body: some View {
+        GeometryReader { proxy in
+            ZStack {
+                Rectangle()
+                    .fill(baseGradient)
+
+                LinearGradient(
+                    colors: [
+                        Color.black.opacity(colorScheme == .dark ? 0.16 : 0.03),
+                        .clear,
+                        Color.black.opacity(colorScheme == .dark ? 0.28 : 0.08)
+                    ],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+            }
+            .clipShape(Rectangle())
+        }
+    }
+}
+
 private struct AboutFeatureRow: View {
-    let image: String
     let title: LocalizedStringKey
     let description: LocalizedStringKey
+    let notchWidth: CGFloat
+    let notchHeight: CGFloat
+    let topCornerRadius: CGFloat
+    let bottomCornerRadius: CGFloat
+    let strokeColor: Color
+    let content: () -> AnyView
+    
+    @ObservedObject var applicationSettings: ApplicationSettingsStore
+    
+    init(
+        title: LocalizedStringKey,
+        description: LocalizedStringKey,
+        notchWidth: CGFloat,
+        notchHeight: CGFloat,
+        topCornerRadius: CGFloat,
+        bottomCornerRadius: CGFloat,
+        strokeColor: Color,
+        applicationSettings: ApplicationSettingsStore,
+        @ViewBuilder content: @escaping () -> some View
+    ) {
+        self.title = title
+        self.description = description
+        self.notchWidth = notchWidth
+        self.notchHeight = notchHeight
+        self.topCornerRadius = topCornerRadius
+        self.bottomCornerRadius = bottomCornerRadius
+        self.strokeColor = strokeColor
+        self.applicationSettings = applicationSettings
+        self.content = { AnyView(content()) }
+    }
     
     var body: some View {
         HStack(alignment: .center, spacing: 16) {
-            RoundedPreviewImage(
-                image: image,
-                width: 168,
-                height: 82,
-                cornerRadius: 14
-            )
+            SettingsNotchPreview(
+                width: notchWidth,
+                height: notchHeight,
+                previewWidth: 200,
+                previewHeight: 90,
+                topCornerRadius: topCornerRadius,
+                bottomCornerRadius: bottomCornerRadius,
+                showsStroke: applicationSettings.isShowNotchStrokeEnabled,
+                strokeColor: strokeColor,
+                strokeWidth: 1,
+                lightBackgroundImage: Image("backgroundLight"),
+                darkBackgroundImage: Image("backgroundDark")
+            ) {
+                content()
+            }
             
             VStack(alignment: .leading, spacing: 6) {
                 Text(title)
@@ -169,23 +276,85 @@ private struct AboutFeatureRow: View {
     }
 }
 
-private struct RoundedPreviewImage: View {
-    let image: String
-    let width: CGFloat
-    let height: CGFloat
-    let cornerRadius: CGFloat
+private struct AboutLiveActivityPreviewNotchView: View {
+    var body: some View {
+        AboutMiniPreviewContainer {
+            HStack(spacing: 0) {
+                Image(systemName: "moon.fill")
+                    .font(.system(size: 11, weight: .bold))
+                
+                Spacer(minLength: 8)
+                
+                Text("On")
+                    .font(.system(size: 11))
+            }
+            .foregroundStyle(.indigo)
+            .padding(.horizontal, 10)
+        }
+    }
+}
+
+private struct AboutTemporaryActivityPreviewNotchView: View {
+    private let level = 72
+    private let indicatorWidth: CGFloat = 34
+    
+    private var activeLevelTint: Color {
+        HudLevelStyling.fillTint(for: level, isEnabled: true)
+    }
+    
+    private var filledIndicatorWidth: CGFloat {
+        indicatorWidth * CGFloat(level) / 100
+    }
     
     var body: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: cornerRadius + 1, style: .continuous)
-                .stroke(Color.white.opacity(0.1), lineWidth: 1)
-                .frame(width: width + 2, height: height + 2)
-            
-            Image(image)
-                .resizable()
-                .scaledToFill()
-                .frame(width: width, height: height)
-                .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
+        AboutMiniPreviewContainer {
+            HStack(spacing: 6) {
+                Image(systemName: HudPresentationKind.volume.symbolName(for: level))
+                    .font(.system(size: 11, weight: .semibold))
+                    .foregroundStyle(.white.opacity(0.8))
+                
+                Spacer()
+                
+                RoundedRectangle(cornerRadius: 2, style: .continuous)
+                    .fill(Color.white.opacity(0.18))
+                    .frame(width: indicatorWidth, height: 4)
+                    .overlay(alignment: .leading) {
+                        RoundedRectangle(cornerRadius: 2, style: .continuous)
+                            .fill(
+                                LinearGradient(
+                                    colors: [activeLevelTint.opacity(0.82), activeLevelTint],
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
+                            )
+                            .frame(width: filledIndicatorWidth, height: 4)
+                    }
+            }
+            .padding(.horizontal, 10)
         }
+    }
+}
+
+private struct AboutLockScreenPreviewNotchView: View {
+    var body: some View {
+        AboutMiniPreviewContainer {
+            HStack(spacing: 0) {
+                Image(systemName: "lock.fill")
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundStyle(.white.opacity(0.8))
+                
+                Spacer(minLength: 0)
+            }
+            .padding(.horizontal, 10)
+        }
+    }
+}
+
+private struct AboutMiniPreviewContainer<Content: View>: View {
+    @ViewBuilder let content: Content
+    
+    var body: some View {
+        content
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
     }
 }

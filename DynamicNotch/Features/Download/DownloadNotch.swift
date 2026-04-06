@@ -114,6 +114,7 @@ struct DownloadExpandedPreviewNotchView: View {
 
 private struct DownloadExpandedNotchContentView: View {
     @Environment(\.notchScale) private var scale
+    
     let download: DownloadModel
 
     private static let byteCountFormatter: ByteCountFormatter = {
@@ -295,36 +296,31 @@ private struct DownloadFileThumbnailView: View {
 private struct DownloadActivityIndicator: View {
     let progress: Double
     
-    private enum Metrics {
-        static let size: CGFloat = 18
-        static let lineWidth: CGFloat = 3
-    }
-    
     var body: some View {
         ZStack {
             Circle()
-                .stroke(Color.accentColor.opacity(0.16), lineWidth: Metrics.lineWidth)
+                .stroke(Color.accentColor.opacity(0.3), lineWidth: 3)
             
             Circle()
                 .trim(from: 0, to: max(0.06, min(progress, 1)))
                 .stroke(
                     AngularGradient(
                         colors: [
-                            .accentColor.opacity(0.35),
+                            .accentColor.opacity(0.3),
                             .accentColor.opacity(0.9),
                             .accentColor
                         ],
                         center: .center
                     ),
                     style: StrokeStyle(
-                        lineWidth: Metrics.lineWidth,
+                        lineWidth: 3,
                         lineCap: .round,
                         lineJoin: .round
                     )
                 )
                 .rotationEffect(.degrees(-90))
         }
-        .frame(width: Metrics.size, height: Metrics.size)
+        .frame(width: 18, height: 18)
         .animation(.easeInOut(duration: 0.3), value: progress)
     }
 }

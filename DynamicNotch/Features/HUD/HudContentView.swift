@@ -4,7 +4,7 @@ struct HudContentView: View {
     @Environment(\.notchScale) var scale
     
     let image: String
-    let text: LocalizedStringKey
+    let text: String
     let level: Int
     let style: HudStyle
     let usesColoredLevelTint: Bool
@@ -60,7 +60,7 @@ struct HudContentView: View {
                 HStack(spacing: 10) {
                     icon
                     
-                    Text(text)
+                    Text(verbatim: text)
                         .font(.system(size: 14))
                         .foregroundColor(.white.opacity(0.8))
                 }
@@ -73,9 +73,7 @@ struct HudContentView: View {
                 }
                 
             case .compact:
-                Text(text)
-                    .font(.system(size: 14))
-                    .foregroundColor(.white.opacity(0.8))
+                icon
                 Spacer()
                 indicator
                 

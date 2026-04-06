@@ -17,6 +17,24 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         }
     }
 
+    @Published var appearanceMode: SettingsAppearanceMode {
+        didSet {
+            persist(appearanceMode.rawValue, for: GeneralSettingsStorage.Keys.appearanceMode)
+        }
+    }
+
+    @Published var appTint: AppTint {
+        didSet {
+            persist(appTint.rawValue, for: GeneralSettingsStorage.Keys.appTint)
+        }
+    }
+
+    @Published var notchBackgroundStyle: NotchBackgroundStyle {
+        didSet {
+            persist(notchBackgroundStyle.rawValue, for: GeneralSettingsStorage.Keys.notchBackgroundStyle)
+        }
+    }
+
     @Published var notchWidth: Int {
         didSet {
             guard oldValue != notchWidth else { return }
@@ -98,6 +116,15 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
     override init(defaults: UserDefaults) {
         self.isLaunchAtLoginEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.launchAtLogin)
         self.isDockIconVisible = defaults.bool(forKey: GeneralSettingsStorage.Keys.dockIcon)
+        self.appearanceMode = SettingsAppearanceMode.resolved(
+            defaults.string(forKey: GeneralSettingsStorage.Keys.appearanceMode)
+        )
+        self.appTint = AppTint.resolved(
+            defaults.string(forKey: GeneralSettingsStorage.Keys.appTint)
+        )
+        self.notchBackgroundStyle = NotchBackgroundStyle.resolved(
+            defaults.string(forKey: GeneralSettingsStorage.Keys.notchBackgroundStyle)
+        )
         self.notchWidth = defaults.integer(forKey: GeneralSettingsStorage.Keys.notchWidth)
         self.notchHeight = defaults.integer(forKey: GeneralSettingsStorage.Keys.notchHeight)
         self.isMenuBarIconVisible = defaults.bool(forKey: GeneralSettingsStorage.Keys.menuBarIcon)
@@ -126,6 +153,12 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
     func resetGeneral() {
         isLaunchAtLoginEnabled = defaultBool(for: GeneralSettingsStorage.Keys.launchAtLogin)
         isDockIconVisible = defaultBool(for: GeneralSettingsStorage.Keys.dockIcon)
+        appearanceMode = SettingsAppearanceMode.resolved(
+            defaultString(for: GeneralSettingsStorage.Keys.appearanceMode)
+        )
+        appTint = AppTint.resolved(
+            defaultString(for: GeneralSettingsStorage.Keys.appTint)
+        )
         isMenuBarIconVisible = defaultBool(for: GeneralSettingsStorage.Keys.menuBarIcon)
         displayLocation = NotchDisplayLocation(
             rawValue: defaultString(for: GeneralSettingsStorage.Keys.displayLocation)
@@ -144,6 +177,9 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         isDefaultActivityStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.defaultActivityStrokeEnabled)
         isNotchSizeTemporaryActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchSizeTemporaryActivityEnabled)
         notchStrokeWidth = defaultDouble(for: GeneralSettingsStorage.Keys.notchStrokeWidth)
+        notchBackgroundStyle = NotchBackgroundStyle.resolved(
+            defaultString(for: GeneralSettingsStorage.Keys.notchBackgroundStyle)
+        )
         notchWidth = defaultInt(for: GeneralSettingsStorage.Keys.notchWidth)
         notchHeight = defaultInt(for: GeneralSettingsStorage.Keys.notchHeight)
     }

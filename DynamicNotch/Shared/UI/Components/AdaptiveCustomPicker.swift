@@ -82,7 +82,7 @@ struct AdaptiveCustomPicker<Option: Hashable>: View {
                         .fill(
                             isSelected ?
                             Color.accentColor.opacity(colorScheme == .dark ? 0.10 : 0.06) :
-                            (colorScheme == .dark ? Color.gray.opacity(0.08) : Color.gray.opacity(0.18))
+                            (colorScheme == .dark ? Color.gray.opacity(0.08) : Color.gray.opacity(0.1))
                         )
                 )
                 .clipShape(cardShape)

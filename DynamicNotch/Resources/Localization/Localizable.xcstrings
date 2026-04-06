@@ -54,6 +54,7 @@
       }
     },
     ", it is recommended to charge it." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -104,6 +105,9 @@
           }
         }
       }
+    },
+    "%@ tint" : {
+
     },
     "%lld%%" : {
       "localizations" : {
@@ -262,6 +266,7 @@
       }
     },
     "AirDrop" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -677,6 +682,9 @@
         }
       }
     },
+    "Background" : {
+
+    },
     "Battery activity" : {
       "localizations" : {
         "en" : {
@@ -781,7 +789,22 @@
         }
       }
     },
+    "Black" : {
+
+    },
+    "Blue" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blue"
+          }
+        }
+      }
+    },
     "Bluetooth" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1041,6 +1064,17 @@
         }
       }
     },
+    "Brown" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Brown"
+          }
+        }
+      }
+    },
     "Carry notch context and media playback into the lock screen transition for a more cohesive experience." : {
       "localizations" : {
         "en" : {
@@ -1145,265 +1179,32 @@
         }
       }
     },
+    "Check update" : {
+
+    },
     "Choose how hardware HUD feedback is laid out inside the notch." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choose how hardware HUD feedback is laid out inside the notch."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Elija cómo se presenta la información del HUD del hardware dentro de la muesca."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choisissez la façon dont les commentaires du HUD matériel sont disposés à l’intérieur de l’encoche."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ハードウェア HUD フィードバックをノッチ内にどのように配置するかを選択します。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "하드웨어 HUD 피드백이 노치 내부에 배치되는 방식을 선택하세요."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Escolha como o feedback do hardware HUD é apresentado dentro do entalhe."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Выберите, как аппаратный HUD размещается внутри выреза."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "选择硬件 HUD 反馈在凹口内的布局方式。"
-          }
-        }
-      }
+
     },
     "Choose one global motion preset for notch transitions, expansion, and visibility." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choose one global motion preset for notch transitions, expansion, and visibility."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Elija un ajuste preestablecido de movimiento global para transiciones de muesca, expansión y visibilidad."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choisissez un préréglage de mouvement global pour les transitions d'encoche, l'expansion et la visibilité."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ノッチの遷移、拡張、可視性については、グローバル モーション プリセットを 1 つ選択します。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "노치 전환, 확장 및 가시성에 대한 하나의 전역 모션 사전 설정을 선택합니다."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Escolha uma predefinição de movimento global para transições de entalhe, expansão e visibilidade."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Выберите общий пресет анимации для переходов, раскрытия и видимости выреза."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "选择一种用于凹口过渡、扩展和可见性的全局运动预设。"
-          }
-        }
-      }
+
+    },
+    "Choose the accent color used across the app." : {
+
+    },
+    "Choose the background color used across the notch." : {
+
+    },
+    "Choose the interface appearance used by the app." : {
+
     },
     "Choose which display should host the notch overlay." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choose which display should host the notch overlay."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Elija qué pantalla debe albergar la superposición de muesca."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choisissez quel écran doit héberger la superposition d'encoche."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ノッチ オーバーレイをホストするディスプレイを選択します。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "노치 오버레이를 호스팅할 디스플레이를 선택하세요."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Escolha qual monitor deve hospedar a sobreposição de entalhe."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Выберите, на каком дисплее показывать overlay выреза."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "选择哪个显示器应承载凹口覆盖。"
-          }
-        }
-      }
+
     },
     "Choose which system HUDs Dynamic Notch should replace." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choose which system HUDs Dynamic Notch should replace."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Elija qué sistema HUD debe reemplazar Dynamic Notch."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choisissez quel système les HUD Dynamic Notch doivent remplacer."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dynamic Notch が置き換えるシステム HUD を選択します。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dynamic Notch가 어떤 시스템 HUD를 교체해야 하는지 선택하세요."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Escolha quais HUDs do sistema Dynamic Notch devem substituir."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Выберите, какие системные HUD должен заменять Dynamic Notch."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "选择 Dynamic Notch 应替换的系统 HUD。"
-          }
-        }
-      }
+
     },
     "Clean up previews without restarting the app." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Clean up previews without restarting the app."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Limpia las vistas previas sin reiniciar la aplicación."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nettoyez les aperçus sans redémarrer l'application."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "アプリを再起動せずにプレビューをクリーンアップします。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "앱을 다시 시작하지 않고도 미리보기를 정리할 수 있습니다."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Limpe as visualizações sem reiniciar o aplicativo."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Очищайте предпросмотры без перезапуска приложения."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "无需重新启动应用程序即可清理预览。"
-          }
-        }
-      }
+
     },
     "Colored level tint" : {
       "localizations" : {
@@ -1511,6 +1312,7 @@
       }
     },
     "Connected" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1563,313 +1365,30 @@
       }
     },
     "Control charging, low battery, and full battery notifications." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Control charging, low battery, and full battery notifications."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Controle las notificaciones de carga, batería baja y batería llena."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Contrôlez les notifications de charge, de batterie faible et de batterie pleine."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "充電、バッテリー残量低下、バッテリー満充電の通知を制御します。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "충전, 배터리 부족, 배터리 가득 참 알림을 제어합니다."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Controle as notificações de carregamento, bateria fraca e bateria cheia."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Управляйте уведомлениями о зарядке, низком и полном заряде батареи."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "控制充电、低电量和充满电通知。"
-          }
-        }
-      }
+
     },
     "Control how Dynamic Notch integrates with macOS." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Control how Dynamic Notch integrates with macOS."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Controla cómo Dynamic Notch se integra con macOS."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Contrôlez la manière dont Dynamic Notch s'intègre à macOS."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dynamic Notch を macOS と統合する方法を制御します。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dynamic Notch가 macOS와 통합되는 방식을 제어하세요."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Controle como o Dynamic Notch se integra ao macOS."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Настройте, как Dynamic Notch интегрируется с macOS."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "控制 Dynamic Notch 如何与 macOS 集成。"
-          }
-        }
-      }
+
     },
     "Control how long short-lived notifications stay visible." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Control how long short-lived notifications stay visible."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Controle cuánto tiempo permanecen visibles las notificaciones de corta duración."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Contrôlez la durée pendant laquelle les notifications de courte durée restent visibles."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "短期間の通知を表示し続ける期間を制御します。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "단기 알림이 표시되는 기간을 제어합니다."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Controle por quanto tempo as notificações de curta duração permanecem visíveis."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Настройте, как долго остаются видимыми кратковременные уведомления."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "控制短期通知保持可见的时间。"
-          }
-        }
-      }
+
     },
     "Control network-related live and temporary activities." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Control network-related live and temporary activities."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Controle las actividades en vivo y temporales relacionadas con la red."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Contrôlez les activités en direct et temporaires liées au réseau."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ネットワーク関連のライブおよび一時的なアクティビティを制御します。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "네트워크 관련 라이브 및 임시 활동을 제어합니다."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Controle atividades ativas e temporárias relacionadas à rede."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Управляйте сетевыми live и временными активностями."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "控制与网络相关的实时和临时活动。"
-          }
-        }
-      }
+
     },
     "Control the lock-screen live activity, sound, and detached media panel." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Control the lock-screen live activity, sound, and detached media panel."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Controle la actividad en vivo, el sonido y el panel multimedia independiente de la pantalla de bloqueo."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Contrôlez l'activité en direct, le son et le panneau multimédia détaché de l'écran de verrouillage."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ロック画面のライブ アクティビティ、サウンド、取り外したメディア パネルを制御します。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "잠금 화면의 실시간 활동, 사운드 및 분리된 미디어 패널을 제어합니다."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Controle a atividade ao vivo da tela de bloqueio, o som e o painel de mídia separado."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Управляйте live activity на экране блокировки, звуком и отдельной медиапанелью."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "控制锁屏实时活动、声音和独立媒体面板。"
-          }
-        }
-      }
+
     },
     "Control the persistent Focus state and the short Focus Off notification." : {
+
+    },
+    "Coral" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Control the persistent Focus state and the short Focus Off notification."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Controle el estado de enfoque persistente y la notificación breve de enfoque desactivado."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Contrôlez l’état persistant de Focus et la courte notification Focus Off."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "永続的なフォーカス状態と短いフォーカス オフ通知を制御します。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "지속적인 초점 상태와 짧은 초점 꺼짐 알림을 제어합니다."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Controle o estado persistente do Focus e a breve notificação de Focus Off."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Управляйте постоянным состоянием Focus и коротким уведомлением о выключении Focus."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "控制持续的焦点状态和短暂的焦点关闭通知。"
+            "value" : "Coral"
           }
         }
       }
@@ -2291,6 +1810,7 @@
       }
     },
     "Exit" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2343,56 +1863,7 @@
       }
     },
     "Fine-tune the notch frame and stroke so it better matches your hardware." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fine-tune the notch frame and stroke so it better matches your hardware."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ajuste el marco de la muesca y el trazo para que coincida mejor con su hardware."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Affinez le cadre et la course de l'encoche pour qu'ils correspondent mieux à votre matériel."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ノッチ フレームとストロークを微調整して、ハードウェアとよりよく一致するようにします。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "노치 프레임과 스트로크를 미세 조정하여 하드웨어에 더 잘 맞도록 하세요."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ajuste a moldura e o traçado do entalhe para que correspondam melhor ao seu hardware."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Тонко настройте форму и обводку выреза, чтобы они лучше соответствовали вашему устройству."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "微调凹口框架和行程，使其更好地匹配您的硬件。"
-          }
-        }
-      }
+
     },
     "Fine-tune the notch height to better match your display cutout." : {
       "localizations" : {
@@ -2862,6 +2333,28 @@
         }
       }
     },
+    "Graphite" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Graphite"
+          }
+        }
+      }
+    },
+    "Green" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Green"
+          }
+        }
+      }
+    },
     "Hide Current Temporary" : {
       "localizations" : {
         "en" : {
@@ -3123,6 +2616,7 @@
       }
     },
     "hud.brightness" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3175,6 +2669,7 @@
       }
     },
     "hud.keyboard" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3227,6 +2722,7 @@
       }
     },
     "hud.volume" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3278,60 +2774,71 @@
         }
       }
     },
-    "Keep playback controls in the notch while media is playing." : {
+    "Indigo" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Keep playback controls in the notch while media is playing."
+            "value" : "Indigo"
+          }
+        }
+      }
+    },
+    "Keep playback controls in the notch while media is playing." : {
+
+    },
+    "Keep the app visible in the Dock for faster switching and window access." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep the app visible in the Dock for faster switching and window access."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mantenga los controles de reproducción en la muesca mientras se reproducen los medios."
+            "value" : "Mantén la app visible en el Dock para cambiar rápido y acceder a la ventana."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gardez les commandes de lecture dans l'encoche pendant la lecture du média."
+            "value" : "Gardez l’app visible dans le Dock pour basculer plus vite et accéder à la fenêtre."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "メディアの再生中は、再生コントロールをノッチ内に保ちます。"
+            "value" : "すばやく切り替えたりウインドウにアクセスしたりできるよう、Dock にアプリを表示します。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "미디어가 재생되는 동안 재생 컨트롤을 노치에 유지하세요."
+            "value" : "빠르게 전환하고 창에 접근할 수 있도록 앱을 Dock에 표시합니다."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mantenha os controles de reprodução no entalhe enquanto a mídia está sendo reproduzida."
+            "value" : "Mantenha o app visível no Dock para alternar mais rápido e acessar a janela."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Оставлять элементы управления воспроизведением в вырезе, пока играет медиа."
+            "value" : "Оставляет приложение видимым в Dock для быстрого переключения и доступа к окну."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "播放媒体时，将播放控件保持在凹槽中。"
+            "value" : "让应用在 Dock 中保持可见，以便快速切换和访问窗口。"
           }
         }
       }
-    },
-    "Keep the app visible in the Dock for faster switching and window access." : {
-
     },
     "Keep the hotspot live activity visible until you turn it off." : {
       "localizations" : {
@@ -3958,6 +3465,7 @@
       }
     },
     "Low Power Mode enabled" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4061,6 +3569,9 @@
         }
       }
     },
+    "Material" : {
+
+    },
     "Network activity" : {
       "localizations" : {
         "en" : {
@@ -4114,6 +3625,7 @@
       }
     },
     "No audio outputs available" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4161,6 +3673,59 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "没有可用的音频输出"
+          }
+        }
+      }
+    },
+    "No Settings Found" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Settings Found"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se encontraron ajustes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun réglage trouvé"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "設定が見つかりません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "설정을 찾을 수 없습니다"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nenhuma configuração encontrada"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройки не найдены"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未找到设置"
           }
         }
       }
@@ -4425,6 +3990,59 @@
         }
       }
     },
+    "Nothing Playing" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nothing Playing"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nada en reproducción"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rien en cours de lecture"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "再生中の項目はありません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "재생 중인 항목 없음"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nada em reprodução"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ничего не воспроизводится"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当前没有播放内容"
+          }
+        }
+      }
+    },
     "Notification duration" : {
       "localizations" : {
         "en" : {
@@ -4582,6 +4200,7 @@
       }
     },
     "Off" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4841,6 +4460,17 @@
         }
       }
     },
+    "Orange" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Orange"
+          }
+        }
+      }
+    },
     "Persistent Events" : {
       "localizations" : {
         "en" : {
@@ -4993,6 +4623,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "个人热点实时活动"
+          }
+        }
+      }
+    },
+    "Pink" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pink"
           }
         }
       }
@@ -5258,6 +4899,7 @@
       }
     },
     "Quit" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -5305,6 +4947,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "戒烟"
+          }
+        }
+      }
+    },
+    "Red" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Red"
           }
         }
       }
@@ -5674,6 +5327,7 @@
       }
     },
     "Settings" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -5721,6 +5375,116 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "设置"
+          }
+        }
+      }
+    },
+    "settings.about.email.subject" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A question about Dynamic Notch"
+          }
+        }
+      }
+    },
+    "settings.about.feature.liveActivity.description" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Persistent notch content stays visible for as long as the source event is active, then fades away when it ends."
+          }
+        }
+      }
+    },
+    "settings.about.feature.liveActivity.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live Activity"
+          }
+        }
+      }
+    },
+    "settings.about.feature.lockScreen.description" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carry notch context and media playback into the lock screen transition for a more cohesive experience."
+          }
+        }
+      }
+    },
+    "settings.about.feature.lockScreen.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lock Screen"
+          }
+        }
+      }
+    },
+    "settings.about.feature.temporaryActivity.description" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Short-lived overlays appear above live activities so quick system events still feel prominent."
+          }
+        }
+      }
+    },
+    "settings.about.feature.temporaryActivity.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temporary Activity"
+          }
+        }
+      }
+    },
+    "settings.about.hero.subtitle" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Make the cutout area more useful."
+          }
+        }
+      }
+    },
+    "settings.about.hero.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dynamic Notch"
+          }
+        }
+      }
+    },
+    "settings.about.preview.focus.on" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On"
           }
         }
       }
@@ -5985,6 +5749,217 @@
         }
       }
     },
+    "settings.general.appearance.dark" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dark"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oscuro"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sombre"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ダーク"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다크"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escuro"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тёмная"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "深色"
+          }
+        }
+      }
+    },
+    "settings.general.appearance.light" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Light"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Claro"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clair"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ライト"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "라이트"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Claro"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Светлая"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "浅色"
+          }
+        }
+      }
+    },
+    "settings.general.appearance.subtitle" : {
+
+    },
+    "settings.general.appearance.system" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "System"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sistema"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Système"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "システム"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "시스템"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sistema"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Системная"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "系统"
+          }
+        }
+      }
+    },
+    "settings.general.appearance.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appearance"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apariencia"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apparence"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "外観"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "모양"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aparência"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оформление"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "外观"
+          }
+        }
+      }
+    },
     "settings.general.display.builtin" : {
       "localizations" : {
         "en" : {
@@ -6085,6 +6060,248 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在主显示屏上显示"
+          }
+        }
+      }
+    },
+    "settings.general.display.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Display"
+          }
+        }
+      }
+    },
+    "settings.general.dockIcon.description" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep the app visible in the Dock for faster switching and window access."
+          }
+        }
+      }
+    },
+    "settings.general.dockIcon.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Dock icon"
+          }
+        }
+      }
+    },
+    "settings.general.launchAtLogin.description" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Launch Dynamic Notch automatically when you sign in."
+          }
+        }
+      }
+    },
+    "settings.general.launchAtLogin.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Launch at login"
+          }
+        }
+      }
+    },
+    "settings.general.menuBarIcon.description" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show a menu bar shortcut for quick access to Settings and Quit."
+          }
+        }
+      }
+    },
+    "settings.general.menuBarIcon.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show menu bar icon"
+          }
+        }
+      }
+    },
+    "settings.general.system.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "System"
+          }
+        }
+      }
+    },
+    "settings.general.theme.description" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose the interface appearance used by the app."
+          }
+        }
+      }
+    },
+    "settings.general.theme.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Theme"
+          }
+        }
+      }
+    },
+    "settings.general.tint.description" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose the accent color used across the app."
+          }
+        }
+      }
+    },
+    "settings.general.tint.option.blue" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blue"
+          }
+        }
+      }
+    },
+    "settings.general.tint.option.brown" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Brown"
+          }
+        }
+      }
+    },
+    "settings.general.tint.option.coral" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coral"
+          }
+        }
+      }
+    },
+    "settings.general.tint.option.graphite" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Graphite"
+          }
+        }
+      }
+    },
+    "settings.general.tint.option.green" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Green"
+          }
+        }
+      }
+    },
+    "settings.general.tint.option.indigo" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indigo"
+          }
+        }
+      }
+    },
+    "settings.general.tint.option.orange" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Orange"
+          }
+        }
+      }
+    },
+    "settings.general.tint.option.pink" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pink"
+          }
+        }
+      }
+    },
+    "settings.general.tint.option.red" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Red"
+          }
+        }
+      }
+    },
+    "settings.general.tint.option.teal" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teal"
+          }
+        }
+      }
+    },
+    "settings.general.tint.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tint"
           }
         }
       }
@@ -6511,56 +6728,7 @@
       }
     },
     "settings.language.card.subtitle" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choose the language used by the app interface."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Elige el idioma usado por la interfaz de la app."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choisissez la langue utilisée par l’interface de l’app."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "アプリのインターフェイスで使用する言語を選択します。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "앱 인터페이스에 사용할 언어를 선택하세요."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Escolha o idioma usado pela interface do app."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Выберите язык, который будет использоваться в интерфейсе приложения."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "选择应用界面使用的语言。"
-          }
-        }
-      }
+
     },
     "settings.language.card.title" : {
       "localizations" : {
@@ -7087,6 +7255,237 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "系统"
+          }
+        }
+      }
+    },
+    "settings.notch.animation.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Animation"
+          }
+        }
+      }
+    },
+    "settings.notch.appearance.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notch appearance"
+          }
+        }
+      }
+    },
+    "settings.notch.background.description" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose the background color used across the notch."
+          }
+        }
+      }
+    },
+    "settings.notch.background.option.black" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Black"
+          }
+        }
+      }
+    },
+    "settings.notch.background.option.material" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Material"
+          }
+        }
+      }
+    },
+    "settings.notch.background.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Background"
+          }
+        }
+      }
+    },
+    "settings.notch.defaultStroke.description" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apply the standard white stroke to supported activities instead of feature accent colors."
+          }
+        }
+      }
+    },
+    "settings.notch.defaultStroke.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use default activity stroke color"
+          }
+        }
+      }
+    },
+    "settings.notch.height.description" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fine-tune the notch height to better match your display cutout."
+          }
+        }
+      }
+    },
+    "settings.notch.height.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notch height"
+          }
+        }
+      }
+    },
+    "settings.notch.resizeFeedback.description" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show temporary size hints while adjusting the notch width or height."
+          }
+        }
+      }
+    },
+    "settings.notch.resizeFeedback.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resize feedback"
+          }
+        }
+      }
+    },
+    "settings.notch.stroke.description" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show a subtle outline that adapts to the active content color."
+          }
+        }
+      }
+    },
+    "settings.notch.stroke.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show notch stroke"
+          }
+        }
+      }
+    },
+    "settings.notch.strokeWidth.description" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adjust the thickness of the notch outline."
+          }
+        }
+      }
+    },
+    "settings.notch.strokeWidth.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stroke width"
+          }
+        }
+      }
+    },
+    "settings.notch.temporaryActivities.duration.description" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scale the duration of temporary activities across HUD, battery, connectivity, and resize feedback."
+          }
+        }
+      }
+    },
+    "settings.notch.temporaryActivities.duration.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notification duration"
+          }
+        }
+      }
+    },
+    "settings.notch.temporaryActivities.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temporary activities"
+          }
+        }
+      }
+    },
+    "settings.notch.width.description" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fine-tune the notch width to better match your display cutout."
+          }
+        }
+      }
+    },
+    "settings.notch.width.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notch width"
           }
         }
       }
@@ -9052,56 +9451,7 @@
       }
     },
     "Show a dedicated drop target in the notch while sharing files with AirDrop." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show a dedicated drop target in the notch while sharing files with AirDrop."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Muestra un objetivo de colocación dedicado en la muesca mientras compartes archivos con AirDrop."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Affichez une cible de dépôt dédiée dans l'encoche lors du partage de fichiers avec AirDrop."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "AirDrop でファイルを共有するときに、ノッチに専用のドロップ ターゲットを表示します。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "AirDrop으로 파일을 공유하는 동안 노치에 전용 드롭 대상을 표시합니다."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mostre um destino de lançamento dedicado no entalhe ao compartilhar arquivos com o AirDrop."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Показывать отдельную зону сброса в вырезе при отправке файлов через AirDrop."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "使用 AirDrop 共享文件时，在凹口中显示专用的放置目标。"
-          }
-        }
-      }
+
     },
     "Show a live activity while files are being downloaded to monitored folders like Downloads, Desktop, and Documents." : {
       "localizations" : {
@@ -9416,56 +9766,7 @@
       }
     },
     "Show a short notification when Bluetooth accessories connect." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show a short notification when Bluetooth accessories connect."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Muestra una breve notificación cuando se conectan accesorios Bluetooth."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Afficher une courte notification lorsque les accessoires Bluetooth se connectent."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bluetooth アクセサリが接続されたときに短い通知を表示します。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bluetooth 액세서리가 연결되면 짧은 알림을 표시합니다."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mostrar uma breve notificação quando acessórios Bluetooth forem conectados."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Показывать короткое уведомление при подключении Bluetooth-аксессуаров."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "连接蓝牙配件时显示简短通知。"
-          }
-        }
-      }
+
     },
     "Show a short notification when Focus mode turns off." : {
       "localizations" : {
@@ -9832,59 +10133,59 @@
       }
     },
     "Show Dock icon" : {
-
-    },
-    "Show live download progress from monitored folders in the notch." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Show live download progress from monitored folders in the notch."
+            "value" : "Show Dock icon"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Muestre el progreso de la descarga en vivo desde las carpetas monitoreadas en la muesca."
+            "value" : "Mostrar icono en el Dock"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Affichez la progression du téléchargement en direct à partir des dossiers surveillés dans l'encoche."
+            "value" : "Afficher l’icône dans le Dock"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "監視対象フォルダーからのライブ ダウンロードの進行状況をノッチに表示します。"
+            "value" : "Dock アイコンを表示"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "노치에서 모니터링되는 폴더의 실시간 다운로드 진행 상황을 표시합니다."
+            "value" : "Dock 아이콘 표시"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mostre o progresso do download ao vivo das pastas monitoradas no entalhe."
+            "value" : "Mostrar ícone no Dock"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Показывать прогресс загрузок из отслеживаемых папок в вырезе."
+            "value" : "Показывать иконку в Dock"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在缺口中显示受监控文件夹的实时下载进度。"
+            "value" : "显示 Dock 图标"
           }
         }
       }
+    },
+    "Show live download progress from monitored folders in the notch." : {
+
     },
     "Show menu bar icon" : {
       "localizations" : {
@@ -10978,6 +11279,17 @@
         }
       }
     },
+    "Teal" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teal"
+          }
+        }
+      }
+    },
     "Temporary activities" : {
       "localizations" : {
         "en" : {
@@ -11082,6 +11394,12 @@
         }
       }
     },
+    "Theme" : {
+
+    },
+    "Tint" : {
+
+    },
     "Tint the notch stroke using the current HUD level color instead of the default white stroke." : {
       "localizations" : {
         "en" : {
@@ -11135,56 +11453,7 @@
       }
     },
     "Toggle persistent previews to inspect their live activity UI." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Toggle persistent previews to inspect their live activity UI."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cambie las vistas previas persistentes para inspeccionar la interfaz de usuario de su actividad en vivo."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Activez les aperçus persistants pour inspecter leur interface utilisateur d’activité en direct."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "永続的なプレビューを切り替えて、ライブ アクティビティ UI を検査します。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "지속적인 미리보기를 전환하여 실시간 활동 UI를 검사합니다."
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alterne as visualizações persistentes para inspecionar a IU de atividades ao vivo."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Переключайте постоянные предпросмотры, чтобы изучать их интерфейс live activity."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "切换持久预览以检查其实时活动 UI。"
-          }
-        }
-      }
+
     },
     "Trigger Events" : {
       "localizations" : {
@@ -11239,53 +11508,57 @@
       }
     },
     "Trigger one-shot notifications whenever you need them." : {
+
+    },
+    "Try a different keyword for \"%@\"." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Trigger one-shot notifications whenever you need them."
+            "value" : "Try a different keyword for \"%@\"."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Activa notificaciones únicas cuando las necesites."
+            "value" : "Prueba otra palabra clave para \"%@\"."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Déclenchez des notifications ponctuelles chaque fois que vous en avez besoin."
+            "value" : "Essayez un autre mot-clé pour « %@ »."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "必要なときにいつでもワンショット通知をトリガーします。"
+            "value" : "「%@」の代わりに別のキーワードを試してください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "필요할 때마다 일회성 알림을 트리거하세요."
+            "value" : "\"%@\"에 대해 다른 키워드를 시도해 보세요."
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Acione notificações únicas sempre que precisar delas."
+            "value" : "Tente outra palavra-chave para \"%@\"."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Вызывайте одноразовые уведомления, когда они вам нужны."
+            "value" : "Попробуйте другое ключевое слово для «%@»."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在您需要时触发一次性通知。"
+            "value" : "请尝试使用其他关键词搜索“%@”。"
           }
         }
       }
@@ -11343,6 +11616,7 @@
       }
     },
     "Turn on Low Power Mode or it \nis recommended to charge it." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11655,6 +11929,7 @@
       }
     },
     "VPN" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11811,6 +12086,7 @@
       }
     },
     "Website" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11863,6 +12139,7 @@
       }
     },
     "Wi-Fi" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12019,6 +12296,7 @@
       }
     },
     "Your Mac is fully charged." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12069,9 +12347,6 @@
           }
         }
       }
-    },
-    "Сonnected" : {
-
     }
   },
   "version" : "1.1"

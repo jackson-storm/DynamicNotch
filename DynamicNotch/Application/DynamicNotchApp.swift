@@ -12,10 +12,9 @@ struct NotchApp: App {
     
     var body: some Scene {
         MenuBarExtra("Dynamic Notch", systemImage: "rectangle.topthird.inset.filled", isInserted: $isMenuBarIconVisible) {
-            MenuBarMenu(applicationSettings: appDelegate.settingsViewModel.application)
-                .environment(\.locale, appDelegate.settingsViewModel.application.appLanguage.locale)
+            MenuBarMenu()
         }
-
+        
         WindowGroup(id: SettingsScene.id) {
             SettingsRootView(
                 powerService: appDelegate.powerService,
@@ -28,6 +27,7 @@ struct NotchApp: App {
                 nowPlayingViewModel: appDelegate.nowPlayingViewModel,
                 lockScreenManager: appDelegate.lockScreenManager
             )
+            .background(.ultraThinMaterial)
             .frame(width: SettingsWindowLayout.width, height: SettingsWindowLayout.height)
         }
         .defaultSize(width: SettingsWindowLayout.width, height: SettingsWindowLayout.height)
@@ -37,23 +37,27 @@ struct NotchApp: App {
 
 private struct MenuBarMenu: View {
     @Environment(\.openWindow) private var openWindow
-    @ObservedObject var applicationSettings: ApplicationSettingsStore
-
+    
     var body: some View {
         Group {
             Button {
-                openWindow(id: SettingsScene.id)
+                openWindow(id: "settings")
             } label: {
                 Image(systemName: "gearshape")
-                Text("Settings")
+                Text(verbatim: "Settings")
             }
             
             Divider()
             
-            Button("Quit") {
-                NSApplication.shared.terminate(nil)
+            Button(action: { AppRelauncher.restartApp() }) {
+                Image(systemName: "arrow.trianglehead.2.counterclockwise.rotate.90")
+                Text(verbatim: "Restart")
+            }
+            
+            Button(action: { NSApplication.shared.terminate(nil) }) {
+                Image(systemName: "rectangle.portrait.and.arrow.right")
+                Text(verbatim: "Quit")
             }
         }
-        .environment(\.locale, applicationSettings.appLanguage.locale)
     }
 }

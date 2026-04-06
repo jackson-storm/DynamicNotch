@@ -97,7 +97,7 @@ private struct FullPowerNotchView: View {
     @ViewBuilder
     var title: some View {
         HStack {
-            Text("Full Battery")
+            Text(verbatim: "Full Battery")
                 .font(.system(size: 13))
                 .foregroundColor(.white.opacity(0.8))
                 .fontWeight(.semibold)
@@ -119,7 +119,7 @@ private struct FullPowerNotchView: View {
     
     @ViewBuilder
     var description: some View {
-        Text("Your Mac is fully charged.")
+        Text(verbatim: "Your Mac is fully charged.")
             .font(.system(size: 10))
             .foregroundStyle(.gray.opacity(0.6))
             .fontWeight(.medium)

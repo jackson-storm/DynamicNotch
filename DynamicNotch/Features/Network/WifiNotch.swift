@@ -38,14 +38,14 @@ private struct WifiConnectedNotchView: View {
                         .foregroundStyle(.white)
                         .contentTransition(.symbolEffect(.replace))
                 }
-                Text("Wi-Fi")
+                Text(verbatim: "Wi-Fi")
                     .font(.system(size: 14))
                     .foregroundColor(.white.opacity(0.8))
             }
             
             Spacer()
             
-            Text("Сonnected")
+            Text(verbatim: "Connected")
                 .font(.system(size: 14))
                 .foregroundStyle(.white.opacity(0.8))
         }

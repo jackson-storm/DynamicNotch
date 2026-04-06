@@ -4,6 +4,7 @@ enum GeneralSettingsStorage {
         static let dockIcon = "isDockIconVisible"
         static let appearanceMode = "settings.general.appearance.mode"
         static let appTint = "settings.general.appearance.tint"
+        static let notchBackgroundStyle = "settings.notch.backgroundStyle"
         static let notchWidth = "notchWidth"
         static let notchHeight = "notchHeight"
         static let menuBarIcon = "isMenuBarIconVisible"
@@ -46,6 +47,7 @@ enum GeneralSettingsStorage {
         Keys.dockIcon: false,
         Keys.appearanceMode: SettingsAppearanceMode.system.rawValue,
         Keys.appTint: AppTint.blue.rawValue,
+        Keys.notchBackgroundStyle: NotchBackgroundStyle.black.rawValue,
         Keys.notchWidth: 0,
         Keys.notchHeight: 0,
         Keys.menuBarIcon: true,

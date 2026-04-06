@@ -29,6 +29,12 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         }
     }
 
+    @Published var notchBackgroundStyle: NotchBackgroundStyle {
+        didSet {
+            persist(notchBackgroundStyle.rawValue, for: GeneralSettingsStorage.Keys.notchBackgroundStyle)
+        }
+    }
+
     @Published var notchWidth: Int {
         didSet {
             guard oldValue != notchWidth else { return }
@@ -116,6 +122,9 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         self.appTint = AppTint.resolved(
             defaults.string(forKey: GeneralSettingsStorage.Keys.appTint)
         )
+        self.notchBackgroundStyle = NotchBackgroundStyle.resolved(
+            defaults.string(forKey: GeneralSettingsStorage.Keys.notchBackgroundStyle)
+        )
         self.notchWidth = defaults.integer(forKey: GeneralSettingsStorage.Keys.notchWidth)
         self.notchHeight = defaults.integer(forKey: GeneralSettingsStorage.Keys.notchHeight)
         self.isMenuBarIconVisible = defaults.bool(forKey: GeneralSettingsStorage.Keys.menuBarIcon)
@@ -168,6 +177,9 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         isDefaultActivityStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.defaultActivityStrokeEnabled)
         isNotchSizeTemporaryActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchSizeTemporaryActivityEnabled)
         notchStrokeWidth = defaultDouble(for: GeneralSettingsStorage.Keys.notchStrokeWidth)
+        notchBackgroundStyle = NotchBackgroundStyle.resolved(
+            defaultString(for: GeneralSettingsStorage.Keys.notchBackgroundStyle)
+        )
         notchWidth = defaultInt(for: GeneralSettingsStorage.Keys.notchWidth)
         notchHeight = defaultInt(for: GeneralSettingsStorage.Keys.notchHeight)
     }

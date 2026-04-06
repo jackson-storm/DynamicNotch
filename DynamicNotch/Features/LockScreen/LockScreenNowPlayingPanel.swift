@@ -34,6 +34,7 @@ struct LockScreenNowPlayingPanelView: View {
                 RoundedRectangle(cornerRadius: 28, style: .continuous)
                     .stroke(.white.opacity(0.15), lineWidth: 1)
             }
+            .environment(\.colorScheme, .dark)
             .shadow(color: .black.opacity(0.24), radius: 26, x: 0, y: 14)
             .opacity(animator.isPresented ? 1 : 0)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)

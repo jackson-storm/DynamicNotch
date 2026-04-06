@@ -16,6 +16,7 @@ struct SettingsNotchPreview<Overlay: View>: View {
     let previewHeight: CGFloat
     let topCornerRadius: CGFloat
     let bottomCornerRadius: CGFloat
+    let backgroundStyle: NotchBackgroundStyle
     let showsStroke: Bool
     let strokeColor: Color
     let strokeWidth: CGFloat
@@ -33,6 +34,7 @@ struct SettingsNotchPreview<Overlay: View>: View {
         previewHeight: CGFloat = 138,
         topCornerRadius: CGFloat = 9,
         bottomCornerRadius: CGFloat = 13,
+        backgroundStyle: NotchBackgroundStyle = .black,
         showsStroke: Bool = true,
         strokeColor: Color = .green.opacity(0.3),
         strokeWidth: CGFloat = 1.5,
@@ -48,6 +50,7 @@ struct SettingsNotchPreview<Overlay: View>: View {
         self.previewHeight = previewHeight
         self.topCornerRadius = topCornerRadius
         self.bottomCornerRadius = bottomCornerRadius
+        self.backgroundStyle = backgroundStyle
         self.showsStroke = showsStroke
         self.strokeColor = strokeColor
         self.strokeWidth = strokeWidth
@@ -88,6 +91,19 @@ struct SettingsNotchPreview<Overlay: View>: View {
             }
             .frame(maxWidth: previewWidth, minHeight: previewHeight)
             
+            notchSurface
+                .overlay {
+                    overlay
+                }
+                .environment(\.colorScheme, .dark)
+                .frame(width: width, height: height)
+        }
+    }
+    
+    @ViewBuilder
+    private var notchSurface: some View {
+        switch backgroundStyle {
+        case .black:
             NotchShape(
                 topCornerRadius: topCornerRadius,
                 bottomCornerRadius: bottomCornerRadius
@@ -103,10 +119,23 @@ struct SettingsNotchPreview<Overlay: View>: View {
                     lineWidth: strokeWidth
                 )
             }
+            
+        case .ultraThickMaterial:
+            NotchShape(
+                topCornerRadius: topCornerRadius,
+                bottomCornerRadius: bottomCornerRadius
+            )
+            .fill(.ultraThinMaterial)
             .overlay {
-                overlay
+                NotchShape(
+                    topCornerRadius: topCornerRadius,
+                    bottomCornerRadius: bottomCornerRadius
+                )
+                .stroke(
+                    showsStroke ? strokeColor : .clear,
+                    lineWidth: strokeWidth
+                )
             }
-            .frame(width: width, height: height)
         }
     }
 }

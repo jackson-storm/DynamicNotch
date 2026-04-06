@@ -23,6 +23,12 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         }
     }
 
+    @Published var appTint: AppTint {
+        didSet {
+            persist(appTint.rawValue, for: GeneralSettingsStorage.Keys.appTint)
+        }
+    }
+
     @Published var notchWidth: Int {
         didSet {
             guard oldValue != notchWidth else { return }
@@ -107,6 +113,9 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         self.appearanceMode = SettingsAppearanceMode.resolved(
             defaults.string(forKey: GeneralSettingsStorage.Keys.appearanceMode)
         )
+        self.appTint = AppTint.resolved(
+            defaults.string(forKey: GeneralSettingsStorage.Keys.appTint)
+        )
         self.notchWidth = defaults.integer(forKey: GeneralSettingsStorage.Keys.notchWidth)
         self.notchHeight = defaults.integer(forKey: GeneralSettingsStorage.Keys.notchHeight)
         self.isMenuBarIconVisible = defaults.bool(forKey: GeneralSettingsStorage.Keys.menuBarIcon)
@@ -137,6 +146,9 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         isDockIconVisible = defaultBool(for: GeneralSettingsStorage.Keys.dockIcon)
         appearanceMode = SettingsAppearanceMode.resolved(
             defaultString(for: GeneralSettingsStorage.Keys.appearanceMode)
+        )
+        appTint = AppTint.resolved(
+            defaultString(for: GeneralSettingsStorage.Keys.appTint)
         )
         isMenuBarIconVisible = defaultBool(for: GeneralSettingsStorage.Keys.menuBarIcon)
         displayLocation = NotchDisplayLocation(

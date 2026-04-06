@@ -27,7 +27,7 @@ struct AboutAppSettingsView: View {
     var body: some View {
         VStack(spacing: 0) {
             heroCard
-            Divider().opacity(0.8)
+            Divider().opacity(0.6)
             
             ScrollView(showsIndicators: false) {
                 highlightsCard

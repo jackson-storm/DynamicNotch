@@ -13,6 +13,7 @@ struct LockScreenNowPlayingPanelView: View {
     let snapshot: NowPlayingSnapshot
     let artworkImage: NSImage?
     
+    @ObservedObject var settingsViewModel: SettingsViewModel
     @ObservedObject var nowPlayingViewModel: NowPlayingViewModel
     @ObservedObject var lockScreenManager: LockScreenManager
     @ObservedObject var animator: LockScreenPanelAnimator
@@ -36,6 +37,8 @@ struct LockScreenNowPlayingPanelView: View {
             .shadow(color: .black.opacity(0.24), radius: 26, x: 0, y: 14)
             .opacity(animator.isPresented ? 1 : 0)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+            .tint(settingsViewModel.application.appTint.color)
+            .accentColor(settingsViewModel.application.appTint.color)
     }
 }
 

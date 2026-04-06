@@ -29,7 +29,7 @@ struct DebugSettingsView: View {
                     accessibilityIdentifier: "settings.debug.onboarding"
                 )
 
-                Divider()
+                Divider().opacity(0.6)
 
                 SettingsToggleRow(
                     title: "Focus On",
@@ -40,7 +40,7 @@ struct DebugSettingsView: View {
                     accessibilityIdentifier: "settings.debug.focusOn"
                 )
 
-                Divider()
+                Divider().opacity(0.6)
 
                 SettingsToggleRow(
                     title: "Hotspot Active",
@@ -51,7 +51,7 @@ struct DebugSettingsView: View {
                     accessibilityIdentifier: "settings.debug.hotspot"
                 )
 
-                Divider()
+                Divider().opacity(0.6)
 
                 SettingsToggleRow(
                     title: "Now Playing",
@@ -62,7 +62,7 @@ struct DebugSettingsView: View {
                     accessibilityIdentifier: "settings.debug.nowPlaying"
                 )
 
-                Divider()
+                Divider().opacity(0.6)
 
                 SettingsToggleRow(
                     title: "Downloads",
@@ -73,7 +73,7 @@ struct DebugSettingsView: View {
                     accessibilityIdentifier: "settings.debug.downloads"
                 )
 
-                Divider()
+                Divider().opacity(0.6)
 
                 SettingsToggleRow(
                     title: "Lock Screen",
@@ -102,7 +102,7 @@ struct DebugSettingsView: View {
                     action: viewModel.togglePreviewSequence
                 )
 
-                Divider()
+                Divider().opacity(0.6)
 
                 DebugActionRow(
                     title: "Focus Off",
@@ -112,7 +112,7 @@ struct DebugSettingsView: View {
                     action: viewModel.triggerFocusOffPreview
                 )
 
-                Divider()
+                Divider().opacity(0.6)
 
                 DebugActionRow(
                     title: "Bluetooth Connected",
@@ -122,7 +122,7 @@ struct DebugSettingsView: View {
                     action: viewModel.triggerBluetoothPreview
                 )
 
-                Divider()
+                Divider().opacity(0.6)
 
                 DebugActionRow(
                     title: "Wi-Fi Connected",
@@ -132,7 +132,7 @@ struct DebugSettingsView: View {
                     action: viewModel.triggerWifiPreview
                 )
 
-                Divider()
+                Divider().opacity(0.6)
 
                 DebugActionRow(
                     title: "VPN Connected",
@@ -142,7 +142,7 @@ struct DebugSettingsView: View {
                     action: viewModel.triggerVPNPreview
                 )
 
-                Divider()
+                Divider().opacity(0.6)
 
                 DebugActionRow(
                     title: "Charging",
@@ -152,7 +152,7 @@ struct DebugSettingsView: View {
                     action: viewModel.triggerChargingPreview
                 )
 
-                Divider()
+                Divider().opacity(0.6)
 
                 DebugActionRow(
                     title: "Battery Low",
@@ -162,7 +162,7 @@ struct DebugSettingsView: View {
                     action: viewModel.triggerLowPowerPreview
                 )
 
-                Divider()
+                Divider().opacity(0.6)
 
                 DebugActionRow(
                     title: "Full Battery",
@@ -172,7 +172,7 @@ struct DebugSettingsView: View {
                     action: viewModel.triggerFullBatteryPreview
                 )
 
-                Divider()
+                Divider().opacity(0.6)
 
                 DebugActionRow(
                     title: "Brightness HUD",
@@ -182,7 +182,7 @@ struct DebugSettingsView: View {
                     action: viewModel.triggerBrightnessHUDPreview
                 )
 
-                Divider()
+                Divider().opacity(0.6)
 
                 DebugActionRow(
                     title: "Keyboard HUD",
@@ -192,7 +192,7 @@ struct DebugSettingsView: View {
                     action: viewModel.triggerKeyboardHUDPreview
                 )
 
-                Divider()
+                Divider().opacity(0.6)
 
                 DebugActionRow(
                     title: "Volume HUD",
@@ -202,7 +202,7 @@ struct DebugSettingsView: View {
                     action: viewModel.triggerVolumeHUDPreview
                 )
 
-                Divider()
+                Divider().opacity(0.6)
 
                 DebugActionRow(
                     title: "Notch Width Changed",
@@ -212,7 +212,7 @@ struct DebugSettingsView: View {
                     action: viewModel.triggerNotchWidthPreview
                 )
 
-                Divider()
+                Divider().opacity(0.6)
 
                 DebugActionRow(
                     title: "Notch Height Changed",
@@ -239,7 +239,7 @@ struct DebugSettingsView: View {
                     action: viewModel.hideCurrentTemporaryPreview
                 )
 
-                Divider()
+                Divider().opacity(0.6)
 
                 DebugActionRow(
                     title: "Reset All Previews",

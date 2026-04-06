@@ -395,5 +395,7 @@ private struct LockScreenLiveActivityOverlayView: View {
         .opacity(animator.opacity)
         .offset(y: 1)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .tint(settingsViewModel.application.appTint.color)
+        .accentColor(settingsViewModel.application.appTint.color)
     }
 }

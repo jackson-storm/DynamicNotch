@@ -146,6 +146,8 @@ struct SettingsRootView: View {
         .accessibilityIdentifier("settings.root")
         .environment(\.locale, settingsViewModel.application.appLanguage.locale)
         .preferredColorScheme(settingsViewModel.application.appearanceMode.preferredColorScheme)
+        .tint(settingsViewModel.application.appTint.color)
+        .accentColor(settingsViewModel.application.appTint.color)
     }
     
     private var filteredSections: [SettingsRootViewModel.Section] {

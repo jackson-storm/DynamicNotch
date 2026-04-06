@@ -50,7 +50,7 @@ struct NotchSettingsView: View {
                     accessibilityIdentifier: "settings.general.showNotchStroke"
                 )
 
-                Divider()
+                Divider().opacity(0.6)
 
                 SettingsToggleRow(
                     title: "Use default activity stroke color",
@@ -61,7 +61,7 @@ struct NotchSettingsView: View {
                     accessibilityIdentifier: "settings.general.defaultActivityStroke"
                 )
 
-                Divider()
+                Divider().opacity(0.6)
 
                 SettingsToggleRow(
                     title: "Resize feedback",
@@ -72,7 +72,7 @@ struct NotchSettingsView: View {
                     accessibilityIdentifier: "settings.activities.temporary.notchSize"
                 )
 
-                Divider()
+                Divider().opacity(0.6)
 
                 SettingsSliderRow(
                     title: "Stroke width",

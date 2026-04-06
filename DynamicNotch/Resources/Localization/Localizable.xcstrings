@@ -106,6 +106,9 @@
         }
       }
     },
+    "%@ tint" : {
+
+    },
     "%lld%%" : {
       "localizations" : {
         "en" : {
@@ -1254,6 +1257,12 @@
           }
         }
       }
+    },
+    "Choose the accent color used across the app." : {
+
+    },
+    "Choose the interface appearance used by the app." : {
+
     },
     "Choose which display should host the notch overlay." : {
       "localizations" : {
@@ -11561,6 +11570,12 @@
           }
         }
       }
+    },
+    "Theme" : {
+
+    },
+    "Tint" : {
+
     },
     "Tint the notch stroke using the current HUD level color instead of the default white stroke." : {
       "localizations" : {

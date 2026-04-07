@@ -170,9 +170,9 @@ final class DebugSettingsViewModel: ObservableObject {
 
     private func updateOnboardingPreview() {
         if isOnboardingPreviewEnabled {
-            notchViewModel.send(.showLiveActivity(DebugOnboardingPreviewNotchContent()))
+            notchEventCoordinator.showDebugOnboardingPreview(step: .first)
         } else {
-            notchViewModel.send(.hideLiveActivity(id: "onboarding"))
+            notchEventCoordinator.hideOnboarding()
         }
     }
 

@@ -38,6 +38,8 @@
 		E249F57A2F69D18300EAE72A /* Exceptions for "DynamicNotch" folder in "DynamicNotchTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Resources/LottieImage/confirm.json,
+				Resources/LottieImage/star.json,
 				Resources/Sounds/DynamicNotch_lock.mp3,
 				Resources/Sounds/DynamicNotch_unlock.mp3,
 			);
@@ -46,6 +48,8 @@
 		E249F57B2F69D18300EAE72A /* Exceptions for "DynamicNotch" folder in "DynamicNotchUITests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Resources/LottieImage/confirm.json,
+				Resources/LottieImage/star.json,
 				Resources/Sounds/DynamicNotch_lock.mp3,
 				Resources/Sounds/DynamicNotch_unlock.mp3,
 			);

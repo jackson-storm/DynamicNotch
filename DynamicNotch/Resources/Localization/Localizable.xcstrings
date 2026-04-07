@@ -1311,6 +1311,9 @@
         }
       }
     },
+    "Confirm all permissions" : {
+
+    },
     "Connected" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1394,6 +1397,7 @@
       }
     },
     "Debug-only safe preview of the onboarding live activity." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4357,6 +4361,7 @@
       }
     },
     "Onboarding Preview" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4793,6 +4798,9 @@
           }
         }
       }
+    },
+    "Please give it a star on GitHub – it will really help with promotion." : {
+
     },
     "Preview the lock live activity without actually locking macOS." : {
       "localizations" : {
@@ -11227,6 +11235,9 @@
         }
       }
     },
+    "Support this app" : {
+
+    },
     "System" : {
       "localizations" : {
         "en" : {
@@ -12294,6 +12305,9 @@
           }
         }
       }
+    },
+    "You need to make sure that the application has been granted permission." : {
+
     },
     "Your Mac is fully charged." : {
       "extractionState" : "stale",

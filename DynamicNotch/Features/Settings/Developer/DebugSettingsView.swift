@@ -394,46 +394,43 @@ struct DebugSequenceNotchContent: NotchContentProtocol {
 }
 
 struct DebugOnboardingPreviewNotchContent: NotchContentProtocol {
-    let id = "onboarding"
+    let id: String
+    let stackID = OnboardingSteps.debugStackID
+    let step: OnboardingSteps
+    let notchEventCoordinator: NotchEventCoordinator
     
     var priority: Int { 100 }
-    var offsetXTransition: CGFloat { -30 }
+    
+    var offsetXTransition: CGFloat { step.offsetXTransition }
     var offsetYTransition: CGFloat { -90 }
     
+    init(step: OnboardingSteps, notchEventCoordinator: NotchEventCoordinator) {
+        self.id = step.debugLiveActivityID
+        self.step = step
+        self.notchEventCoordinator = notchEventCoordinator
+    }
+    
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        .init(width: baseWidth + 70, height: baseHeight + 120)
+        step.notchSize(baseWidth: baseWidth, baseHeight: baseHeight)
     }
     
     func cornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
-        (top: 24, bottom: 36)
+        return (top: 24, bottom: 36)
     }
     
     @MainActor
     func makeView() -> AnyView {
-        AnyView(DebugOnboardingPreviewView())
-    }
-}
-
-struct DebugOnboardingPreviewView: View {
-    var body: some View {
-        VStack(spacing: 12) {
-            Spacer()
-            
-            Image(systemName: "sparkles.tv.fill")
-                .font(.system(size: 30, weight: .semibold))
-                .foregroundStyle(.white.opacity(0.92))
-            
-            Text("Onboarding Preview")
-                .font(.system(size: 16, weight: .semibold))
-                .foregroundStyle(.white.opacity(0.9))
-            
-            Text("Debug-only safe preview of the onboarding live activity.")
-                .font(.system(size: 11))
-                .foregroundStyle(.white.opacity(0.55))
-                .multilineTextAlignment(.center)
-        }
-        .padding(.horizontal, 34)
-        .padding(.bottom, 24)
+        AnyView(
+            OnboardingNotchView(
+                step: step,
+                onStepChange: { nextStep in
+                    notchEventCoordinator.showDebugOnboardingPreview(step: nextStep)
+                },
+                onFinish: {
+                    notchEventCoordinator.hideOnboarding()
+                }
+            )
+        )
     }
 }
 #endif

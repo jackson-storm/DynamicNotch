@@ -63,30 +63,22 @@ private struct AirDropDropZoneContainerView: View {
         VStack {
             Spacer()
             
-            AirDropDropZoneView(isTargeted: isTargeted)
+            RoundedRectangle(cornerRadius: AirDropDropZoneMetrics.cornerRadius)
+                .fill(isTargeted ? .blue.opacity(0.2) : .clear.opacity(0))
+                .stroke(.blue, style: StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round, dash: [20, 10]))
+                .frame(height: AirDropDropZoneMetrics.height)
+                .overlay {
+                    VStack(spacing: 8) {
+                        Image(systemName: "dot.radiowaves.left.and.right")
+                            .font(.system(size: 22, weight: .semibold))
+                        
+                        Text(verbatim: "AirDrop")
+                            .font(.system(size: 12))
+                    }
+                    .foregroundColor(.blue)
+                }
         }
         .padding(.horizontal, AirDropDropZoneMetrics.horizontalPadding)
         .padding(.vertical, AirDropDropZoneMetrics.verticalPadding)
-    }
-}
-
-private struct AirDropDropZoneView: View {
-    let isTargeted: Bool
-
-    var body: some View {
-        RoundedRectangle(cornerRadius: AirDropDropZoneMetrics.cornerRadius)
-            .fill(isTargeted ? .blue.opacity(0.2) : .clear.opacity(0))
-            .stroke(.blue, style: StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round, dash: [20, 10]))
-            .frame(height: AirDropDropZoneMetrics.height)
-            .overlay {
-                VStack(spacing: 8) {
-                    Image(systemName: "dot.radiowaves.left.and.right")
-                        .font(.system(size: 22, weight: .semibold))
-                    
-                    Text(verbatim: "AirDrop")
-                        .font(.system(size: 12))
-                }
-                .foregroundColor(.blue)
-            }
     }
 }

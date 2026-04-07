@@ -1761,6 +1761,12 @@
         }
       }
     },
+    "Drag and Drop" : {
+
+    },
+    "Drop files, images, or links onto the notch to trigger supported actions without breaking your flow." : {
+
+    },
     "Dynamic Notch" : {
       "localizations" : {
         "en" : {
@@ -3207,6 +3213,9 @@
           }
         }
       }
+    },
+    "Lock Screen and Widget" : {
+
     },
     "Lock screen behavior" : {
       "localizations" : {

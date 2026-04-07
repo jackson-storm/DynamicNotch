@@ -10,7 +10,7 @@ import SwiftUI
 struct AboutAppSettingsView: View {
     @Environment(\.openURL) private var openURL
     @ObservedObject var applicationSettings: ApplicationSettingsStore
-
+    
     private let heroCardHeight: CGFloat = 300
     
     private var appVersionText: String {
@@ -118,12 +118,18 @@ struct AboutAppSettingsView: View {
     }
     
     private var highlightsCard: some View {
-        VStack(spacing: 18) {
-            AboutFeatureRow(
+        LazyVGrid(
+            columns: [
+                GridItem(.flexible(), spacing: 12),
+                GridItem(.flexible(), spacing: 12)
+            ],
+            spacing: 12
+        ) {
+            AboutFeatureCard(
                 title: "Live Activity",
                 description: "Persistent notch content stays visible for as long as the source event is active, then fades away when it ends.",
-                notchWidth: 166,
-                notchHeight: 26,
+                notchWidth: 168,
+                notchHeight: 28,
                 topCornerRadius: 5,
                 bottomCornerRadius: 9,
                 strokeColor: .indigo.opacity(0.3),
@@ -131,11 +137,11 @@ struct AboutAppSettingsView: View {
             ) {
                 AboutLiveActivityPreviewNotchView()
             }
-            AboutFeatureRow(
+            AboutFeatureCard(
                 title: "Temporary Activity",
                 description: "Short-lived overlays appear above live activities so quick system events still feel prominent.",
-                notchWidth: 166,
-                notchHeight: 26,
+                notchWidth: 168,
+                notchHeight: 28,
                 topCornerRadius: 5,
                 bottomCornerRadius: 9,
                 strokeColor: .white.opacity(0.2),
@@ -143,11 +149,11 @@ struct AboutAppSettingsView: View {
             ) {
                 AboutTemporaryActivityPreviewNotchView()
             }
-            AboutFeatureRow(
-                title: "Lock Screen",
+            AboutFeatureCard(
+                title: "Lock Screen and Widget",
                 description: "Carry notch context and media playback into the lock screen transition for a more cohesive experience.",
-                notchWidth: 166,
-                notchHeight: 26,
+                notchWidth: 168,
+                notchHeight: 28,
                 topCornerRadius: 5,
                 bottomCornerRadius: 9,
                 strokeColor: .white.opacity(0.2),
@@ -155,8 +161,20 @@ struct AboutAppSettingsView: View {
             ) {
                 AboutLockScreenPreviewNotchView()
             }
+            AboutFeatureCard(
+                title: "Drag and Drop",
+                description: "Drop files, images, or links onto the notch to trigger supported actions without breaking your flow.",
+                notchWidth: 168,
+                notchHeight: 80,
+                topCornerRadius: 16,
+                bottomCornerRadius: 24,
+                strokeColor: .blue.opacity(0.3),
+                applicationSettings: applicationSettings
+            ) {
+                AboutDragAndDropPreviewNotchView()
+            }
         }
-        .padding(.vertical, 20)
+        .padding(12)
         .frame(maxWidth: .infinity, alignment: .top)
     }
     
@@ -168,7 +186,7 @@ struct AboutAppSettingsView: View {
 
 private struct AboutHeroBackground: View {
     @Environment(\.colorScheme) private var colorScheme
-
+    
     private var baseGradient: LinearGradient {
         LinearGradient(
             colors: colorScheme == .dark
@@ -186,13 +204,13 @@ private struct AboutHeroBackground: View {
             endPoint: .bottomTrailing
         )
     }
-
+    
     var body: some View {
         GeometryReader { proxy in
             ZStack {
                 Rectangle()
                     .fill(baseGradient)
-
+                
                 LinearGradient(
                     colors: [
                         Color.black.opacity(colorScheme == .dark ? 0.16 : 0.03),
@@ -208,7 +226,7 @@ private struct AboutHeroBackground: View {
     }
 }
 
-private struct AboutFeatureRow: View {
+private struct AboutFeatureCard: View {
     let title: LocalizedStringKey
     let description: LocalizedStringKey
     let notchWidth: CGFloat
@@ -243,12 +261,12 @@ private struct AboutFeatureRow: View {
     }
     
     var body: some View {
-        HStack(alignment: .center, spacing: 16) {
+        VStack(alignment: .leading, spacing: 10) {
             SettingsNotchPreview(
                 width: notchWidth,
                 height: notchHeight,
-                previewWidth: 200,
-                previewHeight: 90,
+                previewWidth: .infinity,
+                previewHeight: 38,
                 topCornerRadius: topCornerRadius,
                 bottomCornerRadius: bottomCornerRadius,
                 showsStroke: applicationSettings.isShowNotchStrokeEnabled,
@@ -262,17 +280,22 @@ private struct AboutFeatureRow: View {
             
             VStack(alignment: .leading, spacing: 6) {
                 Text(title)
-                    .font(.system(size: 16, weight: .semibold))
+                    .font(.system(size: 14, weight: .semibold))
                 
                 Text(description)
-                    .font(.system(size: 12))
+                    .font(.system(size: 11))
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
+                    .lineLimit(3)
             }
-            
-            Spacer(minLength: 0)
         }
-        .padding(.horizontal, 20)
+        .frame(maxWidth: .infinity, minHeight: 156, alignment: .topLeading)
+        .padding(.horizontal, 12)
+        .padding(.vertical, 12)
+        .background {
+            RoundedRectangle(cornerRadius: 14, style: .continuous)
+                .fill(Color.primary.opacity(0.045))
+        }
     }
 }
 
@@ -289,7 +312,7 @@ private struct AboutLiveActivityPreviewNotchView: View {
                     .font(.system(size: 11))
             }
             .foregroundStyle(.indigo)
-            .padding(.horizontal, 10)
+            .padding(.horizontal, 12)
         }
     }
 }
@@ -330,7 +353,7 @@ private struct AboutTemporaryActivityPreviewNotchView: View {
                             .frame(width: filledIndicatorWidth, height: 4)
                     }
             }
-            .padding(.horizontal, 10)
+            .padding(.horizontal, 12)
         }
     }
 }
@@ -345,7 +368,34 @@ private struct AboutLockScreenPreviewNotchView: View {
                 
                 Spacer(minLength: 0)
             }
-            .padding(.horizontal, 10)
+            .padding(.horizontal, 12)
+        }
+    }
+}
+
+private struct AboutDragAndDropPreviewNotchView: View {
+    var body: some View {
+        AboutMiniPreviewContainer {
+            VStack {
+                Spacer()
+                
+                RoundedRectangle(cornerRadius: 14)
+                    .fill(.blue.opacity(0.2))
+                    .stroke(.blue, style: StrokeStyle(lineWidth: 1, lineCap: .round, lineJoin: .round, dash: [15, 5]))
+                    .frame(height: 60)
+                    .overlay {
+                        VStack(spacing: 8) {
+                            Image(systemName: "dot.radiowaves.left.and.right")
+                                .font(.system(size: 14, weight: .semibold))
+                            
+                            Text(verbatim: "AirDrop")
+                                .font(.system(size: 8))
+                        }
+                        .foregroundColor(.blue)
+                    }
+            }
+            .padding(.horizontal, 25)
+            .padding(.bottom, 8)
         }
     }
 }

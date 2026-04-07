@@ -6,13 +6,15 @@ enum LockScreenEvent: Equatable {
 }
 
 struct LockScreenNotchContent: NotchContentProtocol {
-    let id = "lockScreen"
+    static let contentID = "lockScreen"
+    
+    let id = Self.contentID
     let lockScreenManager: LockScreenManager
 
     var priority: Int { 92 }
 
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        .init(width: baseWidth + 60, height: baseHeight)
+        .init(width: baseWidth + 55, height: baseHeight)
     }
 
     @MainActor
@@ -33,6 +35,6 @@ struct LockScreenNotchView: View {
             
             Spacer()
         }
-        .padding(.horizontal, 14.scaled(by: scale))
+        .padding(.horizontal, 16.scaled(by: scale))
     }
 }

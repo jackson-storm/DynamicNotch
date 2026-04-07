@@ -16,7 +16,6 @@ struct DownloadsSettingsView: View {
             title: "Download activity",
             subtitle: "Show live download progress from monitored folders in the notch."
         ) {
-            
             SettingsToggleRow(
                 title: "Downloads live activity",
                 description: "Show a live activity while files are being downloaded to monitored folders like Downloads, Desktop, and Documents.",

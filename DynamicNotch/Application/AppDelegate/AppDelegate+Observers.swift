@@ -48,7 +48,7 @@ extension AppDelegate {
 
             if isLocked || isPreparingLock {
                 suspendPrimaryWindowForLock()
-            } else if isPrimaryWindowSuspendedForLock {
+            } else if isPrimaryWindowSuspendedForLock, isLockIdle {
                 restorePrimaryWindowForUnlockTransition()
             } else if isLockIdle {
                 updateWindowFrame()

@@ -44,7 +44,7 @@ struct SettingsSliderRow: View {
             
             Slider(value: $value, in: range, step: step)
         }
-        .padding(10)
+        .padding(.vertical, 6)
         .modifier(SettingsAccessibilityModifier(identifier: accessibilityIdentifier))
     }
 }

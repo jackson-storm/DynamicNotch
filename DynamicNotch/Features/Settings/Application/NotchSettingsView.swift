@@ -25,33 +25,16 @@ struct NotchSettingsView: View {
             title: "Notch appearance",
             subtitle: "Fine-tune the notch frame and stroke so it better matches your hardware."
         ) {
-            VStack(alignment: .leading, spacing: 12) {
-                HStack(alignment: .center) {
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text("Background")
-                        
-                        Text("Choose the background color used across the notch.")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
-                    
-                    Spacer(minLength: 12)
-                    
-                    Text(applicationSettings.notchBackgroundStyle.title)
-                        .font(.system(size: 12))
-                        .foregroundStyle(.secondary)
-                }
-                
-                CustomPicker(
-                    selection: $applicationSettings.notchBackgroundStyle,
-                    options: NotchBackgroundStyle.allCases,
-                    title: { $0.title }
-                ) { style, isSelected in
-                    backgroundPickerContent(for: style, isSelected: isSelected)
-                }
-                .accessibilityIdentifier("settings.notch.backgroundStyle")
+            CustomPicker(
+                selection: $applicationSettings.notchBackgroundStyle,
+                options: NotchBackgroundStyle.allCases,
+                title: { $0.title },
+                headerTitle: "Background",
+                headerDescription: "Choose the background color used across the notch."
+            ) { style, isSelected in
+                backgroundPickerContent(for: style, isSelected: isSelected)
             }
-            .padding(10)
+            .accessibilityIdentifier("settings.notch.backgroundStyle")
             
             Divider().opacity(0.6)
             
@@ -64,7 +47,10 @@ struct NotchSettingsView: View {
                 accessibilityIdentifier: "settings.general.showNotchStroke"
             )
             
-            Divider().opacity(0.6)
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
             
             SettingsToggleRow(
                 title: "Use default activity stroke color",

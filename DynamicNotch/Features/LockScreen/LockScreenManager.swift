@@ -153,8 +153,8 @@ final class LockScreenManager: ObservableObject {
 
         let workItem = DispatchWorkItem { [weak self] in
             guard let self else { return }
-            self.isLockIdle = true
             self.event = .stopped
+            self.isLockIdle = true
         }
 
         unlockWorkItem = workItem

@@ -25,6 +25,9 @@ struct HUDSettingsView: View {
             )
             
             Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
             
             SettingsToggleRow(
                 title: "Keyboard HUD",
@@ -36,6 +39,9 @@ struct HUDSettingsView: View {
             )
             
             Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
             
             SettingsToggleRow(
                 title: "Volume HUD",
@@ -62,7 +68,7 @@ struct HUDSettingsView: View {
             }
             .accessibilityIdentifier("settings.general.hud.style")
 
-            Divider()
+            Divider().opacity(0.6)
 
             SettingsToggleRow(
                 title: "Colored level tint",
@@ -74,6 +80,9 @@ struct HUDSettingsView: View {
             )
 
             Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
 
             SettingsToggleRow(
                 title: "Level-based stroke color",

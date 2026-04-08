@@ -16,6 +16,11 @@ struct CustomPicker<Option: Hashable>: View {
     let headerTitle: LocalizedStringKey?
     let headerDescription: LocalizedStringKey?
     let headerValueTitle: ((Option) -> LocalizedStringKey)?
+    let itemHeight: CGFloat
+    let lightBackgroundImage: Image?
+    let darkBackgroundImage: Image?
+    let backgroundImageContentMode: ContentMode
+    let backgroundImageOpacity: Double
     private let content: (Option, Bool) -> AnyView
     
     init(
@@ -25,6 +30,11 @@ struct CustomPicker<Option: Hashable>: View {
         headerTitle: LocalizedStringKey? = nil,
         headerDescription: LocalizedStringKey? = nil,
         headerValueTitle: ((Option) -> LocalizedStringKey)? = nil,
+        itemHeight: CGFloat = 62,
+        lightBackgroundImage: Image? = nil,
+        darkBackgroundImage: Image? = nil,
+        backgroundImageContentMode: ContentMode = .fill,
+        backgroundImageOpacity: Double = 1,
         symbolName: @escaping (Option) -> String
     ) {
         self.init(
@@ -33,7 +43,12 @@ struct CustomPicker<Option: Hashable>: View {
             title: title,
             headerTitle: headerTitle,
             headerDescription: headerDescription,
-            headerValueTitle: headerValueTitle
+            headerValueTitle: headerValueTitle,
+            itemHeight: itemHeight,
+            lightBackgroundImage: lightBackgroundImage,
+            darkBackgroundImage: darkBackgroundImage,
+            backgroundImageContentMode: backgroundImageContentMode,
+            backgroundImageOpacity: backgroundImageOpacity
         ) { option, isSelected in
             Image(systemName: symbolName(option))
                 .font(.system(size: 18, weight: .semibold))
@@ -47,6 +62,11 @@ struct CustomPicker<Option: Hashable>: View {
         headerTitle: LocalizedStringKey? = nil,
         headerDescription: LocalizedStringKey? = nil,
         headerValueTitle: ((Option) -> LocalizedStringKey)? = nil,
+        itemHeight: CGFloat = 62,
+        lightBackgroundImage: Image? = nil,
+        darkBackgroundImage: Image? = nil,
+        backgroundImageContentMode: ContentMode = .fill,
+        backgroundImageOpacity: Double = 1,
         symbolName: @escaping (Option) -> String
     ) where Option: CaseIterable {
         self.init(
@@ -56,6 +76,11 @@ struct CustomPicker<Option: Hashable>: View {
             headerTitle: headerTitle,
             headerDescription: headerDescription,
             headerValueTitle: headerValueTitle,
+            itemHeight: itemHeight,
+            lightBackgroundImage: lightBackgroundImage,
+            darkBackgroundImage: darkBackgroundImage,
+            backgroundImageContentMode: backgroundImageContentMode,
+            backgroundImageOpacity: backgroundImageOpacity,
             symbolName: symbolName
         )
     }
@@ -67,6 +92,11 @@ struct CustomPicker<Option: Hashable>: View {
         headerTitle: LocalizedStringKey? = nil,
         headerDescription: LocalizedStringKey? = nil,
         headerValueTitle: ((Option) -> LocalizedStringKey)? = nil,
+        itemHeight: CGFloat = 62,
+        lightBackgroundImage: Image? = nil,
+        darkBackgroundImage: Image? = nil,
+        backgroundImageContentMode: ContentMode = .fill,
+        backgroundImageOpacity: Double = 1,
         @ViewBuilder content: @escaping (Option, Bool) -> Content
     ) {
         self._selection = selection
@@ -75,6 +105,11 @@ struct CustomPicker<Option: Hashable>: View {
         self.headerTitle = headerTitle
         self.headerDescription = headerDescription
         self.headerValueTitle = headerValueTitle
+        self.itemHeight = itemHeight
+        self.lightBackgroundImage = lightBackgroundImage
+        self.darkBackgroundImage = darkBackgroundImage
+        self.backgroundImageContentMode = backgroundImageContentMode
+        self.backgroundImageOpacity = backgroundImageOpacity
         self.content = { option, isSelected in
             AnyView(content(option, isSelected))
         }
@@ -86,6 +121,11 @@ struct CustomPicker<Option: Hashable>: View {
         headerTitle: LocalizedStringKey? = nil,
         headerDescription: LocalizedStringKey? = nil,
         headerValueTitle: ((Option) -> LocalizedStringKey)? = nil,
+        itemHeight: CGFloat = 62,
+        lightBackgroundImage: Image? = nil,
+        darkBackgroundImage: Image? = nil,
+        backgroundImageContentMode: ContentMode = .fill,
+        backgroundImageOpacity: Double = 1,
         @ViewBuilder content: @escaping (Option, Bool) -> Content
     ) where Option: CaseIterable {
         self.init(
@@ -95,6 +135,11 @@ struct CustomPicker<Option: Hashable>: View {
             headerTitle: headerTitle,
             headerDescription: headerDescription,
             headerValueTitle: headerValueTitle,
+            itemHeight: itemHeight,
+            lightBackgroundImage: lightBackgroundImage,
+            darkBackgroundImage: darkBackgroundImage,
+            backgroundImageContentMode: backgroundImageContentMode,
+            backgroundImageOpacity: backgroundImageOpacity,
             content: content
         )
     }
@@ -125,21 +170,16 @@ struct CustomPicker<Option: Hashable>: View {
                 }
             } label: {
                 content(option, isSelected)
-                .frame(maxWidth: .infinity, minHeight: 62, alignment: .center)
-                .padding(.horizontal, 12)
-                .background(
-                    RoundedRectangle(cornerRadius: 10, style: .continuous)
-                        .fill(
-                            isSelected ?
-                            Color.accentColor.opacity(colorScheme == .dark ? 0.10 : 0.06) :
-                            (colorScheme == .dark ? Color.gray.opacity(0.08) : Color.gray.opacity(0.1))
-                        )
-                )
-                .overlay(
-                    RoundedRectangle(cornerRadius: 10, style: .continuous)
-                        .stroke(isSelected ? Color.accentColor.opacity(0.9) : Color.gray.opacity(0.1), lineWidth: isSelected ? 2 : 1)
-                )
-                .contentShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                    .frame(maxWidth: .infinity, minHeight: itemHeight, alignment: .center)
+                    .padding(.horizontal, 12)
+                    .background {
+                        pickerCardBackground(isSelected: isSelected)
+                    }
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10, style: .continuous)
+                            .stroke(isSelected ? Color.accentColor.opacity(0.9) : Color.gray.opacity(0.1), lineWidth: isSelected ? 2 : 1)
+                    )
+                    .contentShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
             }
             .buttonStyle(.plain)
             
@@ -176,5 +216,44 @@ struct CustomPicker<Option: Hashable>: View {
     
     private var selectedHeaderValueTitle: LocalizedStringKey {
         headerValueTitle?(selection) ?? title(selection)
+    }
+
+    @ViewBuilder
+    private func pickerCardBackground(isSelected: Bool) -> some View {
+        let shape = RoundedRectangle(cornerRadius: 10, style: .continuous)
+
+        shape
+            .fill(baseCardFillColor(isSelected: isSelected))
+            .overlay {
+                if let pickerBackgroundImage {
+                    pickerBackgroundImage
+                        .resizable()
+                        .aspectRatio(contentMode: backgroundImageContentMode)
+                        .opacity(backgroundImageOpacity)
+                        .clipShape(shape)
+                }
+            }
+            .overlay {
+                if isSelected {
+                    shape.fill(Color.accentColor.opacity(colorScheme == .dark ? 0.10 : 0.06))
+                }
+            }
+            .clipShape(shape)
+    }
+
+    private func baseCardFillColor(isSelected: Bool) -> Color {
+        return colorScheme == .dark ? Color.gray.opacity(0.08) : Color.gray.opacity(0.1)
+    }
+
+    private var pickerBackgroundImage: Image? {
+        if colorScheme == .light, let lightBackgroundImage {
+            return lightBackgroundImage
+        }
+
+        if colorScheme == .dark, let darkBackgroundImage {
+            return darkBackgroundImage
+        }
+
+        return nil
     }
 }

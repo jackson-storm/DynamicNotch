@@ -13,15 +13,6 @@
             continueAfterRunningActions = "No"
             symbolName = "*0x1920edd4c">
             <Locations>
-               <Location
-                  uuid = "AEFBC119-E5CB-4712-BFCB-7C770BAC2773 - e7316da3016488b9"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "EncodePoolingMultiDestinationBase(void const*, id&lt;MTLComputeCommandEncoder&gt;, id&lt;MTLCommandBuffer&gt;, NDArrayMultiaryMultiDestinationCallInfo const*)"
-                  moduleName = "MPSNDArray"
-                  usesParentBreakpointCondition = "Yes">
-               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>

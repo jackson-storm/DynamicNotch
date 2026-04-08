@@ -74,6 +74,8 @@ enum GeneralSettingsStorage {
         LockScreenSettings.liveActivityKey: true,
         LockScreenSettings.soundKey: true,
         LockScreenSettings.mediaPanelKey: true,
+        LockScreenSettings.styleKey: LockScreenStyle.compact.rawValue,
+        LockScreenSettings.widgetAppearanceStyleKey: LockScreenWidgetAppearanceStyle.ultraThinMaterial.rawValue,
         Keys.chargerTemporaryActivityEnabled: true,
         Keys.lowPowerTemporaryActivityEnabled: true,
         Keys.fullPowerTemporaryActivityEnabled: true,

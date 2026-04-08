@@ -1,3 +1,10 @@
+//
+//  NotchDisplayLocation.swift
+//  DynamicNotch
+//
+//  Created by Евгений Петрукович on 4/8/26.
+//
+
 import Foundation
 import SwiftUI
 

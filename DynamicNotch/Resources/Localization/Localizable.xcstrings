@@ -161,6 +161,12 @@
         }
       }
     },
+    "1:21" : {
+
+    },
+    "3:34" : {
+
+    },
     "72" : {
       "localizations" : {
         "en" : {
@@ -473,6 +479,9 @@
           }
         }
       }
+    },
+    "Animation speed" : {
+
     },
     "Apply a full battery sample and show the completion notification." : {
       "localizations" : {
@@ -1185,6 +1194,9 @@
     "Choose how hardware HUD feedback is laid out inside the notch." : {
 
     },
+    "Choose how the lock-screen activity is laid out inside the notch." : {
+
+    },
     "Choose one global motion preset for notch transitions, expansion, and visibility." : {
 
     },
@@ -1192,6 +1204,9 @@
 
     },
     "Choose the background color used across the notch." : {
+
+    },
+    "Choose the background style used by the lock-screen media widget." : {
 
     },
     "Choose the interface appearance used by the app." : {
@@ -1311,6 +1326,9 @@
         }
       }
     },
+    "Compact" : {
+
+    },
     "Confirm all permissions" : {
 
     },
@@ -1373,9 +1391,6 @@
     "Control how Dynamic Notch integrates with macOS." : {
 
     },
-    "Control how long short-lived notifications stay visible." : {
-
-    },
     "Control network-related live and temporary activities." : {
 
     },
@@ -1395,6 +1410,9 @@
           }
         }
       }
+    },
+    "Debug Ensemble" : {
+
     },
     "Debug-only safe preview of the onboarding live activity." : {
       "extractionState" : "stale",
@@ -1818,6 +1836,9 @@
           }
         }
       }
+    },
+    "Enlarged" : {
+
     },
     "Exit" : {
       "extractionState" : "stale",
@@ -3110,6 +3131,9 @@
         }
       }
     },
+    "Liquid Glass" : {
+
+    },
     "Live Activity" : {
       "localizations" : {
         "en" : {
@@ -3214,10 +3238,14 @@
         }
       }
     },
+    "Lock screen activity" : {
+
+    },
     "Lock Screen and Widget" : {
 
     },
     "Lock screen behavior" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3425,6 +3453,9 @@
         }
       }
     },
+    "Locked" : {
+
+    },
     "Low Power" : {
       "localizations" : {
         "en" : {
@@ -3583,6 +3614,9 @@
       }
     },
     "Material" : {
+
+    },
+    "Midnight Echoes" : {
 
     },
     "Network activity" : {
@@ -5342,6 +5376,9 @@
           }
         }
       }
+    },
+    "Set a global motion parameter that controls the speed of the animation." : {
+
     },
     "Settings" : {
       "extractionState" : "stale",
@@ -11088,6 +11125,12 @@
         }
       }
     },
+    "Soft" : {
+
+    },
+    "Solid" : {
+
+    },
     "Start" : {
       "localizations" : {
         "en" : {
@@ -11311,6 +11354,7 @@
       }
     },
     "Temporary activities" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11844,6 +11888,9 @@
         }
       }
     },
+    "Version: %@" : {
+
+    },
     "Volume" : {
       "localizations" : {
         "en" : {
@@ -12314,6 +12361,9 @@
           }
         }
       }
+    },
+    "Widget appearance" : {
+
     },
     "You need to make sure that the application has been granted permission." : {
 

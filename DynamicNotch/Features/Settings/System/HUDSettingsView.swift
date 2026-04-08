@@ -62,7 +62,9 @@ struct HUDSettingsView: View {
             CustomPicker(
                 selection: $settings.hudStyle,
                 options: Array(HudStyle.allCases),
-                title: { $0.title }
+                title: { $0.title },
+                lightBackgroundImage: Image("backgroundLight"),
+                darkBackgroundImage: Image("backgroundDark")
             ) { style, isSelected in
                 hudStylePickerContent(for: style, isSelected: isSelected)
             }

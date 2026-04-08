@@ -1,5 +1,11 @@
 import SwiftUI
 
+enum HudEvent: Equatable {
+    case display(Int)
+    case keyboard(Int)
+    case volume(Int)
+}
+
 struct HudNotchContent: NotchContentProtocol {
     var id: String { kind.sharedContentID }
 

@@ -11,19 +11,6 @@ struct AboutAppSettingsView: View {
     @Environment(\.openURL) private var openURL
     @ObservedObject var applicationSettings: ApplicationSettingsStore
     
-    private let heroCardHeight: CGFloat = 300
-    
-    private var appVersionText: String {
-        let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
-        
-        switch (version) {
-        case let (version?):
-            return "v\(version)"
-        default:
-            return "DynamicNotch"
-        }
-    }
-    
     var body: some View {
         VStack(spacing: 0) {
             heroCard
@@ -43,12 +30,12 @@ struct AboutAppSettingsView: View {
             AboutHeroBackground()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             
-            VStack(spacing: 15) {
+            HStack(spacing: 25) {
                 Image("logo")
                     .resizable()
-                    .frame(width: 60, height: 60)
+                    .frame(width: 65, height: 65)
                 
-                VStack(alignment: .center, spacing: 3) {
+                VStack(alignment: .leading, spacing: 3) {
                     Text("Dynamic Notch")
                         .font(.system(size: 18, weight: .semibold))
                         .accessibilityIdentifier("settings.about.title")
@@ -65,12 +52,14 @@ struct AboutAppSettingsView: View {
                                 .stroke(Color.accentColor.opacity(0.6), lineWidth: 1)
                         }
                         .overlay {
-                            Text(appVersionText)
+                            Text(AppVersionText.appVersionText)
                                 .font(.system(size: 11, weight: .medium))
                         }
                         .padding(.top, 4)
                 }
-                HStack(spacing: 14) {
+                Spacer()
+                
+                HStack(spacing: 15) {
                     Button(action: {
                         if let url = URL(string: "https://telegram.me/id10101101") {
                             openURL(url)
@@ -78,7 +67,7 @@ struct AboutAppSettingsView: View {
                     }) {
                         Image("telegram")
                             .resizable()
-                            .frame(width: 40, height: 40)
+                            .frame(width: 45, height: 45)
                     }
                     .accessibilityIdentifier("settings.about.telegram")
                     
@@ -89,7 +78,7 @@ struct AboutAppSettingsView: View {
                     }) {
                         Image("gitHub")
                             .resizable()
-                            .frame(width: 40, height: 40)
+                            .frame(width: 45, height: 45)
                     }
                     .accessibilityIdentifier("settings.about.github")
                     
@@ -104,26 +93,27 @@ struct AboutAppSettingsView: View {
                     }) {
                         Image("email")
                             .resizable()
-                            .frame(width: 40, height: 40)
+                            .frame(width: 45, height: 45)
                     }
                     .accessibilityIdentifier("settings.about.email")
                 }
                 .buttonStyle(.plain)
             }
+            .padding(.horizontal, 30)
             .padding(.top, 50)
         }
         .frame(maxWidth: .infinity)
-        .frame(height: heroCardHeight, alignment: .top)
+        .frame(height: 185, alignment: .top)
         .clipped()
     }
     
     private var highlightsCard: some View {
         LazyVGrid(
             columns: [
-                GridItem(.flexible(), spacing: 12),
-                GridItem(.flexible(), spacing: 12)
+                GridItem(.flexible(), spacing: 15),
+                GridItem(.flexible(), spacing: 15)
             ],
-            spacing: 12
+            spacing: 15
         ) {
             AboutFeatureCard(
                 title: "Live Activity",
@@ -174,7 +164,7 @@ struct AboutAppSettingsView: View {
                 AboutDragAndDropPreviewNotchView()
             }
         }
-        .padding(12)
+        .padding(15)
         .frame(maxWidth: .infinity, alignment: .top)
     }
     
@@ -237,6 +227,7 @@ private struct AboutFeatureCard: View {
     let content: () -> AnyView
     
     @ObservedObject var applicationSettings: ApplicationSettingsStore
+    @Environment(\.colorScheme) private var colorScheme
     
     init(
         title: LocalizedStringKey,
@@ -294,7 +285,7 @@ private struct AboutFeatureCard: View {
         .padding(.vertical, 12)
         .background {
             RoundedRectangle(cornerRadius: 14, style: .continuous)
-                .fill(Color.primary.opacity(0.045))
+                .fill(colorScheme == .dark ? Color.primary.opacity(0.04) : Color.white)
         }
     }
 }
@@ -381,7 +372,7 @@ private struct AboutDragAndDropPreviewNotchView: View {
                 
                 RoundedRectangle(cornerRadius: 14)
                     .fill(.blue.opacity(0.2))
-                    .stroke(.blue, style: StrokeStyle(lineWidth: 1, lineCap: .round, lineJoin: .round, dash: [15, 5]))
+                    .stroke(.blue, style: StrokeStyle(lineWidth: 1.5, lineCap: .round, lineJoin: .round, dash: [15, 5]))
                     .frame(height: 60)
                     .overlay {
                         VStack(spacing: 8) {

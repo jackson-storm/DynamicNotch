@@ -254,7 +254,7 @@ struct SettingsRootView: View {
             
         case .lockScreen:
             detailContainer(for: section) {
-                LockScreenSettingsView(settings: settingsViewModel.lockScreen)
+                LockScreenSettingsView(settings: settingsViewModel.lockScreen, applicationSettings: settingsViewModel.application)
             }
             
         #if DEBUG

@@ -58,6 +58,10 @@ private struct MenuBarMenu: View {
                 Image(systemName: "rectangle.portrait.and.arrow.right")
                 Text(verbatim: "Quit")
             }
+            
+            Divider()
+            
+            Text("Version: \(AppVersionText.appVersionText)")
         }
     }
 }

@@ -232,7 +232,14 @@ final class NotchEventCoordinator: ObservableObject {
 
         switch event {
         case .started:
-            notchViewModel.send(.showLiveActivity(LockScreenNotchContent(lockScreenManager: lockScreenManager)))
+            notchViewModel.send(
+                .showLiveActivity(
+                    LockScreenNotchContent(
+                        lockScreenManager: lockScreenManager,
+                        style: settingsViewModel.lockScreen.lockScreenStyle
+                    )
+                )
+            )
             
         case .stopped:
             notchViewModel.send(.hideLiveActivity(id: "lockScreen"))
@@ -317,6 +324,25 @@ final class NotchEventCoordinator: ObservableObject {
                 } else {
                     self.notchViewModel.send(.hideLiveActivity(id: "lockScreen"))
                 }
+            }
+            .store(in: &cancellables)
+
+        settingsViewModel.lockScreen.$lockScreenStyle
+            .removeDuplicates()
+            .sink { [weak self] style in
+                guard let self else { return }
+                guard self.notchViewModel.notchModel.liveActivityContent?.id == LockScreenNotchContent.contentID else {
+                    return
+                }
+
+                self.notchViewModel.send(
+                    .showLiveActivity(
+                        LockScreenNotchContent(
+                            lockScreenManager: self.lockScreenManager,
+                            style: style
+                        )
+                    )
+                )
             }
             .store(in: &cancellables)
     }

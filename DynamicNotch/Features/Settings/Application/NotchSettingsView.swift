@@ -15,7 +15,6 @@ struct NotchSettingsView: View {
         SettingsPageScrollView {
             appearanceCard
             animationCard
-            temporaryActivitiesCard
         }
         .accessibilityIdentifier("settings.notch.root")
     }
@@ -30,7 +29,9 @@ struct NotchSettingsView: View {
                 options: NotchBackgroundStyle.allCases,
                 title: { $0.title },
                 headerTitle: "Background",
-                headerDescription: "Choose the background color used across the notch."
+                headerDescription: "Choose the background color used across the notch.",
+                lightBackgroundImage: Image("backgroundLight"),
+                darkBackgroundImage: Image("backgroundDark")
             ) { style, isSelected in
                 backgroundPickerContent(for: style, isSelected: isSelected)
             }
@@ -120,23 +121,18 @@ struct NotchSettingsView: View {
             title: "Animation",
             subtitle: "Choose one global motion preset for notch transitions, expansion, and visibility."
         ) {
-            VStack(alignment: .leading, spacing: 12) {
-                CustomPicker(
-                    selection: $applicationSettings.notchAnimationPreset,
-                    options: Array(NotchAnimationPreset.allCases),
-                    title: { $0.title },
-                    symbolName: { $0.symbolName }
-                )
-                .accessibilityIdentifier("settings.general.animationPreset")
-            }
-        }
-    }
-    
-    private var temporaryActivitiesCard: some View {
-        SettingsCard(
-            title: "Temporary activities",
-            subtitle: "Control how long short-lived notifications stay visible."
-        ) {
+            CustomPicker(
+                selection: $applicationSettings.notchAnimationPreset,
+                options: Array(NotchAnimationPreset.allCases),
+                title: { $0.title },
+                headerTitle: "Animation speed",
+                headerDescription: "Set a global motion parameter that controls the speed of the animation.",
+                symbolName: { $0.symbolName }
+            )
+            .accessibilityIdentifier("settings.general.animationPreset")
+            
+            Divider().opacity(0.6)
+            
             SettingsSliderRow(
                 title: "Notification duration",
                 description: "Scale the duration of temporary activities across HUD, battery, connectivity, and resize feedback.",
@@ -149,7 +145,7 @@ struct NotchSettingsView: View {
             )
         }
     }
-
+    
     @ViewBuilder
     private func backgroundPickerContent(for style: NotchBackgroundStyle, isSelected: Bool) -> some View {
         ZStack {
@@ -159,7 +155,7 @@ struct NotchSettingsView: View {
         .environment(\.colorScheme, .dark)
         .scaleEffect(isSelected ? 1 : 0.97)
     }
-
+    
     @ViewBuilder
     private func previewCapsule(for style: NotchBackgroundStyle) -> some View {
         switch style {
@@ -170,12 +166,12 @@ struct NotchSettingsView: View {
                     Capsule()
                         .stroke(previewStrokeColor, lineWidth: previewStrokeWidth)
                 }
-
+            
         case .ultraThickMaterial:
             ZStack {
                 Capsule()
                     .fill(Color.white.opacity(0.05))
-
+                
                 Capsule()
                     .fill(.ultraThinMaterial)
                     .overlay {
@@ -198,18 +194,19 @@ struct NotchSettingsView: View {
             }
         }
     }
-
+    
     private var previewStrokeColor: Color {
         guard applicationSettings.isShowNotchStrokeEnabled else {
             return .clear
         }
-
+        
         return applicationSettings.isDefaultActivityStrokeEnabled ?
-        .white.opacity(0.2) :
-        .green.opacity(0.3)
+            .white.opacity(0.2) :
+            .green.opacity(0.3)
     }
-
+    
     private var previewStrokeWidth: CGFloat {
         applicationSettings.isShowNotchStrokeEnabled ? CGFloat(applicationSettings.notchStrokeWidth) : 0
     }
 }
+

@@ -25,6 +25,7 @@ final class NotchHUDEventsHandler {
                         kind: .brightness,
                         level: level,
                         style: settingsViewModel.hudStyle,
+                        indicatorStyle: settingsViewModel.hudIndicatorStyle,
                         usesColoredLevelTint: settingsViewModel.isHUDColoredLevelEnabled,
                         usesColoredLevelStroke: settingsViewModel.isHUDColoredLevelStrokeEnabled
                     ),
@@ -40,6 +41,7 @@ final class NotchHUDEventsHandler {
                         kind: .keyboard,
                         level: level,
                         style: settingsViewModel.hudStyle,
+                        indicatorStyle: settingsViewModel.hudIndicatorStyle,
                         usesColoredLevelTint: settingsViewModel.isHUDColoredLevelEnabled,
                         usesColoredLevelStroke: settingsViewModel.isHUDColoredLevelStrokeEnabled
                     ),
@@ -55,6 +57,7 @@ final class NotchHUDEventsHandler {
                         kind: .volume,
                         level: level,
                         style: settingsViewModel.hudStyle,
+                        indicatorStyle: settingsViewModel.hudIndicatorStyle,
                         usesColoredLevelTint: settingsViewModel.isHUDColoredLevelEnabled,
                         usesColoredLevelStroke: settingsViewModel.isHUDColoredLevelStrokeEnabled
                     ),

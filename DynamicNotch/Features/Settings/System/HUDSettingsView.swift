@@ -72,9 +72,23 @@ struct HUDSettingsView: View {
 
             Divider().opacity(0.6)
 
+            CustomPicker(
+                selection: $settings.indicatorStyle,
+                options: Array(HudIndicatorStyle.allCases),
+                title: { $0.title },
+                headerTitle: "Level indicator",
+                headerDescription: "Choose whether the HUD level uses a bar or a circular ring.",
+                itemHeight: 68
+            ) { indicatorStyle, isSelected in
+                hudIndicatorPickerContent(for: indicatorStyle, isSelected: isSelected)
+            }
+            .accessibilityIdentifier("settings.general.hud.indicatorStyle")
+
+            Divider().opacity(0.6)
+
             SettingsToggleRow(
                 title: "Colored level tint",
-                description: "Use the dynamic green-to-red fill for the HUD level bar instead of a plain white fill.",
+                description: "Use the dynamic green-to-red fill for the HUD level indicator instead of a plain white fill.",
                 systemImage: "paintpalette.fill",
                 color: .purple,
                 isOn: $settings.isColoredLevelEnabled,
@@ -99,8 +113,6 @@ struct HUDSettingsView: View {
 
     @ViewBuilder
     private func hudStylePickerContent(for style: HudStyle, isSelected: Bool) -> some View {
-        let levelFill = pickerLevelFill
-        let levelFillShadow = levelFill.opacity(settings.isColoredLevelEnabled ? 0.35 : 0.18)
         let strokeColor = pickerStrokeColor
 
         switch style {
@@ -127,10 +139,7 @@ struct HUDSettingsView: View {
                     Text("72")
                         .font(.system(size: 10, weight: .semibold, design: .rounded))
                     
-                    Capsule()
-                        .fill(levelFill)
-                        .frame(width: 30, height: 4)
-                        .shadow(color: levelFillShadow, radius: 4, y: 0)
+                    pickerIndicator
                 }
                 .foregroundStyle(.white.opacity(0.8))
                 .padding(.horizontal, 8)
@@ -152,10 +161,7 @@ struct HUDSettingsView: View {
                     
                     Spacer()
                     
-                    Capsule()
-                        .fill(levelFill)
-                        .frame(width: 34, height: 4)
-                        .shadow(color: levelFillShadow, radius: 4, y: 0)
+                    pickerIndicator
                 }
                 .foregroundStyle(.white.opacity(0.8))
                 .padding(.horizontal, 8)
@@ -186,8 +192,30 @@ struct HUDSettingsView: View {
         }
     }
 
-    private var pickerLevelFill: Color {
-        HudLevelStyling.previewFillTint(isEnabled: settings.isColoredLevelEnabled)
+    @ViewBuilder
+    private func hudIndicatorPickerContent(for indicatorStyle: HudIndicatorStyle, isSelected: Bool) -> some View {
+        HudLevelIndicatorView(
+            level: 72,
+            indicatorStyle: indicatorStyle,
+            usesColoredLevelTint: settings.isColoredLevelEnabled,
+            barWidth: 38,
+            barHeight: 5,
+            circleSize: 20,
+            circleLineWidth: 3
+        )
+        .scaleEffect(isSelected ? 1 : 0.97)
+    }
+
+    private var pickerIndicator: some View {
+        HudLevelIndicatorView(
+            level: 72,
+            indicatorStyle: settings.indicatorStyle,
+            usesColoredLevelTint: settings.isColoredLevelEnabled,
+            barWidth: 30,
+            barHeight: 4,
+            circleSize: 16,
+            circleLineWidth: 2.5
+        )
     }
 
     private var pickerStrokeColor: Color {

@@ -29,10 +29,6 @@ struct LockScreenNowPlayingPanelView: View {
                 panelBackground
             }
             .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
-            .overlay {
-                RoundedRectangle(cornerRadius: 28, style: .continuous)
-                    .stroke(panelStrokeColor, lineWidth: 1)
-            }
             .environment(\.colorScheme, .dark)
             .shadow(color: .black.opacity(0.24), radius: 26, x: 0, y: 14)
             .opacity(animator.isPresented ? 1 : 0)
@@ -43,47 +39,13 @@ struct LockScreenNowPlayingPanelView: View {
 
     @ViewBuilder
     private var panelBackground: some View {
-        let shape = RoundedRectangle(cornerRadius: 28, style: .continuous)
-
-        switch settingsViewModel.lockScreen.widgetAppearanceStyle {
-        case .ultraThinMaterial:
-            shape.fill(.ultraThinMaterial)
-
-        case .ultraThickMaterial:
-            shape.fill(.ultraThickMaterial)
-
-        case .liquidGlass:
-            if #available(macOS 26.0, *) {
-                Color.clear
-                    .glassEffect(.regular, in: shape)
-            } else {
-                shape
-                    .fill(.ultraThinMaterial)
-                    .overlay {
-                        shape.fill(
-                            LinearGradient(
-                                colors: [
-                                    .white.opacity(0.16),
-                                    .white.opacity(0.05)
-                                ],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            )
-                        )
-                    }
-            }
-        }
-    }
-
-    private var panelStrokeColor: Color {
-        switch settingsViewModel.lockScreen.widgetAppearanceStyle {
-        case .ultraThinMaterial:
-            .white.opacity(0.15)
-        case .ultraThickMaterial:
-            .white.opacity(0.18)
-        case .liquidGlass:
-            .white.opacity(0.12)
-        }
+        LockScreenWidgetSurface(
+            style: settingsViewModel.lockScreen.widgetAppearanceStyle,
+            tintStyle: settingsViewModel.lockScreen.widgetTintStyle,
+            appTint: settingsViewModel.application.appTint,
+            brightness: settingsViewModel.lockScreen.widgetBackgroundBrightness,
+            cornerRadius: 28
+        )
     }
 }
 

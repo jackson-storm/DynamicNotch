@@ -27,6 +27,12 @@ final class HUDSettingsStore: SettingsStoreBase {
         }
     }
 
+    @Published var indicatorStyle: HudIndicatorStyle {
+        didSet {
+            persist(indicatorStyle.rawValue, for: GeneralSettingsStorage.Keys.hudIndicatorStyle)
+        }
+    }
+
     @Published var isColoredLevelEnabled: Bool {
         didSet {
             persist(isColoredLevelEnabled, for: GeneralSettingsStorage.Keys.hudColoredLevelEnabled)
@@ -46,6 +52,9 @@ final class HUDSettingsStore: SettingsStoreBase {
         self.hudStyle = HudStyle(
             rawValue: defaults.string(forKey: GeneralSettingsStorage.Keys.hudStyle) ?? HudStyle.standard.rawValue
         ) ?? .standard
+        self.indicatorStyle = HudIndicatorStyle(
+            rawValue: defaults.string(forKey: GeneralSettingsStorage.Keys.hudIndicatorStyle) ?? HudIndicatorStyle.bar.rawValue
+        ) ?? .bar
         self.isColoredLevelEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.hudColoredLevelEnabled)
         self.isColoredLevelStrokeEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.hudColoredStrokeEnabled)
         super.init(defaults: defaults)
@@ -56,6 +65,7 @@ final class HUDSettingsStore: SettingsStoreBase {
         isKeyboardHUDEnabled = defaultBool(for: GeneralSettingsStorage.Keys.keyboardHUDEnabled)
         isVolumeHUDEnabled = defaultBool(for: GeneralSettingsStorage.Keys.volumeHUDEnabled)
         hudStyle = HudStyle(rawValue: defaultString(for: GeneralSettingsStorage.Keys.hudStyle)) ?? .standard
+        indicatorStyle = HudIndicatorStyle(rawValue: defaultString(for: GeneralSettingsStorage.Keys.hudIndicatorStyle)) ?? .bar
         isColoredLevelEnabled = defaultBool(for: GeneralSettingsStorage.Keys.hudColoredLevelEnabled)
         isColoredLevelStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.hudColoredStrokeEnabled)
     }

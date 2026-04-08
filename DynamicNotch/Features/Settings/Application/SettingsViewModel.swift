@@ -156,6 +156,11 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
         set { hud.hudStyle = newValue }
     }
 
+    var hudIndicatorStyle: HudIndicatorStyle {
+        get { hud.indicatorStyle }
+        set { hud.indicatorStyle = newValue }
+    }
+
     var isHUDColoredLevelEnabled: Bool {
         get { hud.isColoredLevelEnabled }
         set { hud.isColoredLevelEnabled = newValue }

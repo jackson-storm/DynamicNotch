@@ -27,7 +27,7 @@ final class LockScreenManager: ObservableObject {
         idleResetDelay: TimeInterval = 0.82
     ) {
         self.service = service ?? DistributedLockScreenMonitoringService()
-        self.soundPlayer = soundPlayer ?? LockScreenSoundPlayer()
+        self.soundPlayer = soundPlayer ?? LockScreenSoundPlayer(defaults: defaults)
         self.defaults = defaults
         self.unlockCollapseDelay = unlockCollapseDelay
         self.idleResetDelay = idleResetDelay

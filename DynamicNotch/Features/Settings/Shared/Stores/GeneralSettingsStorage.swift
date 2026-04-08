@@ -19,6 +19,7 @@ enum GeneralSettingsStorage {
         static let keyboardHUDEnabled = "settings.hud.keyboard"
         static let volumeHUDEnabled = "settings.hud.volume"
         static let hudStyle = "settings.hud.style"
+        static let hudIndicatorStyle = "settings.hud.indicatorStyle"
         static let hudColoredLevelEnabled = "settings.hud.coloredLevel"
         static let hudColoredStrokeEnabled = "settings.hud.coloredStroke"
         static let hotspotLiveActivityEnabled = "settings.live.hotspot"
@@ -62,6 +63,7 @@ enum GeneralSettingsStorage {
         Keys.keyboardHUDEnabled: true,
         Keys.volumeHUDEnabled: true,
         Keys.hudStyle: HudStyle.standard.rawValue,
+        Keys.hudIndicatorStyle: HudIndicatorStyle.bar.rawValue,
         Keys.hudColoredLevelEnabled: true,
         Keys.hudColoredStrokeEnabled: false,
         Keys.hotspotLiveActivityEnabled: true,
@@ -73,9 +75,14 @@ enum GeneralSettingsStorage {
         Keys.airDropDefaultStrokeEnabled: false,
         LockScreenSettings.liveActivityKey: true,
         LockScreenSettings.soundKey: true,
+        LockScreenSettings.customSoundPathKey: "",
+        LockScreenSettings.customLockSoundPathKey: "",
+        LockScreenSettings.customUnlockSoundPathKey: "",
         LockScreenSettings.mediaPanelKey: true,
         LockScreenSettings.styleKey: LockScreenStyle.compact.rawValue,
         LockScreenSettings.widgetAppearanceStyleKey: LockScreenWidgetAppearanceStyle.ultraThinMaterial.rawValue,
+        LockScreenSettings.widgetTintStyleKey: LockScreenWidgetTintStyle.neutral.rawValue,
+        LockScreenSettings.widgetBackgroundBrightnessKey: 1.0,
         Keys.chargerTemporaryActivityEnabled: true,
         Keys.lowPowerTemporaryActivityEnabled: true,
         Keys.fullPowerTemporaryActivityEnabled: true,

@@ -219,6 +219,12 @@
         }
       }
     },
+    "Accent" : {
+
+    },
+    "Accent tint" : {
+
+    },
     "Adjust the thickness of the notch outline." : {
       "localizations" : {
         "en" : {
@@ -694,6 +700,12 @@
     "Background" : {
 
     },
+    "Background brightness" : {
+
+    },
+    "Bar" : {
+
+    },
     "Battery activity" : {
       "localizations" : {
         "en" : {
@@ -799,6 +811,9 @@
       }
     },
     "Black" : {
+
+    },
+    "Blend the app accent color into the lock-screen widget background." : {
 
     },
     "Blue" : {
@@ -1021,6 +1036,9 @@
         }
       }
     },
+    "Brighten or darken the widget background without changing the selected material style." : {
+
+    },
     "Brightness HUD" : {
       "localizations" : {
         "en" : {
@@ -1136,6 +1154,9 @@
         }
       }
     },
+    "Change" : {
+
+    },
     "Charging" : {
       "localizations" : {
         "en" : {
@@ -1191,6 +1212,9 @@
     "Check update" : {
 
     },
+    "Choose" : {
+
+    },
     "Choose how hardware HUD feedback is laid out inside the notch." : {
 
     },
@@ -1212,10 +1236,16 @@
     "Choose the interface appearance used by the app." : {
 
     },
+    "Choose whether the HUD level uses a bar or a circular ring." : {
+
+    },
     "Choose which display should host the notch overlay." : {
 
     },
     "Choose which system HUDs Dynamic Notch should replace." : {
+
+    },
+    "Circle" : {
 
     },
     "Clean up previews without restarting the app." : {
@@ -1466,6 +1496,9 @@
           }
         }
       }
+    },
+    "Default" : {
+
     },
     "Default settings" : {
       "localizations" : {
@@ -3078,6 +3111,9 @@
           }
         }
       }
+    },
+    "Level indicator" : {
+
     },
     "Level-based stroke color" : {
       "localizations" : {
@@ -5168,6 +5204,9 @@
           }
         }
       }
+    },
+    "Reset" : {
+
     },
     "Reset All Previews" : {
       "localizations" : {
@@ -11785,6 +11824,7 @@
       }
     },
     "Use the dynamic green-to-red fill for the HUD level bar instead of a plain white fill." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11835,6 +11875,9 @@
           }
         }
       }
+    },
+    "Use the dynamic green-to-red fill for the HUD level indicator instead of a plain white fill." : {
+
     },
     "Utilities" : {
       "localizations" : {

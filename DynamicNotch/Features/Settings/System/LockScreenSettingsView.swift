@@ -1,8 +1,13 @@
+internal import AppKit
+import AVFoundation
 import SwiftUI
+import UniformTypeIdentifiers
 
 struct LockScreenSettingsView: View {
     @ObservedObject var settings: LockScreenFeatureSettingsStore
     @ObservedObject var applicationSettings: ApplicationSettingsStore
+    @State private var lockSoundSelectionError: String?
+    @State private var unlockSoundSelectionError: String?
     
     var body: some View {
         SettingsPageScrollView {
@@ -68,6 +73,19 @@ struct LockScreenSettingsView: View {
                 isOn: $settings.isLockScreenSoundEnabled,
                 accessibilityIdentifier: "settings.activities.lockScreen.sound"
             )
+
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+
+            customSoundRow(for: .lock)
+
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 42)
+
+            customSoundRow(for: .unlock)
         }
     }
     
@@ -87,6 +105,36 @@ struct LockScreenSettingsView: View {
                 widgetAppearancePickerContent(for: style, isSelected: isSelected)
             }
             .accessibilityIdentifier("settings.activities.lockScreen.widgetAppearance")
+            
+            Divider().opacity(0.6)
+            
+            SettingsToggleRow(
+                title: "Accent tint",
+                description: "Blend the app accent color into the lock-screen widget background.",
+                systemImage: "paintpalette.fill",
+                color: applicationSettings.appTint.color,
+                isOn: Binding(
+                    get: { settings.widgetTintStyle == .accent },
+                    set: { settings.widgetTintStyle = $0 ? .accent : .neutral }
+                ),
+                accessibilityIdentifier: "settings.activities.lockScreen.widgetTint"
+            )
+            
+            Divider().opacity(0.6)
+
+            SettingsSliderRow(
+                title: "Background brightness",
+                description: "Brighten or darken the widget background without changing the selected material style.",
+                range: LockScreenSettings.widgetBackgroundBrightnessRange.lowerBound * 100...LockScreenSettings.widgetBackgroundBrightnessRange.upperBound * 100,
+                step: 5,
+                fractionLength: 0,
+                suffix: "%",
+                accessibilityIdentifier: "settings.activities.lockScreen.widgetBrightness",
+                value: Binding(
+                    get: { settings.widgetBackgroundBrightness * 100 },
+                    set: { settings.widgetBackgroundBrightness = $0 / 100 }
+                )
+            )
         }
     }
 
@@ -121,13 +169,184 @@ struct LockScreenSettingsView: View {
 
     @ViewBuilder
     private func widgetAppearancePickerContent(for style: LockScreenWidgetAppearanceStyle, isSelected: Bool) -> some View {
-        LockScreenWidgetAppearancePickerPreview(style: style)
+        LockScreenWidgetAppearancePickerPreview(
+            style: style,
+            tintStyle: settings.widgetTintStyle,
+            appTint: applicationSettings.appTint,
+            backgroundBrightness: settings.widgetBackgroundBrightness
+        )
         .scaleEffect(isSelected ? 1 : 0.97)
+    }
+
+    @ViewBuilder
+    private func customSoundRow(for kind: LockScreenCustomSoundKind) -> some View {
+        HStack(alignment: .center, spacing: 12) {
+            SettingsIconBadge(
+                systemImage: kind.systemImage,
+                tint: kind.color,
+                size: 30,
+                iconSize: 14,
+                cornerRadius: 9
+            )
+
+            VStack(alignment: .leading, spacing: 4) {
+                Text(kind.title)
+
+                Text(kind.description)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                Text(customSoundStatusText(for: kind))
+                    .font(.caption)
+                    .foregroundStyle(customSoundStatusColor(for: kind))
+                    .lineLimit(1)
+                    .truncationMode(.middle)
+
+                if let error = customSoundSelectionError(for: kind) {
+                    Text(error)
+                        .font(.caption)
+                        .foregroundStyle(.red)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+
+            Spacer(minLength: 12)
+
+            HStack(spacing: 8) {
+                if hasCustomSound(for: kind) {
+                    Button("Reset") {
+                        resetCustomSoundSelection(for: kind)
+                    }
+                    .buttonStyle(.bordered)
+                    .controlSize(.small)
+                    .accessibilityIdentifier("\(kind.accessibilityIdentifier).reset")
+                }
+
+                Button(hasCustomSound(for: kind) ? "Change" : "Choose") {
+                    selectCustomSound(for: kind)
+                }
+                .buttonStyle(.borderedProminent)
+                .controlSize(.small)
+                .accessibilityIdentifier("\(kind.accessibilityIdentifier).choose")
+            }
+        }
+        .modifier(SettingsAccessibilityModifier(identifier: kind.accessibilityIdentifier))
+    }
+
+    private func customSoundStatusText(for kind: LockScreenCustomSoundKind) -> String {
+        guard let customSoundURL = customSoundURL(for: kind) else {
+            return kind.builtInTitle
+        }
+
+        guard isCustomSoundAvailable(for: kind) else {
+            return "\(customSoundURL.lastPathComponent) is unavailable. Falling back to \(kind.builtInTitle.lowercased())."
+        }
+
+        return customSoundURL.lastPathComponent
+    }
+
+    private func customSoundStatusColor(for kind: LockScreenCustomSoundKind) -> Color {
+        if hasCustomSound(for: kind), isCustomSoundAvailable(for: kind) == false {
+            return .red
+        }
+
+        return hasCustomSound(for: kind) ? .primary : .secondary
+    }
+
+    private func hasCustomSound(for kind: LockScreenCustomSoundKind) -> Bool {
+        customSoundURL(for: kind) != nil
+    }
+
+    private func isCustomSoundAvailable(for kind: LockScreenCustomSoundKind) -> Bool {
+        guard let customSoundURL = customSoundURL(for: kind) else {
+            return false
+        }
+
+        return FileManager.default.fileExists(atPath: customSoundURL.path)
+    }
+
+    private func customSoundURL(for kind: LockScreenCustomSoundKind) -> URL? {
+        let trimmedPath = customSoundPath(for: kind).trimmingCharacters(in: .whitespacesAndNewlines)
+        guard trimmedPath.isEmpty == false else {
+            return nil
+        }
+
+        return URL(fileURLWithPath: trimmedPath)
+    }
+
+    private func customSoundPath(for kind: LockScreenCustomSoundKind) -> String {
+        switch kind {
+        case .lock:
+            return settings.customLockSoundPath
+        case .unlock:
+            return settings.customUnlockSoundPath
+        }
+    }
+
+    private func setCustomSoundPath(_ path: String, for kind: LockScreenCustomSoundKind) {
+        switch kind {
+        case .lock:
+            settings.customLockSoundPath = path
+        case .unlock:
+            settings.customUnlockSoundPath = path
+        }
+    }
+
+    private func customSoundSelectionError(for kind: LockScreenCustomSoundKind) -> String? {
+        switch kind {
+        case .lock:
+            return lockSoundSelectionError
+        case .unlock:
+            return unlockSoundSelectionError
+        }
+    }
+
+    private func setCustomSoundSelectionError(_ error: String?, for kind: LockScreenCustomSoundKind) {
+        switch kind {
+        case .lock:
+            lockSoundSelectionError = error
+        case .unlock:
+            unlockSoundSelectionError = error
+        }
+    }
+
+    private func selectCustomSound(for kind: LockScreenCustomSoundKind) {
+        let panel = NSOpenPanel()
+        panel.title = kind.panelTitle
+        panel.prompt = "Choose"
+        panel.canChooseFiles = true
+        panel.canChooseDirectories = false
+        panel.allowsMultipleSelection = false
+        panel.allowedContentTypes = [.audio]
+
+        guard panel.runModal() == .OK, let url = panel.url else {
+            return
+        }
+
+        do {
+            _ = try AVAudioPlayer(contentsOf: url)
+            setCustomSoundPath(url.path, for: kind)
+            setCustomSoundSelectionError(nil, for: kind)
+        } catch {
+            setCustomSoundSelectionError(
+                "The selected file could not be loaded. Choose an MP3, WAV, AIFF, or M4A audio file.",
+                for: kind
+            )
+        }
+    }
+
+    private func resetCustomSoundSelection(for kind: LockScreenCustomSoundKind) {
+        setCustomSoundPath("", for: kind)
+        setCustomSoundSelectionError(nil, for: kind)
     }
 }
 
 private struct LockScreenWidgetAppearancePickerPreview: View {
     let style: LockScreenWidgetAppearanceStyle
+    let tintStyle: LockScreenWidgetTintStyle
+    let appTint: AppTint
+    let backgroundBrightness: Double
 
     private let panelSize = CGSize(width: 380, height: 228)
     private let panelCornerRadius: CGFloat = 34
@@ -136,7 +355,13 @@ private struct LockScreenWidgetAppearancePickerPreview: View {
 
     var body: some View {
         ZStack {
-            LockScreenWidgetPreviewSurface(style: style, cornerRadius: panelCornerRadius)
+            LockScreenWidgetSurface(
+                style: style,
+                tintStyle: tintStyle,
+                appTint: appTint,
+                brightness: backgroundBrightness,
+                cornerRadius: panelCornerRadius
+            )
 
             VStack {
                 HStack(spacing: 18) {
@@ -196,10 +421,6 @@ private struct LockScreenWidgetAppearancePickerPreview: View {
         }
         .frame(width: panelSize.width, height: panelSize.height)
         .clipShape(RoundedRectangle(cornerRadius: panelCornerRadius, style: .continuous))
-        .overlay {
-            RoundedRectangle(cornerRadius: panelCornerRadius, style: .continuous)
-                .stroke(previewStrokeColor, lineWidth: 1)
-        }
         .shadow(color: .black.opacity(0.24), radius: 26, x: 0, y: 14)
         .scaleEffect(previewScale)
         .frame(width: scaledPanelWidth, height: scaledPanelHeight)
@@ -286,69 +507,5 @@ private struct LockScreenWidgetAppearancePickerPreview: View {
 
     private var scaledPanelHeight: CGFloat {
         panelSize.height * previewScale
-    }
-
-    private var previewStrokeColor: Color {
-        switch style {
-        case .ultraThinMaterial:
-            return .white.opacity(0.15)
-        case .ultraThickMaterial:
-            return .white.opacity(0.18)
-        case .liquidGlass:
-            return .white.opacity(0.12)
-        }
-    }
-}
-
-private struct LockScreenWidgetPreviewSurface: View {
-    let style: LockScreenWidgetAppearanceStyle
-    let cornerRadius: CGFloat
-
-    var body: some View {
-        let shape = RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-
-        switch style {
-        case .ultraThinMaterial:
-            shape
-                .fill(.ultraThinMaterial)
-                .overlay {
-                    shape.stroke(.white.opacity(0.14), lineWidth: 1)
-                }
-
-        case .ultraThickMaterial:
-            shape
-                .fill(.ultraThickMaterial)
-                .overlay {
-                    shape.stroke(.white.opacity(0.16), lineWidth: 1)
-                }
-
-        case .liquidGlass:
-            if #available(macOS 26.0, *) {
-                Color.clear
-                    .glassEffect(.regular, in: shape)
-                    .overlay {
-                        shape.stroke(.white.opacity(0.12), lineWidth: 1)
-                    }
-            } else {
-                shape
-                    .fill(.ultraThinMaterial)
-                    .overlay {
-                        shape
-                            .fill(
-                                LinearGradient(
-                                    colors: [
-                                        .white.opacity(0.14),
-                                        .white.opacity(0.04)
-                                    ],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                )
-                            )
-                    }
-                    .overlay {
-                        shape.stroke(.white.opacity(0.12), lineWidth: 1)
-                    }
-            }
-        }
     }
 }

@@ -8,8 +8,8 @@ struct GeneralSettingsView: View {
     var body: some View {
         SettingsPageScrollView {
             systemCard
-            appearanceCard
             displayCard
+            appearanceCard
             languageCard
         }
         .accessibilityIdentifier("settings.general.root")
@@ -59,17 +59,6 @@ struct GeneralSettingsView: View {
         }
     }
     
-    private var appearanceCard: some View {
-        SettingsCard(
-            title: "settings.general.appearance.title",
-            subtitle: "settings.general.appearance.subtitle"
-        ) {
-            themePickerSection
-            Divider().opacity(0.6)
-            tintPickerSection
-        }
-    }
-    
     private var displayCard: some View {
         SettingsCard(
             title: "Display",
@@ -82,6 +71,17 @@ struct GeneralSettingsView: View {
                 symbolName: { $0.symbolName }
             )
             .accessibilityIdentifier("settings.general.displayLocation")
+        }
+    }
+    
+    private var appearanceCard: some View {
+        SettingsCard(
+            title: "settings.general.appearance.title",
+            subtitle: "settings.general.appearance.subtitle"
+        ) {
+            themePickerSection
+            Divider().opacity(0.6)
+            tintPickerSection
         }
     }
     

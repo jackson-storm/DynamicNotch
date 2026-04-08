@@ -4,8 +4,14 @@ enum LockScreenSettings {
     static let liveActivityKey = "isLockScreenLiveActivityEnabled"
     static let mediaPanelKey = "isLockScreenMediaPanelEnabled"
     static let soundKey = "isLockScreenSoundEnabled"
+    static let customSoundPathKey = "settings.lockScreen.customSoundPath"
+    static let customLockSoundPathKey = "settings.lockScreen.customLockSoundPath"
+    static let customUnlockSoundPathKey = "settings.lockScreen.customUnlockSoundPath"
     static let styleKey = "settings.lockScreen.style"
     static let widgetAppearanceStyleKey = "settings.lockScreen.widgetAppearanceStyle"
+    static let widgetTintStyleKey = "settings.lockScreen.widgetTintStyle"
+    static let widgetBackgroundBrightnessKey = "settings.lockScreen.widgetBackgroundBrightness"
+    static let widgetBackgroundBrightnessRange = 0.75...1.25
 
     static func isLiveActivityEnabled(in defaults: UserDefaults = .standard) -> Bool {
         resolvedBoolean(forKey: liveActivityKey, defaultValue: true, in: defaults)
@@ -17,6 +23,18 @@ enum LockScreenSettings {
 
     static func isSoundEnabled(in defaults: UserDefaults = .standard) -> Bool {
         resolvedBoolean(forKey: soundKey, defaultValue: true, in: defaults)
+    }
+
+    static func legacyCustomSoundPath(in defaults: UserDefaults = .standard) -> String? {
+        resolvedPath(forKey: customSoundPathKey, in: defaults)
+    }
+
+    static func customLockSoundPath(in defaults: UserDefaults = .standard) -> String? {
+        resolvedPath(forKey: customLockSoundPathKey, in: defaults)
+    }
+
+    static func customUnlockSoundPath(in defaults: UserDefaults = .standard) -> String? {
+        resolvedPath(forKey: customUnlockSoundPathKey, in: defaults)
     }
 
     static func style(in defaults: UserDefaults = .standard) -> LockScreenStyle {
@@ -45,6 +63,25 @@ enum LockScreenSettings {
         return style
     }
 
+    static func widgetTintStyle(in defaults: UserDefaults = .standard) -> LockScreenWidgetTintStyle {
+        guard
+            let rawValue = defaults.string(forKey: widgetTintStyleKey),
+            let tintStyle = LockScreenWidgetTintStyle(rawValue: rawValue)
+        else {
+            return .neutral
+        }
+
+        return tintStyle
+    }
+
+    static func widgetBackgroundBrightness(in defaults: UserDefaults = .standard) -> Double {
+        guard let value = defaults.object(forKey: widgetBackgroundBrightnessKey) as? Double else {
+            return 1.0
+        }
+
+        return min(max(value, widgetBackgroundBrightnessRange.lowerBound), widgetBackgroundBrightnessRange.upperBound)
+    }
+
     private static func resolvedBoolean(
         forKey key: String,
         defaultValue: Bool,
@@ -55,5 +92,18 @@ enum LockScreenSettings {
         }
 
         return defaults.bool(forKey: key)
+    }
+
+    private static func resolvedPath(forKey key: String, in defaults: UserDefaults) -> String? {
+        guard let rawValue = defaults.string(forKey: key) else {
+            return nil
+        }
+
+        let trimmedValue = rawValue.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard trimmedValue.isEmpty == false else {
+            return nil
+        }
+
+        return trimmedValue
     }
 }

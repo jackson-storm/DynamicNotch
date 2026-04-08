@@ -25,8 +25,16 @@ final class NotchEventCoordinator: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     
     private var isOnboardingActive: Bool {
-        notchViewModel.notchModel.liveActivityContent?.id == "onboarding" ||
-        notchViewModel.notchModel.temporaryNotificationContent?.id == "onboarding"
+        OnboardingSteps.contains(id: notchViewModel.notchModel.liveActivityContent?.id) ||
+        OnboardingSteps.contains(id: notchViewModel.notchModel.temporaryNotificationContent?.id) ||
+        {
+            #if DEBUG
+            OnboardingSteps.containsDebug(id: notchViewModel.notchModel.liveActivityContent?.id) ||
+            OnboardingSteps.containsDebug(id: notchViewModel.notchModel.temporaryNotificationContent?.id)
+            #else
+            false
+            #endif
+        }()
     }
 
     private var isLockScreenTransitionActive: Bool {
@@ -97,15 +105,55 @@ final class NotchEventCoordinator: ObservableObject {
         }
     }
     
-    func finishOnboarding() {
-        UserDefaults.standard.set(true, forKey: "hasSeenOnboarding")
-        notchViewModel.send(.hideLiveActivity(id: "onboarding"))
+    func hideOnboarding(markAsSeen: Bool = false) {
+        if markAsSeen {
+            UserDefaults.standard.set(true, forKey: "hasSeenOnboarding")
+        }
+        
+        OnboardingSteps.allCases.forEach { step in
+            notchViewModel.send(.hideLiveActivity(id: step.liveActivityID))
+        }
+        
+        #if DEBUG
+        OnboardingSteps.allCases.forEach { step in
+            notchViewModel.send(.hideLiveActivity(id: step.debugLiveActivityID))
+        }
+        #endif
 
-        if nowPlayingViewModel.hasActiveSession &&
+        if markAsSeen &&
+            nowPlayingViewModel.hasActiveSession &&
             settingsViewModel.isLiveActivityEnabled(.nowPlaying) {
             mediaHandler.handleNowPlaying(.started)
         }
     }
+    
+    func finishOnboarding() {
+        hideOnboarding(markAsSeen: true)
+    }
+    
+    func showOnboarding(step: OnboardingSteps = .first) {
+        notchViewModel.send(
+            .showLiveActivity(
+                OnboardingNotchContent(
+                    step: step,
+                    notchEventCoordinator: self
+                )
+            )
+        )
+    }
+    
+    #if DEBUG
+    func showDebugOnboardingPreview(step: OnboardingSteps = .first) {
+        notchViewModel.send(
+            .showLiveActivity(
+                DebugOnboardingPreviewNotchContent(
+                    step: step,
+                    notchEventCoordinator: self
+                )
+            )
+        )
+    }
+    #endif
     
     func handleNotchWidthEvent(_ event: NotchSizeEvent) {
         guard !isOnboardingActive else { return }
@@ -132,7 +180,7 @@ final class NotchEventCoordinator: ObservableObject {
     func handleOnboardingEvent(_ event: OnboardingEvent) {
         switch event {
         case .onboarding:
-            notchViewModel.send(.showLiveActivity(OnboardingNotchContent(notchEventCoordinator: self)))
+            showOnboarding()
         }
     }
     
@@ -184,7 +232,14 @@ final class NotchEventCoordinator: ObservableObject {
 
         switch event {
         case .started:
-            notchViewModel.send(.showLiveActivity(LockScreenNotchContent(lockScreenManager: lockScreenManager)))
+            notchViewModel.send(
+                .showLiveActivity(
+                    LockScreenNotchContent(
+                        lockScreenManager: lockScreenManager,
+                        style: settingsViewModel.lockScreen.lockScreenStyle
+                    )
+                )
+            )
             
         case .stopped:
             notchViewModel.send(.hideLiveActivity(id: "lockScreen"))
@@ -269,6 +324,25 @@ final class NotchEventCoordinator: ObservableObject {
                 } else {
                     self.notchViewModel.send(.hideLiveActivity(id: "lockScreen"))
                 }
+            }
+            .store(in: &cancellables)
+
+        settingsViewModel.lockScreen.$lockScreenStyle
+            .removeDuplicates()
+            .sink { [weak self] style in
+                guard let self else { return }
+                guard self.notchViewModel.notchModel.liveActivityContent?.id == LockScreenNotchContent.contentID else {
+                    return
+                }
+
+                self.notchViewModel.send(
+                    .showLiveActivity(
+                        LockScreenNotchContent(
+                            lockScreenManager: self.lockScreenManager,
+                            style: style
+                        )
+                    )
+                )
             }
             .store(in: &cancellables)
     }

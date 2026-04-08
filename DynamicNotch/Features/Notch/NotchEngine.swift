@@ -383,7 +383,7 @@ final class NotchEngine: ObservableObject {
     }
 
     private func updateLiveActivityStack(with content: NotchContentProtocol) {
-        if let index = activeLiveActivities.firstIndex(where: { $0.id == content.id }) {
+        if let index = activeLiveActivities.firstIndex(where: { $0.stackID == content.stackID }) {
             activeLiveActivities[index] = content
         } else {
             activeLiveActivities.append(content)

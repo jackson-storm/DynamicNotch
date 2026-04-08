@@ -24,7 +24,10 @@ struct NetworkSettingsView: View {
                 accessibilityIdentifier: "settings.activities.temporary.wifi"
             )
             
-            Divider().opacity(0.6)
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
             
             SettingsToggleRow(
                 title: "VPN temporary activity",
@@ -35,7 +38,10 @@ struct NetworkSettingsView: View {
                 accessibilityIdentifier: "settings.activities.temporary.vpn"
             )
             
-            Divider().opacity(0.6)
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
             
             SettingsToggleRow(
                 title: "Personal Hotspot live activity",

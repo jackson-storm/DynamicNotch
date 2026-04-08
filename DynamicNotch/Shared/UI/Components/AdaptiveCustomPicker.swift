@@ -15,6 +15,7 @@ struct AdaptiveCustomPicker<Option: Hashable>: View {
     let title: (Option) -> LocalizedStringKey
     let minimumItemWidth: CGFloat
     let maximumItemWidth: CGFloat
+    let itemHeight: CGFloat
     private let accessibilityIdentifier: ((Option) -> String?)?
     private let content: (Option, Bool) -> AnyView
 
@@ -23,6 +24,7 @@ struct AdaptiveCustomPicker<Option: Hashable>: View {
         options: [Option],
         minimumItemWidth: CGFloat = 88,
         maximumItemWidth: CGFloat = 104,
+        itemHeight: CGFloat = 62,
         title: @escaping (Option) -> LocalizedStringKey,
         accessibilityIdentifier: ((Option) -> String?)? = nil,
         @ViewBuilder content: @escaping (Option, Bool) -> Content
@@ -32,6 +34,7 @@ struct AdaptiveCustomPicker<Option: Hashable>: View {
         self.title = title
         self.minimumItemWidth = minimumItemWidth
         self.maximumItemWidth = maximumItemWidth
+        self.itemHeight = itemHeight
         self.accessibilityIdentifier = accessibilityIdentifier
         self.content = { option, isSelected in
             AnyView(content(option, isSelected))
@@ -75,7 +78,7 @@ struct AdaptiveCustomPicker<Option: Hashable>: View {
             let cardShape = RoundedRectangle(cornerRadius: 10, style: .continuous)
 
             content(option, isSelected)
-                .frame(maxWidth: .infinity, minHeight: 62, alignment: .center)
+                .frame(maxWidth: .infinity, minHeight: itemHeight, alignment: .center)
                 .padding(.horizontal, 12)
                 .background(
                     cardShape

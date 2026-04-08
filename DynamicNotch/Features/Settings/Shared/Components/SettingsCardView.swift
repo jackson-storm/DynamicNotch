@@ -28,6 +28,7 @@ struct SettingsCard<Content: View>: View {
             VStack(alignment: .leading, spacing: 10) {
                 content
             }
+            .padding(6)
             .frame(maxWidth: .infinity, alignment: .leading)
             
         } label: {

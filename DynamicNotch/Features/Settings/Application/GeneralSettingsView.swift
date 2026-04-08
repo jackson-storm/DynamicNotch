@@ -2,14 +2,14 @@ import SwiftUI
 
 struct GeneralSettingsView: View {
     @Environment(\.colorScheme) private var colorScheme
-
+    
     @ObservedObject var applicationSettings: ApplicationSettingsStore
     
     var body: some View {
         SettingsPageScrollView {
             systemCard
-            appearanceCard
             displayCard
+            appearanceCard
             languageCard
         }
         .accessibilityIdentifier("settings.general.root")
@@ -20,56 +20,42 @@ struct GeneralSettingsView: View {
             title: "System",
             subtitle: "Control how Dynamic Notch integrates with macOS."
         ) {
-            VStack {
-                SettingsToggleRow(
-                    title: "Launch at login",
-                    description: "Launch Dynamic Notch automatically when you sign in.",
-                    systemImage: "power",
-                    color: .red,
-                    isOn: $applicationSettings.isLaunchAtLoginEnabled,
-                    accessibilityIdentifier: "settings.general.launchAtLogin"
-                )
-                
-                Divider().opacity(0.6)
-                
-                SettingsToggleRow(
-                    title: "Show menu bar icon",
-                    description: "Show a menu bar shortcut for quick access to Settings and Quit.",
-                    systemImage: "menubar.rectangle",
-                    color: .blue,
-                    isOn: $applicationSettings.isMenuBarIconVisible,
-                    accessibilityIdentifier: "settings.general.menuBarIcon"
-                )
-                
-                Divider().opacity(0.6)
-                
-                SettingsToggleRow(
-                    title: "Show Dock icon",
-                    description: "Keep the app visible in the Dock for faster switching and window access.",
-                    systemImage: "dock.rectangle",
-                    color: .orange,
-                    isOn: $applicationSettings.isDockIconVisible,
-                    accessibilityIdentifier: "settings.general.dockIcon"
-                )
-            }
-        }
-    }
-    
-    private var appearanceCard: some View {
-        SettingsCard(
-            title: "settings.general.appearance.title",
-            subtitle: "settings.general.appearance.subtitle"
-        ) {
-            VStack(alignment: .leading, spacing: 14) {
-                themePickerSection
-                    .padding(.horizontal, 10)
-
-                Divider().opacity(0.6)
-
-                tintPickerSection
-                    .padding(.horizontal, 10)
-            }
-            .padding(.vertical, 10)
+            SettingsToggleRow(
+                title: "Launch at login",
+                description: "Launch Dynamic Notch automatically when you sign in.",
+                systemImage: "power",
+                color: .red,
+                isOn: $applicationSettings.isLaunchAtLoginEnabled,
+                accessibilityIdentifier: "settings.general.launchAtLogin"
+            )
+            
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+            
+            SettingsToggleRow(
+                title: "Show menu bar icon",
+                description: "Show a menu bar shortcut for quick access to Settings and Quit.",
+                systemImage: "menubar.rectangle",
+                color: .blue,
+                isOn: $applicationSettings.isMenuBarIconVisible,
+                accessibilityIdentifier: "settings.general.menuBarIcon"
+            )
+            
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+            
+            SettingsToggleRow(
+                title: "Show Dock icon",
+                description: "Keep the app visible in the Dock for faster switching and window access.",
+                systemImage: "dock.rectangle",
+                color: .orange,
+                isOn: $applicationSettings.isDockIconVisible,
+                accessibilityIdentifier: "settings.general.dockIcon"
+            )
         }
     }
     
@@ -85,6 +71,17 @@ struct GeneralSettingsView: View {
                 symbolName: { $0.symbolName }
             )
             .accessibilityIdentifier("settings.general.displayLocation")
+        }
+    }
+    
+    private var appearanceCard: some View {
+        SettingsCard(
+            title: "settings.general.appearance.title",
+            subtitle: "settings.general.appearance.subtitle"
+        ) {
+            themePickerSection
+            Divider().opacity(0.6)
+            tintPickerSection
         }
     }
     
@@ -125,35 +122,19 @@ struct GeneralSettingsView: View {
         .frame(width: 44, height: 34)
         .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
     }
-
+    
     private var themePickerSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack(alignment: .center) {
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("Theme")
-                    
-                    Text("Choose the interface appearance used by the app.")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
-
-                Spacer(minLength: 12)
-
-                Text(applicationSettings.appearanceMode.title)
-                    .font(.system(size: 12))
-                    .foregroundStyle(.secondary)
-            }
-
-            CustomPicker(
-                selection: $applicationSettings.appearanceMode,
-                options: Array(SettingsAppearanceMode.allCases),
-                title: { $0.title },
-                symbolName: { $0.symbolName }
-            )
-            .accessibilityIdentifier("settings.general.appearanceMode")
-        }
+        CustomPicker(
+            selection: $applicationSettings.appearanceMode,
+            options: Array(SettingsAppearanceMode.allCases),
+            title: { $0.title },
+            headerTitle: "Theme",
+            headerDescription: "Choose the interface appearance used by the app.",
+            symbolName: { $0.symbolName }
+        )
+        .accessibilityIdentifier("settings.general.appearanceMode")
     }
-
+    
     private var tintPickerSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(alignment: .center) {
@@ -164,14 +145,14 @@ struct GeneralSettingsView: View {
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
-
+                
                 Spacer(minLength: 12)
-
+                
                 Text(applicationSettings.appTint.title)
                     .font(.system(size: 12))
                     .foregroundStyle(.secondary)
             }
-
+            
             LazyVGrid(
                 columns: [GridItem(.adaptive(minimum: 30, maximum: 30), spacing: 12)],
                 alignment: .leading,
@@ -190,11 +171,11 @@ struct GeneralSettingsView: View {
             }
         }
     }
-
+    
     @ViewBuilder
     private func tintSwatch(for tint: AppTint) -> some View {
         let isSelected = applicationSettings.appTint == tint
-
+        
         Circle()
             .fill(tint.color.gradient)
             .frame(width: 30, height: 30)
@@ -212,7 +193,7 @@ struct GeneralSettingsView: View {
                     .strokeBorder(
                         isSelected ?
                         Color.primary.opacity(colorScheme == .dark ? 0.8 : 0.25) :
-                        Color.clear,
+                            Color.clear,
                         lineWidth: 1.5
                     )
             }

@@ -26,20 +26,26 @@ struct LockScreenNowPlayingPanelView: View {
         LockScreenNowPlayingView(nowPlayingViewModel: nowPlayingViewModel)
             .frame(width: Self.panelSize.width, height: Self.panelSize.height, alignment: .topLeading)
             .background {
-                RoundedRectangle(cornerRadius: 28, style: .continuous)
-                    .fill(.ultraThinMaterial)
+                panelBackground
             }
             .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
-            .overlay {
-                RoundedRectangle(cornerRadius: 28, style: .continuous)
-                    .stroke(.white.opacity(0.15), lineWidth: 1)
-            }
             .environment(\.colorScheme, .dark)
             .shadow(color: .black.opacity(0.24), radius: 26, x: 0, y: 14)
             .opacity(animator.isPresented ? 1 : 0)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             .tint(settingsViewModel.application.appTint.color)
             .accentColor(settingsViewModel.application.appTint.color)
+    }
+
+    @ViewBuilder
+    private var panelBackground: some View {
+        LockScreenWidgetSurface(
+            style: settingsViewModel.lockScreen.widgetAppearanceStyle,
+            tintStyle: settingsViewModel.lockScreen.widgetTintStyle,
+            appTint: settingsViewModel.application.appTint,
+            brightness: settingsViewModel.lockScreen.widgetBackgroundBrightness,
+            cornerRadius: 28
+        )
     }
 }
 

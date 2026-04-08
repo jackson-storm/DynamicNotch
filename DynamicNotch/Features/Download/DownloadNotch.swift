@@ -20,7 +20,7 @@ struct DownloadNotchContent: NotchContentProtocol {
     var expandedOffsetYTransition: CGFloat { -60 }
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        .init(width: baseWidth + 70, height: baseHeight)
+        .init(width: baseWidth + 65, height: baseHeight)
     }
     
     func expandedSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
@@ -85,8 +85,9 @@ struct DownloadNotchView: View {
             }
             Spacer()
             DownloadActivityIndicator(progress: download?.progress ?? 0.08)
+                .padding(.trailing, 2)
         }
-        .padding(.horizontal, 14.scaled(by: scale))
+        .padding(.horizontal, 12.scaled(by: scale))
     }
 }
 

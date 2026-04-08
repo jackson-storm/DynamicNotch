@@ -1,3 +1,10 @@
+//
+//  SettingsAppearanceMode.swift
+//  DynamicNotch
+//
+//  Created by Евгений Петрукович on 4/8/26.
+//
+
 import SwiftUI
 
 enum SettingsAppearanceMode: String, CaseIterable {

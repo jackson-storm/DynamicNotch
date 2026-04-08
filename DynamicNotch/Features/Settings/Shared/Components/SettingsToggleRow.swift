@@ -55,7 +55,6 @@ struct SettingsToggleRow: View {
             }
         }
         .toggleStyle(CustomToggleStyle())
-        .padding(10)
         .modifier(SettingsAccessibilityModifier(identifier: accessibilityIdentifier))
     }
 }

@@ -7,50 +7,51 @@ struct HudContentView: View {
     let text: String
     let level: Int
     let style: HudStyle
+    let indicatorStyle: HudIndicatorStyle
     let usesColoredLevelTint: Bool
     
-    private var indicatorWidth: CGFloat {
+    private var barIndicatorWidth: CGFloat {
         switch style {
         case .standard:
             return 60
         case .compact:
             return 60
         case .minimal:
-            return 90
+            return 60
         }
     }
     
-    private var indicatorHeight: CGFloat { 6 }
+    private var barIndicatorHeight: CGFloat { 6 }
+    private var circleIndicatorSize: CGFloat {
+        switch style {
+        case .standard:
+            return 19
+        case .compact:
+            return 19
+        case .minimal:
+            return 19
+        }
+    }
+
+    private var circleIndicatorLineWidth: CGFloat {
+        switch style {
+        case .standard, .compact:
+            return 3
+        case .minimal:
+            return 3.5
+        }
+    }
+
     private var clampedLevel: Int { max(0, min(100, level)) }
-    private var filledIndicatorWidth: CGFloat { indicatorWidth * CGFloat(clampedLevel) / 100 }
     private var horizontalPadding: CGFloat {
         switch style {
         case .standard:
             return 14
         case .compact:
-            return 16
+            return 14
         case .minimal:
             return 14
         }
-    }
-    
-    private var indicatorFill: some ShapeStyle {
-        LinearGradient(
-            colors: [
-                activeLevelTint.opacity(0.82),
-                activeLevelTint,
-            ],
-            startPoint: .leading,
-            endPoint: .trailing
-        )
-    }
-    
-    private var levelTint: Color {
-        HudLevelStyling.fillTint(for: clampedLevel, isEnabled: true)
-    }
-
-    private var activeLevelTint: Color {
-        usesColoredLevelTint ? levelTint : HudLevelStyling.fillTint(for: clampedLevel, isEnabled: false)
     }
     
     var body: some View {
@@ -95,15 +96,14 @@ struct HudContentView: View {
     
     @ViewBuilder
     private var indicator: some View {
-        RoundedRectangle(cornerRadius: indicatorHeight / 2, style: .continuous)
-            .fill(Color.white.opacity(0.18))
-            .frame(width: indicatorWidth, height: indicatorHeight)
-            .overlay(alignment: .leading) {
-                RoundedRectangle(cornerRadius: indicatorHeight / 2, style: .continuous)
-                    .fill(indicatorFill)
-                    .frame(width: filledIndicatorWidth, height: indicatorHeight)
-                    .shadow(color: activeLevelTint.opacity(0.35), radius: 5, y: 0)
-            }
-            .animation(.snappy(duration: 0.28, extraBounce: 0.12), value: clampedLevel)
+        HudLevelIndicatorView(
+            level: clampedLevel,
+            indicatorStyle: indicatorStyle,
+            usesColoredLevelTint: usesColoredLevelTint,
+            barWidth: barIndicatorWidth,
+            barHeight: barIndicatorHeight,
+            circleSize: circleIndicatorSize,
+            circleLineWidth: circleIndicatorLineWidth
+        )
     }
 }

@@ -22,10 +22,14 @@ final class LockScreenSoundPlayer: LockScreenSoundPlaying {
     }
 
     private let bundle: Bundle
+    private let defaults: UserDefaults
     private var players: [SoundAsset: AVAudioPlayer] = [:]
+    private var customPlayers: [SoundAsset: AVAudioPlayer] = [:]
+    private var customPlayerURLs: [SoundAsset: URL] = [:]
 
-    init(bundle: Bundle = .main) {
+    init(bundle: Bundle = .main, defaults: UserDefaults = .standard) {
         self.bundle = bundle
+        self.defaults = defaults
     }
 
     func playLock() {
@@ -39,7 +43,7 @@ final class LockScreenSoundPlayer: LockScreenSoundPlaying {
 
 private extension LockScreenSoundPlayer {
     private func play(_ asset: SoundAsset) {
-        guard let player = player(for: asset) else {
+        guard let player = customPlayerIfAvailable(for: asset) ?? player(for: asset) else {
             return
         }
 
@@ -66,6 +70,54 @@ private extension LockScreenSoundPlayer {
         } catch {
             return nil
         }
+    }
+
+    private func customPlayerIfAvailable(for asset: SoundAsset) -> AVAudioPlayer? {
+        guard let url = customSoundURL(for: asset) else {
+            customPlayers[asset] = nil
+            customPlayerURLs[asset] = nil
+            return nil
+        }
+
+        if customPlayerURLs[asset] == url, let customPlayer = customPlayers[asset] {
+            return customPlayer
+        }
+
+        do {
+            let player = try AVAudioPlayer(contentsOf: url)
+            player.prepareToPlay()
+            customPlayers[asset] = player
+            customPlayerURLs[asset] = url
+            return player
+        } catch {
+            customPlayers[asset] = nil
+            customPlayerURLs[asset] = nil
+            return nil
+        }
+    }
+
+    private func customSoundURL(for asset: SoundAsset) -> URL? {
+        let path: String?
+
+        switch asset {
+        case .lock:
+            path = LockScreenSettings.customLockSoundPath(in: defaults)
+                ?? LockScreenSettings.legacyCustomSoundPath(in: defaults)
+        case .unlock:
+            path = LockScreenSettings.customUnlockSoundPath(in: defaults)
+                ?? LockScreenSettings.legacyCustomSoundPath(in: defaults)
+        }
+
+        guard let path else {
+            return nil
+        }
+
+        let url = URL(fileURLWithPath: path)
+        guard FileManager.default.fileExists(atPath: url.path) else {
+            return nil
+        }
+
+        return url
     }
 
     private func soundURL(for asset: SoundAsset) -> URL? {

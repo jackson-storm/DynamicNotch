@@ -75,8 +75,17 @@ final class LockScreenLiveActivityWindowManager {
                 isPreparingLock: isPreparingLock,
                 isLockIdle: isLockIdle
             )
-        }
-        .store(in: &cancellables)
+            }
+            .store(in: &cancellables)
+        
+        notchViewModel.$notchModel
+            .map(\.content?.id)
+            .removeDuplicates()
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                self?.syncCurrentPresentation()
+            }
+            .store(in: &cancellables)
         
         settingsViewModel.application.$displayLocation
             .removeDuplicates()
@@ -159,13 +168,26 @@ final class LockScreenLiveActivityWindowManager {
         isPreparingLock: Bool,
         isLockIdle: Bool
     ) {
+        let isLockScreenContentReady = notchViewModel.notchModel.content?.id == LockScreenNotchContent.contentID
+        
         guard LockScreenSettings.isLiveActivityEnabled() else {
             hideOverlay(animated: true, releaseResources: true)
             return
         }
         
-        if isLocked || isPreparingLock {
+        if isLocked {
+            guard isLockScreenContentReady else {
+                hideOverlay(animated: false)
+                return
+            }
+            
             showLockedOverlay()
+        } else if isPreparingLock {
+            if isLockScreenContentReady {
+                showLockedOverlay()
+            } else {
+                hideOverlay(animated: false)
+            }
         } else if !isLockIdle {
             showUnlockingOverlay()
         } else {
@@ -175,16 +197,10 @@ final class LockScreenLiveActivityWindowManager {
     
     private func showLockedOverlay() {
         presentOverlay(animatedIn: false)
-        
-        animator.scale = 1
-        animator.opacity = 1
     }
     
     private func showUnlockingOverlay() {
         presentOverlay(animatedIn: false)
-        
-        animator.scale = 1
-        animator.opacity = 1
     }
     
     private func presentOverlay(animatedIn: Bool) {
@@ -204,6 +220,14 @@ final class LockScreenLiveActivityWindowManager {
             lockScreenManager: lockScreenManager,
             animator: animator
         )
+        
+        if animatedIn {
+            animator.scale = 0.92
+            animator.opacity = 0
+        } else {
+            animator.scale = 1
+            animator.opacity = 1
+        }
         
         if let hostingView {
             hostingView.rootView = rootView
@@ -228,17 +252,14 @@ final class LockScreenLiveActivityWindowManager {
         window.orderFrontRegardless()
         
         if animatedIn {
-            animator.scale = 0.92
-            animator.opacity = 0
-            
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
                 
-                withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+                withAnimation(self.notchViewModel.animations.notchVisibility) {
                     self.animator.scale = 1
                 }
                 
-                withAnimation(.easeOut(duration: 0.18)) {
+                withAnimation(self.notchViewModel.animations.contentShow) {
                     self.animator.opacity = 1
                 }
             }
@@ -356,40 +377,29 @@ private struct LockScreenLiveActivityOverlayView: View {
     @ObservedObject var lockScreenManager: LockScreenManager
     @ObservedObject var animator: LockScreenLiveActivityAnimator
     
-    private var content: LockScreenNotchContent {
-        LockScreenNotchContent(lockScreenManager: lockScreenManager)
-    }
-    
-    private var contentSize: CGSize {
-        content.size(
-            baseWidth: notchViewModel.notchModel.baseWidth,
-            baseHeight: notchViewModel.notchModel.baseHeight
-        )
-    }
-    
-    private var cornerRadius: (top: CGFloat, bottom: CGFloat) {
-        content.cornerRadius(baseRadius: notchViewModel.notchModel.baseHeight / 3)
-    }
-    
     var body: some View {
         notchSurface
             .overlay {
-                LockScreenNotchView(lockScreenManager: lockScreenManager)
-                    .environment(\.notchScale, notchViewModel.notchModel.scale)
+                contentOverlay
             }
+            .offset(y: 1)
             .environment(\.colorScheme, .dark)
             .customNotchPressable(
                 notchViewModel: notchViewModel,
                 isPressed: $notchViewModel.isPressed,
-                baseSize: notchViewModel.notchModel.size
+                baseSize: notchViewModel.interactiveNotchSize
             )
-            .frame(width: contentSize.width, height: contentSize.height)
+            .frame(
+                width: notchViewModel.interactiveNotchSize.width,
+                height: notchViewModel.interactiveNotchSize.height
+            )
             .scaleEffect(animator.scale)
             .opacity(animator.opacity)
-            .offset(y: 1)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .tint(settingsViewModel.application.appTint.color)
             .accentColor(settingsViewModel.application.appTint.color)
+            .animation(notchViewModel.animations.strokeVisibility, value: settingsViewModel.isShowNotchStrokeEnabled)
+            .animation(notchViewModel.animations.notchVisibility, value: notchViewModel.showNotch)
     }
     
     @ViewBuilder
@@ -397,25 +407,53 @@ private struct LockScreenLiveActivityOverlayView: View {
         switch settingsViewModel.application.notchBackgroundStyle {
         case .black:
             NotchShape(
-                topCornerRadius: cornerRadius.top,
-                bottomCornerRadius: cornerRadius.bottom
+                topCornerRadius: notchViewModel.interactiveCornerRadius.top,
+                bottomCornerRadius: notchViewModel.interactiveCornerRadius.bottom
             )
             .fill(.black)
             .stroke(
-                settingsViewModel.isShowNotchStrokeEnabled ? content.strokeColor : Color.clear,
+                settingsViewModel.isShowNotchStrokeEnabled ? visibleStrokeColor : Color.clear,
                 lineWidth: settingsViewModel.notchStrokeWidth
             )
             
         case .ultraThickMaterial:
             NotchShape(
-                topCornerRadius: cornerRadius.top,
-                bottomCornerRadius: cornerRadius.bottom
+                topCornerRadius: notchViewModel.interactiveCornerRadius.top,
+                bottomCornerRadius: notchViewModel.interactiveCornerRadius.bottom
             )
             .fill(.ultraThinMaterial)
             .stroke(
-                settingsViewModel.isShowNotchStrokeEnabled ? content.strokeColor : Color.clear,
+                settingsViewModel.isShowNotchStrokeEnabled ? visibleStrokeColor : Color.clear,
                 lineWidth: settingsViewModel.notchStrokeWidth
             )
+        }
+    }
+    
+    private var visibleStrokeColor: Color {
+        notchViewModel.notchModel.content?.strokeColor ?? notchViewModel.cachedStrokeColor
+    }
+    
+    @ViewBuilder
+    private var contentOverlay: some View {
+        if let content = notchViewModel.notchModel.content {
+            renderedContentView(for: content)
+                .id(notchViewModel.notchModel.presentationID)
+                .transition(
+                    notchViewModel.contentTransition(
+                        offsetX: notchViewModel.notchModel.offsetXTransition,
+                        offsetY: notchViewModel.notchModel.offsetYTransition
+                    )
+                )
+        }
+    }
+    
+    @MainActor
+    @ViewBuilder
+    private func renderedContentView(for content: NotchContentProtocol) -> some View {
+        if notchViewModel.notchModel.isPresentingExpandedLiveActivity {
+            content.makeExpandedView()
+        } else {
+            content.makeView()
         }
     }
 }

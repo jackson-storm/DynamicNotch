@@ -1,11 +1,18 @@
 import SwiftUI
 
+enum HudEvent: Equatable {
+    case display(Int)
+    case keyboard(Int)
+    case volume(Int)
+}
+
 struct HudNotchContent: NotchContentProtocol {
     var id: String { kind.sharedContentID }
 
     let kind: HudPresentationKind
     let level: Int
     let style: HudStyle
+    let indicatorStyle: HudIndicatorStyle
     let usesColoredLevelTint: Bool
     let usesColoredLevelStroke: Bool
 
@@ -18,12 +25,14 @@ struct HudNotchContent: NotchContentProtocol {
         kind: HudPresentationKind,
         level: Int,
         style: HudStyle = .standard,
+        indicatorStyle: HudIndicatorStyle = .bar,
         usesColoredLevelTint: Bool = true,
         usesColoredLevelStroke: Bool = false
     ) {
         self.kind = kind
         self.level = level
         self.style = style
+        self.indicatorStyle = indicatorStyle
         self.usesColoredLevelTint = usesColoredLevelTint
         self.usesColoredLevelStroke = usesColoredLevelStroke
     }
@@ -40,6 +49,7 @@ struct HudNotchContent: NotchContentProtocol {
                 text: kind.title,
                 level: level,
                 style: style,
+                indicatorStyle: indicatorStyle,
                 usesColoredLevelTint: usesColoredLevelTint
             )
         )
@@ -48,9 +58,19 @@ struct HudNotchContent: NotchContentProtocol {
     private var widthOffset: CGFloat {
         switch style {
         case .standard:
-            return 230
+            switch indicatorStyle {
+            case .bar:
+                return 230
+            case .circle:
+                return 230
+            }
         case .compact:
-            return 165
+            switch indicatorStyle {
+            case .bar:
+                return 165
+            case .circle:
+                return 70
+            }
         case .minimal:
             return 70
         }

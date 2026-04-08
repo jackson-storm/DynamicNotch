@@ -1,10 +1,11 @@
-import CoreAudio
+//
+//  InactiveAudioOutputRoutingService.swift
+//  DynamicNotch
+//
+//  Created by Евгений Петрукович on 4/8/26.
+//
 
-protocol AudioOutputRouting: AnyObject {
-    func availableRoutes() -> [AudioOutputRoute]
-    func currentRoute() -> AudioOutputRoute?
-    @discardableResult func setCurrentRoute(_ id: AudioDeviceID) -> Bool
-}
+import CoreAudio
 
 final class InactiveAudioOutputRoutingService: AudioOutputRouting {
     func availableRoutes() -> [AudioOutputRoute] { [] }

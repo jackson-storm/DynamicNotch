@@ -15,27 +15,28 @@ struct FocusSettingsView: View {
             title: "Focus activity",
             subtitle: "Control the persistent Focus state and the short Focus Off notification."
         ) {
-            VStack {
-                SettingsToggleRow(
-                    title: "Focus live activity",
-                    description: "Show a live activity while Focus mode is enabled.",
-                    systemImage: "moon.fill",
-                    color: .indigo,
-                    isOn: $connectivitySettings.isFocusLiveActivityEnabled,
-                    accessibilityIdentifier: "settings.activities.live.focus"
-                )
-                
-                Divider().opacity(0.6)
-                
-                SettingsToggleRow(
-                    title: "Focus off activity",
-                    description: "Show a short notification when Focus mode turns off.",
-                    systemImage: "moon.stars.fill",
-                    color: .indigo,
-                    isOn: $connectivitySettings.isFocusOffTemporaryActivityEnabled,
-                    accessibilityIdentifier: "settings.activities.temporary.focusOff"
-                )
-            }
+            SettingsToggleRow(
+                title: "Focus live activity",
+                description: "Show a live activity while Focus mode is enabled.",
+                systemImage: "moon.fill",
+                color: .indigo,
+                isOn: $connectivitySettings.isFocusLiveActivityEnabled,
+                accessibilityIdentifier: "settings.activities.live.focus"
+            )
+            
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+            
+            SettingsToggleRow(
+                title: "Focus off activity",
+                description: "Show a short notification when Focus mode turns off.",
+                systemImage: "moon.stars.fill",
+                color: .indigo,
+                isOn: $connectivitySettings.isFocusOffTemporaryActivityEnabled,
+                accessibilityIdentifier: "settings.activities.temporary.focusOff"
+            )
         }
     }
 }

@@ -352,7 +352,10 @@ final class DebugSettingsViewModel: ObservableObject {
     private func playNowPlayingPreview() async throws {
         nowPlayingViewModel.showDebugPreviewSnapshotIfNeeded()
         try await playLivePreview(
-            NowPlayingNotchContent(nowPlayingViewModel: nowPlayingViewModel),
+            NowPlayingNotchContent(
+                nowPlayingViewModel: nowPlayingViewModel,
+                settings: settingsViewModel.mediaAndFiles
+            ),
             id: Self.sequenceNowPlayingID
         )
         nowPlayingViewModel.hideDebugPreviewSnapshotIfNeeded()

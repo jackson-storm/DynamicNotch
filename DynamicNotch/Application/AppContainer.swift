@@ -54,7 +54,10 @@ final class AppContainer {
     )
 
     init(isRunningUITests: Bool = ProcessInfo.processInfo.arguments.contains("-ui-testing")) {
-        self.powerViewModel = PowerViewModel(powerService: powerService)
+        self.powerViewModel = PowerViewModel(
+            powerService: powerService,
+            batterySettings: settingsViewModel.battery
+        )
         self.nowPlayingViewModel = NowPlayingViewModel(
             service: isRunningUITests ?
                 InactiveNowPlayingService() :

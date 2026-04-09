@@ -102,40 +102,12 @@ struct SettingsNotchPreview<Overlay: View>: View {
     
     @ViewBuilder
     private var notchSurface: some View {
-        switch backgroundStyle {
-        case .black:
-            NotchShape(
-                topCornerRadius: topCornerRadius,
-                bottomCornerRadius: bottomCornerRadius
-            )
-            .fill(.black)
-            .overlay {
-                NotchShape(
-                    topCornerRadius: topCornerRadius,
-                    bottomCornerRadius: bottomCornerRadius
-                )
-                .stroke(
-                    showsStroke ? strokeColor : .clear,
-                    lineWidth: strokeWidth
-                )
-            }
-            
-        case .ultraThickMaterial:
-            NotchShape(
-                topCornerRadius: topCornerRadius,
-                bottomCornerRadius: bottomCornerRadius
-            )
-            .fill(.ultraThinMaterial)
-            .overlay {
-                NotchShape(
-                    topCornerRadius: topCornerRadius,
-                    bottomCornerRadius: bottomCornerRadius
-                )
-                .stroke(
-                    showsStroke ? strokeColor : .clear,
-                    lineWidth: strokeWidth
-                )
-            }
-        }
+        NotchBackgroundSurface(
+            style: backgroundStyle,
+            topCornerRadius: topCornerRadius,
+            bottomCornerRadius: bottomCornerRadius,
+            strokeColor: showsStroke ? strokeColor : .clear,
+            strokeWidth: strokeWidth
+        )
     }
 }

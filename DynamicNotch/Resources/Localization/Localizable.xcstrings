@@ -164,7 +164,16 @@
     "1:21" : {
 
     },
+    "01:21" : {
+
+    },
     "3:34" : {
+
+    },
+    "03:34" : {
+
+    },
+    "20%" : {
 
     },
     "72" : {
@@ -218,6 +227,9 @@
           }
         }
       }
+    },
+    "100%" : {
+
     },
     "Accent" : {
 
@@ -696,6 +708,9 @@
           }
         }
       }
+    },
+    "Artwork-tinted progress" : {
+
     },
     "Background" : {
 
@@ -1233,7 +1248,22 @@
     "Choose the background style used by the lock-screen media widget." : {
 
     },
+    "Choose the battery percentage that triggers the full charge notification." : {
+
+    },
+    "Choose the battery percentage that triggers the low battery notification." : {
+
+    },
     "Choose the interface appearance used by the app." : {
+
+    },
+    "Choose when the alert appears and how the full battery notification looks." : {
+
+    },
+    "Choose when the alert appears and how the low battery notification looks." : {
+
+    },
+    "Choose whether the alert uses the current detailed card or a compact charging-like layout." : {
 
     },
     "Choose whether the HUD level uses a bar or a circular ring." : {
@@ -1249,6 +1279,9 @@
 
     },
     "Clean up previews without restarting the app." : {
+
+    },
+    "Color the progress bar and timer labels using the current artwork palette." : {
 
     },
     "Colored level tint" : {
@@ -2293,6 +2326,9 @@
         }
       }
     },
+    "Full battery" : {
+
+    },
     "Full Battery" : {
       "localizations" : {
         "en" : {
@@ -2344,6 +2380,12 @@
           }
         }
       }
+    },
+    "Full battery style" : {
+
+    },
+    "Full charge threshold" : {
+
     },
     "Fully Charged" : {
       "localizations" : {
@@ -2470,6 +2512,12 @@
           }
         }
       }
+    },
+    "Hide favorite" : {
+
+    },
+    "Hide output device" : {
+
     },
     "Hide the Focus live activity and show the short \"Off\" notification." : {
       "localizations" : {
@@ -3490,6 +3538,15 @@
       }
     },
     "Locked" : {
+
+    },
+    "Low battery" : {
+
+    },
+    "Low battery style" : {
+
+    },
+    "Low battery threshold" : {
 
     },
     "Low Power" : {
@@ -4878,6 +4935,9 @@
         }
       }
     },
+    "Player appearance" : {
+
+    },
     "Please give it a star on GitHub – it will really help with promotion." : {
 
     },
@@ -5048,6 +5108,12 @@
           }
         }
       }
+    },
+    "Remove the favorite button from the expanded player controls." : {
+
+    },
+    "Remove the output device button from the expanded player controls." : {
+
     },
     "Replace the keyboard backlight HUD with DynamicNotch HUD." : {
       "localizations" : {
@@ -10070,6 +10136,7 @@
       }
     },
     "Show a temporary activity when the battery reaches full charge." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -10120,6 +10187,9 @@
           }
         }
       }
+    },
+    "Show a temporary activity when the battery reaches the selected full charge level." : {
+
     },
     "Show a temporary activity when your Mac starts charging." : {
       "localizations" : {
@@ -11168,6 +11238,9 @@
 
     },
     "Solid" : {
+
+    },
+    "Standard" : {
 
     },
     "Start" : {

@@ -7,23 +7,59 @@ enum PowerEvent: Equatable {
     case fullPower
 }
 
+@MainActor
 final class PowerViewModel: ObservableObject {
     @Published var event: PowerEvent?
 
     private let powerStateProvider: any PowerStateProviding
+    private let batterySettings: BatterySettingsStore
     private var previousOnACPower: Bool
     private var previousBatteryLevel: Int
+    private var lowPowerThreshold: Int
+    private var fullPowerThreshold: Int
+    private var cancellables = Set<AnyCancellable>()
 
-    init(powerService: any PowerStateProviding) {
+    init(
+        powerService: any PowerStateProviding,
+        batterySettings: BatterySettingsStore
+    ) {
         self.powerStateProvider = powerService
+        self.batterySettings = batterySettings
         self.previousOnACPower = powerService.onACPower
         self.previousBatteryLevel = powerService.batteryLevel
+        self.lowPowerThreshold = batterySettings.lowPowerNotificationThreshold
+        self.fullPowerThreshold = batterySettings.fullPowerNotificationThreshold
+        setupThresholdBindings()
         setupBindings()
+    }
+
+    private func setupThresholdBindings() {
+        batterySettings.$lowPowerNotificationThreshold
+            .sink { [weak self] value in
+                self?.lowPowerThreshold = value
+            }
+            .store(in: &cancellables)
+
+        batterySettings.$fullPowerNotificationThreshold
+            .sink { [weak self] value in
+                self?.fullPowerThreshold = value
+            }
+            .store(in: &cancellables)
     }
 
     private func setupBindings() {
         powerStateProvider.onPowerStateChange = { [weak self] onACPower, batteryLevel in
-            self?.handlePowerStateChange(onACPower: onACPower, batteryLevel: batteryLevel)
+            guard let self else { return }
+
+            if Thread.isMainThread {
+                MainActor.assumeIsolated {
+                    self.handlePowerStateChange(onACPower: onACPower, batteryLevel: batteryLevel)
+                }
+            } else {
+                DispatchQueue.main.async { [weak self] in
+                    self?.handlePowerStateChange(onACPower: onACPower, batteryLevel: batteryLevel)
+                }
+            }
         }
     }
 
@@ -32,11 +68,11 @@ final class PowerViewModel: ObservableObject {
             event = .charger
         }
 
-        if previousBatteryLevel > 20 && batteryLevel <= 20 {
+        if previousBatteryLevel > lowPowerThreshold && batteryLevel <= lowPowerThreshold {
             event = .lowPower
         }
 
-        if previousBatteryLevel < 100 && batteryLevel == 100 {
+        if previousBatteryLevel < fullPowerThreshold && batteryLevel >= fullPowerThreshold {
             event = .fullPower
         }
 

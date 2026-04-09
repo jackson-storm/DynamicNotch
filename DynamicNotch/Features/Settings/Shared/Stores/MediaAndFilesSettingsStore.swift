@@ -9,6 +9,24 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         }
     }
 
+    @Published var isNowPlayingFavoriteButtonVisible: Bool {
+        didSet {
+            persist(isNowPlayingFavoriteButtonVisible, for: GeneralSettingsStorage.Keys.nowPlayingFavoriteButtonVisible)
+        }
+    }
+
+    @Published var isNowPlayingOutputDeviceButtonVisible: Bool {
+        didSet {
+            persist(isNowPlayingOutputDeviceButtonVisible, for: GeneralSettingsStorage.Keys.nowPlayingOutputDeviceButtonVisible)
+        }
+    }
+
+    @Published var isNowPlayingArtworkTintEnabled: Bool {
+        didSet {
+            persist(isNowPlayingArtworkTintEnabled, for: GeneralSettingsStorage.Keys.nowPlayingArtworkTintEnabled)
+        }
+    }
+
     @Published var isDownloadsLiveActivityEnabled: Bool {
         didSet {
             persist(isDownloadsLiveActivityEnabled, for: GeneralSettingsStorage.Keys.downloadsLiveActivityEnabled)
@@ -23,6 +41,9 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
 
     override init(defaults: UserDefaults) {
         self.isNowPlayingLiveActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.nowPlayingLiveActivityEnabled)
+        self.isNowPlayingFavoriteButtonVisible = defaults.bool(forKey: GeneralSettingsStorage.Keys.nowPlayingFavoriteButtonVisible)
+        self.isNowPlayingOutputDeviceButtonVisible = defaults.bool(forKey: GeneralSettingsStorage.Keys.nowPlayingOutputDeviceButtonVisible)
+        self.isNowPlayingArtworkTintEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.nowPlayingArtworkTintEnabled)
         let hasLegacyDownloadsValue = defaults.object(forKey: GeneralSettingsStorage.Keys.legacyFileTransfersLiveActivityEnabled) != nil
         let downloadsSettingValue = defaults.object(forKey: GeneralSettingsStorage.Keys.downloadsLiveActivityEnabled) as? Bool
         self.isDownloadsLiveActivityEnabled = downloadsSettingValue ?? (
@@ -36,6 +57,9 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
 
     func resetNowPlaying() {
         isNowPlayingLiveActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.nowPlayingLiveActivityEnabled)
+        isNowPlayingFavoriteButtonVisible = defaultBool(for: GeneralSettingsStorage.Keys.nowPlayingFavoriteButtonVisible)
+        isNowPlayingOutputDeviceButtonVisible = defaultBool(for: GeneralSettingsStorage.Keys.nowPlayingOutputDeviceButtonVisible)
+        isNowPlayingArtworkTintEnabled = defaultBool(for: GeneralSettingsStorage.Keys.nowPlayingArtworkTintEnabled)
     }
 
     func resetDownloads() {
@@ -44,5 +68,15 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
 
     func resetAirDrop() {
         isAirDropLiveActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.airDropLiveActivityEnabled)
+    }
+}
+
+extension MediaAndFilesSettingsStore {
+    var nowPlayingAppearanceOptions: NowPlayingAppearanceOptions {
+        .init(
+            showsFavoriteButton: isNowPlayingFavoriteButtonVisible,
+            showsOutputDeviceButton: isNowPlayingOutputDeviceButtonVisible,
+            usesArtworkTint: isNowPlayingArtworkTintEnabled
+        )
     }
 }

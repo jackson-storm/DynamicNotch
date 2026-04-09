@@ -25,6 +25,9 @@ enum GeneralSettingsStorage {
         static let hotspotLiveActivityEnabled = "settings.live.hotspot"
         static let focusLiveActivityEnabled = "settings.live.focus"
         static let nowPlayingLiveActivityEnabled = "settings.live.nowPlaying"
+        static let nowPlayingFavoriteButtonVisible = "settings.nowPlaying.favoriteButtonVisible"
+        static let nowPlayingOutputDeviceButtonVisible = "settings.nowPlaying.outputDeviceButtonVisible"
+        static let nowPlayingArtworkTintEnabled = "settings.nowPlaying.artworkTintEnabled"
         static let downloadsLiveActivityEnabled = "settings.live.downloads"
         static let downloadsDefaultStrokeEnabled = "settings.live.downloads.defaultStroke"
         static let airDropLiveActivityEnabled = "settings.live.airDrop"
@@ -33,6 +36,10 @@ enum GeneralSettingsStorage {
         static let chargerTemporaryActivityEnabled = "settings.temporary.charger"
         static let lowPowerTemporaryActivityEnabled = "settings.temporary.lowPower"
         static let fullPowerTemporaryActivityEnabled = "settings.temporary.fullPower"
+        static let lowPowerNotificationThreshold = "settings.temporary.lowPower.threshold"
+        static let fullPowerNotificationThreshold = "settings.temporary.fullPower.threshold"
+        static let lowPowerNotificationStyle = "settings.temporary.lowPower.style"
+        static let fullPowerNotificationStyle = "settings.temporary.fullPower.style"
         static let bluetoothTemporaryActivityEnabled = "settings.temporary.bluetooth"
         static let wifiTemporaryActivityEnabled = "settings.temporary.wifi"
         static let vpnTemporaryActivityEnabled = "settings.temporary.vpn"
@@ -69,6 +76,9 @@ enum GeneralSettingsStorage {
         Keys.hotspotLiveActivityEnabled: true,
         Keys.focusLiveActivityEnabled: true,
         Keys.nowPlayingLiveActivityEnabled: true,
+        Keys.nowPlayingFavoriteButtonVisible: true,
+        Keys.nowPlayingOutputDeviceButtonVisible: true,
+        Keys.nowPlayingArtworkTintEnabled: false,
         Keys.downloadsLiveActivityEnabled: true,
         Keys.downloadsDefaultStrokeEnabled: false,
         Keys.airDropLiveActivityEnabled: true,
@@ -86,6 +96,10 @@ enum GeneralSettingsStorage {
         Keys.chargerTemporaryActivityEnabled: true,
         Keys.lowPowerTemporaryActivityEnabled: true,
         Keys.fullPowerTemporaryActivityEnabled: true,
+        Keys.lowPowerNotificationThreshold: 20,
+        Keys.fullPowerNotificationThreshold: 100,
+        Keys.lowPowerNotificationStyle: BatteryNotificationStyle.standard.rawValue,
+        Keys.fullPowerNotificationStyle: BatteryNotificationStyle.standard.rawValue,
         Keys.bluetoothTemporaryActivityEnabled: true,
         Keys.wifiTemporaryActivityEnabled: true,
         Keys.vpnTemporaryActivityEnabled: true,

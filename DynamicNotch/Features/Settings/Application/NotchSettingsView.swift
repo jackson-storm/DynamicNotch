@@ -26,7 +26,7 @@ struct NotchSettingsView: View {
         ) {
             CustomPicker(
                 selection: $applicationSettings.notchBackgroundStyle,
-                options: NotchBackgroundStyle.allCases,
+                options: NotchBackgroundStyle.availableOptions,
                 title: { $0.title },
                 headerTitle: "Background",
                 headerDescription: "Choose the background color used across the notch.",
@@ -192,6 +192,16 @@ struct NotchSettingsView: View {
                             .stroke(previewStrokeColor, lineWidth: previewStrokeWidth)
                     }
             }
+
+        case .liquidGlass:
+            if #available(macOS 26.0, *) {
+                Color.clear
+                    .glassEffect(.regular, in: Capsule())
+                    .overlay {
+                        Capsule()
+                            .stroke(previewStrokeColor, lineWidth: previewStrokeWidth)
+                    }
+            }
         }
     }
     
@@ -209,4 +219,3 @@ struct NotchSettingsView: View {
         applicationSettings.isShowNotchStrokeEnabled ? CGFloat(applicationSettings.notchStrokeWidth) : 0
     }
 }
-

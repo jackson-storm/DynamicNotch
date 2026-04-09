@@ -501,6 +501,9 @@
     "Animation speed" : {
 
     },
+    "Appearance" : {
+
+    },
     "Apply a full battery sample and show the completion notification." : {
       "localizations" : {
         "en" : {
@@ -712,6 +715,9 @@
     "Artwork-tinted progress" : {
 
     },
+    "Artwork-tinted stroke" : {
+
+    },
     "Background" : {
 
     },
@@ -772,6 +778,9 @@
           }
         }
       }
+    },
+    "Battery duration" : {
+
     },
     "Battery Low" : {
       "localizations" : {
@@ -999,6 +1008,9 @@
         }
       }
     },
+    "Bluetooth duration" : {
+
+    },
     "Bluetooth temporary activity" : {
       "localizations" : {
         "en" : {
@@ -1052,6 +1064,9 @@
       }
     },
     "Brighten or darken the widget background without changing the selected material style." : {
+
+    },
+    "Brightness duration" : {
 
     },
     "Brightness HUD" : {
@@ -1224,6 +1239,9 @@
         }
       }
     },
+    "Charging duration" : {
+
+    },
     "Check update" : {
 
     },
@@ -1233,7 +1251,40 @@
     "Choose how hardware HUD feedback is laid out inside the notch." : {
 
     },
+    "Choose how long the Bluetooth connection notification stays visible." : {
+
+    },
+    "Choose how long the brightness HUD stays visible." : {
+
+    },
+    "Choose how long the charging notification stays visible." : {
+
+    },
+    "Choose how long the Focus off notification stays visible." : {
+
+    },
+    "Choose how long the full battery notification stays visible." : {
+
+    },
+    "Choose how long the keyboard backlight HUD stays visible." : {
+
+    },
+    "Choose how long the low battery notification stays visible." : {
+
+    },
+    "Choose how long the volume HUD stays visible." : {
+
+    },
+    "Choose how long the VPN connection notification stays visible." : {
+
+    },
+    "Choose how long the Wi-Fi reconnect notification stays visible." : {
+
+    },
     "Choose how the lock-screen activity is laid out inside the notch." : {
+
+    },
+    "Choose how the Personal Hotspot live activity looks while it is active." : {
 
     },
     "Choose one global motion preset for notch transitions, expansion, and visibility." : {
@@ -1266,6 +1317,9 @@
     "Choose whether the alert uses the current detailed card or a compact charging-like layout." : {
 
     },
+    "Choose whether the hotspot activity stays minimal or shows more status." : {
+
+    },
     "Choose whether the HUD level uses a bar or a circular ring." : {
 
     },
@@ -1279,6 +1333,9 @@
 
     },
     "Clean up previews without restarting the app." : {
+
+    },
+    "Color the notch stroke using the current artwork palette." : {
 
     },
     "Color the progress bar and timer labels using the current artwork palette." : {
@@ -1396,7 +1453,6 @@
 
     },
     "Connected" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1454,13 +1510,25 @@
     "Control how Dynamic Notch integrates with macOS." : {
 
     },
-    "Control network-related live and temporary activities." : {
+    "Control how long each battery notification stays visible." : {
+
+    },
+    "Control how long each hardware HUD stays visible." : {
+
+    },
+    "Control how long the Bluetooth notification stays visible." : {
+
+    },
+    "Control how long the Focus off notification stays visible." : {
 
     },
     "Control the lock-screen live activity, sound, and detached media panel." : {
 
     },
     "Control the persistent Focus state and the short Focus Off notification." : {
+
+    },
+    "Control when network notifications appear and how the VPN activity looks in the notch." : {
 
     },
     "Coral" : {
@@ -1584,6 +1652,9 @@
           }
         }
       }
+    },
+    "Detailed" : {
+
     },
     "Dismiss the currently visible temporary notification." : {
       "localizations" : {
@@ -1845,12 +1916,6 @@
         }
       }
     },
-    "Drag and Drop" : {
-
-    },
-    "Drop files, images, or links onto the notch to trigger supported actions without breaking your flow." : {
-
-    },
     "Dynamic Notch" : {
       "localizations" : {
         "en" : {
@@ -1958,6 +2023,9 @@
           }
         }
       }
+    },
+    "Expand the VPN notification to reveal the tunnel name and extra status." : {
+
     },
     "Fine-tune the notch frame and stroke so it better matches your hardware." : {
 
@@ -2118,6 +2186,9 @@
         }
       }
     },
+    "Focus duration" : {
+
+    },
     "Focus live activity" : {
       "localizations" : {
         "en" : {
@@ -2274,6 +2345,9 @@
         }
       }
     },
+    "Focus off duration" : {
+
+    },
     "Focus On" : {
       "localizations" : {
         "en" : {
@@ -2380,6 +2454,9 @@
           }
         }
       }
+    },
+    "Full battery duration" : {
+
     },
     "Full battery style" : {
 
@@ -2623,6 +2700,9 @@
         }
       }
     },
+    "Hotspot appearance" : {
+
+    },
     "HUD activity" : {
       "localizations" : {
         "en" : {
@@ -2726,6 +2806,9 @@
           }
         }
       }
+    },
+    "HUD duration" : {
+
     },
     "hud.brightness" : {
       "extractionState" : "stale",
@@ -3003,6 +3086,9 @@
           }
         }
       }
+    },
+    "Keyboard duration" : {
+
     },
     "Keyboard HUD" : {
       "localizations" : {
@@ -3325,9 +3411,6 @@
     "Lock screen activity" : {
 
     },
-    "Lock Screen and Widget" : {
-
-    },
     "Lock screen behavior" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -3543,6 +3626,9 @@
     "Low battery" : {
 
     },
+    "Low battery duration" : {
+
+    },
     "Low battery style" : {
 
     },
@@ -3712,6 +3798,9 @@
     "Midnight Echoes" : {
 
     },
+    "Minimal" : {
+
+    },
     "Network activity" : {
       "localizations" : {
         "en" : {
@@ -3763,6 +3852,9 @@
           }
         }
       }
+    },
+    "Network duration" : {
+
     },
     "No audio outputs available" : {
       "extractionState" : "stale",
@@ -4184,6 +4276,7 @@
       }
     },
     "Notification duration" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4548,6 +4641,12 @@
           }
         }
       }
+    },
+    "Only notify on network change" : {
+
+    },
+    "Only show Wi-Fi or VPN notifications when the connected network actually changes." : {
+
     },
     "Open the DynamicNotch website" : {
       "localizations" : {
@@ -5045,6 +5144,9 @@
         }
       }
     },
+    "Protected" : {
+
+    },
     "Quit" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -5327,6 +5429,7 @@
       }
     },
     "Resize feedback" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -5431,6 +5534,7 @@
       }
     },
     "Scale the duration of temporary activities across HUD, battery, connectivity, and resize feedback." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -10455,6 +10559,7 @@
       }
     },
     "Show temporary size hints while adjusting the notch width or height." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -10765,6 +10870,9 @@
           }
         }
       }
+    },
+    "Show the elapsed session timer inside the detailed VPN notification." : {
+
     },
     "Show the height resize helper using the current settings." : {
       "localizations" : {
@@ -11181,6 +11289,12 @@
           }
         }
       }
+    },
+    "Show VPN details" : {
+
+    },
+    "Show VPN timer" : {
+
     },
     "Shows the Wi-Fi temporary notification." : {
       "localizations" : {
@@ -12059,6 +12173,9 @@
         }
       }
     },
+    "Volume duration" : {
+
+    },
     "Volume HUD" : {
       "localizations" : {
         "en" : {
@@ -12112,7 +12229,6 @@
       }
     },
     "VPN" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12163,6 +12279,9 @@
           }
         }
       }
+    },
+    "VPN appearance" : {
+
     },
     "VPN Connected" : {
       "localizations" : {
@@ -12215,6 +12334,9 @@
           }
         }
       }
+    },
+    "VPN duration" : {
+
     },
     "VPN temporary activity" : {
       "localizations" : {
@@ -12425,6 +12547,9 @@
           }
         }
       }
+    },
+    "Wi-Fi duration" : {
+
     },
     "Wi-Fi temporary activity" : {
       "localizations" : {

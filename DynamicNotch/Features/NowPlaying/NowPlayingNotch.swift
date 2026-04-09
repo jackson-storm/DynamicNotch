@@ -5,6 +5,7 @@ struct NowPlayingAppearanceOptions {
     let showsFavoriteButton: Bool
     let showsOutputDeviceButton: Bool
     let usesArtworkTint: Bool
+    let usesArtworkStrokeTint: Bool
 }
 
 struct NowPlayingNotchContent: NotchContentProtocol {
@@ -18,6 +19,14 @@ struct NowPlayingNotchContent: NotchContentProtocol {
     var offsetXTransition: CGFloat { 0 }
     var expandedOffsetXTransition: CGFloat { -100 }
     var expandedOffsetYTransition: CGFloat { -90 }
+
+    var strokeColor: Color {
+        guard settings.isNowPlayingArtworkStrokeEnabled else {
+            return .white.opacity(0.2)
+        }
+
+        return Color(nsColor: nowPlayingViewModel.artworkPalette.equalizerBaseColor).opacity(0.4)
+    }
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         .init(width: baseWidth + 70, height: baseHeight)

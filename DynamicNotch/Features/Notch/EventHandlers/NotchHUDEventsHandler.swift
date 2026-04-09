@@ -14,8 +14,6 @@ final class NotchHUDEventsHandler {
     }
 
     func handle(_ event: HudEvent) {
-        let duration = settingsViewModel.resolvedTemporaryActivityDuration(2)
-
         switch event {
         case .display(let level):
             guard settingsViewModel.isHUDEnabled(.brightness) else { return }
@@ -29,7 +27,7 @@ final class NotchHUDEventsHandler {
                         usesColoredLevelTint: settingsViewModel.isHUDColoredLevelEnabled,
                         usesColoredLevelStroke: settingsViewModel.isHUDColoredLevelStrokeEnabled
                     ),
-                    duration: duration
+                    duration: settingsViewModel.temporaryActivityDuration(for: .brightness)
                 )
             )
 
@@ -45,7 +43,7 @@ final class NotchHUDEventsHandler {
                         usesColoredLevelTint: settingsViewModel.isHUDColoredLevelEnabled,
                         usesColoredLevelStroke: settingsViewModel.isHUDColoredLevelStrokeEnabled
                     ),
-                    duration: duration
+                    duration: settingsViewModel.temporaryActivityDuration(for: .keyboard)
                 )
             )
 
@@ -61,7 +59,7 @@ final class NotchHUDEventsHandler {
                         usesColoredLevelTint: settingsViewModel.isHUDColoredLevelEnabled,
                         usesColoredLevelStroke: settingsViewModel.isHUDColoredLevelStrokeEnabled
                     ),
-                    duration: duration
+                    duration: settingsViewModel.temporaryActivityDuration(for: .volume)
                 )
             )
         }

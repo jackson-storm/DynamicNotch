@@ -259,7 +259,9 @@ final class DebugSettingsViewModel: ObservableObject {
                 try await self.playDownloadsPreview()
                 try await self.playBluetoothPreview()
                 try await self.playTemporaryPreview(
-                    WifiConnectedNotchContent(),
+                    WifiConnectedNotchContent(
+                        networkViewModel: networkViewModel
+                    ),
                     id: "\(Self.sequenceContentPrefix)wifi.connected",
                     duration: 3
                 )
@@ -307,7 +309,10 @@ final class DebugSettingsViewModel: ObservableObject {
     private func playVPNPreview() async throws {
         applyVPNPreviewState()
         try await playTemporaryPreview(
-            VpnConnectedNotchContent(networkViewModel: networkViewModel),
+            VpnConnectedNotchContent(
+                networkViewModel: networkViewModel,
+                settings: settingsViewModel.connectivity
+            ),
             id: "\(Self.sequenceContentPrefix)vpn.connected",
             duration: 5
         )

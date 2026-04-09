@@ -200,7 +200,7 @@ final class SettingsRootViewModel {
             case .general:
                 return "Startup, display placement, and app language."
             case .notch:
-                return "Appearance, animation, and temporary activity timing."
+                return "Appearance, animation, and resize feedback."
             case .nowPlaying:
                 return "Media playback controls shown in the notch."
             case .downloads:
@@ -326,7 +326,7 @@ final class SettingsRootViewModel {
         let resolvedNotchViewModel = notchViewModel ?? NotchViewModel(settings: settingsViewModel.application)
         let resolvedBluetoothViewModel = bluetoothViewModel ?? BluetoothViewModel()
         let resolvedPowerService = powerService ?? PowerService(startMonitoring: false)
-        let resolvedNetworkViewModel = networkViewModel ?? NetworkViewModel()
+        let resolvedNetworkViewModel = networkViewModel ?? NetworkViewModel(settings: settingsViewModel.connectivity)
         let resolvedDownloadViewModel = downloadViewModel ?? DownloadViewModel(
             monitor: InactiveDownloadMonitor()
         )

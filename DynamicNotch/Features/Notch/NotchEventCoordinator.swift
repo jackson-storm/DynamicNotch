@@ -273,6 +273,17 @@ final class NotchEventCoordinator: ObservableObject {
             }
             .store(in: &cancellables)
 
+        settingsViewModel.connectivity.$hotspotAppearanceStyle
+            .removeDuplicates()
+            .sink { [weak self] _ in
+                guard let self else { return }
+                guard self.settingsViewModel.connectivity.isHotspotLiveActivityEnabled else { return }
+                guard self.networkViewModel.hotspotActive else { return }
+
+                self.connectivityHandler.handleNetwork(.hotspotActive)
+            }
+            .store(in: &cancellables)
+
         settingsViewModel.mediaAndFiles.$isNowPlayingLiveActivityEnabled
             .removeDuplicates()
             .sink { [weak self] isEnabled in

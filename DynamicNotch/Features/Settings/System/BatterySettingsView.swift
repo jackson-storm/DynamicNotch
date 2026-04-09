@@ -9,9 +9,14 @@ struct BatterySettingsView: View {
     @ObservedObject var batterySettings: BatterySettingsStore
     @ObservedObject var appearanceSettings: ApplicationSettingsStore
 
+    private var temporaryActivityDurationRange: ClosedRange<Double> {
+        Double(SettingsStoreBase.temporaryActivityDurationRange.lowerBound)...Double(SettingsStoreBase.temporaryActivityDurationRange.upperBound)
+    }
+
     var body: some View {
         SettingsPageScrollView {
             batteryActivity
+            batteryDuration
             lowBattery
             fullBattery
         }
@@ -33,7 +38,6 @@ struct BatterySettingsView: View {
 
             Divider()
                 .opacity(0.6)
-                .padding(.leading, 43)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
 
             SettingsToggleRow(
@@ -61,6 +65,65 @@ struct BatterySettingsView: View {
         }
     }
 
+    private var batteryDuration: some View {
+        SettingsCard(
+            title: "Battery duration",
+            subtitle: "Control how long each battery notification stays visible."
+        ) {
+            SettingsSliderRow(
+                title: "Charging duration",
+                description: "Choose how long the charging notification stays visible.",
+                range: temporaryActivityDurationRange,
+                step: 1,
+                fractionLength: 0,
+                suffix: "s",
+                accessibilityIdentifier: "settings.activities.temporary.charger.duration",
+                value: Binding(
+                    get: { Double(batterySettings.chargerTemporaryActivityDuration) },
+                    set: { batterySettings.chargerTemporaryActivityDuration = Int($0.rounded()) }
+                )
+            )
+            .disabled(!batterySettings.isChargerTemporaryActivityEnabled)
+            .opacity(batterySettings.isChargerTemporaryActivityEnabled ? 1 : 0.5)
+
+            Divider().opacity(0.6)
+
+            SettingsSliderRow(
+                title: "Low battery duration",
+                description: "Choose how long the low battery notification stays visible.",
+                range: temporaryActivityDurationRange,
+                step: 1,
+                fractionLength: 0,
+                suffix: "s",
+                accessibilityIdentifier: "settings.activities.temporary.lowPower.duration",
+                value: Binding(
+                    get: { Double(batterySettings.lowPowerTemporaryActivityDuration) },
+                    set: { batterySettings.lowPowerTemporaryActivityDuration = Int($0.rounded()) }
+                )
+            )
+            .disabled(!batterySettings.isLowPowerTemporaryActivityEnabled)
+            .opacity(batterySettings.isLowPowerTemporaryActivityEnabled ? 1 : 0.5)
+
+            Divider().opacity(0.6)
+
+            SettingsSliderRow(
+                title: "Full battery duration",
+                description: "Choose how long the full battery notification stays visible.",
+                range: temporaryActivityDurationRange,
+                step: 1,
+                fractionLength: 0,
+                suffix: "s",
+                accessibilityIdentifier: "settings.activities.temporary.fullPower.duration",
+                value: Binding(
+                    get: { Double(batterySettings.fullPowerTemporaryActivityDuration) },
+                    set: { batterySettings.fullPowerTemporaryActivityDuration = Int($0.rounded()) }
+                )
+            )
+            .disabled(!batterySettings.isFullPowerTemporaryActivityEnabled)
+            .opacity(batterySettings.isFullPowerTemporaryActivityEnabled ? 1 : 0.5)
+        }
+    }
+
     private var lowBattery: some View {
         SettingsCard(
             title: "Low battery",
@@ -72,7 +135,7 @@ struct BatterySettingsView: View {
                 title: { $0.title },
                 headerTitle: "Low battery style",
                 headerDescription: "Choose whether the alert uses the current detailed card or a compact charging-like layout.",
-                itemHeight: 72,
+                itemHeight: 82,
                 lightBackgroundImage: Image("backgroundLight"),
                 darkBackgroundImage: Image("backgroundDark")
             ) { style, isSelected in
@@ -112,7 +175,7 @@ struct BatterySettingsView: View {
                 title: { $0.title },
                 headerTitle: "Full battery style",
                 headerDescription: "Choose whether the alert uses the current detailed card or a compact charging-like layout.",
-                itemHeight: 72,
+                itemHeight: 82,
                 lightBackgroundImage: Image("backgroundLight"),
                 darkBackgroundImage: Image("backgroundDark")
             ) { style, isSelected in
@@ -178,7 +241,8 @@ struct BatterySettingsView: View {
                         fullBatteryStandardIndicator
                     }
                 }
-                .padding(.horizontal, 20)
+                .padding(.leading, 20)
+                .padding(.trailing, 10)
                 .padding(.bottom, kind == .full ? 12 : 10)
             }
         }

@@ -27,6 +27,12 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         }
     }
 
+    @Published var isNowPlayingArtworkStrokeEnabled: Bool {
+        didSet {
+            persist(isNowPlayingArtworkStrokeEnabled, for: GeneralSettingsStorage.Keys.nowPlayingArtworkStrokeEnabled)
+        }
+    }
+
     @Published var isDownloadsLiveActivityEnabled: Bool {
         didSet {
             persist(isDownloadsLiveActivityEnabled, for: GeneralSettingsStorage.Keys.downloadsLiveActivityEnabled)
@@ -44,6 +50,7 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         self.isNowPlayingFavoriteButtonVisible = defaults.bool(forKey: GeneralSettingsStorage.Keys.nowPlayingFavoriteButtonVisible)
         self.isNowPlayingOutputDeviceButtonVisible = defaults.bool(forKey: GeneralSettingsStorage.Keys.nowPlayingOutputDeviceButtonVisible)
         self.isNowPlayingArtworkTintEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.nowPlayingArtworkTintEnabled)
+        self.isNowPlayingArtworkStrokeEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.nowPlayingArtworkStrokeEnabled)
         let hasLegacyDownloadsValue = defaults.object(forKey: GeneralSettingsStorage.Keys.legacyFileTransfersLiveActivityEnabled) != nil
         let downloadsSettingValue = defaults.object(forKey: GeneralSettingsStorage.Keys.downloadsLiveActivityEnabled) as? Bool
         self.isDownloadsLiveActivityEnabled = downloadsSettingValue ?? (
@@ -60,6 +67,7 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         isNowPlayingFavoriteButtonVisible = defaultBool(for: GeneralSettingsStorage.Keys.nowPlayingFavoriteButtonVisible)
         isNowPlayingOutputDeviceButtonVisible = defaultBool(for: GeneralSettingsStorage.Keys.nowPlayingOutputDeviceButtonVisible)
         isNowPlayingArtworkTintEnabled = defaultBool(for: GeneralSettingsStorage.Keys.nowPlayingArtworkTintEnabled)
+        isNowPlayingArtworkStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.nowPlayingArtworkStrokeEnabled)
     }
 
     func resetDownloads() {
@@ -76,7 +84,8 @@ extension MediaAndFilesSettingsStore {
         .init(
             showsFavoriteButton: isNowPlayingFavoriteButtonVisible,
             showsOutputDeviceButton: isNowPlayingOutputDeviceButtonVisible,
-            usesArtworkTint: isNowPlayingArtworkTintEnabled
+            usesArtworkTint: isNowPlayingArtworkTintEnabled,
+            usesArtworkStrokeTint: isNowPlayingArtworkStrokeEnabled
         )
     }
 }

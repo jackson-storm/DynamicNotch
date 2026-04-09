@@ -36,7 +36,7 @@ struct NowPlayingSettingsView: View {
                 title: "Hide favorite",
                 description: "Remove the favorite button from the expanded player controls.",
                 systemImage: "star.slash.fill",
-                color: .yellow,
+                color: .pink,
                 isOn: Binding(
                     get: { !settings.isNowPlayingFavoriteButtonVisible },
                     set: { settings.isNowPlayingFavoriteButtonVisible = !$0 }
@@ -52,7 +52,7 @@ struct NowPlayingSettingsView: View {
             SettingsToggleRow(
                 title: "Hide output device",
                 description: "Remove the output device button from the expanded player controls.",
-                systemImage: "airplayaudio.badge.exclamationmark",
+                systemImage: "airplay.audio",
                 color: .blue,
                 isOn: Binding(
                     get: { !settings.isNowPlayingOutputDeviceButtonVisible },
@@ -73,6 +73,20 @@ struct NowPlayingSettingsView: View {
                 color: Color(red: 1, green: 0.73, blue: 0.32),
                 isOn: $settings.isNowPlayingArtworkTintEnabled,
                 accessibilityIdentifier: "settings.activities.live.nowPlaying.artworkTint"
+            )
+
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+
+            SettingsToggleRow(
+                title: "Artwork-tinted stroke",
+                description: "Color the notch stroke using the current artwork palette.",
+                systemImage: "stroke.line.diagonal",
+                color: .indigo,
+                isOn: $settings.isNowPlayingArtworkStrokeEnabled,
+                accessibilityIdentifier: "settings.activities.live.nowPlaying.artworkStroke"
             )
         }
     }
@@ -96,12 +110,12 @@ private struct NowPlayingAppearancePreview: View {
             width: 410,
             height: 190,
             previewWidth: .infinity,
-            previewHeight: 200,
+            previewHeight: 215,
             topCornerRadius: 32,
             bottomCornerRadius: 42,
             backgroundStyle: .black,
             showsStroke: true,
-            strokeColor: .white.opacity(0.2),
+            strokeColor: appearance.usesArtworkStrokeTint ? baseColor.opacity(0.3) : .white.opacity(0.2),
             strokeWidth: 1.5,
             lightBackgroundImage: Image("backgroundLight"),
             darkBackgroundImage: Image("backgroundDark")

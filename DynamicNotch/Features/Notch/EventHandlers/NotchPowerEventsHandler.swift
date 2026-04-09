@@ -26,7 +26,7 @@ final class NotchPowerEventsHandler {
                         powerService: powerService,
                         settingsViewModel: settingsViewModel
                     ),
-                    duration: settingsViewModel.resolvedTemporaryActivityDuration(4)
+                    duration: settingsViewModel.temporaryActivityDuration(for: .charger)
                 )
             )
 
@@ -38,7 +38,7 @@ final class NotchPowerEventsHandler {
                         powerService: powerService,
                         settingsViewModel: settingsViewModel
                     ),
-                    duration: settingsViewModel.resolvedTemporaryActivityDuration(4)
+                    duration: settingsViewModel.temporaryActivityDuration(for: .lowPower)
                 )
             )
 
@@ -50,7 +50,7 @@ final class NotchPowerEventsHandler {
                         powerService: powerService,
                         settingsViewModel: settingsViewModel
                     ),
-                    duration: settingsViewModel.resolvedTemporaryActivityDuration(4)
+                    duration: settingsViewModel.temporaryActivityDuration(for: .fullPower)
                 )
             )
         }

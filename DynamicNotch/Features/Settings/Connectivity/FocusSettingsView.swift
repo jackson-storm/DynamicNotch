@@ -3,10 +3,15 @@ import SwiftUI
 struct FocusSettingsView: View {
     @ObservedObject var connectivitySettings: ConnectivitySettingsStore
     @ObservedObject var appearanceSettings: ApplicationSettingsStore
+
+    private var temporaryActivityDurationRange: ClosedRange<Double> {
+        Double(SettingsStoreBase.temporaryActivityDurationRange.lowerBound)...Double(SettingsStoreBase.temporaryActivityDurationRange.upperBound)
+    }
     
     var body: some View {
         SettingsPageScrollView {
             focusActivity
+            focusDuration
         }
     }
     
@@ -37,6 +42,29 @@ struct FocusSettingsView: View {
                 isOn: $connectivitySettings.isFocusOffTemporaryActivityEnabled,
                 accessibilityIdentifier: "settings.activities.temporary.focusOff"
             )
+        }
+    }
+
+    private var focusDuration: some View {
+        SettingsCard(
+            title: "Focus duration",
+            subtitle: "Control how long the Focus off notification stays visible."
+        ) {
+            SettingsSliderRow(
+                title: "Focus off duration",
+                description: "Choose how long the Focus off notification stays visible.",
+                range: temporaryActivityDurationRange,
+                step: 1,
+                fractionLength: 0,
+                suffix: "s",
+                accessibilityIdentifier: "settings.activities.temporary.focusOff.duration",
+                value: Binding(
+                    get: { Double(connectivitySettings.focusOffTemporaryActivityDuration) },
+                    set: { connectivitySettings.focusOffTemporaryActivityDuration = Int($0.rounded()) }
+                )
+            )
+            .disabled(!connectivitySettings.isFocusOffTemporaryActivityEnabled)
+            .opacity(connectivitySettings.isFocusOffTemporaryActivityEnabled ? 1 : 0.5)
         }
     }
 }

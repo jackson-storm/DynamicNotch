@@ -3,9 +3,14 @@ import SwiftUI
 struct HUDSettingsView: View {
     @ObservedObject var settings: HUDSettingsStore
 
+    private var temporaryActivityDurationRange: ClosedRange<Double> {
+        Double(SettingsStoreBase.temporaryActivityDurationRange.lowerBound)...Double(SettingsStoreBase.temporaryActivityDurationRange.upperBound)
+    }
+
     var body: some View {
         SettingsPageScrollView {
             hudActivity
+            hudDuration
             hudStyleCard
         }
     }
@@ -26,7 +31,6 @@ struct HUDSettingsView: View {
             
             Divider()
                 .opacity(0.6)
-                .padding(.leading, 43)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
             
             SettingsToggleRow(
@@ -40,7 +44,6 @@ struct HUDSettingsView: View {
             
             Divider()
                 .opacity(0.6)
-                .padding(.leading, 43)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
             
             SettingsToggleRow(
@@ -51,6 +54,65 @@ struct HUDSettingsView: View {
                 isOn: $settings.isVolumeHUDEnabled,
                 accessibilityIdentifier: "settings.general.hud.volume"
             )
+        }
+    }
+
+    private var hudDuration: some View {
+        SettingsCard(
+            title: "HUD duration",
+            subtitle: "Control how long each hardware HUD stays visible."
+        ) {
+            SettingsSliderRow(
+                title: "Brightness duration",
+                description: "Choose how long the brightness HUD stays visible.",
+                range: temporaryActivityDurationRange,
+                step: 1,
+                fractionLength: 0,
+                suffix: "s",
+                accessibilityIdentifier: "settings.general.hud.brightness.duration",
+                value: Binding(
+                    get: { Double(settings.brightnessHUDDuration) },
+                    set: { settings.brightnessHUDDuration = Int($0.rounded()) }
+                )
+            )
+            .disabled(!settings.isBrightnessHUDEnabled)
+            .opacity(settings.isBrightnessHUDEnabled ? 1 : 0.5)
+
+            Divider().opacity(0.6)
+
+            SettingsSliderRow(
+                title: "Keyboard duration",
+                description: "Choose how long the keyboard backlight HUD stays visible.",
+                range: temporaryActivityDurationRange,
+                step: 1,
+                fractionLength: 0,
+                suffix: "s",
+                accessibilityIdentifier: "settings.general.hud.keyboard.duration",
+                value: Binding(
+                    get: { Double(settings.keyboardHUDDuration) },
+                    set: { settings.keyboardHUDDuration = Int($0.rounded()) }
+                )
+            )
+            .disabled(!settings.isKeyboardHUDEnabled)
+            .opacity(settings.isKeyboardHUDEnabled ? 1 : 0.5)
+
+            Divider().opacity(0.6)
+
+            SettingsSliderRow(
+                title: "Volume duration",
+                description: "Choose how long the volume HUD stays visible.",
+                range: temporaryActivityDurationRange,
+                step: 1,
+                fractionLength: 0,
+                suffix: "s",
+                accessibilityIdentifier: "settings.general.hud.volume.duration",
+                value: Binding(
+                    get: { Double(settings.volumeHUDDuration) },
+                    set: { settings.volumeHUDDuration = Int($0.rounded()) }
+                )
+            )
+            .disabled(!settings.isVolumeHUDEnabled)
+            .opacity(settings.isVolumeHUDEnabled ? 1 : 0.5)
         }
     }
     

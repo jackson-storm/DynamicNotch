@@ -4,10 +4,10 @@ import Foundation
 final class AppContainer {
     let powerService = PowerService()
     let bluetoothViewModel = BluetoothViewModel()
-    let networkViewModel = NetworkViewModel()
     let focusViewModel = FocusViewModel()
     let airDropViewModel = AirDropNotchViewModel()
-    let settingsViewModel = SettingsViewModel()
+    let settingsViewModel: SettingsViewModel
+    let networkViewModel: NetworkViewModel
 
     let powerViewModel: PowerViewModel
     let downloadViewModel: DownloadViewModel
@@ -54,6 +54,8 @@ final class AppContainer {
     )
 
     init(isRunningUITests: Bool = ProcessInfo.processInfo.arguments.contains("-ui-testing")) {
+        self.settingsViewModel = SettingsViewModel()
+        self.networkViewModel = NetworkViewModel(settings: settingsViewModel.connectivity)
         self.powerViewModel = PowerViewModel(
             powerService: powerService,
             batterySettings: settingsViewModel.battery

@@ -14,7 +14,8 @@ final class NotchSystemEventsHandler {
     }
 
     func handleNotchSize(_ event: NotchSizeEvent) {
-        let duration = settingsViewModel.resolvedTemporaryActivityDuration(2)
+        guard settingsViewModel.isTemporaryActivityEnabled(.notchSize) else { return }
+        let duration = settingsViewModel.temporaryActivityDuration(for: .notchSize)
 
         switch event {
         case .width:

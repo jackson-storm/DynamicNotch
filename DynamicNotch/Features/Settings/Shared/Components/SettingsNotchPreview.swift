@@ -63,25 +63,12 @@ struct SettingsNotchPreview<Overlay: View>: View {
     
     var body: some View {
         ZStack(alignment: .top) {
-            ZStack {
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(colorScheme == .dark ? Color.gray.opacity(0.08) : Color.gray.opacity(0.18))
-                
-                if colorScheme == .light {
-                    if let lightBackgroundImage {
-                        lightBackgroundImage
-                            .resizable()
-                            .aspectRatio(contentMode: backgroundImageContentMode)
-                            .opacity(backgroundImageOpacity)
-                        
-                    }
-                } else if colorScheme == .dark {
-                    if let darkBackgroundImage {
-                        darkBackgroundImage
-                            .resizable()
-                            .aspectRatio(contentMode: backgroundImageContentMode)
-                            .opacity(backgroundImageOpacity)
-                    }
+            GeometryReader { proxy in
+                ZStack {
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(colorScheme == .dark ? Color.gray.opacity(0.08) : Color.gray.opacity(0.18))
+
+                    previewBackgroundImage(size: proxy.size)
                 }
             }
             .clipShape(RoundedRectangle(cornerRadius: 10))
@@ -89,7 +76,6 @@ struct SettingsNotchPreview<Overlay: View>: View {
                 RoundedRectangle(cornerRadius: 10)
                     .stroke(Color.gray.opacity(0.1), lineWidth: 1)
             }
-            .frame(maxWidth: previewWidth, minHeight: previewHeight)
             
             notchSurface
                 .overlay {
@@ -97,6 +83,30 @@ struct SettingsNotchPreview<Overlay: View>: View {
                 }
                 .environment(\.colorScheme, .dark)
                 .frame(width: width, height: height)
+        }
+        .frame(maxWidth: previewWidth)
+        .frame(height: previewHeight, alignment: .top)
+        .clipped()
+    }
+
+    @ViewBuilder
+    private func previewBackgroundImage(size: CGSize) -> some View {
+        if colorScheme == .light {
+            if let lightBackgroundImage {
+                lightBackgroundImage
+                    .resizable()
+                    .aspectRatio(contentMode: backgroundImageContentMode)
+                    .frame(width: size.width, height: size.height)
+                    .clipped()
+                    .opacity(backgroundImageOpacity)
+            }
+        } else if let darkBackgroundImage {
+            darkBackgroundImage
+                .resizable()
+                .aspectRatio(contentMode: backgroundImageContentMode)
+                .frame(width: size.width, height: size.height)
+                .clipped()
+                .opacity(backgroundImageOpacity)
         }
     }
     

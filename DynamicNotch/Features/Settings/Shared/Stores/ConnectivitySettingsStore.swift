@@ -15,6 +15,12 @@ final class ConnectivitySettingsStore: SettingsStoreBase {
         }
     }
 
+    @Published var focusAppearanceStyle: FocusAppearanceStyle {
+        didSet {
+            persist(focusAppearanceStyle.rawValue, for: GeneralSettingsStorage.Keys.focusAppearanceStyle)
+        }
+    }
+
     @Published var isBluetoothTemporaryActivityEnabled: Bool {
         didSet {
             persist(isBluetoothTemporaryActivityEnabled, for: GeneralSettingsStorage.Keys.bluetoothTemporaryActivityEnabled)
@@ -114,6 +120,9 @@ final class ConnectivitySettingsStore: SettingsStoreBase {
     override init(defaults: UserDefaults) {
         self.isHotspotLiveActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.hotspotLiveActivityEnabled)
         self.isFocusLiveActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.focusLiveActivityEnabled)
+        self.focusAppearanceStyle = FocusAppearanceStyle.resolved(
+            defaults.string(forKey: GeneralSettingsStorage.Keys.focusAppearanceStyle)
+        )
         self.isBluetoothTemporaryActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.bluetoothTemporaryActivityEnabled)
         self.bluetoothTemporaryActivityDuration = Self.clampTemporaryActivityDuration(
             defaults.object(forKey: GeneralSettingsStorage.Keys.bluetoothTemporaryActivityDuration) as? Int ??
@@ -172,6 +181,9 @@ final class ConnectivitySettingsStore: SettingsStoreBase {
 
     func resetFocus() {
         isFocusLiveActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.focusLiveActivityEnabled)
+        focusAppearanceStyle = FocusAppearanceStyle.resolved(
+            defaultString(for: GeneralSettingsStorage.Keys.focusAppearanceStyle)
+        )
         isFocusOffTemporaryActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.focusOffTemporaryActivityEnabled)
         focusOffTemporaryActivityDuration = Self.clampTemporaryActivityDuration(
             defaultInt(for: GeneralSettingsStorage.Keys.focusOffTemporaryActivityDuration)

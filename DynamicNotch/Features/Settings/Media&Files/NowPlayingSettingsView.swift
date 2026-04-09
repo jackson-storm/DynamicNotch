@@ -30,8 +30,6 @@ struct NowPlayingSettingsView: View {
         SettingsCard(title: "Player appearance") {
             NowPlayingAppearancePreview(settings: settings)
             
-            Divider().opacity(0.6)
-            
             SettingsToggleRow(
                 title: "Hide favorite",
                 description: "Remove the favorite button from the expanded player controls.",

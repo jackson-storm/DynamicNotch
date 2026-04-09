@@ -322,7 +322,7 @@ struct SettingsRootView: View {
                 Button {
                     pendingResetSection = section
                 } label: {
-                    Text("Default settings")
+                    Text("Reset")
                 }
                 .help(
                     viewModel.resetHelpText(

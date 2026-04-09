@@ -8,8 +8,7 @@ struct ChargerNotchContent: NotchContentProtocol {
     var offsetXTransition: CGFloat { -90 }
     var strokeColor: Color {
         settingsViewModel.isDefaultActivityStrokeEnabled ?
-        .white.opacity(0.2) :
-        (powerService.isLowPowerMode ? .yellow.opacity(0.3) : .green.opacity(0.3))
+            .white.opacity(0.2) : (powerService.isLowPowerMode ? .yellow.opacity(0.3) : .green.opacity(0.3))
     }
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {

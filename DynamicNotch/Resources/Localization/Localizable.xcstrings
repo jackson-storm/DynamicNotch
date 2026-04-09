@@ -1314,6 +1314,12 @@
     "Choose when the alert appears and how the low battery notification looks." : {
 
     },
+    "Choose whether Focus shows the On and Off labels or only the moon icon." : {
+
+    },
+    "Choose whether Focus uses the current labels or a cleaner icon-only look." : {
+
+    },
     "Choose whether the alert uses the current detailed card or a compact charging-like layout." : {
 
     },
@@ -1602,6 +1608,7 @@
 
     },
     "Default settings" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2186,6 +2193,9 @@
         }
       }
     },
+    "Focus appearance" : {
+
+    },
     "Focus duration" : {
 
     },
@@ -2399,6 +2409,9 @@
           }
         }
       }
+    },
+    "Focus style" : {
+
     },
     "Full battery" : {
 
@@ -2968,6 +2981,9 @@
           }
         }
       }
+    },
+    "Icons Only" : {
+
     },
     "Indigo" : {
       "extractionState" : "stale",

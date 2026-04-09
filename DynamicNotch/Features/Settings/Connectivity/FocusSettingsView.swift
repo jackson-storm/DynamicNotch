@@ -3,7 +3,7 @@ import SwiftUI
 struct FocusSettingsView: View {
     @ObservedObject var connectivitySettings: ConnectivitySettingsStore
     @ObservedObject var appearanceSettings: ApplicationSettingsStore
-
+    
     private var temporaryActivityDurationRange: ClosedRange<Double> {
         Double(SettingsStoreBase.temporaryActivityDurationRange.lowerBound)...Double(SettingsStoreBase.temporaryActivityDurationRange.upperBound)
     }
@@ -12,6 +12,7 @@ struct FocusSettingsView: View {
         SettingsPageScrollView {
             focusActivity
             focusDuration
+            focusAppearance
         }
     }
     
@@ -44,7 +45,7 @@ struct FocusSettingsView: View {
             )
         }
     }
-
+    
     private var focusDuration: some View {
         SettingsCard(
             title: "Focus duration",
@@ -66,5 +67,72 @@ struct FocusSettingsView: View {
             .disabled(!connectivitySettings.isFocusOffTemporaryActivityEnabled)
             .opacity(connectivitySettings.isFocusOffTemporaryActivityEnabled ? 1 : 0.5)
         }
+    }
+    
+    private var focusAppearance: some View {
+        SettingsCard(
+            title: "Focus appearance",
+            subtitle: "Choose whether Focus uses the current labels or a cleaner icon-only look."
+        ) {
+            CustomPicker(
+                selection: $connectivitySettings.focusAppearanceStyle,
+                options: Array(FocusAppearanceStyle.allCases),
+                title: { $0.title },
+                headerTitle: "Focus style",
+                headerDescription: "Choose whether Focus shows the On and Off labels or only the moon icon.",
+                itemHeight: 72,
+                lightBackgroundImage: Image("backgroundLight"),
+                darkBackgroundImage: Image("backgroundDark")
+            ) { style, isSelected in
+                focusStylePickerContent(for: style, isSelected: isSelected)
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private func focusStylePickerContent(for style: FocusAppearanceStyle, isSelected: Bool) -> some View {
+        ZStack {
+            Capsule()
+                .fill(.black)
+                .overlay {
+                    Capsule()
+                        .stroke(focusPreviewStrokeColor, lineWidth: 1)
+                }
+            
+            HStack(spacing: 0) {
+                if style == .iconsOnly {
+                    Image(systemName: "moon.fill")
+                        .font(.system(size: 13, weight: .bold))
+                        .foregroundStyle(.indigo)
+                    
+                    Spacer(minLength: 0)
+                    
+                } else {
+                    Image(systemName: "moon.fill")
+                        .font(.system(size: 13, weight: .bold))
+                        .foregroundStyle(.indigo)
+                    
+                    Spacer(minLength: 10)
+                    
+                    Text(verbatim: "On")
+                        .font(.system(size: 11, weight: .medium))
+                        .foregroundStyle(.indigo.opacity(0.8))
+                }
+            }
+            .padding(.horizontal, 10)
+        }
+        .frame(width: 160, height: 30)
+        .environment(\.colorScheme, .dark)
+        .scaleEffect(isSelected ? 1 : 0.97)
+    }
+    
+    private var focusPreviewStrokeColor: Color {
+        guard appearanceSettings.isShowNotchStrokeEnabled else {
+            return .clear
+        }
+        
+        return appearanceSettings.isDefaultActivityStrokeEnabled ?
+            .white.opacity(0.2) :
+            .indigo.opacity(0.3)
     }
 }

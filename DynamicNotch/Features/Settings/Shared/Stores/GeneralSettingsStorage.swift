@@ -26,6 +26,7 @@ enum GeneralSettingsStorage {
         static let hudColoredStrokeEnabled = "settings.hud.coloredStroke"
         static let hotspotLiveActivityEnabled = "settings.live.hotspot"
         static let focusLiveActivityEnabled = "settings.live.focus"
+        static let focusAppearanceStyle = "settings.focus.appearanceStyle"
         static let nowPlayingLiveActivityEnabled = "settings.live.nowPlaying"
         static let nowPlayingFavoriteButtonVisible = "settings.nowPlaying.favoriteButtonVisible"
         static let nowPlayingOutputDeviceButtonVisible = "settings.nowPlaying.outputDeviceButtonVisible"
@@ -92,6 +93,7 @@ enum GeneralSettingsStorage {
         Keys.hudColoredStrokeEnabled: false,
         Keys.hotspotLiveActivityEnabled: true,
         Keys.focusLiveActivityEnabled: true,
+        Keys.focusAppearanceStyle: FocusAppearanceStyle.standard.rawValue,
         Keys.nowPlayingLiveActivityEnabled: true,
         Keys.nowPlayingFavoriteButtonVisible: true,
         Keys.nowPlayingOutputDeviceButtonVisible: true,

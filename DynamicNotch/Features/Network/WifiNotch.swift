@@ -37,6 +37,7 @@ private struct WifiConnectedNotchView: View {
             Spacer(minLength: 10)
             rightContent
         }
+        .font(.system(size: 14))
         .padding(.horizontal, 14.scaled(by: scale))
     }
     
@@ -45,18 +46,16 @@ private struct WifiConnectedNotchView: View {
         HStack(spacing: 6) {
             Image(systemName: "wifi")
                 .font(.system(size: 16, weight: .semibold))
-                .foregroundStyle(Color.accentColor)
+                .foregroundStyle(Color.accentColor.gradient)
                 .contentTransition(.symbolEffect(.replace))
             
             Text(verbatim: "Wi-Fi")
-                .font(.system(size: 14))
                 .foregroundColor(.white.opacity(0.8))
         }
     }
     
     private var rightContent: some View {
         Text(verbatim: "Connected")
-            .font(.system(size: 14))
             .foregroundStyle(.white.opacity(0.8))
     }
 }

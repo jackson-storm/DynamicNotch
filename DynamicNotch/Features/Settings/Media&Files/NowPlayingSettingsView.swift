@@ -2,6 +2,11 @@ import SwiftUI
 
 struct NowPlayingSettingsView: View {
     @ObservedObject var settings: MediaAndFilesSettingsStore
+    @ObservedObject var applicationSettings: ApplicationSettingsStore
+
+    private var isArtworkStrokeLocked: Bool {
+        applicationSettings.isDefaultActivityStrokeEnabled
+    }
     
     var body: some View {
         SettingsPageScrollView {
@@ -28,7 +33,10 @@ struct NowPlayingSettingsView: View {
     
     private var playerAppearance: some View {
         SettingsCard(title: "Player appearance") {
-            NowPlayingAppearancePreview(settings: settings)
+            NowPlayingAppearancePreview(
+                settings: settings,
+                applicationSettings: applicationSettings
+            )
             
             SettingsToggleRow(
                 title: "Hide favorite",
@@ -86,18 +94,23 @@ struct NowPlayingSettingsView: View {
                 isOn: $settings.isNowPlayingArtworkStrokeEnabled,
                 accessibilityIdentifier: "settings.activities.live.nowPlaying.artworkStroke"
             )
+            .disabled(isArtworkStrokeLocked)
+            .opacity(isArtworkStrokeLocked ? 0.5 : 1)
         }
     }
 }
 
 private struct NowPlayingAppearancePreview: View {
     @ObservedObject var settings: MediaAndFilesSettingsStore
+    @ObservedObject var applicationSettings: ApplicationSettingsStore
     
     private let highlightColor = Color(red: 0.98, green: 0.77, blue: 0.31)
     private let baseColor = Color(red: 0.96, green: 0.48, blue: 0.2)
     
     var body: some View {
-        let appearance = settings.nowPlayingAppearanceOptions
+        let appearance = settings.resolvedNowPlayingAppearanceOptions(
+            isDefaultActivityStrokeEnabled: applicationSettings.isDefaultActivityStrokeEnabled
+        )
         let progressGradient = LinearGradient(
             colors: [highlightColor, baseColor],
             startPoint: .leading,
@@ -105,12 +118,11 @@ private struct NowPlayingAppearancePreview: View {
         )
         
         SettingsNotchPreview(
-            width: 410,
-            height: 190,
-            previewWidth: .infinity,
-            previewHeight: 215,
-            topCornerRadius: 32,
-            bottomCornerRadius: 42,
+            width: 360,
+            height: 168,
+            previewHeight: 186,
+            topCornerRadius: 28,
+            bottomCornerRadius: 38,
             backgroundStyle: .black,
             showsStroke: true,
             strokeColor: appearance.usesArtworkStrokeTint ? baseColor.opacity(0.3) : .white.opacity(0.2),
@@ -118,9 +130,9 @@ private struct NowPlayingAppearancePreview: View {
             lightBackgroundImage: Image("backgroundLight"),
             darkBackgroundImage: Image("backgroundDark")
         ) {
-            VStack(spacing: 16) {
-                HStack(spacing: 15) {
-                    RoundedRectangle(cornerRadius: 12, style: .continuous)
+            VStack(spacing: 13) {
+                HStack(spacing: 13) {
+                    RoundedRectangle(cornerRadius: 10, style: .continuous)
                         .fill(
                             LinearGradient(
                                 colors: [baseColor, highlightColor],
@@ -130,22 +142,22 @@ private struct NowPlayingAppearancePreview: View {
                         )
                         .overlay {
                             Image(systemName: "music.note")
-                                .font(.system(size: 18, weight: .bold))
+                                .font(.system(size: 16, weight: .bold))
                                 .foregroundStyle(.white.opacity(0.82))
                         }
-                        .frame(width: 62, height: 62)
+                        .frame(width: 54, height: 54)
                     
-                    VStack(alignment: .leading, spacing: 3) {
-                        HStack(alignment: .center, spacing: 10) {
+                    VStack(alignment: .leading, spacing: 2) {
+                        HStack(alignment: .center, spacing: 8) {
                             Text("Midnight Echoes")
-                                .font(.system(size: 16, weight: .medium))
+                                .font(.system(size: 15, weight: .medium))
                                 .foregroundStyle(.white.opacity(0.85))
                                 .lineLimit(1)
                             
                             Spacer(minLength: 0)
                             
-                            HStack(alignment: .bottom, spacing: 3) {
-                                ForEach([9.0, 7.0, 10.0, 6.0, 10.0], id: \.self) { height in
+                            HStack(alignment: .bottom, spacing: 2.5) {
+                                ForEach([8.0, 6.0, 9.0, 5.0, 9.0], id: \.self) { height in
                                     RoundedRectangle(cornerRadius: 3, style: .continuous)
                                         .fill(
                                             LinearGradient(
@@ -154,27 +166,27 @@ private struct NowPlayingAppearancePreview: View {
                                                 endPoint: .bottom
                                             )
                                         )
-                                        .frame(width: 3, height: height)
+                                        .frame(width: 2.5, height: height)
                                 }
                             }
-                            .frame(height: 18, alignment: .bottom)
+                            .frame(height: 15, alignment: .bottom)
                             
                         }
                         Text("Debug Ensemble")
-                            .font(.system(size: 14))
+                            .font(.system(size: 13))
                             .foregroundStyle(.white.opacity(0.5))
                             .lineLimit(1)
                     }
                 }
                 
-                HStack(spacing: 10) {
+                HStack(spacing: 8) {
                     Text("01:21")
-                        .font(.system(size: 11, weight: .medium, design: .rounded))
+                        .font(.system(size: 10, weight: .medium, design: .rounded))
                         .monospacedDigit()
                         .foregroundStyle(appearance.usesArtworkTint ? highlightColor : .white.opacity(0.4))
                     
                     GeometryReader { proxy in
-                        let trackHeight: CGFloat = 7
+                        let trackHeight: CGFloat = 6
                         
                         ZStack(alignment: .leading) {
                             Capsule(style: .continuous)
@@ -187,19 +199,19 @@ private struct NowPlayingAppearancePreview: View {
                         }
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                     }
-                    .frame(height: 18)
+                    .frame(height: 14)
                     
                     Text("03:34")
-                        .font(.system(size: 11, weight: .medium, design: .rounded))
+                        .font(.system(size: 10, weight: .medium, design: .rounded))
                         .monospacedDigit()
                         .foregroundStyle(appearance.usesArtworkTint ? baseColor : .white.opacity(0.4))
                 }
                 
                 ZStack {
-                    HStack(spacing: 25) {
-                        previewControlButton(systemImage: "backward.fill", fontSize: 22)
-                        previewControlButton(systemImage: "pause.fill", fontSize: 32)
-                        previewControlButton(systemImage: "forward.fill", fontSize: 22)
+                    HStack(spacing: 22) {
+                        previewControlButton(systemImage: "backward.fill", fontSize: 20)
+                        previewControlButton(systemImage: "pause.fill", fontSize: 28)
+                        previewControlButton(systemImage: "forward.fill", fontSize: 20)
                     }
                     
                     HStack {
@@ -213,13 +225,13 @@ private struct NowPlayingAppearancePreview: View {
                             previewSideButton(systemImage: "airplayaudio")
                         }
                     }
-                    .padding(.horizontal, 5)
+                    .padding(.horizontal, 4)
                 }
                 .frame(maxWidth: .infinity)
             }
-            .padding(.horizontal, 50)
-            .padding(.top, 24)
-            .padding(.bottom, 20)
+            .padding(.horizontal, 40)
+            .padding(.top, 20)
+            .padding(.bottom, 16)
         }
     }
     
@@ -229,15 +241,15 @@ private struct NowPlayingAppearancePreview: View {
                 .font(.system(size: fontSize, weight: .semibold))
                 .foregroundStyle(.white.opacity(0.92))
         }
-        .frame(width: 42, height: 42)
+        .frame(width: 38, height: 38)
     }
     
     private func previewSideButton(systemImage: String) -> some View {
         ZStack {
             Image(systemName: systemImage)
-                .font(.system(size: 21, weight: .semibold))
+                .font(.system(size: 18, weight: .semibold))
                 .foregroundStyle(.white.opacity(0.52))
         }
-        .frame(width: 42, height: 42)
+        .frame(width: 34, height: 34)
     }
 }

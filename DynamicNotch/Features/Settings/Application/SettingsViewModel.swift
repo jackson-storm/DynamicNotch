@@ -162,7 +162,7 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
     }
 
     var isHUDColoredLevelStrokeEnabled: Bool {
-        get { hud.isColoredLevelStrokeEnabled }
+        get { application.isDefaultActivityStrokeEnabled ? false : hud.isColoredLevelStrokeEnabled }
         set { hud.isColoredLevelStrokeEnabled = newValue }
     }
 

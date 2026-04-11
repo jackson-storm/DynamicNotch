@@ -15,10 +15,11 @@ struct HudNotchContent: NotchContentProtocol {
     let indicatorStyle: HudIndicatorStyle
     let usesColoredLevelTint: Bool
     let usesColoredLevelStroke: Bool
+    let applicationSettings: ApplicationSettingsStore?
 
     var offsetXTransition: CGFloat { -90 }
     var strokeColor: Color {
-        HudLevelStyling.strokeTint(for: level, isEnabled: usesColoredLevelStroke)
+        HudLevelStyling.strokeTint(for: level, isEnabled: resolvedColoredLevelStroke)
     }
 
     init(
@@ -27,7 +28,8 @@ struct HudNotchContent: NotchContentProtocol {
         style: HudStyle = .standard,
         indicatorStyle: HudIndicatorStyle = .bar,
         usesColoredLevelTint: Bool = true,
-        usesColoredLevelStroke: Bool = false
+        usesColoredLevelStroke: Bool = false,
+        applicationSettings: ApplicationSettingsStore? = nil
     ) {
         self.kind = kind
         self.level = level
@@ -35,6 +37,7 @@ struct HudNotchContent: NotchContentProtocol {
         self.indicatorStyle = indicatorStyle
         self.usesColoredLevelTint = usesColoredLevelTint
         self.usesColoredLevelStroke = usesColoredLevelStroke
+        self.applicationSettings = applicationSettings
     }
 
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
@@ -74,5 +77,9 @@ struct HudNotchContent: NotchContentProtocol {
         case .minimal:
             return 70
         }
+    }
+
+    private var resolvedColoredLevelStroke: Bool {
+        usesColoredLevelStroke && applicationSettings?.isDefaultActivityStrokeEnabled != true
     }
 }

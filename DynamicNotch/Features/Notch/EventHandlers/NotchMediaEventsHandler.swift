@@ -68,7 +68,8 @@ final class NotchMediaEventsHandler {
                 .showLiveActivity(
                     NowPlayingNotchContent(
                         nowPlayingViewModel: nowPlayingViewModel,
-                        settings: settingsViewModel.mediaAndFiles
+                        settings: settingsViewModel.mediaAndFiles,
+                        applicationSettings: settingsViewModel.application
                     )
                 )
             )

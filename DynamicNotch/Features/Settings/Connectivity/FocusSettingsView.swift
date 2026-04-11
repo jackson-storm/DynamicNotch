@@ -102,24 +102,24 @@ struct FocusSettingsView: View {
             HStack(spacing: 0) {
                 if style == .iconsOnly {
                     Image(systemName: "moon.fill")
-                        .font(.system(size: 13, weight: .bold))
+                        .font(.system(size: 14, weight: .semibold))
                         .foregroundStyle(.indigo)
                     
-                    Spacer(minLength: 0)
+                    Spacer()
                     
                 } else {
                     Image(systemName: "moon.fill")
-                        .font(.system(size: 13, weight: .bold))
+                        .font(.system(size: 14, weight: .semibold))
                         .foregroundStyle(.indigo)
                     
-                    Spacer(minLength: 10)
+                    Spacer()
                     
                     Text(verbatim: "On")
-                        .font(.system(size: 11, weight: .medium))
                         .foregroundStyle(.indigo.opacity(0.8))
                 }
             }
-            .padding(.horizontal, 10)
+            .padding(.leading, 7)
+            .padding(.trailing, 10)
         }
         .frame(width: 160, height: 30)
         .environment(\.colorScheme, .dark)

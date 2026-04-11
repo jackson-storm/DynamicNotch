@@ -72,11 +72,19 @@ struct SettingsRootView: View {
                     Section {
                         ForEach(group.sections) { section in
                             NavigationLink(value: section) {
-                                SettingsSidebarRow(
-                                    title: localized(section.titleKey, fallback: section.fallbackTitle),
-                                    systemImage: section.systemImage,
-                                    tint: section.tint
-                                )
+                                if let imageName = section.imageName {
+                                    SettingsSidebarRow(
+                                        title: localized(section.titleKey, fallback: section.fallbackTitle),
+                                        imageName: imageName,
+                                        tint: section.tint
+                                    )
+                                } else {
+                                    SettingsSidebarRow(
+                                        title: localized(section.titleKey, fallback: section.fallbackTitle),
+                                        systemImage: section.systemImage,
+                                        tint: section.tint
+                                    )
+                                }
                             }
                         }
                     } header: {
@@ -198,7 +206,10 @@ struct SettingsRootView: View {
             
         case .nowPlaying:
             detailContainer(for: section) {
-                NowPlayingSettingsView(settings: settingsViewModel.mediaAndFiles)
+                NowPlayingSettingsView(
+                    settings: settingsViewModel.mediaAndFiles,
+                    applicationSettings: settingsViewModel.application
+                )
             }
             
         case .downloads:
@@ -249,7 +260,10 @@ struct SettingsRootView: View {
             
         case .hud:
             detailContainer(for: section) {
-                HUDSettingsView(settings: settingsViewModel.hud)
+                HUDSettingsView(
+                    settings: settingsViewModel.hud,
+                    applicationSettings: settingsViewModel.application
+                )
             }
             
         case .lockScreen:

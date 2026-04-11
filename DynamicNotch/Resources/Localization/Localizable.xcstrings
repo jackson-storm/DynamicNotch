@@ -161,6 +161,9 @@
         }
       }
     },
+    "00:13:06" : {
+
+    },
     "1:21" : {
 
     },
@@ -1329,6 +1332,9 @@
     "Choose whether the HUD level uses a bar or a circular ring." : {
 
     },
+    "Choose whether the VPN activity stays compact or shows tunnel details." : {
+
+    },
     "Choose which display should host the notch overlay." : {
 
     },
@@ -2030,9 +2036,6 @@
           }
         }
       }
-    },
-    "Expand the VPN notification to reveal the tunnel name and extra status." : {
-
     },
     "Fine-tune the notch frame and stroke so it better matches your hardware." : {
 
@@ -11306,9 +11309,6 @@
         }
       }
     },
-    "Show VPN details" : {
-
-    },
     "Show VPN timer" : {
 
     },
@@ -12354,6 +12354,9 @@
     "VPN duration" : {
 
     },
+    "VPN style" : {
+
+    },
     "VPN temporary activity" : {
       "localizations" : {
         "en" : {
@@ -12620,6 +12623,9 @@
       }
     },
     "Widget appearance" : {
+
+    },
+    "WireGuard" : {
 
     },
     "You need to make sure that the application has been granted permission." : {

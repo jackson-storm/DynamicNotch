@@ -25,7 +25,8 @@ final class NotchHUDEventsHandler {
                         style: settingsViewModel.hudStyle,
                         indicatorStyle: settingsViewModel.hudIndicatorStyle,
                         usesColoredLevelTint: settingsViewModel.isHUDColoredLevelEnabled,
-                        usesColoredLevelStroke: settingsViewModel.isHUDColoredLevelStrokeEnabled
+                        usesColoredLevelStroke: settingsViewModel.isHUDColoredLevelStrokeEnabled,
+                        applicationSettings: settingsViewModel.application
                     ),
                     duration: settingsViewModel.temporaryActivityDuration(for: .brightness)
                 )
@@ -41,7 +42,8 @@ final class NotchHUDEventsHandler {
                         style: settingsViewModel.hudStyle,
                         indicatorStyle: settingsViewModel.hudIndicatorStyle,
                         usesColoredLevelTint: settingsViewModel.isHUDColoredLevelEnabled,
-                        usesColoredLevelStroke: settingsViewModel.isHUDColoredLevelStrokeEnabled
+                        usesColoredLevelStroke: settingsViewModel.isHUDColoredLevelStrokeEnabled,
+                        applicationSettings: settingsViewModel.application
                     ),
                     duration: settingsViewModel.temporaryActivityDuration(for: .keyboard)
                 )
@@ -57,7 +59,8 @@ final class NotchHUDEventsHandler {
                         style: settingsViewModel.hudStyle,
                         indicatorStyle: settingsViewModel.hudIndicatorStyle,
                         usesColoredLevelTint: settingsViewModel.isHUDColoredLevelEnabled,
-                        usesColoredLevelStroke: settingsViewModel.isHUDColoredLevelStrokeEnabled
+                        usesColoredLevelStroke: settingsViewModel.isHUDColoredLevelStrokeEnabled,
+                        applicationSettings: settingsViewModel.application
                     ),
                     duration: settingsViewModel.temporaryActivityDuration(for: .volume)
                 )

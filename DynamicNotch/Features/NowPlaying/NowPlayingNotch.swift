@@ -12,6 +12,7 @@ struct NowPlayingNotchContent: NotchContentProtocol {
     let id = "nowPlaying"
     let nowPlayingViewModel: NowPlayingViewModel
     let settings: MediaAndFilesSettingsStore
+    let applicationSettings: ApplicationSettingsStore
     
     var priority: Int { 81 }
     var isExpandable: Bool { true }
@@ -21,7 +22,8 @@ struct NowPlayingNotchContent: NotchContentProtocol {
     var expandedOffsetYTransition: CGFloat { -90 }
 
     var strokeColor: Color {
-        guard settings.isNowPlayingArtworkStrokeEnabled else {
+        guard settings.isNowPlayingArtworkStrokeEnabled,
+              applicationSettings.isDefaultActivityStrokeEnabled == false else {
             return .white.opacity(0.2)
         }
 
@@ -50,7 +52,8 @@ struct NowPlayingNotchContent: NotchContentProtocol {
         AnyView(
             NowPlayingExpandedNotchView(
                 nowPlayingViewModel: nowPlayingViewModel,
-                settings: settings
+                settings: settings,
+                applicationSettings: applicationSettings
             )
         )
     }
@@ -98,6 +101,7 @@ struct NowPlayingExpandedNotchView: View {
     @Environment(\.notchScale) var scale
     @ObservedObject var nowPlayingViewModel: NowPlayingViewModel
     @ObservedObject var settings: MediaAndFilesSettingsStore
+    @ObservedObject var applicationSettings: ApplicationSettingsStore
     @State private var scrubProgress: CGFloat?
     
     private var resolvedSnapshot: NowPlayingSnapshot {
@@ -125,7 +129,9 @@ struct NowPlayingExpandedNotchView: View {
             let displayedElapsedTime = snapshot.duration > 0 ?
             TimeInterval(displayedProgress) * snapshot.duration :
             elapsedTime
-            let appearance = settings.nowPlayingAppearanceOptions
+            let appearance = settings.resolvedNowPlayingAppearanceOptions(
+                isDefaultActivityStrokeEnabled: applicationSettings.isDefaultActivityStrokeEnabled
+            )
             
             VStack {
                 Spacer()

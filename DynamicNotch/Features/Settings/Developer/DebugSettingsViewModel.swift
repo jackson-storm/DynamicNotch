@@ -270,17 +270,29 @@ final class DebugSettingsViewModel: ObservableObject {
                 try await self.playLowPowerPreview()
                 try await self.playFullBatteryPreview()
                 try await self.playTemporaryPreview(
-                    HudNotchContent(kind: .brightness, level: 72),
+                    HudNotchContent(
+                        kind: .brightness,
+                        level: 72,
+                        applicationSettings: settingsViewModel.application
+                    ),
                     id: "\(Self.sequenceContentPrefix)hud.brightness",
                     duration: 2
                 )
                 try await self.playTemporaryPreview(
-                    HudNotchContent(kind: .keyboard, level: 64),
+                    HudNotchContent(
+                        kind: .keyboard,
+                        level: 64,
+                        applicationSettings: settingsViewModel.application
+                    ),
                     id: "\(Self.sequenceContentPrefix)hud.keyboard",
                     duration: 2
                 )
                 try await self.playTemporaryPreview(
-                    HudNotchContent(kind: .volume, level: 42),
+                    HudNotchContent(
+                        kind: .volume,
+                        level: 42,
+                        applicationSettings: settingsViewModel.application
+                    ),
                     id: "\(Self.sequenceContentPrefix)hud.volume",
                     duration: 2
                 )
@@ -359,7 +371,8 @@ final class DebugSettingsViewModel: ObservableObject {
         try await playLivePreview(
             NowPlayingNotchContent(
                 nowPlayingViewModel: nowPlayingViewModel,
-                settings: settingsViewModel.mediaAndFiles
+                settings: settingsViewModel.mediaAndFiles,
+                applicationSettings: settingsViewModel.application
             ),
             id: Self.sequenceNowPlayingID
         )

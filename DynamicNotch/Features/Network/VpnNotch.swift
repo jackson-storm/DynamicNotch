@@ -17,8 +17,8 @@ struct VpnConnectedNotchContent : NotchContentProtocol {
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         let width: Int
         
-        if settings.isVPNDetailVisible && networkViewModel.isShowingVPNDetail {
-            width = settings.isVPNTimerVisible ? 220 : 205
+        if settings.isVPNDetailVisible {
+            width = settings.isVPNTimerVisible ? 210 : 205
         } else {
             width = 170
         }
@@ -48,7 +48,7 @@ private struct VpnConnectedNotchView: View {
     }
     
     private var isShowingDetail: Bool {
-        settings.isVPNDetailVisible && networkViewModel.isShowingVPNDetail
+        settings.isVPNDetailVisible
     }
 
     private func formattedElapsedTime(since startDate: Date, currentDate: Date) -> String {
@@ -67,20 +67,6 @@ private struct VpnConnectedNotchView: View {
         }
         .padding(.horizontal, 14.scaled(by: scale))
         .font(.system(size: 14))
-        .onAppear {
-            scheduleDetailRevealIfNeeded()
-        }
-        .onChange(of: settings.isVPNDetailVisible) { _, isVisible in
-            guard isVisible else {
-                networkViewModel.isShowingVPNDetail = false
-                return
-            }
-            
-            scheduleDetailRevealIfNeeded()
-        }
-        .onDisappear {
-            networkViewModel.isShowingVPNDetail = false
-        }
     }
 
     @ViewBuilder
@@ -89,7 +75,7 @@ private struct VpnConnectedNotchView: View {
             HStack {
                 Image(systemName: "network.badge.shield.half.filled")
                     .font(.system(size: 16, weight: .semibold))
-                    .foregroundStyle(Color.accentColor)
+                    .foregroundStyle(Color.accentColor.gradient)
                     .contentTransition(.symbolEffect(.replace))
 
                 Text(verbatim: "VPN")
@@ -106,7 +92,7 @@ private struct VpnConnectedNotchView: View {
                 textColor: .white.opacity(0.8),
                 backgroundColor: .clear,
                 minDuration: 0.5,
-                frameWidth: 110
+                frameWidth: 100
             )
             .lineLimit(1)
             .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .push(from: .trailing)))
@@ -130,40 +116,22 @@ private struct VpnConnectedNotchView: View {
                 }
 
                 Image(systemName: "gauge.with.needle")
-                    .font(Font.system(size: 18))
-                    .foregroundStyle(.orange)
+                    .font(Font.system(size: 18, weight: .semibold))
+                    .foregroundStyle(.orange.gradient)
             }
             .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .push(from: .leading)))
 
         } else {
             HStack(spacing: 6) {
                 Image(systemName: "checkmark.shield.fill")
-                    .font(.system(size: 13, weight: .semibold))
+                    .font(.system(size: 18, weight: .semibold))
                     .foregroundStyle(.orange)
 
                 Text(verbatim: "Protected")
-                    .font(.system(size: 13, weight: .medium))
-                    .foregroundStyle(.white.opacity(0.78))
+                    .foregroundStyle(.white.opacity(0.8))
                     .lineLimit(1)
             }
             .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .push(from: .leading)))
-        }
-    }
-    
-    private func scheduleDetailRevealIfNeeded() {
-        guard settings.isVPNDetailVisible else {
-            networkViewModel.isShowingVPNDetail = false
-            return
-        }
-        
-        networkViewModel.isShowingVPNDetail = false
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            guard settings.isVPNDetailVisible else { return }
-            
-            withAnimation(.spring(duration: 0.4)) {
-                networkViewModel.isShowingVPNDetail = true
-            }
         }
     }
 }

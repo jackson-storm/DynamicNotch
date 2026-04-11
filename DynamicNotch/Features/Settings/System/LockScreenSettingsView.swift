@@ -151,19 +151,18 @@ struct LockScreenSettingsView: View {
 
             HStack(spacing: 8) {
                 Image(systemName: "lock.fill")
-                    .font(.system(size: 12, weight: .semibold))
+                    .font(.system(size: 14, weight: .semibold))
 
                 Spacer()
                 
                 if style == .enlarged {
                     Text("Locked")
-                        .font(.system(size: 10))
                 }
             }
             .foregroundStyle(.white.opacity(0.8))
             .padding(.horizontal, 10)
         }
-        .frame(width: 140)
+        .frame(width: 160)
         .scaleEffect(isSelected ? 1 : 0.97)
     }
 

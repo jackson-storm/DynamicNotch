@@ -22,7 +22,7 @@ struct BluetoothSettingsView: View {
             SettingsToggleRow(
                 title: "Bluetooth temporary activity",
                 description: "Show a temporary activity when a Bluetooth accessory connects.",
-                systemImage: "headphones",
+                imageName: "bluetooth.white",
                 color: .blue,
                 isOn: $settings.isBluetoothTemporaryActivityEnabled,
                 accessibilityIdentifier: "settings.activities.temporary.bluetooth"

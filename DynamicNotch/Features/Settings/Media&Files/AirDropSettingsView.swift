@@ -18,7 +18,7 @@ struct AirDropSettingsView: View {
             SettingsToggleRow(
                 title: "AirDrop live activity",
                 description: "Show the AirDrop drop target when you drag files over the notch.",
-                systemImage: "dot.radiowaves.left.and.right",
+                imageName: "airdrop.white",
                 color: .blue,
                 isOn: $mediaSettings.isAirDropLiveActivityEnabled,
                 accessibilityIdentifier: "settings.activities.live.airDrop"

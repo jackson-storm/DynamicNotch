@@ -2,9 +2,14 @@ import SwiftUI
 
 struct HUDSettingsView: View {
     @ObservedObject var settings: HUDSettingsStore
+    @ObservedObject var applicationSettings: ApplicationSettingsStore
 
     private var temporaryActivityDurationRange: ClosedRange<Double> {
         Double(SettingsStoreBase.temporaryActivityDurationRange.lowerBound)...Double(SettingsStoreBase.temporaryActivityDurationRange.upperBound)
+    }
+
+    private var isLevelStrokeLocked: Bool {
+        applicationSettings.isDefaultActivityStrokeEnabled
     }
 
     var body: some View {
@@ -170,6 +175,8 @@ struct HUDSettingsView: View {
                 isOn: $settings.isColoredLevelStrokeEnabled,
                 accessibilityIdentifier: "settings.general.hud.coloredStroke"
             )
+            .disabled(isLevelStrokeLocked)
+            .opacity(isLevelStrokeLocked ? 0.5 : 1)
         }
     }
 
@@ -281,6 +288,8 @@ struct HUDSettingsView: View {
     }
 
     private var pickerStrokeColor: Color {
-        HudLevelStyling.previewStrokeTint(isEnabled: settings.isColoredLevelStrokeEnabled)
+        HudLevelStyling.previewStrokeTint(
+            isEnabled: settings.isColoredLevelStrokeEnabled && !isLevelStrokeLocked
+        )
     }
 }

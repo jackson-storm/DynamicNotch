@@ -53,17 +53,11 @@ private struct BluetoothConnectedNotchView: View {
     private var leftContent: some View {
         if !bluetoothViewModel.isShowingBluetoothDetail {
             HStack {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 6)
-                        .fill(.blue)
-                        .frame(width: 22, height: 22)
-                    
-                    Image("bluetooth")
-                        .resizable()
-                        .frame(width: 14, height: 14)
-                        .foregroundStyle(.white)
-                        .contentTransition(.symbolEffect(.replace))
-                }
+                Image("bluetooth.blue")
+                    .resizable()
+                    .frame(width: 22, height: 22)
+                    .contentTransition(.symbolEffect(.replace))
+                
                 Text(verbatim: "Bluetooth")
                     .foregroundStyle(.white.opacity(0.8))
                     .lineLimit(1)

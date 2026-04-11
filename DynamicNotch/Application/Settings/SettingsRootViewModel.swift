@@ -261,6 +261,17 @@ final class SettingsRootViewModel {
             }
         }
 
+        var imageName: String? {
+            switch self {
+            case .airDrop:
+                return "airdrop.white"
+            case .bluetooth:
+                return "bluetooth.white"
+            default:
+                return nil
+            }
+        }
+
         var tint: Color {
             switch self {
             case .general:

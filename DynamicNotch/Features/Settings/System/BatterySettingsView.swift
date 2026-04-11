@@ -265,15 +265,14 @@ struct BatterySettingsView: View {
 
             HStack {
                 Text(verbatim: title)
-                    .font(.system(size: 11, weight: .medium))
-                    .foregroundStyle(.white.opacity(0.82))
+                    .foregroundStyle(.white.opacity(0.8))
                     .lineLimit(1)
 
                 Spacer(minLength: 8)
 
                 HStack(spacing: 6) {
                     Text("\(batteryLevel)%")
-                        .font(.system(size: 11, weight: .medium, design: .rounded))
+                        .font(.system(size: 12, weight: .medium, design: .rounded))
                         .foregroundStyle(tint)
 
                     batteryCompactIndicator(

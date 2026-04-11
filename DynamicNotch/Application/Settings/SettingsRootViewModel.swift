@@ -200,7 +200,7 @@ final class SettingsRootViewModel {
             case .general:
                 return "Startup, display placement, and app language."
             case .notch:
-                return "Appearance, animation, and temporary activity timing."
+                return "Appearance, animation, and resize feedback."
             case .nowPlaying:
                 return "Media playback controls shown in the notch."
             case .downloads:
@@ -225,6 +225,134 @@ final class SettingsRootViewModel {
             #endif
             case .about:
                 return "Project details, links, and release information."
+            }
+        }
+
+        var searchKeywords: [String] {
+            switch self {
+            case .general:
+                return [
+                    "launch at login",
+                    "dock icon",
+                    "menu bar",
+                    "appearance",
+                    "tint",
+                    "language",
+                    "display"
+                ]
+            case .notch:
+                return [
+                    "background",
+                    "stroke",
+                    "liquid glass",
+                    "animation",
+                    "speed",
+                    "resize",
+                    "width",
+                    "height"
+                ]
+            case .nowPlaying:
+                return [
+                    "player appearance",
+                    "favorite",
+                    "output device",
+                    "progress",
+                    "artwork",
+                    "stroke",
+                    "playback"
+                ]
+            case .downloads:
+                return [
+                    "download",
+                    "transfer",
+                    "file",
+                    "download style",
+                    "progress indicator",
+                    "default stroke",
+                    "live activity"
+                ]
+            case .airDrop:
+                return [
+                    "airdrop",
+                    "share",
+                    "transfer",
+                    "stroke"
+                ]
+            case .focus:
+                return [
+                    "focus",
+                    "icons only",
+                    "style",
+                    "stroke",
+                    "duration"
+                ]
+            case .bluetooth:
+                return [
+                    "bluetooth",
+                    "device",
+                    "detailed",
+                    "battery indicator",
+                    "percent",
+                    "circle",
+                    "stroke",
+                    "duration"
+                ]
+            case .network:
+                return [
+                    "wifi",
+                    "vpn",
+                    "hotspot",
+                    "timer",
+                    "details",
+                    "change",
+                    "stroke",
+                    "duration"
+                ]
+            case .battery:
+                return [
+                    "charging",
+                    "low battery",
+                    "full battery",
+                    "threshold",
+                    "stroke",
+                    "style",
+                    "duration"
+                ]
+            case .hud:
+                return [
+                    "brightness",
+                    "keyboard",
+                    "volume",
+                    "level indicator",
+                    "bar",
+                    "circle",
+                    "stroke",
+                    "duration"
+                ]
+            case .lockScreen:
+                return [
+                    "lock sound",
+                    "unlock sound",
+                    "media panel",
+                    "widget appearance",
+                    "background brightness",
+                    "accent tint",
+                    "liquid glass"
+                ]
+            #if DEBUG
+            case .debug:
+                return [
+                    "preview",
+                    "trigger",
+                    "debug"
+                ]
+            #endif
+            case .about:
+                return [
+                    "version",
+                    "website",
+                    "about"
+                ]
             }
         }
 
@@ -258,6 +386,17 @@ final class SettingsRootViewModel {
             #endif
             case .about:
                 return "info.circle"
+            }
+        }
+
+        var imageName: String? {
+            switch self {
+            case .airDrop:
+                return "airdrop.white"
+            case .bluetooth:
+                return "bluetooth.white"
+            default:
+                return nil
             }
         }
 
@@ -326,7 +465,7 @@ final class SettingsRootViewModel {
         let resolvedNotchViewModel = notchViewModel ?? NotchViewModel(settings: settingsViewModel.application)
         let resolvedBluetoothViewModel = bluetoothViewModel ?? BluetoothViewModel()
         let resolvedPowerService = powerService ?? PowerService(startMonitoring: false)
-        let resolvedNetworkViewModel = networkViewModel ?? NetworkViewModel()
+        let resolvedNetworkViewModel = networkViewModel ?? NetworkViewModel(settings: settingsViewModel.connectivity)
         let resolvedDownloadViewModel = downloadViewModel ?? DownloadViewModel(
             monitor: InactiveDownloadMonitor()
         )

@@ -72,11 +72,19 @@ struct SettingsRootView: View {
                     Section {
                         ForEach(group.sections) { section in
                             NavigationLink(value: section) {
-                                SettingsSidebarRow(
-                                    title: localized(section.titleKey, fallback: section.fallbackTitle),
-                                    systemImage: section.systemImage,
-                                    tint: section.tint
-                                )
+                                if let imageName = section.imageName {
+                                    SettingsSidebarRow(
+                                        title: localized(section.titleKey, fallback: section.fallbackTitle),
+                                        imageName: imageName,
+                                        tint: section.tint
+                                    )
+                                } else {
+                                    SettingsSidebarRow(
+                                        title: localized(section.titleKey, fallback: section.fallbackTitle),
+                                        systemImage: section.systemImage,
+                                        tint: section.tint
+                                    )
+                                }
                             }
                         }
                     } header: {
@@ -157,9 +165,19 @@ struct SettingsRootView: View {
         }
         
         return viewModel.sections.filter { section in
-            localized(section.titleKey, fallback: section.fallbackTitle).localizedCaseInsensitiveContains(query) ||
-            localized(section.subtitleKey, fallback: section.fallbackSubtitle).localizedCaseInsensitiveContains(query)
+            searchableStrings(for: section).contains { value in
+                value.localizedCaseInsensitiveContains(query)
+            }
         }
+    }
+
+    private func searchableStrings(for section: SettingsRootViewModel.Section) -> [String] {
+        [
+            localized(section.titleKey, fallback: section.fallbackTitle),
+            section.fallbackTitle,
+            localized(section.subtitleKey, fallback: section.fallbackSubtitle),
+            section.fallbackSubtitle
+        ] + section.searchKeywords
     }
     
     private var groupedSections: [(group: SettingsRootViewModel.SidebarGroup, sections: [SettingsRootViewModel.Section])] {
@@ -198,15 +216,17 @@ struct SettingsRootView: View {
             
         case .nowPlaying:
             detailContainer(for: section) {
-                NowPlayingSettingsView(settings: settingsViewModel.mediaAndFiles)
+                NowPlayingSettingsView(
+                    settings: settingsViewModel.mediaAndFiles,
+                    applicationSettings: settingsViewModel.application
+                )
             }
             
         case .downloads:
             detailContainer(for: section) {
                 DownloadsSettingsView(
                     mediaSettings: settingsViewModel.mediaAndFiles,
-                    appearanceSettings: settingsViewModel.application,
-                    downloadViewModel: downloadViewModel
+                    appearanceSettings: settingsViewModel.application
                 )
             }
             
@@ -228,7 +248,10 @@ struct SettingsRootView: View {
             
         case .bluetooth:
             detailContainer(for: section) {
-                BluetoothSettingsView(settings: settingsViewModel.connectivity)
+                BluetoothSettingsView(
+                    settings: settingsViewModel.connectivity,
+                    applicationSettings: settingsViewModel.application
+                )
             }
             
         case .network:
@@ -249,7 +272,10 @@ struct SettingsRootView: View {
             
         case .hud:
             detailContainer(for: section) {
-                HUDSettingsView(settings: settingsViewModel.hud)
+                HUDSettingsView(
+                    settings: settingsViewModel.hud,
+                    applicationSettings: settingsViewModel.application
+                )
             }
             
         case .lockScreen:
@@ -322,7 +348,7 @@ struct SettingsRootView: View {
                 Button {
                     pendingResetSection = section
                 } label: {
-                    Text("Default settings")
+                    Text("Reset")
                 }
                 .help(
                     viewModel.resetHelpText(

@@ -8,6 +8,10 @@ struct LockScreenSettingsView: View {
     @ObservedObject var applicationSettings: ApplicationSettingsStore
     @State private var lockSoundSelectionError: String?
     @State private var unlockSoundSelectionError: String?
+
+    private var lockScreenPreviewStrokeColor: Color {
+        applicationSettings.isShowNotchStrokeEnabled ? .white.opacity(0.2) : .clear
+    }
     
     var body: some View {
         SettingsPageScrollView {
@@ -145,25 +149,24 @@ struct LockScreenSettingsView: View {
                 .fill(.black)
                 .overlay {
                     Capsule()
-                        .stroke(.white.opacity(0.2), lineWidth: 1)
+                        .stroke(lockScreenPreviewStrokeColor, lineWidth: 1)
                 }
                 .frame(height: 30)
 
             HStack(spacing: 8) {
                 Image(systemName: "lock.fill")
-                    .font(.system(size: 12, weight: .semibold))
+                    .font(.system(size: 14, weight: .semibold))
 
                 Spacer()
                 
                 if style == .enlarged {
                     Text("Locked")
-                        .font(.system(size: 10))
                 }
             }
             .foregroundStyle(.white.opacity(0.8))
             .padding(.horizontal, 10)
         }
-        .frame(width: 140)
+        .frame(width: 160)
         .scaleEffect(isSelected ? 1 : 0.97)
     }
 

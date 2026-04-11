@@ -1,9 +1,18 @@
 import SwiftUI
 internal import AppKit
 
+struct NowPlayingAppearanceOptions {
+    let showsFavoriteButton: Bool
+    let showsOutputDeviceButton: Bool
+    let usesArtworkTint: Bool
+    let usesArtworkStrokeTint: Bool
+}
+
 struct NowPlayingNotchContent: NotchContentProtocol {
     let id = "nowPlaying"
     let nowPlayingViewModel: NowPlayingViewModel
+    let settings: MediaAndFilesSettingsStore
+    let applicationSettings: ApplicationSettingsStore
     
     var priority: Int { 81 }
     var isExpandable: Bool { true }
@@ -11,6 +20,15 @@ struct NowPlayingNotchContent: NotchContentProtocol {
     var offsetXTransition: CGFloat { 0 }
     var expandedOffsetXTransition: CGFloat { -100 }
     var expandedOffsetYTransition: CGFloat { -90 }
+
+    var strokeColor: Color {
+        guard settings.isNowPlayingArtworkStrokeEnabled,
+              applicationSettings.isDefaultActivityStrokeEnabled == false else {
+            return .white.opacity(0.2)
+        }
+
+        return Color(nsColor: nowPlayingViewModel.artworkPalette.equalizerBaseColor).opacity(0.4)
+    }
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         .init(width: baseWidth + 70, height: baseHeight)
@@ -31,7 +49,13 @@ struct NowPlayingNotchContent: NotchContentProtocol {
     
     @MainActor
     func makeExpandedView() -> AnyView {
-        AnyView(NowPlayingExpandedNotchView(nowPlayingViewModel: nowPlayingViewModel))
+        AnyView(
+            NowPlayingExpandedNotchView(
+                nowPlayingViewModel: nowPlayingViewModel,
+                settings: settings,
+                applicationSettings: applicationSettings
+            )
+        )
     }
 }
 
@@ -76,6 +100,8 @@ private struct NowPlayingMinimalNotchView: View {
 struct NowPlayingExpandedNotchView: View {
     @Environment(\.notchScale) var scale
     @ObservedObject var nowPlayingViewModel: NowPlayingViewModel
+    @ObservedObject var settings: MediaAndFilesSettingsStore
+    @ObservedObject var applicationSettings: ApplicationSettingsStore
     @State private var scrubProgress: CGFloat?
     
     private var resolvedSnapshot: NowPlayingSnapshot {
@@ -103,6 +129,9 @@ struct NowPlayingExpandedNotchView: View {
             let displayedElapsedTime = snapshot.duration > 0 ?
             TimeInterval(displayedProgress) * snapshot.duration :
             elapsedTime
+            let appearance = settings.resolvedNowPlayingAppearanceOptions(
+                isDefaultActivityStrokeEnabled: applicationSettings.isDefaultActivityStrokeEnabled
+            )
             
             VStack {
                 Spacer()
@@ -150,11 +179,12 @@ struct NowPlayingExpandedNotchView: View {
                 HStack(spacing: 10) {
                     Text(formattedTime(displayedElapsedTime))
                         .font(.system(size: 11, weight: .medium, design: .rounded))
-                        .foregroundStyle(.white.opacity(0.4))
+                        .foregroundStyle(progressTimeColor(isPrimary: true, appearance: appearance))
                     
                     PlayerProgressBar(
                         progress: displayedProgress,
                         isInteractive: snapshot.duration > 0,
+                        tintGradient: appearance.usesArtworkTint ? nowPlayingViewModel.artworkPalette.equalizerGradient : nil,
                         onScrubChanged: { newProgress in
                             scrubProgress = newProgress
                         },
@@ -166,7 +196,7 @@ struct NowPlayingExpandedNotchView: View {
                     
                     Text(snapshot.duration > 0 ? formattedTime(snapshot.duration) : "LIVE")
                         .font(.system(size: 11, weight: .medium, design: .rounded))
-                        .foregroundStyle(.white.opacity(0.4))
+                        .foregroundStyle(progressTimeColor(isPrimary: false, appearance: appearance))
                 }
                 
                 Spacer()
@@ -202,21 +232,25 @@ struct NowPlayingExpandedNotchView: View {
                     }
 
                     HStack {
-                        FavoriteTrackButton(
-                            nowPlayingViewModel: nowPlayingViewModel,
-                            width: 42,
-                            height: 42,
-                            fontSize: 21
-                        )
+                        if appearance.showsFavoriteButton {
+                            FavoriteTrackButton(
+                                nowPlayingViewModel: nowPlayingViewModel,
+                                width: 42,
+                                height: 42,
+                                fontSize: 21
+                            )
+                        }
 
                         Spacer()
 
-                        AudioOutputRoutePickerButton(
-                            nowPlayingViewModel: nowPlayingViewModel,
-                            width: 42,
-                            height: 42,
-                            fontSize: 21
-                        )
+                        if appearance.showsOutputDeviceButton {
+                            AudioOutputRoutePickerButton(
+                                nowPlayingViewModel: nowPlayingViewModel,
+                                width: 42,
+                                height: 42,
+                                fontSize: 21
+                            )
+                        }
                     }
                     .padding(.horizontal, 5)
                 }
@@ -258,6 +292,18 @@ struct NowPlayingExpandedNotchView: View {
         }
         
         return String(format: "%02d:%02d", minutes, seconds)
+    }
+
+    private func progressTimeColor(isPrimary: Bool, appearance: NowPlayingAppearanceOptions) -> Color {
+        guard appearance.usesArtworkTint else {
+            return .white.opacity(0.4)
+        }
+
+        let nsColor = isPrimary ?
+        nowPlayingViewModel.artworkPalette.equalizerHighlightColor :
+        nowPlayingViewModel.artworkPalette.equalizerBaseColor
+
+        return Color(nsColor: nsColor)
     }
     
     private func playbackStatusColor(for snapshot: NowPlayingSnapshot) -> Color {
@@ -441,6 +487,7 @@ private func stableFNV1A64Hash(of value: String) -> UInt64 {
 private struct PlayerProgressBar: View {
     let progress: CGFloat
     let isInteractive: Bool
+    let tintGradient: LinearGradient?
     let onScrubChanged: (CGFloat) -> Void
     let onScrubEnded: (CGFloat) -> Void
     
@@ -455,9 +502,15 @@ private struct PlayerProgressBar: View {
                     .fill(.white.opacity(0.15))
                     .frame(height: trackHeight)
 
-                Capsule(style: .continuous)
-                    .fill(.white.opacity(0.5))
-                    .frame(width: filledWidth, height: trackHeight)
+                if let tintGradient {
+                    Capsule(style: .continuous)
+                        .fill(tintGradient)
+                        .frame(width: filledWidth, height: trackHeight)
+                } else {
+                    Capsule(style: .continuous)
+                        .fill(.white.opacity(0.5))
+                        .frame(width: filledWidth, height: trackHeight)
+                }
 
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)

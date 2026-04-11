@@ -161,10 +161,22 @@
         }
       }
     },
+    "00:13:06" : {
+
+    },
     "1:21" : {
 
     },
+    "01:21" : {
+
+    },
     "3:34" : {
+
+    },
+    "03:34" : {
+
+    },
+    "20%" : {
 
     },
     "72" : {
@@ -218,6 +230,9 @@
           }
         }
       }
+    },
+    "100%" : {
+
     },
     "Accent" : {
 
@@ -434,6 +449,9 @@
         }
       }
     },
+    "AirPods Max" : {
+
+    },
     "Animation" : {
       "localizations" : {
         "en" : {
@@ -487,6 +505,9 @@
       }
     },
     "Animation speed" : {
+
+    },
+    "Appearance" : {
 
     },
     "Apply a full battery sample and show the completion notification." : {
@@ -697,6 +718,12 @@
         }
       }
     },
+    "Artwork-tinted progress" : {
+
+    },
+    "Artwork-tinted stroke" : {
+
+    },
     "Background" : {
 
     },
@@ -758,6 +785,12 @@
         }
       }
     },
+    "Battery duration" : {
+
+    },
+    "Battery indicator" : {
+
+    },
     "Battery Low" : {
       "localizations" : {
         "en" : {
@@ -809,6 +842,9 @@
           }
         }
       }
+    },
+    "Battery-colored stroke" : {
+
     },
     "Black" : {
 
@@ -932,6 +968,9 @@
         }
       }
     },
+    "Bluetooth appearance" : {
+
+    },
     "Bluetooth Connected" : {
       "localizations" : {
         "en" : {
@@ -983,6 +1022,12 @@
           }
         }
       }
+    },
+    "Bluetooth duration" : {
+
+    },
+    "Bluetooth style" : {
+
     },
     "Bluetooth temporary activity" : {
       "localizations" : {
@@ -1037,6 +1082,9 @@
       }
     },
     "Brighten or darken the widget background without changing the selected material style." : {
+
+    },
+    "Brightness duration" : {
 
     },
     "Brightness HUD" : {
@@ -1209,16 +1257,64 @@
         }
       }
     },
+    "Charging duration" : {
+
+    },
     "Check update" : {
 
     },
     "Choose" : {
 
     },
+    "Choose between a device-focused layout or full device details." : {
+
+    },
+    "Choose how file downloads look in the notch while progress is active." : {
+
+    },
     "Choose how hardware HUD feedback is laid out inside the notch." : {
 
     },
+    "Choose how long the Bluetooth connection notification stays visible." : {
+
+    },
+    "Choose how long the brightness HUD stays visible." : {
+
+    },
+    "Choose how long the charging notification stays visible." : {
+
+    },
+    "Choose how long the Focus off notification stays visible." : {
+
+    },
+    "Choose how long the full battery notification stays visible." : {
+
+    },
+    "Choose how long the keyboard backlight HUD stays visible." : {
+
+    },
+    "Choose how long the low battery notification stays visible." : {
+
+    },
+    "Choose how long the volume HUD stays visible." : {
+
+    },
+    "Choose how long the VPN connection notification stays visible." : {
+
+    },
+    "Choose how long the Wi-Fi reconnect notification stays visible." : {
+
+    },
+    "Choose how much information the download activity shows at a glance." : {
+
+    },
+    "Choose how the Bluetooth connection notification looks in the notch." : {
+
+    },
     "Choose how the lock-screen activity is laid out inside the notch." : {
+
+    },
+    "Choose how the Personal Hotspot live activity looks while it is active." : {
 
     },
     "Choose one global motion preset for notch transitions, expansion, and visibility." : {
@@ -1233,10 +1329,43 @@
     "Choose the background style used by the lock-screen media widget." : {
 
     },
+    "Choose the battery percentage that triggers the full charge notification." : {
+
+    },
+    "Choose the battery percentage that triggers the low battery notification." : {
+
+    },
     "Choose the interface appearance used by the app." : {
 
     },
+    "Choose when the alert appears and how the full battery notification looks." : {
+
+    },
+    "Choose when the alert appears and how the low battery notification looks." : {
+
+    },
+    "Choose whether Bluetooth battery information is shown as a percentage or a circular indicator." : {
+
+    },
+    "Choose whether download progress uses a percentage label or a circular ring." : {
+
+    },
+    "Choose whether Focus shows the On and Off labels or only the moon icon." : {
+
+    },
+    "Choose whether Focus uses the current labels or a cleaner icon-only look." : {
+
+    },
+    "Choose whether the alert uses the current detailed card or a compact charging-like layout." : {
+
+    },
+    "Choose whether the hotspot activity stays minimal or shows more status." : {
+
+    },
     "Choose whether the HUD level uses a bar or a circular ring." : {
+
+    },
+    "Choose whether the VPN activity stays compact or shows tunnel details." : {
 
     },
     "Choose which display should host the notch overlay." : {
@@ -1249,6 +1378,12 @@
 
     },
     "Clean up previews without restarting the app." : {
+
+    },
+    "Color the notch stroke using the current artwork palette." : {
+
+    },
+    "Color the progress bar and timer labels using the current artwork palette." : {
 
     },
     "Colored level tint" : {
@@ -1363,7 +1498,6 @@
 
     },
     "Connected" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1421,13 +1555,25 @@
     "Control how Dynamic Notch integrates with macOS." : {
 
     },
-    "Control network-related live and temporary activities." : {
+    "Control how long each battery notification stays visible." : {
+
+    },
+    "Control how long each hardware HUD stays visible." : {
+
+    },
+    "Control how long the Bluetooth notification stays visible." : {
+
+    },
+    "Control how long the Focus off notification stays visible." : {
 
     },
     "Control the lock-screen live activity, sound, and detached media panel." : {
 
     },
     "Control the persistent Focus state and the short Focus Off notification." : {
+
+    },
+    "Control when network notifications appear and how the VPN activity looks in the notch." : {
 
     },
     "Coral" : {
@@ -1501,6 +1647,7 @@
 
     },
     "Default settings" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1551,6 +1698,15 @@
           }
         }
       }
+    },
+    "Default stroke" : {
+
+    },
+    "Detailed" : {
+
+    },
+    "Device" : {
+
     },
     "Dismiss the currently visible temporary notification." : {
       "localizations" : {
@@ -1708,6 +1864,12 @@
         }
       }
     },
+    "Download appearance" : {
+
+    },
+    "Download style" : {
+
+    },
     "Downloads" : {
       "localizations" : {
         "en" : {
@@ -1811,12 +1973,6 @@
           }
         }
       }
-    },
-    "Drag and Drop" : {
-
-    },
-    "Drop files, images, or links onto the notch to trigger supported actions without breaking your flow." : {
-
     },
     "Dynamic Notch" : {
       "localizations" : {
@@ -2085,6 +2241,12 @@
         }
       }
     },
+    "Focus appearance" : {
+
+    },
+    "Focus duration" : {
+
+    },
     "Focus live activity" : {
       "localizations" : {
         "en" : {
@@ -2241,6 +2403,9 @@
         }
       }
     },
+    "Focus off duration" : {
+
+    },
     "Focus On" : {
       "localizations" : {
         "en" : {
@@ -2293,6 +2458,12 @@
         }
       }
     },
+    "Focus style" : {
+
+    },
+    "Full battery" : {
+
+    },
     "Full Battery" : {
       "localizations" : {
         "en" : {
@@ -2344,6 +2515,15 @@
           }
         }
       }
+    },
+    "Full battery duration" : {
+
+    },
+    "Full battery style" : {
+
+    },
+    "Full charge threshold" : {
+
     },
     "Fully Charged" : {
       "localizations" : {
@@ -2471,6 +2651,12 @@
         }
       }
     },
+    "Hide favorite" : {
+
+    },
+    "Hide output device" : {
+
+    },
     "Hide the Focus live activity and show the short \"Off\" notification." : {
       "localizations" : {
         "en" : {
@@ -2575,6 +2761,9 @@
         }
       }
     },
+    "Hotspot appearance" : {
+
+    },
     "HUD activity" : {
       "localizations" : {
         "en" : {
@@ -2678,6 +2867,9 @@
           }
         }
       }
+    },
+    "HUD duration" : {
+
     },
     "hud.brightness" : {
       "extractionState" : "stale",
@@ -2838,6 +3030,9 @@
         }
       }
     },
+    "Icons Only" : {
+
+    },
     "Indigo" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -2955,6 +3150,9 @@
           }
         }
       }
+    },
+    "Keyboard duration" : {
+
     },
     "Keyboard HUD" : {
       "localizations" : {
@@ -3277,9 +3475,6 @@
     "Lock screen activity" : {
 
     },
-    "Lock Screen and Widget" : {
-
-    },
     "Lock screen behavior" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -3492,6 +3687,18 @@
     "Locked" : {
 
     },
+    "Low battery" : {
+
+    },
+    "Low battery duration" : {
+
+    },
+    "Low battery style" : {
+
+    },
+    "Low battery threshold" : {
+
+    },
     "Low Power" : {
       "localizations" : {
         "en" : {
@@ -3655,6 +3862,9 @@
     "Midnight Echoes" : {
 
     },
+    "Minimal" : {
+
+    },
     "Network activity" : {
       "localizations" : {
         "en" : {
@@ -3706,6 +3916,9 @@
           }
         }
       }
+    },
+    "Network duration" : {
+
     },
     "No audio outputs available" : {
       "extractionState" : "stale",
@@ -4127,6 +4340,7 @@
       }
     },
     "Notification duration" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4492,6 +4706,12 @@
         }
       }
     },
+    "Only notify on network change" : {
+
+    },
+    "Only show Wi-Fi or VPN notifications when the connected network actually changes." : {
+
+    },
     "Open the DynamicNotch website" : {
       "localizations" : {
         "en" : {
@@ -4554,6 +4774,9 @@
           }
         }
       }
+    },
+    "Percent" : {
+
     },
     "Persistent Events" : {
       "localizations" : {
@@ -4878,6 +5101,9 @@
         }
       }
     },
+    "Player appearance" : {
+
+    },
     "Please give it a star on GitHub – it will really help with promotion." : {
 
     },
@@ -4985,6 +5211,12 @@
         }
       }
     },
+    "Progress indicator" : {
+
+    },
+    "Protected" : {
+
+    },
     "Quit" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -5048,6 +5280,12 @@
           }
         }
       }
+    },
+    "Remove the favorite button from the expanded player controls." : {
+
+    },
+    "Remove the output device button from the expanded player controls." : {
+
     },
     "Replace the keyboard backlight HUD with DynamicNotch HUD." : {
       "localizations" : {
@@ -5261,6 +5499,7 @@
       }
     },
     "Resize feedback" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -5365,6 +5604,7 @@
       }
     },
     "Scale the duration of temporary activities across HUD, battery, connectivity, and resize feedback." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -10070,6 +10310,7 @@
       }
     },
     "Show a temporary activity when the battery reaches full charge." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -10120,6 +10361,9 @@
           }
         }
       }
+    },
+    "Show a temporary activity when the battery reaches the selected full charge level." : {
+
     },
     "Show a temporary activity when your Mac starts charging." : {
       "localizations" : {
@@ -10385,6 +10629,7 @@
       }
     },
     "Show temporary size hints while adjusting the notch width or height." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -10695,6 +10940,9 @@
           }
         }
       }
+    },
+    "Show the elapsed session timer inside the detailed VPN notification." : {
+
     },
     "Show the height resize helper using the current settings." : {
       "localizations" : {
@@ -11112,6 +11360,9 @@
         }
       }
     },
+    "Show VPN timer" : {
+
+    },
     "Shows the Wi-Fi temporary notification." : {
       "localizations" : {
         "en" : {
@@ -11168,6 +11419,9 @@
 
     },
     "Solid" : {
+
+    },
+    "Standard" : {
 
     },
     "Start" : {
@@ -11501,6 +11755,9 @@
 
     },
     "Tint" : {
+
+    },
+    "Tint Bluetooth battery styles using the current battery level color." : {
 
     },
     "Tint the notch stroke using the current HUD level color instead of the default white stroke." : {
@@ -11879,6 +12136,24 @@
     "Use the dynamic green-to-red fill for the HUD level indicator instead of a plain white fill." : {
 
     },
+    "Use the standard white notch stroke instead of the accent-colored download stroke." : {
+
+    },
+    "Use the standard white notch stroke instead of the blue AirDrop stroke." : {
+
+    },
+    "Use the standard white notch stroke instead of the Focus accent stroke." : {
+
+    },
+    "Use the standard white notch stroke instead of the full battery alert color." : {
+
+    },
+    "Use the standard white notch stroke instead of the hotspot accent stroke." : {
+
+    },
+    "Use the standard white notch stroke instead of the low battery alert color." : {
+
+    },
     "Utilities" : {
       "localizations" : {
         "en" : {
@@ -11986,6 +12261,9 @@
         }
       }
     },
+    "Volume duration" : {
+
+    },
     "Volume HUD" : {
       "localizations" : {
         "en" : {
@@ -12039,7 +12317,6 @@
       }
     },
     "VPN" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12090,6 +12367,9 @@
           }
         }
       }
+    },
+    "VPN appearance" : {
+
     },
     "VPN Connected" : {
       "localizations" : {
@@ -12142,6 +12422,12 @@
           }
         }
       }
+    },
+    "VPN duration" : {
+
+    },
+    "VPN style" : {
+
     },
     "VPN temporary activity" : {
       "localizations" : {
@@ -12353,6 +12639,9 @@
         }
       }
     },
+    "Wi-Fi duration" : {
+
+    },
     "Wi-Fi temporary activity" : {
       "localizations" : {
         "en" : {
@@ -12406,6 +12695,9 @@
       }
     },
     "Widget appearance" : {
+
+    },
+    "WireGuard" : {
 
     },
     "You need to make sure that the application has been granted permission." : {

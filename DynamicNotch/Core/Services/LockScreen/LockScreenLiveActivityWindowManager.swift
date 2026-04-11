@@ -404,29 +404,13 @@ private struct LockScreenLiveActivityOverlayView: View {
     
     @ViewBuilder
     private var notchSurface: some View {
-        switch settingsViewModel.application.notchBackgroundStyle {
-        case .black:
-            NotchShape(
-                topCornerRadius: notchViewModel.interactiveCornerRadius.top,
-                bottomCornerRadius: notchViewModel.interactiveCornerRadius.bottom
-            )
-            .fill(.black)
-            .stroke(
-                settingsViewModel.isShowNotchStrokeEnabled ? visibleStrokeColor : Color.clear,
-                lineWidth: settingsViewModel.notchStrokeWidth
-            )
-            
-        case .ultraThickMaterial:
-            NotchShape(
-                topCornerRadius: notchViewModel.interactiveCornerRadius.top,
-                bottomCornerRadius: notchViewModel.interactiveCornerRadius.bottom
-            )
-            .fill(.ultraThinMaterial)
-            .stroke(
-                settingsViewModel.isShowNotchStrokeEnabled ? visibleStrokeColor : Color.clear,
-                lineWidth: settingsViewModel.notchStrokeWidth
-            )
-        }
+        NotchBackgroundSurface(
+            style: settingsViewModel.application.notchBackgroundStyle,
+            topCornerRadius: notchViewModel.interactiveCornerRadius.top,
+            bottomCornerRadius: notchViewModel.interactiveCornerRadius.bottom,
+            strokeColor: settingsViewModel.isShowNotchStrokeEnabled ? visibleStrokeColor : .clear,
+            strokeWidth: settingsViewModel.notchStrokeWidth
+        )
     }
     
     private var visibleStrokeColor: Color {

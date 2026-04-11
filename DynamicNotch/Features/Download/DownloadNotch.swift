@@ -11,16 +11,33 @@ struct DownloadNotchContent: NotchContentProtocol {
     var isExpandable: Bool { true }
     
     var strokeColor: Color {
-        settingsViewModel.isDefaultActivityStrokeEnabled ?
+        settingsViewModel.isDefaultActivityStrokeEnabled || settingsViewModel.mediaAndFiles.isDownloadsDefaultStrokeEnabled ?
         .white.opacity(0.2) :
         .accentColor.opacity(0.30)
     }
     
     var expandedOffsetXTransition: CGFloat { -80 }
     var expandedOffsetYTransition: CGFloat { -60 }
+
+    private var appearanceStyle: DownloadAppearanceStyle {
+        settingsViewModel.mediaAndFiles.downloadsAppearanceStyle
+    }
+
+    private var indicatorStyle: DownloadProgressIndicatorStyle {
+        settingsViewModel.mediaAndFiles.downloadsProgressIndicatorStyle
+    }
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        .init(width: baseWidth + 65, height: baseHeight)
+        let width: CGFloat
+
+        switch appearanceStyle {
+        case .minimal:
+            width = indicatorStyle == .circle ? 70 : 90
+        case .detailed:
+            width = 180
+        }
+
+        return .init(width: baseWidth + width, height: baseHeight)
     }
     
     func expandedSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
@@ -33,7 +50,12 @@ struct DownloadNotchContent: NotchContentProtocol {
     
     @MainActor
     func makeView() -> AnyView {
-        AnyView(DownloadNotchView(downloadViewModel: downloadViewModel))
+        AnyView(
+            DownloadNotchView(
+                downloadViewModel: downloadViewModel,
+                settings: settingsViewModel.mediaAndFiles
+            )
+        )
     }
     
     @MainActor
@@ -45,6 +67,7 @@ struct DownloadNotchContent: NotchContentProtocol {
 struct DownloadNotchView: View {
     @Environment(\.notchScale) private var scale
     @ObservedObject var downloadViewModel: DownloadViewModel
+    @ObservedObject var settings: MediaAndFilesSettingsStore
     
     private static let byteCountFormatter: ByteCountFormatter = {
         let formatter = ByteCountFormatter()
@@ -60,32 +83,109 @@ struct DownloadNotchView: View {
     }
     
     private var resolvedFileName: String {
-        download?.displayName ?? "Incoming File"
-    }
-    
-    private var trailingLabel: String {
+        let baseName = download?.displayName ?? "Incoming File"
         let extraCount = downloadViewModel.additionalDownloadCount
-        
-        if extraCount > 0 {
-            return "+\(extraCount)"
-        }
-        
-        return download?.directoryName ?? "Files"
+        return extraCount > 0 ? "\(baseName) +\(extraCount)" : baseName
     }
-    
-    private var sizeLabel: String {
-        guard let download else { return "--" }
-        return Self.byteCountFormatter.string(fromByteCount: download.byteCount)
+
+    private var appearanceStyle: DownloadAppearanceStyle {
+        settings.downloadsAppearanceStyle
+    }
+
+    private var indicatorStyle: DownloadProgressIndicatorStyle {
+        settings.downloadsProgressIndicatorStyle
+    }
+
+    private var collapsedBarWidth: CGFloat {
+        switch appearanceStyle {
+        case .minimal:
+            return 34
+        case .detailed:
+            return 50
+        }
+    }
+
+    private var titleWidth: CGFloat {
+        switch appearanceStyle {
+        case .minimal:
+            return 0
+        case .detailed:
+            return 85
+        }
+    }
+
+    private var speedLabel: String {
+        guard let download, download.bytesPerSecond > 0 else { return "0 KB/s" }
+        return "\(Self.byteCountFormatter.string(fromByteCount: download.bytesPerSecond))/s"
     }
     
     var body: some View {
-        HStack {
-            if let url = download?.url {
-                DownloadFileThumbnailView(url: url, size: 25)
+        HStack(spacing: 8) {
+            if appearanceStyle == .minimal {
+                if let url = download?.url {
+                    DownloadFileThumbnailView(url: url, size: 25)
+                } else {
+                    Image(systemName: "doc.zipper")
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundStyle(.white.opacity(0.75))
+                        .frame(width: 25, height: 25)
+                }
             }
+
+            if appearanceStyle == .detailed {
+                MarqueeText(
+                    .constant(resolvedFileName),
+                    font: .system(size: 13, weight: .medium),
+                    nsFont: .body,
+                    textColor: .white.opacity(0.8),
+                    backgroundColor: .clear,
+                    minDuration: 0.5,
+                    frameWidth: titleWidth
+                )
+                .lineLimit(1)
+            }
+
             Spacer()
-            DownloadActivityIndicator(progress: download?.progress ?? 0.08)
+
+            if settings.downloadsProgressIndicatorStyle == .circle {
+                if appearanceStyle == .detailed {
+                    Text(speedLabel)
+                        .font(.system(size: 10, weight: .semibold, design: .rounded))
+                        .foregroundStyle(Color.accentColor.opacity(0.8).gradient)
+                        .lineLimit(1)
+                }
+                
+                DownloadProgressIndicatorView(
+                    progress: download?.progress ?? 0.08,
+                    indicatorStyle: indicatorStyle,
+                    barWidth: collapsedBarWidth,
+                    barHeight: 4,
+                    circleSize: 18,
+                    circleLineWidth: 3,
+                    percentFontSize: 14
+                )
                 .padding(.trailing, 2)
+                
+            } else {
+                VStack(alignment: .trailing, spacing: 0) {
+                    DownloadProgressIndicatorView(
+                        progress: download?.progress ?? 0.08,
+                        indicatorStyle: indicatorStyle,
+                        barWidth: collapsedBarWidth,
+                        barHeight: 4,
+                        circleSize: 18,
+                        circleLineWidth: 3,
+                        percentFontSize: appearanceStyle == .minimal ? 14 : 12
+                    )
+                    
+                    if appearanceStyle == .detailed {
+                        Text(speedLabel)
+                            .font(.system(size: 10, weight: .semibold, design: .rounded))
+                            .foregroundStyle(Color.accentColor.opacity(0.8).gradient)
+                            .lineLimit(1)
+                    }
+                }
+            }
         }
         .padding(.horizontal, 12.scaled(by: scale))
     }
@@ -165,6 +265,7 @@ private struct DownloadExpandedNotchContentView: View {
             VStack(alignment: .trailing, spacing: 4) {
                 Text(progressLabel(for: download.progress))
                     .font(.system(size: 14, weight: .semibold, design: .rounded))
+
                 Text(speedLabel(for: download))
                     .font(.system(size: 10, weight: .semibold, design: .rounded))
             }
@@ -177,17 +278,7 @@ private struct DownloadExpandedNotchContentView: View {
     @ViewBuilder
     private func progressSection(for download: DownloadModel) -> some View {
         VStack(alignment: .leading, spacing: 6) {
-            HStack(spacing: 8) {
-                Text(Self.byteCountFormatter.string(fromByteCount: download.byteCount))
-                    .font(.system(size: 10, weight: .semibold, design: .rounded))
-                    .foregroundStyle(.white.opacity(0.8))
-
-                Spacer(minLength: 8)
-
-                Text(totalSizeLabel(for: download))
-                    .font(.system(size: 10, weight: .semibold, design: .rounded))
-                    .foregroundStyle(.white.opacity(0.8))
-            }
+            sizeLabels(for: download)
 
             GeometryReader { proxy in
                 ZStack(alignment: .leading) {
@@ -209,6 +300,21 @@ private struct DownloadExpandedNotchContentView: View {
                 }
             }
             .frame(height: 8)
+        }
+    }
+
+    @ViewBuilder
+    private func sizeLabels(for download: DownloadModel) -> some View {
+        HStack(spacing: 8) {
+            Text(Self.byteCountFormatter.string(fromByteCount: download.byteCount))
+                .font(.system(size: 10, weight: .semibold, design: .rounded))
+                .foregroundStyle(.white.opacity(0.8))
+
+            Spacer(minLength: 8)
+
+            Text(totalSizeLabel(for: download))
+                .font(.system(size: 10, weight: .semibold, design: .rounded))
+                .foregroundStyle(.white.opacity(0.8))
         }
     }
 
@@ -294,34 +400,54 @@ private struct DownloadFileThumbnailView: View {
     }
 }
 
-private struct DownloadActivityIndicator: View {
+struct DownloadProgressIndicatorView: View {
     let progress: Double
+    let indicatorStyle: DownloadProgressIndicatorStyle
+    let barWidth: CGFloat
+    let barHeight: CGFloat
+    let circleSize: CGFloat
+    let circleLineWidth: CGFloat
+    let percentFontSize: CGFloat
+
+    private var clampedProgress: CGFloat {
+        max(0.06, min(CGFloat(progress), 1))
+    }
     
     var body: some View {
-        ZStack {
-            Circle()
-                .stroke(Color.accentColor.opacity(0.3), lineWidth: 3)
-            
-            Circle()
-                .trim(from: 0, to: max(0.06, min(progress, 1)))
-                .stroke(
-                    AngularGradient(
-                        colors: [
-                            .accentColor.opacity(0.3),
-                            .accentColor.opacity(0.9),
-                            .accentColor
-                        ],
-                        center: .center
-                    ),
-                    style: StrokeStyle(
-                        lineWidth: 3,
-                        lineCap: .round,
-                        lineJoin: .round
-                    )
-                )
-                .rotationEffect(.degrees(-90))
+        Group {
+            switch indicatorStyle {
+            case .percent:
+                Text("\(Int((clampedProgress * 100).rounded()))%")
+                    .font(.system(size: percentFontSize))
+                    .foregroundStyle(Color.accentColor.gradient)
+
+            case .circle:
+                ZStack {
+                    Circle()
+                        .stroke(Color.accentColor.opacity(0.3), lineWidth: circleLineWidth)
+                    
+                    Circle()
+                        .trim(from: 0, to: clampedProgress)
+                        .stroke(
+                            AngularGradient(
+                                colors: [
+                                    .accentColor.opacity(0.3),
+                                    .accentColor.opacity(0.9),
+                                    .accentColor
+                                ],
+                                center: .center
+                            ),
+                            style: StrokeStyle(
+                                lineWidth: circleLineWidth,
+                                lineCap: .round,
+                                lineJoin: .round
+                            )
+                        )
+                        .rotationEffect(.degrees(-90))
+                }
+                .frame(width: circleSize, height: circleSize)
+            }
         }
-        .frame(width: 18, height: 18)
-        .animation(.easeInOut(duration: 0.3), value: progress)
+        .animation(.easeInOut(duration: 0.3), value: clampedProgress)
     }
 }

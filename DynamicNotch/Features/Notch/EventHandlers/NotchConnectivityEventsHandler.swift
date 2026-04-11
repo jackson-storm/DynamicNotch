@@ -25,8 +25,12 @@ final class NotchConnectivityEventsHandler {
             guard settingsViewModel.isTemporaryActivityEnabled(.bluetooth) else { return }
             notchViewModel.send(
                 .showTemporaryNotification(
-                    BluetoothConnectedNotchContent(bluetoothViewModel: bluetoothViewModel),
-                    duration: settingsViewModel.resolvedTemporaryActivityDuration(5)
+                    BluetoothConnectedNotchContent(
+                        bluetoothViewModel: bluetoothViewModel,
+                        settings: settingsViewModel.connectivity,
+                        applicationSettings: settingsViewModel.application
+                    ),
+                    duration: settingsViewModel.temporaryActivityDuration(for: .bluetooth)
                 )
             )
         }
@@ -38,8 +42,10 @@ final class NotchConnectivityEventsHandler {
             guard settingsViewModel.isTemporaryActivityEnabled(.wifi) else { return }
             notchViewModel.send(
                 .showTemporaryNotification(
-                    WifiConnectedNotchContent(),
-                    duration: settingsViewModel.resolvedTemporaryActivityDuration(3)
+                    WifiConnectedNotchContent(
+                        networkViewModel: networkViewModel
+                    ),
+                    duration: settingsViewModel.temporaryActivityDuration(for: .wifi)
                 )
             )
 
@@ -47,8 +53,11 @@ final class NotchConnectivityEventsHandler {
             guard settingsViewModel.isTemporaryActivityEnabled(.vpn) else { return }
             notchViewModel.send(
                 .showTemporaryNotification(
-                    VpnConnectedNotchContent(networkViewModel: networkViewModel),
-                    duration: settingsViewModel.resolvedTemporaryActivityDuration(5)
+                    VpnConnectedNotchContent(
+                        networkViewModel: networkViewModel,
+                        settings: settingsViewModel.connectivity
+                    ),
+                    duration: settingsViewModel.temporaryActivityDuration(for: .vpn)
                 )
             )
 

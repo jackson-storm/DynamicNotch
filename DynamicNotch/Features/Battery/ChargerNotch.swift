@@ -8,8 +8,7 @@ struct ChargerNotchContent: NotchContentProtocol {
     var offsetXTransition: CGFloat { -90 }
     var strokeColor: Color {
         settingsViewModel.isDefaultActivityStrokeEnabled ?
-        .white.opacity(0.2) :
-        (powerService.isLowPowerMode ? .yellow.opacity(0.3) : .green.opacity(0.3))
+            .white.opacity(0.2) : (powerService.isLowPowerMode ? .yellow.opacity(0.3) : .green.opacity(0.3))
     }
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
@@ -23,7 +22,6 @@ struct ChargerNotchContent: NotchContentProtocol {
 }
 
 struct ChargerNotchView: View {
-    @Environment(\.notchScale) var scale
     @ObservedObject var powerService: PowerService
     
     private var batteryColor: Color {
@@ -37,43 +35,11 @@ struct ChargerNotchView: View {
     }
     
     var body: some View {
-        HStack {
-            Text(verbatim: "Charging")
-                .font(.system(size: 14))
-                .foregroundColor(.white.opacity(0.8))
-            
-            Spacer()
-            
-            HStack(spacing: 6) {
-                Text("\(powerService.batteryLevel)%")
-                    .font(.system(size: 14))
-                    .foregroundColor(batteryColor)
-                
-                HStack(spacing: 1.5) {
-                    ZStack(alignment: .leading) {
-                        RoundedRectangle(cornerRadius: 6, style: .continuous)
-                            .fill(batteryColor.opacity(0.3))
-                        
-                        GeometryReader { geo in
-                            let clamped = max(0, min(powerService.batteryLevel, 100))
-                            let fraction = CGFloat(clamped) / 100
-                            let width = fraction * geo.size.width
-                            
-                            Rectangle()
-                                .fill(batteryColor.gradient)
-                                .frame(width: max(0, width))
-                        }
-                    }
-                    .frame(width: 28, height: 16)
-                    .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
-                    
-                    RoundedRectangle(cornerRadius: 1.5, style: .continuous)
-                        .fill(powerService.batteryLevel == 100 ? batteryColor.gradient : batteryColor.opacity(0.3).gradient)
-                        .frame(width: 2, height: 6)
-                }
-            }
-        }
-        .padding(.horizontal, 16.scaled(by: scale))
+        BatteryCompactStatusView(
+            title: "Charging",
+            batteryLevel: powerService.batteryLevel,
+            tint: batteryColor
+        )
     }
 }
 

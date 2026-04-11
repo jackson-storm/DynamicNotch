@@ -66,7 +66,11 @@ final class NotchMediaEventsHandler {
             guard settingsViewModel.isLiveActivityEnabled(.nowPlaying) else { return }
             notchViewModel.send(
                 .showLiveActivity(
-                    NowPlayingNotchContent(nowPlayingViewModel: nowPlayingViewModel)
+                    NowPlayingNotchContent(
+                        nowPlayingViewModel: nowPlayingViewModel,
+                        settings: settingsViewModel.mediaAndFiles,
+                        applicationSettings: settingsViewModel.application
+                    )
                 )
             )
 

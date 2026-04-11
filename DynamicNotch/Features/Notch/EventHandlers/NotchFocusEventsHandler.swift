@@ -29,7 +29,7 @@ final class NotchFocusEventsHandler {
             notchViewModel.send(
                 .showTemporaryNotification(
                     FocusOffNotchContent(settingsViewModel: settingsViewModel),
-                    duration: settingsViewModel.resolvedTemporaryActivityDuration(3)
+                    duration: settingsViewModel.temporaryActivityDuration(for: .focusOff)
                 )
             )
         }

@@ -93,20 +93,26 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         }
     }
 
-    @Published var temporaryActivityDurationScale: Double {
-        didSet {
-            persist(
-                temporaryActivityDurationScale,
-                for: GeneralSettingsStorage.Keys.temporaryActivityDurationScale
-            )
-        }
-    }
-
     @Published var isNotchSizeTemporaryActivityEnabled: Bool {
         didSet {
             persist(
                 isNotchSizeTemporaryActivityEnabled,
                 for: GeneralSettingsStorage.Keys.notchSizeTemporaryActivityEnabled
+            )
+        }
+    }
+
+    @Published var notchSizeTemporaryActivityDuration: Int {
+        didSet {
+            let clampedValue = Self.clampTemporaryActivityDuration(notchSizeTemporaryActivityDuration)
+            if clampedValue != notchSizeTemporaryActivityDuration {
+                notchSizeTemporaryActivityDuration = clampedValue
+                return
+            }
+
+            persist(
+                notchSizeTemporaryActivityDuration,
+                for: GeneralSettingsStorage.Keys.notchSizeTemporaryActivityDuration
             )
         }
     }
@@ -140,12 +146,11 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         self.notchAnimationPreset = NotchAnimationPreset(
             rawValue: defaults.string(forKey: GeneralSettingsStorage.Keys.notchAnimationPreset) ?? NotchAnimationPreset.balanced.rawValue
         ) ?? .balanced
-        self.temporaryActivityDurationScale = (
-            defaults.object(forKey: GeneralSettingsStorage.Keys.temporaryActivityDurationScale) as? Double
-        ) ?? (
-            GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.temporaryActivityDurationScale] as? Double ?? 1
-        )
         self.isNotchSizeTemporaryActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.notchSizeTemporaryActivityEnabled)
+        self.notchSizeTemporaryActivityDuration = Self.clampTemporaryActivityDuration(
+            defaults.object(forKey: GeneralSettingsStorage.Keys.notchSizeTemporaryActivityDuration) as? Int ??
+            Self.defaultTemporaryActivityDuration(for: GeneralSettingsStorage.Keys.notchSizeTemporaryActivityDuration)
+        )
         super.init(defaults: defaults)
         updateLaunchAtLogin()
     }
@@ -172,10 +177,12 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         notchAnimationPreset = NotchAnimationPreset(
             rawValue: defaultString(for: GeneralSettingsStorage.Keys.notchAnimationPreset)
         ) ?? .balanced
-        temporaryActivityDurationScale = defaultDouble(for: GeneralSettingsStorage.Keys.temporaryActivityDurationScale)
         isShowNotchStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchStrokeEnabled)
         isDefaultActivityStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.defaultActivityStrokeEnabled)
         isNotchSizeTemporaryActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchSizeTemporaryActivityEnabled)
+        notchSizeTemporaryActivityDuration = Self.clampTemporaryActivityDuration(
+            defaultInt(for: GeneralSettingsStorage.Keys.notchSizeTemporaryActivityDuration)
+        )
         notchStrokeWidth = defaultDouble(for: GeneralSettingsStorage.Keys.notchStrokeWidth)
         notchBackgroundStyle = NotchBackgroundStyle.resolved(
             defaultString(for: GeneralSettingsStorage.Keys.notchBackgroundStyle)
@@ -198,8 +205,7 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
             GeneralSettingsStorage.Keys.downloadsDefaultStrokeEnabled,
             GeneralSettingsStorage.Keys.airDropDefaultStrokeEnabled,
             GeneralSettingsStorage.Keys.focusDefaultStrokeEnabled,
-            GeneralSettingsStorage.Keys.hotspotDefaultStrokeEnabled,
-            GeneralSettingsStorage.Keys.batteryDefaultStrokeEnabled
+            GeneralSettingsStorage.Keys.hotspotDefaultStrokeEnabled
         ]
 
         return legacyKeys.contains { key in

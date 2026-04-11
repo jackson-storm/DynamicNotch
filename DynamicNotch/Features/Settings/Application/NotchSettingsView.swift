@@ -10,6 +10,10 @@ import SwiftUI
 struct NotchSettingsView: View {
     @ObservedObject var powerService: PowerService
     @ObservedObject var applicationSettings: ApplicationSettingsStore
+
+    private var temporaryActivityDurationRange: ClosedRange<Double> {
+        Double(SettingsStoreBase.temporaryActivityDurationRange.lowerBound)...Double(SettingsStoreBase.temporaryActivityDurationRange.upperBound)
+    }
     
     var body: some View {
         SettingsPageScrollView {
@@ -26,7 +30,7 @@ struct NotchSettingsView: View {
         ) {
             CustomPicker(
                 selection: $applicationSettings.notchBackgroundStyle,
-                options: NotchBackgroundStyle.allCases,
+                options: NotchBackgroundStyle.availableOptions,
                 title: { $0.title },
                 headerTitle: "Background",
                 headerDescription: "Choose the background color used across the notch.",
@@ -102,17 +106,6 @@ struct NotchSettingsView: View {
                     set: { applicationSettings.notchHeight = Int($0.rounded()) }
                 )
             )
-            
-            Divider().opacity(0.6)
-            
-            SettingsToggleRow(
-                title: "Resize feedback",
-                description: "Show temporary size hints while adjusting the notch width or height.",
-                systemImage: "arrow.up.left.and.arrow.down.right",
-                color: .red,
-                isOn: $applicationSettings.isNotchSizeTemporaryActivityEnabled,
-                accessibilityIdentifier: "settings.activities.temporary.notchSize"
-            )
         }
     }
     
@@ -130,19 +123,6 @@ struct NotchSettingsView: View {
                 symbolName: { $0.symbolName }
             )
             .accessibilityIdentifier("settings.general.animationPreset")
-            
-            Divider().opacity(0.6)
-            
-            SettingsSliderRow(
-                title: "Notification duration",
-                description: "Scale the duration of temporary activities across HUD, battery, connectivity, and resize feedback.",
-                range: 0.5...2,
-                step: 0.25,
-                fractionLength: 2,
-                suffix: "x",
-                accessibilityIdentifier: "settings.general.temporaryDurationScale",
-                value: $applicationSettings.temporaryActivityDurationScale
-            )
         }
     }
     
@@ -192,6 +172,16 @@ struct NotchSettingsView: View {
                             .stroke(previewStrokeColor, lineWidth: previewStrokeWidth)
                     }
             }
+
+        case .liquidGlass:
+            if #available(macOS 26.0, *) {
+                Color.clear
+                    .glassEffect(.regular, in: Capsule())
+                    .overlay {
+                        Capsule()
+                            .stroke(previewStrokeColor, lineWidth: previewStrokeWidth)
+                    }
+            }
         }
     }
     
@@ -209,4 +199,3 @@ struct NotchSettingsView: View {
         applicationSettings.isShowNotchStrokeEnabled ? CGFloat(applicationSettings.notchStrokeWidth) : 0
     }
 }
-

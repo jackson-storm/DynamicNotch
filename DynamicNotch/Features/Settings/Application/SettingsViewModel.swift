@@ -122,11 +122,6 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
         set { application.notchAnimationPreset = newValue }
     }
 
-    var temporaryActivityDurationScale: Double {
-        get { application.temporaryActivityDurationScale }
-        set { application.temporaryActivityDurationScale = newValue }
-    }
-
     var isNotchSizeTemporaryActivityEnabled: Bool {
         get { application.isNotchSizeTemporaryActivityEnabled }
         set { application.isNotchSizeTemporaryActivityEnabled = newValue }
@@ -167,7 +162,7 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
     }
 
     var isHUDColoredLevelStrokeEnabled: Bool {
-        get { hud.isColoredLevelStrokeEnabled }
+        get { application.isDefaultActivityStrokeEnabled ? false : hud.isColoredLevelStrokeEnabled }
         set { hud.isColoredLevelStrokeEnabled = newValue }
     }
 
@@ -295,8 +290,36 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
         }
     }
 
-    func resolvedTemporaryActivityDuration(_ baseDuration: TimeInterval) -> TimeInterval {
-        max(0.2, baseDuration * application.temporaryActivityDurationScale)
+    func temporaryActivityDuration(for preference: TemporaryActivityPreference) -> TimeInterval {
+        switch preference {
+        case .charger:
+            return TimeInterval(battery.chargerTemporaryActivityDuration)
+        case .lowPower:
+            return TimeInterval(battery.lowPowerTemporaryActivityDuration)
+        case .fullPower:
+            return TimeInterval(battery.fullPowerTemporaryActivityDuration)
+        case .bluetooth:
+            return TimeInterval(connectivity.bluetoothTemporaryActivityDuration)
+        case .wifi:
+            return TimeInterval(connectivity.wifiTemporaryActivityDuration)
+        case .vpn:
+            return TimeInterval(connectivity.vpnTemporaryActivityDuration)
+        case .focusOff:
+            return TimeInterval(connectivity.focusOffTemporaryActivityDuration)
+        case .notchSize:
+            return TimeInterval(application.notchSizeTemporaryActivityDuration)
+        }
+    }
+
+    func temporaryActivityDuration(for preference: HUDPreference) -> TimeInterval {
+        switch preference {
+        case .brightness:
+            return TimeInterval(hud.brightnessHUDDuration)
+        case .keyboard:
+            return TimeInterval(hud.keyboardHUDDuration)
+        case .volume:
+            return TimeInterval(hud.volumeHUDDuration)
+        }
     }
 
     func reset(_ group: ResetGroup) {

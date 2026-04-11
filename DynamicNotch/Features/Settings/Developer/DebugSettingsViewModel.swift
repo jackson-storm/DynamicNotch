@@ -259,7 +259,9 @@ final class DebugSettingsViewModel: ObservableObject {
                 try await self.playDownloadsPreview()
                 try await self.playBluetoothPreview()
                 try await self.playTemporaryPreview(
-                    WifiConnectedNotchContent(),
+                    WifiConnectedNotchContent(
+                        networkViewModel: networkViewModel
+                    ),
                     id: "\(Self.sequenceContentPrefix)wifi.connected",
                     duration: 3
                 )
@@ -268,17 +270,29 @@ final class DebugSettingsViewModel: ObservableObject {
                 try await self.playLowPowerPreview()
                 try await self.playFullBatteryPreview()
                 try await self.playTemporaryPreview(
-                    HudNotchContent(kind: .brightness, level: 72),
+                    HudNotchContent(
+                        kind: .brightness,
+                        level: 72,
+                        applicationSettings: settingsViewModel.application
+                    ),
                     id: "\(Self.sequenceContentPrefix)hud.brightness",
                     duration: 2
                 )
                 try await self.playTemporaryPreview(
-                    HudNotchContent(kind: .keyboard, level: 64),
+                    HudNotchContent(
+                        kind: .keyboard,
+                        level: 64,
+                        applicationSettings: settingsViewModel.application
+                    ),
                     id: "\(Self.sequenceContentPrefix)hud.keyboard",
                     duration: 2
                 )
                 try await self.playTemporaryPreview(
-                    HudNotchContent(kind: .volume, level: 42),
+                    HudNotchContent(
+                        kind: .volume,
+                        level: 42,
+                        applicationSettings: settingsViewModel.application
+                    ),
                     id: "\(Self.sequenceContentPrefix)hud.volume",
                     duration: 2
                 )
@@ -298,7 +312,11 @@ final class DebugSettingsViewModel: ObservableObject {
     private func playBluetoothPreview() async throws {
         applyBluetoothPreviewState()
         try await playTemporaryPreview(
-            BluetoothConnectedNotchContent(bluetoothViewModel: bluetoothViewModel),
+            BluetoothConnectedNotchContent(
+                bluetoothViewModel: bluetoothViewModel,
+                settings: settingsViewModel.connectivity,
+                applicationSettings: settingsViewModel.application
+            ),
             id: "\(Self.sequenceContentPrefix)bluetooth.connected",
             duration: 5
         )
@@ -307,7 +325,10 @@ final class DebugSettingsViewModel: ObservableObject {
     private func playVPNPreview() async throws {
         applyVPNPreviewState()
         try await playTemporaryPreview(
-            VpnConnectedNotchContent(networkViewModel: networkViewModel),
+            VpnConnectedNotchContent(
+                networkViewModel: networkViewModel,
+                settings: settingsViewModel.connectivity
+            ),
             id: "\(Self.sequenceContentPrefix)vpn.connected",
             duration: 5
         )
@@ -352,7 +373,11 @@ final class DebugSettingsViewModel: ObservableObject {
     private func playNowPlayingPreview() async throws {
         nowPlayingViewModel.showDebugPreviewSnapshotIfNeeded()
         try await playLivePreview(
-            NowPlayingNotchContent(nowPlayingViewModel: nowPlayingViewModel),
+            NowPlayingNotchContent(
+                nowPlayingViewModel: nowPlayingViewModel,
+                settings: settingsViewModel.mediaAndFiles,
+                applicationSettings: settingsViewModel.application
+            ),
             id: Self.sequenceNowPlayingID
         )
         nowPlayingViewModel.hideDebugPreviewSnapshotIfNeeded()

@@ -139,17 +139,14 @@ struct HUDSettingsView: View {
 
             Divider().opacity(0.6)
 
-            CustomPicker(
-                selection: $settings.indicatorStyle,
+            SettingsMenuRow(
+                title: "Level indicator",
+                description: "Choose whether the HUD level uses a bar or a circular ring.",
                 options: Array(HudIndicatorStyle.allCases),
-                title: { $0.title },
-                headerTitle: "Level indicator",
-                headerDescription: "Choose whether the HUD level uses a bar or a circular ring.",
-                itemHeight: 68
-            ) { indicatorStyle, isSelected in
-                hudIndicatorPickerContent(for: indicatorStyle, isSelected: isSelected)
-            }
-            .accessibilityIdentifier("settings.general.hud.indicatorStyle")
+                optionTitle: { $0.title },
+                accessibilityIdentifier: "settings.general.hud.indicatorStyle",
+                selection: $settings.indicatorStyle
+            )
 
             Divider().opacity(0.6)
 
@@ -167,11 +164,9 @@ struct HUDSettingsView: View {
                 .padding(.leading, 43)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
 
-            SettingsToggleRow(
+            SettingsStrokeToggleRow(
                 title: "Level-based stroke color",
                 description: "Tint the notch stroke using the current HUD level color instead of the default white stroke.",
-                systemImage: "paintbrush.fill",
-                color: .pink,
                 isOn: $settings.isColoredLevelStrokeEnabled,
                 accessibilityIdentifier: "settings.general.hud.coloredStroke"
             )
@@ -197,16 +192,14 @@ struct HUDSettingsView: View {
                 
                 HStack(spacing: 8) {
                     Image(systemName: "speaker.wave.2.fill")
-                        .font(.system(size: 12, weight: .semibold))
+                        .font(.system(size: 13, weight: .semibold))
                     
                     Text("Volume")
-                        .font(.system(size: 10))
                         .lineLimit(1)
                     
                     Spacer()
                     
                     Text("72")
-                        .font(.system(size: 10, weight: .semibold, design: .rounded))
                     
                     pickerIndicator
                 }
@@ -226,7 +219,7 @@ struct HUDSettingsView: View {
                 
                 HStack(spacing: 8) {
                     Image(systemName: "speaker.wave.2.fill")
-                        .font(.system(size: 12, weight: .semibold))
+                        .font(.system(size: 13, weight: .semibold))
                     
                     Spacer()
                     
@@ -248,31 +241,16 @@ struct HUDSettingsView: View {
                 
                 HStack(spacing: 8) {
                     Image(systemName: "speaker.wave.2.fill")
-                        .font(.system(size: 12, weight: .semibold))
+                        .font(.system(size: 13, weight: .semibold))
                     
                     Spacer()
                     
                     Text("72")
-                        .font(.system(size: 10, weight: .semibold, design: .rounded))
                 }
                 .foregroundStyle(.white.opacity(0.8))
                 .padding(.horizontal, 8)
             }
         }
-    }
-
-    @ViewBuilder
-    private func hudIndicatorPickerContent(for indicatorStyle: HudIndicatorStyle, isSelected: Bool) -> some View {
-        HudLevelIndicatorView(
-            level: 72,
-            indicatorStyle: indicatorStyle,
-            usesColoredLevelTint: settings.isColoredLevelEnabled,
-            barWidth: 38,
-            barHeight: 5,
-            circleSize: 20,
-            circleLineWidth: 3
-        )
-        .scaleEffect(isSelected ? 1 : 0.97)
     }
 
     private var pickerIndicator: some View {

@@ -96,6 +96,18 @@ final class BatterySettingsStore: SettingsStoreBase {
         }
     }
 
+    @Published var isLowPowerDefaultStrokeEnabled: Bool {
+        didSet {
+            persist(isLowPowerDefaultStrokeEnabled, for: GeneralSettingsStorage.Keys.lowPowerDefaultStrokeEnabled)
+        }
+    }
+
+    @Published var isFullPowerDefaultStrokeEnabled: Bool {
+        didSet {
+            persist(isFullPowerDefaultStrokeEnabled, for: GeneralSettingsStorage.Keys.fullPowerDefaultStrokeEnabled)
+        }
+    }
+
     override init(defaults: UserDefaults) {
         self.isChargerTemporaryActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.chargerTemporaryActivityEnabled)
         self.chargerTemporaryActivityDuration = Self.clampTemporaryActivityDuration(
@@ -130,6 +142,12 @@ final class BatterySettingsStore: SettingsStoreBase {
             rawValue: defaults.string(forKey: GeneralSettingsStorage.Keys.fullPowerNotificationStyle) ??
             BatteryNotificationStyle.standard.rawValue
         ) ?? .standard
+        let legacyBatteryDefaultStrokeEnabled = defaults.object(forKey: GeneralSettingsStorage.Keys.batteryDefaultStrokeEnabled) as? Bool ??
+        (GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.batteryDefaultStrokeEnabled] as? Bool ?? false)
+        self.isLowPowerDefaultStrokeEnabled = defaults.object(forKey: GeneralSettingsStorage.Keys.lowPowerDefaultStrokeEnabled) as? Bool ??
+        legacyBatteryDefaultStrokeEnabled
+        self.isFullPowerDefaultStrokeEnabled = defaults.object(forKey: GeneralSettingsStorage.Keys.fullPowerDefaultStrokeEnabled) as? Bool ??
+        legacyBatteryDefaultStrokeEnabled
         super.init(defaults: defaults)
     }
 
@@ -150,6 +168,8 @@ final class BatterySettingsStore: SettingsStoreBase {
         fullPowerNotificationThreshold = Self.clampFullPowerThreshold(defaultInt(for: GeneralSettingsStorage.Keys.fullPowerNotificationThreshold))
         lowPowerStyle = BatteryNotificationStyle(rawValue: defaultString(for: GeneralSettingsStorage.Keys.lowPowerNotificationStyle)) ?? .standard
         fullPowerStyle = BatteryNotificationStyle(rawValue: defaultString(for: GeneralSettingsStorage.Keys.fullPowerNotificationStyle)) ?? .standard
+        isLowPowerDefaultStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.lowPowerDefaultStrokeEnabled)
+        isFullPowerDefaultStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.fullPowerDefaultStrokeEnabled)
     }
 
     private static func clampLowPowerThreshold(_ value: Int) -> Int {

@@ -49,6 +49,9 @@ enum GeneralSettingsStorage {
         static let fullPowerNotificationStyle = "settings.temporary.fullPower.style"
         static let bluetoothTemporaryActivityEnabled = "settings.temporary.bluetooth"
         static let bluetoothTemporaryActivityDuration = "settings.temporary.bluetooth.duration"
+        static let bluetoothAppearanceStyle = "settings.bluetooth.appearanceStyle"
+        static let bluetoothBatteryStrokeEnabled = "settings.bluetooth.batteryStrokeEnabled"
+        static let bluetoothBatteryIndicatorStyle = "settings.bluetooth.batteryIndicatorStyle"
         static let wifiTemporaryActivityEnabled = "settings.temporary.wifi"
         static let wifiTemporaryActivityDuration = "settings.temporary.wifi.duration"
         static let vpnTemporaryActivityEnabled = "settings.temporary.vpn"
@@ -64,6 +67,8 @@ enum GeneralSettingsStorage {
         static let focusDefaultStrokeEnabled = "settings.focus.defaultStroke"
         static let hotspotDefaultStrokeEnabled = "settings.live.hotspot.defaultStroke"
         static let batteryDefaultStrokeEnabled = "settings.battery.defaultStroke"
+        static let lowPowerDefaultStrokeEnabled = "settings.battery.lowPower.defaultStroke"
+        static let fullPowerDefaultStrokeEnabled = "settings.battery.fullPower.defaultStroke"
     }
 
     static let defaultValues: [String: Any] = [
@@ -125,6 +130,9 @@ enum GeneralSettingsStorage {
         Keys.fullPowerNotificationStyle: BatteryNotificationStyle.standard.rawValue,
         Keys.bluetoothTemporaryActivityEnabled: true,
         Keys.bluetoothTemporaryActivityDuration: 5,
+        Keys.bluetoothAppearanceStyle: BluetoothAppearanceStyle.detailed.rawValue,
+        Keys.bluetoothBatteryStrokeEnabled: false,
+        Keys.bluetoothBatteryIndicatorStyle: BluetoothBatteryIndicatorStyle.percent.rawValue,
         Keys.wifiTemporaryActivityEnabled: true,
         Keys.wifiTemporaryActivityDuration: 3,
         Keys.vpnTemporaryActivityEnabled: true,
@@ -139,6 +147,8 @@ enum GeneralSettingsStorage {
         Keys.notchSizeTemporaryActivityDuration: 2,
         Keys.focusDefaultStrokeEnabled: false,
         Keys.hotspotDefaultStrokeEnabled: false,
-        Keys.batteryDefaultStrokeEnabled: false
+        Keys.batteryDefaultStrokeEnabled: false,
+        Keys.lowPowerDefaultStrokeEnabled: false,
+        Keys.fullPowerDefaultStrokeEnabled: false
     ]
 }

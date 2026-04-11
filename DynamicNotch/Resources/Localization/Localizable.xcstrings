@@ -449,6 +449,9 @@
         }
       }
     },
+    "AirPods Max" : {
+
+    },
     "Animation" : {
       "localizations" : {
         "en" : {
@@ -785,6 +788,9 @@
     "Battery duration" : {
 
     },
+    "Battery indicator" : {
+
+    },
     "Battery Low" : {
       "localizations" : {
         "en" : {
@@ -836,6 +842,9 @@
           }
         }
       }
+    },
+    "Battery-colored stroke" : {
+
     },
     "Black" : {
 
@@ -959,6 +968,9 @@
         }
       }
     },
+    "Bluetooth appearance" : {
+
+    },
     "Bluetooth Connected" : {
       "localizations" : {
         "en" : {
@@ -1012,6 +1024,9 @@
       }
     },
     "Bluetooth duration" : {
+
+    },
+    "Bluetooth style" : {
 
     },
     "Bluetooth temporary activity" : {
@@ -1251,6 +1266,9 @@
     "Choose" : {
 
     },
+    "Choose between a device-focused layout or full device details." : {
+
+    },
     "Choose how hardware HUD feedback is laid out inside the notch." : {
 
     },
@@ -1284,6 +1302,9 @@
     "Choose how long the Wi-Fi reconnect notification stays visible." : {
 
     },
+    "Choose how the Bluetooth connection notification looks in the notch." : {
+
+    },
     "Choose how the lock-screen activity is laid out inside the notch." : {
 
     },
@@ -1315,6 +1336,9 @@
 
     },
     "Choose when the alert appears and how the low battery notification looks." : {
+
+    },
+    "Choose whether Bluetooth battery information is shown as a percentage or a circular indicator." : {
 
     },
     "Choose whether Focus shows the On and Off labels or only the moon icon." : {
@@ -1666,7 +1690,13 @@
         }
       }
     },
+    "Default stroke" : {
+
+    },
     "Detailed" : {
+
+    },
+    "Device" : {
 
     },
     "Dismiss the currently visible temporary notification." : {
@@ -4729,6 +4759,9 @@
           }
         }
       }
+    },
+    "Percent" : {
+
     },
     "Persistent Events" : {
       "localizations" : {
@@ -11706,6 +11739,9 @@
     "Tint" : {
 
     },
+    "Tint Bluetooth battery styles using the current battery level color." : {
+
+    },
     "Tint the notch stroke using the current HUD level color instead of the default white stroke." : {
       "localizations" : {
         "en" : {
@@ -12080,6 +12116,24 @@
       }
     },
     "Use the dynamic green-to-red fill for the HUD level indicator instead of a plain white fill." : {
+
+    },
+    "Use the standard white notch stroke instead of the accent-colored download stroke." : {
+
+    },
+    "Use the standard white notch stroke instead of the blue AirDrop stroke." : {
+
+    },
+    "Use the standard white notch stroke instead of the Focus accent stroke." : {
+
+    },
+    "Use the standard white notch stroke instead of the full battery alert color." : {
+
+    },
+    "Use the standard white notch stroke instead of the hotspot accent stroke." : {
+
+    },
+    "Use the standard white notch stroke instead of the low battery alert color." : {
 
     },
     "Utilities" : {

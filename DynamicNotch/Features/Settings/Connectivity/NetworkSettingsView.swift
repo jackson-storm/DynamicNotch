@@ -18,6 +18,18 @@ struct NetworkSettingsView: View {
     private var isDetailedVPNStyle: Bool {
         vpnAppearanceStyle.wrappedValue == .detailed
     }
+
+    private var isHotspotDefaultStrokeLocked: Bool {
+        appearanceSettings.isDefaultActivityStrokeEnabled
+    }
+
+    private var hotspotPreviewStrokeColor: Color {
+        if appearanceSettings.isDefaultActivityStrokeEnabled || connectivitySettings.isHotspotDefaultStrokeEnabled {
+            return .white.opacity(0.2)
+        }
+
+        return .green.opacity(0.2)
+    }
     
     var body: some View {
         SettingsPageScrollView {
@@ -178,6 +190,17 @@ struct NetworkSettingsView: View {
             ) { style, isSelected in
                 hotspotAppearancePickerContent(for: style, isSelected: isSelected)
             }
+
+            Divider().opacity(0.6)
+
+            SettingsStrokeToggleRow(
+                title: "Default stroke",
+                description: "Use the standard white notch stroke instead of the hotspot accent stroke.",
+                isOn: $connectivitySettings.isHotspotDefaultStrokeEnabled,
+                accessibilityIdentifier: "settings.activities.live.hotspot.defaultStroke"
+            )
+            .disabled(isHotspotDefaultStrokeLocked)
+            .opacity(isHotspotDefaultStrokeLocked ? 0.5 : 1)
         }
     }
     
@@ -267,7 +290,7 @@ struct NetworkSettingsView: View {
                     .fill(.black)
                     .overlay {
                         Capsule()
-                            .stroke(.green.opacity(0.2), lineWidth: 1)
+                            .stroke(hotspotPreviewStrokeColor, lineWidth: 1)
                     }
                 
                 HStack {
@@ -288,7 +311,7 @@ struct NetworkSettingsView: View {
                     .fill(.black)
                     .overlay {
                         Capsule()
-                            .stroke(.green.opacity(0.2), lineWidth: 1)
+                            .stroke(hotspotPreviewStrokeColor, lineWidth: 1)
                     }
                 
                 HStack(spacing: 10) {

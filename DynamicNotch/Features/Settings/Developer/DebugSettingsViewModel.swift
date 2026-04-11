@@ -312,7 +312,11 @@ final class DebugSettingsViewModel: ObservableObject {
     private func playBluetoothPreview() async throws {
         applyBluetoothPreviewState()
         try await playTemporaryPreview(
-            BluetoothConnectedNotchContent(bluetoothViewModel: bluetoothViewModel),
+            BluetoothConnectedNotchContent(
+                bluetoothViewModel: bluetoothViewModel,
+                settings: settingsViewModel.connectivity,
+                applicationSettings: settingsViewModel.application
+            ),
             id: "\(Self.sequenceContentPrefix)bluetooth.connected",
             duration: 5
         )

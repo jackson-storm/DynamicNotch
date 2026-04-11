@@ -25,7 +25,11 @@ final class NotchConnectivityEventsHandler {
             guard settingsViewModel.isTemporaryActivityEnabled(.bluetooth) else { return }
             notchViewModel.send(
                 .showTemporaryNotification(
-                    BluetoothConnectedNotchContent(bluetoothViewModel: bluetoothViewModel),
+                    BluetoothConnectedNotchContent(
+                        bluetoothViewModel: bluetoothViewModel,
+                        settings: settingsViewModel.connectivity,
+                        applicationSettings: settingsViewModel.application
+                    ),
                     duration: settingsViewModel.temporaryActivityDuration(for: .bluetooth)
                 )
             )

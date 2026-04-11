@@ -4,6 +4,10 @@ struct DownloadsSettingsView: View {
     @ObservedObject var mediaSettings: MediaAndFilesSettingsStore
     @ObservedObject var appearanceSettings: ApplicationSettingsStore
     @ObservedObject var downloadViewModel: DownloadViewModel
+
+    private var isDefaultStrokeLocked: Bool {
+        appearanceSettings.isDefaultActivityStrokeEnabled
+    }
     
     var body: some View {
         SettingsPageScrollView {
@@ -24,6 +28,20 @@ struct DownloadsSettingsView: View {
                 isOn: $mediaSettings.isDownloadsLiveActivityEnabled,
                 accessibilityIdentifier: "settings.activities.live.downloads"
             )
+
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+
+            SettingsStrokeToggleRow(
+                title: "Default stroke",
+                description: "Use the standard white notch stroke instead of the accent-colored download stroke.",
+                isOn: $mediaSettings.isDownloadsDefaultStrokeEnabled,
+                accessibilityIdentifier: "settings.activities.live.downloads.defaultStroke"
+            )
+            .disabled(isDefaultStrokeLocked)
+            .opacity(isDefaultStrokeLocked ? 0.5 : 1)
         }
     }
 }

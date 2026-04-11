@@ -10,7 +10,7 @@ struct LowPowerNotchContent: NotchContentProtocol {
     }
 
     var strokeColor: Color {
-        settingsViewModel.isDefaultActivityStrokeEnabled ?
+        settingsViewModel.isDefaultActivityStrokeEnabled || settingsViewModel.battery.isLowPowerDefaultStrokeEnabled ?
         .white.opacity(0.2) :
         (powerService.isLowPowerMode ? .yellow.opacity(0.3) : .red.opacity(0.3))
     }

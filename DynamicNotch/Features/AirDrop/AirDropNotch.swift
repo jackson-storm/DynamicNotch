@@ -21,9 +21,9 @@ struct AirDropNotchContent: NotchContentProtocol {
     
     var priority: Int { 90 }
     var strokeColor: Color {
-        settingsViewModel.isDefaultActivityStrokeEnabled ?
+        settingsViewModel.isDefaultActivityStrokeEnabled || settingsViewModel.mediaAndFiles.isAirDropDefaultStrokeEnabled ?
         .white.opacity(0.2) :
-        .blue.opacity(0.3)
+        Color.accentColor.opacity(0.3)
     }
     var offsetXTransition: CGFloat { -20 }
     var offsetYTransition: CGFloat { -90 }
@@ -64,18 +64,20 @@ private struct AirDropDropZoneContainerView: View {
             Spacer()
             
             RoundedRectangle(cornerRadius: AirDropDropZoneMetrics.cornerRadius)
-                .fill(isTargeted ? .blue.opacity(0.2) : .clear.opacity(0))
-                .stroke(.blue, style: StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round, dash: [20, 10]))
+                .fill(isTargeted ? Color.accentColor.opacity(0.2) : .clear.opacity(0))
+                .stroke(Color.accentColor, style: StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round, dash: [20, 10]))
                 .frame(height: AirDropDropZoneMetrics.height)
                 .overlay {
-                    VStack(spacing: 8) {
-                        Image(systemName: "dot.radiowaves.left.and.right")
-                            .font(.system(size: 22, weight: .semibold))
+                    VStack(spacing: 4) {
+                        Image("airdrop.white")
+                            .resizable()
+                            .renderingMode(.template)
+                            .frame(width: 28, height: 28)
                         
                         Text(verbatim: "AirDrop")
                             .font(.system(size: 12))
                     }
-                    .foregroundColor(.blue)
+                    .foregroundStyle(Color.accentColor)
                 }
         }
         .padding(.horizontal, AirDropDropZoneMetrics.horizontalPadding)

@@ -239,7 +239,10 @@ struct SettingsRootView: View {
             
         case .bluetooth:
             detailContainer(for: section) {
-                BluetoothSettingsView(settings: settingsViewModel.connectivity)
+                BluetoothSettingsView(
+                    settings: settingsViewModel.connectivity,
+                    applicationSettings: settingsViewModel.application
+                )
             }
             
         case .network:

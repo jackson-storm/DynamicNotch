@@ -86,11 +86,9 @@ struct NowPlayingSettingsView: View {
                 .padding(.leading, 43)
                 .frame(maxWidth: .infinity, alignment: .trailing)
 
-            SettingsToggleRow(
+            SettingsStrokeToggleRow(
                 title: "Artwork-tinted stroke",
                 description: "Color the notch stroke using the current artwork palette.",
-                systemImage: "stroke.line.diagonal",
-                color: .indigo,
                 isOn: $settings.isNowPlayingArtworkStrokeEnabled,
                 accessibilityIdentifier: "settings.activities.live.nowPlaying.artworkStroke"
             )

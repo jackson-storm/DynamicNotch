@@ -21,6 +21,12 @@ final class ConnectivitySettingsStore: SettingsStoreBase {
         }
     }
 
+    @Published var isFocusDefaultStrokeEnabled: Bool {
+        didSet {
+            persist(isFocusDefaultStrokeEnabled, for: GeneralSettingsStorage.Keys.focusDefaultStrokeEnabled)
+        }
+    }
+
     @Published var isBluetoothTemporaryActivityEnabled: Bool {
         didSet {
             persist(isBluetoothTemporaryActivityEnabled, for: GeneralSettingsStorage.Keys.bluetoothTemporaryActivityEnabled)
@@ -36,6 +42,27 @@ final class ConnectivitySettingsStore: SettingsStoreBase {
             }
 
             persist(bluetoothTemporaryActivityDuration, for: GeneralSettingsStorage.Keys.bluetoothTemporaryActivityDuration)
+        }
+    }
+
+    @Published var bluetoothAppearanceStyle: BluetoothAppearanceStyle {
+        didSet {
+            persist(bluetoothAppearanceStyle.rawValue, for: GeneralSettingsStorage.Keys.bluetoothAppearanceStyle)
+        }
+    }
+
+    @Published var isBluetoothBatteryStrokeEnabled: Bool {
+        didSet {
+            persist(isBluetoothBatteryStrokeEnabled, for: GeneralSettingsStorage.Keys.bluetoothBatteryStrokeEnabled)
+        }
+    }
+
+    @Published var bluetoothBatteryIndicatorStyle: BluetoothBatteryIndicatorStyle {
+        didSet {
+            persist(
+                bluetoothBatteryIndicatorStyle.rawValue,
+                for: GeneralSettingsStorage.Keys.bluetoothBatteryIndicatorStyle
+            )
         }
     }
 
@@ -87,6 +114,12 @@ final class ConnectivitySettingsStore: SettingsStoreBase {
         }
     }
 
+    @Published var isHotspotDefaultStrokeEnabled: Bool {
+        didSet {
+            persist(isHotspotDefaultStrokeEnabled, for: GeneralSettingsStorage.Keys.hotspotDefaultStrokeEnabled)
+        }
+    }
+
     @Published var isVPNTimerVisible: Bool {
         didSet {
             persist(isVPNTimerVisible, for: GeneralSettingsStorage.Keys.networkShowVPNTimer)
@@ -123,11 +156,21 @@ final class ConnectivitySettingsStore: SettingsStoreBase {
         self.focusAppearanceStyle = FocusAppearanceStyle.resolved(
             defaults.string(forKey: GeneralSettingsStorage.Keys.focusAppearanceStyle)
         )
+        self.isFocusDefaultStrokeEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.focusDefaultStrokeEnabled)
         self.isBluetoothTemporaryActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.bluetoothTemporaryActivityEnabled)
         self.bluetoothTemporaryActivityDuration = Self.clampTemporaryActivityDuration(
             defaults.object(forKey: GeneralSettingsStorage.Keys.bluetoothTemporaryActivityDuration) as? Int ??
             Self.defaultTemporaryActivityDuration(for: GeneralSettingsStorage.Keys.bluetoothTemporaryActivityDuration)
         )
+        self.bluetoothAppearanceStyle = BluetoothAppearanceStyle.resolved(
+            defaults.string(forKey: GeneralSettingsStorage.Keys.bluetoothAppearanceStyle)
+        )
+        self.isBluetoothBatteryStrokeEnabled = defaults.object(forKey: GeneralSettingsStorage.Keys.bluetoothBatteryStrokeEnabled) as? Bool ??
+        (GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.bluetoothBatteryStrokeEnabled] as? Bool ?? false)
+        self.bluetoothBatteryIndicatorStyle = BluetoothBatteryIndicatorStyle(
+            rawValue: defaults.string(forKey: GeneralSettingsStorage.Keys.bluetoothBatteryIndicatorStyle) ??
+            BluetoothBatteryIndicatorStyle.percent.rawValue
+        ) ?? .percent
         self.isWifiTemporaryActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.wifiTemporaryActivityEnabled)
         self.wifiTemporaryActivityDuration = Self.clampTemporaryActivityDuration(
             defaults.object(forKey: GeneralSettingsStorage.Keys.wifiTemporaryActivityDuration) as? Int ??
@@ -144,6 +187,7 @@ final class ConnectivitySettingsStore: SettingsStoreBase {
             rawValue: defaults.string(forKey: GeneralSettingsStorage.Keys.hotspotAppearanceStyle) ??
             HotspotAppearanceStyle.minimal.rawValue
         ) ?? .minimal
+        self.isHotspotDefaultStrokeEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.hotspotDefaultStrokeEnabled)
         self.isVPNTimerVisible = defaults.object(forKey: GeneralSettingsStorage.Keys.networkShowVPNTimer) as? Bool ??
         (GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.networkShowVPNTimer] as? Bool ?? true)
         self.isOnlyNotifyOnNetworkChangeEnabled = defaults.object(forKey: GeneralSettingsStorage.Keys.networkOnlyNotifyOnChange) as? Bool ??
@@ -161,6 +205,13 @@ final class ConnectivitySettingsStore: SettingsStoreBase {
         bluetoothTemporaryActivityDuration = Self.clampTemporaryActivityDuration(
             defaultInt(for: GeneralSettingsStorage.Keys.bluetoothTemporaryActivityDuration)
         )
+        bluetoothAppearanceStyle = BluetoothAppearanceStyle.resolved(
+            defaultString(for: GeneralSettingsStorage.Keys.bluetoothAppearanceStyle)
+        )
+        isBluetoothBatteryStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.bluetoothBatteryStrokeEnabled)
+        bluetoothBatteryIndicatorStyle = BluetoothBatteryIndicatorStyle(
+            rawValue: defaultString(for: GeneralSettingsStorage.Keys.bluetoothBatteryIndicatorStyle)
+        ) ?? .percent
     }
 
     func resetNetwork() {
@@ -175,6 +226,7 @@ final class ConnectivitySettingsStore: SettingsStoreBase {
         )
         isVPNDetailVisible = defaultBool(for: GeneralSettingsStorage.Keys.networkShowVPNDetail)
         hotspotAppearanceStyle = HotspotAppearanceStyle(rawValue: defaultString(for: GeneralSettingsStorage.Keys.hotspotAppearanceStyle)) ?? .minimal
+        isHotspotDefaultStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.hotspotDefaultStrokeEnabled)
         isVPNTimerVisible = defaultBool(for: GeneralSettingsStorage.Keys.networkShowVPNTimer)
         isOnlyNotifyOnNetworkChangeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.networkOnlyNotifyOnChange)
     }
@@ -184,6 +236,7 @@ final class ConnectivitySettingsStore: SettingsStoreBase {
         focusAppearanceStyle = FocusAppearanceStyle.resolved(
             defaultString(for: GeneralSettingsStorage.Keys.focusAppearanceStyle)
         )
+        isFocusDefaultStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.focusDefaultStrokeEnabled)
         isFocusOffTemporaryActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.focusOffTemporaryActivityEnabled)
         focusOffTemporaryActivityDuration = Self.clampTemporaryActivityDuration(
             defaultInt(for: GeneralSettingsStorage.Keys.focusOffTemporaryActivityDuration)

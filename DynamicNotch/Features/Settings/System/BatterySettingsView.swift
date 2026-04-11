@@ -13,6 +13,10 @@ struct BatterySettingsView: View {
         Double(SettingsStoreBase.temporaryActivityDurationRange.lowerBound)...Double(SettingsStoreBase.temporaryActivityDurationRange.upperBound)
     }
 
+    private var isDefaultStrokeLocked: Bool {
+        appearanceSettings.isDefaultActivityStrokeEnabled
+    }
+
     var body: some View {
         SettingsPageScrollView {
             batteryActivity
@@ -62,6 +66,7 @@ struct BatterySettingsView: View {
                 isOn: $batterySettings.isFullPowerTemporaryActivityEnabled,
                 accessibilityIdentifier: "settings.activities.temporary.fullPower"
             )
+
         }
     }
 
@@ -145,7 +150,18 @@ struct BatterySettingsView: View {
                     isSelected: isSelected
                 )
             }
-            
+
+            Divider().opacity(0.6)
+
+            SettingsStrokeToggleRow(
+                title: "Default stroke",
+                description: "Use the standard white notch stroke instead of the low battery alert color.",
+                isOn: $batterySettings.isLowPowerDefaultStrokeEnabled,
+                accessibilityIdentifier: "settings.activities.temporary.lowPower.defaultStroke"
+            )
+            .disabled(isDefaultStrokeLocked)
+            .opacity(isDefaultStrokeLocked ? 0.5 : 1)
+
             Divider().opacity(0.6)
             
             SettingsSliderRow(
@@ -185,7 +201,18 @@ struct BatterySettingsView: View {
                     isSelected: isSelected
                 )
             }
-            
+
+            Divider().opacity(0.6)
+
+            SettingsStrokeToggleRow(
+                title: "Default stroke",
+                description: "Use the standard white notch stroke instead of the full battery alert color.",
+                isOn: $batterySettings.isFullPowerDefaultStrokeEnabled,
+                accessibilityIdentifier: "settings.activities.temporary.fullPower.defaultStroke"
+            )
+            .disabled(isDefaultStrokeLocked)
+            .opacity(isDefaultStrokeLocked ? 0.5 : 1)
+
             Divider().opacity(0.6)
             
             SettingsSliderRow(
@@ -221,7 +248,7 @@ struct BatterySettingsView: View {
                 .fill(.black)
                 .overlay {
                     Capsule()
-                        .stroke(kind == .low ? .red.opacity(0.3) : .green.opacity(0.3), lineWidth: 1)
+                        .stroke(batteryPreviewStrokeColor(for: kind), lineWidth: 1)
                 }
 
             VStack {
@@ -260,7 +287,7 @@ struct BatterySettingsView: View {
                 .fill(.black)
                 .overlay {
                     Capsule()
-                        .stroke(kind == .low ? .red.opacity(0.3) : .green.opacity(0.3), lineWidth: 1)
+                        .stroke(batteryPreviewStrokeColor(for: kind), lineWidth: 1)
                 }
 
             HStack {
@@ -383,6 +410,23 @@ struct BatterySettingsView: View {
             RoundedRectangle(cornerRadius: 1.5, style: .continuous)
                 .fill(fillFraction >= 1 ? tint.gradient : tint.opacity(0.3).gradient)
                 .frame(width: 2, height: 6)
+        }
+    }
+
+    private func batteryPreviewStrokeColor(for kind: BatteryNotificationPreviewKind) -> Color {
+        if appearanceSettings.isDefaultActivityStrokeEnabled || isDefaultStrokeEnabled(for: kind) {
+            return .white.opacity(0.2)
+        }
+
+        return kind == .low ? .red.opacity(0.3) : .green.opacity(0.3)
+    }
+
+    private func isDefaultStrokeEnabled(for kind: BatteryNotificationPreviewKind) -> Bool {
+        switch kind {
+        case .low:
+            return batterySettings.isLowPowerDefaultStrokeEnabled
+        case .full:
+            return batterySettings.isFullPowerDefaultStrokeEnabled
         }
     }
 }

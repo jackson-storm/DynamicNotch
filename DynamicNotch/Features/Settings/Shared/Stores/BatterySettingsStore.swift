@@ -5,6 +5,7 @@ import Combine
 final class BatterySettingsStore: SettingsStoreBase {
     static let lowPowerThresholdRange: ClosedRange<Int> = 5...50
     static let fullPowerThresholdRange: ClosedRange<Int> = 50...100
+    private static let legacyBatteryDefaultStrokeKey = "settings.battery.defaultStroke"
 
     @Published var isChargerTemporaryActivityEnabled: Bool {
         didSet {
@@ -109,6 +110,7 @@ final class BatterySettingsStore: SettingsStoreBase {
     }
 
     override init(defaults: UserDefaults) {
+        Self.migrateLegacyDefaultStrokeIfNeeded(defaults: defaults)
         self.isChargerTemporaryActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.chargerTemporaryActivityEnabled)
         self.chargerTemporaryActivityDuration = Self.clampTemporaryActivityDuration(
             defaults.object(forKey: GeneralSettingsStorage.Keys.chargerTemporaryActivityDuration) as? Int ??
@@ -142,12 +144,10 @@ final class BatterySettingsStore: SettingsStoreBase {
             rawValue: defaults.string(forKey: GeneralSettingsStorage.Keys.fullPowerNotificationStyle) ??
             BatteryNotificationStyle.standard.rawValue
         ) ?? .standard
-        let legacyBatteryDefaultStrokeEnabled = defaults.object(forKey: GeneralSettingsStorage.Keys.batteryDefaultStrokeEnabled) as? Bool ??
-        (GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.batteryDefaultStrokeEnabled] as? Bool ?? false)
         self.isLowPowerDefaultStrokeEnabled = defaults.object(forKey: GeneralSettingsStorage.Keys.lowPowerDefaultStrokeEnabled) as? Bool ??
-        legacyBatteryDefaultStrokeEnabled
+        (GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.lowPowerDefaultStrokeEnabled] as? Bool ?? false)
         self.isFullPowerDefaultStrokeEnabled = defaults.object(forKey: GeneralSettingsStorage.Keys.fullPowerDefaultStrokeEnabled) as? Bool ??
-        legacyBatteryDefaultStrokeEnabled
+        (GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.fullPowerDefaultStrokeEnabled] as? Bool ?? false)
         super.init(defaults: defaults)
     }
 
@@ -178,5 +178,21 @@ final class BatterySettingsStore: SettingsStoreBase {
 
     private static func clampFullPowerThreshold(_ value: Int) -> Int {
         min(max(value, fullPowerThresholdRange.lowerBound), fullPowerThresholdRange.upperBound)
+    }
+
+    private static func migrateLegacyDefaultStrokeIfNeeded(defaults: UserDefaults) {
+        guard let legacyValue = defaults.object(forKey: legacyBatteryDefaultStrokeKey) as? Bool else {
+            return
+        }
+
+        if defaults.object(forKey: GeneralSettingsStorage.Keys.lowPowerDefaultStrokeEnabled) == nil {
+            defaults.set(legacyValue, forKey: GeneralSettingsStorage.Keys.lowPowerDefaultStrokeEnabled)
+        }
+
+        if defaults.object(forKey: GeneralSettingsStorage.Keys.fullPowerDefaultStrokeEnabled) == nil {
+            defaults.set(legacyValue, forKey: GeneralSettingsStorage.Keys.fullPowerDefaultStrokeEnabled)
+        }
+
+        defaults.removeObject(forKey: legacyBatteryDefaultStrokeKey)
     }
 }

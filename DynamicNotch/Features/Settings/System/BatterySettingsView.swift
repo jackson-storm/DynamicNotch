@@ -414,6 +414,10 @@ struct BatterySettingsView: View {
     }
 
     private func batteryPreviewStrokeColor(for kind: BatteryNotificationPreviewKind) -> Color {
+        guard appearanceSettings.isShowNotchStrokeEnabled else {
+            return .clear
+        }
+
         if appearanceSettings.isDefaultActivityStrokeEnabled || isDefaultStrokeEnabled(for: kind) {
             return .white.opacity(0.2)
         }

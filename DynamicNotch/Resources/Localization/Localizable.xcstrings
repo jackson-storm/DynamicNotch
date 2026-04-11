@@ -1269,6 +1269,9 @@
     "Choose between a device-focused layout or full device details." : {
 
     },
+    "Choose how file downloads look in the notch while progress is active." : {
+
+    },
     "Choose how hardware HUD feedback is laid out inside the notch." : {
 
     },
@@ -1300,6 +1303,9 @@
 
     },
     "Choose how long the Wi-Fi reconnect notification stays visible." : {
+
+    },
+    "Choose how much information the download activity shows at a glance." : {
 
     },
     "Choose how the Bluetooth connection notification looks in the notch." : {
@@ -1339,6 +1345,9 @@
 
     },
     "Choose whether Bluetooth battery information is shown as a percentage or a circular indicator." : {
+
+    },
+    "Choose whether download progress uses a percentage label or a circular ring." : {
 
     },
     "Choose whether Focus shows the On and Off labels or only the moon icon." : {
@@ -1854,6 +1863,12 @@
           }
         }
       }
+    },
+    "Download appearance" : {
+
+    },
+    "Download style" : {
+
     },
     "Downloads" : {
       "localizations" : {
@@ -5195,6 +5210,9 @@
           }
         }
       }
+    },
+    "Progress indicator" : {
+
     },
     "Protected" : {
 

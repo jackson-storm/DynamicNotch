@@ -266,7 +266,11 @@ struct HUDSettingsView: View {
     }
 
     private var pickerStrokeColor: Color {
-        HudLevelStyling.previewStrokeTint(
+        guard applicationSettings.isShowNotchStrokeEnabled else {
+            return .clear
+        }
+
+        return HudLevelStyling.previewStrokeTint(
             isEnabled: settings.isColoredLevelStrokeEnabled && !isLevelStrokeLocked
         )
     }

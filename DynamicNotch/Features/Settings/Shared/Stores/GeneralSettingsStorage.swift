@@ -34,6 +34,8 @@ enum GeneralSettingsStorage {
         static let nowPlayingArtworkStrokeEnabled = "settings.nowPlaying.artworkStrokeEnabled"
         static let downloadsLiveActivityEnabled = "settings.live.downloads"
         static let downloadsDefaultStrokeEnabled = "settings.live.downloads.defaultStroke"
+        static let downloadsAppearanceStyle = "settings.live.downloads.appearanceStyle"
+        static let downloadsProgressIndicatorStyle = "settings.live.downloads.progressIndicatorStyle"
         static let airDropLiveActivityEnabled = "settings.live.airDrop"
         static let airDropDefaultStrokeEnabled = "settings.live.airDrop.defaultStroke"
         static let legacyFileTransfersLiveActivityEnabled = "settings.live.fileTransfers"
@@ -66,7 +68,6 @@ enum GeneralSettingsStorage {
         static let notchSizeTemporaryActivityDuration = "settings.temporary.notchSize.duration"
         static let focusDefaultStrokeEnabled = "settings.focus.defaultStroke"
         static let hotspotDefaultStrokeEnabled = "settings.live.hotspot.defaultStroke"
-        static let batteryDefaultStrokeEnabled = "settings.battery.defaultStroke"
         static let lowPowerDefaultStrokeEnabled = "settings.battery.lowPower.defaultStroke"
         static let fullPowerDefaultStrokeEnabled = "settings.battery.fullPower.defaultStroke"
     }
@@ -106,6 +107,8 @@ enum GeneralSettingsStorage {
         Keys.nowPlayingArtworkStrokeEnabled: false,
         Keys.downloadsLiveActivityEnabled: true,
         Keys.downloadsDefaultStrokeEnabled: false,
+        Keys.downloadsAppearanceStyle: DownloadAppearanceStyle.minimal.rawValue,
+        Keys.downloadsProgressIndicatorStyle: DownloadProgressIndicatorStyle.percent.rawValue,
         Keys.airDropLiveActivityEnabled: true,
         Keys.airDropDefaultStrokeEnabled: false,
         LockScreenSettings.liveActivityKey: true,
@@ -147,7 +150,6 @@ enum GeneralSettingsStorage {
         Keys.notchSizeTemporaryActivityDuration: 2,
         Keys.focusDefaultStrokeEnabled: false,
         Keys.hotspotDefaultStrokeEnabled: false,
-        Keys.batteryDefaultStrokeEnabled: false,
         Keys.lowPowerDefaultStrokeEnabled: false,
         Keys.fullPowerDefaultStrokeEnabled: false
     ]

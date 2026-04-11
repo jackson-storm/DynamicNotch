@@ -205,8 +205,7 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
             GeneralSettingsStorage.Keys.downloadsDefaultStrokeEnabled,
             GeneralSettingsStorage.Keys.airDropDefaultStrokeEnabled,
             GeneralSettingsStorage.Keys.focusDefaultStrokeEnabled,
-            GeneralSettingsStorage.Keys.hotspotDefaultStrokeEnabled,
-            GeneralSettingsStorage.Keys.batteryDefaultStrokeEnabled
+            GeneralSettingsStorage.Keys.hotspotDefaultStrokeEnabled
         ]
 
         return legacyKeys.contains { key in

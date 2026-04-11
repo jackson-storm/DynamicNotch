@@ -165,9 +165,19 @@ struct SettingsRootView: View {
         }
         
         return viewModel.sections.filter { section in
-            localized(section.titleKey, fallback: section.fallbackTitle).localizedCaseInsensitiveContains(query) ||
-            localized(section.subtitleKey, fallback: section.fallbackSubtitle).localizedCaseInsensitiveContains(query)
+            searchableStrings(for: section).contains { value in
+                value.localizedCaseInsensitiveContains(query)
+            }
         }
+    }
+
+    private func searchableStrings(for section: SettingsRootViewModel.Section) -> [String] {
+        [
+            localized(section.titleKey, fallback: section.fallbackTitle),
+            section.fallbackTitle,
+            localized(section.subtitleKey, fallback: section.fallbackSubtitle),
+            section.fallbackSubtitle
+        ] + section.searchKeywords
     }
     
     private var groupedSections: [(group: SettingsRootViewModel.SidebarGroup, sections: [SettingsRootViewModel.Section])] {
@@ -216,8 +226,7 @@ struct SettingsRootView: View {
             detailContainer(for: section) {
                 DownloadsSettingsView(
                     mediaSettings: settingsViewModel.mediaAndFiles,
-                    appearanceSettings: settingsViewModel.application,
-                    downloadViewModel: downloadViewModel
+                    appearanceSettings: settingsViewModel.application
                 )
             }
             

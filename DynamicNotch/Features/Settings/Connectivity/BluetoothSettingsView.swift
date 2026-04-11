@@ -17,6 +17,10 @@ struct BluetoothSettingsView: View {
     }
 
     private var bluetoothPreviewStrokeColor: Color {
+        guard applicationSettings.isShowNotchStrokeEnabled else {
+            return .clear
+        }
+
         guard isBatteryStrokeActive,
               settings.bluetoothAppearanceStyle.supportsBatteryPresentation else {
             return .white.opacity(0.2)
@@ -137,7 +141,7 @@ struct BluetoothSettingsView: View {
                         batteryLevel: 82,
                         indicatorStyle: settings.bluetoothBatteryIndicatorStyle,
                         circleSize: 16,
-                        circleLineWidth: 3,
+                        circleLineWidth: 2.5,
                         usesTintedTrackStroke: isBatteryStrokeActive
                     )
                 }

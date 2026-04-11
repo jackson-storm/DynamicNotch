@@ -109,6 +109,7 @@ private struct NowPlayingAppearancePreview: View {
         let appearance = settings.resolvedNowPlayingAppearanceOptions(
             isDefaultActivityStrokeEnabled: applicationSettings.isDefaultActivityStrokeEnabled
         )
+        let showsNotchStroke = applicationSettings.isShowNotchStrokeEnabled
         let progressGradient = LinearGradient(
             colors: [highlightColor, baseColor],
             startPoint: .leading,
@@ -122,8 +123,10 @@ private struct NowPlayingAppearancePreview: View {
             topCornerRadius: 28,
             bottomCornerRadius: 38,
             backgroundStyle: .black,
-            showsStroke: true,
-            strokeColor: appearance.usesArtworkStrokeTint ? baseColor.opacity(0.3) : .white.opacity(0.2),
+            showsStroke: showsNotchStroke,
+            strokeColor: showsNotchStroke
+            ? (appearance.usesArtworkStrokeTint ? baseColor.opacity(0.3) : .white.opacity(0.2))
+            : .clear,
             strokeWidth: 1.5,
             lightBackgroundImage: Image("backgroundLight"),
             darkBackgroundImage: Image("backgroundDark")

@@ -8,6 +8,10 @@ struct LockScreenSettingsView: View {
     @ObservedObject var applicationSettings: ApplicationSettingsStore
     @State private var lockSoundSelectionError: String?
     @State private var unlockSoundSelectionError: String?
+
+    private var lockScreenPreviewStrokeColor: Color {
+        applicationSettings.isShowNotchStrokeEnabled ? .white.opacity(0.2) : .clear
+    }
     
     var body: some View {
         SettingsPageScrollView {
@@ -145,7 +149,7 @@ struct LockScreenSettingsView: View {
                 .fill(.black)
                 .overlay {
                     Capsule()
-                        .stroke(.white.opacity(0.2), lineWidth: 1)
+                        .stroke(lockScreenPreviewStrokeColor, lineWidth: 1)
                 }
                 .frame(height: 30)
 

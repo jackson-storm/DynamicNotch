@@ -24,11 +24,19 @@ struct NetworkSettingsView: View {
     }
 
     private var hotspotPreviewStrokeColor: Color {
+        guard appearanceSettings.isShowNotchStrokeEnabled else {
+            return .clear
+        }
+
         if appearanceSettings.isDefaultActivityStrokeEnabled || connectivitySettings.isHotspotDefaultStrokeEnabled {
             return .white.opacity(0.2)
         }
 
         return .green.opacity(0.2)
+    }
+
+    private var vpnPreviewStrokeColor: Color {
+        appearanceSettings.isShowNotchStrokeEnabled ? .white.opacity(0.2) : .clear
     }
     
     var body: some View {
@@ -213,7 +221,7 @@ struct NetworkSettingsView: View {
                     .fill(.black)
                     .overlay {
                         Capsule()
-                            .stroke(.white.opacity(0.2), lineWidth: 1)
+                            .stroke(vpnPreviewStrokeColor, lineWidth: 1)
                     }
                 HStack {
                     Image(systemName: "network.badge.shield.half.filled")
@@ -242,7 +250,7 @@ struct NetworkSettingsView: View {
                     .fill(.black)
                     .overlay {
                         Capsule()
-                            .stroke(.white.opacity(0.2), lineWidth: 1)
+                            .stroke(vpnPreviewStrokeColor, lineWidth: 1)
                     }
                 HStack {
                     Text("WireGuard")

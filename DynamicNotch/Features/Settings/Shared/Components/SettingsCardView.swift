@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct SettingsCard<Content: View>: View {
-    let title: LocalizedStringKey
+    let title: LocalizedStringKey?
     
     private let content: Content
     
     init(
-        title: LocalizedStringKey,
+        title: LocalizedStringKey? = nil,
         @ViewBuilder content: () -> Content
     ) {
         self.title = title
@@ -29,12 +29,14 @@ struct SettingsCard<Content: View>: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             
         } label: {
-            VStack(alignment: .leading) {
-                Text(title)
-                    .font(.headline)
+            if let title {
+                VStack(alignment: .leading) {
+                    Text(title)
+                        .font(.headline)
+                }
+                .padding(.bottom, 5)
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
-            .padding(.bottom, 5)
-            .frame(maxWidth: .infinity, alignment: .leading)
         }
         .padding(.horizontal, 10)
         .groupBoxStyle(SettingsCardGroupBoxStyle())

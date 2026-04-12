@@ -23,12 +23,6 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         }
     }
 
-    @Published var appTint: AppTint {
-        didSet {
-            persist(appTint.rawValue, for: GeneralSettingsStorage.Keys.appTint)
-        }
-    }
-
     @Published var notchBackgroundStyle: NotchBackgroundStyle {
         didSet {
             persist(notchBackgroundStyle.rawValue, for: GeneralSettingsStorage.Keys.notchBackgroundStyle)
@@ -125,9 +119,6 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         self.appearanceMode = SettingsAppearanceMode.resolved(
             defaults.string(forKey: GeneralSettingsStorage.Keys.appearanceMode)
         )
-        self.appTint = AppTint.resolved(
-            defaults.string(forKey: GeneralSettingsStorage.Keys.appTint)
-        )
         self.notchBackgroundStyle = NotchBackgroundStyle.resolved(
             defaults.string(forKey: GeneralSettingsStorage.Keys.notchBackgroundStyle)
         )
@@ -160,9 +151,6 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         isDockIconVisible = defaultBool(for: GeneralSettingsStorage.Keys.dockIcon)
         appearanceMode = SettingsAppearanceMode.resolved(
             defaultString(for: GeneralSettingsStorage.Keys.appearanceMode)
-        )
-        appTint = AppTint.resolved(
-            defaultString(for: GeneralSettingsStorage.Keys.appTint)
         )
         isMenuBarIconVisible = defaultBool(for: GeneralSettingsStorage.Keys.menuBarIcon)
         displayLocation = NotchDisplayLocation(

@@ -154,8 +154,6 @@ struct SettingsRootView: View {
         .accessibilityIdentifier("settings.root")
         .environment(\.locale, settingsViewModel.application.appLanguage.locale)
         .preferredColorScheme(settingsViewModel.application.appearanceMode.preferredColorScheme)
-        .tint(settingsViewModel.application.appTint.color)
-        .accentColor(settingsViewModel.application.appTint.color)
     }
     
     private var filteredSections: [SettingsRootViewModel.Section] {
@@ -202,6 +200,14 @@ struct SettingsRootView: View {
         case .general:
             detailContainer(for: section) {
                 GeneralSettingsView(
+                    applicationSettings: settingsViewModel.application
+                )
+            }
+
+        case .permissions:
+            detailContainer(for: section) {
+                PermissionsSettingsView(
+                    permissionController: permissionController,
                     applicationSettings: settingsViewModel.application
                 )
             }
@@ -307,30 +313,6 @@ struct SettingsRootView: View {
     
     @ToolbarContentBuilder
     private func toolbarContent(for section: SettingsRootViewModel.Section) -> some ToolbarContent {
-        if let permissionAction = toolbarPermissionAction(for: section) {
-            ToolbarItem(placement: .primaryAction) {
-                Button(action: permissionAction.handler) {
-                    Label {
-                        Text(
-                            localized(
-                                permissionAction.titleKey,
-                                fallback: permissionAction.fallbackTitle
-                            )
-                        )
-                    } icon: {
-                        Image(systemName: "exclamationmark.triangle.fill")
-                    }
-                }
-                .help(
-                    localized(
-                        permissionAction.helpKey,
-                        fallback: permissionAction.fallbackHelp
-                    )
-                )
-                .accessibilityIdentifier(permissionAction.accessibilityIdentifier)
-            }
-        }
-
         if section == .about {
             ToolbarItem(placement: .primaryAction) {
                 Button {
@@ -359,25 +341,5 @@ struct SettingsRootView: View {
                 .accessibilityIdentifier("settings.toolbar.resetCurrentTab")
             }
         }
-    }
-
-    private func toolbarPermissionAction(for section: SettingsRootViewModel.Section) -> SettingsPermissionController.ToolbarAction? {
-        switch section {
-        case .hud:
-            let requiresAccessibility =
-                settingsViewModel.hud.isVolumeHUDEnabled ||
-                settingsViewModel.hud.isBrightnessHUDEnabled
-            guard requiresAccessibility else { return nil }
-
-        case .nowPlaying:
-            guard settingsViewModel.mediaAndFiles.isNowPlayingLiveActivityEnabled else {
-                return nil
-            }
-
-        default:
-            return nil
-        }
-
-        return permissionController.toolbarAction(for: section)
     }
 }

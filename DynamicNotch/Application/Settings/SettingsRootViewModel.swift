@@ -45,12 +45,8 @@ final class SettingsRootViewModel {
     }
 
     enum Section: String, CaseIterable, Identifiable {
-        enum PermissionRequirement {
-            case accessibility
-            case postEventAccess
-        }
-
         case general
+        case permissions
         case notch
         case nowPlaying
         case downloads
@@ -68,20 +64,9 @@ final class SettingsRootViewModel {
 
         var id: String { rawValue }
 
-        var permissionRequirement: PermissionRequirement? {
-            switch self {
-            case .hud:
-                return .accessibility
-            case .nowPlaying:
-                return .postEventAccess
-            default:
-                return nil
-            }
-        }
-
         var sidebarGroup: SidebarGroup {
             switch self {
-            case .general, .notch, .about:
+            case .general, .permissions, .notch, .about:
                 return .app
             #if DEBUG
             case .debug:
@@ -100,6 +85,8 @@ final class SettingsRootViewModel {
             switch self {
             case .general:
                 return "settings.section.general.title"
+            case .permissions:
+                return "settings.section.permissions.title"
             case .notch:
                 return "settings.section.notch.title"
             case .nowPlaying:
@@ -133,6 +120,8 @@ final class SettingsRootViewModel {
             switch self {
             case .general:
                 return "General"
+            case .permissions:
+                return "Permissions"
             case .notch:
                 return "Notch"
             case .nowPlaying:
@@ -166,6 +155,8 @@ final class SettingsRootViewModel {
             switch self {
             case .general:
                 return "settings.section.general.subtitle"
+            case .permissions:
+                return "settings.section.permissions.subtitle"
             case .notch:
                 return "settings.section.notch.subtitle"
             case .nowPlaying:
@@ -199,6 +190,8 @@ final class SettingsRootViewModel {
             switch self {
             case .general:
                 return "Startup, display placement, and app language."
+            case .permissions:
+                return "Accessibility, Bluetooth, and media control access required by app features."
             case .notch:
                 return "Appearance, animation, and resize feedback."
             case .nowPlaying:
@@ -236,9 +229,17 @@ final class SettingsRootViewModel {
                     "dock icon",
                     "menu bar",
                     "appearance",
-                    "tint",
                     "language",
                     "display"
+                ]
+            case .permissions:
+                return [
+                    "permissions",
+                    "accessibility",
+                    "bluetooth",
+                    "media controls",
+                    "grant access",
+                    "privacy settings"
                 ]
             case .notch:
                 return [
@@ -360,6 +361,8 @@ final class SettingsRootViewModel {
             switch self {
             case .general:
                 return "gear"
+            case .permissions:
+                return "checkmark.shield"
             case .notch:
                 return "rectangle.topthird.inset.filled"
             case .nowPlaying:
@@ -404,6 +407,8 @@ final class SettingsRootViewModel {
             switch self {
             case .general:
                 return .blue
+            case .permissions:
+                return .green
             case .notch:
                 return .black
             case .nowPlaying:
@@ -510,6 +515,8 @@ final class SettingsRootViewModel {
         switch storedSelection {
         case "language":
             return .general
+        case "permissions":
+            return .permissions
         case "activities", "liveActivity":
             return .nowPlaying
         case "temporaryActivity":
@@ -561,6 +568,8 @@ final class SettingsRootViewModel {
         switch section {
         case .general:
             return .general
+        case .permissions:
+            return nil
         case .notch:
             return .notch
         case .nowPlaying:

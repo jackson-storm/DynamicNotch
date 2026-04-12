@@ -17,6 +17,7 @@ struct CustomPicker<Option: Hashable>: View {
     let headerDescription: LocalizedStringKey?
     let headerValueTitle: ((Option) -> LocalizedStringKey)?
     let itemHeight: CGFloat
+    let showsOptionTitle: Bool
     let lightBackgroundImage: Image?
     let darkBackgroundImage: Image?
     let backgroundImageContentMode: ContentMode
@@ -31,6 +32,7 @@ struct CustomPicker<Option: Hashable>: View {
         headerDescription: LocalizedStringKey? = nil,
         headerValueTitle: ((Option) -> LocalizedStringKey)? = nil,
         itemHeight: CGFloat = 62,
+        showsOptionTitle: Bool = true,
         lightBackgroundImage: Image? = nil,
         darkBackgroundImage: Image? = nil,
         backgroundImageContentMode: ContentMode = .fill,
@@ -45,6 +47,7 @@ struct CustomPicker<Option: Hashable>: View {
             headerDescription: headerDescription,
             headerValueTitle: headerValueTitle,
             itemHeight: itemHeight,
+            showsOptionTitle: showsOptionTitle,
             lightBackgroundImage: lightBackgroundImage,
             darkBackgroundImage: darkBackgroundImage,
             backgroundImageContentMode: backgroundImageContentMode,
@@ -63,6 +66,7 @@ struct CustomPicker<Option: Hashable>: View {
         headerDescription: LocalizedStringKey? = nil,
         headerValueTitle: ((Option) -> LocalizedStringKey)? = nil,
         itemHeight: CGFloat = 62,
+        showsOptionTitle: Bool = true,
         lightBackgroundImage: Image? = nil,
         darkBackgroundImage: Image? = nil,
         backgroundImageContentMode: ContentMode = .fill,
@@ -77,6 +81,7 @@ struct CustomPicker<Option: Hashable>: View {
             headerDescription: headerDescription,
             headerValueTitle: headerValueTitle,
             itemHeight: itemHeight,
+            showsOptionTitle: showsOptionTitle,
             lightBackgroundImage: lightBackgroundImage,
             darkBackgroundImage: darkBackgroundImage,
             backgroundImageContentMode: backgroundImageContentMode,
@@ -93,6 +98,7 @@ struct CustomPicker<Option: Hashable>: View {
         headerDescription: LocalizedStringKey? = nil,
         headerValueTitle: ((Option) -> LocalizedStringKey)? = nil,
         itemHeight: CGFloat = 62,
+        showsOptionTitle: Bool = true,
         lightBackgroundImage: Image? = nil,
         darkBackgroundImage: Image? = nil,
         backgroundImageContentMode: ContentMode = .fill,
@@ -106,6 +112,7 @@ struct CustomPicker<Option: Hashable>: View {
         self.headerDescription = headerDescription
         self.headerValueTitle = headerValueTitle
         self.itemHeight = itemHeight
+        self.showsOptionTitle = showsOptionTitle
         self.lightBackgroundImage = lightBackgroundImage
         self.darkBackgroundImage = darkBackgroundImage
         self.backgroundImageContentMode = backgroundImageContentMode
@@ -122,6 +129,7 @@ struct CustomPicker<Option: Hashable>: View {
         headerDescription: LocalizedStringKey? = nil,
         headerValueTitle: ((Option) -> LocalizedStringKey)? = nil,
         itemHeight: CGFloat = 62,
+        showsOptionTitle: Bool = true,
         lightBackgroundImage: Image? = nil,
         darkBackgroundImage: Image? = nil,
         backgroundImageContentMode: ContentMode = .fill,
@@ -136,6 +144,7 @@ struct CustomPicker<Option: Hashable>: View {
             headerDescription: headerDescription,
             headerValueTitle: headerValueTitle,
             itemHeight: itemHeight,
+            showsOptionTitle: showsOptionTitle,
             lightBackgroundImage: lightBackgroundImage,
             darkBackgroundImage: darkBackgroundImage,
             backgroundImageContentMode: backgroundImageContentMode,
@@ -163,7 +172,7 @@ struct CustomPicker<Option: Hashable>: View {
     private func card(for option: Option) -> some View {
         let isSelected = selection == option
         
-        VStack {
+        VStack(spacing: showsOptionTitle ? 8 : 0) {
             Button {
                 withAnimation(.easeInOut(duration: 0.15)) {
                     selection = option
@@ -182,12 +191,14 @@ struct CustomPicker<Option: Hashable>: View {
                     .contentShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
             }
             .buttonStyle(.plain)
-            
-            Text(title(option))
-                .font(.system(size: 10))
-                .foregroundStyle(isSelected ? Color.accentColor : Color.secondary)
-                .lineLimit(1)
-                .truncationMode(.tail)
+
+            if showsOptionTitle {
+                Text(title(option))
+                    .font(.system(size: 10))
+                    .foregroundStyle(isSelected ? Color.accentColor : Color.secondary)
+                    .lineLimit(1)
+                    .truncationMode(.tail)
+            }
         }
     }
     

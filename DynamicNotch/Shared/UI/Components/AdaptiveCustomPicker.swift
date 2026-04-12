@@ -13,6 +13,9 @@ struct AdaptiveCustomPicker<Option: Hashable>: View {
     @Binding var selection: Option
     let options: [Option]
     let title: (Option) -> LocalizedStringKey
+    let headerTitle: LocalizedStringKey?
+    let headerDescription: LocalizedStringKey?
+    let headerValueTitle: ((Option) -> LocalizedStringKey)?
     let minimumItemWidth: CGFloat
     let maximumItemWidth: CGFloat
     let itemHeight: CGFloat
@@ -22,6 +25,9 @@ struct AdaptiveCustomPicker<Option: Hashable>: View {
     init<Content: View>(
         selection: Binding<Option>,
         options: [Option],
+        headerTitle: LocalizedStringKey? = nil,
+        headerDescription: LocalizedStringKey? = nil,
+        headerValueTitle: ((Option) -> LocalizedStringKey)? = nil,
         minimumItemWidth: CGFloat = 88,
         maximumItemWidth: CGFloat = 104,
         itemHeight: CGFloat = 62,
@@ -32,6 +38,9 @@ struct AdaptiveCustomPicker<Option: Hashable>: View {
         self._selection = selection
         self.options = options
         self.title = title
+        self.headerTitle = headerTitle
+        self.headerDescription = headerDescription
+        self.headerValueTitle = headerValueTitle
         self.minimumItemWidth = minimumItemWidth
         self.maximumItemWidth = maximumItemWidth
         self.itemHeight = itemHeight
@@ -42,15 +51,21 @@ struct AdaptiveCustomPicker<Option: Hashable>: View {
     }
 
     var body: some View {
-        LazyVGrid(
-            columns: [GridItem(.adaptive(minimum: minimumItemWidth, maximum: maximumItemWidth), spacing: 12)],
-            spacing: 12
-        ) {
-            ForEach(options, id: \.self) { option in
-                card(for: option)
+        VStack(alignment: .leading, spacing: 12) {
+            if let headerTitle {
+                pickerHeader(title: headerTitle)
             }
+
+            LazyVGrid(
+                columns: [GridItem(.adaptive(minimum: minimumItemWidth, maximum: maximumItemWidth), spacing: 12)],
+                spacing: 12
+            ) {
+                ForEach(options, id: \.self) { option in
+                    card(for: option)
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     @ViewBuilder
@@ -102,5 +117,32 @@ struct AdaptiveCustomPicker<Option: Hashable>: View {
         } else {
             button
         }
+    }
+
+    @ViewBuilder
+    private func pickerHeader(title: LocalizedStringKey) -> some View {
+        HStack(alignment: .center) {
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title)
+
+                if let headerDescription {
+                    Text(headerDescription)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            }
+
+            Spacer(minLength: 12)
+
+            Text(selectedHeaderValueTitle)
+                .font(.system(size: 12))
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
+                .truncationMode(.tail)
+        }
+    }
+
+    private var selectedHeaderValueTitle: LocalizedStringKey {
+        headerValueTitle?(selection) ?? title(selection)
     }
 }

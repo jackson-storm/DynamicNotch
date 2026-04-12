@@ -12,6 +12,10 @@ struct LockScreenSettingsView: View {
     private var lockScreenPreviewStrokeColor: Color {
         applicationSettings.isShowNotchStrokeEnabled ? .white.opacity(0.2) : .clear
     }
+
+    private func localized(_ key: String, fallback: String? = nil) -> String {
+        applicationSettings.appLanguage.locale.dn(key, fallback: fallback)
+    }
     
     var body: some View {
         SettingsPageScrollView {
@@ -107,7 +111,7 @@ struct LockScreenSettingsView: View {
                 title: "Accent tint",
                 description: "Blend the app accent color into the lock-screen widget background.",
                 systemImage: "paintpalette.fill",
-                color: applicationSettings.appTint.color,
+                color: .accentColor,
                 isOn: Binding(
                     get: { settings.widgetTintStyle == .accent },
                     set: { settings.widgetTintStyle = $0 ? .accent : .neutral }
@@ -166,7 +170,6 @@ struct LockScreenSettingsView: View {
         LockScreenWidgetAppearancePickerPreview(
             style: style,
             tintStyle: settings.widgetTintStyle,
-            appTint: applicationSettings.appTint,
             backgroundBrightness: settings.widgetBackgroundBrightness
         )
         .scaleEffect(isSelected ? 1 : 0.97)
@@ -184,9 +187,9 @@ struct LockScreenSettingsView: View {
             )
 
             VStack(alignment: .leading, spacing: 4) {
-                Text(kind.title)
+                Text(localized(kind.titleKey))
 
-                Text(kind.description)
+                Text(localized(kind.descriptionKey))
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
@@ -229,15 +232,17 @@ struct LockScreenSettingsView: View {
     }
 
     private func customSoundStatusText(for kind: LockScreenCustomSoundKind) -> String {
+        let builtInTitle = localized(kind.builtInTitleKey)
+
         guard let customSoundURL = customSoundURL(for: kind) else {
-            return kind.builtInTitle
+            return builtInTitle
         }
 
         guard isCustomSoundAvailable(for: kind) else {
             return String(
-                format: String(localized: "%@ is unavailable. Falling back to %@."),
+                format: localized("%@ is unavailable. Falling back to %@."),
                 customSoundURL.lastPathComponent,
-                kind.builtInTitle.lowercased()
+                builtInTitle.lowercased(with: applicationSettings.appLanguage.locale)
             )
         }
 
@@ -311,8 +316,8 @@ struct LockScreenSettingsView: View {
 
     private func selectCustomSound(for kind: LockScreenCustomSoundKind) {
         let panel = NSOpenPanel()
-        panel.title = kind.panelTitle
-        panel.prompt = String(localized: "Choose")
+        panel.title = localized(kind.panelTitleKey)
+        panel.prompt = localized("Choose")
         panel.canChooseFiles = true
         panel.canChooseDirectories = false
         panel.allowsMultipleSelection = false
@@ -328,7 +333,7 @@ struct LockScreenSettingsView: View {
             setCustomSoundSelectionError(nil, for: kind)
         } catch {
             setCustomSoundSelectionError(
-                String(localized: "The selected file could not be loaded. Choose an MP3, WAV, AIFF, or M4A audio file."),
+                localized("The selected file could not be loaded. Choose an MP3, WAV, AIFF, or M4A audio file."),
                 for: kind
             )
         }
@@ -343,7 +348,6 @@ struct LockScreenSettingsView: View {
 private struct LockScreenWidgetAppearancePickerPreview: View {
     let style: LockScreenWidgetAppearanceStyle
     let tintStyle: LockScreenWidgetTintStyle
-    let appTint: AppTint
     let backgroundBrightness: Double
 
     private let panelSize = CGSize(width: 380, height: 228)
@@ -356,7 +360,6 @@ private struct LockScreenWidgetAppearancePickerPreview: View {
             LockScreenWidgetSurface(
                 style: style,
                 tintStyle: tintStyle,
-                appTint: appTint,
                 brightness: backgroundBrightness,
                 cornerRadius: panelCornerRadius
             )

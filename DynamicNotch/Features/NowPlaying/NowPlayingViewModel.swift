@@ -41,11 +41,11 @@ final class NowPlayingViewModel: ObservableObject {
 
     init(
         service: any NowPlayingMonitoring,
-        audioOutputRouting: any AudioOutputRouting = InactiveAudioOutputRoutingService(),
+        audioOutputRouting: (any AudioOutputRouting)? = nil,
         favoritesStore: UserDefaults = .standard
     ) {
         self.service = service
-        self.audioOutputRouting = audioOutputRouting
+        self.audioOutputRouting = audioOutputRouting ?? InactiveAudioOutputRoutingService()
         self.favoritesStore = favoritesStore
         self.service.onSnapshotChange = { [weak self] snapshot in
             guard let self else { return }

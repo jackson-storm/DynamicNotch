@@ -13,12 +13,12 @@ enum LockScreenWidgetTintStyle: String, CaseIterable {
         }
     }
 
-    func resolvedColor(appTint: AppTint) -> Color? {
+    func resolvedColor() -> Color? {
         switch self {
         case .neutral:
             return nil
         case .accent:
-            return appTint.color
+            return .accentColor
         }
     }
 }

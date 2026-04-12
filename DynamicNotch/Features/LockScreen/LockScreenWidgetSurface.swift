@@ -3,7 +3,6 @@ import SwiftUI
 struct LockScreenWidgetSurface: View {
     let style: LockScreenWidgetAppearanceStyle
     let tintStyle: LockScreenWidgetTintStyle
-    let appTint: AppTint
     let brightness: Double
     let cornerRadius: CGFloat
 
@@ -12,7 +11,7 @@ struct LockScreenWidgetSurface: View {
 
         baseSurface(shape: shape)
             .overlay {
-                if let tintColor = tintStyle.resolvedColor(appTint: appTint) {
+                if let tintColor = tintStyle.resolvedColor() {
                     shape
                         .fill(tintColor.opacity(tintOpacity))
                 }
@@ -85,7 +84,7 @@ struct LockScreenWidgetSurface: View {
     }
 
     private var strokeColor: Color {
-        if let tintColor = tintStyle.resolvedColor(appTint: appTint) {
+        if let tintColor = tintStyle.resolvedColor() {
             switch style {
             case .ultraThinMaterial:
                 return tintColor.opacity(0.24)

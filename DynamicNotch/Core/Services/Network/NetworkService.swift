@@ -18,6 +18,10 @@ final class NetworkMonitor: NetworkMonitoring {
     private(set) var currentWiFiName: String?
     private(set) var currentVPNName: String?
 
+    deinit {
+        stopMonitoring()
+    }
+
     func startMonitoring() {
         monitor.pathUpdateHandler = { [weak self] path in
             self?.updateStatus(path: path)
@@ -46,6 +50,7 @@ final class NetworkMonitor: NetworkMonitoring {
     }
 
     func stopMonitoring() {
+        monitor.pathUpdateHandler = nil
         monitor.cancel()
     }
 

@@ -33,8 +33,6 @@ struct LockScreenNowPlayingPanelView: View {
             .shadow(color: .black.opacity(0.24), radius: 26, x: 0, y: 14)
             .opacity(animator.isPresented ? 1 : 0)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-            .tint(settingsViewModel.application.appTint.color)
-            .accentColor(settingsViewModel.application.appTint.color)
     }
 
     @ViewBuilder
@@ -42,7 +40,6 @@ struct LockScreenNowPlayingPanelView: View {
         LockScreenWidgetSurface(
             style: settingsViewModel.lockScreen.widgetAppearanceStyle,
             tintStyle: settingsViewModel.lockScreen.widgetTintStyle,
-            appTint: settingsViewModel.application.appTint,
             brightness: settingsViewModel.lockScreen.widgetBackgroundBrightness,
             cornerRadius: 28
         )

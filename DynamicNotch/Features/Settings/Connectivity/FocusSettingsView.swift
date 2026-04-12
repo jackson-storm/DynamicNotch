@@ -21,10 +21,7 @@ struct FocusSettingsView: View {
     }
     
     private var focusActivity: some View {
-        SettingsCard(
-            title: "Focus activity",
-            subtitle: "Control the persistent Focus state and the short Focus Off notification."
-        ) {
+        SettingsCard(title: "Focus activity") {
             SettingsToggleRow(
                 title: "Focus live activity",
                 description: "Show a live activity while Focus mode is enabled.",
@@ -51,10 +48,7 @@ struct FocusSettingsView: View {
     }
     
     private var focusDuration: some View {
-        SettingsCard(
-            title: "Focus duration",
-            subtitle: "Control how long the Focus off notification stays visible."
-        ) {
+        SettingsCard(title: "Focus duration") {
             SettingsSliderRow(
                 title: "Focus off duration",
                 description: "Choose how long the Focus off notification stays visible.",
@@ -74,10 +68,7 @@ struct FocusSettingsView: View {
     }
     
     private var focusAppearance: some View {
-        SettingsCard(
-            title: "Focus appearance",
-            subtitle: "Choose whether Focus uses the current labels or a cleaner icon-only look."
-        ) {
+        SettingsCard(title: "Focus appearance") {
             CustomPicker(
                 selection: $connectivitySettings.focusAppearanceStyle,
                 options: Array(FocusAppearanceStyle.allCases),

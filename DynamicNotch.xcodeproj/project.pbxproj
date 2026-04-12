@@ -228,10 +228,6 @@
 				en,
 				es,
 				Base,
-				fr,
-				ja,
-				ko,
-				pt,
 				ru,
 				"zh-Hans",
 			);

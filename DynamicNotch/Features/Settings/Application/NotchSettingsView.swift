@@ -24,10 +24,7 @@ struct NotchSettingsView: View {
     }
     
     private var appearanceCard: some View {
-        SettingsCard(
-            title: "Notch appearance",
-            subtitle: "Fine-tune the notch frame and stroke so it better matches your hardware."
-        ) {
+        SettingsCard(title: "Notch appearance") {
             CustomPicker(
                 selection: $applicationSettings.notchBackgroundStyle,
                 options: NotchBackgroundStyle.availableOptions,
@@ -110,10 +107,7 @@ struct NotchSettingsView: View {
     }
     
     private var animationCard: some View {
-        SettingsCard(
-            title: "Animation",
-            subtitle: "Choose one global motion preset for notch transitions, expansion, and visibility."
-        ) {
+        SettingsCard(title: "Animation") {
             CustomPicker(
                 selection: $applicationSettings.notchAnimationPreset,
                 options: Array(NotchAnimationPreset.allCases),

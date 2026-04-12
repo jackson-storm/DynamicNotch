@@ -21,10 +21,7 @@ struct HUDSettingsView: View {
     }
     
     private var hudActivity: some View {
-        SettingsCard(
-            title: "HUD activity",
-            subtitle: "Choose which system HUDs Dynamic Notch should replace."
-        ) {
+        SettingsCard(title: "HUD activity") {
             SettingsToggleRow(
                 title: "Brightness HUD",
                 description: "Replace the system brightness HUD with DynamicNotch HUD.",
@@ -63,10 +60,7 @@ struct HUDSettingsView: View {
     }
 
     private var hudDuration: some View {
-        SettingsCard(
-            title: "HUD duration",
-            subtitle: "Control how long each hardware HUD stays visible."
-        ) {
+        SettingsCard(title: "HUD duration") {
             SettingsSliderRow(
                 title: "Brightness duration",
                 description: "Choose how long the brightness HUD stays visible.",
@@ -122,10 +116,7 @@ struct HUDSettingsView: View {
     }
     
     private var hudStyleCard: some View {
-        SettingsCard(
-            title: "HUD appearance",
-            subtitle: "Choose how hardware HUD feedback is laid out inside the notch."
-        ) {
+        SettingsCard(title: "HUD appearance") {
             CustomPicker(
                 selection: $settings.hudStyle,
                 options: Array(HudStyle.allCases),
@@ -194,12 +185,12 @@ struct HUDSettingsView: View {
                     Image(systemName: "speaker.wave.2.fill")
                         .font(.system(size: 13, weight: .semibold))
                     
-                    Text("Volume")
+                    Text(verbatim: "Volume")
                         .lineLimit(1)
                     
                     Spacer()
                     
-                    Text("72")
+                    Text(verbatim: "72")
                     
                     pickerIndicator
                 }
@@ -245,7 +236,7 @@ struct HUDSettingsView: View {
                     
                     Spacer()
                     
-                    Text("72")
+                    Text(verbatim: "72")
                 }
                 .foregroundStyle(.white.opacity(0.8))
                 .padding(.horizontal, 8)

@@ -49,10 +49,7 @@ struct NetworkSettingsView: View {
     }
     
     private var networkActivity: some View {
-        SettingsCard(
-            title: "Network activity",
-            subtitle: "Control when network notifications appear and how the VPN activity looks in the notch."
-        ) {
+        SettingsCard(title: "Network activity") {
             SettingsToggleRow(
                 title: "Wi-Fi temporary activity",
                 description: "Show a short notification when Wi-Fi reconnects.",
@@ -91,10 +88,7 @@ struct NetworkSettingsView: View {
     }
     
     private var networkDuration: some View {
-        SettingsCard(
-            title: "Network duration",
-            subtitle: "Control when network notifications appear and how the VPN activity looks in the notch."
-        ) {
+        SettingsCard(title: "Network duration") {
             SettingsSliderRow(
                 title: "Wi-Fi duration",
                 description: "Choose how long the Wi-Fi reconnect notification stays visible.",
@@ -132,10 +126,7 @@ struct NetworkSettingsView: View {
     }
     
     private var vpnAppearance: some View {
-        SettingsCard(
-            title: "VPN appearance",
-            subtitle: "Control when network notifications appear and how the VPN activity looks in the notch."
-        ) {
+        SettingsCard(title: "VPN appearance") {
             CustomPicker(
                 selection: vpnAppearanceStyle,
                 options: Array(VPNAppearanceStyle.allCases),
@@ -182,10 +173,7 @@ struct NetworkSettingsView: View {
     }
     
     private var hotspotAppearance: some View {
-        SettingsCard(
-            title: "Hotspot appearance",
-            subtitle: "Choose how the Personal Hotspot live activity looks while it is active."
-        ) {
+        SettingsCard(title: "Hotspot appearance") {
             CustomPicker(
                 selection: $connectivitySettings.hotspotAppearanceStyle,
                 options: Array(HotspotAppearanceStyle.allCases),
@@ -234,7 +222,7 @@ struct NetworkSettingsView: View {
                     
                     Spacer()
                     
-                    Text("Connected")
+                    Text(verbatim: "Connected")
                         .foregroundStyle(.white.opacity(0.8))
                         .lineLimit(1)
                 }
@@ -275,7 +263,7 @@ struct NetworkSettingsView: View {
                                 .font(.system(size: 16, weight: .semibold))
                                 .foregroundStyle(.orange)
                             
-                            Text("Protected")
+                            Text(verbatim: "Protected")
                                 .foregroundStyle(.white.opacity(0.8))
                                 .lineLimit(1)
                         }

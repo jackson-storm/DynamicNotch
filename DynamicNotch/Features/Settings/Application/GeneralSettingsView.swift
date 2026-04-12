@@ -16,10 +16,7 @@ struct GeneralSettingsView: View {
     }
     
     private var systemCard: some View {
-        SettingsCard(
-            title: "System",
-            subtitle: "Control how Dynamic Notch integrates with macOS."
-        ) {
+        SettingsCard(title: "System") {
             SettingsToggleRow(
                 title: "Launch at login",
                 description: "Launch Dynamic Notch automatically when you sign in.",
@@ -60,10 +57,7 @@ struct GeneralSettingsView: View {
     }
     
     private var displayCard: some View {
-        SettingsCard(
-            title: "Display",
-            subtitle: "Choose which display should host the notch overlay."
-        ) {
+        SettingsCard(title: "Display") {
             CustomPicker(
                 selection: $applicationSettings.displayLocation,
                 options: Array(NotchDisplayLocation.allCases),
@@ -75,21 +69,25 @@ struct GeneralSettingsView: View {
     }
     
     private var appearanceCard: some View {
-        SettingsCard(
-            title: "settings.general.appearance.title",
-            subtitle: "settings.general.appearance.subtitle"
-        ) {
+        SettingsCard(title: "settings.general.appearance.title") {
             themePickerSection
             Divider().opacity(0.6)
             tintPickerSection
         }
     }
-    
+
     private var languageCard: some View {
-        SettingsCard(
-            title: "settings.language.card.title",
-            subtitle: "settings.language.card.subtitle"
-        ) {
+        SettingsCard(title: "settings.language.card.title") {
+            HStack {
+                Image(systemName: "exclamationmark.triangle.fill")
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundStyle(Color.yellow)
+                
+                Text("Localization only works for settings, the notch remains in English.")
+                    .font(.system(size: 10))
+                    .foregroundStyle(Color.secondary)
+            }
+            
             AdaptiveCustomPicker(
                 selection: $applicationSettings.appLanguage,
                 options: Array(DynamicNotchLanguage.allCases),
@@ -103,7 +101,7 @@ struct GeneralSettingsView: View {
             .accessibilityIdentifier("settings.language.card")
         }
     }
-    
+
     @ViewBuilder
     private func languagePreview(for language: DynamicNotchLanguage, isSelected: Bool) -> some View {
         ZStack {
@@ -112,7 +110,6 @@ struct GeneralSettingsView: View {
                     .resizable()
                     .scaledToFill()
                     .clipped()
-                
             } else {
                 Image(systemName: "globe")
                     .font(.system(size: 20, weight: .semibold))
@@ -120,7 +117,6 @@ struct GeneralSettingsView: View {
             }
         }
         .frame(width: 44, height: 34)
-        .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
     }
     
     private var themePickerSection: some View {
@@ -166,7 +162,7 @@ struct GeneralSettingsView: View {
                     }
                     .buttonStyle(.plain)
                     .accessibilityIdentifier("settings.general.tint.\(tint.rawValue)")
-                    .accessibilityLabel(Text("\(tint.title) tint"))
+                    .accessibilityLabel(Text(tint.title))
                 }
             }
         }

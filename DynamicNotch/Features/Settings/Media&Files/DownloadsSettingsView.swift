@@ -35,10 +35,7 @@ struct DownloadsSettingsView: View {
     }
     
     private var downloadActivity: some View {
-        SettingsCard(
-            title: "Download activity",
-            subtitle: "Show live download progress from monitored folders in the notch."
-        ) {
+        SettingsCard(title: "Download activity") {
             SettingsToggleRow(
                 title: "Downloads live activity",
                 description: "Show a live activity while files are being downloaded to monitored folders like Downloads, Desktop, and Documents.",
@@ -51,10 +48,7 @@ struct DownloadsSettingsView: View {
     }
     
     private var downloadAppearance: some View {
-        SettingsCard(
-            title: "Download appearance",
-            subtitle: "Choose how file downloads look in the notch while progress is active."
-        ) {
+        SettingsCard(title: "Download appearance") {
             CustomPicker(
                 selection: $mediaSettings.downloadsAppearanceStyle,
                 options: Array(DownloadAppearanceStyle.allCases),

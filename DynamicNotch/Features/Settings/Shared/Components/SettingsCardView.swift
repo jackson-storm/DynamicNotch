@@ -9,17 +9,14 @@ import SwiftUI
 
 struct SettingsCard<Content: View>: View {
     let title: LocalizedStringKey
-    let subtitle: LocalizedStringKey?
     
     private let content: Content
     
     init(
         title: LocalizedStringKey,
-        subtitle: LocalizedStringKey? = nil,
         @ViewBuilder content: () -> Content
     ) {
         self.title = title
-        self.subtitle = subtitle
         self.content = content()
     }
     

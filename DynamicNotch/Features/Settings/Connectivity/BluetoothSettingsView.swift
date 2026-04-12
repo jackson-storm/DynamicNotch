@@ -38,10 +38,7 @@ struct BluetoothSettingsView: View {
     }
     
     private var bluetoothActivity: some View {
-        SettingsCard(
-            title: "Bluetooth activity",
-            subtitle: "Show a short notification when Bluetooth accessories connect."
-        ) {
+        SettingsCard(title: "Bluetooth activity") {
             SettingsToggleRow(
                 title: "Bluetooth temporary activity",
                 description: "Show a temporary activity when a Bluetooth accessory connects.",
@@ -54,10 +51,7 @@ struct BluetoothSettingsView: View {
     }
     
     private var bluetoothDuration: some View {
-        SettingsCard(
-            title: "Bluetooth duration",
-            subtitle: "Control how long the Bluetooth notification stays visible."
-        ) {
+        SettingsCard(title: "Bluetooth duration") {
             SettingsSliderRow(
                 title: "Bluetooth duration",
                 description: "Choose how long the Bluetooth connection notification stays visible.",
@@ -77,10 +71,7 @@ struct BluetoothSettingsView: View {
     }
     
     private var bluetoothAppearance: some View {
-        SettingsCard(
-            title: "Bluetooth appearance",
-            subtitle: "Choose how the Bluetooth connection notification looks in the notch."
-        ) {
+        SettingsCard(title: "Bluetooth appearance") {
             CustomPicker(
                 selection: $settings.bluetoothAppearanceStyle,
                 options: Array(BluetoothAppearanceStyle.allCases),

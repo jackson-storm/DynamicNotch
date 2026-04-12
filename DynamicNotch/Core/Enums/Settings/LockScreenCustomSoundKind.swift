@@ -5,6 +5,7 @@
 //  Created by Евгений Петрукович on 4/8/26.
 //
 
+import Foundation
 import SwiftUI
 
 enum LockScreenCustomSoundKind {
@@ -14,27 +15,27 @@ enum LockScreenCustomSoundKind {
     var title: String {
         switch self {
         case .lock:
-            return "Lock sound"
+            return String(localized: "Lock sound")
         case .unlock:
-            return "Unlock sound"
+            return String(localized: "Unlock sound")
         }
     }
 
     var description: String {
         switch self {
         case .lock:
-            return "Played when your Mac locks."
+            return String(localized: "Played when your Mac locks.")
         case .unlock:
-            return "Played when your Mac unlocks."
+            return String(localized: "Played when your Mac unlocks.")
         }
     }
 
     var builtInTitle: String {
         switch self {
         case .lock:
-            return "Built-in lock sound"
+            return String(localized: "Built-in lock sound")
         case .unlock:
-            return "Built-in unlock sound"
+            return String(localized: "Built-in unlock sound")
         }
     }
 
@@ -59,9 +60,9 @@ enum LockScreenCustomSoundKind {
     var panelTitle: String {
         switch self {
         case .lock:
-            return "Choose Lock Sound"
+            return String(localized: "Choose Lock Sound")
         case .unlock:
-            return "Choose Unlock Sound"
+            return String(localized: "Choose Unlock Sound")
         }
     }
 

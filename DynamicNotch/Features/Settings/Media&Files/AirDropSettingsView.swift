@@ -15,10 +15,7 @@ struct AirDropSettingsView: View {
     }
     
     private var airDropActivity: some View {
-        SettingsCard(
-            title: "AirDrop activity",
-            subtitle: "Show a dedicated drop target in the notch while sharing files with AirDrop."
-        ) {
+        SettingsCard(title: "AirDrop activity") {
             SettingsToggleRow(
                 title: "AirDrop live activity",
                 description: "Show the AirDrop drop target when you drag files over the notch.",

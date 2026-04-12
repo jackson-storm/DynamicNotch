@@ -16,10 +16,7 @@ struct NowPlayingSettingsView: View {
     }
     
     private var playbackActivity: some View {
-        SettingsCard(
-            title: "Playback activity",
-            subtitle: "Keep playback controls in the notch while media is playing."
-        ) {
+        SettingsCard(title: "Playback activity") {
             SettingsToggleRow(
                 title: "Now Playing live activity",
                 description: "Show the Now Playing live activity while audio or video playback is active.",

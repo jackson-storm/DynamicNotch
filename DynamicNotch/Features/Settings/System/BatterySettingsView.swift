@@ -27,10 +27,7 @@ struct BatterySettingsView: View {
     }
 
     private var batteryActivity: some View {
-        SettingsCard(
-            title: "Battery activity",
-            subtitle: "Control charging, low battery, and full battery notifications."
-        ) {
+        SettingsCard(title: "Battery activity") {
             SettingsToggleRow(
                 title: "Charging",
                 description: "Show a temporary activity when your Mac starts charging.",
@@ -71,10 +68,7 @@ struct BatterySettingsView: View {
     }
 
     private var batteryDuration: some View {
-        SettingsCard(
-            title: "Battery duration",
-            subtitle: "Control how long each battery notification stays visible."
-        ) {
+        SettingsCard(title: "Battery duration") {
             SettingsSliderRow(
                 title: "Charging duration",
                 description: "Choose how long the charging notification stays visible.",
@@ -130,10 +124,7 @@ struct BatterySettingsView: View {
     }
 
     private var lowBattery: some View {
-        SettingsCard(
-            title: "Low battery",
-            subtitle: "Choose when the alert appears and how the low battery notification looks."
-        ) {
+        SettingsCard(title: "Low battery") {
             CustomPicker(
                 selection: $batterySettings.lowPowerStyle,
                 options: Array(BatteryNotificationStyle.allCases),
@@ -181,10 +172,7 @@ struct BatterySettingsView: View {
     }
 
     private var fullBattery: some View {
-        SettingsCard(
-            title: "Full battery",
-            subtitle: "Choose when the alert appears and how the full battery notification looks."
-        ) {
+        SettingsCard(title: "Full battery") {
             CustomPicker(
                 selection: $batterySettings.fullPowerStyle,
                 options: Array(BatteryNotificationStyle.allCases),
@@ -278,7 +266,6 @@ struct BatterySettingsView: View {
     }
 
     private func batteryCompactPickerContent(for kind: BatteryNotificationPreviewKind, isSelected: Bool) -> some View {
-        let title = kind == .low ? "Low Battery" : "Full Battery"
         let batteryLevel = kind == .low ? 20 : 100
         let tint: Color = kind == .low ? .red : .green
 
@@ -291,9 +278,15 @@ struct BatterySettingsView: View {
                 }
 
             HStack {
-                Text(verbatim: title)
-                    .foregroundStyle(.white.opacity(0.8))
-                    .lineLimit(1)
+                if kind == .low {
+                    Text(verbatim: "Low Battery")
+                        .foregroundStyle(.white.opacity(0.8))
+                        .lineLimit(1)
+                } else {
+                    Text(verbatim: "Full Battery")
+                        .foregroundStyle(.white.opacity(0.8))
+                        .lineLimit(1)
+                }
 
                 Spacer(minLength: 8)
 
@@ -317,10 +310,17 @@ struct BatterySettingsView: View {
     @ViewBuilder
     private func batteryStandardTitle(for kind: BatteryNotificationPreviewKind) -> some View {
         HStack(spacing: 5) {
-            Text(verbatim: kind == .low ? "Battery Low" : "Full Battery")
-                .font(.system(size: 10.5, weight: .semibold))
-                .foregroundStyle(.white.opacity(0.82))
-                .lineLimit(1)
+            if kind == .low {
+                Text(verbatim: "Battery Low")
+                    .font(.system(size: 10.5, weight: .semibold))
+                    .foregroundStyle(.white.opacity(0.82))
+                    .lineLimit(1)
+            } else {
+                Text(verbatim: "Full Battery")
+                    .font(.system(size: 10.5, weight: .semibold))
+                    .foregroundStyle(.white.opacity(0.82))
+                    .lineLimit(1)
+            }
 
             Text(kind == .low ? "20%" : "100%")
                 .font(.system(size: kind == .low ? 10 : 10.5, weight: .semibold))

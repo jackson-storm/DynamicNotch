@@ -22,10 +22,7 @@ struct LockScreenSettingsView: View {
     }
     
     private var lockScreenActivity: some View {
-        SettingsCard(
-            title: "Lock screen activity",
-            subtitle: "Control the lock-screen live activity, sound, and detached media panel."
-        ) {
+        SettingsCard(title: "Lock screen activity") {
             SettingsToggleRow(
                 title: "Lock screen live activity",
                 description: "Show the lock-screen live activity during lock and unlock transitions.",
@@ -52,10 +49,7 @@ struct LockScreenSettingsView: View {
     }
     
     private var notchAppearance: some View {
-        SettingsCard(
-            title: "Notch appearance",
-            subtitle: "Choose how the lock-screen activity is laid out inside the notch."
-        ) {
+        SettingsCard(title: "Notch appearance") {
             CustomPicker(
                 selection: $settings.lockScreenStyle,
                 options: Array(LockScreenStyle.allCases),
@@ -94,10 +88,7 @@ struct LockScreenSettingsView: View {
     }
     
     private var widgetAppearance: some View {
-        SettingsCard(
-            title: "Widget appearance",
-            subtitle: "Choose the background style used by the lock-screen media widget."
-        ) {
+        SettingsCard(title: "Widget appearance") {
             CustomPicker(
                 selection: $settings.widgetAppearanceStyle,
                 options: LockScreenWidgetAppearanceStyle.availableOptions,
@@ -160,7 +151,7 @@ struct LockScreenSettingsView: View {
                 Spacer()
                 
                 if style == .enlarged {
-                    Text("Locked")
+                    Text(verbatim: "Locked")
                 }
             }
             .foregroundStyle(.white.opacity(0.8))
@@ -243,7 +234,11 @@ struct LockScreenSettingsView: View {
         }
 
         guard isCustomSoundAvailable(for: kind) else {
-            return "\(customSoundURL.lastPathComponent) is unavailable. Falling back to \(kind.builtInTitle.lowercased())."
+            return String(
+                format: String(localized: "%@ is unavailable. Falling back to %@."),
+                customSoundURL.lastPathComponent,
+                kind.builtInTitle.lowercased()
+            )
         }
 
         return customSoundURL.lastPathComponent
@@ -317,7 +312,7 @@ struct LockScreenSettingsView: View {
     private func selectCustomSound(for kind: LockScreenCustomSoundKind) {
         let panel = NSOpenPanel()
         panel.title = kind.panelTitle
-        panel.prompt = "Choose"
+        panel.prompt = String(localized: "Choose")
         panel.canChooseFiles = true
         panel.canChooseDirectories = false
         panel.allowsMultipleSelection = false
@@ -333,7 +328,7 @@ struct LockScreenSettingsView: View {
             setCustomSoundSelectionError(nil, for: kind)
         } catch {
             setCustomSoundSelectionError(
-                "The selected file could not be loaded. Choose an MP3, WAV, AIFF, or M4A audio file.",
+                String(localized: "The selected file could not be loaded. Choose an MP3, WAV, AIFF, or M4A audio file."),
                 for: kind
             )
         }

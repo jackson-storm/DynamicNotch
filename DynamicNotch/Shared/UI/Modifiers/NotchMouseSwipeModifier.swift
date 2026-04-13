@@ -15,12 +15,11 @@ struct NotchMouseSwipeModifier: ViewModifier {
                 onSwipeDown: {
                     notchViewModel.restoreDismissedContent()
                 },
-                onSwipeStretchProgressChanged: { progress in
-                    if progress > 0 {
-                        notchViewModel.updateSwipeStretch(progress: progress)
-                    } else {
-                        notchViewModel.resetSwipeStretch()
-                    }
+                onSwipeStretchChanged: { interaction, progress in
+                    notchViewModel.updateSwipeStretch(for: interaction, progress: progress)
+                },
+                onSwipeStretchReset: {
+                    notchViewModel.resetSwipeStretch()
                 }
             )
         )
@@ -32,7 +31,8 @@ private struct NotchMouseSwipeMonitorRepresentable: NSViewRepresentable {
     let canSwipeDown: Bool
     let onSwipeUp: () -> Void
     let onSwipeDown: () -> Void
-    let onSwipeStretchProgressChanged: (CGFloat) -> Void
+    let onSwipeStretchChanged: (NotchSwipeInteraction, CGFloat) -> Void
+    let onSwipeStretchReset: () -> Void
 
     func makeNSView(context: Context) -> NotchMouseSwipeMonitorView {
         let view = NotchMouseSwipeMonitorView()
@@ -41,7 +41,8 @@ private struct NotchMouseSwipeMonitorRepresentable: NSViewRepresentable {
             canSwipeDown: canSwipeDown,
             onSwipeUp: onSwipeUp,
             onSwipeDown: onSwipeDown,
-            onSwipeStretchProgressChanged: onSwipeStretchProgressChanged
+            onSwipeStretchChanged: onSwipeStretchChanged,
+            onSwipeStretchReset: onSwipeStretchReset
         )
         return view
     }
@@ -52,7 +53,8 @@ private struct NotchMouseSwipeMonitorRepresentable: NSViewRepresentable {
             canSwipeDown: canSwipeDown,
             onSwipeUp: onSwipeUp,
             onSwipeDown: onSwipeDown,
-            onSwipeStretchProgressChanged: onSwipeStretchProgressChanged
+            onSwipeStretchChanged: onSwipeStretchChanged,
+            onSwipeStretchReset: onSwipeStretchReset
         )
     }
 
@@ -75,7 +77,8 @@ private final class NotchMouseSwipeMonitorView: NSView {
     private var canSwipeDown = false
     private var onSwipeUp: (() -> Void)?
     private var onSwipeDown: (() -> Void)?
-    private var onSwipeStretchProgressChanged: ((CGFloat) -> Void)?
+    private var onSwipeStretchChanged: ((NotchSwipeInteraction, CGFloat) -> Void)?
+    private var onSwipeStretchReset: (() -> Void)?
 
     private var isTrackingDrag = false
     private var initialScreenLocation: NSPoint?
@@ -103,13 +106,15 @@ private final class NotchMouseSwipeMonitorView: NSView {
         canSwipeDown: Bool,
         onSwipeUp: @escaping () -> Void,
         onSwipeDown: @escaping () -> Void,
-        onSwipeStretchProgressChanged: @escaping (CGFloat) -> Void
+        onSwipeStretchChanged: @escaping (NotchSwipeInteraction, CGFloat) -> Void,
+        onSwipeStretchReset: @escaping () -> Void
     ) {
         self.canSwipeUp = canSwipeUp
         self.canSwipeDown = canSwipeDown
         self.onSwipeUp = onSwipeUp
         self.onSwipeDown = onSwipeDown
-        self.onSwipeStretchProgressChanged = onSwipeStretchProgressChanged
+        self.onSwipeStretchChanged = onSwipeStretchChanged
+        self.onSwipeStretchReset = onSwipeStretchReset
 
         if !canSwipeUp && !canSwipeDown {
             resetTracking()
@@ -241,23 +246,23 @@ private extension NotchMouseSwipeMonitorView {
         let horizontalDistance = abs(translation.width)
 
         guard verticalDistance > horizontalDistance * SwipeMetrics.directionDominanceMultiplier else {
-            onSwipeStretchProgressChanged?(0)
+            onSwipeStretchReset?()
             return
         }
 
         if translation.height > 0, canSwipeUp {
             let progress = min(verticalDistance / SwipeMetrics.verticalThreshold, 1)
-            onSwipeStretchProgressChanged?(progress)
+            onSwipeStretchChanged?(.dismiss, progress)
             return
         }
 
         if translation.height < 0, canSwipeDown {
             let progress = min(verticalDistance / SwipeMetrics.verticalThreshold, 1)
-            onSwipeStretchProgressChanged?(progress)
+            onSwipeStretchChanged?(.restore, progress)
             return
         }
 
-        onSwipeStretchProgressChanged?(0)
+        onSwipeStretchReset?()
     }
 
     func isDismissTranslation(_ translation: CGSize) -> Bool {
@@ -279,6 +284,6 @@ private extension NotchMouseSwipeMonitorView {
     func resetTracking() {
         isTrackingDrag = false
         initialScreenLocation = nil
-        onSwipeStretchProgressChanged?(0)
+        onSwipeStretchReset?()
     }
 }

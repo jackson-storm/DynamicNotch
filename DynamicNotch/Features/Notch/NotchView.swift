@@ -69,6 +69,10 @@ private extension NotchView {
             .overlay {
                 contentOverlay
             }
+            .shadow(
+                color: notchViewModel.notchModel.isPresentingExpandedLiveActivity ? .black.opacity(0.6) : .clear,
+                radius: 10
+            )
             .frame(
                 width: notchViewModel.interactiveNotchSize.width,
                 height: notchViewModel.interactiveNotchSize.height
@@ -114,6 +118,11 @@ private extension NotchView {
     var contentOverlay: some View {
         if let content = notchViewModel.notchModel.content {
             renderedContentView(for: content)
+                .resizeAwareBlur(
+                    size: notchViewModel.interactiveNotchSize,
+                    interactiveBlur: notchViewModel.contentResizeBlurRadius,
+                    interactiveOpacity: notchViewModel.contentResizeOpacity
+                )
                 .id(notchViewModel.notchModel.presentationID)
                 .transition(
                     notchViewModel.contentTransition(

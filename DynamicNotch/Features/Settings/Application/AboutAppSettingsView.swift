@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AboutAppSettingsView: View {
     @Environment(\.openURL) private var openURL
+    @Environment(\.colorScheme) private var colorScheme
     @ObservedObject var applicationSettings: ApplicationSettingsStore
 
     private let heroCardHeight: CGFloat = 300
@@ -25,14 +26,22 @@ struct AboutAppSettingsView: View {
     }
     
     var body: some View {
-        VStack(spacing: 0) {
-            heroCard
-            Divider().opacity(0.8)
+        ZStack {
+            AnimatedGradientBackground()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             
-            ScrollView(showsIndicators: false) {
-                highlightsCard
-                Spacer(minLength: 0)
+            VStack(spacing: 0) {
+                heroCard
+                
+                Divider().opacity(0.8)
+                
+                ScrollView(showsIndicators: false) {
+                    highlightsCard
+                    Spacer(minLength: 0)
+                }
+                .background(.ultraThickMaterial)
             }
+            .background(.ultraThinMaterial)
         }
         .edgesIgnoringSafeArea(.top)
         .accessibilityIdentifier("settings.about.root")
@@ -40,9 +49,6 @@ struct AboutAppSettingsView: View {
     
     private var heroCard: some View {
         ZStack {
-            AboutHeroBackground()
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-            
             VStack(spacing: 15) {
                 Image("logo")
                     .resizable()
@@ -110,7 +116,7 @@ struct AboutAppSettingsView: View {
                 }
                 .buttonStyle(.plain)
             }
-            .padding(.top, 50)
+            .padding(.top, 80)
         }
         .frame(maxWidth: .infinity)
         .frame(height: heroCardHeight, alignment: .top)
@@ -163,6 +169,48 @@ struct AboutAppSettingsView: View {
     private func open(_ value: String) {
         guard let url = URL(string: value) else { return }
         openURL(url)
+    }
+}
+
+private struct AnimatedGradientBackground: View {
+    @Environment(\.colorScheme) private var colorScheme
+    @State private var rotation: Double = 0
+    @State private var drift: CGFloat = -0.5
+
+    private var colors: [Color] {
+        if colorScheme == .dark {
+            return [
+                Color(hue: 0.72, saturation: 0.60, brightness: 0.50), // purple
+                Color(hue: 0.63, saturation: 0.60, brightness: 0.52), // indigo
+                Color(hue: 0.55, saturation: 0.65, brightness: 0.52), // blue
+                Color(hue: 0.48, saturation: 0.65, brightness: 0.52)  // teal
+            ]
+        } else {
+            return [
+                Color(hue: 0.55, saturation: 0.20, brightness: 1.00), // light blue
+                Color(hue: 0.42, saturation: 0.22, brightness: 1.00), // light green
+                Color(hue: 0.85, saturation: 0.25, brightness: 1.00), // light pink
+                Color(hue: 0.72, saturation: 0.22, brightness: 1.00)  // light purple
+            ]
+        }
+    }
+
+    var body: some View {
+        ZStack {
+            AngularGradient(gradient: Gradient(colors: colors), center: .center)
+                .rotationEffect(.degrees(rotation))
+                .animation(.linear(duration: 10).repeatForever(autoreverses: false), value: rotation)
+
+            LinearGradient(gradient: Gradient(colors: Array(colors.reversed())), startPoint: .topLeading, endPoint: .bottomTrailing)
+                .opacity(0.25)
+                .scaleEffect(1.2)
+                .offset(x: drift * 80, y: drift * -60)
+                .animation(.easeInOut(duration: 6).repeatForever(autoreverses: true), value: drift)
+        }
+        .onAppear {
+            rotation = 360
+            drift = 0.5
+        }
     }
 }
 

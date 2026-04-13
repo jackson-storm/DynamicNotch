@@ -4,6 +4,51 @@ import SwiftUI
 
 @MainActor
 final class SettingsRootViewModel {
+    struct SelectionHistory {
+        private(set) var entries: [Section]
+        private(set) var currentIndex: Int
+
+        init(initialSelection: Section) {
+            self.entries = [initialSelection]
+            self.currentIndex = 0
+        }
+
+        var currentSelection: Section {
+            entries[currentIndex]
+        }
+
+        var canGoBack: Bool {
+            currentIndex > 0
+        }
+
+        var canGoForward: Bool {
+            currentIndex < entries.index(before: entries.endIndex)
+        }
+
+        mutating func record(_ selection: Section) {
+            guard currentSelection != selection else { return }
+
+            if canGoForward {
+                entries.removeSubrange((currentIndex + 1)..<entries.endIndex)
+            }
+
+            entries.append(selection)
+            currentIndex = entries.index(before: entries.endIndex)
+        }
+
+        mutating func goBack() -> Section? {
+            guard canGoBack else { return nil }
+            currentIndex -= 1
+            return currentSelection
+        }
+
+        mutating func goForward() -> Section? {
+            guard canGoForward else { return nil }
+            currentIndex += 1
+            return currentSelection
+        }
+    }
+
     enum SidebarGroup: String, CaseIterable, Identifiable {
         case app
         case media
@@ -362,7 +407,7 @@ final class SettingsRootViewModel {
             case .general:
                 return "gear"
             case .permissions:
-                return "checkmark.shield"
+                return "checkmark.seal.fill"
             case .notch:
                 return "rectangle.topthird.inset.filled"
             case .nowPlaying:
@@ -408,7 +453,7 @@ final class SettingsRootViewModel {
             case .general:
                 return .blue
             case .permissions:
-                return .green
+                return .green.opacity(0.8)
             case .notch:
                 return .black
             case .nowPlaying:
@@ -424,7 +469,7 @@ final class SettingsRootViewModel {
             case .network:
                 return .blue
             case .battery:
-                return .green
+                return .green.opacity(0.8)
             case .hud:
                 return .orange
             case .lockScreen:

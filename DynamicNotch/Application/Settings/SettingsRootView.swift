@@ -6,8 +6,14 @@ enum SettingsWindowLayout {
 }
 
 struct SettingsRootView: View {
+    private enum SelectionChangeOrigin {
+        case sidebar
+        case history
+        case search
+        case initial
+    }
+
     @Environment(\.openURL) private var openURL
-    
     @ObservedObject var powerService: PowerService
     @ObservedObject var settingsViewModel: SettingsViewModel
     
@@ -23,6 +29,8 @@ struct SettingsRootView: View {
     private let viewModel: SettingsRootViewModel
     @State private var searchText = ""
     @State private var selectedSection: SettingsRootViewModel.Section
+    @State private var selectionHistory: SettingsRootViewModel.SelectionHistory
+    @State private var isShowingSearchSelection = false
     @State private var pendingResetSection: SettingsRootViewModel.Section?
     @StateObject private var permissionController = SettingsPermissionController()
     
@@ -58,7 +66,9 @@ struct SettingsRootView: View {
             lockScreenManager: lockScreenManager
         )
         self.viewModel = rootViewModel
-        _selectedSection = State(initialValue: rootViewModel.initialSelection())
+        let initialSelection = rootViewModel.initialSelection()
+        _selectedSection = State(initialValue: initialSelection)
+        _selectionHistory = State(initialValue: .init(initialSelection: initialSelection))
     }
     
     private func localized(_ key: String, fallback: String? = nil) -> String {
@@ -67,7 +77,7 @@ struct SettingsRootView: View {
     
     var body: some View {
         NavigationSplitView {
-            List(selection: $selectedSection) {
+            List(selection: selectionBinding) {
                 ForEach(groupedSections, id: \.group.id) { group in
                     Section {
                         ForEach(group.sections) { section in
@@ -121,20 +131,11 @@ struct SettingsRootView: View {
             ? ""
             : localized(resolvedSelection.subtitleKey, fallback: resolvedSelection.fallbackSubtitle)
         )
-        .onChange(of: searchText) { _, _ in
-            guard !filteredSections.isEmpty else { return }
-            if !filteredSections.contains(selectedSection) {
-                let newSelection = filteredSections[0]
-                if selectedSection != newSelection {
-                    selectedSection = newSelection
-                }
-            }
-        }
-        .onChange(of: selectedSection) { oldValue, newValue in
-            viewModel.persistSelection(newValue)
+        .onChange(of: searchText) { _, newValue in
+            syncSelectionWithSearch(query: newValue)
         }
         .onAppear {
-            selectedSection = viewModel.initialSelection()
+            applySelection(viewModel.initialSelection(), origin: .initial)
         }
         .alert(item: $pendingResetSection) { section in
             Alert(
@@ -155,9 +156,16 @@ struct SettingsRootView: View {
         .environment(\.locale, settingsViewModel.application.appLanguage.locale)
         .preferredColorScheme(settingsViewModel.application.appearanceMode.preferredColorScheme)
     }
+
+    private var selectionBinding: Binding<SettingsRootViewModel.Section> {
+        Binding(
+            get: { selectedSection },
+            set: { applySelection($0, origin: .sidebar) }
+        )
+    }
     
     private var filteredSections: [SettingsRootViewModel.Section] {
-        let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+        let query = trimmedSearchText
         guard !query.isEmpty else {
             return viewModel.sections
         }
@@ -167,6 +175,10 @@ struct SettingsRootView: View {
                 value.localizedCaseInsensitiveContains(query)
             }
         }
+    }
+
+    private var trimmedSearchText: String {
+        searchText.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
     private func searchableStrings(for section: SettingsRootViewModel.Section) -> [String] {
@@ -185,13 +197,90 @@ struct SettingsRootView: View {
             return (group, sections)
         }
     }
-    
+
     private var resolvedSelection: SettingsRootViewModel.Section {
         if filteredSections.contains(selectedSection) {
             return selectedSection
         }
-        
+
         return filteredSections.first ?? .general
+    }
+    
+    private var canNavigateBack: Bool {
+        selectionHistory.canGoBack
+    }
+
+    private var canNavigateForward: Bool {
+        selectionHistory.canGoForward
+    }
+
+    private func applySelection(
+        _ section: SettingsRootViewModel.Section,
+        origin: SelectionChangeOrigin
+    ) {
+        switch origin {
+        case .sidebar:
+            guard selectedSection != section ||
+                    isShowingSearchSelection ||
+                    selectionHistory.currentSelection != section else {
+                return
+            }
+
+            selectionHistory.record(section)
+            selectedSection = section
+            isShowingSearchSelection = false
+            viewModel.persistSelection(section)
+
+        case .history:
+            guard selectedSection != section || isShowingSearchSelection else { return }
+            selectedSection = section
+            isShowingSearchSelection = false
+            viewModel.persistSelection(section)
+
+        case .search:
+            guard selectedSection != section || !isShowingSearchSelection else { return }
+            selectedSection = section
+            isShowingSearchSelection = true
+
+        case .initial:
+            selectionHistory = .init(initialSelection: section)
+            selectedSection = section
+            isShowingSearchSelection = false
+        }
+    }
+
+    private func syncSelectionWithSearch(query: String) {
+        let trimmedQuery = query.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        if trimmedQuery.isEmpty {
+            guard isShowingSearchSelection else { return }
+            applySelection(selectionHistory.currentSelection, origin: .history)
+            return
+        }
+
+        guard !filteredSections.isEmpty else { return }
+
+        if !filteredSections.contains(selectedSection) {
+            applySelection(filteredSections[0], origin: .search)
+        }
+    }
+
+    private func navigateBack() {
+        guard let previousSection = selectionHistory.goBack() else { return }
+        revealSectionIfNeeded(previousSection)
+        applySelection(previousSection, origin: .history)
+    }
+
+    private func navigateForward() {
+        guard let nextSection = selectionHistory.goForward() else { return }
+        revealSectionIfNeeded(nextSection)
+        applySelection(nextSection, origin: .history)
+    }
+
+    private func revealSectionIfNeeded(_ section: SettingsRootViewModel.Section) {
+        guard !trimmedSearchText.isEmpty else { return }
+        guard !filteredSections.contains(section) else { return }
+        searchText = ""
     }
     
     @ViewBuilder
@@ -313,6 +402,30 @@ struct SettingsRootView: View {
     
     @ToolbarContentBuilder
     private func toolbarContent(for section: SettingsRootViewModel.Section) -> some ToolbarContent {
+        ToolbarItemGroup(placement: .navigation) {
+            Button {
+                navigateBack()
+            } label: {
+                Image(systemName: "chevron.backward")
+            }
+            .disabled(!canNavigateBack)
+            .help(localized("settings.navigation.back", fallback: "Back"))
+            .keyboardShortcut("[", modifiers: [.command])
+            .accessibilityLabel(Text(localized("settings.navigation.back", fallback: "Back")))
+            .accessibilityIdentifier("settings.toolbar.back")
+
+            Button {
+                navigateForward()
+            } label: {
+                Image(systemName: "chevron.forward")
+            }
+            .disabled(!canNavigateForward)
+            .help(localized("settings.navigation.forward", fallback: "Forward"))
+            .keyboardShortcut("]", modifiers: [.command])
+            .accessibilityLabel(Text(localized("settings.navigation.forward", fallback: "Forward")))
+            .accessibilityIdentifier("settings.toolbar.forward")
+        }
+
         if section == .about {
             ToolbarItem(placement: .primaryAction) {
                 Button {

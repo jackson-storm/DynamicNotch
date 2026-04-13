@@ -12,6 +12,7 @@ enum Kind: String {
     case accessibility
     case bluetooth
     case mediaControls
+    case screenRecording
 }
 
 struct PermissionItem: Identifiable {
@@ -36,9 +37,11 @@ final class SettingsPermissionController: NSObject, ObservableObject, CBCentralM
     @Published private(set) var isAccessibilityTrusted: Bool
     @Published private(set) var bluetoothAuthorization: CBManagerAuthorization
     @Published private(set) var canPostMediaKeyEvents: Bool
+    @Published private(set) var canCaptureScreenAudio: Bool
 
     private var didPromptForAccessibility = false
     private var didPromptForPostEventAccess = false
+    private var didPromptForScreenCaptureAccess = false
     private var bluetoothPermissionRequester: CBCentralManager?
     private var cancellables = Set<AnyCancellable>()
 
@@ -48,11 +51,15 @@ final class SettingsPermissionController: NSObject, ObservableObject, CBCentralM
     private static let bluetoothPrivacySettingsURL = URL(
         string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Bluetooth"
     )
+    private static let screenCapturePrivacySettingsURL = URL(
+        string: "x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture"
+    )
 
     init(notificationCenter: NotificationCenter = .default) {
         self.bluetoothAuthorization = Self.currentBluetoothAuthorizationStatus()
         self.isAccessibilityTrusted = Self.currentAccessibilityTrustState()
         self.canPostMediaKeyEvents = Self.currentPostEventAccessState()
+        self.canCaptureScreenAudio = Self.currentScreenCaptureAccessState()
 
         super.init()
 
@@ -68,6 +75,7 @@ final class SettingsPermissionController: NSObject, ObservableObject, CBCentralM
         bluetoothAuthorization = Self.currentBluetoothAuthorizationStatus()
         isAccessibilityTrusted = Self.currentAccessibilityTrustState()
         canPostMediaKeyEvents = Self.currentPostEventAccessState()
+        canCaptureScreenAudio = Self.currentScreenCaptureAccessState()
     }
 
     var permissionItems: [PermissionItem] {
@@ -114,7 +122,7 @@ final class SettingsPermissionController: NSObject, ObservableObject, CBCentralM
                 fallbackDescription: "Allow media control event access so play, pause, and track buttons work from Now Playing.",
                 assetImageName: nil,
                 systemImage: "music.note",
-                tintColor: .red,
+                tintColor: .pink,
                 isGranted: canPostMediaKeyEvents,
                 actionTitleKey: canPostMediaKeyEvents ? nil : (
                     didPromptForPostEventAccess ?
@@ -125,6 +133,26 @@ final class SettingsPermissionController: NSObject, ObservableObject, CBCentralM
                     didPromptForPostEventAccess ? "Open Privacy Settings" : "Grant Access"
                 ),
                 accessibilityIdentifier: "settings.permissions.mediaControls"
+            ),
+            PermissionItem(
+                kind: .screenRecording,
+                titleKey: "settings.permissions.screenRecording.title",
+                fallbackTitle: "Screen Recording",
+                descriptionKey: "settings.permissions.screenRecording.description",
+                fallbackDescription: "Allow Screen Recording access so the audio-reactive Now Playing equalizer can listen to system audio.",
+                assetImageName: nil,
+                systemImage: "record.circle",
+                tintColor: .red,
+                isGranted: canCaptureScreenAudio,
+                actionTitleKey: canCaptureScreenAudio ? nil : (
+                    didPromptForScreenCaptureAccess ?
+                    "settings.permissions.action.openPrivacySettings" :
+                    "settings.permissions.action.grantAccess"
+                ),
+                fallbackActionTitle: canCaptureScreenAudio ? nil : (
+                    didPromptForScreenCaptureAccess ? "Open Privacy Settings" : "Grant Access"
+                ),
+                accessibilityIdentifier: "settings.permissions.screenRecording"
             )
         ]
     }
@@ -137,6 +165,8 @@ final class SettingsPermissionController: NSObject, ObservableObject, CBCentralM
             requestBluetoothAccess()
         case .mediaControls:
             requestPostEventAccess()
+        case .screenRecording:
+            requestScreenCaptureAccess()
         }
     }
 
@@ -179,6 +209,25 @@ final class SettingsPermissionController: NSObject, ObservableObject, CBCentralM
             #endif
         } else {
             Self.openPrivacySettings()
+        }
+
+        refresh()
+    }
+
+    private func requestScreenCaptureAccess() {
+        guard !Self.currentScreenCaptureAccessState() else {
+            refresh()
+            return
+        }
+
+        if !didPromptForScreenCaptureAccess {
+            didPromptForScreenCaptureAccess = true
+
+            #if canImport(ApplicationServices)
+            _ = CGRequestScreenCaptureAccess()
+            #endif
+        } else {
+            Self.openScreenCapturePrivacySettings()
         }
 
         refresh()
@@ -239,6 +288,11 @@ final class SettingsPermissionController: NSObject, ObservableObject, CBCentralM
         NSWorkspace.shared.open(bluetoothPrivacySettingsURL)
     }
 
+    private static func openScreenCapturePrivacySettings() {
+        guard let screenCapturePrivacySettingsURL else { return }
+        NSWorkspace.shared.open(screenCapturePrivacySettingsURL)
+    }
+
     private static func currentAccessibilityTrustState() -> Bool {
         #if canImport(ApplicationServices)
         AXIsProcessTrusted()
@@ -250,6 +304,14 @@ final class SettingsPermissionController: NSObject, ObservableObject, CBCentralM
     private static func currentPostEventAccessState() -> Bool {
         #if canImport(ApplicationServices)
         CGPreflightPostEventAccess()
+        #else
+        true
+        #endif
+    }
+
+    private static func currentScreenCaptureAccessState() -> Bool {
+        #if canImport(ApplicationServices)
+        CGPreflightScreenCaptureAccess()
         #else
         true
         #endif

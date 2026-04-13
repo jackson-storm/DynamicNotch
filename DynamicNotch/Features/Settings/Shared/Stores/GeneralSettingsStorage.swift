@@ -31,6 +31,7 @@ enum GeneralSettingsStorage {
         static let nowPlayingOutputDeviceButtonVisible = "settings.nowPlaying.outputDeviceButtonVisible"
         static let nowPlayingArtworkTintEnabled = "settings.nowPlaying.artworkTintEnabled"
         static let nowPlayingArtworkStrokeEnabled = "settings.nowPlaying.artworkStrokeEnabled"
+        static let nowPlayingEqualizerMode = "settings.nowPlaying.equalizerMode"
         static let downloadsLiveActivityEnabled = "settings.live.downloads"
         static let downloadsDefaultStrokeEnabled = "settings.live.downloads.defaultStroke"
         static let downloadsAppearanceStyle = "settings.live.downloads.appearanceStyle"
@@ -103,6 +104,7 @@ enum GeneralSettingsStorage {
         Keys.nowPlayingOutputDeviceButtonVisible: true,
         Keys.nowPlayingArtworkTintEnabled: false,
         Keys.nowPlayingArtworkStrokeEnabled: false,
+        Keys.nowPlayingEqualizerMode: NowPlayingEqualizerMode.classic.rawValue,
         Keys.downloadsLiveActivityEnabled: true,
         Keys.downloadsDefaultStrokeEnabled: false,
         Keys.downloadsAppearanceStyle: DownloadAppearanceStyle.minimal.rawValue,

@@ -55,7 +55,7 @@ struct GeneralSettingsView: View {
     }
     
     private var themeCard: some View {
-        SettingsCard {
+        SettingsCard(title: "Appearance") {
             CustomPicker(
                 selection: $applicationSettings.appearanceMode,
                 options: Array(SettingsAppearanceMode.allCases),
@@ -73,7 +73,7 @@ struct GeneralSettingsView: View {
     }
 
     private var displayCard: some View {
-        SettingsCard {
+        SettingsCard(title: "Location") {
             CustomPicker(
                 selection: $applicationSettings.displayLocation,
                 options: Array(NotchDisplayLocation.allCases),
@@ -87,7 +87,7 @@ struct GeneralSettingsView: View {
     }
 
     private var languageCard: some View {
-        SettingsCard {
+        SettingsCard(title: "Localization") {
             VStack(alignment: .leading, spacing: 12) {
                 AdaptiveCustomPicker(
                     selection: $applicationSettings.appLanguage,
@@ -198,7 +198,7 @@ private struct ThemeMiniWindow: View {
         var surface: Color {
             switch self {
             case .light:
-                return Color.white.opacity(0.9)
+                return Color.gray.opacity(0.2)
             case .dark:
                 return Color(red: 0.145, green: 0.161, blue: 0.196)
             }

@@ -789,6 +789,90 @@
         }
       }
     },
+    "Audio-reactive" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Audio-reactive"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reactivo al audio"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Аудиореактивный"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "音频响应"
+          }
+        }
+      }
+    },
+    "Audio-reactive mode may require Screen Recording permission." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Audio-reactive mode may require Screen Recording permission."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El modo reactivo al audio puede requerir el permiso de Grabación de Pantalla."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Аудиореактивному режиму может потребоваться разрешение на запись экрана."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "音频响应模式可能需要屏幕录制权限。"
+          }
+        }
+      }
+    },
+    "Audio-reactive mode may use more system resources." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Audio-reactive mode may use more system resources."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El modo reactivo al audio puede usar más recursos del sistema."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Аудиореактивный режим может использовать больше системных ресурсов."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "音频响应模式可能会占用更多系统资源。"
+          }
+        }
+      }
+    },
     "Background" : {
       "localizations" : {
         "en" : {
@@ -2371,6 +2455,63 @@
         }
       }
     },
+    "Choose the standard equalizer or an audio-reactive mode that follows the current system playback." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose the standard equalizer or an audio-reactive mode that follows the current system playback."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige el ecualizador estándar o un modo reactivo al audio que siga la reproducción actual del sistema."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите стандартный эквалайзер или аудиореактивный режим, который следует за текущим системным воспроизведением."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择标准均衡器，或跟随当前系统播放的音频响应模式。"
+          }
+        }
+      }
+    },
+    "Choose the standard equalizer or an audio-reactive mode that follows the current system playback. Audio-reactive may require Screen Recording permission." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose the standard equalizer or an audio-reactive mode that follows the current system playback. Audio-reactive may require Screen Recording permission."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige el ecualizador estándar o un modo reactivo al audio que siga la reproducción actual del sistema. El modo reactivo al audio puede requerir el permiso de Grabación de Pantalla."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите стандартный эквалайзер или аудиореактивный режим, который следует за текущим системным воспроизведением. Для аудиореактивного режима может потребоваться разрешение на запись экрана."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择标准均衡器，或跟随当前系统播放的音频响应模式。音频响应模式可能需要屏幕录制权限。"
+          }
+        }
+      }
+    },
     "Choose Unlock Sound" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -2684,7 +2825,32 @@
       }
     },
     "Choose which display Dynamic Notch should use." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose which display Dynamic Notch should use."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige qué pantalla debe usar Dynamic Notch."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите, какой дисплей должен использовать Dynamic Notch."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择 Dynamic Notch 应使用哪个显示器。"
+          }
+        }
+      }
     },
     "Choose which display should host the notch overlay." : {
       "extractionState" : "stale",
@@ -2768,6 +2934,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "圆圈"
+          }
+        }
+      }
+    },
+    "Classic" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Classic"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clásico"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Классический"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "经典"
           }
         }
       }
@@ -3736,6 +3930,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "放大"
+          }
+        }
+      }
+    },
+    "Equalizer mode" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Equalizer mode"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modo del ecualizador"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Режим эквалайзера"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "均衡器模式"
           }
         }
       }
@@ -5065,6 +5287,34 @@
         }
       }
     },
+    "Localization" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Localization"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Localización"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Локализация"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本地化"
+          }
+        }
+      }
+    },
     "Localization only works for settings, the notch remains in English." : {
       "localizations" : {
         "en" : {
@@ -5089,6 +5339,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "本地化仅适用于设置，notch 本身仍保持英文。"
+          }
+        }
+      }
+    },
+    "Location" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Location"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ubicación"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Расположение"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "位置"
           }
         }
       }

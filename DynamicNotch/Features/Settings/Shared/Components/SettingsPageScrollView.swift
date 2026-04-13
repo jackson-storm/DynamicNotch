@@ -19,8 +19,8 @@ struct SettingsPageScrollView<Content: View>: View {
             VStack(alignment: .leading, spacing: 20) {
                 content
             }
-            .padding(.vertical, 20)
-            .padding(.horizontal, 10)
+            .padding(.vertical, 15)
+            .padding(.horizontal, 5)
         }
     }
 }

@@ -426,11 +426,12 @@ final class NotchViewModelIntegrationTests: XCTestCase {
             hideDelay: 0.01,
             queueDelay: 0
         )
+        let settingsViewModel = SettingsViewModel()
         let downloadViewModel = DownloadViewModel(monitor: FakeFileDownloadMonitor())
         TestLifetime.retain(viewModel)
         TestLifetime.retain(downloadViewModel)
 
-        viewModel.send(.showLiveActivity(DownloadNotchContent(downloadViewModel: downloadViewModel)))
+        viewModel.send(.showLiveActivity(DownloadNotchContent(downloadViewModel: downloadViewModel, settingsViewModel: settingsViewModel)))
 
         await assertEventually {
             await MainActor.run { viewModel.notchModel.liveActivityContent?.id == "download.active" }
@@ -643,5 +644,84 @@ final class NotchViewModelIntegrationTests: XCTestCase {
         let mainScale = max(0.35, CGFloat(1728) / 1440.0)
         XCTAssertEqual(viewModel.notchModel.baseWidth, 190 * mainScale, accuracy: 0.001)
         XCTAssertEqual(viewModel.notchModel.baseHeight, 25 * mainScale, accuracy: 0.001)
+    }
+
+    @MainActor
+    func testDismissSwipeCompressesCollapsedNotchAlongWidth() async {
+        let viewModel = NotchViewModel(
+            settings: TestNotchSettings(),
+            hideDelay: 0.01,
+            queueDelay: 0
+        )
+        TestLifetime.retain(viewModel)
+
+        viewModel.send(
+            .showLiveActivity(
+                TestNotchContent(
+                    id: "collapsed",
+                    priority: 10,
+                    collapsedWidthOffset: 28,
+                    collapsedHeightOffset: 8
+                )
+            )
+        )
+
+        await assertEventually {
+            await MainActor.run { viewModel.notchModel.liveActivityContent?.id == "collapsed" }
+        }
+
+        let collapsedSize = await MainActor.run { viewModel.notchModel.size }
+
+        viewModel.updateSwipeStretch(for: .dismiss, progress: 1)
+
+        let interactiveSize = await MainActor.run { viewModel.interactiveNotchSize }
+        let blurRadius = await MainActor.run { viewModel.contentResizeBlurRadius }
+        let opacity = await MainActor.run { viewModel.contentResizeOpacity }
+
+        XCTAssertLessThan(interactiveSize.width, collapsedSize.width)
+        XCTAssertEqual(interactiveSize.height, collapsedSize.height, accuracy: 0.001)
+        XCTAssertGreaterThan(blurRadius, 0)
+        XCTAssertLessThan(opacity, 1)
+    }
+
+    @MainActor
+    func testDismissSwipeCompressesExpandedNotchAlongHeight() async {
+        let viewModel = NotchViewModel(
+            settings: TestNotchSettings(),
+            hideDelay: 0.01,
+            queueDelay: 0
+        )
+        TestLifetime.retain(viewModel)
+
+        viewModel.send(
+            .showLiveActivity(
+                TestNotchContent(
+                    id: "expanded",
+                    priority: 10,
+                    isExpandable: true,
+                    expandedWidthOffset: 140,
+                    expandedHeightOffset: 80
+                )
+            )
+        )
+
+        await assertEventually {
+            await MainActor.run { viewModel.notchModel.liveActivityContent?.id == "expanded" }
+        }
+
+        viewModel.handleActiveContentTap()
+
+        let expandedSize = await MainActor.run { viewModel.notchModel.size }
+
+        viewModel.updateSwipeStretch(for: .dismiss, progress: 1)
+
+        let interactiveSize = await MainActor.run { viewModel.interactiveNotchSize }
+        let blurRadius = await MainActor.run { viewModel.contentResizeBlurRadius }
+        let opacity = await MainActor.run { viewModel.contentResizeOpacity }
+
+        XCTAssertEqual(interactiveSize.width, expandedSize.width, accuracy: 0.001)
+        XCTAssertLessThan(interactiveSize.height, expandedSize.height)
+        XCTAssertGreaterThan(blurRadius, 0)
+        XCTAssertLessThan(opacity, 1)
     }
 }

@@ -1,5 +1,6 @@
 import XCTest
 import AppKit
+import CoreAudio
 @testable import DynamicNotch
 
 @MainActor
@@ -274,3 +275,4 @@ private func makeFavoriteStore(named name: String) -> UserDefaults {
     defaults.removePersistentDomain(forName: suiteName)
     return defaults
 }
+

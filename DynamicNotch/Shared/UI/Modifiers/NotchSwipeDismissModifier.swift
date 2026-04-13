@@ -15,12 +15,11 @@ struct NotchSwipeDismissModifier: ViewModifier {
                 onSwipeDown: {
                     notchViewModel.restoreDismissedContent()
                 },
-                onSwipeStretchProgressChanged: { progress in
-                    if progress > 0 {
-                        notchViewModel.updateSwipeStretch(progress: progress)
-                    } else {
-                        notchViewModel.resetSwipeStretch()
-                    }
+                onSwipeStretchChanged: { interaction, progress in
+                    notchViewModel.updateSwipeStretch(for: interaction, progress: progress)
+                },
+                onSwipeStretchReset: {
+                    notchViewModel.resetSwipeStretch()
                 }
             )
         )
@@ -32,7 +31,8 @@ private struct NotchSwipeDismissMonitorRepresentable: NSViewRepresentable {
     let canSwipeDown: Bool
     let onSwipeUp: () -> Void
     let onSwipeDown: () -> Void
-    let onSwipeStretchProgressChanged: (CGFloat) -> Void
+    let onSwipeStretchChanged: (NotchSwipeInteraction, CGFloat) -> Void
+    let onSwipeStretchReset: () -> Void
 
     func makeNSView(context: Context) -> NotchSwipeDismissMonitorView {
         let view = NotchSwipeDismissMonitorView()
@@ -41,7 +41,8 @@ private struct NotchSwipeDismissMonitorRepresentable: NSViewRepresentable {
             canSwipeDown: canSwipeDown,
             onSwipeUp: onSwipeUp,
             onSwipeDown: onSwipeDown,
-            onSwipeStretchProgressChanged: onSwipeStretchProgressChanged
+            onSwipeStretchChanged: onSwipeStretchChanged,
+            onSwipeStretchReset: onSwipeStretchReset
         )
         return view
     }
@@ -52,7 +53,8 @@ private struct NotchSwipeDismissMonitorRepresentable: NSViewRepresentable {
             canSwipeDown: canSwipeDown,
             onSwipeUp: onSwipeUp,
             onSwipeDown: onSwipeDown,
-            onSwipeStretchProgressChanged: onSwipeStretchProgressChanged
+            onSwipeStretchChanged: onSwipeStretchChanged,
+            onSwipeStretchReset: onSwipeStretchReset
         )
     }
 
@@ -74,7 +76,8 @@ private final class NotchSwipeDismissMonitorView: NSView {
     private var canSwipeDown = false
     private var onSwipeUp: (() -> Void)?
     private var onSwipeDown: (() -> Void)?
-    private var onSwipeStretchProgressChanged: ((CGFloat) -> Void)?
+    private var onSwipeStretchChanged: ((NotchSwipeInteraction, CGFloat) -> Void)?
+    private var onSwipeStretchReset: (() -> Void)?
 
     private var isTrackingSwipe = false
     private var isGestureActionLocked = false
@@ -106,13 +109,15 @@ private final class NotchSwipeDismissMonitorView: NSView {
         canSwipeDown: Bool,
         onSwipeUp: @escaping () -> Void,
         onSwipeDown: @escaping () -> Void,
-        onSwipeStretchProgressChanged: @escaping (CGFloat) -> Void
+        onSwipeStretchChanged: @escaping (NotchSwipeInteraction, CGFloat) -> Void,
+        onSwipeStretchReset: @escaping () -> Void
     ) {
         self.canSwipeUp = canSwipeUp
         self.canSwipeDown = canSwipeDown
         self.onSwipeUp = onSwipeUp
         self.onSwipeDown = onSwipeDown
-        self.onSwipeStretchProgressChanged = onSwipeStretchProgressChanged
+        self.onSwipeStretchChanged = onSwipeStretchChanged
+        self.onSwipeStretchReset = onSwipeStretchReset
 
         if !canSwipeUp && !canSwipeDown {
             resetSwipeTracking()
@@ -216,13 +221,15 @@ private extension NotchSwipeDismissMonitorView {
             ? min(accumulatedDownwardSwipe / SwipeMetrics.verticalThreshold, 1)
             : 0
 
-        let stretchProgress: CGFloat
-        if upwardProgress > downwardProgress {
-            stretchProgress = upwardProgress
+        if upwardProgress > 0 || downwardProgress > 0 {
+            if upwardProgress >= downwardProgress {
+                onSwipeStretchChanged?(.dismiss, upwardProgress)
+            } else {
+                onSwipeStretchChanged?(.restore, downwardProgress)
+            }
         } else {
-            stretchProgress = downwardProgress
+            onSwipeStretchReset?()
         }
-        onSwipeStretchProgressChanged?(stretchProgress)
 
         if !didTriggerSwipe {
             if canSwipeUp,
@@ -283,6 +290,6 @@ private extension NotchSwipeDismissMonitorView {
         accumulatedDownwardSwipe = 0
         accumulatedHorizontalSwipe = 0
         didTriggerSwipe = false
-        onSwipeStretchProgressChanged?(0)
+        onSwipeStretchReset?()
     }
 }

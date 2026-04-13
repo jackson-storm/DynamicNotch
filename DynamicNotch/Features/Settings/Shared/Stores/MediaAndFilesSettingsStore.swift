@@ -134,6 +134,13 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
     }
 }
 
+struct NowPlayingAppearanceOptions {
+    let showsFavoriteButton: Bool
+    let showsOutputDeviceButton: Bool
+    let usesArtworkTint: Bool
+    let usesArtworkStrokeTint: Bool
+}
+
 extension MediaAndFilesSettingsStore {
     var nowPlayingAppearanceOptions: NowPlayingAppearanceOptions {
         resolvedNowPlayingAppearanceOptions(isDefaultActivityStrokeEnabled: false)

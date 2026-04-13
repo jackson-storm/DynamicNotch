@@ -4,12 +4,34 @@ internal import AppKit
 
 typealias NotchScreenMetrics = (width: CGFloat, topInset: CGFloat)
 
+enum NotchSwipeInteraction {
+    case dismiss
+    case restore
+}
+
+private enum SwipeFeedbackMetrics {
+    static let restoreHeightExpansion: CGFloat = 10
+    static let collapsedDismissWidthFactor: CGFloat = 0.18
+    static let collapsedDismissMinimumWidth: CGFloat = 28
+    static let collapsedDismissMaximumWidth: CGFloat = 44
+    static let expandedDismissHeightFactor: CGFloat = 0.16
+    static let expandedDismissMinimumHeight: CGFloat = 12
+    static let expandedDismissMaximumHeight: CGFloat = 28
+    static let restoreCornerRadiusExpansion: CGFloat = 4
+    static let expandedDismissCornerRadiusReduction: CGFloat = 4
+    static let dismissBlurRadius: CGFloat = 7
+    static let restoreBlurRadius: CGFloat = 4
+    static let dismissOpacityReduction: Double = 0.8
+    static let restoreOpacityReduction: Double = 0.5
+}
+
 @MainActor
 final class NotchViewModel: ObservableObject {
     @Published private(set) var notchModel = NotchModel()
     @Published var showNotch = false
     @Published var isPressed = false
     @Published private(set) var swipeStretchProgress: CGFloat = 0
+    @Published private(set) var swipeInteraction: NotchSwipeInteraction?
     @Published var cachedStrokeColor: Color = .clear
 
     private let settings: NotchSettingsProviding
@@ -33,20 +55,98 @@ final class NotchViewModel: ObservableObject {
         let baseSize = notchModel.size
         let progress = easedSwipeStretchProgress
 
-        return CGSize(
-            width: baseSize.width,
-            height: baseSize.height + (10 * progress)
-        )
+        switch swipeInteraction {
+        case .dismiss:
+            if notchModel.isPresentingExpandedLiveActivity {
+                let heightCompression = min(
+                    max(baseSize.height * SwipeFeedbackMetrics.expandedDismissHeightFactor, SwipeFeedbackMetrics.expandedDismissMinimumHeight),
+                    SwipeFeedbackMetrics.expandedDismissMaximumHeight
+                )
+
+                return CGSize(
+                    width: baseSize.width,
+                    height: max(notchModel.baseHeight, baseSize.height - (heightCompression * progress))
+                )
+            }
+
+            let widthCompression = min(
+                max(baseSize.width * SwipeFeedbackMetrics.collapsedDismissWidthFactor, SwipeFeedbackMetrics.collapsedDismissMinimumWidth),
+                SwipeFeedbackMetrics.collapsedDismissMaximumWidth
+            )
+
+            return CGSize(
+                width: max(baseSize.height, baseSize.width - (widthCompression * progress)),
+                height: baseSize.height
+            )
+
+        case .restore:
+            return CGSize(
+                width: baseSize.width,
+                height: baseSize.height + (SwipeFeedbackMetrics.restoreHeightExpansion * progress)
+            )
+
+        case nil:
+            return baseSize
+        }
     }
 
     var interactiveCornerRadius: (top: CGFloat, bottom: CGFloat) {
         let baseCornerRadius = notchModel.cornerRadius
         let progress = easedSwipeStretchProgress
 
-        return (
-            top: baseCornerRadius.top,
-            bottom: baseCornerRadius.bottom + (4 * progress)
-        )
+        switch swipeInteraction {
+        case .dismiss:
+            if notchModel.isPresentingExpandedLiveActivity {
+                return (
+                    top: baseCornerRadius.top,
+                    bottom: max(
+                        baseCornerRadius.top,
+                        baseCornerRadius.bottom - (SwipeFeedbackMetrics.expandedDismissCornerRadiusReduction * progress)
+                    )
+                )
+            }
+
+            return baseCornerRadius
+
+        case .restore:
+            return (
+                top: baseCornerRadius.top,
+                bottom: baseCornerRadius.bottom + (SwipeFeedbackMetrics.restoreCornerRadiusExpansion * progress)
+            )
+
+        case nil:
+            return baseCornerRadius
+        }
+    }
+
+    var contentResizeBlurRadius: CGFloat {
+        let progress = easedSwipeStretchProgress
+
+        switch swipeInteraction {
+        case .dismiss:
+            return SwipeFeedbackMetrics.dismissBlurRadius * progress
+
+        case .restore:
+            return SwipeFeedbackMetrics.restoreBlurRadius * progress
+
+        case nil:
+            return 0
+        }
+    }
+
+    var contentResizeOpacity: Double {
+        let progress = Double(easedSwipeStretchProgress)
+
+        switch swipeInteraction {
+        case .dismiss:
+            return max(0, 1 - (SwipeFeedbackMetrics.dismissOpacityReduction * progress))
+
+        case .restore:
+            return max(0, 1 - (SwipeFeedbackMetrics.restoreOpacityReduction * progress))
+
+        case nil:
+            return 1
+        }
     }
     
     
@@ -117,15 +217,17 @@ final class NotchViewModel: ObservableObject {
         engine.restoreDismissedContent()
     }
 
-    func updateSwipeStretch(progress: CGFloat) {
+    func updateSwipeStretch(for interaction: NotchSwipeInteraction, progress: CGFloat) {
+        swipeInteraction = interaction
         swipeStretchProgress = min(max(progress, 0), 1)
     }
 
     func resetSwipeStretch() {
-        guard swipeStretchProgress > 0 else { return }
+        guard swipeStretchProgress > 0 || swipeInteraction != nil else { return }
 
         withAnimation(animations.stretchReset) {
             swipeStretchProgress = 0
+            swipeInteraction = nil
         }
     }
 

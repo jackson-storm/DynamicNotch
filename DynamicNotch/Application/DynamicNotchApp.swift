@@ -1,8 +1,8 @@
 import Cocoa
 import SwiftUI
 
-enum SettingsScene {
-    static let id = "settings"
+enum WindowsScene {
+    static let settings = "settings"
 }
 
 @main
@@ -15,7 +15,7 @@ struct NotchApp: App {
             MenuBarMenu()
         }
         
-        WindowGroup(id: SettingsScene.id) {
+        WindowGroup(id: WindowsScene.settings) {
             SettingsRootView(
                 powerService: appDelegate.powerService,
                 settingsViewModel: appDelegate.settingsViewModel,
@@ -40,9 +40,11 @@ private struct MenuBarMenu: View {
     
     var body: some View {
         Group {
-            Button {
-                openWindow(id: "settings")
-            } label: {
+            Text("Version: \(AppVersionText.appVersionText)")
+            
+            Divider()
+            
+            Button { openWindow(id: WindowsScene.settings) } label: {
                 Image(systemName: "gearshape")
                 Text(verbatim: "Settings")
             }
@@ -58,10 +60,6 @@ private struct MenuBarMenu: View {
                 Image(systemName: "rectangle.portrait.and.arrow.right")
                 Text(verbatim: "Quit")
             }
-            
-            Divider()
-            
-            Text("Version: \(AppVersionText.appVersionText)")
         }
     }
 }

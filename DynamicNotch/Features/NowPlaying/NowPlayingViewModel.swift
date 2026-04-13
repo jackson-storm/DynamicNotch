@@ -11,41 +11,6 @@ import ScreenCaptureKit
 #endif
 import SwiftUI
 
-enum NowPlayingEvent: Equatable {
-    case started
-    case stopped
-}
-
-enum NowPlayingEqualizerMode: String, CaseIterable {
-    case classic
-    case audioReactive
-
-    var title: LocalizedStringKey {
-        switch self {
-        case .classic:
-            return "Classic"
-        case .audioReactive:
-            return "Audio-reactive"
-        }
-    }
-
-    static func resolved(_ rawValue: String?) -> NowPlayingEqualizerMode {
-        switch rawValue {
-        case NowPlayingEqualizerMode.audioReactive.rawValue:
-            return .audioReactive
-        default:
-            return .classic
-        }
-    }
-}
-
-protocol NowPlayingAudioLevelMonitoring: AnyObject {
-    var onLevelsChange: (([CGFloat]) -> Void)? { get set }
-
-    func startMonitoring()
-    func stopMonitoring()
-}
-
 @MainActor
 final class NowPlayingViewModel: ObservableObject {
     private static let favoriteTrackKeysStorageKey = "settings.nowPlaying.favoriteTrackKeys"

@@ -328,10 +328,7 @@ final class NotchEngine: ObservableObject {
         }
     }
 
-    private func showTemporaryTransition(
-        _ content: NotchContentProtocol,
-        duration: TimeInterval
-    ) async {
+    private func showTemporaryTransition(_ content: NotchContentProtocol, duration: TimeInterval) async {
         await withCheckedContinuation { continuation in
             transition(
                 hide: {
@@ -392,11 +389,7 @@ final class NotchEngine: ObservableObject {
         activeLiveActivities.sort { $0.priority > $1.priority }
     }
 
-    private func transition(
-        customDelay: TimeInterval? = nil,
-        hide: @escaping () -> Void,
-        show: @escaping () -> Void
-    ) {
+    private func transition(customDelay: TimeInterval? = nil, hide: @escaping () -> Void, show: @escaping () -> Void) {
         guard !isTransitioning else { return }
 
         isTransitioning = true

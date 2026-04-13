@@ -34,7 +34,40 @@ struct NowPlayingSettingsView: View {
                 settings: settings,
                 applicationSettings: applicationSettings
             )
+
+            Divider().opacity(0.6)
+
+            SettingsMenuRow(
+                title: "Equalizer mode",
+                description: "Choose the standard equalizer or an audio-reactive mode that follows the current system playback.",
+                options: Array(NowPlayingEqualizerMode.allCases),
+                optionTitle: { $0.title },
+                accessibilityIdentifier: "settings.activities.live.nowPlaying.equalizerMode",
+                selection: $settings.nowPlayingEqualizerMode
+            )
             
+            HStack(alignment: .top, spacing: 8) {
+                Image(systemName: "exclamationmark.triangle.fill")
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundStyle(Color.yellow)
+
+                Text("Audio-reactive mode may require Screen Recording permission.")
+                    .font(.system(size: 10))
+                    .foregroundStyle(Color.secondary)
+            }
+            
+            HStack(alignment: .top, spacing: 8) {
+                Image(systemName: "exclamationmark.triangle.fill")
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundStyle(Color.yellow)
+
+                Text("Audio-reactive mode may use more system resources.")
+                    .font(.system(size: 10))
+                    .foregroundStyle(Color.secondary)
+            }
+            
+            Divider().opacity(0.6)
+
             SettingsToggleRow(
                 title: "Hide favorite",
                 description: "Remove the favorite button from the expanded player controls.",
@@ -106,6 +139,9 @@ private struct NowPlayingAppearancePreview: View {
         let appearance = settings.resolvedNowPlayingAppearanceOptions(
             isDefaultActivityStrokeEnabled: applicationSettings.isDefaultActivityStrokeEnabled
         )
+        let previewEqualizerHeights: [CGFloat] = settings.nowPlayingEqualizerMode == .audioReactive ?
+            [6, 12, 8, 11, 7] :
+            [8, 6, 9, 5, 9]
         let showsNotchStroke = applicationSettings.isShowNotchStrokeEnabled
         let progressGradient = LinearGradient(
             colors: [highlightColor, baseColor],
@@ -155,7 +191,8 @@ private struct NowPlayingAppearancePreview: View {
                             Spacer(minLength: 0)
                             
                             HStack(alignment: .bottom, spacing: 2.5) {
-                                ForEach([8.0, 6.0, 9.0, 5.0, 9.0], id: \.self) { height in
+                                ForEach(Array(previewEqualizerHeights.enumerated()), id: \.offset) { entry in
+                                    let height = entry.element
                                     RoundedRectangle(cornerRadius: 3, style: .continuous)
                                         .fill(
                                             LinearGradient(

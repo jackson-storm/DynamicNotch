@@ -3,7 +3,6 @@ enum GeneralSettingsStorage {
         static let launchAtLogin = "isLaunchAtLoginEnabled"
         static let dockIcon = "isDockIconVisible"
         static let appearanceMode = "settings.general.appearance.mode"
-        static let appTint = "settings.general.appearance.tint"
         static let notchBackgroundStyle = "settings.notch.backgroundStyle"
         static let notchWidth = "notchWidth"
         static let notchHeight = "notchHeight"
@@ -32,6 +31,7 @@ enum GeneralSettingsStorage {
         static let nowPlayingOutputDeviceButtonVisible = "settings.nowPlaying.outputDeviceButtonVisible"
         static let nowPlayingArtworkTintEnabled = "settings.nowPlaying.artworkTintEnabled"
         static let nowPlayingArtworkStrokeEnabled = "settings.nowPlaying.artworkStrokeEnabled"
+        static let nowPlayingEqualizerMode = "settings.nowPlaying.equalizerMode"
         static let downloadsLiveActivityEnabled = "settings.live.downloads"
         static let downloadsDefaultStrokeEnabled = "settings.live.downloads.defaultStroke"
         static let downloadsAppearanceStyle = "settings.live.downloads.appearanceStyle"
@@ -76,7 +76,6 @@ enum GeneralSettingsStorage {
         Keys.launchAtLogin: true,
         Keys.dockIcon: false,
         Keys.appearanceMode: SettingsAppearanceMode.system.rawValue,
-        Keys.appTint: AppTint.blue.rawValue,
         Keys.notchBackgroundStyle: NotchBackgroundStyle.black.rawValue,
         Keys.notchWidth: 0,
         Keys.notchHeight: 0,
@@ -105,6 +104,7 @@ enum GeneralSettingsStorage {
         Keys.nowPlayingOutputDeviceButtonVisible: true,
         Keys.nowPlayingArtworkTintEnabled: false,
         Keys.nowPlayingArtworkStrokeEnabled: false,
+        Keys.nowPlayingEqualizerMode: NowPlayingEqualizerMode.classic.rawValue,
         Keys.downloadsLiveActivityEnabled: true,
         Keys.downloadsDefaultStrokeEnabled: false,
         Keys.downloadsAppearanceStyle: DownloadAppearanceStyle.minimal.rawValue,

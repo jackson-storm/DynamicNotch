@@ -59,8 +59,6 @@ struct NotchView: View {
                 }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-        .tint(settingsViewModel.application.appTint.color)
-        .accentColor(settingsViewModel.application.appTint.color)
     }
 }
 

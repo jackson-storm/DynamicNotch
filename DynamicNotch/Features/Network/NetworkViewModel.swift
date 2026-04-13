@@ -56,10 +56,6 @@ final class NetworkViewModel: ObservableObject {
         )
     }
 
-    deinit {
-        monitor.stopMonitoring()
-    }
-    
     private func setupMonitoring() {
         monitor.onStatusChange = { [weak self] wifi, hotspot, vpn in
             guard let self = self else { return }

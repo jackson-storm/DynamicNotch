@@ -33,6 +33,12 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         }
     }
 
+    @Published var nowPlayingEqualizerMode: NowPlayingEqualizerMode {
+        didSet {
+            persist(nowPlayingEqualizerMode.rawValue, for: GeneralSettingsStorage.Keys.nowPlayingEqualizerMode)
+        }
+    }
+
     @Published var isDownloadsLiveActivityEnabled: Bool {
         didSet {
             persist(isDownloadsLiveActivityEnabled, for: GeneralSettingsStorage.Keys.downloadsLiveActivityEnabled)
@@ -78,6 +84,9 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         self.isNowPlayingOutputDeviceButtonVisible = defaults.bool(forKey: GeneralSettingsStorage.Keys.nowPlayingOutputDeviceButtonVisible)
         self.isNowPlayingArtworkTintEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.nowPlayingArtworkTintEnabled)
         self.isNowPlayingArtworkStrokeEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.nowPlayingArtworkStrokeEnabled)
+        self.nowPlayingEqualizerMode = NowPlayingEqualizerMode.resolved(
+            defaults.string(forKey: GeneralSettingsStorage.Keys.nowPlayingEqualizerMode)
+        )
         let hasLegacyDownloadsValue = defaults.object(forKey: GeneralSettingsStorage.Keys.legacyFileTransfersLiveActivityEnabled) != nil
         let downloadsSettingValue = defaults.object(forKey: GeneralSettingsStorage.Keys.downloadsLiveActivityEnabled) as? Bool
         self.isDownloadsLiveActivityEnabled = downloadsSettingValue ?? (
@@ -103,6 +112,9 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         isNowPlayingOutputDeviceButtonVisible = defaultBool(for: GeneralSettingsStorage.Keys.nowPlayingOutputDeviceButtonVisible)
         isNowPlayingArtworkTintEnabled = defaultBool(for: GeneralSettingsStorage.Keys.nowPlayingArtworkTintEnabled)
         isNowPlayingArtworkStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.nowPlayingArtworkStrokeEnabled)
+        nowPlayingEqualizerMode = NowPlayingEqualizerMode.resolved(
+            defaultString(for: GeneralSettingsStorage.Keys.nowPlayingEqualizerMode)
+        )
     }
 
     func resetDownloads() {

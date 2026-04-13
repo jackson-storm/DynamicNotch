@@ -12,30 +12,30 @@ enum LockScreenCustomSoundKind {
     case lock
     case unlock
 
-    var title: String {
+    var titleKey: String {
         switch self {
         case .lock:
-            return String(localized: "Lock sound")
+            return "Lock sound"
         case .unlock:
-            return String(localized: "Unlock sound")
+            return "Unlock sound"
         }
     }
 
-    var description: String {
+    var descriptionKey: String {
         switch self {
         case .lock:
-            return String(localized: "Played when your Mac locks.")
+            return "Played when your Mac locks."
         case .unlock:
-            return String(localized: "Played when your Mac unlocks.")
+            return "Played when your Mac unlocks."
         }
     }
 
-    var builtInTitle: String {
+    var builtInTitleKey: String {
         switch self {
         case .lock:
-            return String(localized: "Built-in lock sound")
+            return "Built-in lock sound"
         case .unlock:
-            return String(localized: "Built-in unlock sound")
+            return "Built-in unlock sound"
         }
     }
 
@@ -57,12 +57,12 @@ enum LockScreenCustomSoundKind {
         }
     }
 
-    var panelTitle: String {
+    var panelTitleKey: String {
         switch self {
         case .lock:
-            return String(localized: "Choose Lock Sound")
+            return "Choose Lock Sound"
         case .unlock:
-            return String(localized: "Choose Unlock Sound")
+            return "Choose Unlock Sound"
         }
     }
 

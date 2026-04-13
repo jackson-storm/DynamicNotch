@@ -19,12 +19,12 @@ struct OnboardingNotchThirdStepView: View {
                 .id(imageAppear)
             
             VStack(alignment: .leading, spacing: 5) {
-                Text("Support this app")
+                Text(verbatim: "Support this app")
                     .font(.system(size: 16, weight: .semibold))
                     .foregroundColor(.white)
                     .lineLimit(1)
                 
-                Text("Please give it a star on GitHub – it will really help with promotion.")
+                Text(verbatim: "Please give it a star on GitHub – it will really help with promotion.")
                     .foregroundColor(.gray.opacity(0.6))
                     .font(.system(size: 12, weight: .medium))
                     .lineLimit(3)
@@ -39,4 +39,3 @@ struct OnboardingNotchThirdStepView: View {
         }
     }
 }
-

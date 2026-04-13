@@ -1,11 +1,6 @@
 import Combine
 import Foundation
 
-enum DownloadEvent: Equatable {
-    case started
-    case stopped
-}
-
 @MainActor
 final class DownloadViewModel: ObservableObject {
     @Published private(set) var activeDownloads: [DownloadModel] = []

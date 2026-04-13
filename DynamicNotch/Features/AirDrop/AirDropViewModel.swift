@@ -8,12 +8,6 @@
 import SwiftUI
 import Combine
 
-enum AirDropEvent: Equatable {
-    case dragStarted
-    case dragEnded
-    case dropped
-}
-
 @MainActor
 final class AirDropNotchViewModel: ObservableObject {
     @Published private(set) var event: AirDropEvent?

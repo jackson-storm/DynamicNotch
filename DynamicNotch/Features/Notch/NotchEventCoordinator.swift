@@ -342,7 +342,7 @@ final class NotchEventCoordinator: ObservableObject {
             .removeDuplicates()
             .sink { [weak self] style in
                 guard let self else { return }
-                guard self.notchViewModel.notchModel.liveActivityContent?.id == LockScreenNotchContent.contentID else {
+                guard self.notchViewModel.notchModel.liveActivityContent?.id == "lockScreen" else {
                     return
                 }
 

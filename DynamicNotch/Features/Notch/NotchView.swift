@@ -146,7 +146,7 @@ private extension NotchView {
     @ViewBuilder
     var contextMenuItem: some View {
         Button {
-            openWindow(id: SettingsScene.id)
+            openWindow(id: WindowsScene.settings)
         } label: {
             Image(systemName: "gearshape")
             Text(verbatim: "Settings")

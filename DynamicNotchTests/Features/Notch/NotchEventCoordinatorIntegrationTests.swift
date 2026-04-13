@@ -294,13 +294,13 @@ private extension NotchEventCoordinatorIntegrationTests {
         UserDefaults.standard.set(true, forKey: "settings.temporary.focusOff")
         UserDefaults.standard.set(true, forKey: "settings.temporary.notchSize")
 
-        let generalSettingsViewModel = GeneralSettingsViewModel()
+        let settingsViewModel = SettingsViewModel()
         let notchViewModel = NotchViewModel(
-            settings: generalSettingsViewModel,
+            settings: settingsViewModel.application,
             hideDelay: 0.01,
             queueDelay: 0
         )
-        let networkViewModel = NetworkViewModel(monitor: FakeNetworkMonitor())
+        let networkViewModel = NetworkViewModel(monitor: FakeNetworkMonitor(), settings: settingsViewModel.connectivity)
         let downloadMonitor = FakeFileDownloadMonitor()
         let downloadViewModel = DownloadViewModel(monitor: downloadMonitor)
         let nowPlayingService = FakeNowPlayingService()
@@ -324,7 +324,7 @@ private extension NotchEventCoordinatorIntegrationTests {
             networkViewModel: networkViewModel,
             downloadViewModel: downloadViewModel,
             airDropViewModel: AirDropNotchViewModel(),
-            generalSettingsViewModel: generalSettingsViewModel,
+            settingsViewModel: settingsViewModel,
             nowPlayingViewModel: nowPlayingViewModel,
             lockScreenManager: lockScreenManager
         )

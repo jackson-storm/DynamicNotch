@@ -8,6 +8,14 @@
 import Foundation
 import SwiftUI
 
+enum NotchState {
+    case showLiveActivity(NotchContentProtocol)
+    case hideLiveActivity(id: String)
+    case dismissLiveActivity(id: String)
+    case showTemporaryNotification(NotchContentProtocol, duration: TimeInterval)
+    case hide
+}
+
 struct NotchModel: Equatable {
     var liveActivityContent: NotchContentProtocol? = nil
     var temporaryNotificationContent: NotchContentProtocol? = nil

@@ -22,6 +22,7 @@ struct HudContentView: View {
     }
     
     private var barIndicatorHeight: CGFloat { 6 }
+    
     private var circleIndicatorSize: CGFloat {
         switch style {
         case .standard:
@@ -43,6 +44,7 @@ struct HudContentView: View {
     }
 
     private var clampedLevel: Int { max(0, min(100, level)) }
+    
     private var horizontalPadding: CGFloat {
         switch style {
         case .standard:

@@ -94,7 +94,10 @@ final class NowPlayingViewModel: ObservableObject {
     }
 
     deinit {
-        audioLevelMonitor.stopMonitoring()
+        let monitor = audioLevelMonitor
+        Task { @MainActor in
+            monitor.stopMonitoring()
+        }
     }
 
     func startMonitoring() {
@@ -844,3 +847,4 @@ private extension NowPlayingSnapshot {
         )
     }
 }
+

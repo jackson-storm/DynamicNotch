@@ -622,6 +622,7 @@
       }
     },
     "Apply a full battery sample and show the completion notification." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -650,6 +651,7 @@
       }
     },
     "Apply a low battery sample and show the low-power alert." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -678,6 +680,7 @@
       }
     },
     "Apply a sample charging state and show the charger notification." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1042,6 +1045,7 @@
       }
     },
     "Battery Low" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1268,6 +1272,7 @@
       }
     },
     "Bluetooth Connected" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3683,6 +3688,7 @@
       }
     },
     "Dismiss the currently visible temporary notification." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3823,6 +3829,7 @@
       }
     },
     "Downloads" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4189,6 +4196,7 @@
       }
     },
     "Focus Off" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4273,6 +4281,7 @@
       }
     },
     "Focus On" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4357,6 +4366,7 @@
       }
     },
     "Full Battery" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4555,6 +4565,7 @@
       }
     },
     "Hide Current Temporary" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4639,6 +4650,7 @@
       }
     },
     "Hide the Focus live activity and show the short \"Off\" notification." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4667,6 +4679,7 @@
       }
     },
     "Hotspot Active" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -5008,6 +5021,7 @@
       }
     },
     "Keep the hotspot live activity visible until you turn it off." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6050,6 +6064,7 @@
       }
     },
     "Notch Height Changed" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6106,6 +6121,7 @@
       }
     },
     "Notch Width Changed" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6192,6 +6208,7 @@
       }
     },
     "Now Playing" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6305,6 +6322,7 @@
       }
     },
     "Onboarding" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6503,6 +6521,7 @@
       }
     },
     "Persistent Events" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6644,6 +6663,7 @@
       }
     },
     "Play All Events" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6815,6 +6835,7 @@
       }
     },
     "Preview the lock live activity without actually locking macOS." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6843,6 +6864,7 @@
       }
     },
     "Preview the persistent Focus live activity." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -7154,6 +7176,7 @@
       }
     },
     "Reset All Previews" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -7211,6 +7234,7 @@
       }
     },
     "Run every debug event in sequence, keep each item visible for its configured duration, wait 1 second between items, and skip onboarding, notch size, and lock screen previews." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11337,6 +11361,7 @@
       }
     },
     "Show a safe debug preview of the onboarding live activity." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11817,6 +11842,7 @@
       }
     },
     "Show the Bluetooth notification with sample AirPods data." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11845,6 +11871,7 @@
       }
     },
     "Show the brightness HUD preview at 72%." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11901,6 +11928,7 @@
       }
     },
     "Show the download live activity with sample transfer data." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11957,6 +11985,7 @@
       }
     },
     "Show the height resize helper using the current settings." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11985,6 +12014,7 @@
       }
     },
     "Show the keyboard backlight HUD preview at 64%." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12041,6 +12071,7 @@
       }
     },
     "Show the music live activity with sample track data." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12097,6 +12128,7 @@
       }
     },
     "Show the volume HUD preview at 42%." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12125,6 +12157,7 @@
       }
     },
     "Show the VPN notification with sample tunnel data." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12153,6 +12186,7 @@
       }
     },
     "Show the width resize helper using the current settings." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12209,6 +12243,7 @@
       }
     },
     "Shows the Wi-Fi temporary notification." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12321,6 +12356,7 @@
       }
     },
     "Start" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12349,6 +12385,7 @@
       }
     },
     "Stop" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12719,6 +12756,7 @@
       }
     },
     "Trigger Events" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12805,6 +12843,7 @@
       }
     },
     "Turn off every persistent preview and close any temporary content." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -13173,6 +13212,7 @@
       }
     },
     "Utilities" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -13370,6 +13410,7 @@
       }
     },
     "VPN Connected" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -13540,6 +13581,7 @@
       }
     },
     "Wi-Fi Connected" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

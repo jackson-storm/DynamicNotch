@@ -22,6 +22,15 @@ extension AppDelegate {
             .store(in: &cancellables)
     }
 
+    func observeFullscreenVisibilityChanges() {
+        settingsViewModel.application.$isNotchHiddenInFullscreenEnabled
+            .removeDuplicates()
+            .sink { [weak self] _ in
+                self?.updateWindowFrame()
+            }
+            .store(in: &cancellables)
+    }
+
     func observeHUDConfigurationChanges() {
         Publishers.CombineLatest(
             settingsViewModel.hud.$isVolumeHUDEnabled.removeDuplicates(),

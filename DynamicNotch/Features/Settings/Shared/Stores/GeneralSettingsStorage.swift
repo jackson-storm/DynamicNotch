@@ -13,6 +13,7 @@ enum GeneralSettingsStorage {
         static let displayLocation = "displayLocation"
         static let appLanguage = "settings.general.language.app"
         static let notchAnimationPreset = "settings.general.notchAnimationPreset"
+        static let hideNotchInFullscreenEnabled = "settings.general.hideNotchInFullscreen"
         static let notchTapToExpandEnabled = "settings.notch.gestures.tapToExpand"
         static let notchMouseDragGesturesEnabled = "settings.notch.gestures.mouseDrag"
         static let notchTrackpadSwipeGesturesEnabled = "settings.notch.gestures.trackpadSwipe"
@@ -91,6 +92,7 @@ enum GeneralSettingsStorage {
         Keys.displayLocation: NotchDisplayLocation.main.rawValue,
         Keys.appLanguage: DynamicNotchLanguage.system.rawValue,
         Keys.notchAnimationPreset: NotchAnimationPreset.balanced.rawValue,
+        Keys.hideNotchInFullscreenEnabled: false,
         Keys.notchTapToExpandEnabled: true,
         Keys.notchMouseDragGesturesEnabled: true,
         Keys.notchTrackpadSwipeGesturesEnabled: true,

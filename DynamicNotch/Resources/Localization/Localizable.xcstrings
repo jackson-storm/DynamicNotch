@@ -593,6 +593,34 @@
         }
       }
     },
+    "Automatically hide Dynamic Notch while the selected display is showing a full-screen space." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatically hide Dynamic Notch while the selected display is showing a full-screen space."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oculta Dynamic Notch automaticamente mientras la pantalla seleccionada muestre un espacio en pantalla completa."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Автоматически скрывает Dynamic Notch, когда на выбранном дисплее открыт полноэкранный space."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当所选显示器处于全屏空间时，自动隐藏 Dynamic Notch。"
+          }
+        }
+      }
+    },
     "Animation" : {
       "localizations" : {
         "en" : {
@@ -4748,6 +4776,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "隐藏当前临时"
+          }
+        }
+      }
+    },
+    "Hide notch in full-screen mode" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide notch in full-screen mode"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ocultar el notch en pantalla completa"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скрывать вырез в полноэкранном режиме"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全屏模式下隐藏刘海"
           }
         }
       }

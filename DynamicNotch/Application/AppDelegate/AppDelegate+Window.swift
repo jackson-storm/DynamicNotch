@@ -34,9 +34,11 @@ extension AppDelegate {
         )
 
         window.contentView = hostingView
+        window.collectionBehavior = OverlayPanelFactory.collectionBehavior(
+            includesFullscreenAuxiliary: !settingsViewModel.application.isNotchHiddenInFullscreenEnabled
+        )
         SkyLightOperator.shared.delegateWindow(window, to: .notchSurface)
-
-        window.orderFrontRegardless()
+        updatePrimaryWindowVisibility(on: screen)
     }
 
     @objc
@@ -54,11 +56,11 @@ extension AppDelegate {
             size: window.frame.size
         )
 
+        window.collectionBehavior = OverlayPanelFactory.collectionBehavior(
+            includesFullscreenAuxiliary: !settingsViewModel.application.isNotchHiddenInFullscreenEnabled
+        )
         window.setFrame(targetFrame, display: true, animate: false)
-
-        if !isPrimaryWindowSuspendedForLock {
-            window.orderFrontRegardless()
-        }
+        updatePrimaryWindowVisibility(on: screen)
     }
 
     func suspendPrimaryWindowForLock() {
@@ -69,10 +71,24 @@ extension AppDelegate {
     }
 
     func restorePrimaryWindowForUnlockTransition() {
-        guard let window, isPrimaryWindowSuspendedForLock else { return }
+        guard isPrimaryWindowSuspendedForLock else { return }
 
         isPrimaryWindowSuspendedForLock = false
         updateWindowFrame()
-        window.orderFrontRegardless()
+    }
+
+    private func updatePrimaryWindowVisibility(on screen: NSScreen) {
+        guard let window, !isPrimaryWindowSuspendedForLock else { return }
+
+        if shouldHidePrimaryWindowInFullscreen(on: screen) {
+            window.orderOut(nil)
+        } else {
+            window.orderFrontRegardless()
+        }
+    }
+
+    private func shouldHidePrimaryWindowInFullscreen(on screen: NSScreen) -> Bool {
+        settingsViewModel.application.isNotchHiddenInFullscreenEnabled &&
+        SkyLightOperator.shared.isFullscreenSpaceActive(on: screen)
     }
 }

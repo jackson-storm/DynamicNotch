@@ -83,6 +83,18 @@ struct GeneralSettingsView: View {
                 symbolName: { $0.symbolName }
             )
             .accessibilityIdentifier("settings.general.displayLocation")
+
+            Divider()
+                .opacity(0.6)
+
+            SettingsToggleRow(
+                title: "Hide notch in full-screen mode",
+                description: "Automatically hide Dynamic Notch while the selected display is showing a full-screen space.",
+                systemImage: "arrow.up.left.and.arrow.down.right",
+                color: .purple,
+                isOn: $applicationSettings.isNotchHiddenInFullscreenEnabled,
+                accessibilityIdentifier: "settings.general.hideNotchInFullscreen"
+            )
         }
     }
 

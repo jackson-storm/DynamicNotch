@@ -81,6 +81,15 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         }
     }
 
+    @Published var isNotchHiddenInFullscreenEnabled: Bool {
+        didSet {
+            persist(
+                isNotchHiddenInFullscreenEnabled,
+                for: GeneralSettingsStorage.Keys.hideNotchInFullscreenEnabled
+            )
+        }
+    }
+
     @Published var notchAnimationPreset: NotchAnimationPreset {
         didSet {
             persist(notchAnimationPreset.rawValue, for: GeneralSettingsStorage.Keys.notchAnimationPreset)
@@ -170,6 +179,10 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         self.appLanguage = DynamicNotchLanguage.resolved(
             defaults.string(forKey: GeneralSettingsStorage.Keys.appLanguage)
         )
+        self.isNotchHiddenInFullscreenEnabled = Self.resolvedBool(
+            defaults: defaults,
+            key: GeneralSettingsStorage.Keys.hideNotchInFullscreenEnabled
+        )
         self.notchAnimationPreset = NotchAnimationPreset(
             rawValue: defaults.string(forKey: GeneralSettingsStorage.Keys.notchAnimationPreset) ?? NotchAnimationPreset.balanced.rawValue
         ) ?? .balanced
@@ -214,6 +227,9 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         ) ?? .main
         appLanguage = DynamicNotchLanguage.resolved(
             defaultString(for: GeneralSettingsStorage.Keys.appLanguage)
+        )
+        isNotchHiddenInFullscreenEnabled = defaultBool(
+            for: GeneralSettingsStorage.Keys.hideNotchInFullscreenEnabled
         )
     }
 

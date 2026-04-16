@@ -15,10 +15,12 @@ final class SkyLightOperator {
     private typealias SpaceSetAbsoluteLevelFunction = @convention(c) (Int32, Int32, Int32) -> Int32
     private typealias ShowSpacesFunction = @convention(c) (Int32, CFArray) -> Int32
     private typealias AddWindowsAndRemoveFromSpacesFunction = @convention(c) (Int32, Int32, CFArray, Int32) -> Int32
+    private typealias CopyManagedDisplaySpacesFunction = @convention(c) (Int32) -> Unmanaged<CFArray>?
 
     private let connection: Int32?
     private let spaces: [SkyLightSpaceLevel: Int32]
     private let addWindowsAndRemoveFromSpaces: AddWindowsAndRemoveFromSpacesFunction?
+    private let copyManagedDisplaySpaces: CopyManagedDisplaySpacesFunction?
 
     private init() {
         let frameworkPath = "/System/Library/PrivateFrameworks/SkyLight.framework/Versions/A/SkyLight"
@@ -32,8 +34,12 @@ final class SkyLightOperator {
             connection = nil
             spaces = [:]
             addWindowsAndRemoveFromSpaces = nil
+            copyManagedDisplaySpaces = nil
             return
         }
+
+        let copyManagedDisplaySpacesSymbol = dlsym(handle, "CGSCopyManagedDisplaySpaces") ??
+            dlsym(handle, "SLSCopyManagedDisplaySpaces")
 
         let mainConnectionID = unsafeBitCast(
             mainConnectionIDSymbol,
@@ -55,6 +61,9 @@ final class SkyLightOperator {
             addWindowsAndRemoveFromSpacesSymbol,
             to: AddWindowsAndRemoveFromSpacesFunction.self
         )
+        let copyManagedDisplaySpaces = copyManagedDisplaySpacesSymbol.map {
+            unsafeBitCast($0, to: CopyManagedDisplaySpacesFunction.self)
+        }
 
         let connection = mainConnectionID()
         var spaces: [SkyLightSpaceLevel: Int32] = [:]
@@ -75,12 +84,33 @@ final class SkyLightOperator {
         self.connection = connection
         self.spaces = spaces
         self.addWindowsAndRemoveFromSpaces = addWindowsAndRemoveFromSpaces
+        self.copyManagedDisplaySpaces = copyManagedDisplaySpaces
     }
 
     var isAvailable: Bool {
         connection != nil &&
         !spaces.isEmpty &&
         addWindowsAndRemoveFromSpaces != nil
+    }
+
+    func isFullscreenSpaceActive(on screen: NSScreen) -> Bool {
+        guard let connection,
+              let copyManagedDisplaySpaces,
+              let displayIdentifier = screen.displayUUIDString,
+              let managedSpaces = copyManagedDisplaySpaces(connection)?.takeRetainedValue() as? [[String: Any]],
+              let displayEntry = managedSpaces.first(where: {
+                  guard let identifier = $0["Display Identifier"] as? String else {
+                      return false
+                  }
+
+                  return identifier.caseInsensitiveCompare(displayIdentifier) == .orderedSame
+              }),
+              let currentSpace = displayEntry["Current Space"] as? [String: Any],
+              let currentSpaceType = currentSpace["type"] as? NSNumber else {
+            return false
+        }
+
+        return currentSpaceType.intValue == 4
     }
 
     func delegateWindow(

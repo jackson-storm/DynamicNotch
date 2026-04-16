@@ -1,6 +1,5 @@
 import SwiftUI
 import Combine
-internal import AppKit
 
 typealias NotchScreenMetrics = (width: CGFloat, topInset: CGFloat)
 
@@ -47,8 +46,36 @@ final class NotchViewModel: ObservableObject {
         engine.canExpandActiveLiveActivity
     }
 
+    var isTapToExpandEnabled: Bool {
+        settings.isNotchTapToExpandEnabled
+    }
+
     var canRestoreDismissedContent: Bool {
         engine.canRestoreDismissedContent
+    }
+
+    var canDismissWithMouseDrag: Bool {
+        settings.isNotchMouseDragGesturesEnabled &&
+        settings.isNotchSwipeDismissEnabled &&
+        notchModel.content != nil
+    }
+
+    var canRestoreWithMouseDrag: Bool {
+        settings.isNotchMouseDragGesturesEnabled &&
+        settings.isNotchSwipeRestoreEnabled &&
+        canRestoreDismissedContent
+    }
+
+    var canDismissWithTrackpadSwipe: Bool {
+        settings.isNotchTrackpadSwipeGesturesEnabled &&
+        settings.isNotchSwipeDismissEnabled &&
+        notchModel.content != nil
+    }
+
+    var canRestoreWithTrackpadSwipe: Bool {
+        settings.isNotchTrackpadSwipeGesturesEnabled &&
+        settings.isNotchSwipeRestoreEnabled &&
+        canRestoreDismissedContent
     }
 
     var interactiveNotchSize: CGSize {
@@ -232,6 +259,7 @@ final class NotchViewModel: ObservableObject {
     }
 
     func handleActiveContentTap() {
+        guard settings.isNotchTapToExpandEnabled else { return }
         engine.handleActiveContentTap()
     }
 

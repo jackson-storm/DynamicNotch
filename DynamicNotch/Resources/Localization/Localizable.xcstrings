@@ -537,6 +537,62 @@
         }
       }
     },
+    "Allow gestures to bring back the most recently dismissed activity." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allow gestures to bring back the most recently dismissed activity."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permite que los gestos recuperen la actividad descartada más recientemente."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Разрешить жестами возвращать последнюю скрытую активность."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "允许通过手势恢复最近隐藏的活动。"
+          }
+        }
+      }
+    },
+    "Allow gestures to hide the currently visible live or temporary activity." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allow gestures to hide the currently visible live or temporary activity."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permite que los gestos oculten la actividad en vivo o temporal visible actualmente."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Разрешить жестами скрывать текущую видимую live activity или временную активность."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "允许通过手势隐藏当前可见的实时活动或临时活动。"
+          }
+        }
+      }
+    },
     "Animation" : {
       "localizations" : {
         "en" : {
@@ -622,7 +678,6 @@
       }
     },
     "Apply a full battery sample and show the completion notification." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -651,7 +706,6 @@
       }
     },
     "Apply a low battery sample and show the low-power alert." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -680,7 +734,6 @@
       }
     },
     "Apply a sample charging state and show the charger notification." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1045,7 +1098,6 @@
       }
     },
     "Battery Low" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1272,7 +1324,6 @@
       }
     },
     "Bluetooth Connected" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3000,6 +3051,34 @@
         }
       }
     },
+    "Click the notch to open the expanded live activity layout when the current content supports it." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Click the notch to open the expanded live activity layout when the current content supports it."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haz clic en el notch para abrir la vista expandida de la actividad en vivo cuando el contenido actual lo admita."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нажмите на вырез, чтобы открыть расширенный режим live activity, если текущий контент это поддерживает."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当当前内容支持时，点击刘海可打开实时活动的展开布局。"
+          }
+        }
+      }
+    },
     "Color the notch stroke using the current artwork palette." : {
       "localizations" : {
         "en" : {
@@ -3373,6 +3452,35 @@
         }
       }
     },
+    "Control how much the notch grows while the pointer is hovering over it." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Control how much the notch grows while the pointer is hovering over it."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controla cuánto aumenta el notch mientras el puntero está sobre él."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Управляет тем, насколько сильно увеличивается вырез при наведении курсора."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "控制指针悬停时刘海放大的程度。"
+          }
+        }
+      }
+    },
     "Control the lock-screen live activity, sound, and detached media panel." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -3688,7 +3796,6 @@
       }
     },
     "Dismiss the currently visible temporary notification." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3829,7 +3936,6 @@
       }
     },
     "Downloads" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4196,7 +4302,6 @@
       }
     },
     "Focus Off" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4281,7 +4386,6 @@
       }
     },
     "Focus On" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4366,7 +4470,6 @@
       }
     },
     "Full Battery" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4506,6 +4609,34 @@
         }
       }
     },
+    "Gestures" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gestures"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gestos"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Жесты"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "手势"
+          }
+        }
+      }
+    },
     "Graphite" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -4564,8 +4695,36 @@
         }
       }
     },
-    "Hide Current Temporary" : {
+    "Haptic feedback on hover" : {
       "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haptic feedback on hover"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Respuesta háptica al pasar el cursor"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тактильный отклик при наведении"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "悬停时触觉反馈"
+          }
+        }
+      }
+    },
+    "Hide Current Temporary" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4650,7 +4809,6 @@
       }
     },
     "Hide the Focus live activity and show the short \"Off\" notification." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4679,7 +4837,6 @@
       }
     },
     "Hotspot Active" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4731,6 +4888,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "热点外观"
+          }
+        }
+      }
+    },
+    "Hover" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hover"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Al pasar el cursor"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Наведение"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "悬停"
+          }
+        }
+      }
+    },
+    "Hover magnification" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hover magnification"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aumento al pasar el cursor"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Увеличение при наведении"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "悬停放大"
           }
         }
       }
@@ -5021,7 +5236,6 @@
       }
     },
     "Keep the hotspot live activity visible until you turn it off." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -5781,6 +5995,35 @@
         }
       }
     },
+    "Magnify on hover" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Magnify on hover"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aumentar al pasar el cursor"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Увеличивать при наведении"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "悬停时放大"
+          }
+        }
+      }
+    },
     "Make the cutout area more useful." : {
       "localizations" : {
         "en" : {
@@ -5889,6 +6132,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "最小"
+          }
+        }
+      }
+    },
+    "Mouse drag gestures" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mouse drag gestures"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gestos de arrastre con el ratón"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Жесты перетаскивания мышью"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "鼠标拖动手势"
           }
         }
       }
@@ -6064,7 +6335,6 @@
       }
     },
     "Notch Height Changed" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6121,7 +6391,6 @@
       }
     },
     "Notch Width Changed" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6208,7 +6477,6 @@
       }
     },
     "Now Playing" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6322,7 +6590,6 @@
       }
     },
     "Onboarding" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6521,7 +6788,6 @@
       }
     },
     "Persistent Events" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6662,8 +6928,36 @@
         }
       }
     },
-    "Play All Events" : {
+    "Play a subtle haptic bump once when the pointer enters the notch area." : {
       "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Play a subtle haptic bump once when the pointer enters the notch area."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reproduce una sutil vibración háptica una vez cuando el puntero entra en el área del notch."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Один раз воспроизводит лёгкий тактильный отклик, когда курсор входит в область выреза."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当指针进入刘海区域时，播放一次轻微的触觉反馈。"
+          }
+        }
+      }
+    },
+    "Play All Events" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6835,7 +7129,6 @@
       }
     },
     "Preview the lock live activity without actually locking macOS." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6864,7 +7157,6 @@
       }
     },
     "Preview the persistent Focus live activity." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -7176,7 +7468,6 @@
       }
     },
     "Reset All Previews" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -7234,7 +7525,6 @@
       }
     },
     "Run every debug event in sequence, keep each item visible for its configured duration, wait 1 second between items, and skip onboarding, notch size, and lock screen previews." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -10031,6 +10321,64 @@
         }
       }
     },
+    "settings.permissions.screenRecording.description" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allow Screen Recording access so the audio-reactive Now Playing equalizer can listen to system audio."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permite el acceso a Grabación de Pantalla para que el ecualizador reactivo al audio de Now Playing pueda escuchar el audio del sistema."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Разрешите доступ к записи экрана, чтобы аудиореактивный эквалайзер в Now Playing мог анализировать системный звук."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "允许“屏幕录制”权限，以便“正在播放”的音频响应均衡器能够监听系统音频。"
+          }
+        }
+      }
+    },
+    "settings.permissions.screenRecording.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Screen Recording"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grabación de pantalla"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Запись экрана"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "屏幕录制"
+          }
+        }
+      }
+    },
     "settings.permissions.status.granted" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -11361,7 +11709,6 @@
       }
     },
     "Show a safe debug preview of the onboarding live activity." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11842,7 +12189,6 @@
       }
     },
     "Show the Bluetooth notification with sample AirPods data." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11871,7 +12217,6 @@
       }
     },
     "Show the brightness HUD preview at 72%." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11928,7 +12273,6 @@
       }
     },
     "Show the download live activity with sample transfer data." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11985,7 +12329,6 @@
       }
     },
     "Show the height resize helper using the current settings." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12014,7 +12357,6 @@
       }
     },
     "Show the keyboard backlight HUD preview at 64%." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12071,7 +12413,6 @@
       }
     },
     "Show the music live activity with sample track data." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12128,7 +12469,6 @@
       }
     },
     "Show the volume HUD preview at 42%." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12157,7 +12497,6 @@
       }
     },
     "Show the VPN notification with sample tunnel data." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12186,7 +12525,6 @@
       }
     },
     "Show the width resize helper using the current settings." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12243,7 +12581,6 @@
       }
     },
     "Shows the Wi-Fi temporary notification." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12267,6 +12604,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "显示 Wi-Fi 临时通知。"
+          }
+        }
+      }
+    },
+    "Slightly enlarge the notch when the pointer enters the interactive area." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Slightly enlarge the notch when the pointer enters the interactive area."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Amplía ligeramente el notch cuando el puntero entra en el área interactiva."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Слегка увеличивает вырез, когда курсор входит в интерактивную область."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当指针进入交互区域时，轻微放大刘海。"
           }
         }
       }
@@ -12356,7 +12722,6 @@
       }
     },
     "Start" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12385,7 +12750,6 @@
       }
     },
     "Stop" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12470,6 +12834,62 @@
         }
       }
     },
+    "Swipe down to restore" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Swipe down to restore"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desliza hacia abajo para restaurar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Свайп вниз для возврата"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下滑以恢复"
+          }
+        }
+      }
+    },
+    "Swipe up to dismiss" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Swipe up to dismiss"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desliza hacia arriba para ocultar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Свайп вверх для скрытия"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上滑以隐藏"
+          }
+        }
+      }
+    },
     "System" : {
       "localizations" : {
         "en" : {
@@ -12494,6 +12914,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "系统"
+          }
+        }
+      }
+    },
+    "Tap to expand live activity" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap to expand live activity"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tocar para expandir la actividad en vivo"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нажатие для раскрытия live activity"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "点击以展开实时活动"
           }
         }
       }
@@ -12755,8 +13203,35 @@
         }
       }
     },
+    "Trackpad swipe gestures" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trackpad swipe gestures"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gestos de deslizamiento del trackpad"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Жесты свайпа на трекпаде"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "触控板滑动手势"
+          }
+        }
+      }
+    },
     "Trigger Events" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12843,7 +13318,6 @@
       }
     },
     "Turn off every persistent preview and close any temporary content." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12954,6 +13428,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "解锁声音"
+          }
+        }
+      }
+    },
+    "Use click-and-drag over the notch to preview dismiss and restore interactions." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use click-and-drag over the notch to preview dismiss and restore interactions."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usa clic y arrastre sobre el notch para previsualizar las interacciones de ocultar y restaurar."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Используйте зажатие и перетаскивание по вырезу, чтобы попробовать жесты скрытия и возврата."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在刘海上点击并拖动，以预览隐藏和恢复交互。"
           }
         }
       }
@@ -13211,8 +13713,35 @@
         }
       }
     },
+    "Use vertical two-finger scrolling over the notch to dismiss or restore the latest activity." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use vertical two-finger scrolling over the notch to dismiss or restore the latest activity."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usa el desplazamiento vertical con dos dedos sobre el notch para ocultar o restaurar la última actividad."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Используйте вертикальный скролл двумя пальцами по вырезу, чтобы скрыть или вернуть последнюю активность."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在刘海上用双指垂直滚动，以隐藏或恢复最近的活动。"
+          }
+        }
+      }
+    },
     "Utilities" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -13410,7 +13939,6 @@
       }
     },
     "VPN Connected" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -13581,7 +14109,6 @@
       }
     },
     "Wi-Fi Connected" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

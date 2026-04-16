@@ -7,8 +7,8 @@ struct NotchMouseSwipeModifier: ViewModifier {
     func body(content: Content) -> some View {
         content.background(
             NotchMouseSwipeMonitorRepresentable(
-                canSwipeUp: notchViewModel.notchModel.content != nil,
-                canSwipeDown: notchViewModel.canRestoreDismissedContent,
+                canSwipeUp: notchViewModel.canDismissWithMouseDrag,
+                canSwipeDown: notchViewModel.canRestoreWithMouseDrag,
                 onSwipeUp: {
                     notchViewModel.dismissActiveContent()
                 },

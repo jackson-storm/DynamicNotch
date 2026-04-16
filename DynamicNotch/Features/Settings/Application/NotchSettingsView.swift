@@ -10,15 +10,12 @@ import SwiftUI
 struct NotchSettingsView: View {
     @ObservedObject var powerService: PowerService
     @ObservedObject var applicationSettings: ApplicationSettingsStore
-
-    private var temporaryActivityDurationRange: ClosedRange<Double> {
-        Double(SettingsStoreBase.temporaryActivityDurationRange.lowerBound)...Double(SettingsStoreBase.temporaryActivityDurationRange.upperBound)
-    }
     
     var body: some View {
         SettingsPageScrollView {
             appearanceCard
             animationCard
+            gesturesCard
         }
         .accessibilityIdentifier("settings.notch.root")
     }
@@ -117,6 +114,75 @@ struct NotchSettingsView: View {
                 symbolName: { $0.symbolName }
             )
             .accessibilityIdentifier("settings.general.animationPreset")
+        }
+    }
+
+    private var gesturesCard: some View {
+        SettingsCard(title: "Gestures") {
+            SettingsToggleRow(
+                title: "Tap to expand live activity",
+                description: "Click the notch to open the expanded live activity layout when the current content supports it.",
+                systemImage: "hand.tap.fill",
+                color: .blue,
+                isOn: $applicationSettings.isNotchTapToExpandEnabled,
+                accessibilityIdentifier: "settings.notch.tapToExpand"
+            )
+
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+
+            SettingsToggleRow(
+                title: "Mouse drag gestures",
+                description: "Use click-and-drag over the notch to preview dismiss and restore interactions.",
+                systemImage: "cursorarrow.motionlines",
+                color: .orange,
+                isOn: $applicationSettings.isNotchMouseDragGesturesEnabled,
+                accessibilityIdentifier: "settings.notch.mouseDragGestures"
+            )
+
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+
+            SettingsToggleRow(
+                title: "Trackpad swipe gestures",
+                description: "Use vertical two-finger scrolling over the notch to dismiss or restore the latest activity.",
+                systemImage: "rectangle.and.hand.point.up.left.filled",
+                color: .mint,
+                isOn: $applicationSettings.isNotchTrackpadSwipeGesturesEnabled,
+                accessibilityIdentifier: "settings.notch.trackpadSwipeGestures"
+            )
+
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+
+            SettingsToggleRow(
+                title: "Swipe up to dismiss",
+                description: "Allow gestures to hide the currently visible live or temporary activity.",
+                systemImage: "arrow.up.circle.fill",
+                color: .red,
+                isOn: $applicationSettings.isNotchSwipeDismissEnabled,
+                accessibilityIdentifier: "settings.notch.swipeDismiss"
+            )
+
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+
+            SettingsToggleRow(
+                title: "Swipe down to restore",
+                description: "Allow gestures to bring back the most recently dismissed activity.",
+                systemImage: "arrow.down.circle.fill",
+                color: .teal,
+                isOn: $applicationSettings.isNotchSwipeRestoreEnabled,
+                accessibilityIdentifier: "settings.notch.swipeRestore"
+            )
         }
     }
     

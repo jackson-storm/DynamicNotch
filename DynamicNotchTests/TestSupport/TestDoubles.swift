@@ -7,17 +7,32 @@ final class TestNotchSettings: NotchSettingsProviding {
     var notchHeight: Int
     var displayLocation: NotchDisplayLocation
     var notchAnimationPreset: NotchAnimationPreset
+    var isNotchTapToExpandEnabled: Bool
+    var isNotchMouseDragGesturesEnabled: Bool
+    var isNotchTrackpadSwipeGesturesEnabled: Bool
+    var isNotchSwipeDismissEnabled: Bool
+    var isNotchSwipeRestoreEnabled: Bool
 
     init(
         notchWidth: Int = 0,
         notchHeight: Int = 0,
         displayLocation: NotchDisplayLocation = .main,
-        notchAnimationPreset: NotchAnimationPreset = .balanced
+        notchAnimationPreset: NotchAnimationPreset = .balanced,
+        isNotchTapToExpandEnabled: Bool = true,
+        isNotchMouseDragGesturesEnabled: Bool = true,
+        isNotchTrackpadSwipeGesturesEnabled: Bool = true,
+        isNotchSwipeDismissEnabled: Bool = true,
+        isNotchSwipeRestoreEnabled: Bool = true
     ) {
         self.notchWidth = notchWidth
         self.notchHeight = notchHeight
         self.displayLocation = displayLocation
         self.notchAnimationPreset = notchAnimationPreset
+        self.isNotchTapToExpandEnabled = isNotchTapToExpandEnabled
+        self.isNotchMouseDragGesturesEnabled = isNotchMouseDragGesturesEnabled
+        self.isNotchTrackpadSwipeGesturesEnabled = isNotchTrackpadSwipeGesturesEnabled
+        self.isNotchSwipeDismissEnabled = isNotchSwipeDismissEnabled
+        self.isNotchSwipeRestoreEnabled = isNotchSwipeRestoreEnabled
     }
 }
 

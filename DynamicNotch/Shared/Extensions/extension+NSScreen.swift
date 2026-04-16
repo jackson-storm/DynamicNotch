@@ -41,6 +41,15 @@ extension NSScreen {
         deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? CGDirectDisplayID
     }
 
+    var displayUUIDString: String? {
+        guard let displayID,
+              let uuid = CGDisplayCreateUUIDFromDisplayID(displayID)?.takeRetainedValue() else {
+            return nil
+        }
+
+        return (CFUUIDCreateString(nil, uuid) as String).uppercased()
+    }
+
     var isBuiltInDisplay: Bool {
         guard let displayID else { return false }
         return CGDisplayIsBuiltin(displayID) != 0

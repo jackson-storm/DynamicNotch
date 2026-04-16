@@ -8,11 +8,7 @@
 import SwiftUI
 
 extension View {
-    func customNotchPressable(
-        notchViewModel: NotchViewModel,
-        isPressed: Binding<Bool>,
-        baseSize: CGSize
-    ) -> some View {
+    func customNotchPressable(notchViewModel: NotchViewModel, isPressed: Binding<Bool>, baseSize: CGSize) -> some View {
         modifier(
             NotchCustomScaleModifier(
                 notchViewModel: notchViewModel,
@@ -22,9 +18,7 @@ extension View {
         )
     }
 
-    func customNotchMouseSwipeable(
-        notchViewModel: NotchViewModel
-    ) -> some View {
+    func customNotchMouseSwipeable(notchViewModel: NotchViewModel) -> some View {
         modifier(
             NotchMouseSwipeModifier(
                 notchViewModel: notchViewModel
@@ -32,13 +26,15 @@ extension View {
         )
     }
 
-    func customNotchSwipeDismissable(
-        notchViewModel: NotchViewModel
-    ) -> some View {
+    func customNotchSwipeDismissable(notchViewModel: NotchViewModel) -> some View {
         modifier(
             NotchSwipeDismissModifier(
                 notchViewModel: notchViewModel
             )
         )
+    }
+    
+    func settingsWindowBridge() -> some View {
+        background(SettingsWindowBridge())
     }
 }

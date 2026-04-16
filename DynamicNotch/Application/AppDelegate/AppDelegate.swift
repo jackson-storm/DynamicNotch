@@ -50,6 +50,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             showsDockIcon: isRunningUITests || settingsViewModel.application.isDockIconVisible
         )
         observeDisplayLocationChanges()
+        observeFullscreenVisibilityChanges()
         observeDockIconVisibilityChanges()
         observeHUDConfigurationChanges()
         observeLockScreenWindowHandoff()

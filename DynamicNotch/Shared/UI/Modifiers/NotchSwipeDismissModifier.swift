@@ -7,8 +7,8 @@ struct NotchSwipeDismissModifier: ViewModifier {
     func body(content: Content) -> some View {
         content.background(
             NotchSwipeDismissMonitorRepresentable(
-                canSwipeUp: notchViewModel.notchModel.content != nil,
-                canSwipeDown: notchViewModel.canRestoreDismissedContent,
+                canSwipeUp: notchViewModel.canDismissWithTrackpadSwipe,
+                canSwipeDown: notchViewModel.canRestoreWithTrackpadSwipe,
                 onSwipeUp: {
                     notchViewModel.dismissActiveContent()
                 },

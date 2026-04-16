@@ -40,7 +40,7 @@ struct NotchCustomScaleModifier: ViewModifier {
                             isPressed = false
                         }
 
-                        guard shouldTriggerTap else { return }
+                        guard shouldTriggerTap, notchViewModel.isTapToExpandEnabled else { return }
 
                         if notchViewModel.canExpandActiveLiveActivity {
                             notchViewModel.handleActiveContentTap()

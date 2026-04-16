@@ -182,7 +182,9 @@ private enum SettingsSectionCatalog {
                     "menu bar",
                     "appearance",
                     "language",
-                    "display"
+                    "display",
+                    "full screen",
+                    "fullscreen"
                 ],
                 systemImage: "gear",
                 imageName: nil,

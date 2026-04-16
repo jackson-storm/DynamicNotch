@@ -23,6 +23,22 @@ enum OverlayWindowLayout {
 }
 
 enum OverlayPanelFactory {
+    static func collectionBehavior(
+        includesFullscreenAuxiliary: Bool = true
+    ) -> NSWindow.CollectionBehavior {
+        var behavior: NSWindow.CollectionBehavior = [
+            .canJoinAllSpaces,
+            .stationary,
+            .ignoresCycle
+        ]
+
+        if includesFullscreenAuxiliary {
+            behavior.insert(.fullScreenAuxiliary)
+        }
+
+        return behavior
+    }
+
     static func makePanel(frame: NSRect, level: NSWindow.Level, isFloatingPanel: Bool = true) -> OverlayPanelWindow {
         let window = OverlayPanelWindow(
             contentRect: frame,
@@ -45,11 +61,6 @@ enum OverlayPanelFactory {
         window.hasShadow = false
         window.animationBehavior = .none
         window.level = level
-        window.collectionBehavior = [
-            .canJoinAllSpaces,
-            .stationary,
-            .fullScreenAuxiliary,
-            .ignoresCycle
-        ]
+        window.collectionBehavior = collectionBehavior()
     }
 }

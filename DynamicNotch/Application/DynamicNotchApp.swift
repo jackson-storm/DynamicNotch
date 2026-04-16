@@ -28,6 +28,7 @@ struct NotchApp: App {
                 lockScreenManager: appDelegate.lockScreenManager
             )
             .background(.ultraThinMaterial)
+            .settingsWindowBridge()
             .frame(width: SettingsWindowLayout.width, height: SettingsWindowLayout.height)
         }
         .defaultSize(width: SettingsWindowLayout.width, height: SettingsWindowLayout.height)
@@ -44,7 +45,10 @@ private struct MenuBarMenu: View {
             
             Divider()
             
-            Button { openWindow(id: WindowsScene.settings) } label: {
+            Button {
+                openWindow(id: WindowsScene.settings)
+                SettingsWindowCoordinator.activate()
+            } label: {
                 Image(systemName: "gearshape")
                 Text(verbatim: "Settings")
             }

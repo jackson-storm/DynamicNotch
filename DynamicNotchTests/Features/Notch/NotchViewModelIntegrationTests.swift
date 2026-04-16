@@ -724,4 +724,35 @@ final class NotchViewModelIntegrationTests: XCTestCase {
         XCTAssertGreaterThan(blurRadius, 0)
         XCTAssertLessThan(opacity, 1)
     }
+
+    @MainActor
+    func testTapToExpandSettingBlocksExpansion() async {
+        let viewModel = NotchViewModel(
+            settings: TestNotchSettings(isNotchTapToExpandEnabled: false),
+            hideDelay: 0.01,
+            queueDelay: 0
+        )
+        TestLifetime.retain(viewModel)
+
+        viewModel.send(
+            .showLiveActivity(
+                TestNotchContent(
+                    id: "expandable",
+                    priority: 10,
+                    isExpandable: true,
+                    expandedWidthOffset: 140,
+                    expandedHeightOffset: 80
+                )
+            )
+        )
+
+        await assertEventually {
+            await MainActor.run { viewModel.notchModel.liveActivityContent?.id == "expandable" }
+        }
+
+        viewModel.handleActiveContentTap()
+
+        let isExpanded = await MainActor.run { viewModel.notchModel.isLiveActivityExpanded }
+        XCTAssertFalse(isExpanded)
+    }
 }

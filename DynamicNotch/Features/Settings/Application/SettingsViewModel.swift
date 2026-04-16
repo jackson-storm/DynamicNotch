@@ -122,6 +122,31 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
         set { application.notchAnimationPreset = newValue }
     }
 
+    var isNotchTapToExpandEnabled: Bool {
+        get { application.isNotchTapToExpandEnabled }
+        set { application.isNotchTapToExpandEnabled = newValue }
+    }
+
+    var isNotchMouseDragGesturesEnabled: Bool {
+        get { application.isNotchMouseDragGesturesEnabled }
+        set { application.isNotchMouseDragGesturesEnabled = newValue }
+    }
+
+    var isNotchTrackpadSwipeGesturesEnabled: Bool {
+        get { application.isNotchTrackpadSwipeGesturesEnabled }
+        set { application.isNotchTrackpadSwipeGesturesEnabled = newValue }
+    }
+
+    var isNotchSwipeDismissEnabled: Bool {
+        get { application.isNotchSwipeDismissEnabled }
+        set { application.isNotchSwipeDismissEnabled = newValue }
+    }
+
+    var isNotchSwipeRestoreEnabled: Bool {
+        get { application.isNotchSwipeRestoreEnabled }
+        set { application.isNotchSwipeRestoreEnabled = newValue }
+    }
+
     var isNotchSizeTemporaryActivityEnabled: Bool {
         get { application.isNotchSizeTemporaryActivityEnabled }
         set { application.isNotchSizeTemporaryActivityEnabled = newValue }

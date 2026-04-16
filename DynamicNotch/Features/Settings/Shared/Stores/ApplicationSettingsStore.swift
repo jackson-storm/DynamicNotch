@@ -81,9 +81,54 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         }
     }
 
+    @Published var isNotchHiddenInFullscreenEnabled: Bool {
+        didSet {
+            persist(
+                isNotchHiddenInFullscreenEnabled,
+                for: GeneralSettingsStorage.Keys.hideNotchInFullscreenEnabled
+            )
+        }
+    }
+
     @Published var notchAnimationPreset: NotchAnimationPreset {
         didSet {
             persist(notchAnimationPreset.rawValue, for: GeneralSettingsStorage.Keys.notchAnimationPreset)
+        }
+    }
+
+    @Published var isNotchTapToExpandEnabled: Bool {
+        didSet {
+            persist(isNotchTapToExpandEnabled, for: GeneralSettingsStorage.Keys.notchTapToExpandEnabled)
+        }
+    }
+
+    @Published var isNotchMouseDragGesturesEnabled: Bool {
+        didSet {
+            persist(
+                isNotchMouseDragGesturesEnabled,
+                for: GeneralSettingsStorage.Keys.notchMouseDragGesturesEnabled
+            )
+        }
+    }
+
+    @Published var isNotchTrackpadSwipeGesturesEnabled: Bool {
+        didSet {
+            persist(
+                isNotchTrackpadSwipeGesturesEnabled,
+                for: GeneralSettingsStorage.Keys.notchTrackpadSwipeGesturesEnabled
+            )
+        }
+    }
+
+    @Published var isNotchSwipeDismissEnabled: Bool {
+        didSet {
+            persist(isNotchSwipeDismissEnabled, for: GeneralSettingsStorage.Keys.notchSwipeDismissEnabled)
+        }
+    }
+
+    @Published var isNotchSwipeRestoreEnabled: Bool {
+        didSet {
+            persist(isNotchSwipeRestoreEnabled, for: GeneralSettingsStorage.Keys.notchSwipeRestoreEnabled)
         }
     }
 
@@ -134,9 +179,33 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         self.appLanguage = DynamicNotchLanguage.resolved(
             defaults.string(forKey: GeneralSettingsStorage.Keys.appLanguage)
         )
+        self.isNotchHiddenInFullscreenEnabled = Self.resolvedBool(
+            defaults: defaults,
+            key: GeneralSettingsStorage.Keys.hideNotchInFullscreenEnabled
+        )
         self.notchAnimationPreset = NotchAnimationPreset(
             rawValue: defaults.string(forKey: GeneralSettingsStorage.Keys.notchAnimationPreset) ?? NotchAnimationPreset.balanced.rawValue
         ) ?? .balanced
+        self.isNotchTapToExpandEnabled = Self.resolvedBool(
+            defaults: defaults,
+            key: GeneralSettingsStorage.Keys.notchTapToExpandEnabled
+        )
+        self.isNotchMouseDragGesturesEnabled = Self.resolvedBool(
+            defaults: defaults,
+            key: GeneralSettingsStorage.Keys.notchMouseDragGesturesEnabled
+        )
+        self.isNotchTrackpadSwipeGesturesEnabled = Self.resolvedBool(
+            defaults: defaults,
+            key: GeneralSettingsStorage.Keys.notchTrackpadSwipeGesturesEnabled
+        )
+        self.isNotchSwipeDismissEnabled = Self.resolvedBool(
+            defaults: defaults,
+            key: GeneralSettingsStorage.Keys.notchSwipeDismissEnabled
+        )
+        self.isNotchSwipeRestoreEnabled = Self.resolvedBool(
+            defaults: defaults,
+            key: GeneralSettingsStorage.Keys.notchSwipeRestoreEnabled
+        )
         self.isNotchSizeTemporaryActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.notchSizeTemporaryActivityEnabled)
         self.notchSizeTemporaryActivityDuration = Self.clampTemporaryActivityDuration(
             defaults.object(forKey: GeneralSettingsStorage.Keys.notchSizeTemporaryActivityDuration) as? Int ??
@@ -159,12 +228,20 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         appLanguage = DynamicNotchLanguage.resolved(
             defaultString(for: GeneralSettingsStorage.Keys.appLanguage)
         )
+        isNotchHiddenInFullscreenEnabled = defaultBool(
+            for: GeneralSettingsStorage.Keys.hideNotchInFullscreenEnabled
+        )
     }
 
     func resetNotch() {
         notchAnimationPreset = NotchAnimationPreset(
             rawValue: defaultString(for: GeneralSettingsStorage.Keys.notchAnimationPreset)
         ) ?? .balanced
+        isNotchTapToExpandEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchTapToExpandEnabled)
+        isNotchMouseDragGesturesEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchMouseDragGesturesEnabled)
+        isNotchTrackpadSwipeGesturesEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchTrackpadSwipeGesturesEnabled)
+        isNotchSwipeDismissEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchSwipeDismissEnabled)
+        isNotchSwipeRestoreEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchSwipeRestoreEnabled)
         isShowNotchStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchStrokeEnabled)
         isDefaultActivityStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.defaultActivityStrokeEnabled)
         isNotchSizeTemporaryActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchSizeTemporaryActivityEnabled)
@@ -200,6 +277,14 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
             guard defaults.object(forKey: key) != nil else { return false }
             return defaults.bool(forKey: key)
         }
+    }
+
+    private static func resolvedBool(defaults: UserDefaults, key: String) -> Bool {
+        if let currentValue = defaults.object(forKey: key) as? Bool {
+            return currentValue
+        }
+
+        return (GeneralSettingsStorage.defaultValues[key] as? Bool) ?? false
     }
 
     private func updateLaunchAtLogin() {

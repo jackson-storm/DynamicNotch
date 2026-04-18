@@ -26,7 +26,7 @@ struct NotchCustomScaleModifier: ViewModifier {
                 anchor: .top
             )
             .animation(.spring(response: 0.3, dampingFraction: 0.5), value: isPressed)
-            .gesture(
+            .simultaneousGesture(
                 DragGesture(minimumDistance: 0)
                     .onChanged { value in
                         let shouldBePressed = hitBounds.contains(value.location)
@@ -51,7 +51,7 @@ struct NotchCustomScaleModifier: ViewModifier {
                             notchViewModel.handleActiveContentTap()
                         }
                     }
-            , including: .gesture)
+            )
     }
 }
 

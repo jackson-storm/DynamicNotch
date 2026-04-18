@@ -23,6 +23,7 @@ struct SettingsRootView: View {
     let networkViewModel: NetworkViewModel
     let downloadViewModel: DownloadViewModel
     let nowPlayingViewModel: NowPlayingViewModel
+    let timerViewModel: TimerViewModel
     let lockScreenManager: LockScreenManager
     
     private let aboutWebsiteURL = URL(string: "https://dynamicnotch.evgeniy-petrukovich.workers.dev/download")!
@@ -43,6 +44,7 @@ struct SettingsRootView: View {
         networkViewModel: NetworkViewModel,
         downloadViewModel: DownloadViewModel,
         nowPlayingViewModel: NowPlayingViewModel,
+        timerViewModel: TimerViewModel,
         lockScreenManager: LockScreenManager
     ) {
         self.powerService = powerService
@@ -53,6 +55,7 @@ struct SettingsRootView: View {
         self.networkViewModel = networkViewModel
         self.downloadViewModel = downloadViewModel
         self.nowPlayingViewModel = nowPlayingViewModel
+        self.timerViewModel = timerViewModel
         self.lockScreenManager = lockScreenManager
         let rootViewModel = SettingsRootViewModel(
             settingsViewModel: settingsViewModel,
@@ -63,6 +66,7 @@ struct SettingsRootView: View {
             networkViewModel: networkViewModel,
             downloadViewModel: downloadViewModel,
             nowPlayingViewModel: nowPlayingViewModel,
+            timerViewModel: timerViewModel,
             lockScreenManager: lockScreenManager
         )
         self.viewModel = rootViewModel

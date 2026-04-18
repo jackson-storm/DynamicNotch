@@ -306,6 +306,7 @@ private extension NotchEventCoordinatorIntegrationTests {
         let nowPlayingService = FakeNowPlayingService()
         let lockScreenService = FakeLockScreenMonitoringService()
         let nowPlayingViewModel = NowPlayingViewModel(service: nowPlayingService)
+        let timerViewModel = TimerViewModel(monitor: ClockTimerMonitor())
         let lockScreenManager = LockScreenManager(
             service: lockScreenService,
             unlockCollapseDelay: 0.05,
@@ -326,6 +327,7 @@ private extension NotchEventCoordinatorIntegrationTests {
             airDropViewModel: AirDropNotchViewModel(),
             settingsViewModel: settingsViewModel,
             nowPlayingViewModel: nowPlayingViewModel,
+            timerViewModel: timerViewModel,
             lockScreenManager: lockScreenManager
         )
         var cancellables = Set<AnyCancellable>()

@@ -30,6 +30,10 @@ final class DebugSettingsViewModel: ObservableObject {
     @Published var isDownloadPreviewEnabled = false {
         didSet { guard isReady else { return }; updateDownloadPreview() }
     }
+    
+    @Published var isTimerPreviewEnabled = false {
+        didSet { guard isReady else { return }; updateTimerPreview() }
+    }
 
     @Published var isLockScreenPreviewEnabled = false {
         didSet { guard isReady else { return }; updateLockScreenPreview() }
@@ -42,6 +46,7 @@ final class DebugSettingsViewModel: ObservableObject {
     private static let sequenceHotspotID = "debug.sequence.hotspot.active"
     private static let sequenceNowPlayingID = "debug.sequence.nowPlaying"
     private static let sequenceDownloadsID = "debug.sequence.download.active"
+    private static let sequenceTimerID = "debug.sequence.clock.timer"
     private static let livePreviewDuration: TimeInterval = 4
     private static let previewGapDuration: TimeInterval = 1
     private static let transitionBufferDuration: TimeInterval = 0.35
@@ -50,7 +55,8 @@ final class DebugSettingsViewModel: ObservableObject {
         sequenceFocusID,
         sequenceHotspotID,
         sequenceNowPlayingID,
-        sequenceDownloadsID
+        sequenceDownloadsID,
+        sequenceTimerID
     ]
 
     private let notchViewModel: NotchViewModel
@@ -59,6 +65,7 @@ final class DebugSettingsViewModel: ObservableObject {
     private let powerService: PowerService
     private let networkViewModel: NetworkViewModel
     private let downloadViewModel: DownloadViewModel
+    private let timerViewModel: TimerViewModel
     private let nowPlayingViewModel: NowPlayingViewModel
     private let lockScreenManager: LockScreenManager
     private let settingsViewModel: SettingsViewModel
@@ -73,6 +80,7 @@ final class DebugSettingsViewModel: ObservableObject {
         powerService: PowerService,
         networkViewModel: NetworkViewModel,
         downloadViewModel: DownloadViewModel,
+        timerViewModel: TimerViewModel,
         settingsViewModel: SettingsViewModel,
         nowPlayingViewModel: NowPlayingViewModel,
         lockScreenManager: LockScreenManager
@@ -83,6 +91,7 @@ final class DebugSettingsViewModel: ObservableObject {
         self.powerService = powerService
         self.networkViewModel = networkViewModel
         self.downloadViewModel = downloadViewModel
+        self.timerViewModel = timerViewModel
         self.settingsViewModel = settingsViewModel
         self.nowPlayingViewModel = nowPlayingViewModel
         self.lockScreenManager = lockScreenManager
@@ -164,6 +173,7 @@ final class DebugSettingsViewModel: ObservableObject {
         isHotspotPreviewEnabled = false
         isNowPlayingPreviewEnabled = false
         isDownloadPreviewEnabled = false
+        isTimerPreviewEnabled = false
         isLockScreenPreviewEnabled = false
         notchViewModel.hideTemporaryNotification()
     }
@@ -218,6 +228,16 @@ final class DebugSettingsViewModel: ObservableObject {
             }
         }
     }
+    
+    private func updateTimerPreview() {
+        if isTimerPreviewEnabled {
+            timerViewModel.showDebugPreviewSnapshotIfNeeded()
+            notchEventCoordinator.handleTimerEvent(.started)
+        } else {
+            notchEventCoordinator.handleTimerEvent(.stopped)
+            timerViewModel.hideDebugPreviewSnapshotIfNeeded()
+        }
+    }
 
     private func updateLockScreenPreview() {
         lockScreenManager.setDebugLockState(isLockScreenPreviewEnabled)
@@ -257,6 +277,7 @@ final class DebugSettingsViewModel: ObservableObject {
                 )
                 try await self.playNowPlayingPreview()
                 try await self.playDownloadsPreview()
+                try await self.playTimerPreview()
                 try await self.playBluetoothPreview()
                 try await self.playTemporaryPreview(
                     WifiConnectedNotchContent(
@@ -403,6 +424,21 @@ final class DebugSettingsViewModel: ObservableObject {
         }
     }
 
+    private func playTimerPreview() async throws {
+        timerViewModel.showDebugPreviewSnapshotIfNeeded()
+        try await playLivePreview(
+            TimerNotchContent(
+                timerViewModel: timerViewModel
+            ),
+            id: Self.sequenceTimerID
+        )
+        timerViewModel.hideDebugPreviewSnapshotIfNeeded()
+
+        if isTimerPreviewEnabled {
+            updateTimerPreview()
+        }
+    }
+
     private func playTemporaryPreview(
         _ content: any NotchContentProtocol,
         id: String,
@@ -474,6 +510,7 @@ final class DebugSettingsViewModel: ObservableObject {
 
         nowPlayingViewModel.hideDebugPreviewSnapshotIfNeeded()
         downloadViewModel.hideDebugPreviewDownloadsIfNeeded()
+        timerViewModel.hideDebugPreviewSnapshotIfNeeded()
 
         if isNowPlayingPreviewEnabled {
             updateNowPlayingPreview()
@@ -481,6 +518,10 @@ final class DebugSettingsViewModel: ObservableObject {
 
         if isDownloadPreviewEnabled {
             updateDownloadPreview()
+        }
+
+        if isTimerPreviewEnabled {
+            updateTimerPreview()
         }
     }
 

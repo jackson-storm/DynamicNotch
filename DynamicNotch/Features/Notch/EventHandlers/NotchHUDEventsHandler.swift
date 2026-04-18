@@ -13,7 +13,7 @@ final class NotchHUDEventsHandler {
         self.settingsViewModel = settingsViewModel
     }
 
-    func handle(_ event: HudEvent) {
+    func handleHud(_ event: HudEvent) {
         switch event {
         case .display(let level):
             guard settingsViewModel.isHUDEnabled(.brightness) else { return }

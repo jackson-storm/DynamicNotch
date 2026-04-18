@@ -19,6 +19,7 @@ final class SettingsRootViewModel {
         networkViewModel: NetworkViewModel? = nil,
         downloadViewModel: DownloadViewModel? = nil,
         nowPlayingViewModel: NowPlayingViewModel? = nil,
+        timerViewModel: TimerViewModel? = nil,
         lockScreenManager: LockScreenManager? = nil,
         defaults: UserDefaults = .standard
     ) {
@@ -35,6 +36,7 @@ final class SettingsRootViewModel {
             networkViewModel: networkViewModel,
             downloadViewModel: downloadViewModel,
             nowPlayingViewModel: nowPlayingViewModel,
+            timerViewModel: timerViewModel,
             lockScreenManager: lockScreenManager
         )
         #endif

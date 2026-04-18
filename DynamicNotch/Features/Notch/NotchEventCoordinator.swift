@@ -15,6 +15,7 @@ final class NotchEventCoordinator: ObservableObject {
     private let downloadViewModel: DownloadViewModel
     private let settingsViewModel: SettingsViewModel
     private let nowPlayingViewModel: NowPlayingViewModel
+    private let timerViewModel: TimerViewModel
     private let lockScreenManager: LockScreenManager
     private let systemHandler: NotchSystemEventsHandler
     private let focusHandler: NotchFocusEventsHandler
@@ -22,6 +23,7 @@ final class NotchEventCoordinator: ObservableObject {
     private let connectivityHandler: NotchConnectivityEventsHandler
     private let powerHandler: NotchPowerEventsHandler
     private let mediaHandler: NotchMediaEventsHandler
+    private let timerHandler: NotchTimerEventsHandler
     private var cancellables = Set<AnyCancellable>()
     
     private var isOnboardingActive: Bool {
@@ -51,6 +53,7 @@ final class NotchEventCoordinator: ObservableObject {
         airDropViewModel: AirDropNotchViewModel,
         settingsViewModel: SettingsViewModel,
         nowPlayingViewModel: NowPlayingViewModel,
+        timerViewModel: TimerViewModel,
         lockScreenManager: LockScreenManager
     ) {
         self.notchViewModel = notchViewModel
@@ -58,6 +61,7 @@ final class NotchEventCoordinator: ObservableObject {
         self.downloadViewModel = downloadViewModel
         self.settingsViewModel = settingsViewModel
         self.nowPlayingViewModel = nowPlayingViewModel
+        self.timerViewModel = timerViewModel
         self.lockScreenManager = lockScreenManager
         self.systemHandler = NotchSystemEventsHandler(
             notchViewModel: notchViewModel,
@@ -88,6 +92,10 @@ final class NotchEventCoordinator: ObservableObject {
             airDropViewModel: airDropViewModel,
             settingsViewModel: settingsViewModel,
             nowPlayingViewModel: nowPlayingViewModel
+        )
+        self.timerHandler = NotchTimerEventsHandler(
+            notchViewModel: notchViewModel,
+            timerViewModel: timerViewModel
         )
         observeSettingsChanges()
     }
@@ -167,14 +175,14 @@ final class NotchEventCoordinator: ObservableObject {
         guard !isOnboardingActive else { return }
         guard !isLockScreenTransitionActive else { return }
 
-        focusHandler.handle(event)
+        focusHandler.handleFocus(event)
     }
     
     func handleHudEvent(_ event: HudEvent) {
         guard !isOnboardingActive else { return }
         guard !isLockScreenTransitionActive else { return }
 
-        hudHandler.handle(event)
+        hudHandler.handleHud(event)
     }
     
     func handleOnboardingEvent(_ event: OnboardingEvent) {
@@ -222,6 +230,13 @@ final class NotchEventCoordinator: ObservableObject {
         guard !isOnboardingActive else { return }
 
         mediaHandler.handleNowPlaying(event)
+    }
+
+    func handleTimerEvent(_ event: TimerEvent) {
+        guard !isOnboardingActive else { return }
+        guard !isLockScreenTransitionActive else { return }
+
+        timerHandler.handleTimer(event)
     }
 
     func handleLockScreenEvent(_ event: LockScreenEvent) {

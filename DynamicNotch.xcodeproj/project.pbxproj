@@ -138,6 +138,7 @@
 				E2EF784D2EDDB60E00F96D1E /* Sources */,
 				E2EF784E2EDDB60E00F96D1E /* Frameworks */,
 				E2EF784F2EDDB60E00F96D1E /* Resources */,
+				E2C1A0013000000000000001 /* Remove Stale XCTest Bundles */,
 			);
 			buildRules = (
 			);
@@ -272,6 +273,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		E2C1A0013000000000000001 /* Remove Stale XCTest Bundles */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Remove Stale XCTest Bundles";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "PLUGINS_DIR=\"$TARGET_BUILD_DIR/$WRAPPER_NAME/Contents/PlugIns\"\nif [ -d \"$PLUGINS_DIR\" ]; then\n  find \"$PLUGINS_DIR\" -maxdepth 1 -type d \\( -name \"*.xctest\" -o -name \"*.xctestproducts\" \\) -exec rm -rf {} +\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E2EF784D2EDDB60E00F96D1E /* Sources */ = {

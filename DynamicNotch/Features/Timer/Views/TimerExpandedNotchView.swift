@@ -1,135 +1,91 @@
 import SwiftUI
 
 struct TimerExpandedNotchView: View {
-    @Environment(\.notchScale) private var scale
     @ObservedObject var timerViewModel: TimerViewModel
+    @State private var isControlActionRunning = false
 
     private var resolvedSnapshot: ClockTimerSnapshot {
         timerViewModel.snapshot ?? ClockTimerSnapshot(
             identifier: "debug.clock.timer",
-            title: "Timer",
-            duration: 60,
-            endDate: .now.addingTimeInterval(60),
+            title: "Debug timer",
+            duration: 30,
+            endDate: .now.addingTimeInterval(30),
             isPaused: false,
             pausedRemaining: nil,
             fingerprint: "debug.clock.timer"
         )
     }
 
-    var body: some View {
-        TimelineView(.periodic(from: .now, by: 1)) { context in
-            content(snapshot: resolvedSnapshot, date: context.date)
-        }
+    private var pauseButtonSymbol: String {
+        resolvedSnapshot.isPaused ? "play.fill" : "pause.fill"
     }
 
-    private func content(snapshot: ClockTimerSnapshot, date: Date) -> some View {
-        let remainingTime = snapshot.remainingTime(at: date)
-        let progress = snapshot.progress(at: date)
-
-        return VStack(alignment: .leading, spacing: 16) {
+    var body: some View {
+        VStack {
             Spacer()
 
-            HStack(alignment: .top, spacing: 12) {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(verbatim: snapshot.title)
-                        .font(.system(size: 18, weight: .semibold))
-                        .foregroundStyle(.white.opacity(0.92))
-                        .lineLimit(1)
+            HStack {
+                leftContent
+                Spacer()
+                rightContent
+            }
+        }
+        .padding(.horizontal, 32)
+        .padding(.bottom, 12)
+    }
 
-                    Text(verbatim: snapshot.isPaused ? "Clock timer is paused" : "Clock timer is running")
-                        .font(.system(size: 12, weight: .medium))
-                        .foregroundStyle(.white.opacity(0.45))
+    private var leftContent: some View {
+        HStack {
+            Button {
+                guard !isControlActionRunning else { return }
+
+                Task { @MainActor in
+                    isControlActionRunning = true
+                    defer { isControlActionRunning = false }
+                    _ = await timerViewModel.togglePauseResume()
                 }
+            } label: {
+                Image(systemName: pauseButtonSymbol)
+                    .font(.system(size: 20))
+                    .foregroundStyle(.orange)
+            }
+            .buttonStyle(PrimaryButtonStyle(width: 40, height: 40, backgroundColor: .orange.opacity(0.3)))
+            .disabled(isControlActionRunning)
 
-                Spacer(minLength: 12)
+            Button {
+                guard !isControlActionRunning else { return }
 
-                Text(verbatim: snapshot.isPaused ? "Paused" : formattedClockTime(snapshot.endDate))
-                    .font(.system(size: 12, weight: .semibold, design: .rounded))
-                    .foregroundStyle(.orange.opacity(0.85))
+                Task { @MainActor in
+                    isControlActionRunning = true
+                    defer { isControlActionRunning = false }
+                    _ = await timerViewModel.stopTimer()
+                }
+            } label: {
+                Image(systemName: "xmark")
+                    .font(.system(size: 20))
+                    .bold()
+                    .foregroundStyle(.white.opacity(0.8))
+            }
+            .buttonStyle(PrimaryButtonStyle(width: 40, height: 40, backgroundColor: .gray.opacity(0.3)))
+            .disabled(isControlActionRunning)
+        }
+    }
+
+    private var rightContent: some View {
+        HStack {
+            Text("Timer")
+                .font(.system(size: 14))
+                .foregroundStyle(Color.orange.opacity(0.8))
+                .offset(y: 8)
+
+            TimelineView(.animation(minimumInterval: 0.25, paused: resolvedSnapshot.isPaused)) { context in
+                Text(formattedDuration(resolvedSnapshot.remainingTime(at: context.date)))
+                    .font(.system(size: 36, weight: .semibold, design: .rounded))
                     .monospacedDigit()
-            }
-
-            VStack(alignment: .leading, spacing: 10) {
-                HStack(alignment: .lastTextBaseline, spacing: 8) {
-                    TimerCountdownText(snapshot: snapshot)
-                        .font(.system(size: 34, weight: .semibold, design: .rounded))
-                        .foregroundStyle(.white.opacity(0.96))
-                        .monospacedDigit()
-
-                    Text(verbatim: snapshot.isPaused ? "paused" : "remaining")
-                        .font(.system(size: 12, weight: .medium))
-                        .foregroundStyle(.white.opacity(0.45))
-                }
-
-                GeometryReader { proxy in
-                    ZStack(alignment: .leading) {
-                        Capsule()
-                            .fill(.white.opacity(0.12))
-
-                        Capsule()
-                            .fill(
-                                LinearGradient(
-                                    colors: [
-                                        .orange.opacity(0.45),
-                                        .orange
-                                    ],
-                                    startPoint: .leading,
-                                    endPoint: .trailing
-                                )
-                            )
-                            .frame(width: max(16, proxy.size.width * progress))
-                    }
-                }
-                .frame(height: 9)
-            }
-
-            HStack(spacing: 12) {
-                infoCard(
-                    title: "Duration",
-                    value: formattedDuration(snapshot.duration)
-                )
-
-                infoCard(
-                    title: "Ends",
-                    value: snapshot.isPaused ? "Paused" : formattedClockTime(snapshot.endDate)
-                )
-
-                infoCard(
-                    title: "Left",
-                    value: formattedDuration(remainingTime)
-                )
+                    .foregroundStyle(Color.orange)
+                    .contentTransition(.numericText())
             }
         }
-        .padding(.horizontal, 42.scaled(by: scale))
-        .padding(.top, 24.scaled(by: scale))
-        .padding(.bottom, 20.scaled(by: scale))
-    }
-
-    @ViewBuilder
-    private func infoCard(title: String, value: String) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text(verbatim: title)
-                .font(.system(size: 10, weight: .semibold))
-                .foregroundStyle(.white.opacity(0.42))
-
-            Text(verbatim: value)
-                .font(.system(size: 12, weight: .semibold, design: .rounded))
-                .foregroundStyle(.white.opacity(0.9))
-                .monospacedDigit()
-                .lineLimit(1)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.horizontal, 12)
-        .padding(.vertical, 10)
-        .background(.white.opacity(0.06), in: RoundedRectangle(cornerRadius: 14, style: .continuous))
-    }
-
-    private func formattedClockTime(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.locale = .current
-        formatter.timeStyle = .short
-        formatter.dateStyle = .none
-        return formatter.string(from: date)
     }
 
     private func formattedDuration(_ duration: TimeInterval) -> String {

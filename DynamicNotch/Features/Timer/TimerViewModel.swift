@@ -36,10 +36,15 @@ final class TimerViewModel: ObservableObject {
     @Published var event: TimerEvent?
 
     private let monitor: any ClockTimerMonitoring
+    private let controller: any ClockTimerControlling
     private var hasStartedMonitoring = false
 
-    init(monitor: any ClockTimerMonitoring) {
+    init(
+        monitor: any ClockTimerMonitoring,
+        controller: (any ClockTimerControlling)? = nil
+    ) {
         self.monitor = monitor
+        self.controller = controller ?? InactiveClockTimerController()
         self.monitor.onSnapshotChange = { [weak self] snapshot in
             guard let self else { return }
 
@@ -69,6 +74,14 @@ final class TimerViewModel: ObservableObject {
         guard hasStartedMonitoring else { return }
         hasStartedMonitoring = false
         monitor.stopMonitoring()
+    }
+
+    func togglePauseResume() async -> Bool {
+        await controller.togglePauseResume()
+    }
+
+    func stopTimer() async -> Bool {
+        await controller.stopTimer()
     }
 
     #if DEBUG

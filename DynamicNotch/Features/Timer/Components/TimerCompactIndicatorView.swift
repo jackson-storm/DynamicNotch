@@ -10,10 +10,7 @@ import SwiftUI
 struct TimerCompactIndicatorView: View {
     let snapshot: ClockTimerSnapshot
 
-    private var ringSize: CGFloat { 18 }
-    private var lineWidth: CGFloat { 3 }
-    private var arrowSize: CGFloat { 6.5 }
-    private var arrowOffset: CGFloat { 4.2 }
+    private var lineWidth: CGFloat { 2.5 }
 
     var body: some View {
         TimelineView(.animation(minimumInterval: 1 / 24, paused: snapshot.isPaused)) { context in
@@ -36,13 +33,13 @@ struct TimerCompactIndicatorView: View {
                     .fill(.black.opacity(0.34))
                     .padding(lineWidth + 2)
 
-                Image(systemName: "arrowtriangle.up.fill")
-                    .font(.system(size: arrowSize, weight: .black))
-                    .foregroundStyle(.orange.gradient)
-                    .offset(y: -arrowOffset)
+                RoundedRectangle(cornerRadius: 1)
+                    .fill(.orange.gradient)
+                    .frame(width: 6, height: 2.5)
+                    .offset(x: 3.5)
                     .rotationEffect(angle)
             }
-            .frame(width: ringSize, height: ringSize)
+            .frame(width: 20, height: 20)
         }
     }
 

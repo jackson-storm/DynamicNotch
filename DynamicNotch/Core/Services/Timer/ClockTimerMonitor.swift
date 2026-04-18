@@ -28,10 +28,12 @@ final class ClockTimerMonitor: ClockTimerMonitoring {
     private var logPipe: Pipe?
     private var logBuffer = Data()
     private var logRestartWorkItem: DispatchWorkItem?
+    private var completionClearWorkItem: DispatchWorkItem?
 
     private var fileDescriptor: CInt = -1
     private var fileMonitor: DispatchSourceFileSystemObject?
     private var accessibilityTicker: DispatchSourceTimer?
+    private var didWarnAboutAccessibility = false
 
     #if canImport(ApplicationServices)
     private var menuBarTimerItem: AXUIElement?
@@ -66,8 +68,23 @@ final class ClockTimerMonitor: ClockTimerMonitoring {
             self.reloadPreferencesTimer()
             self.startPreferencesMonitor()
 
-            _ = self.startLogStream()
-            self.startAccessibilityFallbackIfPossible()
+            let logStarted = self.startLogStream()
+
+            #if canImport(ApplicationServices)
+            let hasAccessibility = AXIsProcessTrusted()
+            #else
+            let hasAccessibility = false
+            #endif
+
+            if !logStarted {
+                if hasAccessibility {
+                    self.startAccessibilityFallbackIfPossible()
+                } else {
+                    self.postAccessibilityWarningIfNeeded()
+                }
+            } else if !hasAccessibility {
+                self.postAccessibilityWarningIfNeeded()
+            }
         }
     }
 
@@ -120,6 +137,8 @@ private extension ClockTimerMonitor {
     func teardown(clearSnapshot: Bool) {
         logRestartWorkItem?.cancel()
         logRestartWorkItem = nil
+        completionClearWorkItem?.cancel()
+        completionClearWorkItem = nil
 
         stopLogStream()
 
@@ -265,8 +284,10 @@ private extension ClockTimerMonitor {
             guard let self else { return }
             self.logRestartWorkItem = nil
 
-            _ = self.startLogStream()
-            self.startAccessibilityFallbackIfPossible()
+            let logStarted = self.startLogStream()
+            if !logStarted {
+                self.startAccessibilityFallbackIfPossible()
+            }
         }
 
         logRestartWorkItem = workItem
@@ -320,7 +341,7 @@ private extension ClockTimerMonitor {
         }
 
         if message.contains("Timer stopped") {
-            clearTrackedTimer()
+            handleTimerStoppedMessage()
         }
     }
 
@@ -361,20 +382,25 @@ private extension ClockTimerMonitor {
         switch state {
         case .paused:
             if let currentRemaining {
-                recordRemaining(currentRemaining, paused: true)
+                applyLogDrivenUpdate(remaining: currentRemaining, paused: true)
             } else {
                 currentPausedState = true
             }
 
         case .running:
             if let currentRemaining {
-                recordRemaining(currentRemaining, paused: false)
+                applyLogDrivenUpdate(remaining: currentRemaining, paused: false)
             } else {
                 currentPausedState = false
             }
 
-        case .fired, .stopped:
-            clearTrackedTimer()
+        case .fired:
+            applyLogDrivenUpdate(remaining: 0, paused: false)
+
+        case .stopped:
+            if completionClearWorkItem == nil {
+                handleTimerStoppedMessage()
+            }
 
         case .unknown:
             break
@@ -418,7 +444,7 @@ private extension ClockTimerMonitor {
             return
         }
 
-        recordRemaining(minutes * 60, paused: currentPausedState)
+        applyLogDrivenUpdate(remaining: minutes * 60, paused: currentPausedState)
     }
 
     func applyRemainingTimeMessage(_ message: String) {
@@ -427,7 +453,18 @@ private extension ClockTimerMonitor {
             return
         }
 
-        recordRemaining(remaining, paused: currentPausedState)
+        applyLogDrivenUpdate(remaining: remaining, paused: currentPausedState)
+    }
+
+    func handleTimerStoppedMessage() {
+        guard trackedTimerID != nil else { return }
+        guard completionClearWorkItem == nil else { return }
+        clearTrackedTimer()
+    }
+
+    func applyLogDrivenUpdate(remaining: TimeInterval, paused: Bool) {
+        guard trackedTimerID != nil || preferencesTimer?.state.isActive == true else { return }
+        recordRemaining(remaining, paused: paused)
     }
 
     func recordRemaining(_ remaining: TimeInterval, paused: Bool) {
@@ -450,10 +487,12 @@ private extension ClockTimerMonitor {
         currentPausedState = resolvedPaused
 
         if resolvedRemaining <= 0 {
-            clearTrackedTimer()
+            publishCurrentSnapshot()
+            scheduleCompletionClear()
             return
         }
 
+        cancelCompletionClear()
         publishCurrentSnapshot()
     }
 
@@ -626,6 +665,24 @@ private extension ClockTimerMonitor {
         }
     }
 
+    func scheduleCompletionClear(after delay: TimeInterval = 3.2) {
+        cancelCompletionClear()
+
+        let workItem = DispatchWorkItem { [weak self] in
+            guard let self else { return }
+            self.completionClearWorkItem = nil
+            self.clearTrackedTimer()
+        }
+
+        completionClearWorkItem = workItem
+        queue.asyncAfter(deadline: .now() + delay, execute: workItem)
+    }
+
+    func cancelCompletionClear() {
+        completionClearWorkItem?.cancel()
+        completionClearWorkItem = nil
+    }
+
     func beginTracking(timerID: String) {
         let normalizedID = timerID
             .trimmingCharacters(in: CharacterSet(charactersIn: " <>"))
@@ -641,9 +698,11 @@ private extension ClockTimerMonitor {
         totalDurationHint = preferencesTimer?.duration
         currentRemaining = nil
         currentPausedState = preferencesTimer?.state == .paused
+        cancelCompletionClear()
     }
 
     func clearTrackedTimer() {
+        cancelCompletionClear()
         trackedTimerID = nil
         preferredTitle = nil
         preferredDuration = nil
@@ -658,6 +717,7 @@ private extension ClockTimerMonitor {
         preferencesTimer = loadPreferencesTimer()
 
         guard let preferencesTimer else {
+            totalDurationHint = nil
             if trackedTimerID == nil {
                 publish(snapshot: nil)
             }
@@ -685,7 +745,15 @@ private extension ClockTimerMonitor {
                 publishCurrentSnapshot()
             }
 
-        case .stopped, .fired:
+        case .fired:
+            if currentRemaining == nil {
+                recordRemaining(0, paused: false)
+            } else if (currentRemaining ?? 0) <= 0 {
+                scheduleCompletionClear()
+            }
+
+        case .stopped:
+            guard completionClearWorkItem == nil else { break }
             if currentRemaining == nil || (currentRemaining ?? 0) <= 0 {
                 clearTrackedTimer()
             }
@@ -804,6 +872,7 @@ private extension ClockTimerMonitor {
         #if canImport(ApplicationServices)
         guard AXIsProcessTrusted() else {
             logger.debug("Skipping Accessibility fallback because AX permission is missing")
+            postAccessibilityWarningIfNeeded()
             return
         }
 
@@ -944,20 +1013,51 @@ private extension ClockTimerMonitor {
     }
 
     func parseCountdownToken(from text: String) -> TimeInterval? {
-        let pattern = "[0-9]+(?::[0-9]{2}){1,2}"
-        guard let range = text.range(of: pattern, options: .regularExpression) else {
+        let numericPattern = "[0-9]+(?::[0-9]{2}){0,2}"
+        if let range = text.range(of: numericPattern, options: .regularExpression) {
+            let components = text[range].split(separator: ":").compactMap { Double($0) }
+            switch components.count {
+            case 1:
+                return components[0]
+            case 2:
+                return (components[0] * 60) + components[1]
+            case 3:
+                return (components[0] * 3600) + (components[1] * 60) + components[2]
+            default:
+                break
+            }
+        }
+
+        guard let regex = try? NSRegularExpression(pattern: "([0-9]+)([hms])") else {
             return nil
         }
 
-        let components = text[range].split(separator: ":").compactMap { Double($0) }
-        switch components.count {
-        case 2:
-            return (components[0] * 60) + components[1]
-        case 3:
-            return (components[0] * 3600) + (components[1] * 60) + components[2]
-        default:
-            return nil
+        let fullRange = NSRange(text.startIndex..<text.endIndex, in: text)
+        let matches = regex.matches(in: text, range: fullRange)
+        guard !matches.isEmpty else { return nil }
+
+        var total: TimeInterval = 0
+        for match in matches {
+            guard match.numberOfRanges == 3,
+                  let valueRange = Range(match.range(at: 1), in: text),
+                  let unitRange = Range(match.range(at: 2), in: text),
+                  let value = Double(text[valueRange]) else {
+                continue
+            }
+
+            switch text[unitRange] {
+            case "h":
+                total += value * 3600
+            case "m":
+                total += value * 60
+            case "s":
+                total += value
+            default:
+                break
+            }
         }
+
+        return total > 0 ? total : nil
     }
 
     func axAttribute<T>(_ attribute: String, from element: AXUIElement) -> T? {
@@ -978,4 +1078,17 @@ private extension ClockTimerMonitor {
         return trimmed.isEmpty ? nil : trimmed
     }
     #endif
+
+    func postAccessibilityWarningIfNeeded() {
+        guard !didWarnAboutAccessibility else { return }
+        didWarnAboutAccessibility = true
+        logger.error("Accessibility permission is required to mirror Clock timers")
+
+        DispatchQueue.main.async {
+            debugPrint(
+                "[ClockTimerMonitor] Accessibility permission is required to mirror Clock timers. " +
+                "Grant access in System Settings -> Privacy & Security -> Accessibility."
+            )
+        }
+    }
 }

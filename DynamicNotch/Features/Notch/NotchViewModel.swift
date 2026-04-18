@@ -237,6 +237,12 @@ final class NotchViewModel: ObservableObject {
     }
 
     func dismissActiveContent() {
+        if notchModel.isLiveActivityExpanded,
+           notchModel.liveActivityContent?.id == TimerNotchContent.activityID {
+            engine.handleOutsideClick()
+            return
+        }
+
         engine.dismissActiveContent()
     }
 

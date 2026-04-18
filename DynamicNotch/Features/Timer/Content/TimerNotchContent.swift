@@ -18,11 +18,11 @@ struct TimerNotchContent: NotchContentProtocol {
     }
 
     func expandedSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        .init(width: baseWidth + 170, height: baseHeight + 125)
+        .init(width: baseWidth + 170, height: baseHeight + 70)
     }
 
     func expandedCornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
-        (top: 28, bottom: 38)
+        (top: 20, bottom: 38)
     }
 
     @MainActor

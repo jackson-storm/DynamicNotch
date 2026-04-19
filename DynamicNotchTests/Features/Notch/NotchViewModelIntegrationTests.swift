@@ -144,10 +144,19 @@ final class NotchViewModelIntegrationTests: XCTestCase {
             queueDelay: 0
         )
         let timerViewModel = TimerViewModel(monitor: InactiveClockTimerMonitor())
+        let settingsViewModel = SettingsViewModel()
         TestLifetime.retain(viewModel)
         TestLifetime.retain(timerViewModel)
+        TestLifetime.retain(settingsViewModel)
 
-        viewModel.send(.showLiveActivity(TimerNotchContent(timerViewModel: timerViewModel)))
+        viewModel.send(
+            .showLiveActivity(
+                TimerNotchContent(
+                    timerViewModel: timerViewModel,
+                    settingsViewModel: settingsViewModel
+                )
+            )
+        )
 
         await assertEventually {
             await MainActor.run {

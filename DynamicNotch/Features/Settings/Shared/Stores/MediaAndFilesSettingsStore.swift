@@ -78,6 +78,18 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         }
     }
 
+    @Published var isTimerLiveActivityEnabled: Bool {
+        didSet {
+            persist(isTimerLiveActivityEnabled, for: GeneralSettingsStorage.Keys.timerLiveActivityEnabled)
+        }
+    }
+
+    @Published var isTimerDefaultStrokeEnabled: Bool {
+        didSet {
+            persist(isTimerDefaultStrokeEnabled, for: GeneralSettingsStorage.Keys.timerDefaultStrokeEnabled)
+        }
+    }
+
     override init(defaults: UserDefaults) {
         self.isNowPlayingLiveActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.nowPlayingLiveActivityEnabled)
         self.isNowPlayingFavoriteButtonVisible = defaults.bool(forKey: GeneralSettingsStorage.Keys.nowPlayingFavoriteButtonVisible)
@@ -103,6 +115,8 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         )
         self.isAirDropLiveActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.airDropLiveActivityEnabled)
         self.isAirDropDefaultStrokeEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.airDropDefaultStrokeEnabled)
+        self.isTimerLiveActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.timerLiveActivityEnabled)
+        self.isTimerDefaultStrokeEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.timerDefaultStrokeEnabled)
         super.init(defaults: defaults)
     }
 
@@ -131,6 +145,11 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
     func resetAirDrop() {
         isAirDropLiveActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.airDropLiveActivityEnabled)
         isAirDropDefaultStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.airDropDefaultStrokeEnabled)
+    }
+
+    func resetTimer() {
+        isTimerLiveActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.timerLiveActivityEnabled)
+        isTimerDefaultStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.timerDefaultStrokeEnabled)
     }
 }
 

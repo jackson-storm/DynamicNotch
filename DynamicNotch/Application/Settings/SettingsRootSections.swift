@@ -48,6 +48,7 @@ extension SettingsRootViewModel {
         case nowPlaying
         case downloads
         case airDrop
+        case timer
         case bluetooth
         case focus
         case network
@@ -299,6 +300,26 @@ private enum SettingsSectionCatalog {
                 resetGroup: .airDrop
             )
 
+        case .timer:
+            return .init(
+                sidebarGroup: .system,
+                titleKey: "settings.section.timer.title",
+                fallbackTitle: "Timer",
+                subtitleKey: "settings.section.timer.subtitle",
+                fallbackSubtitle: "Clock timer live activity and stroke appearance.",
+                searchKeywords: [
+                    "timer",
+                    "clock",
+                    "countdown",
+                    "live activity",
+                    "stroke"
+                ],
+                systemImage: "timer",
+                imageName: nil,
+                tint: .orange,
+                resetGroup: .timer
+            )
+
         case .focus:
             return .init(
                 sidebarGroup: .connectivity,
@@ -406,7 +427,7 @@ private enum SettingsSectionCatalog {
                 ],
                 systemImage: "slider.horizontal.below.rectangle",
                 imageName: nil,
-                tint: .orange,
+                tint: .purple,
                 resetGroup: .hud
             )
 

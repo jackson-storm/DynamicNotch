@@ -10841,6 +10841,64 @@
         }
       }
     },
+    "settings.section.timer.subtitle" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clock timer live activity and stroke appearance."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actividad en vivo del temporizador de Reloj y apariencia del trazo."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live activity таймера из Часов и внешний вид обводки."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“时钟”计时器的实时活动与描边外观。"
+          }
+        }
+      }
+    },
+    "settings.section.timer.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Timer"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temporizador"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Таймер"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "计时器"
+          }
+        }
+      }
+    },
     "settings.section.battery.subtitle" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -12244,6 +12302,34 @@
         }
       }
     },
+    "Show the active Clock timer in the notch." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show the active Clock timer in the notch."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Muestra el temporizador activo de Reloj en la muesca."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показывать активный таймер Часов в вырезе."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在刘海中显示“时钟”中的活动计时器。"
+          }
+        }
+      }
+    },
     "Show the Bluetooth notification with sample AirPods data." : {
       "localizations" : {
         "en" : {
@@ -13149,7 +13235,88 @@
       }
     },
     "Timer" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Timer"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temporizador"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Таймер"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "计时器"
+          }
+        }
+      }
+    },
+    "Timer activity" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Timer activity"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actividad del temporizador"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Активность таймера"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "计时器活动"
+          }
+        }
+      }
+    },
+    "Timer live activity" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Timer live activity"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actividad en vivo del temporizador"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live activity таймера"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "计时器实时活动"
+          }
+        }
+      }
     },
     "Tint" : {
       "extractionState" : "stale",
@@ -13659,6 +13826,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "使用标准的白色凹口笔划而不是蓝色的 AirDrop 笔划。"
+          }
+        }
+      }
+    },
+    "Use the standard white notch stroke instead of the orange timer stroke." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use the standard white notch stroke instead of the orange timer stroke."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utilice el trazo de muesca blanco estándar en lugar del trazo naranja del temporizador."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Использовать стандартную белую обводку выреза вместо оранжевой обводки таймера."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用标准白色刘海描边，而不是橙色计时器描边。"
           }
         }
       }

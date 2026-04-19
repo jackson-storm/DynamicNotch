@@ -336,6 +336,14 @@ struct SettingsRootView: View {
                     appearanceSettings: settingsViewModel.application
                 )
             }
+
+        case .timer:
+            detailContainer(for: section) {
+                TimerSettingsView(
+                    mediaSettings: settingsViewModel.mediaAndFiles,
+                    appearanceSettings: settingsViewModel.application
+                )
+            }
             
         case .focus:
             detailContainer(for: section) {

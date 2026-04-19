@@ -95,7 +95,8 @@ final class NotchEventCoordinator: ObservableObject {
         )
         self.timerHandler = NotchTimerEventsHandler(
             notchViewModel: notchViewModel,
-            timerViewModel: timerViewModel
+            timerViewModel: timerViewModel,
+            settingsViewModel: settingsViewModel
         )
         observeSettingsChanges()
     }
@@ -326,6 +327,21 @@ final class NotchEventCoordinator: ObservableObject {
                     }
                 } else {
                     self.notchViewModel.send(.hideLiveActivity(id: "download.active"))
+                }
+            }
+            .store(in: &cancellables)
+
+        settingsViewModel.mediaAndFiles.$isTimerLiveActivityEnabled
+            .removeDuplicates()
+            .sink { [weak self] isEnabled in
+                guard let self else { return }
+
+                if isEnabled {
+                    if self.timerViewModel.snapshot != nil {
+                        self.timerHandler.handleTimer(.started)
+                    }
+                } else {
+                    self.notchViewModel.send(.hideLiveActivity(id: TimerNotchContent.activityID))
                 }
             }
             .store(in: &cancellables)

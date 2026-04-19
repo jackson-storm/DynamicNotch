@@ -37,18 +37,37 @@ final class NotchTimerEventsHandlerTests: XCTestCase {
             }
         }
     }
+
+    func testDisabledTimerLiveActivityDoesNotShowNotchContent() async {
+        let context = makeContext()
+        context.settingsViewModel.mediaAndFiles.isTimerLiveActivityEnabled = false
+
+        context.monitor.publish(makeSnapshot(isPaused: false, remaining: 90))
+        context.handler.handleTimer(context.timerViewModel.event ?? .started)
+
+        try? await Task.sleep(nanoseconds: 50_000_000)
+
+        let liveActivityID = await MainActor.run {
+            context.notchViewModel.notchModel.liveActivityContent?.id
+        }
+        XCTAssertNil(liveActivityID)
+    }
 }
 
 private extension NotchTimerEventsHandlerTests {
     struct TestContext {
         let notchViewModel: NotchViewModel
+        let settingsViewModel: SettingsViewModel
         let timerViewModel: TimerViewModel
         let handler: NotchTimerEventsHandler
         let monitor: FakeClockTimerMonitor
     }
 
     func makeContext() -> TestContext {
-        let settingsViewModel = SettingsViewModel()
+        let suiteName = "NotchTimerEventsHandlerTests.\(UUID().uuidString)"
+        let defaults = UserDefaults(suiteName: suiteName) ?? .standard
+        defaults.removePersistentDomain(forName: suiteName)
+        let settingsViewModel = SettingsViewModel(defaults: defaults)
         let notchViewModel = NotchViewModel(
             settings: settingsViewModel.application,
             hideDelay: 0.01,
@@ -58,11 +77,13 @@ private extension NotchTimerEventsHandlerTests {
         let timerViewModel = TimerViewModel(monitor: monitor)
         let handler = NotchTimerEventsHandler(
             notchViewModel: notchViewModel,
-            timerViewModel: timerViewModel
+            timerViewModel: timerViewModel,
+            settingsViewModel: settingsViewModel
         )
 
         return TestContext(
             notchViewModel: notchViewModel,
+            settingsViewModel: settingsViewModel,
             timerViewModel: timerViewModel,
             handler: handler,
             monitor: monitor

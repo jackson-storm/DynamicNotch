@@ -428,7 +428,8 @@ final class DebugSettingsViewModel: ObservableObject {
         timerViewModel.showDebugPreviewSnapshotIfNeeded()
         try await playLivePreview(
             TimerNotchContent(
-                timerViewModel: timerViewModel
+                timerViewModel: timerViewModel,
+                settingsViewModel: settingsViewModel
             ),
             id: Self.sequenceTimerID
         )

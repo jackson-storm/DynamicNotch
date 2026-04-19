@@ -44,6 +44,8 @@ enum GeneralSettingsStorage {
         static let downloadsProgressIndicatorStyle = "settings.live.downloads.progressIndicatorStyle"
         static let airDropLiveActivityEnabled = "settings.live.airDrop"
         static let airDropDefaultStrokeEnabled = "settings.live.airDrop.defaultStroke"
+        static let timerLiveActivityEnabled = "settings.live.timer"
+        static let timerDefaultStrokeEnabled = "settings.live.timer.defaultStroke"
         static let legacyFileTransfersLiveActivityEnabled = "settings.live.fileTransfers"
         static let chargerTemporaryActivityEnabled = "settings.temporary.charger"
         static let lowPowerTemporaryActivityEnabled = "settings.temporary.lowPower"
@@ -124,6 +126,8 @@ enum GeneralSettingsStorage {
         Keys.downloadsProgressIndicatorStyle: DownloadProgressIndicatorStyle.percent.rawValue,
         Keys.airDropLiveActivityEnabled: true,
         Keys.airDropDefaultStrokeEnabled: false,
+        Keys.timerLiveActivityEnabled: true,
+        Keys.timerDefaultStrokeEnabled: false,
         LockScreenSettings.liveActivityKey: true,
         LockScreenSettings.soundKey: true,
         LockScreenSettings.customSoundPathKey: "",

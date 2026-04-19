@@ -9,6 +9,7 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
         case nowPlaying
         case downloads
         case airDrop
+        case timer
         case focus
         case bluetooth
         case network
@@ -24,6 +25,7 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
         case lockScreen
         case downloads
         case airDrop
+        case timer
     }
 
     enum TemporaryActivityPreference {
@@ -233,6 +235,11 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
         set { mediaAndFiles.isAirDropLiveActivityEnabled = newValue }
     }
 
+    var isTimerLiveActivityEnabled: Bool {
+        get { mediaAndFiles.isTimerLiveActivityEnabled }
+        set { mediaAndFiles.isTimerLiveActivityEnabled = newValue }
+    }
+
     var isChargerTemporaryActivityEnabled: Bool {
         get { battery.isChargerTemporaryActivityEnabled }
         set { battery.isChargerTemporaryActivityEnabled = newValue }
@@ -282,6 +289,8 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
             return mediaAndFiles.isDownloadsLiveActivityEnabled
         case .airDrop:
             return mediaAndFiles.isAirDropLiveActivityEnabled
+        case .timer:
+            return mediaAndFiles.isTimerLiveActivityEnabled
         }
     }
 
@@ -371,6 +380,8 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
             mediaAndFiles.resetDownloads()
         case .airDrop:
             mediaAndFiles.resetAirDrop()
+        case .timer:
+            mediaAndFiles.resetTimer()
         case .focus:
             connectivity.resetFocus()
         case .bluetooth:

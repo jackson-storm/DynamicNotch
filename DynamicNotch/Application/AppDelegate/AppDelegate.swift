@@ -21,6 +21,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     var focusViewModel: FocusViewModel { container.focusViewModel }
     var settingsViewModel: SettingsViewModel { container.settingsViewModel }
     var nowPlayingViewModel: NowPlayingViewModel { container.nowPlayingViewModel }
+    var timerViewModel: TimerViewModel { container.timerViewModel }
     var airDropViewModel: AirDropNotchViewModel { container.airDropViewModel }
     var lockScreenManager: LockScreenManager { container.lockScreenManager }
     var hardwareHUDMonitor: HardwareHUDMonitor { container.hardwareHUDMonitor }
@@ -86,6 +87,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         lockScreenManager.startMonitoring()
         nowPlayingViewModel.startMonitoring()
         downloadViewModel.startMonitoring()
+        timerViewModel.startMonitoring()
     }
 
     func applicationWillTerminate(_ notification: Notification) {
@@ -93,6 +95,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         NSWorkspace.shared.notificationCenter.removeObserver(self)
         lockScreenManager.stopMonitoring()
         downloadViewModel.stopMonitoring()
+        timerViewModel.stopMonitoring()
         hardwareHUDMonitor.stopMonitoring()
         if !isRunningUITests {
             lockScreenPanelManager.invalidate()

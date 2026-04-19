@@ -13,6 +13,15 @@
             continueAfterRunningActions = "No"
             symbolName = "*0x1920edd4c">
             <Locations>
+               <Location
+                  uuid = "AEFBC119-E5CB-4712-BFCB-7C770BAC2773 - 2bc84989bf4c0d30"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "___lldb_unnamed_symbol29236"
+                  moduleName = "CoreML"
+                  usesParentBreakpointCondition = "Yes">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>

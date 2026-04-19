@@ -16,6 +16,7 @@ struct NotchView: View {
     @ObservedObject var airDropController: NotchAirDropController
     @ObservedObject var settingsViewModel: SettingsViewModel
     @ObservedObject var nowPlayingViewModel: NowPlayingViewModel
+    @ObservedObject var timerViewModel: TimerViewModel
     @ObservedObject var lockScreenManager: LockScreenManager
     
     var body: some View {
@@ -33,6 +34,7 @@ struct NotchView: View {
                         airDropViewModel: airDropViewModel,
                         settingsViewModel: settingsViewModel,
                         nowPlayingViewModel: nowPlayingViewModel,
+                        timerViewModel: timerViewModel,
                         lockScreenManager: lockScreenManager
                     )
                 )
@@ -70,8 +72,8 @@ private extension NotchView {
                 contentOverlay
             }
             .shadow(
-                color: notchViewModel.notchModel.isPresentingExpandedLiveActivity ? .black.opacity(0.6) : .clear,
-                radius: 10
+                color: notchViewModel.notchModel.isPresentingExpandedLiveActivity ? .black.opacity(0.4) : .clear,
+                radius: 15
             )
             .frame(
                 width: notchViewModel.interactiveNotchSize.width,
@@ -95,6 +97,7 @@ private extension NotchView {
                 }
             }
             .environment(\.colorScheme, .dark)
+            .animation(notchViewModel.animations.contentUpdate, value: notchViewModel.interactiveNotchSize)
             .animation(notchViewModel.animations.strokeVisibility, value: settingsViewModel.isShowNotchStrokeEnabled)
             .animation(notchViewModel.animations.notchVisibility, value: notchViewModel.showNotch)
     }
@@ -177,6 +180,7 @@ private struct NotchEventHandlersView: View {
     let airDropViewModel: AirDropNotchViewModel
     let settingsViewModel: SettingsViewModel
     let nowPlayingViewModel: NowPlayingViewModel
+    let timerViewModel: TimerViewModel
     let lockScreenManager: LockScreenManager
     
     var body: some View {
@@ -204,6 +208,9 @@ private struct NotchEventHandlersView: View {
             }
             .onReceive(nowPlayingViewModel.$event.compactMap { $0 }) { event in
                 notchEventCoordinator.handleNowPlayingEvent(event)
+            }
+            .onReceive(timerViewModel.$event.compactMap { $0 }) { event in
+                notchEventCoordinator.handleTimerEvent(event)
             }
             .onReceive(lockScreenManager.$event.compactMap { $0 }) { event in
                 notchEventCoordinator.handleLockScreenEvent(event)

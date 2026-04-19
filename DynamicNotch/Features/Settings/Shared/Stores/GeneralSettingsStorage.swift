@@ -44,10 +44,13 @@ enum GeneralSettingsStorage {
         static let downloadsProgressIndicatorStyle = "settings.live.downloads.progressIndicatorStyle"
         static let airDropLiveActivityEnabled = "settings.live.airDrop"
         static let airDropDefaultStrokeEnabled = "settings.live.airDrop.defaultStroke"
+        static let timerLiveActivityEnabled = "settings.live.timer"
+        static let timerDefaultStrokeEnabled = "settings.live.timer.defaultStroke"
         static let legacyFileTransfersLiveActivityEnabled = "settings.live.fileTransfers"
         static let chargerTemporaryActivityEnabled = "settings.temporary.charger"
         static let lowPowerTemporaryActivityEnabled = "settings.temporary.lowPower"
         static let fullPowerTemporaryActivityEnabled = "settings.temporary.fullPower"
+        static let temporaryActivityDurationScale = "settings.temporary.durationScale"
         static let chargerTemporaryActivityDuration = "settings.temporary.charger.duration"
         static let lowPowerTemporaryActivityDuration = "settings.temporary.lowPower.duration"
         static let fullPowerTemporaryActivityDuration = "settings.temporary.fullPower.duration"
@@ -123,6 +126,8 @@ enum GeneralSettingsStorage {
         Keys.downloadsProgressIndicatorStyle: DownloadProgressIndicatorStyle.percent.rawValue,
         Keys.airDropLiveActivityEnabled: true,
         Keys.airDropDefaultStrokeEnabled: false,
+        Keys.timerLiveActivityEnabled: true,
+        Keys.timerDefaultStrokeEnabled: false,
         LockScreenSettings.liveActivityKey: true,
         LockScreenSettings.soundKey: true,
         LockScreenSettings.customSoundPathKey: "",
@@ -134,6 +139,7 @@ enum GeneralSettingsStorage {
         LockScreenSettings.widgetTintStyleKey: LockScreenWidgetTintStyle.neutral.rawValue,
         LockScreenSettings.widgetBackgroundBrightnessKey: 1.0,
         Keys.chargerTemporaryActivityEnabled: true,
+        Keys.temporaryActivityDurationScale: 1.0,
         Keys.chargerTemporaryActivityDuration: 4,
         Keys.lowPowerTemporaryActivityEnabled: true,
         Keys.lowPowerTemporaryActivityDuration: 4,

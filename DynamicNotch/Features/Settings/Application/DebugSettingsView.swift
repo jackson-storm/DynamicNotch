@@ -87,6 +87,20 @@ struct DebugSettingsView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
             
             SettingsToggleRow(
+                title: "Timer",
+                description: "Show the timer live activity with sample transfer data.",
+                systemImage: "gauge.with.needle",
+                color: .orange,
+                isOn: $viewModel.isTimerPreviewEnabled,
+                accessibilityIdentifier: "settings.debug.timer"
+            )
+            
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+            
+            SettingsToggleRow(
                 title: "Lock Screen",
                 description: "Preview the lock live activity without actually locking macOS.",
                 systemImage: "lock.fill",

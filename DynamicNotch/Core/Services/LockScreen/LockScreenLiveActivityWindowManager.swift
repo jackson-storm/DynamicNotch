@@ -396,6 +396,7 @@ private struct LockScreenLiveActivityOverlayView: View {
             .scaleEffect(animator.scale)
             .opacity(animator.opacity)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+            .animation(notchViewModel.animations.contentUpdate, value: notchViewModel.interactiveNotchSize)
             .animation(notchViewModel.animations.strokeVisibility, value: settingsViewModel.isShowNotchStrokeEnabled)
             .animation(notchViewModel.animations.notchVisibility, value: notchViewModel.showNotch)
     }

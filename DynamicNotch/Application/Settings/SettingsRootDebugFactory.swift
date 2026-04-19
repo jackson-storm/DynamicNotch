@@ -10,6 +10,7 @@ private struct SettingsRootDebugDependencies {
     let downloadViewModel: DownloadViewModel
     let nowPlayingViewModel: NowPlayingViewModel
     let lockScreenManager: LockScreenManager
+    let timerViewModel: TimerViewModel
 }
 
 extension SettingsRootViewModel {
@@ -22,6 +23,7 @@ extension SettingsRootViewModel {
         networkViewModel: NetworkViewModel?,
         downloadViewModel: DownloadViewModel?,
         nowPlayingViewModel: NowPlayingViewModel?,
+        timerViewModel: TimerViewModel?,
         lockScreenManager: LockScreenManager?
     ) -> DebugSettingsViewModel {
         let dependencies = resolveDebugDependencies(
@@ -33,6 +35,7 @@ extension SettingsRootViewModel {
             networkViewModel: networkViewModel,
             downloadViewModel: downloadViewModel,
             nowPlayingViewModel: nowPlayingViewModel,
+            timerViewModel: timerViewModel,
             lockScreenManager: lockScreenManager
         )
 
@@ -43,6 +46,7 @@ extension SettingsRootViewModel {
             powerService: dependencies.powerService,
             networkViewModel: dependencies.networkViewModel,
             downloadViewModel: dependencies.downloadViewModel,
+            timerViewModel: dependencies.timerViewModel,
             settingsViewModel: settingsViewModel,
             nowPlayingViewModel: dependencies.nowPlayingViewModel,
             lockScreenManager: dependencies.lockScreenManager
@@ -58,6 +62,7 @@ extension SettingsRootViewModel {
         networkViewModel: NetworkViewModel?,
         downloadViewModel: DownloadViewModel?,
         nowPlayingViewModel: NowPlayingViewModel?,
+        timerViewModel: TimerViewModel?,
         lockScreenManager: LockScreenManager?
     ) -> SettingsRootDebugDependencies {
         let resolvedNotchViewModel = notchViewModel ?? NotchViewModel(
@@ -75,6 +80,9 @@ extension SettingsRootViewModel {
         let resolvedNowPlayingViewModel = nowPlayingViewModel ?? NowPlayingViewModel(
             service: InactiveNowPlayingService()
         )
+        let resolvedTimerViewModel = timerViewModel ?? TimerViewModel(
+            monitor: InactiveClockTimerMonitor()
+        )
         let resolvedLockScreenManager = lockScreenManager ?? LockScreenManager(
             service: InactiveLockScreenMonitoringService(),
             soundPlayer: InactiveLockScreenSoundPlayer()
@@ -88,6 +96,7 @@ extension SettingsRootViewModel {
             airDropViewModel: resolvedAirDropViewModel,
             settingsViewModel: settingsViewModel,
             nowPlayingViewModel: resolvedNowPlayingViewModel,
+            timerViewModel: resolvedTimerViewModel,
             lockScreenManager: resolvedLockScreenManager
         )
 
@@ -99,7 +108,8 @@ extension SettingsRootViewModel {
             networkViewModel: resolvedNetworkViewModel,
             downloadViewModel: resolvedDownloadViewModel,
             nowPlayingViewModel: resolvedNowPlayingViewModel,
-            lockScreenManager: resolvedLockScreenManager
+            lockScreenManager: resolvedLockScreenManager,
+            timerViewModel: resolvedTimerViewModel
         )
     }
 }

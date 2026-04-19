@@ -12,7 +12,9 @@ final class AppContainer {
     let powerViewModel: PowerViewModel
     let downloadViewModel: DownloadViewModel
     let nowPlayingViewModel: NowPlayingViewModel
+    let timerViewModel: TimerViewModel
     let lockScreenManager: LockScreenManager
+    let clockTimerController: any ClockTimerControlling
 
     lazy var hardwareHUDMonitor: HardwareHUDMonitor = {
         let monitor = HardwareHUDMonitor()
@@ -38,6 +40,7 @@ final class AppContainer {
         airDropViewModel: airDropViewModel,
         settingsViewModel: settingsViewModel,
         nowPlayingViewModel: nowPlayingViewModel,
+        timerViewModel: timerViewModel,
         lockScreenManager: lockScreenManager
     )
 
@@ -76,6 +79,15 @@ final class AppContainer {
             monitor: isRunningUITests ?
                 InactiveDownloadMonitor() :
                 FolderFileDownloadMonitor()
+        )
+        self.clockTimerController = isRunningUITests ?
+            InactiveClockTimerController() :
+            ClockTimerController()
+        self.timerViewModel = TimerViewModel(
+            monitor: isRunningUITests ?
+                InactiveClockTimerMonitor() :
+                ClockTimerMonitor(),
+            controller: clockTimerController
         )
         self.lockScreenManager = LockScreenManager(
             service: isRunningUITests ?

@@ -593,34 +593,6 @@
         }
       }
     },
-    "Automatically hide Dynamic Notch while the selected display is showing a full-screen space." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Automatically hide Dynamic Notch while the selected display is showing a full-screen space."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Oculta Dynamic Notch automaticamente mientras la pantalla seleccionada muestre un espacio en pantalla completa."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Автоматически скрывает Dynamic Notch, когда на выбранном дисплее открыт полноэкранный space."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "当所选显示器处于全屏空间时，自动隐藏 Dynamic Notch。"
-          }
-        }
-      }
-    },
     "Animation" : {
       "localizations" : {
         "en" : {
@@ -953,6 +925,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "音频响应模式可能会占用更多系统资源。"
+          }
+        }
+      }
+    },
+    "Automatically hide Dynamic Notch while the selected display is showing a full-screen space." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatically hide Dynamic Notch while the selected display is showing a full-screen space."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oculta Dynamic Notch automaticamente mientras la pantalla seleccionada muestre un espacio en pantalla completa."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Автоматически скрывает Dynamic Notch, когда на выбранном дисплее открыт полноэкранный space."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当所选显示器处于全屏空间时，自动隐藏 Dynamic Notch。"
           }
         }
       }
@@ -4780,34 +4780,6 @@
         }
       }
     },
-    "Hide notch in full-screen mode" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hide notch in full-screen mode"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ocultar el notch en pantalla completa"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Скрывать вырез в полноэкранном режиме"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "全屏模式下隐藏刘海"
-          }
-        }
-      }
-    },
     "Hide favorite" : {
       "localizations" : {
         "en" : {
@@ -4832,6 +4804,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "隐藏收藏"
+          }
+        }
+      }
+    },
+    "Hide notch in full-screen mode" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide notch in full-screen mode"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ocultar el notch en pantalla completa"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скрывать вырез в полноэкранном режиме"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全屏模式下隐藏刘海"
           }
         }
       }
@@ -10841,6 +10841,64 @@
         }
       }
     },
+    "settings.section.timer.subtitle" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clock timer live activity and stroke appearance."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actividad en vivo del temporizador de Reloj y apariencia del trazo."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live activity таймера из Часов и внешний вид обводки."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“时钟”计时器的实时活动与描边外观。"
+          }
+        }
+      }
+    },
+    "settings.section.timer.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Timer"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temporizador"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Таймер"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "计时器"
+          }
+        }
+      }
+    },
     "settings.section.battery.subtitle" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -12244,6 +12302,34 @@
         }
       }
     },
+    "Show the active Clock timer in the notch." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show the active Clock timer in the notch."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Muestra el temporizador activo de Reloj en la muesca."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показывать активный таймер Часов в вырезе."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在刘海中显示“时钟”中的活动计时器。"
+          }
+        }
+      }
+    },
     "Show the Bluetooth notification with sample AirPods data." : {
       "localizations" : {
         "en" : {
@@ -12523,6 +12609,9 @@
           }
         }
       }
+    },
+    "Show the timer live activity with sample transfer data." : {
+
     },
     "Show the volume HUD preview at 42%." : {
       "localizations" : {
@@ -13145,6 +13234,90 @@
         }
       }
     },
+    "Timer" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Timer"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temporizador"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Таймер"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "计时器"
+          }
+        }
+      }
+    },
+    "Timer activity" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Timer activity"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actividad del temporizador"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Активность таймера"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "计时器活动"
+          }
+        }
+      }
+    },
+    "Timer live activity" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Timer live activity"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actividad en vivo del temporizador"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live activity таймера"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "计时器实时活动"
+          }
+        }
+      }
+    },
     "Tint" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -13653,6 +13826,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "使用标准的白色凹口笔划而不是蓝色的 AirDrop 笔划。"
+          }
+        }
+      }
+    },
+    "Use the standard white notch stroke instead of the orange timer stroke." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use the standard white notch stroke instead of the orange timer stroke."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utilice el trazo de muesca blanco estándar en lugar del trazo naranja del temporizador."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Использовать стандартную белую обводку выреза вместо оранжевой обводки таймера."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用标准白色刘海描边，而不是橙色计时器描边。"
           }
         }
       }

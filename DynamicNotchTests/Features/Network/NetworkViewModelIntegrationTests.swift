@@ -5,14 +5,14 @@ import XCTest
 final class NetworkViewModelIntegrationTests: XCTestCase {
     func testStartsMonitoringImmediately() {
         let monitor = FakeNetworkMonitor()
-        _ = NetworkViewModel(monitor: monitor)
+        _ = makeViewModel(monitor: monitor)
 
         XCTAssertEqual(monitor.startCalls, 1)
     }
 
     func testInitialHotspotStateProducesHotspotEvent() {
         let monitor = FakeNetworkMonitor()
-        let viewModel = NetworkViewModel(monitor: monitor)
+        let viewModel = makeViewModel(monitor: monitor)
 
         monitor.send(wifi: false, hotspot: true, vpn: false)
 
@@ -22,7 +22,7 @@ final class NetworkViewModelIntegrationTests: XCTestCase {
 
     func testNetworkTransitionsProduceExpectedEvents() {
         let monitor = FakeNetworkMonitor()
-        let viewModel = NetworkViewModel(monitor: monitor)
+        let viewModel = makeViewModel(monitor: monitor)
 
         monitor.send(wifi: false, hotspot: false, vpn: false)
 
@@ -45,7 +45,7 @@ final class NetworkViewModelIntegrationTests: XCTestCase {
 
     func testConnectedNetworkNamesAreUpdatedFromMonitor() {
         let monitor = FakeNetworkMonitor()
-        let viewModel = NetworkViewModel(monitor: monitor)
+        let viewModel = makeViewModel(monitor: monitor)
 
         monitor.send(wifi: false, hotspot: false, vpn: false)
         monitor.send(
@@ -67,7 +67,7 @@ final class NetworkViewModelIntegrationTests: XCTestCase {
 
     func testVPNConnectionStartDateTracksTunnelLifecycle() {
         let monitor = FakeNetworkMonitor()
-        let viewModel = NetworkViewModel(monitor: monitor)
+        let viewModel = makeViewModel(monitor: monitor)
 
         monitor.send(wifi: false, hotspot: false, vpn: false)
         XCTAssertNil(viewModel.vpnConnectedAt)
@@ -82,5 +82,21 @@ final class NetworkViewModelIntegrationTests: XCTestCase {
 
         monitor.send(wifi: false, hotspot: false, vpn: false)
         XCTAssertNil(viewModel.vpnConnectedAt)
+    }
+}
+
+private extension NetworkViewModelIntegrationTests {
+    func makeViewModel(monitor: FakeNetworkMonitor) -> NetworkViewModel {
+        let suiteName = "NetworkViewModelIntegrationTests.\(UUID().uuidString)"
+        let defaults = UserDefaults(suiteName: suiteName)!
+        defaults.removePersistentDomain(forName: suiteName)
+
+        let settings = ConnectivitySettingsStore(defaults: defaults)
+        settings.isOnlyNotifyOnNetworkChangeEnabled = false
+
+        return NetworkViewModel(
+            monitor: monitor,
+            settings: settings
+        )
     }
 }

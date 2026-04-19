@@ -29,6 +29,7 @@ extension AppDelegate {
                 airDropController: airDropController,
                 settingsViewModel: settingsViewModel,
                 nowPlayingViewModel: nowPlayingViewModel,
+                timerViewModel: timerViewModel,
                 lockScreenManager: lockScreenManager
             )
         )

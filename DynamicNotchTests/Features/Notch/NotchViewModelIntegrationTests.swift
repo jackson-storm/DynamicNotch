@@ -137,6 +137,51 @@ final class NotchViewModelIntegrationTests: XCTestCase {
     }
 
     @MainActor
+    func testDismissActiveContentCollapsesExpandedTimerInsteadOfHidingIt() async {
+        let viewModel = NotchViewModel(
+            settings: TestNotchSettings(),
+            hideDelay: 0.01,
+            queueDelay: 0
+        )
+        let timerViewModel = TimerViewModel(monitor: InactiveClockTimerMonitor())
+        let settingsViewModel = SettingsViewModel()
+        TestLifetime.retain(viewModel)
+        TestLifetime.retain(timerViewModel)
+        TestLifetime.retain(settingsViewModel)
+
+        viewModel.send(
+            .showLiveActivity(
+                TimerNotchContent(
+                    timerViewModel: timerViewModel,
+                    settingsViewModel: settingsViewModel
+                )
+            )
+        )
+
+        await assertEventually {
+            await MainActor.run {
+                viewModel.notchModel.liveActivityContent?.id == TimerNotchContent.activityID
+            }
+        }
+
+        viewModel.handleActiveContentTap()
+
+        let isExpanded = await MainActor.run {
+            viewModel.notchModel.isLiveActivityExpanded
+        }
+        XCTAssertTrue(isExpanded)
+
+        viewModel.dismissActiveContent()
+
+        await assertEventually {
+            await MainActor.run {
+                viewModel.notchModel.liveActivityContent?.id == TimerNotchContent.activityID &&
+                !viewModel.notchModel.isLiveActivityExpanded
+            }
+        }
+    }
+
+    @MainActor
     func testRestoreDismissedContentBringsBackLastLiveActivity() async {
         let viewModel = NotchViewModel(
             settings: TestNotchSettings(),

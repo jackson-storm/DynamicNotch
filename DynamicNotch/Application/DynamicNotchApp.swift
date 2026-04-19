@@ -25,6 +25,7 @@ struct NotchApp: App {
                 networkViewModel: appDelegate.networkViewModel,
                 downloadViewModel: appDelegate.downloadViewModel,
                 nowPlayingViewModel: appDelegate.nowPlayingViewModel,
+                timerViewModel: appDelegate.timerViewModel,
                 lockScreenManager: appDelegate.lockScreenManager
             )
             .background(.ultraThinMaterial)

@@ -11,7 +11,9 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
         context.coordinator.handleOnboardingEvent(.onboarding)
 
         await assertEventually {
-            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id == "onboarding" }
+            await MainActor.run {
+                context.notchViewModel.notchModel.liveActivityContent?.id == OnboardingSteps.first.liveActivityID
+            }
         }
 
         context.coordinator.handlePowerEvent(.charger)
@@ -19,7 +21,7 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
         try? await Task.sleep(nanoseconds: 50_000_000)
 
         let state = await MainActor.run { context.notchViewModel.notchModel }
-        XCTAssertEqual(state.liveActivityContent?.id, "onboarding")
+        XCTAssertEqual(state.liveActivityContent?.id, OnboardingSteps.first.liveActivityID)
         XCTAssertNil(state.temporaryNotificationContent)
     }
 
@@ -232,7 +234,9 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
         context.coordinator.handleOnboardingEvent(.onboarding)
 
         await assertEventually {
-            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id == "onboarding" }
+            await MainActor.run {
+                context.notchViewModel.notchModel.liveActivityContent?.id == OnboardingSteps.first.liveActivityID
+            }
         }
 
         context.nowPlayingService.publish(makeNowPlayingSnapshot())
@@ -242,7 +246,7 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
         let activeContentID = await MainActor.run {
             context.notchViewModel.notchModel.liveActivityContent?.id
         }
-        XCTAssertEqual(activeContentID, "onboarding")
+        XCTAssertEqual(activeContentID, OnboardingSteps.first.liveActivityID)
 
         context.coordinator.finishOnboarding()
 

@@ -25,6 +25,7 @@ struct TimerMinimalNotchView: View {
             Spacer(minLength: 0)
 
             TimerCountdownText(
+                timerViewModel: timerViewModel,
                 snapshot: snapshot ?? ClockTimerSnapshot(
                     identifier: "debug.clock.timer",
                     title: "Timer",

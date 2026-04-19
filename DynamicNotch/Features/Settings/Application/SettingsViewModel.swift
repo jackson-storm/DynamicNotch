@@ -49,10 +49,12 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
     let battery: BatterySettingsStore
     let hud: HUDSettingsStore
     let lockScreen: LockScreenFeatureSettingsStore
+    private let defaults: UserDefaults
 
     private var cancellables = Set<AnyCancellable>()
 
     init(defaults: UserDefaults = .standard) {
+        self.defaults = defaults
         self.application = ApplicationSettingsStore(defaults: defaults)
         self.mediaAndFiles = MediaAndFilesSettingsStore(defaults: defaults)
         self.connectivity = ConnectivitySettingsStore(defaults: defaults)
@@ -318,33 +320,43 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
     func temporaryActivityDuration(for preference: TemporaryActivityPreference) -> TimeInterval {
         switch preference {
         case .charger:
-            return TimeInterval(battery.chargerTemporaryActivityDuration)
+            return scaledTemporaryActivityDuration(TimeInterval(battery.chargerTemporaryActivityDuration))
         case .lowPower:
-            return TimeInterval(battery.lowPowerTemporaryActivityDuration)
+            return scaledTemporaryActivityDuration(TimeInterval(battery.lowPowerTemporaryActivityDuration))
         case .fullPower:
-            return TimeInterval(battery.fullPowerTemporaryActivityDuration)
+            return scaledTemporaryActivityDuration(TimeInterval(battery.fullPowerTemporaryActivityDuration))
         case .bluetooth:
-            return TimeInterval(connectivity.bluetoothTemporaryActivityDuration)
+            return scaledTemporaryActivityDuration(TimeInterval(connectivity.bluetoothTemporaryActivityDuration))
         case .wifi:
-            return TimeInterval(connectivity.wifiTemporaryActivityDuration)
+            return scaledTemporaryActivityDuration(TimeInterval(connectivity.wifiTemporaryActivityDuration))
         case .vpn:
-            return TimeInterval(connectivity.vpnTemporaryActivityDuration)
+            return scaledTemporaryActivityDuration(TimeInterval(connectivity.vpnTemporaryActivityDuration))
         case .focusOff:
-            return TimeInterval(connectivity.focusOffTemporaryActivityDuration)
+            return scaledTemporaryActivityDuration(TimeInterval(connectivity.focusOffTemporaryActivityDuration))
         case .notchSize:
-            return TimeInterval(application.notchSizeTemporaryActivityDuration)
+            return scaledTemporaryActivityDuration(TimeInterval(application.notchSizeTemporaryActivityDuration))
         }
     }
 
     func temporaryActivityDuration(for preference: HUDPreference) -> TimeInterval {
         switch preference {
         case .brightness:
-            return TimeInterval(hud.brightnessHUDDuration)
+            return scaledTemporaryActivityDuration(TimeInterval(hud.brightnessHUDDuration))
         case .keyboard:
-            return TimeInterval(hud.keyboardHUDDuration)
+            return scaledTemporaryActivityDuration(TimeInterval(hud.keyboardHUDDuration))
         case .volume:
-            return TimeInterval(hud.volumeHUDDuration)
+            return scaledTemporaryActivityDuration(TimeInterval(hud.volumeHUDDuration))
         }
+    }
+
+    private func scaledTemporaryActivityDuration(_ duration: TimeInterval) -> TimeInterval {
+        duration * temporaryActivityDurationScale
+    }
+
+    private var temporaryActivityDurationScale: Double {
+        let storedScale = defaults.object(forKey: GeneralSettingsStorage.Keys.temporaryActivityDurationScale) as? Double
+        let defaultScale = (GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.temporaryActivityDurationScale] as? Double) ?? 1
+        return max(storedScale ?? defaultScale, 0)
     }
 
     func reset(_ group: ResetGroup) {

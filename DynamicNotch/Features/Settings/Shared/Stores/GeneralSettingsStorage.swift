@@ -48,6 +48,7 @@ enum GeneralSettingsStorage {
         static let chargerTemporaryActivityEnabled = "settings.temporary.charger"
         static let lowPowerTemporaryActivityEnabled = "settings.temporary.lowPower"
         static let fullPowerTemporaryActivityEnabled = "settings.temporary.fullPower"
+        static let temporaryActivityDurationScale = "settings.temporary.durationScale"
         static let chargerTemporaryActivityDuration = "settings.temporary.charger.duration"
         static let lowPowerTemporaryActivityDuration = "settings.temporary.lowPower.duration"
         static let fullPowerTemporaryActivityDuration = "settings.temporary.fullPower.duration"
@@ -134,6 +135,7 @@ enum GeneralSettingsStorage {
         LockScreenSettings.widgetTintStyleKey: LockScreenWidgetTintStyle.neutral.rawValue,
         LockScreenSettings.widgetBackgroundBrightnessKey: 1.0,
         Keys.chargerTemporaryActivityEnabled: true,
+        Keys.temporaryActivityDurationScale: 1.0,
         Keys.chargerTemporaryActivityDuration: 4,
         Keys.lowPowerTemporaryActivityEnabled: true,
         Keys.lowPowerTemporaryActivityDuration: 4,

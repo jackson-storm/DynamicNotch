@@ -11,10 +11,10 @@ struct TimerNotchContent: NotchContentProtocol {
     var strokeColor: Color { .orange.opacity(0.3) }
     var offsetXTransition: CGFloat { -55 }
     var expandedOffsetXTransition: CGFloat { -90 }
-    var expandedOffsetYTransition: CGFloat { -72 }
+    var expandedOffsetYTransition: CGFloat { -70 }
 
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        .init(width: baseWidth + 180, height: baseHeight)
+        .init(width: baseWidth + minimalTimerSize, height: baseHeight)
     }
 
     func expandedSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
@@ -33,5 +33,18 @@ struct TimerNotchContent: NotchContentProtocol {
     @MainActor
     func makeExpandedView() -> AnyView {
         AnyView(TimerExpandedNotchView(timerViewModel: timerViewModel))
+    }
+}
+
+extension TimerNotchContent {
+    var minimalTimerSize: CGFloat {
+        switch timerViewModel.formattedTime {
+        case let value where value.contains("h"):
+            170
+        case let value where value.contains(":"):
+            110
+        default:
+            170
+        }
     }
 }

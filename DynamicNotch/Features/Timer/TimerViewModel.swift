@@ -34,10 +34,12 @@ struct ClockTimerSnapshot: Equatable {
 final class TimerViewModel: ObservableObject {
     @Published private(set) var snapshot: ClockTimerSnapshot?
     @Published var event: TimerEvent?
+    @Published private(set) var formattedTime: String = "0:00"
 
     private let monitor: any ClockTimerMonitoring
     private let controller: any ClockTimerControlling
     private var hasStartedMonitoring = false
+    private var formattedTimeTask: Task<Void, Never>?
 
     init(
         monitor: any ClockTimerMonitoring,
@@ -74,6 +76,7 @@ final class TimerViewModel: ObservableObject {
         guard hasStartedMonitoring else { return }
         hasStartedMonitoring = false
         monitor.stopMonitoring()
+        stopFormattedTimeUpdates()
     }
 
     func togglePauseResume() async -> Bool {
@@ -83,6 +86,37 @@ final class TimerViewModel: ObservableObject {
     func stopTimer() async -> Bool {
         await controller.stopTimer()
     }
+
+    func formatTime(_ remainingTime: TimeInterval) -> String {
+        let displaySeconds = max(0, Int(ceil(remainingTime)))
+
+        if displaySeconds < 3600 {
+            return minuteSecondFormatter.string(from: TimeInterval(displaySeconds)) ?? "0:00"
+        }
+
+        return abbreviatedHourMinuteTime(displaySeconds)
+    }
+
+    private func abbreviatedHourMinuteTime(_ totalSeconds: Int) -> String {
+        let hours = totalSeconds / 3600
+        let minutes = (totalSeconds % 3600) / 60
+
+        if minutes > 0 {
+            return "\(hours)h \(minutes)min"
+        }
+
+        return "\(hours)h"
+    }
+
+    private let minuteSecondFormatter: DateComponentsFormatter = {
+        let formatter = DateComponentsFormatter()
+        formatter.unitsStyle = .positional
+        formatter.allowedUnits = [.minute, .second]
+        formatter.zeroFormattingBehavior = .pad
+        formatter.includesApproximationPhrase = false
+        formatter.includesTimeRemainingPhrase = false
+        return formatter
+    }()
 
     #if DEBUG
     private var isShowingDebugPreviewSnapshot: Bool { _isShowingDebugPreviewSnapshot }
@@ -118,6 +152,8 @@ private extension TimerViewModel {
     func apply(snapshot nextSnapshot: ClockTimerSnapshot?, emitEvent: Bool = true) {
         let previousSnapshot = snapshot
         snapshot = nextSnapshot
+        refreshFormattedTime()
+        updateFormattedTimeTask(for: nextSnapshot)
 
         guard emitEvent else { return }
 
@@ -134,5 +170,37 @@ private extension TimerViewModel {
         case let (.some(previousSnapshot), .some(nextSnapshot)):
             event = previousSnapshot.fingerprint == nextSnapshot.fingerprint ? .updated : .started
         }
+    }
+
+    func updateFormattedTimeTask(for snapshot: ClockTimerSnapshot?) {
+        guard let snapshot else {
+            stopFormattedTimeUpdates()
+            return
+        }
+
+        guard snapshot.isPaused == false else {
+            stopFormattedTimeUpdates()
+            return
+        }
+
+        guard formattedTimeTask == nil else { return }
+
+        formattedTimeTask = Task { [weak self] in
+            while Task.isCancelled == false {
+                try? await Task.sleep(nanoseconds: 250_000_000)
+                guard Task.isCancelled == false else { break }
+                self?.refreshFormattedTime()
+            }
+        }
+    }
+
+    func stopFormattedTimeUpdates() {
+        formattedTimeTask?.cancel()
+        formattedTimeTask = nil
+    }
+
+    func refreshFormattedTime() {
+        let remainingTime = snapshot?.remainingTime(at: .now) ?? 0
+        formattedTime = formatTime(remainingTime)
     }
 }

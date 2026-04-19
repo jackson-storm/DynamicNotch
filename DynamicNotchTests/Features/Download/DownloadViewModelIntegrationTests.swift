@@ -72,7 +72,7 @@ final class DownloadViewModelIntegrationTests: XCTestCase {
 
         viewModel.showDebugPreviewDownloadsIfNeeded()
 
-        XCTAssertEqual(viewModel.primaryDownload?.displayName, "DebugExport.mov")
+        XCTAssertEqual(viewModel.primaryDownload?.displayName, "DebugExportBigNameForFile.mov")
         XCTAssertEqual(viewModel.additionalDownloadCount, 1)
 
         let updatedLiveDownload = makeDownloadSnapshot(
@@ -83,7 +83,7 @@ final class DownloadViewModelIntegrationTests: XCTestCase {
         )
 
         monitor.publish([updatedLiveDownload])
-        XCTAssertEqual(viewModel.primaryDownload?.displayName, "DebugExport.mov")
+        XCTAssertEqual(viewModel.primaryDownload?.displayName, "DebugExportBigNameForFile.mov")
 
         viewModel.hideDebugPreviewDownloadsIfNeeded()
         XCTAssertEqual(viewModel.primaryDownload?.displayName, "live-new.zip")

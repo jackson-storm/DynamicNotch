@@ -292,7 +292,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "PLUGINS_DIR=\"$TARGET_BUILD_DIR/$WRAPPER_NAME/Contents/PlugIns\"\nif [ -d \"$PLUGINS_DIR\" ]; then\n  find \"$PLUGINS_DIR\" -maxdepth 1 -type d \\( -name \"*.xctest\" -o -name \"*.xctestproducts\" \\) -exec rm -rf {} +\nfi\n";
+			shellScript = "PLUGINS_DIR=\"$TARGET_BUILD_DIR/$WRAPPER_NAME/Contents/PlugIns\"\nif [ -d \"$PLUGINS_DIR\" ]; then\n  for stale_bundle in \"$PLUGINS_DIR\"/*.xctest \"$PLUGINS_DIR\"/*.xctestproducts; do\n    [ -e \"$stale_bundle\" ] || continue\n    rm -rf \"$stale_bundle\"\n  done\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

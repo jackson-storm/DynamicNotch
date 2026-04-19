@@ -7,9 +7,9 @@ struct TimerExpandedNotchView: View {
     private var resolvedSnapshot: ClockTimerSnapshot {
         timerViewModel.snapshot ?? ClockTimerSnapshot(
             identifier: "debug.clock.timer",
-            title: "Debug timer",
-            duration: 30,
-            endDate: .now.addingTimeInterval(30),
+            title: "Timer",
+            duration: 0,
+            endDate: .now.addingTimeInterval(0),
             isPaused: false,
             pausedRemaining: nil,
             fingerprint: "debug.clock.timer"
@@ -31,6 +31,7 @@ struct TimerExpandedNotchView: View {
             }
         }
         .padding(.horizontal, 32)
+        .padding(.trailing, 3)
         .padding(.bottom, 12)
     }
 
@@ -49,7 +50,7 @@ struct TimerExpandedNotchView: View {
                     .font(.system(size: 20))
                     .foregroundStyle(.orange)
             }
-            .buttonStyle(PrimaryButtonStyle(width: 40, height: 40, backgroundColor: .orange.opacity(0.3)))
+            .buttonStyle(PrimaryButtonStyle(width: 45, height: 45, backgroundColor: .orange.opacity(0.3)))
             .disabled(isControlActionRunning)
 
             Button {
@@ -66,7 +67,7 @@ struct TimerExpandedNotchView: View {
                     .bold()
                     .foregroundStyle(.white.opacity(0.8))
             }
-            .buttonStyle(PrimaryButtonStyle(width: 40, height: 40, backgroundColor: .gray.opacity(0.3)))
+            .buttonStyle(PrimaryButtonStyle(width: 45, height: 45, backgroundColor: .gray.opacity(0.3)))
             .disabled(isControlActionRunning)
         }
     }

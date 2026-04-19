@@ -42,46 +42,54 @@ final class NotchViewModel: ObservableObject {
         engine.animations
     }
 
+    var surfaceSizeAnimation: Animation? {
+        isSwipeInteractionActive ? nil : animations.contentUpdate
+    }
+
+    var isSwipeInteractionActive: Bool {
+        swipeInteraction != nil
+    }
+    
     var canExpandActiveLiveActivity: Bool {
         engine.canExpandActiveLiveActivity
     }
-
+    
     var isTapToExpandEnabled: Bool {
         settings.isNotchTapToExpandEnabled
     }
-
+    
     var canRestoreDismissedContent: Bool {
         engine.canRestoreDismissedContent
     }
-
+    
     var canDismissWithMouseDrag: Bool {
         settings.isNotchMouseDragGesturesEnabled &&
         settings.isNotchSwipeDismissEnabled &&
         notchModel.content != nil
     }
-
+    
     var canRestoreWithMouseDrag: Bool {
         settings.isNotchMouseDragGesturesEnabled &&
         settings.isNotchSwipeRestoreEnabled &&
         canRestoreDismissedContent
     }
-
+    
     var canDismissWithTrackpadSwipe: Bool {
         settings.isNotchTrackpadSwipeGesturesEnabled &&
         settings.isNotchSwipeDismissEnabled &&
         notchModel.content != nil
     }
-
+    
     var canRestoreWithTrackpadSwipe: Bool {
         settings.isNotchTrackpadSwipeGesturesEnabled &&
         settings.isNotchSwipeRestoreEnabled &&
         canRestoreDismissedContent
     }
-
+    
     var interactiveNotchSize: CGSize {
         let baseSize = notchModel.size
         let progress = easedSwipeStretchProgress
-
+        
         switch swipeInteraction {
         case .dismiss:
             if notchModel.isPresentingExpandedLiveActivity {
@@ -89,38 +97,38 @@ final class NotchViewModel: ObservableObject {
                     max(baseSize.height * SwipeFeedbackMetrics.expandedDismissHeightFactor, SwipeFeedbackMetrics.expandedDismissMinimumHeight),
                     SwipeFeedbackMetrics.expandedDismissMaximumHeight
                 )
-
+                
                 return CGSize(
                     width: baseSize.width,
                     height: max(notchModel.baseHeight, baseSize.height - (heightCompression * progress))
                 )
             }
-
+            
             let widthCompression = min(
                 max(baseSize.width * SwipeFeedbackMetrics.collapsedDismissWidthFactor, SwipeFeedbackMetrics.collapsedDismissMinimumWidth),
                 SwipeFeedbackMetrics.collapsedDismissMaximumWidth
             )
-
+            
             return CGSize(
                 width: max(baseSize.height, baseSize.width - (widthCompression * progress)),
                 height: baseSize.height
             )
-
+            
         case .restore:
             return CGSize(
                 width: baseSize.width,
                 height: baseSize.height + (SwipeFeedbackMetrics.restoreHeightExpansion * progress)
             )
-
+            
         case nil:
             return baseSize
         }
     }
-
+    
     var interactiveCornerRadius: (top: CGFloat, bottom: CGFloat) {
         let baseCornerRadius = notchModel.cornerRadius
         let progress = easedSwipeStretchProgress
-
+        
         switch swipeInteraction {
         case .dismiss:
             if notchModel.isPresentingExpandedLiveActivity {
@@ -132,45 +140,45 @@ final class NotchViewModel: ObservableObject {
                     )
                 )
             }
-
+            
             return baseCornerRadius
-
+            
         case .restore:
             return (
                 top: baseCornerRadius.top,
                 bottom: baseCornerRadius.bottom + (SwipeFeedbackMetrics.restoreCornerRadiusExpansion * progress)
             )
-
+            
         case nil:
             return baseCornerRadius
         }
     }
-
+    
     var contentResizeBlurRadius: CGFloat {
         let progress = easedSwipeStretchProgress
-
+        
         switch swipeInteraction {
         case .dismiss:
             return SwipeFeedbackMetrics.dismissBlurRadius * progress
-
+            
         case .restore:
             return SwipeFeedbackMetrics.restoreBlurRadius * progress
-
+            
         case nil:
             return 0
         }
     }
-
+    
     var contentResizeOpacity: Double {
         let progress = Double(easedSwipeStretchProgress)
-
+        
         switch swipeInteraction {
         case .dismiss:
             return max(0, 1 - (SwipeFeedbackMetrics.dismissOpacityReduction * progress))
-
+            
         case .restore:
             return max(0, 1 - (SwipeFeedbackMetrics.restoreOpacityReduction * progress))
-
+            
         case nil:
             return 1
         }
@@ -180,8 +188,8 @@ final class NotchViewModel: ObservableObject {
     init(
         settings: NotchSettingsProviding,
         animations: NotchAnimations? = nil,
-        hideDelay: TimeInterval = 0.3,
-        queueDelay: TimeInterval = 0.3,
+        hideDelay: TimeInterval? = nil,
+        queueDelay: TimeInterval? = nil,
         engine: NotchEngine? = nil,
         screenMetricsProvider: ((NotchDisplayLocation) -> NotchScreenMetrics?)? = nil
     ) {
@@ -199,7 +207,7 @@ final class NotchViewModel: ObservableObject {
         bindEngine()
         updateDimensions()
     }
-
+    
     func updateDimensions() {
         guard let screenMetrics = screenMetricsProvider(settings.displayLocation) else {
             return
@@ -227,84 +235,89 @@ final class NotchViewModel: ObservableObject {
             )
         }
     }
-
+    
     func send(_ notchState: NotchState) {
         engine.send(notchState)
     }
-
+    
     func hideTemporaryNotification() {
         engine.hideTemporaryNotification()
     }
-
+    
     func dismissActiveContent() {
         if notchModel.isLiveActivityExpanded,
            notchModel.liveActivityContent?.id == TimerNotchContent.activityID {
             engine.handleOutsideClick()
             return
         }
-
+        
         engine.dismissActiveContent()
     }
-
+    
     func restoreDismissedContent() {
         engine.restoreDismissedContent()
     }
-
+    
     func updateSwipeStretch(for interaction: NotchSwipeInteraction, progress: CGFloat) {
-        swipeInteraction = interaction
-        swipeStretchProgress = min(max(progress, 0), 1)
-    }
+        let clampedProgress = min(max(progress, 0), 1)
+        guard swipeInteraction != interaction || abs(swipeStretchProgress - clampedProgress) > 0.001 else {
+            return
+        }
 
+        swipeInteraction = interaction
+        swipeStretchProgress = clampedProgress
+    }
+    
     func resetSwipeStretch() {
         guard swipeStretchProgress > 0 || swipeInteraction != nil else { return }
-
+        
         withAnimation(animations.stretchReset) {
             swipeStretchProgress = 0
             swipeInteraction = nil
         }
     }
-
+    
     func handleActiveContentTap() {
         guard settings.isNotchTapToExpandEnabled else { return }
         engine.handleActiveContentTap()
     }
-
+    
     func handleOutsideClick() {
         engine.handleOutsideClick()
     }
-
+    
     func handleStrokeVisibility() {
         engine.handleStrokeVisibility()
     }
-
+    
     private var easedSwipeStretchProgress: CGFloat {
         1 - pow(1 - swipeStretchProgress, 2)
     }
-
+    
     func contentTransition(offsetX: CGFloat, offsetY: CGFloat) -> AnyTransition {
         .blurAndFade
             .animation(animations.contentTransition)
             .combined(with: .scale)
             .combined(with: .offset(x: offsetX, y: offsetY))
     }
-
+    
     private func bindEngine() {
         notchModel = engine.notchModel
         showNotch = engine.showNotch
         cachedStrokeColor = engine.cachedStrokeColor
-
+        
         engine.$notchModel
             .sink { [weak self] in
                 self?.notchModel = $0
             }
             .store(in: &cancellables)
-
+        
         engine.$showNotch
             .sink { [weak self] in
                 self?.showNotch = $0
             }
             .store(in: &cancellables)
-
+        
         engine.$cachedStrokeColor
             .sink { [weak self] in
                 self?.cachedStrokeColor = $0

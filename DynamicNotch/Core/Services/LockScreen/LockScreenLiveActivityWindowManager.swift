@@ -254,14 +254,8 @@ final class LockScreenLiveActivityWindowManager {
         if animatedIn {
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
-                
-                withAnimation(self.notchViewModel.animations.notchVisibility) {
                     self.animator.scale = 1
-                }
-                
-                withAnimation(self.notchViewModel.animations.contentShow) {
                     self.animator.opacity = 1
-                }
             }
         }
     }
@@ -396,7 +390,6 @@ private struct LockScreenLiveActivityOverlayView: View {
             .scaleEffect(animator.scale)
             .opacity(animator.opacity)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-            .animation(notchViewModel.animations.contentUpdate, value: notchViewModel.interactiveNotchSize)
             .animation(notchViewModel.animations.strokeVisibility, value: settingsViewModel.isShowNotchStrokeEnabled)
             .animation(notchViewModel.animations.notchVisibility, value: notchViewModel.showNotch)
     }

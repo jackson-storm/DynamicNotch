@@ -97,7 +97,6 @@ private extension NotchView {
                 }
             }
             .environment(\.colorScheme, .dark)
-            .animation(notchViewModel.animations.contentUpdate, value: notchViewModel.interactiveNotchSize)
             .animation(notchViewModel.animations.strokeVisibility, value: settingsViewModel.isShowNotchStrokeEnabled)
             .animation(notchViewModel.animations.notchVisibility, value: notchViewModel.showNotch)
     }

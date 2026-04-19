@@ -16,69 +16,81 @@ struct NotchAnimations {
     let strokeVisibility: Animation
     let notchVisibility: Animation
     let contentTransition: Animation
+    let hideShowDelay: TimeInterval
+    let queuePacingDelay: TimeInterval
 
-    static let `default` = preset(.balanced)
+    static let `default` = preset(.fast)
 
     static func preset(_ preset: NotchAnimationPreset) -> Self {
         switch preset {
         case .snappy:
             return Self(
-                contentUpdate: .spring(response: 0.28, dampingFraction: 0.82),
-                contentHide: .spring(response: 0.34, dampingFraction: 0.9),
-                contentShow: .spring(response: 0.3, dampingFraction: 0.82),
-                stretchReset: .spring(response: 0.26, dampingFraction: 0.8),
-                expandLiveActivity: .spring(response: 0.3, dampingFraction: 0.82),
-                strokeVisibility: .smooth(duration: 0.2),
-                notchVisibility: .smooth(duration: 0.3),
-                contentTransition: .smooth(duration: 0.24)
+                contentUpdate: .spring(response: 0.4),
+                contentHide: .spring(response: 0.46),
+                contentShow: .spring(response: 0.31),
+                stretchReset: .spring(response: 0.6, dampingFraction: 0.7),
+                expandLiveActivity: .spring(response: 0.36, dampingFraction: 0.8),
+                strokeVisibility: .spring(duration: 0.41),
+                notchVisibility: .spring(duration: 0.41),
+                contentTransition: .spring(duration: 0.41),
+                hideShowDelay: 0.31,
+                queuePacingDelay: 0.1
             )
 
         case .fast:
             return Self(
-                contentUpdate: .spring(response: 0.34, dampingFraction: 0.82),
-                contentHide: .spring(response: 0.42, dampingFraction: 0.9),
-                contentShow: .spring(response: 0.35, dampingFraction: 0.82),
-                stretchReset: .spring(response: 0.32, dampingFraction: 0.78),
-                expandLiveActivity: .spring(response: 0.35, dampingFraction: 0.82),
-                strokeVisibility: .smooth(duration: 0.26),
-                notchVisibility: .smooth(duration: 0.42),
-                contentTransition: .smooth(duration: 0.34)
+                contentUpdate: .spring(response: 0.4),
+                contentHide: .spring(response: 0.48),
+                contentShow: .spring(response: 0.33),
+                stretchReset: .spring(response: 0.6, dampingFraction: 0.7),
+                expandLiveActivity: .spring(response: 0.38, dampingFraction: 0.8),
+                strokeVisibility: .spring(duration: 0.43),
+                notchVisibility: .spring(duration: 0.43),
+                contentTransition: .spring(duration: 0.43),
+                hideShowDelay: 0.33,
+                queuePacingDelay: 0.1
             )
 
         case .balanced:
             return Self(
-                contentUpdate: .spring(response: 0.4, dampingFraction: 0.8),
+                contentUpdate: .spring(response: 0.4),
                 contentHide: .spring(response: 0.5),
-                contentShow: .spring(response: 0.4, dampingFraction: 0.8),
-                stretchReset: .spring(response: 0.4, dampingFraction: 0.7),
+                contentShow: .spring(response: 0.35),
+                stretchReset: .spring(response: 0.6, dampingFraction: 0.7),
                 expandLiveActivity: .spring(response: 0.4, dampingFraction: 0.8),
-                strokeVisibility: .spring(duration: 0.3),
-                notchVisibility: .spring(duration: 0.6),
-                contentTransition: .spring(duration: 0.5)
+                strokeVisibility: .spring(duration: 0.45),
+                notchVisibility: .spring(duration: 0.45),
+                contentTransition: .spring(duration: 0.45),
+                hideShowDelay: 0.35,
+                queuePacingDelay: 0.1
             )
 
         case .slow:
             return Self(
-                contentUpdate: .spring(response: 0.48, dampingFraction: 0.82),
-                contentHide: .spring(response: 0.6, dampingFraction: 0.92),
-                contentShow: .spring(response: 0.48, dampingFraction: 0.82),
-                stretchReset: .spring(response: 0.46, dampingFraction: 0.78),
-                expandLiveActivity: .spring(response: 0.48, dampingFraction: 0.82),
-                strokeVisibility: .smooth(duration: 0.36),
-                notchVisibility: .smooth(duration: 0.62),
-                contentTransition: .smooth(duration: 0.54)
+                contentUpdate: .spring(response: 0.4),
+                contentHide: .spring(response: 0.52),
+                contentShow: .spring(response: 0.37),
+                stretchReset: .spring(response: 0.6, dampingFraction: 0.7),
+                expandLiveActivity: .spring(response: 0.42, dampingFraction: 0.8),
+                strokeVisibility: .spring(duration: 0.47),
+                notchVisibility: .spring(duration: 0.47),
+                contentTransition: .spring(duration: 0.47),
+                hideShowDelay: 0.37,
+                queuePacingDelay: 0.1
             )
 
         case .relaxed:
             return Self(
-                contentUpdate: .spring(response: 0.55, dampingFraction: 0.84),
-                contentHide: .spring(response: 0.7, dampingFraction: 0.92),
-                contentShow: .spring(response: 0.55, dampingFraction: 0.84),
-                stretchReset: .spring(response: 0.52, dampingFraction: 0.8),
-                expandLiveActivity: .spring(response: 0.55, dampingFraction: 0.84),
-                strokeVisibility: .smooth(duration: 0.42),
-                notchVisibility: .smooth(duration: 0.75),
-                contentTransition: .smooth(duration: 0.6)
+                contentUpdate: .spring(response: 0.4),
+                contentHide: .spring(response: 0.54),
+                contentShow: .spring(response: 0.39),
+                stretchReset: .spring(response: 0.6, dampingFraction: 0.7),
+                expandLiveActivity: .spring(response: 0.44, dampingFraction: 0.8),
+                strokeVisibility: .spring(duration: 0.49),
+                notchVisibility: .spring(duration: 0.49),
+                contentTransition: .spring(duration: 0.49),
+                hideShowDelay: 0.39,
+                queuePacingDelay: 0.1
             )
         }
     }

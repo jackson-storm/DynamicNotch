@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E2C135B42F59F9F200348421 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = E2C135B32F59F9F200348421 /* Defaults */; };
 		E2C135B72F59FA8100348421 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = E2C135B62F59FA8100348421 /* Lottie */; };
 /* End PBXBuildFile section */
 
@@ -87,7 +86,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E2C135B42F59F9F200348421 /* Defaults in Frameworks */,
 				E2C135B72F59FA8100348421 /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -149,7 +147,6 @@
 			);
 			name = DynamicNotch;
 			packageProductDependencies = (
-				E2C135B32F59F9F200348421 /* Defaults */,
 				E2C135B62F59FA8100348421 /* Lottie */,
 			);
 			productName = DynamicNotch;
@@ -235,7 +232,6 @@
 			mainGroup = E2EF78482EDDB60E00F96D1E;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				E2C135B22F59F9F200348421 /* XCRemoteSwiftPackageReference "Defaults" */,
 				E2C135B52F59FA8100348421 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 			);
 			preferredProjectObjectVersion = 77;
@@ -712,14 +708,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		E2C135B22F59F9F200348421 /* XCRemoteSwiftPackageReference "Defaults" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/sindresorhus/Defaults";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 9.0.6;
-			};
-		};
 		E2C135B52F59FA8100348421 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
@@ -731,11 +719,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		E2C135B32F59F9F200348421 /* Defaults */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E2C135B22F59F9F200348421 /* XCRemoteSwiftPackageReference "Defaults" */;
-			productName = Defaults;
-		};
 		E2C135B62F59FA8100348421 /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = E2C135B52F59FA8100348421 /* XCRemoteSwiftPackageReference "lottie-ios" */;

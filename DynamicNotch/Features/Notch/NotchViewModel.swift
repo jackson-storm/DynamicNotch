@@ -24,19 +24,30 @@ private enum SwipeFeedbackMetrics {
     static let restoreOpacityReduction: Double = 0.5
 }
 
+private enum SurfaceResizeMetrics {
+    static let heightLeadDeltaFactor: CGFloat = 0.24
+    static let heightLeadDeltaMinimum: CGFloat = 6
+    static let heightLeadDeltaMaximum: CGFloat = 28
+    static let heightFollowUpDelay: TimeInterval = 0.1
+}
+
 @MainActor
 final class NotchViewModel: ObservableObject {
     @Published private(set) var notchModel = NotchModel()
-    @Published var showNotch = false
-    @Published var isPressed = false
     @Published private(set) var swipeStretchProgress: CGFloat = 0
     @Published private(set) var swipeInteraction: NotchSwipeInteraction?
+    @Published private(set) var stagedNotchHeight: CGFloat = NotchModel().baseHeight
+    
+    @Published var showNotch = false
+    @Published var isPressed = false
     @Published var cachedStrokeColor: Color = .clear
 
     private let settings: NotchSettingsProviding
     private let engine: NotchEngine
     private let screenMetricsProvider: (NotchDisplayLocation) -> NotchScreenMetrics?
     private var cancellables = Set<AnyCancellable>()
+    private var stagedHeightTask: Task<Void, Never>?
+    private var isClosingHeightStaged = false
 
     var animations: NotchAnimations {
         engine.animations
@@ -44,6 +55,19 @@ final class NotchViewModel: ObservableObject {
 
     var surfaceSizeAnimation: Animation? {
         isSwipeInteractionActive ? nil : animations.contentUpdate
+    }
+
+    var presentedNotchSize: CGSize {
+        let size = interactiveNotchSize
+
+        guard !isSwipeInteractionActive, isClosingHeightStaged else {
+            return size
+        }
+
+        return CGSize(
+            width: size.width,
+            height: stagedNotchHeight
+        )
     }
 
     var isSwipeInteractionActive: Bool {
@@ -204,8 +228,8 @@ final class NotchViewModel: ObservableObject {
         self.screenMetricsProvider = screenMetricsProvider ?? { location in
             NSScreen.metrics(for: location)
         }
-        bindEngine()
         updateDimensions()
+        bindEngine()
     }
     
     func updateDimensions() {
@@ -297,7 +321,7 @@ final class NotchViewModel: ObservableObject {
     func contentTransition(offsetX: CGFloat, offsetY: CGFloat) -> AnyTransition {
         .blurAndFade
             .animation(animations.contentTransition)
-            .combined(with: .scale)
+            .combined(with: .scale.animation(.spring(response: 0.4)))
             .combined(with: .offset(x: offsetX, y: offsetY))
     }
     
@@ -305,9 +329,13 @@ final class NotchViewModel: ObservableObject {
         notchModel = engine.notchModel
         showNotch = engine.showNotch
         cachedStrokeColor = engine.cachedStrokeColor
+        stagedNotchHeight = engine.notchModel.size.height
+        isClosingHeightStaged = false
         
         engine.$notchModel
+            .dropFirst()
             .sink { [weak self] in
+                self?.scheduleStagedHeightUpdate(to: $0.size.height)
                 self?.notchModel = $0
             }
             .store(in: &cancellables)
@@ -323,5 +351,79 @@ final class NotchViewModel: ObservableObject {
                 self?.cachedStrokeColor = $0
             }
             .store(in: &cancellables)
+    }
+
+    private func scheduleStagedHeightUpdate(to targetHeight: CGFloat) {
+        stagedHeightTask?.cancel()
+
+        guard !isSwipeInteractionActive else {
+            isClosingHeightStaged = false
+            stagedNotchHeight = targetHeight
+            return
+        }
+
+        let currentHeight = stagedNotchHeight
+
+        guard abs(currentHeight - targetHeight) > 0.5 else {
+            isClosingHeightStaged = false
+            stagedNotchHeight = targetHeight
+            return
+        }
+
+        guard targetHeight < currentHeight else {
+            isClosingHeightStaged = false
+            stagedNotchHeight = targetHeight
+            return
+        }
+
+        isClosingHeightStaged = true
+
+        let leadHeight = intermediateHeight(from: currentHeight, to: targetHeight)
+
+        applyStagedHeight(leadHeight, animated: true)
+
+        guard abs(leadHeight - targetHeight) > 0.5 else {
+            isClosingHeightStaged = false
+            stagedNotchHeight = targetHeight
+            return
+        }
+
+        stagedHeightTask = Task { [weak self] in
+            try? await Task.sleep(
+                nanoseconds: UInt64(SurfaceResizeMetrics.heightFollowUpDelay * 1_000_000_000)
+            )
+
+            guard !Task.isCancelled else { return }
+
+            await MainActor.run {
+                self?.applyStagedHeight(targetHeight, animated: true)
+                self?.isClosingHeightStaged = false
+            }
+        }
+    }
+
+    private func applyStagedHeight(_ targetHeight: CGFloat, animated: Bool) {
+        guard animated, let animation = surfaceSizeAnimation else {
+            stagedNotchHeight = targetHeight
+            return
+        }
+
+        withAnimation(animation) {
+            stagedNotchHeight = targetHeight
+        }
+    }
+
+    private func intermediateHeight(from currentHeight: CGFloat, to targetHeight: CGFloat) -> CGFloat {
+        let delta = targetHeight - currentHeight
+        let clampedLeadDelta = min(
+            abs(delta),
+            max(
+                abs(delta) * SurfaceResizeMetrics.heightLeadDeltaFactor,
+                SurfaceResizeMetrics.heightLeadDeltaMinimum
+            ),
+            SurfaceResizeMetrics.heightLeadDeltaMaximum
+        )
+
+        return currentHeight + (delta.sign == .minus ? -clampedLeadDelta : clampedLeadDelta)
     }
 }

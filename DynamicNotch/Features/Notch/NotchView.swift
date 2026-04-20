@@ -76,14 +76,14 @@ private extension NotchView {
                 radius: 15
             )
             .frame(
-                width: notchViewModel.interactiveNotchSize.width,
-                height: notchViewModel.interactiveNotchSize.height
+                width: notchViewModel.presentedNotchSize.width,
+                height: notchViewModel.presentedNotchSize.height
             )
             .offset(y: 1)
             .customNotchPressable(
                 notchViewModel: notchViewModel,
                 isPressed: $notchViewModel.isPressed,
-                baseSize: notchViewModel.interactiveNotchSize
+                baseSize: notchViewModel.presentedNotchSize
             )
             .customNotchMouseSwipeable(
                 notchViewModel: notchViewModel

@@ -39,6 +39,7 @@ final class TimerViewModel: ObservableObject {
     private let monitor: any ClockTimerMonitoring
     private let controller: any ClockTimerControlling
     private var hasStartedMonitoring = false
+    private var ignoresMonitorSnapshots = false
     private var formattedTimeTask: Task<Void, Never>?
 
     init(
@@ -52,11 +53,11 @@ final class TimerViewModel: ObservableObject {
 
             if Thread.isMainThread {
                 MainActor.assumeIsolated {
-                    self.apply(snapshot: snapshot)
+                    self.handleMonitorSnapshot(snapshot)
                 }
             } else {
                 DispatchQueue.main.async { [weak self] in
-                    self?.apply(snapshot: snapshot)
+                    self?.handleMonitorSnapshot(snapshot)
                 }
             }
         }
@@ -69,14 +70,17 @@ final class TimerViewModel: ObservableObject {
     func startMonitoring() {
         guard !hasStartedMonitoring else { return }
         hasStartedMonitoring = true
+        ignoresMonitorSnapshots = false
         monitor.startMonitoring()
     }
 
     func stopMonitoring() {
         guard hasStartedMonitoring else { return }
         hasStartedMonitoring = false
+        ignoresMonitorSnapshots = true
         monitor.stopMonitoring()
         stopFormattedTimeUpdates()
+        apply(snapshot: nil)
     }
 
     func togglePauseResume() async -> Bool {
@@ -149,6 +153,11 @@ final class TimerViewModel: ObservableObject {
 }
 
 private extension TimerViewModel {
+    func handleMonitorSnapshot(_ snapshot: ClockTimerSnapshot?) {
+        guard !ignoresMonitorSnapshots else { return }
+        apply(snapshot: snapshot)
+    }
+
     func apply(snapshot nextSnapshot: ClockTimerSnapshot?, emitEvent: Bool = true) {
         let previousSnapshot = snapshot
         snapshot = nextSnapshot

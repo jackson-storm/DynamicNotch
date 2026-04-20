@@ -12,9 +12,9 @@ struct NowPlayingExpandedNotchView: View {
     @ObservedObject var nowPlayingViewModel: NowPlayingViewModel
     @ObservedObject var settings: MediaAndFilesSettingsStore
     @ObservedObject var applicationSettings: ApplicationSettingsStore
-    
+
     @State private var scrubProgress: CGFloat?
-    @State private var nowPlayingAnimationTick: TimeInterval = 1.0 / 14.0
+    private let audioReactiveVisibilitySource = "nowPlaying.notch.expanded"
     
     private var resolvedSnapshot: NowPlayingSnapshot {
         nowPlayingViewModel.snapshot ?? NowPlayingSnapshot(
@@ -31,9 +31,21 @@ struct NowPlayingExpandedNotchView: View {
     
     var body: some View {
         let snapshot = resolvedSnapshot
-        
-        return TimelineView(.periodic(from: .now, by: nowPlayingAnimationTick)) { context in
+
+        return TimelineView(.periodic(from: .now, by: animationTick(for: snapshot))) { context in
             timelineContent(snapshot: snapshot, at: context.date)
+        }
+        .onAppear {
+            nowPlayingViewModel.setAudioReactiveVisualizationActive(
+                true,
+                source: audioReactiveVisibilitySource
+            )
+        }
+        .onDisappear {
+            nowPlayingViewModel.setAudioReactiveVisualizationActive(
+                false,
+                source: audioReactiveVisibilitySource
+            )
         }
     }
 
@@ -232,5 +244,9 @@ struct NowPlayingExpandedNotchView: View {
         return snapshot.isPlaying ?
         Color(red: 0.97, green: 0.73, blue: 0.32) :
             .white.opacity(0.48)
+    }
+
+    private func animationTick(for snapshot: NowPlayingSnapshot) -> TimeInterval {
+        snapshot.isPlaying ? (1.0 / 14.0) : 0.5
     }
 }

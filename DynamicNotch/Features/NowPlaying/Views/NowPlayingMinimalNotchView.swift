@@ -11,8 +11,8 @@ struct NowPlayingMinimalNotchView: View {
     @Environment(\.notchScale) var scale
     @ObservedObject var nowPlayingViewModel: NowPlayingViewModel
     @ObservedObject var settings: MediaAndFilesSettingsStore
-    
-    @State private var nowPlayingAnimationTick: TimeInterval = 1.0 / 14.0
+
+    private let audioReactiveVisibilitySource = "nowPlaying.notch.minimal"
     
     private var resolvedSnapshot: NowPlayingSnapshot {
         nowPlayingViewModel.snapshot ?? NowPlayingSnapshot(
@@ -29,9 +29,21 @@ struct NowPlayingMinimalNotchView: View {
     
     var body: some View {
         let snapshot = resolvedSnapshot
-        
-        return TimelineView(.periodic(from: .now, by: nowPlayingAnimationTick)) { context in
+
+        return TimelineView(.periodic(from: .now, by: animationTick(for: snapshot))) { context in
             timelineContent(snapshot: snapshot, at: context.date)
+        }
+        .onAppear {
+            nowPlayingViewModel.setAudioReactiveVisualizationActive(
+                true,
+                source: audioReactiveVisibilitySource
+            )
+        }
+        .onDisappear {
+            nowPlayingViewModel.setAudioReactiveVisualizationActive(
+                false,
+                source: audioReactiveVisibilitySource
+            )
         }
     }
 
@@ -51,5 +63,9 @@ struct NowPlayingMinimalNotchView: View {
             )
         }
         .padding(.horizontal, 14.scaled(by: scale))
+    }
+
+    private func animationTick(for snapshot: NowPlayingSnapshot) -> TimeInterval {
+        snapshot.isPlaying ? (1.0 / 14.0) : 0.5
     }
 }

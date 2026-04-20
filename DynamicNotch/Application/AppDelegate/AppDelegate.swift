@@ -54,6 +54,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         observeFullscreenVisibilityChanges()
         observeDockIconVisibilityChanges()
         observeHUDConfigurationChanges()
+        observeFeatureMonitoringChanges()
         observeLockScreenWindowHandoff()
 
         if !isRunningUITests {
@@ -85,15 +86,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         lockScreenManager.startMonitoring()
-        nowPlayingViewModel.startMonitoring()
-        downloadViewModel.startMonitoring()
-        timerViewModel.startMonitoring()
     }
 
     func applicationWillTerminate(_ notification: Notification) {
         NotificationCenter.default.removeObserver(self)
         NSWorkspace.shared.notificationCenter.removeObserver(self)
         lockScreenManager.stopMonitoring()
+        nowPlayingViewModel.stopMonitoring()
         downloadViewModel.stopMonitoring()
         timerViewModel.stopMonitoring()
         hardwareHUDMonitor.stopMonitoring()

@@ -17,23 +17,44 @@ struct NotchCustomScaleModifier: ViewModifier {
     private let tapMovementTolerance: CGFloat = 6
     
     func body(content: Content) -> some View {
+        pressableContent(content)
+    }
+}
+
+private extension NotchCustomScaleModifier {
+    func pressableContent(_ content: Content) -> some View {
         let hitBounds = CGRect(origin: .zero, size: baseSize)
-        
-        content
+        let isExpandedPresentation = notchViewModel.notchModel.isPresentingExpandedLiveActivity
+
+        return content
             .scaleEffect(
-                x: isPressed ? scaleFactor : 1,
-                y: isPressed ? scaleFactor : 1,
+                x: isPressed && !isExpandedPresentation ? scaleFactor : 1,
+                y: isPressed && !isExpandedPresentation ? scaleFactor : 1,
                 anchor: .top
             )
             .animation(.spring(response: 0.3, dampingFraction: 0.5), value: isPressed)
             .simultaneousGesture(
                 DragGesture(minimumDistance: 0)
                     .onChanged { value in
+                        guard !notchViewModel.notchModel.isPresentingExpandedLiveActivity else {
+                            if isPressed {
+                                isPressed = false
+                            }
+                            return
+                        }
+
                         let shouldBePressed = hitBounds.contains(value.location)
                         guard isPressed != shouldBePressed else { return }
                         isPressed = shouldBePressed
                     }
                     .onEnded { value in
+                        guard !notchViewModel.notchModel.isPresentingExpandedLiveActivity else {
+                            if isPressed {
+                                isPressed = false
+                            }
+                            return
+                        }
+
                         let shouldTriggerTap = hitBounds.contains(value.location) && isTapLike(value.translation)
 
                         if isPressed {
@@ -53,9 +74,7 @@ struct NotchCustomScaleModifier: ViewModifier {
                     }
             )
     }
-}
 
-private extension NotchCustomScaleModifier {
     private func isTapLike(_ translation: CGSize) -> Bool {
         abs(translation.width) <= tapMovementTolerance &&
         abs(translation.height) <= tapMovementTolerance

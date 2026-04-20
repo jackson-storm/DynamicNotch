@@ -3,6 +3,53 @@ internal import AppKit
 import Combine
 
 extension AppDelegate {
+    func observeFeatureMonitoringChanges() {
+        Publishers.CombineLatest(
+            settingsViewModel.mediaAndFiles.$isNowPlayingLiveActivityEnabled.removeDuplicates(),
+            settingsViewModel.lockScreen.$isLockScreenMediaPanelEnabled.removeDuplicates()
+        )
+        .map { isNowPlayingEnabled, isLockScreenMediaPanelEnabled in
+            isNowPlayingEnabled || isLockScreenMediaPanelEnabled
+        }
+        .removeDuplicates()
+        .sink { [weak self] shouldMonitorNowPlaying in
+            guard let self else { return }
+
+            if shouldMonitorNowPlaying {
+                nowPlayingViewModel.startMonitoring()
+            } else {
+                nowPlayingViewModel.stopMonitoring()
+            }
+        }
+        .store(in: &cancellables)
+
+        settingsViewModel.mediaAndFiles.$isDownloadsLiveActivityEnabled
+            .removeDuplicates()
+            .sink { [weak self] isDownloadsLiveActivityEnabled in
+                guard let self else { return }
+
+                if isDownloadsLiveActivityEnabled {
+                    downloadViewModel.startMonitoring()
+                } else {
+                    downloadViewModel.stopMonitoring()
+                }
+            }
+            .store(in: &cancellables)
+
+        settingsViewModel.mediaAndFiles.$isTimerLiveActivityEnabled
+            .removeDuplicates()
+            .sink { [weak self] isTimerLiveActivityEnabled in
+                guard let self else { return }
+
+                if isTimerLiveActivityEnabled {
+                    timerViewModel.startMonitoring()
+                } else {
+                    timerViewModel.stopMonitoring()
+                }
+            }
+            .store(in: &cancellables)
+    }
+
     func observeDockIconVisibilityChanges() {
         settingsViewModel.application.$isDockIconVisible
             .removeDuplicates()

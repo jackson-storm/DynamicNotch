@@ -18,8 +18,8 @@ private struct HelperSnapshot: Codable, Equatable {
 }
 
 private final class MediaRemoteHelper {
-    private let fallbackPollInterval = DispatchTimeInterval.milliseconds(250)
-    private let resyncInterval = DispatchTimeInterval.seconds(1)
+    private let fallbackPollInterval = DispatchTimeInterval.seconds(1)
+    private let resyncInterval = DispatchTimeInterval.seconds(4)
 
     private enum NotificationName {
         static let nowPlayingInfoDidChange =
@@ -42,7 +42,7 @@ private final class MediaRemoteHelper {
 
     private let queue = DispatchQueue(
         label: "com.dynamicnotch.mediaremote.helper",
-        qos: .userInitiated
+        qos: .utility
     )
     private let encoder = JSONEncoder()
     private let getNowPlayingInfo: MRMediaRemoteGetNowPlayingInfoFunction
@@ -106,7 +106,7 @@ private final class MediaRemoteHelper {
         timer.schedule(
             deadline: .now(),
             repeating: repeatingInterval,
-            leeway: .milliseconds(50)
+            leeway: .milliseconds(250)
         )
         timer.setEventHandler { [weak self] in
             self?.pollNowPlayingInfo()
@@ -232,13 +232,13 @@ private final class MediaRemoteHelper {
         }
 
         let elapsedDelta = abs((snapshot.elapsedTime ?? 0) - (lastSnapshot.elapsedTime ?? 0))
-        if elapsedDelta >= 2 {
+        if elapsedDelta >= 4 {
             return true
         }
 
         if (snapshot.playbackRate ?? 0) > 0.001,
             let lastEmissionDate,
-            now.timeIntervalSince(lastEmissionDate) >= 5 {
+            now.timeIntervalSince(lastEmissionDate) >= 8 {
             return true
         }
 

@@ -53,9 +53,9 @@ private struct LockScreenNowPlayingView: View {
     @Environment(\.notchScale) var scale
     @ObservedObject var settings: MediaAndFilesSettingsStore
     @ObservedObject var nowPlayingViewModel: NowPlayingViewModel
-    
+
     @State private var scrubProgress: CGFloat?
-    @State private var nowPlayingAnimationTick: TimeInterval = 1.0 / 14.0
+    private let audioReactiveVisibilitySource = "nowPlaying.lockScreen.panel"
     
     private var resolvedSnapshot: NowPlayingSnapshot {
         nowPlayingViewModel.snapshot ?? NowPlayingSnapshot(
@@ -72,9 +72,21 @@ private struct LockScreenNowPlayingView: View {
     
     var body: some View {
         let snapshot = resolvedSnapshot
-        
-        return TimelineView(.periodic(from: .now, by: nowPlayingAnimationTick)) { context in
+
+        return TimelineView(.periodic(from: .now, by: animationTick(for: snapshot))) { context in
             timelineContent(snapshot: snapshot, at: context.date)
+        }
+        .onAppear {
+            nowPlayingViewModel.setAudioReactiveVisualizationActive(
+                true,
+                source: audioReactiveVisibilitySource
+            )
+        }
+        .onDisappear {
+            nowPlayingViewModel.setAudioReactiveVisualizationActive(
+                false,
+                source: audioReactiveVisibilitySource
+            )
         }
     }
 
@@ -239,6 +251,10 @@ private struct LockScreenNowPlayingView: View {
         }
         
         return String(format: "%02d:%02d", minutes, seconds)
+    }
+
+    private func animationTick(for snapshot: NowPlayingSnapshot) -> TimeInterval {
+        snapshot.isPlaying ? (1.0 / 14.0) : 0.5
     }
     
     private func playbackStatusColor(for snapshot: NowPlayingSnapshot) -> Color {

@@ -30,6 +30,8 @@ final class NowPlayingViewModel: ObservableObject {
     private let mediaSettings: MediaAndFilesSettingsStore
     private let audioLevelMonitor: any NowPlayingAudioLevelMonitoring
     private var hasStartedMonitoring = false
+    private var ignoresServiceSnapshots = false
+    private var activeAudioReactiveVisualizationSources = Set<String>()
     private var cancellables = Set<AnyCancellable>()
     #if DEBUG
     private var isShowingDebugPreviewSnapshot = false
@@ -68,11 +70,11 @@ final class NowPlayingViewModel: ObservableObject {
 
             if Thread.isMainThread {
                 MainActor.assumeIsolated {
-                    self.apply(snapshot: snapshot)
+                    self.handleServiceSnapshot(snapshot)
                 }
             } else {
                 DispatchQueue.main.async { [weak self] in
-                    self?.apply(snapshot: snapshot)
+                    self?.handleServiceSnapshot(snapshot)
                 }
             }
         }
@@ -103,7 +105,17 @@ final class NowPlayingViewModel: ObservableObject {
     func startMonitoring() {
         guard !hasStartedMonitoring else { return }
         hasStartedMonitoring = true
+        ignoresServiceSnapshots = false
         service.startMonitoring()
+        updateAudioReactiveMonitoringState()
+    }
+
+    func stopMonitoring() {
+        guard hasStartedMonitoring else { return }
+        hasStartedMonitoring = false
+        ignoresServiceSnapshots = true
+        service.stopMonitoring()
+        apply(snapshot: nil)
     }
 
     func togglePlayPause() {
@@ -168,6 +180,16 @@ final class NowPlayingViewModel: ObservableObject {
         snapshot?.elapsedTime(at: date) ?? 0
     }
 
+    func setAudioReactiveVisualizationActive(_ isActive: Bool, source: String) {
+        if isActive {
+            activeAudioReactiveVisualizationSources.insert(source)
+        } else {
+            activeAudioReactiveVisualizationSources.remove(source)
+        }
+
+        updateAudioReactiveMonitoringState()
+    }
+
     #if DEBUG
     func showDebugPreviewSnapshotIfNeeded() {
         guard snapshot == nil else { return }
@@ -228,6 +250,11 @@ final class NowPlayingViewModel: ObservableObject {
 }
 
 private extension NowPlayingViewModel {
+    func handleServiceSnapshot(_ snapshot: NowPlayingSnapshot?) {
+        guard !ignoresServiceSnapshots else { return }
+        apply(snapshot: snapshot)
+    }
+
     func bindAudioReactiveMonitoring() {
         mediaSettings.$nowPlayingEqualizerMode
             .removeDuplicates()
@@ -269,6 +296,8 @@ private extension NowPlayingViewModel {
 
     func updateAudioReactiveMonitoringState() {
         let shouldUseAudioReactiveMonitoring =
+            hasStartedMonitoring &&
+            !activeAudioReactiveVisualizationSources.isEmpty &&
             mediaSettings.nowPlayingEqualizerMode == .audioReactive &&
             snapshot?.isPlaying == true
 
@@ -304,7 +333,7 @@ final class SystemNowPlayingAudioLevelMonitor: NSObject, NowPlayingAudioLevelMon
 
     private let sampleHandlerQueue = DispatchQueue(
         label: "com.dynamicnotch.nowplaying.audioReactive",
-        qos: .userInteractive
+        qos: .userInitiated
     )
     private let fftSize = 2048
     private let bandFrequencyRanges: [ClosedRange<Float>] = [
@@ -847,4 +876,3 @@ private extension NowPlayingSnapshot {
         )
     }
 }
-

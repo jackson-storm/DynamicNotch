@@ -22,7 +22,7 @@ final class MediaRemoteNowPlayingService: NowPlayingMonitoring {
 
     private let callbackQueue = DispatchQueue(
         label: "com.dynamicnotch.nowplaying",
-        qos: .userInitiated
+        qos: .utility
     )
     private let decoder = JSONDecoder()
     private let commandDispatcher = MediaRemoteCommandDispatcher()

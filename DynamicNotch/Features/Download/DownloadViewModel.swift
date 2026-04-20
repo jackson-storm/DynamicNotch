@@ -8,6 +8,7 @@ final class DownloadViewModel: ObservableObject {
 
     private let monitor: any DownloadMonitoring
     private var hasStartedMonitoring = false
+    private var ignoresMonitorSnapshots = false
     private var latestObservedDownloads: [DownloadModel] = []
     #if DEBUG
     private var debugPreviewDownloads: [DownloadModel]?
@@ -32,11 +33,11 @@ final class DownloadViewModel: ObservableObject {
 
             if Thread.isMainThread {
                 MainActor.assumeIsolated {
-                    self.apply(downloads)
+                    self.handleMonitorSnapshot(downloads)
                 }
             } else {
                 DispatchQueue.main.async { [weak self] in
-                    self?.apply(downloads)
+                    self?.handleMonitorSnapshot(downloads)
                 }
             }
         }
@@ -45,13 +46,17 @@ final class DownloadViewModel: ObservableObject {
     func startMonitoring() {
         guard !hasStartedMonitoring else { return }
         hasStartedMonitoring = true
+        ignoresMonitorSnapshots = false
         monitor.startMonitoring()
     }
 
     func stopMonitoring() {
         guard hasStartedMonitoring else { return }
         hasStartedMonitoring = false
+        ignoresMonitorSnapshots = true
         monitor.stopMonitoring()
+        latestObservedDownloads = []
+        commit([])
     }
 
     #if DEBUG
@@ -101,6 +106,11 @@ final class DownloadViewModel: ObservableObject {
 }
 
 private extension DownloadViewModel {
+    func handleMonitorSnapshot(_ downloads: [DownloadModel]) {
+        guard !ignoresMonitorSnapshots else { return }
+        apply(downloads)
+    }
+
     func apply(_ downloads: [DownloadModel]) {
         let sortedDownloads = downloads.sorted {
             if $0.lastUpdatedAt != $1.lastUpdatedAt {

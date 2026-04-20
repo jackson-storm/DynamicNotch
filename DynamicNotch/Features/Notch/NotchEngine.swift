@@ -13,8 +13,8 @@ final class NotchEngine: ObservableObject {
     @Published private(set) var cachedStrokeColor: Color = .clear
 
     private let animationsProvider: () -> NotchAnimations
-    private let hideDelay: TimeInterval
-    private let queueDelay: TimeInterval
+    private let configuredHideDelay: TimeInterval?
+    private let configuredQueueDelay: TimeInterval?
 
     private var activeLiveActivities: [NotchContentProtocol] = []
     private var dismissedLiveActivityIDs: [String] = []
@@ -29,16 +29,24 @@ final class NotchEngine: ObservableObject {
 
     init(
         animations: @escaping () -> NotchAnimations,
-        hideDelay: TimeInterval = 0.3,
-        queueDelay: TimeInterval = 0.3
+        hideDelay: TimeInterval? = nil,
+        queueDelay: TimeInterval? = nil
     ) {
         self.animationsProvider = animations
-        self.hideDelay = hideDelay
-        self.queueDelay = queueDelay
+        self.configuredHideDelay = hideDelay
+        self.configuredQueueDelay = queueDelay
     }
 
     var animations: NotchAnimations {
         animationsProvider()
+    }
+
+    private var hideDelay: TimeInterval {
+        max(0, configuredHideDelay ?? animations.hideShowDelay)
+    }
+
+    private var queueDelay: TimeInterval {
+        max(0, configuredQueueDelay ?? animations.queuePacingDelay)
     }
 
     var canExpandActiveLiveActivity: Bool {

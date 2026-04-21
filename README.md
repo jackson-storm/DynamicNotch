@@ -132,13 +132,13 @@ DynamicNotchTests/
 
 ## 🏗️ Architecture at a Glance
 
-- `AppContainer` wires services, monitors, feature view models, and coordinators together.
-- `AppDelegate` manages lifecycle, overlay window creation, workspace observers, and lock-screen handoff.
-- `NotchEngine` owns the queue-driven notch presentation state machine.
-- `NotchViewModel` is the SwiftUI-facing layer for geometry, gestures, interactive resize, and engine-backed state.
-- `NotchEventCoordinator` routes system events into feature-specific notch content.
+- `AppContainer` composes services, monitors, feature view models, coordinators, and window managers.
+- `AppDelegate` manages app lifecycle, floating overlay window setup, workspace observers, and lock-screen handoff.
+- `NotchEngine` owns the queue-driven notch presentation state machine for live activities, temporary alerts, transitions, and restore flows.
+- `NotchViewModel` is the SwiftUI-facing layer for geometry, gestures, interactive resize, and engine-backed presentation state.
+- `NotchEventCoordinator` routes system events while feature-specific handlers translate them into notch content.
+- `SettingsViewModel` acts as a facade over dedicated settings stores for application, media/files, connectivity, battery, HUD, and lock-screen behavior.
 - Feature view models provide domain state for battery, Bluetooth, downloads, network, now playing, timer, AirDrop, and lock screen.
-- `SettingsViewModel` splits preferences into dedicated stores for application, media/files, connectivity, battery, HUD, and lock screen behavior.
 
 ## 🧰 Tech Stack
 

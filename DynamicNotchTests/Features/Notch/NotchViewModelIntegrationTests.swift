@@ -730,7 +730,7 @@ final class NotchViewModelIntegrationTests: XCTestCase {
     func testUpdateDimensionsAppliesSettingsOffsets() {
         let baseSettings = TestNotchSettings()
         let offsetSettings = TestNotchSettings(notchWidth: 7, notchHeight: 3)
-        let screenMetricsProvider: (NotchDisplayLocation) -> NotchScreenMetrics? = { _ in
+        let screenMetricsProvider: (any NotchSettingsProviding) -> NotchScreenMetrics? = { _ in
             (width: 1440, topInset: 74)
         }
 
@@ -754,12 +754,14 @@ final class NotchViewModelIntegrationTests: XCTestCase {
         let settings = TestNotchSettings(displayLocation: .builtIn)
         let viewModel = NotchViewModel(
             settings: settings,
-            screenMetricsProvider: { location in
-                switch location {
+            screenMetricsProvider: { settings in
+                switch settings.displayLocation {
                 case .builtIn:
                     return (width: 1512, topInset: 74)
                 case .main:
                     return (width: 1728, topInset: 0)
+                case .specific:
+                    return (width: 1600, topInset: 0)
                 }
             }
         )
@@ -775,6 +777,36 @@ final class NotchViewModelIntegrationTests: XCTestCase {
         let mainScale = max(0.35, CGFloat(1728) / 1440.0)
         XCTAssertEqual(viewModel.notchModel.baseWidth, 190 * mainScale, accuracy: 0.001)
         XCTAssertEqual(viewModel.notchModel.baseHeight, 25 * mainScale, accuracy: 0.001)
+    }
+
+    @MainActor
+    func testUpdateDimensionsUsesSpecificDisplayMetrics() {
+        let settings = TestNotchSettings(
+            displayLocation: .specific,
+            screenSelectionPreferences: NotchScreenSelectionPreferences(
+                displayLocation: .specific,
+                preferredDisplayUUID: "EXTERNAL",
+                allowsAutomaticDisplaySwitching: false
+            )
+        )
+        let viewModel = NotchViewModel(
+            settings: settings,
+            screenMetricsProvider: { settings in
+                switch settings.screenSelectionPreferences.displayLocation {
+                case .builtIn:
+                    return (width: 1512, topInset: 74)
+                case .main:
+                    return (width: 1728, topInset: 0)
+                case .specific:
+                    return (width: 1920, topInset: 0)
+                }
+            }
+        )
+        TestLifetime.retain(viewModel)
+
+        let scale = max(0.35, CGFloat(1920) / 1440.0)
+        XCTAssertEqual(viewModel.notchModel.baseWidth, 190 * scale, accuracy: 0.001)
+        XCTAssertEqual(viewModel.notchModel.baseHeight, 25 * scale, accuracy: 0.001)
     }
 
     @MainActor

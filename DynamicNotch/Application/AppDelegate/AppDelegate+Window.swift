@@ -2,7 +2,12 @@ import SwiftUI
 
 extension AppDelegate {
     func createNotchWindow() {
-        guard let screen = NSScreen.preferredNotchScreen(for: settingsViewModel.displayLocation) else {
+        guard let screen =
+            NSScreen.preferredNotchScreen(for: settingsViewModel) ??
+            NSScreen.preferredNotchScreen(for: settingsViewModel.application) ??
+            NSScreen.preferredNotchScreen(for: .main) ??
+            NSScreen.screens.first
+        else {
             return
         }
 
@@ -39,7 +44,7 @@ extension AppDelegate {
             includesFullscreenAuxiliary: !settingsViewModel.application.isNotchHiddenInFullscreenEnabled
         )
         SkyLightOperator.shared.delegateWindow(window, to: .notchSurface)
-        updatePrimaryWindowVisibility(on: screen)
+        updateWindowFrame()
     }
 
     @objc
@@ -48,7 +53,8 @@ extension AppDelegate {
 
         notchViewModel.updateDimensions()
 
-        guard let screen = NSScreen.preferredNotchScreen(for: settingsViewModel.displayLocation) else {
+        guard let screen = NSScreen.preferredNotchScreen(for: settingsViewModel) else {
+            window.orderOut(nil)
             return
         }
 

@@ -5,7 +5,16 @@ import SwiftUI
 final class TestNotchSettings: NotchSettingsProviding {
     var notchWidth: Int
     var notchHeight: Int
-    var displayLocation: NotchDisplayLocation
+    var displayLocation: NotchDisplayLocation {
+        didSet {
+            screenSelectionPreferences = NotchScreenSelectionPreferences(
+                displayLocation: displayLocation,
+                preferredDisplayUUID: screenSelectionPreferences.preferredDisplayUUID,
+                allowsAutomaticDisplaySwitching: screenSelectionPreferences.allowsAutomaticDisplaySwitching
+            )
+        }
+    }
+    var screenSelectionPreferences: NotchScreenSelectionPreferences
     var notchAnimationPreset: NotchAnimationPreset
     var isNotchTapToExpandEnabled: Bool
     var isNotchMouseDragGesturesEnabled: Bool
@@ -17,6 +26,7 @@ final class TestNotchSettings: NotchSettingsProviding {
         notchWidth: Int = 0,
         notchHeight: Int = 0,
         displayLocation: NotchDisplayLocation = .main,
+        screenSelectionPreferences: NotchScreenSelectionPreferences? = nil,
         notchAnimationPreset: NotchAnimationPreset = .balanced,
         isNotchTapToExpandEnabled: Bool = true,
         isNotchMouseDragGesturesEnabled: Bool = true,
@@ -27,6 +37,11 @@ final class TestNotchSettings: NotchSettingsProviding {
         self.notchWidth = notchWidth
         self.notchHeight = notchHeight
         self.displayLocation = displayLocation
+        self.screenSelectionPreferences = screenSelectionPreferences ?? NotchScreenSelectionPreferences(
+            displayLocation: displayLocation,
+            preferredDisplayUUID: nil,
+            allowsAutomaticDisplaySwitching: false
+        )
         self.notchAnimationPreset = notchAnimationPreset
         self.isNotchTapToExpandEnabled = isNotchTapToExpandEnabled
         self.isNotchMouseDragGesturesEnabled = isNotchMouseDragGesturesEnabled

@@ -1,5 +1,6 @@
 import Combine
 import Foundation
+internal import AppKit
 import ServiceManagement
 
 @MainActor
@@ -72,6 +73,31 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
     @Published var displayLocation: NotchDisplayLocation {
         didSet {
             persist(displayLocation.rawValue, for: GeneralSettingsStorage.Keys.displayLocation)
+
+            if displayLocation == .specific {
+                ensureSpecificDisplaySelection(previousLocation: oldValue)
+            }
+        }
+    }
+
+    @Published var preferredDisplayUUID: String {
+        didSet {
+            persist(preferredDisplayUUID, for: GeneralSettingsStorage.Keys.preferredDisplayUUID)
+        }
+    }
+
+    @Published var preferredDisplayName: String {
+        didSet {
+            persist(preferredDisplayName, for: GeneralSettingsStorage.Keys.preferredDisplayName)
+        }
+    }
+
+    @Published var isDisplayAutoSwitchEnabled: Bool {
+        didSet {
+            persist(
+                isDisplayAutoSwitchEnabled,
+                for: GeneralSettingsStorage.Keys.displayAutoSwitchEnabled
+            )
         }
     }
 
@@ -158,6 +184,14 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
 
     let notchSizeEvent = PassthroughSubject<NotchSizeEvent, Never>()
 
+    var screenSelectionPreferences: NotchScreenSelectionPreferences {
+        NotchScreenSelectionPreferences(
+            displayLocation: displayLocation,
+            preferredDisplayUUID: preferredDisplayUUID.isEmpty ? nil : preferredDisplayUUID,
+            allowsAutomaticDisplaySwitching: isDisplayAutoSwitchEnabled
+        )
+    }
+
     override init(defaults: UserDefaults) {
         self.isLaunchAtLoginEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.launchAtLogin)
         self.isDockIconVisible = defaults.bool(forKey: GeneralSettingsStorage.Keys.dockIcon)
@@ -176,6 +210,16 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         self.displayLocation = NotchDisplayLocation(
             rawValue: defaults.string(forKey: GeneralSettingsStorage.Keys.displayLocation) ?? NotchDisplayLocation.main.rawValue
         ) ?? .main
+        self.preferredDisplayUUID = defaults.string(
+            forKey: GeneralSettingsStorage.Keys.preferredDisplayUUID
+        ) ?? ""
+        self.preferredDisplayName = defaults.string(
+            forKey: GeneralSettingsStorage.Keys.preferredDisplayName
+        ) ?? ""
+        self.isDisplayAutoSwitchEnabled = Self.resolvedBool(
+            defaults: defaults,
+            key: GeneralSettingsStorage.Keys.displayAutoSwitchEnabled
+        )
         self.appLanguage = DynamicNotchLanguage.resolved(
             defaults.string(forKey: GeneralSettingsStorage.Keys.appLanguage)
         )
@@ -212,6 +256,7 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
             Self.defaultTemporaryActivityDuration(for: GeneralSettingsStorage.Keys.notchSizeTemporaryActivityDuration)
         )
         super.init(defaults: defaults)
+        ensureSpecificDisplaySelection(previousLocation: .main)
         updateLaunchAtLogin()
     }
 
@@ -225,6 +270,11 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         displayLocation = NotchDisplayLocation(
             rawValue: defaultString(for: GeneralSettingsStorage.Keys.displayLocation)
         ) ?? .main
+        preferredDisplayUUID = defaultString(for: GeneralSettingsStorage.Keys.preferredDisplayUUID)
+        preferredDisplayName = defaultString(for: GeneralSettingsStorage.Keys.preferredDisplayName)
+        isDisplayAutoSwitchEnabled = defaultBool(
+            for: GeneralSettingsStorage.Keys.displayAutoSwitchEnabled
+        )
         appLanguage = DynamicNotchLanguage.resolved(
             defaultString(for: GeneralSettingsStorage.Keys.appLanguage)
         )
@@ -298,6 +348,47 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
             }
         } catch {
             print("Ошибка для \(instance.description): \(error)")
+        }
+    }
+
+    func selectPreferredDisplay(_ display: NotchDisplayOption) {
+        guard display.isAvailable else { return }
+
+        preferredDisplayUUID = display.displayUUID
+        preferredDisplayName = display.name
+    }
+
+    func syncPreferredDisplayMetadata() {
+        guard !preferredDisplayUUID.isEmpty,
+              let selectedDisplay = NSScreen.availableNotchDisplays().first(where: {
+                  $0.displayUUID == preferredDisplayUUID
+              })
+        else {
+            return
+        }
+
+        if preferredDisplayName != selectedDisplay.name {
+            preferredDisplayName = selectedDisplay.name
+        }
+    }
+
+    private func ensureSpecificDisplaySelection(previousLocation: NotchDisplayLocation) {
+        guard displayLocation == .specific else { return }
+
+        if !preferredDisplayUUID.isEmpty {
+            syncPreferredDisplayMetadata()
+            return
+        }
+
+        let previousPreferences = NotchScreenSelectionPreferences(
+            displayLocation: previousLocation,
+            preferredDisplayUUID: preferredDisplayUUID.isEmpty ? nil : preferredDisplayUUID,
+            allowsAutomaticDisplaySwitching: isDisplayAutoSwitchEnabled
+        )
+
+        if let resolvedDisplay = NSScreen.preferredNotchDisplay(for: previousPreferences) ??
+            NSScreen.availableNotchDisplays().first {
+            selectPreferredDisplay(resolvedDisplay)
         }
     }
 }

@@ -288,6 +288,7 @@ private extension NowPlayingViewModel {
 
     func apply(snapshot newSnapshot: NowPlayingSnapshot?, emitEvent: Bool = true) {
         let wasActive = snapshot != nil
+        let wasPlaying = snapshot?.isPlaying
         let previousTrackKey = snapshot?.favoriteTrackKey
         let newTrackKey = newSnapshot?.favoriteTrackKey
         let previousArtworkData = snapshot?.artworkData
@@ -326,12 +327,15 @@ private extension NowPlayingViewModel {
         }
 
         let isActive = newSnapshot != nil
+        let isPlaying = newSnapshot?.isPlaying
 
         if emitEvent {
             if !wasActive && isActive {
                 event = .started
             } else if wasActive && !isActive {
                 event = .stopped
+            } else if let wasPlaying, let isPlaying, wasPlaying != isPlaying {
+                event = .playbackStateChanged(isPlaying: isPlaying)
             }
         }
 

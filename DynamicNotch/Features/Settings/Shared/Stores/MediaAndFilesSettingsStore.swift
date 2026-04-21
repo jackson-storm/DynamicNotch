@@ -39,6 +39,27 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         }
     }
 
+    @Published var isNowPlayingPauseHideTimerEnabled: Bool {
+        didSet {
+            persist(
+                isNowPlayingPauseHideTimerEnabled,
+                for: GeneralSettingsStorage.Keys.nowPlayingPauseHideTimerEnabled
+            )
+        }
+    }
+
+    @Published var nowPlayingPauseHideDelay: Int {
+        didSet {
+            let clampedValue = Self.clampTemporaryActivityDuration(nowPlayingPauseHideDelay)
+            if clampedValue != nowPlayingPauseHideDelay {
+                nowPlayingPauseHideDelay = clampedValue
+                return
+            }
+
+            persist(nowPlayingPauseHideDelay, for: GeneralSettingsStorage.Keys.nowPlayingPauseHideDelay)
+        }
+    }
+
     @Published var isDownloadsLiveActivityEnabled: Bool {
         didSet {
             persist(isDownloadsLiveActivityEnabled, for: GeneralSettingsStorage.Keys.downloadsLiveActivityEnabled)
@@ -99,6 +120,14 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         self.nowPlayingEqualizerMode = NowPlayingEqualizerMode.resolved(
             defaults.string(forKey: GeneralSettingsStorage.Keys.nowPlayingEqualizerMode)
         )
+        self.isNowPlayingPauseHideTimerEnabled = Self.resolvedBool(
+            defaults: defaults,
+            key: GeneralSettingsStorage.Keys.nowPlayingPauseHideTimerEnabled
+        )
+        self.nowPlayingPauseHideDelay = Self.clampTemporaryActivityDuration(
+            defaults.object(forKey: GeneralSettingsStorage.Keys.nowPlayingPauseHideDelay) as? Int ??
+            Self.defaultTemporaryActivityDuration(for: GeneralSettingsStorage.Keys.nowPlayingPauseHideDelay)
+        )
         let hasLegacyDownloadsValue = defaults.object(forKey: GeneralSettingsStorage.Keys.legacyFileTransfersLiveActivityEnabled) != nil
         let downloadsSettingValue = defaults.object(forKey: GeneralSettingsStorage.Keys.downloadsLiveActivityEnabled) as? Bool
         self.isDownloadsLiveActivityEnabled = downloadsSettingValue ?? (
@@ -129,6 +158,12 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         nowPlayingEqualizerMode = NowPlayingEqualizerMode.resolved(
             defaultString(for: GeneralSettingsStorage.Keys.nowPlayingEqualizerMode)
         )
+        isNowPlayingPauseHideTimerEnabled = defaultBool(
+            for: GeneralSettingsStorage.Keys.nowPlayingPauseHideTimerEnabled
+        )
+        nowPlayingPauseHideDelay = Self.clampTemporaryActivityDuration(
+            defaultInt(for: GeneralSettingsStorage.Keys.nowPlayingPauseHideDelay)
+        )
     }
 
     func resetDownloads() {
@@ -150,6 +185,14 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
     func resetTimer() {
         isTimerLiveActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.timerLiveActivityEnabled)
         isTimerDefaultStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.timerDefaultStrokeEnabled)
+    }
+
+    private static func resolvedBool(defaults: UserDefaults, key: String) -> Bool {
+        if let currentValue = defaults.object(forKey: key) as? Bool {
+            return currentValue
+        }
+
+        return (GeneralSettingsStorage.defaultValues[key] as? Bool) ?? false
     }
 }
 

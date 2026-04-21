@@ -222,10 +222,7 @@ extension NSScreen {
         screens.first { $0.displayID == displayID }
     }
 
-    private static func sortDisplayOptions(
-        lhs: NotchDisplayOption,
-        rhs: NotchDisplayOption
-    ) -> Bool {
+    nonisolated private static func sortDisplayOptions(lhs: NotchDisplayOption, rhs: NotchDisplayOption) -> Bool {
         if lhs.isMain != rhs.isMain {
             return lhs.isMain && !rhs.isMain
         }

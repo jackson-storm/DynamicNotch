@@ -2084,6 +2084,9 @@
         }
       }
     },
+    "Choose how long the paused player stays visible before the notch closes." : {
+
+    },
     "Choose how long the volume HUD stays visible." : {
       "localizations" : {
         "en" : {
@@ -3106,6 +3109,9 @@
           }
         }
       }
+    },
+    "Close delay" : {
+
     },
     "Color the notch stroke using the current artwork palette." : {
       "localizations" : {
@@ -5234,6 +5240,9 @@
         }
       }
     },
+    "Keep Now Playing visible in the notch while playback is paused." : {
+
+    },
     "Keep playback controls in the notch while media is playing." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -6814,6 +6823,9 @@
           }
         }
       }
+    },
+    "Paused playback" : {
+
     },
     "Percent" : {
       "localizations" : {
@@ -14842,6 +14854,9 @@
           }
         }
       }
+    },
+    "Without close timer" : {
+
     },
     "You need to make sure that the application has been granted permission." : {
       "extractionState" : "stale",

@@ -316,6 +316,19 @@ final class NotchEventCoordinator: ObservableObject {
             }
             .store(in: &cancellables)
 
+        Publishers.CombineLatest(
+            settingsViewModel.mediaAndFiles.$isNowPlayingPauseHideTimerEnabled.removeDuplicates(),
+            settingsViewModel.mediaAndFiles.$nowPlayingPauseHideDelay.removeDuplicates()
+        )
+        .sink { [weak self] _, _ in
+            guard let self else { return }
+            guard self.settingsViewModel.isLiveActivityEnabled(.nowPlaying) else { return }
+            guard self.nowPlayingViewModel.hasActiveSession else { return }
+
+            self.mediaHandler.syncNowPlayingPlaybackState()
+        }
+        .store(in: &cancellables)
+
         settingsViewModel.mediaAndFiles.$isDownloadsLiveActivityEnabled
             .removeDuplicates()
             .sink { [weak self] isEnabled in

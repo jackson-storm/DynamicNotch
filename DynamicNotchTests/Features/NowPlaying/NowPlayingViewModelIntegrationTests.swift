@@ -65,6 +65,22 @@ final class NowPlayingViewModelIntegrationTests: XCTestCase {
         XCTAssertFalse(viewModel.snapshot?.isPlaying ?? true)
     }
 
+    func testPlaybackStateChangesPublishPlaybackStateEvent() {
+        let service = FakeNowPlayingService()
+        let viewModel = NowPlayingViewModel(service: service)
+        TestLifetime.retain(viewModel)
+        viewModel.startMonitoring()
+
+        service.publish(makeNowPlayingSnapshot(playbackRate: 1))
+        XCTAssertEqual(viewModel.event, .started)
+
+        service.publish(makeNowPlayingSnapshot(playbackRate: 0))
+        XCTAssertEqual(viewModel.event, .playbackStateChanged(isPlaying: false))
+
+        service.publish(makeNowPlayingSnapshot(playbackRate: 1))
+        XCTAssertEqual(viewModel.event, .playbackStateChanged(isPlaying: true))
+    }
+
     func testSeekUpdatesCurrentSnapshotImmediately() {
         let service = FakeNowPlayingService()
         let viewModel = NowPlayingViewModel(service: service)

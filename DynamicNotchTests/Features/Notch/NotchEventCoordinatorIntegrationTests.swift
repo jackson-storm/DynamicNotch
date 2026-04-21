@@ -140,11 +140,44 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
         }
 
         context.nowPlayingService.publish(nil)
-        context.coordinator.handleNowPlayingEvent(context.nowPlayingViewModel.event ?? .stopped)
+        context.coordinator.handleNowPlayingEvent(.stopped)
 
         await assertEventually {
             await MainActor.run { context.notchViewModel.notchModel.content == nil }
         }
+    }
+
+    func testPausedNowPlayingHidesAfterConfiguredDelay() async {
+        let context = makeContext(nowPlayingPauseHideTimerEnabled: true, nowPlayingPauseHideDelay: 1)
+
+        context.nowPlayingService.publish(makeNowPlayingSnapshot(playbackRate: 0))
+        context.coordinator.handleNowPlayingEvent(context.nowPlayingViewModel.event ?? .started)
+
+        await assertEventually {
+            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id == "nowPlaying" }
+        }
+
+        await assertEventually(timeout: 1.4) {
+            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id != "nowPlaying" }
+        }
+    }
+
+    func testPausedNowPlayingStaysVisibleWhenPauseHideTimerIsDisabled() async {
+        let context = makeContext(nowPlayingPauseHideTimerEnabled: false, nowPlayingPauseHideDelay: 1)
+
+        context.nowPlayingService.publish(makeNowPlayingSnapshot(playbackRate: 0))
+        context.coordinator.handleNowPlayingEvent(context.nowPlayingViewModel.event ?? .started)
+
+        await assertEventually {
+            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id == "nowPlaying" }
+        }
+
+        try? await Task.sleep(nanoseconds: 1_250_000_000)
+
+        let liveActivityID = await MainActor.run {
+            context.notchViewModel.notchModel.liveActivityContent?.id
+        }
+        XCTAssertEqual(liveActivityID, "nowPlaying")
     }
 
     func testDownloadEventsShowAndHideLiveActivity() async {
@@ -273,7 +306,9 @@ private extension NotchEventCoordinatorIntegrationTests {
         brightnessHUDEnabled: Bool = true,
         keyboardHUDEnabled: Bool = true,
         volumeHUDEnabled: Bool = true,
-        temporaryActivityDurationScale: Double = 1
+        temporaryActivityDurationScale: Double = 1,
+        nowPlayingPauseHideTimerEnabled: Bool = true,
+        nowPlayingPauseHideDelay: Int = 5
     ) -> TestContext {
         UserDefaults.standard.set(false, forKey: "isLaunchAtLoginEnabled")
         UserDefaults.standard.set(0, forKey: "notchWidth")
@@ -286,6 +321,8 @@ private extension NotchEventCoordinatorIntegrationTests {
         UserDefaults.standard.set(true, forKey: "settings.live.hotspot")
         UserDefaults.standard.set(true, forKey: "settings.live.focus")
         UserDefaults.standard.set(true, forKey: "settings.live.nowPlaying")
+        UserDefaults.standard.set(nowPlayingPauseHideTimerEnabled, forKey: "settings.nowPlaying.pauseHideTimerEnabled")
+        UserDefaults.standard.set(nowPlayingPauseHideDelay, forKey: "settings.nowPlaying.pauseHideDelay")
         UserDefaults.standard.set(true, forKey: "settings.live.downloads")
         UserDefaults.standard.set(true, forKey: LockScreenSettings.liveActivityKey)
         UserDefaults.standard.set(true, forKey: LockScreenSettings.mediaPanelKey)

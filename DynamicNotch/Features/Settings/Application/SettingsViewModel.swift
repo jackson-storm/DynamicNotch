@@ -116,6 +116,10 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
         set { application.displayLocation = newValue }
     }
 
+    var screenSelectionPreferences: NotchScreenSelectionPreferences {
+        application.screenSelectionPreferences
+    }
+
     var appLanguage: DynamicNotchLanguage {
         get { application.appLanguage }
         set { application.appLanguage = newValue }

@@ -23,6 +23,12 @@ final class NowPlayingViewModelIntegrationTests: XCTestCase {
 
         service.publish(nil)
 
+        XCTAssertEqual(viewModel.snapshot, snapshot)
+        XCTAssertEqual(viewModel.event, .started)
+        XCTAssertTrue(viewModel.hasActiveSession)
+
+        RunLoop.main.run(until: Date().addingTimeInterval(0.8))
+
         XCTAssertNil(viewModel.snapshot)
         XCTAssertEqual(viewModel.event, .stopped)
         XCTAssertFalse(viewModel.hasActiveSession)
@@ -59,6 +65,22 @@ final class NowPlayingViewModelIntegrationTests: XCTestCase {
         XCTAssertFalse(viewModel.snapshot?.isPlaying ?? true)
     }
 
+    func testPlaybackStateChangesPublishPlaybackStateEvent() {
+        let service = FakeNowPlayingService()
+        let viewModel = NowPlayingViewModel(service: service)
+        TestLifetime.retain(viewModel)
+        viewModel.startMonitoring()
+
+        service.publish(makeNowPlayingSnapshot(playbackRate: 1))
+        XCTAssertEqual(viewModel.event, .started)
+
+        service.publish(makeNowPlayingSnapshot(playbackRate: 0))
+        XCTAssertEqual(viewModel.event, .playbackStateChanged(isPlaying: false))
+
+        service.publish(makeNowPlayingSnapshot(playbackRate: 1))
+        XCTAssertEqual(viewModel.event, .playbackStateChanged(isPlaying: true))
+    }
+
     func testSeekUpdatesCurrentSnapshotImmediately() {
         let service = FakeNowPlayingService()
         let viewModel = NowPlayingViewModel(service: service)
@@ -93,18 +115,83 @@ final class NowPlayingViewModelIntegrationTests: XCTestCase {
         XCTAssertNotEqual(viewModel.artworkPalette, .fallback)
     }
 
-    func testArtworkPaletteFallsBackWhenArtworkDisappears() {
+    func testArtworkPersistsWhileActiveSnapshotTemporarilyLosesArtwork() {
         let service = FakeNowPlayingService()
         let viewModel = NowPlayingViewModel(service: service)
         TestLifetime.retain(viewModel)
         viewModel.startMonitoring()
 
         service.publish(makeNowPlayingSnapshot(artworkData: makeArtworkData(color: .systemBlue)))
+        XCTAssertNotNil(viewModel.artworkImage)
         XCTAssertNotEqual(viewModel.artworkPalette, .fallback)
 
         service.publish(makeNowPlayingSnapshot(artworkData: nil))
 
+        XCTAssertNotNil(viewModel.artworkImage)
+        XCTAssertNotEqual(viewModel.artworkPalette, .fallback)
+    }
+
+    func testArtworkClearsWhenSessionStops() {
+        let service = FakeNowPlayingService()
+        let viewModel = NowPlayingViewModel(service: service)
+        TestLifetime.retain(viewModel)
+        viewModel.startMonitoring()
+
+        service.publish(makeNowPlayingSnapshot(artworkData: makeArtworkData(color: .systemBlue)))
+        XCTAssertNotNil(viewModel.artworkImage)
+        XCTAssertNotEqual(viewModel.artworkPalette, .fallback)
+
+        service.publish(nil)
+
+        XCTAssertNotNil(viewModel.artworkImage)
+        XCTAssertNotEqual(viewModel.artworkPalette, .fallback)
+
+        RunLoop.main.run(until: Date().addingTimeInterval(0.8))
+
+        XCTAssertNil(viewModel.artworkImage)
         XCTAssertEqual(viewModel.artworkPalette, .fallback)
+    }
+
+    func testTrackChangeTriggersArtworkFlipAndDelaysArtworkSwap() async throws {
+        let service = FakeNowPlayingService()
+        let viewModel = NowPlayingViewModel(service: service)
+        TestLifetime.retain(viewModel)
+        viewModel.startMonitoring()
+
+        service.publish(
+            makeNowPlayingSnapshot(
+                title: "Midnight Echoes",
+                artist: "Debug Ensemble",
+                album: "Preview Mode",
+                artworkData: makeArtworkData(color: .systemRed)
+            )
+        )
+
+        let firstArtworkImage = try XCTUnwrap(viewModel.artworkImage)
+        XCTAssertEqual(viewModel.artworkFlipAngle, 0)
+
+        service.publish(nil)
+
+        XCTAssertEqual(viewModel.snapshot?.title, "Midnight Echoes")
+        XCTAssertTrue(viewModel.artworkImage === firstArtworkImage)
+
+        service.publish(
+            makeNowPlayingSnapshot(
+                title: "Second Signal",
+                artist: "Debug Ensemble",
+                album: "Preview Mode",
+                artworkData: makeArtworkData(color: .systemBlue)
+            )
+        )
+
+        XCTAssertEqual(viewModel.artworkFlipAngle, 180)
+        XCTAssertTrue(viewModel.artworkImage === firstArtworkImage)
+
+        try? await Task.sleep(nanoseconds: 550_000_000)
+        await Task.yield()
+
+        XCTAssertFalse(viewModel.artworkImage === firstArtworkImage)
+        XCTAssertNotEqual(viewModel.artworkPalette, .fallback)
     }
 
     func testAudioOutputRoutesLoadFromRoutingService() {
@@ -275,4 +362,3 @@ private func makeFavoriteStore(named name: String) -> UserDefaults {
     defaults.removePersistentDomain(forName: suiteName)
     return defaults
 }
-

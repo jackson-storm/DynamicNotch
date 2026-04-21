@@ -138,7 +138,8 @@ struct NowPlayingExpandedNotchView: View {
                         systemImage: "backward.fill",
                         fontSize: 22,
                         width: 42,
-                        height: 42
+                        height: 42,
+                        feedbackStyle: .backward
                     ) {
                         nowPlayingViewModel.previousTrack()
                     }
@@ -147,7 +148,8 @@ struct NowPlayingExpandedNotchView: View {
                         systemImage: snapshot.isPlaying ? "pause.fill" : "play.fill",
                         fontSize: 32,
                         width: 42,
-                        height: 42
+                        height: 42,
+                        feedbackStyle: .playPause
                     ) {
                         nowPlayingViewModel.togglePlayPause()
                     }
@@ -156,7 +158,8 @@ struct NowPlayingExpandedNotchView: View {
                         systemImage: "forward.fill",
                         fontSize: 22,
                         width: 42,
-                        height: 42
+                        height: 42,
+                        feedbackStyle: .forward
                     ) {
                         nowPlayingViewModel.nextTrack()
                     }

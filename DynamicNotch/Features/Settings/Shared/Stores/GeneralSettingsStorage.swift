@@ -11,6 +11,9 @@ enum GeneralSettingsStorage {
         static let defaultActivityStrokeEnabled = "settings.general.defaultActivityStroke"
         static let notchStrokeWidth = "notchStrokeWidth"
         static let displayLocation = "displayLocation"
+        static let preferredDisplayUUID = "settings.general.display.preferred.uuid"
+        static let preferredDisplayName = "settings.general.display.preferred.name"
+        static let displayAutoSwitchEnabled = "settings.general.display.autoSwitchEnabled"
         static let appLanguage = "settings.general.language.app"
         static let notchAnimationPreset = "settings.general.notchAnimationPreset"
         static let hideNotchInFullscreenEnabled = "settings.general.hideNotchInFullscreen"
@@ -38,6 +41,8 @@ enum GeneralSettingsStorage {
         static let nowPlayingArtworkTintEnabled = "settings.nowPlaying.artworkTintEnabled"
         static let nowPlayingArtworkStrokeEnabled = "settings.nowPlaying.artworkStrokeEnabled"
         static let nowPlayingEqualizerMode = "settings.nowPlaying.equalizerMode"
+        static let nowPlayingPauseHideTimerEnabled = "settings.nowPlaying.pauseHideTimerEnabled"
+        static let nowPlayingPauseHideDelay = "settings.nowPlaying.pauseHideDelay"
         static let downloadsLiveActivityEnabled = "settings.live.downloads"
         static let downloadsDefaultStrokeEnabled = "settings.live.downloads.defaultStroke"
         static let downloadsAppearanceStyle = "settings.live.downloads.appearanceStyle"
@@ -93,6 +98,9 @@ enum GeneralSettingsStorage {
         Keys.defaultActivityStrokeEnabled: false,
         Keys.notchStrokeWidth: 1.5,
         Keys.displayLocation: NotchDisplayLocation.main.rawValue,
+        Keys.preferredDisplayUUID: "",
+        Keys.preferredDisplayName: "",
+        Keys.displayAutoSwitchEnabled: true,
         Keys.appLanguage: DynamicNotchLanguage.system.rawValue,
         Keys.notchAnimationPreset: NotchAnimationPreset.balanced.rawValue,
         Keys.hideNotchInFullscreenEnabled: false,
@@ -120,6 +128,8 @@ enum GeneralSettingsStorage {
         Keys.nowPlayingArtworkTintEnabled: false,
         Keys.nowPlayingArtworkStrokeEnabled: false,
         Keys.nowPlayingEqualizerMode: NowPlayingEqualizerMode.classic.rawValue,
+        Keys.nowPlayingPauseHideTimerEnabled: true,
+        Keys.nowPlayingPauseHideDelay: 5,
         Keys.downloadsLiveActivityEnabled: true,
         Keys.downloadsDefaultStrokeEnabled: false,
         Keys.downloadsAppearanceStyle: DownloadAppearanceStyle.minimal.rawValue,

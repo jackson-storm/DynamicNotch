@@ -1,5 +1,10 @@
 import SwiftUI
 
+private enum DeferredNowPlayingHideReason {
+    case stopped
+    case pauseTimer
+}
+
 @MainActor
 final class NotchMediaEventsHandler {
     private let notchViewModel: NotchViewModel
@@ -7,7 +12,9 @@ final class NotchMediaEventsHandler {
     private let airDropViewModel: AirDropNotchViewModel
     private let settingsViewModel: SettingsViewModel
     private let nowPlayingViewModel: NowPlayingViewModel
-    private var deferredNowPlayingHideWhileExpanded = false
+    private var deferredNowPlayingHideWhileExpanded: DeferredNowPlayingHideReason?
+    private var nowPlayingPauseHideWorkItem: DispatchWorkItem?
+    private var isNowPlayingHiddenForPauseTimer = false
 
     init(
         notchViewModel: NotchViewModel,
@@ -62,47 +69,159 @@ final class NotchMediaEventsHandler {
     func handleNowPlaying(_ event: NowPlayingEvent) {
         switch event {
         case .started:
-            deferredNowPlayingHideWhileExpanded = false
+            cancelDeferredNowPlayingHide()
+            isNowPlayingHiddenForPauseTimer = false
             guard settingsViewModel.isLiveActivityEnabled(.nowPlaying) else { return }
-            notchViewModel.send(
-                .showLiveActivity(
-                    NowPlayingNotchContent(
-                        nowPlayingViewModel: nowPlayingViewModel,
-                        settings: settingsViewModel.mediaAndFiles,
-                        applicationSettings: settingsViewModel.application
-                    )
-                )
-            )
+            showNowPlayingLiveActivity()
+            syncNowPlayingPlaybackState()
 
         case .stopped:
+            cancelNowPlayingPauseHideTimer()
+            isNowPlayingHiddenForPauseTimer = false
             if isExpandedNowPlayingVisible {
-                deferredNowPlayingHideWhileExpanded = true
+                deferredNowPlayingHideWhileExpanded = .stopped
                 return
             }
 
-            deferredNowPlayingHideWhileExpanded = false
+            deferredNowPlayingHideWhileExpanded = nil
             notchViewModel.send(.hideLiveActivity(id: "nowPlaying"))
+
+        case let .playbackStateChanged(isPlaying):
+            guard settingsViewModel.isLiveActivityEnabled(.nowPlaying) else {
+                cancelDeferredNowPlayingHide()
+                return
+            }
+
+            if isPlaying {
+                cancelDeferredNowPlayingHide()
+                isNowPlayingHiddenForPauseTimer = false
+                showNowPlayingLiveActivity()
+            } else {
+                syncNowPlayingPlaybackState()
+            }
         }
     }
 
     func cancelDeferredNowPlayingHide() {
-        deferredNowPlayingHideWhileExpanded = false
+        deferredNowPlayingHideWhileExpanded = nil
+        cancelNowPlayingPauseHideTimer()
     }
 
     func handleExpansionChange(isExpanded: Bool) {
-        guard deferredNowPlayingHideWhileExpanded else { return }
+        guard let deferredHideReason = deferredNowPlayingHideWhileExpanded else { return }
         guard !isExpanded else { return }
-        guard nowPlayingViewModel.hasActiveSession == false else {
-            deferredNowPlayingHideWhileExpanded = false
+
+        switch deferredHideReason {
+        case .stopped:
+            guard nowPlayingViewModel.hasActiveSession == false else {
+                deferredNowPlayingHideWhileExpanded = nil
+                return
+            }
+
+            deferredNowPlayingHideWhileExpanded = nil
+            notchViewModel.send(.hideLiveActivity(id: "nowPlaying"))
+
+        case .pauseTimer:
+            guard settingsViewModel.mediaAndFiles.isNowPlayingPauseHideTimerEnabled else {
+                deferredNowPlayingHideWhileExpanded = nil
+                isNowPlayingHiddenForPauseTimer = false
+                showNowPlayingLiveActivity()
+                return
+            }
+
+            guard nowPlayingViewModel.snapshot?.isPlaying != true else {
+                deferredNowPlayingHideWhileExpanded = nil
+                isNowPlayingHiddenForPauseTimer = false
+                return
+            }
+
+            deferredNowPlayingHideWhileExpanded = nil
+            hideNowPlayingForPauseTimer()
+        }
+    }
+
+    func syncNowPlayingPlaybackState() {
+        guard settingsViewModel.isLiveActivityEnabled(.nowPlaying) else {
+            cancelDeferredNowPlayingHide()
             return
         }
 
-        deferredNowPlayingHideWhileExpanded = false
-        notchViewModel.send(.hideLiveActivity(id: "nowPlaying"))
+        guard nowPlayingViewModel.hasActiveSession else {
+            cancelDeferredNowPlayingHide()
+            isNowPlayingHiddenForPauseTimer = false
+            return
+        }
+
+        guard nowPlayingViewModel.snapshot?.isPlaying != true else {
+            cancelDeferredNowPlayingHide()
+            isNowPlayingHiddenForPauseTimer = false
+            showNowPlayingLiveActivity()
+            return
+        }
+
+        guard settingsViewModel.mediaAndFiles.isNowPlayingPauseHideTimerEnabled else {
+            cancelDeferredNowPlayingHide()
+            isNowPlayingHiddenForPauseTimer = false
+            showNowPlayingLiveActivity()
+            return
+        }
+
+        guard !isNowPlayingHiddenForPauseTimer else { return }
+        scheduleNowPlayingPauseHide()
     }
 
     private var isExpandedNowPlayingVisible: Bool {
         notchViewModel.notchModel.liveActivityContent?.id == "nowPlaying" &&
         notchViewModel.notchModel.isLiveActivityExpanded
+    }
+
+    private func showNowPlayingLiveActivity() {
+        guard nowPlayingViewModel.hasActiveSession else { return }
+
+        notchViewModel.send(
+            .showLiveActivity(
+                NowPlayingNotchContent(
+                    nowPlayingViewModel: nowPlayingViewModel,
+                    settings: settingsViewModel.mediaAndFiles,
+                    applicationSettings: settingsViewModel.application
+                )
+            )
+        )
+    }
+
+    private func scheduleNowPlayingPauseHide() {
+        cancelNowPlayingPauseHideTimer()
+
+        let delay = TimeInterval(settingsViewModel.mediaAndFiles.nowPlayingPauseHideDelay)
+        let workItem = DispatchWorkItem { [weak self] in
+            guard let self else { return }
+            self.nowPlayingPauseHideWorkItem = nil
+
+            guard self.settingsViewModel.mediaAndFiles.isNowPlayingPauseHideTimerEnabled else { return }
+            guard self.nowPlayingViewModel.hasActiveSession else { return }
+            guard self.nowPlayingViewModel.snapshot?.isPlaying != true else { return }
+
+            if self.isExpandedNowPlayingVisible {
+                self.deferredNowPlayingHideWhileExpanded = .pauseTimer
+                return
+            }
+
+            self.hideNowPlayingForPauseTimer()
+        }
+
+        nowPlayingPauseHideWorkItem = workItem
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: workItem)
+    }
+
+    private func cancelNowPlayingPauseHideTimer() {
+        nowPlayingPauseHideWorkItem?.cancel()
+        nowPlayingPauseHideWorkItem = nil
+    }
+
+    private func hideNowPlayingForPauseTimer() {
+        cancelNowPlayingPauseHideTimer()
+        deferredNowPlayingHideWhileExpanded = nil
+        isNowPlayingHiddenForPauseTimer = true
+        notchViewModel.send(.hideLiveActivity(id: "nowPlaying"))
     }
 }

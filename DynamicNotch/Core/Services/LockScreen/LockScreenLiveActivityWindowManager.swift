@@ -87,8 +87,16 @@ final class LockScreenLiveActivityWindowManager {
             }
             .store(in: &cancellables)
         
-        settingsViewModel.application.$displayLocation
-            .removeDuplicates()
+        Publishers.CombineLatest3(
+            settingsViewModel.application.$displayLocation.removeDuplicates(),
+            settingsViewModel.application.$preferredDisplayUUID.removeDuplicates(),
+            settingsViewModel.application.$isDisplayAutoSwitchEnabled.removeDuplicates()
+        )
+            .removeDuplicates(by: { lhs, rhs in
+                lhs.0 == rhs.0 &&
+                lhs.1 == rhs.1 &&
+                lhs.2 == rhs.2
+            })
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in
                 self?.refreshPosition(animated: false)
@@ -360,7 +368,7 @@ final class LockScreenLiveActivityWindowManager {
     
     private func currentScreen() -> NSScreen? {
         NSScreen.preferredLockScreen ??
-        NSScreen.preferredNotchScreen(for: settingsViewModel.displayLocation) ??
+        NSScreen.preferredNotchScreen(for: settingsViewModel) ??
         NSScreen.screens.first
     }
 }

@@ -5,15 +5,18 @@
 <h1 align="center">DynamicNotch</h1>
 
 <p align="center">
-  <strong>Turn the MacBook notch into a living system surface.</strong>
+  <strong>Turn the MacBook notch into a living native surface.</strong>
 </p>
 
 <p align="center">
-  DynamicNotch is a native macOS utility that brings Dynamic Island-inspired live activities,
-  temporary alerts, AirDrop handoff, and custom hardware HUD controls to notched MacBooks.
+  DynamicNotch is a native macOS app for notched MacBooks that turns the notch into a live system surface for media,
+  downloads, AirDrop, timers, connectivity events, lock-screen transitions, and custom hardware HUDs.
 </p>
 
 <p align="center">
+  <a href="https://github.com/jackson-storm/DynamicNotch/releases">
+    <img src="https://img.shields.io/github/downloads/jackson-storm/DynamicNotch/total?label=downloads" alt="GitHub downloads" />
+  </a>
   <a href="https://github.com/jackson-storm/DynamicNotch/releases/latest">
     <img src="https://img.shields.io/github/v/release/jackson-storm/DynamicNotch?display_name=release&sort=semver" alt="Latest release" />
   </a>
@@ -26,29 +29,27 @@
 </p>
 
 <p>
-<img src="assets/readme/Player.png" alt="DynamicNotch preview" width="100%" />
+  <img src="assets/readme/Player.png" alt="DynamicNotch preview" width="100%" />
 </p>
 
 ## ✨ Why DynamicNotch
 
-DynamicNotch treats the MacBook notch like a compact system surface instead of a static cutout.
-It stays close to the hardware shape until something important happens, then expands with native
-motion, priority-aware presentation, and focused interactions.
+DynamicNotch treats the MacBook notch like a compact native surface instead of a static cutout.
+It stays close to the hardware shape until something important happens, then expands with queue-driven
+presentation, gesture support, and system-aware feature routing.
 
-The app is built natively with SwiftUI and AppKit, so the experience feels integrated with macOS
-rather than layered on top of it.
+The app is built with SwiftUI and AppKit, so the notch window, settings UI, and event handling feel
+like part of macOS rather than a web-style overlay.
 
 ## 🚀 Highlights
 
-- 🪟 Native floating notch window aligned to the top display area
-- 🎛️ Priority-based live activity and temporary notification orchestration
-- 🎵 Persistent live surfaces for Now Playing, Downloads, AirDrop, Focus mode, Personal Hotspot, and Lock Screen
-- ⚡ Temporary alerts for charging, battery, Bluetooth, Wi-Fi, VPN, Focus, and resize feedback
-- 🎚️ Custom notch HUD for brightness, keyboard backlight, and volume changes
-- ⚙️ Native Settings experience grouped into Application, Media & Files, Connectivity, System, and Info sections
-- 🧱 Modular notch architecture with `AppContainer`, `NotchEngine`, feature event handlers, and split settings stores
-- 📡 AirDrop handoff directly from Finder onto the notch
-- 🧪 Integration tests around queue behavior, restore flows, and core feature transitions
+- 🎵 Live activities for Now Playing, Downloads, AirDrop, Timer, Focus, Personal Hotspot, and Lock Screen media/live activity surfaces
+- ⚡ Temporary alerts for charging, low battery, full battery, Bluetooth, Wi-Fi, VPN, Focus-off, and notch resize feedback
+- 🎚️ Custom hardware HUD replacements for brightness, keyboard brightness, and volume
+- 🖱️ Native interactions including tap to expand, mouse drag gestures, trackpad swipes, swipe-to-dismiss, and swipe-to-restore
+- 🎨 Personalization for notch width and height, background style, stroke options, animation presets, fullscreen behavior, display placement, and app language
+- 🔒 Lock Screen controls for sounds, media panel behavior, widget appearance, tint, and background brightness
+- ⚙️ A dedicated settings experience grouped into Application, Media & Files, Connectivity, and System sections
 
 ## 🎬 Preview
 
@@ -56,32 +57,31 @@ rather than layered on top of it.
   <tr>
     <td>
       <video src="https://github.com/user-attachments/assets/88040eb4-a41c-4699-98b7-3242570f4918" controls muted playsinline width="100%"></video>
-      <br />
     </td>
     <td>
       <video src="https://github.com/user-attachments/assets/7ec1661d-ff3e-4dc6-9e76-92b00576094f" controls muted playsinline width="100%"></video>
-      <br />
     </td>
   </tr>
 </table>
 
->It is demonstrated how the notch appears against various backgrounds. The outline can be removed in the settings, if desired.
+> The demos show how the notch behaves on light and dark backgrounds. The outline can be disabled in Settings.
 
 ## 📦 Installation
 
 1. Download the latest DMG from the [Releases](https://github.com/jackson-storm/DynamicNotch/releases) page.
-2. Open the DMG and drag `DynamicNotch` into `Applications`.
-3. Launch the app and grant any requested permissions.
-4. If macOS blocks the first launch, open `System Settings > Privacy & Security` and choose `Open Anyway`.
-
-> Note
-> DynamicNotch is currently unsigned, so the first launch may require manual confirmation in macOS.
+2. Drag `DynamicNotch` into `Applications`.
+3. Launch the app.
+4. Grant the permissions needed for the features you want to use.
+5. If macOS blocks the first launch, allow it from `System Settings > Privacy & Security`.
 
 ## ✅ Requirements
 
 - macOS 14.6 or later
 - A MacBook with a hardware notch for the intended experience
-- Xcode 15 or later to build from source
+- Feature-specific permissions as needed:
+  - Accessibility for custom HUD interception and some system-level interactions
+  - Bluetooth access for accessory status updates
+  - Media/Now Playing access where macOS requires it
 
 ## 🛠️ Build From Source
 
@@ -91,7 +91,7 @@ cd DynamicNotch
 open DynamicNotch.xcodeproj
 ```
 
-Then run the `DynamicNotch` scheme from Xcode.
+Then run the `DynamicNotch` scheme from Xcode. Swift Package Manager dependencies are resolved by the project.
 
 ## 🧪 Run Tests
 
@@ -99,21 +99,15 @@ Then run the `DynamicNotch` scheme from Xcode.
 xcodebuild -project DynamicNotch.xcodeproj -scheme DynamicNotch -destination 'platform=macOS' test
 ```
 
-Current automated coverage focuses on:
-
-- notch live activity queue behavior
-- temporary notification restoration flow
-- power transition events
-- download monitoring
-- network monitoring transitions
-- Now Playing session lifecycle
+Automated coverage in this repository focuses on notch queue behavior, restore flows, battery and network events,
+download monitoring, Now Playing lifecycle, timer handling, and lock-screen-related transitions.
 
 ## 🗂️ Repository Layout
 
 ```text
 DynamicNotch/
-├── Application/        # App entry point, dependency container, app delegate, panel setup
-├── Core/               # Models, protocols, settings contracts, and low-level services
+├── Application/        # App entry point, app delegate, window setup, and settings shell
+├── Core/               # Shared models, protocols, services, and infrastructure
 ├── Features/
 │   ├── AirDrop/
 │   ├── Battery/
@@ -123,40 +117,53 @@ DynamicNotch/
 │   ├── HUD/
 │   ├── LockScreen/
 │   ├── Network/
-│   ├── Notch/          # Notch engine, coordinator, handlers, view model, and UI
+│   ├── Notch/
 │   ├── NowPlaying/
 │   ├── Onboarding/
-│   └── Settings/
-├── Resources/          # App assets and bundled media
-└── Shared/             # Shared UI, extensions, and helpers
+│   ├── Settings/
+│   └── Timer/
+├── Resources/          # Assets, localization, bundled media
+└── Shared/             # Shared UI, helpers, and extensions
 
 DynamicNotchTests/
 ├── Features/
-│   ├── Battery/
-│   ├── Download/
-│   ├── Network/
-│   ├── Notch/
-│   └── NowPlaying/
 └── TestSupport/
 ```
 
 ## 🏗️ Architecture at a Glance
 
-- `AppContainer` composes services, feature view models, coordinators, and window managers in one place
-- `AppDelegate` manages app lifecycle, floating notch window setup, window handoff, and platform observers
-- `NotchEngine` owns the queue-driven notch state machine for live activities, temporary alerts, transitions, and restore flows
-- `NotchViewModel` is the SwiftUI-facing facade for geometry, gestures, interactive sizing, and engine-backed presentation state
-- `NotchEventCoordinator` orchestrates routing while feature-specific handlers translate system events into notch content
-- `SettingsViewModel` acts as a facade over dedicated settings stores for Application, Media & Files, Connectivity, Battery, HUD, and Lock Screen preferences
-- feature view models and services provide domain-specific state streams that feed the notch layer
+- `AppContainer` composes services, monitors, feature view models, coordinators, and window managers.
+- `AppDelegate` manages app lifecycle, floating overlay window setup, workspace observers, and lock-screen handoff.
+- `NotchEngine` owns the queue-driven notch presentation state machine for live activities, temporary alerts, transitions, and restore flows.
+- `NotchViewModel` is the SwiftUI-facing layer for geometry, gestures, interactive resize, and engine-backed presentation state.
+- `NotchEventCoordinator` routes system events while feature-specific handlers translate them into notch content.
+- `SettingsViewModel` acts as a facade over dedicated settings stores for application, media/files, connectivity, battery, HUD, and lock-screen behavior.
+- Feature view models provide domain state for battery, Bluetooth, downloads, network, now playing, timer, AirDrop, and lock screen.
 
 ## 🧰 Tech Stack
 
 - SwiftUI for notch content and settings UI
-- AppKit for windowing, input handling, and system integration
-- Combine for feature event streams
+- AppKit for windows, input handling, and macOS integration
+- Combine for feature and settings streams
 - [Defaults](https://github.com/sindresorhus/Defaults) for preferences
 - [Lottie](https://github.com/airbnb/lottie-ios) for animation assets
+
+## 🌍 Localization
+
+The project currently includes localized app content for:
+
+- System language fallback
+- English
+- Russian
+- Spanish
+- Simplified Chinese
+
+## 📈 Project Status
+
+DynamicNotch already includes a working native notch window, live activities, temporary alerts, AirDrop handoff,
+custom HUD flows, a dedicated settings experience, and lock-screen-specific behavior.
+
+Some lock-screen-related flows depend on private or system-level behavior and can vary across macOS versions and environments.
 
 ## 🙏 Acknowledgements
 
@@ -165,15 +172,6 @@ Thank you to the maintainers and contributors behind these projects:
 
 - [Ebullioscopic/Atoll](https://github.com/Ebullioscopic/Atoll)
 - [MrKai77/DynamicNotchKit](https://github.com/MrKai77/DynamicNotchKit)
-
-## 📈 Project Status
-
-DynamicNotch is actively evolving, but the core notch system is already in place: live activities,
-temporary alerts, AirDrop handoff, lock screen transitions, and a dedicated settings experience are
-all working today.
-
-Some flows, especially lock-screen-related behavior, rely on private system behavior and may vary
-between macOS environments.
 
 ## 📄 License
 

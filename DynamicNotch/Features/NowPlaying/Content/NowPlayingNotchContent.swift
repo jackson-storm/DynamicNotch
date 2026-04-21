@@ -4,6 +4,7 @@ internal import AppKit
 enum NowPlayingEvent: Equatable {
     case started
     case stopped
+    case playbackStateChanged(isPlaying: Bool)
 }
 
 struct NowPlayingNotchContent: NotchContentProtocol {

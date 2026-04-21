@@ -39,10 +39,22 @@ struct NotchApp: App {
 
 private struct MenuBarMenu: View {
     @Environment(\.openWindow) private var openWindow
+
+    private var localizedVersionText: String {
+        let appLanguage = DynamicNotchLanguage.resolved(
+            UserDefaults.standard.string(forKey: GeneralSettingsStorage.Keys.appLanguage)
+        )
+
+        return appLanguage.locale.dnFormat(
+            "Version: %@",
+            fallback: "Version: %@",
+            AppVersionText.appVersionText
+        )
+    }
     
     var body: some View {
         Group {
-            Text("Version: \(AppVersionText.appVersionText)")
+            Text(verbatim: localizedVersionText)
             
             Divider()
             

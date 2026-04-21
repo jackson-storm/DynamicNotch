@@ -4,13 +4,25 @@ struct NowPlayingSettingsView: View {
     @ObservedObject var settings: MediaAndFilesSettingsStore
     @ObservedObject var applicationSettings: ApplicationSettingsStore
 
+    private var temporaryActivityDurationRange: ClosedRange<Double> {
+        Double(SettingsStoreBase.temporaryActivityDurationRange.lowerBound)...Double(SettingsStoreBase.temporaryActivityDurationRange.upperBound)
+    }
+
     private var isArtworkStrokeLocked: Bool {
         applicationSettings.isDefaultActivityStrokeEnabled
+    }
+
+    private var isWithoutCloseTimer: Binding<Bool> {
+        Binding(
+            get: { !settings.isNowPlayingPauseHideTimerEnabled },
+            set: { settings.isNowPlayingPauseHideTimerEnabled = !$0 }
+        )
     }
     
     var body: some View {
         SettingsPageScrollView {
             playbackActivity
+            pausedPlaybackBehavior
             playerAppearance
         }
     }
@@ -25,6 +37,37 @@ struct NowPlayingSettingsView: View {
                 isOn: $settings.isNowPlayingLiveActivityEnabled,
                 accessibilityIdentifier: "settings.activities.live.nowPlaying"
             )
+        }
+    }
+
+    private var pausedPlaybackBehavior: some View {
+        SettingsCard(title: "Paused playback") {
+            SettingsToggleRow(
+                title: "Without close timer",
+                description: "Keep Now Playing visible in the notch while playback is paused.",
+                systemImage: "pause.circle",
+                color: .orange,
+                isOn: isWithoutCloseTimer,
+                accessibilityIdentifier: "settings.activities.live.nowPlaying.withoutCloseTimer"
+            )
+
+            Divider().opacity(0.6)
+
+            SettingsSliderRow(
+                title: "Close delay",
+                description: "Choose how long the paused player stays visible before the notch closes.",
+                range: temporaryActivityDurationRange,
+                step: 1,
+                fractionLength: 0,
+                suffix: "s",
+                accessibilityIdentifier: "settings.activities.live.nowPlaying.closeDelay",
+                value: Binding(
+                    get: { Double(settings.nowPlayingPauseHideDelay) },
+                    set: { settings.nowPlayingPauseHideDelay = Int($0.rounded()) }
+                )
+            )
+            .disabled(!settings.isNowPlayingPauseHideTimerEnabled || !settings.isNowPlayingLiveActivityEnabled)
+            .opacity(settings.isNowPlayingPauseHideTimerEnabled && settings.isNowPlayingLiveActivityEnabled ? 1 : 0.5)
         }
     }
     

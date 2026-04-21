@@ -64,7 +64,16 @@ final class AirDropView: NSView {
 
     override func hitTest(_ point: NSPoint) -> NSView? {
         switch NSApp.currentEvent?.type {
-        case .leftMouseDown, .leftMouseUp, .rightMouseDown, .rightMouseUp, .otherMouseDown, .otherMouseUp:
+        case .leftMouseDown,
+             .leftMouseUp,
+             .rightMouseDown,
+             .rightMouseUp,
+             .otherMouseDown,
+             .otherMouseUp,
+             .mouseMoved,
+             .mouseEntered,
+             .mouseExited,
+             .cursorUpdate:
             return nil
         default:
             return super.hitTest(point)

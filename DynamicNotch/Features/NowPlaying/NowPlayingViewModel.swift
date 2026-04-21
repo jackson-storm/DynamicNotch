@@ -18,6 +18,7 @@ final class NowPlayingViewModel: ObservableObject {
     @Published private(set) var snapshot: NowPlayingSnapshot?
     @Published private(set) var artworkImage: NSImage?
     @Published private(set) var artworkPalette = NowPlayingArtworkPalette.fallback
+    @Published private(set) var artworkFlipAngle: Double = 0
     @Published private(set) var audioOutputRoutes: [AudioOutputRoute] = []
     @Published private(set) var currentAudioOutputRoute: AudioOutputRoute?
     @Published private(set) var isCurrentTrackFavorite = false
@@ -29,8 +30,16 @@ final class NowPlayingViewModel: ObservableObject {
     private let favoritesStore: UserDefaults
     private let mediaSettings: MediaAndFilesSettingsStore
     private let audioLevelMonitor: any NowPlayingAudioLevelMonitoring
+    private let artworkFlipAnimationDuration: TimeInterval = 0.45
+    private let artworkSwapDelay: TimeInterval = 0.4
+    private let transientSessionGracePeriod: TimeInterval = 0.55
     private var hasStartedMonitoring = false
     private var ignoresServiceSnapshots = false
+    private var artworkFlipCooldownActive = false
+    private var artworkPresentationWorkItem: DispatchWorkItem?
+    private var pendingSessionEndWorkItem: DispatchWorkItem?
+    private var artworkFlipTrackKey: String?
+    private var artworkFlipStartedAt: Date?
     private var activeAudioReactiveVisualizationSources = Set<String>()
     private var cancellables = Set<AnyCancellable>()
     #if DEBUG
@@ -115,6 +124,8 @@ final class NowPlayingViewModel: ObservableObject {
         hasStartedMonitoring = false
         ignoresServiceSnapshots = true
         service.stopMonitoring()
+        cancelPendingSessionEnd()
+        cancelPendingArtworkPresentation()
         apply(snapshot: nil)
     }
 
@@ -252,7 +263,13 @@ final class NowPlayingViewModel: ObservableObject {
 private extension NowPlayingViewModel {
     func handleServiceSnapshot(_ snapshot: NowPlayingSnapshot?) {
         guard !ignoresServiceSnapshots else { return }
-        apply(snapshot: snapshot)
+
+        if let snapshot {
+            cancelPendingSessionEnd()
+            apply(snapshot: snapshot)
+        } else {
+            scheduleSessionEnd()
+        }
     }
 
     func bindAudioReactiveMonitoring() {
@@ -271,14 +288,41 @@ private extension NowPlayingViewModel {
 
     func apply(snapshot newSnapshot: NowPlayingSnapshot?, emitEvent: Bool = true) {
         let wasActive = snapshot != nil
-        let artworkDidChange = snapshot?.artworkData != newSnapshot?.artworkData
+        let previousTrackKey = snapshot?.favoriteTrackKey
+        let newTrackKey = newSnapshot?.favoriteTrackKey
+        let previousArtworkData = snapshot?.artworkData
+        let didTrackChange = previousTrackKey != nil &&
+            newTrackKey != nil &&
+            previousTrackKey != newTrackKey
+
+        if previousTrackKey != newTrackKey {
+            cancelPendingArtworkPresentation()
+        }
+
+        if didTrackChange {
+            triggerArtworkFlip(for: newTrackKey)
+        }
 
         snapshot = newSnapshot
         isCurrentTrackFavorite = newSnapshot?.favoriteTrackKey.map(storedFavoriteTrackKeys.contains) ?? false
 
-        if artworkDidChange {
-            artworkImage = newSnapshot?.artworkData.flatMap(NSImage.init(data:))
-            artworkPalette = NowPlayingArtworkPaletteExtractor.extract(from: newSnapshot?.artworkData)
+        switch newSnapshot?.artworkData {
+        case let artworkData?:
+            guard previousArtworkData != artworkData || artworkImage == nil else {
+                break
+            }
+
+            if shouldDelayArtworkPresentation(for: newTrackKey) {
+                scheduleArtworkPresentation(artworkData, for: newTrackKey)
+            } else {
+                applyArtworkPresentation(artworkData)
+            }
+        case nil:
+            if newSnapshot == nil || previousArtworkData == nil {
+                cancelPendingArtworkPresentation()
+                artworkImage = nil
+                artworkPalette = .fallback
+            }
         }
 
         let isActive = newSnapshot != nil
@@ -310,6 +354,80 @@ private extension NowPlayingViewModel {
                 audioReactiveLevels = Self.emptyReactiveLevels
             }
         }
+    }
+
+    func scheduleSessionEnd() {
+        guard snapshot != nil else { return }
+        guard pendingSessionEndWorkItem == nil else { return }
+
+        let workItem = DispatchWorkItem { [weak self] in
+            guard let self else { return }
+            self.pendingSessionEndWorkItem = nil
+            self.cancelPendingArtworkPresentation()
+            self.apply(snapshot: nil)
+        }
+
+        pendingSessionEndWorkItem = workItem
+        DispatchQueue.main.asyncAfter(deadline: .now() + transientSessionGracePeriod, execute: workItem)
+    }
+
+    func cancelPendingSessionEnd() {
+        pendingSessionEndWorkItem?.cancel()
+        pendingSessionEndWorkItem = nil
+    }
+
+    func triggerArtworkFlip(for trackKey: String?) {
+        guard !artworkFlipCooldownActive else { return }
+
+        artworkFlipCooldownActive = true
+        artworkFlipTrackKey = trackKey
+        artworkFlipStartedAt = .now
+
+        withAnimation(.easeInOut(duration: artworkFlipAnimationDuration)) {
+            artworkFlipAngle += 180
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + artworkFlipAnimationDuration + 0.15) { [weak self] in
+            guard let self else { return }
+
+            if self.artworkFlipTrackKey == trackKey {
+                self.artworkFlipTrackKey = nil
+                self.artworkFlipStartedAt = nil
+            }
+
+            self.artworkFlipCooldownActive = false
+        }
+    }
+
+    func shouldDelayArtworkPresentation(for trackKey: String?) -> Bool {
+        guard let trackKey else { return false }
+        return artworkFlipTrackKey == trackKey && artworkFlipStartedAt != nil
+    }
+
+    func scheduleArtworkPresentation(_ artworkData: Data, for trackKey: String?) {
+        cancelPendingArtworkPresentation()
+
+        let elapsed = artworkFlipStartedAt.map { Date().timeIntervalSince($0) } ?? 0
+        let delay = max(0, artworkSwapDelay - elapsed)
+        let workItem = DispatchWorkItem { [weak self] in
+            guard let self else { return }
+            guard self.snapshot?.favoriteTrackKey == trackKey else { return }
+            self.applyArtworkPresentation(artworkData)
+        }
+
+        artworkPresentationWorkItem = workItem
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: workItem)
+    }
+
+    func cancelPendingArtworkPresentation() {
+        artworkPresentationWorkItem?.cancel()
+        artworkPresentationWorkItem = nil
+    }
+
+    func applyArtworkPresentation(_ artworkData: Data) {
+        cancelPendingArtworkPresentation()
+        artworkImage = NSImage(data: artworkData)
+        artworkPalette = NowPlayingArtworkPaletteExtractor.extract(from: artworkData)
     }
 }
 

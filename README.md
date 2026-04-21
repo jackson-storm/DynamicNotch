@@ -32,7 +32,7 @@
   <img src="assets/readme/Player.png" alt="DynamicNotch preview" width="100%" />
 </p>
 
-## Why DynamicNotch
+## ✨ Why DynamicNotch
 
 DynamicNotch treats the MacBook notch like a compact native surface instead of a static cutout.
 It stays close to the hardware shape until something important happens, then expands with queue-driven
@@ -41,19 +41,17 @@ presentation, gesture support, and system-aware feature routing.
 The app is built with SwiftUI and AppKit, so the notch window, settings UI, and event handling feel
 like part of macOS rather than a web-style overlay.
 
-## What It Includes
+## 🚀 Highlights
 
-| Area | Included in the project |
-| --- | --- |
-| Live activities | Now Playing, Downloads, AirDrop, Timer, Focus, Personal Hotspot, and Lock Screen media/live activity surfaces |
-| Temporary alerts | Charging, low battery, full battery, Bluetooth, Wi-Fi, VPN, Focus-off, and notch resize feedback |
-| Hardware HUD | Custom brightness, keyboard brightness, and volume HUD replacements |
-| Interaction | Tap to expand, mouse drag gestures, trackpad swipes, swipe-to-dismiss, and swipe-to-restore |
-| Personalization | Notch width and height, background style, stroke options, animation presets, fullscreen behavior, display placement, and app language |
-| Lock Screen | Lock/unlock sounds, live activity support, media panel support, widget appearance, tint, and background brightness controls |
-| Settings layout | Application, Media & Files, Connectivity, and System sections with dedicated per-feature controls |
+- 🎵 Live activities for Now Playing, Downloads, AirDrop, Timer, Focus, Personal Hotspot, and Lock Screen media/live activity surfaces
+- ⚡ Temporary alerts for charging, low battery, full battery, Bluetooth, Wi-Fi, VPN, Focus-off, and notch resize feedback
+- 🎚️ Custom hardware HUD replacements for brightness, keyboard brightness, and volume
+- 🖱️ Native interactions including tap to expand, mouse drag gestures, trackpad swipes, swipe-to-dismiss, and swipe-to-restore
+- 🎨 Personalization for notch width and height, background style, stroke options, animation presets, fullscreen behavior, display placement, and app language
+- 🔒 Lock Screen controls for sounds, media panel behavior, widget appearance, tint, and background brightness
+- ⚙️ A dedicated settings experience grouped into Application, Media & Files, Connectivity, and System sections
 
-## Preview
+## 🎬 Preview
 
 <table>
   <tr>
@@ -68,7 +66,7 @@ like part of macOS rather than a web-style overlay.
 
 > The demos show how the notch behaves on light and dark backgrounds. The outline can be disabled in Settings.
 
-## Installation
+## 📦 Installation
 
 1. Download the latest DMG from the [Releases](https://github.com/jackson-storm/DynamicNotch/releases) page.
 2. Drag `DynamicNotch` into `Applications`.
@@ -76,7 +74,7 @@ like part of macOS rather than a web-style overlay.
 4. Grant the permissions needed for the features you want to use.
 5. If macOS blocks the first launch, allow it from `System Settings > Privacy & Security`.
 
-## Requirements
+## ✅ Requirements
 
 - macOS 14.6 or later
 - A MacBook with a hardware notch for the intended experience
@@ -85,7 +83,7 @@ like part of macOS rather than a web-style overlay.
   - Bluetooth access for accessory status updates
   - Media/Now Playing access where macOS requires it
 
-## Build From Source
+## 🛠️ Build From Source
 
 ```bash
 git clone https://github.com/jackson-storm/DynamicNotch.git
@@ -95,7 +93,7 @@ open DynamicNotch.xcodeproj
 
 Then run the `DynamicNotch` scheme from Xcode. Swift Package Manager dependencies are resolved by the project.
 
-## Run Tests
+## 🧪 Run Tests
 
 ```bash
 xcodebuild -project DynamicNotch.xcodeproj -scheme DynamicNotch -destination 'platform=macOS' test
@@ -104,7 +102,7 @@ xcodebuild -project DynamicNotch.xcodeproj -scheme DynamicNotch -destination 'pl
 Automated coverage in this repository focuses on notch queue behavior, restore flows, battery and network events,
 download monitoring, Now Playing lifecycle, timer handling, and lock-screen-related transitions.
 
-## Repository Layout
+## 🗂️ Repository Layout
 
 ```text
 DynamicNotch/
@@ -132,7 +130,7 @@ DynamicNotchTests/
 └── TestSupport/
 ```
 
-## Architecture at a Glance
+## 🏗️ Architecture at a Glance
 
 - `AppContainer` wires services, monitors, feature view models, and coordinators together.
 - `AppDelegate` manages lifecycle, overlay window creation, workspace observers, and lock-screen handoff.
@@ -142,7 +140,7 @@ DynamicNotchTests/
 - Feature view models provide domain state for battery, Bluetooth, downloads, network, now playing, timer, AirDrop, and lock screen.
 - `SettingsViewModel` splits preferences into dedicated stores for application, media/files, connectivity, battery, HUD, and lock screen behavior.
 
-## Tech Stack
+## 🧰 Tech Stack
 
 - SwiftUI for notch content and settings UI
 - AppKit for windows, input handling, and macOS integration
@@ -150,7 +148,7 @@ DynamicNotchTests/
 - [Defaults](https://github.com/sindresorhus/Defaults) for preferences
 - [Lottie](https://github.com/airbnb/lottie-ios) for animation assets
 
-## Localization
+## 🌍 Localization
 
 The project currently includes localized app content for:
 
@@ -160,14 +158,14 @@ The project currently includes localized app content for:
 - Spanish
 - Simplified Chinese
 
-## Project Status
+## 📈 Project Status
 
 DynamicNotch already includes a working native notch window, live activities, temporary alerts, AirDrop handoff,
 custom HUD flows, a dedicated settings experience, and lock-screen-specific behavior.
 
 Some lock-screen-related flows depend on private or system-level behavior and can vary across macOS versions and environments.
 
-## Acknowledgements
+## 🙏 Acknowledgements
 
 DynamicNotch benefited from ideas and selected implementation details inspired by other open-source work on GitHub.
 Thank you to the maintainers and contributors behind these projects:
@@ -175,6 +173,6 @@ Thank you to the maintainers and contributors behind these projects:
 - [Ebullioscopic/Atoll](https://github.com/Ebullioscopic/Atoll)
 - [MrKai77/DynamicNotchKit](https://github.com/MrKai77/DynamicNotchKit)
 
-## License
+## 📄 License
 
 DynamicNotch is released under the GNU General Public License v3.0. See [LICENSE](LICENSE) for details.

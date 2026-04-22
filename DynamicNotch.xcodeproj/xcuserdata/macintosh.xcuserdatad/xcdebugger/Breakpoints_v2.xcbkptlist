@@ -14,12 +14,12 @@
             symbolName = "*0x1920edd4c">
             <Locations>
                <Location
-                  uuid = "AEFBC119-E5CB-4712-BFCB-7C770BAC2773 - 2bc84989bf4c0d30"
+                  uuid = "AEFBC119-E5CB-4712-BFCB-7C770BAC2773 - a9508aacd409575f"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "___lldb_unnamed_symbol29236"
-                  moduleName = "CoreML"
+                  symbolName = "___lldb_unnamed_symbol182855"
+                  moduleName = "AppKit"
                   usesParentBreakpointCondition = "Yes">
                </Location>
             </Locations>

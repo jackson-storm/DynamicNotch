@@ -322,7 +322,7 @@ final class NotchViewModel: ObservableObject {
         .blurAndFade
             .animation(animations.contentTransition)
             .combined(with: .scale.animation(.spring(response: 0.4)))
-            .combined(with: .offset(x: offsetX, y: offsetY))
+            .combined(with: .offset(x: offsetX, y: -60))
     }
     
     private func bindEngine() {

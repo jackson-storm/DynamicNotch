@@ -15,6 +15,8 @@ struct FocusOffNotchContent: NotchContentProtocol {
         settingsViewModel.connectivity.focusAppearanceStyle
     }
     
+    var offsetXTransition: CGFloat { -90 }
+    
     var strokeColor: Color {
         settingsViewModel.isDefaultActivityStrokeEnabled || settingsViewModel.connectivity.isFocusDefaultStrokeEnabled ?
         .white.opacity(0.2) :

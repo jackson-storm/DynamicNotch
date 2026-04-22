@@ -25,7 +25,7 @@ struct AirDropNotchContent: NotchContentProtocol {
         Color.accentColor.opacity(0.3)
     }
     var offsetXTransition: CGFloat { -20 }
-    var offsetYTransition: CGFloat { -90 }
+    var offsetYTransition: CGFloat { -60 }
     
     func cornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
         return (top: 24, bottom: 36)

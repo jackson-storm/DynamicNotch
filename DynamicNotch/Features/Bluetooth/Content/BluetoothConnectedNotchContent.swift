@@ -11,6 +11,7 @@ struct BluetoothConnectedNotchContent: NotchContentProtocol {
     let applicationSettings: ApplicationSettingsStore
     
     var offsetXTransition: CGFloat { -90 }
+    
     var strokeColor: Color {
         guard settings.bluetoothAppearanceStyle.supportsBatteryPresentation,
               settings.isBluetoothBatteryStrokeEnabled,

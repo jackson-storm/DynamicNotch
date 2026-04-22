@@ -18,6 +18,7 @@ struct HudNotchContent: NotchContentProtocol {
     let applicationSettings: ApplicationSettingsStore?
 
     var offsetXTransition: CGFloat { -90 }
+    
     var strokeColor: Color { HudLevelStyling.strokeTint(for: level, isEnabled: resolvedColoredLevelStroke) }
 
     init(

@@ -16,9 +16,9 @@ struct NowPlayingNotchContent: NotchContentProtocol {
     var priority: Int { 81 }
     var isExpandable: Bool { true }
     
-    var offsetXTransition: CGFloat { 0 }
+    var offsetXTransition: CGFloat { -90 }
     var expandedOffsetXTransition: CGFloat { -100 }
-    var expandedOffsetYTransition: CGFloat { -90 }
+    var expandedOffsetYTransition: CGFloat { -60 }
 
     var strokeColor: Color {
         guard settings.isNowPlayingArtworkStrokeEnabled,

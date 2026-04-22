@@ -20,7 +20,7 @@ struct OnboardingNotchContent : NotchContentProtocol {
     var priority: Int { 100 }
     
     var offsetXTransition: CGFloat { step.offsetXTransition }
-    var offsetYTransition: CGFloat { -90 }
+    var offsetYTransition: CGFloat { -60 }
     
     init(step: OnboardingSteps, notchEventCoordinator: NotchEventCoordinator) {
         self.id = step.liveActivityID

@@ -2085,7 +2085,32 @@
       }
     },
     "Choose how long the paused player stays visible before the notch closes." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose how long the paused player stays visible before the notch closes."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige cuánto tiempo permanece visible el reproductor en pausa antes de que se cierre la muesca."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите, как долго плеер на паузе остаётся видимым, прежде чем вырез закроется."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择暂停后的播放器在刘海关闭前保持可见的时长。"
+          }
+        }
+      }
     },
     "Choose how long the volume HUD stays visible." : {
       "localizations" : {
@@ -3111,7 +3136,32 @@
       }
     },
     "Close delay" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close delay"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retraso de cierre"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Задержка закрытия"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "关闭延迟"
+          }
+        }
+      }
     },
     "Color the notch stroke using the current artwork palette." : {
       "localizations" : {
@@ -5241,7 +5291,32 @@
       }
     },
     "Keep Now Playing visible in the notch while playback is paused." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep Now Playing visible in the notch while playback is paused."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mantén Now Playing visible en la muesca mientras la reproducción está en pausa."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оставлять Now Playing видимым в вырезе, пока воспроизведение стоит на паузе."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在暂停播放时，让 Now Playing 继续显示在刘海中。"
+          }
+        }
+      }
     },
     "Keep playback controls in the notch while media is playing." : {
       "extractionState" : "stale",
@@ -6825,7 +6900,32 @@
       }
     },
     "Paused playback" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paused playback"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reproducción en pausa"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пауза воспроизведения"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暂停播放"
+          }
+        }
+      }
     },
     "Percent" : {
       "localizations" : {
@@ -14856,7 +14956,32 @@
       }
     },
     "Without close timer" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Without close timer"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin temporizador de cierre"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Без таймера закрытия"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不使用关闭计时器"
+          }
+        }
+      }
     },
     "You need to make sure that the application has been granted permission." : {
       "extractionState" : "stale",

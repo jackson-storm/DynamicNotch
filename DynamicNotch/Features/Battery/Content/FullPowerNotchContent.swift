@@ -15,13 +15,8 @@ struct FullPowerNotchContent: NotchContentProtocol {
         (powerService.isLowPowerMode ? .yellow.opacity(0.3) : .green.opacity(0.3))
     }
 
-    var offsetXTransition: CGFloat {
-        style == .compact ? -90 : -30
-    }
-
-    var offsetYTransition: CGFloat {
-        style == .compact ? 0 : -60
-    }
+    var offsetXTransition: CGFloat { style == .compact ? -90 : -30 }
+    var offsetYTransition: CGFloat { style == .compact ? 0 : -60 }
 
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         if style == .compact {

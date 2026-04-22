@@ -12,6 +12,7 @@ struct ChargerNotchContent: NotchContentProtocol {
     let settingsViewModel: SettingsViewModel
     
     var offsetXTransition: CGFloat { -90 }
+    
     var strokeColor: Color {
         settingsViewModel.isDefaultActivityStrokeEnabled ?
             .white.opacity(0.2) : (powerService.isLowPowerMode ? .yellow.opacity(0.3) : .green.opacity(0.3))

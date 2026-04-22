@@ -39,6 +39,7 @@
 			membershipExceptions = (
 				Resources/LottieImage/confirm.json,
 				Resources/LottieImage/star.json,
+				Resources/LottieImage/telegram.json,
 				Resources/Sounds/DynamicNotch_lock.mp3,
 				Resources/Sounds/DynamicNotch_unlock.mp3,
 			);
@@ -49,6 +50,7 @@
 			membershipExceptions = (
 				Resources/LottieImage/confirm.json,
 				Resources/LottieImage/star.json,
+				Resources/LottieImage/telegram.json,
 				Resources/Sounds/DynamicNotch_lock.mp3,
 				Resources/Sounds/DynamicNotch_unlock.mp3,
 			);

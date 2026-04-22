@@ -14,6 +14,18 @@
 </p>
 
 <p align="center">
+  <a href="https://t.me/Dynamic_Notch">
+    <img src="https://img.shields.io/badge/Telegram-Join%20Channel-26A5E4?style=for-the-badge&logo=telegram&logoColor=white" alt="Join the Telegram channel" />
+  </a>
+  <a href="https://dynamicnotch.evgeniy-petrukovich.workers.dev/download">
+    <img src="https://img.shields.io/badge/Website-Open%20Site-111111?style=for-the-badge&logo=safari&logoColor=white" alt="Open the DynamicNotch website" />
+  </a>
+  <a href="mailto:evgeniy.petrukovich@icloud.com?subject=A%20question%20about%20Dynamic%20Notch">
+    <img src="https://img.shields.io/badge/Email-Contact%20Me-0A84FF?style=for-the-badge&logo=icloud&logoColor=white" alt="Send an email about DynamicNotch" />
+  </a>
+</p>
+
+<p align="center">
   <a href="https://github.com/jackson-storm/DynamicNotch/releases">
     <img src="https://img.shields.io/github/downloads/jackson-storm/DynamicNotch/total?label=downloads" alt="GitHub downloads" />
   </a>

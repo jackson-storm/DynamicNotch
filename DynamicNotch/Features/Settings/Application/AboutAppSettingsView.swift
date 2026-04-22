@@ -78,7 +78,7 @@ struct AboutAppSettingsView: View {
                 }
                 HStack(spacing: 14) {
                     Button(action: {
-                        if let url = URL(string: "https://telegram.me/id10101101") {
+                        if let url = URL(string: "https://t.me/Dynamic_Notch") {
                             openURL(url)
                         }
                     }) {

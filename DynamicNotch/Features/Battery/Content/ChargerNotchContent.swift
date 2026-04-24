@@ -8,10 +8,9 @@ enum PowerEvent: Equatable {
 
 struct ChargerNotchContent: NotchContentProtocol {
     let id = "battery.charger"
+    
     let powerService: PowerService
     let settingsViewModel: SettingsViewModel
-    
-    var offsetXTransition: CGFloat { -90 }
     
     var strokeColor: Color {
         settingsViewModel.isDefaultActivityStrokeEnabled ?

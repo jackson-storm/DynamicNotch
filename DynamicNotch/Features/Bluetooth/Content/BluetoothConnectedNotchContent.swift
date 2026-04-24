@@ -6,11 +6,10 @@ enum BluetoothEvent: Equatable {
 
 struct BluetoothConnectedNotchContent: NotchContentProtocol {
     let id = "bluetooth.connected"
+    
     let bluetoothViewModel: BluetoothViewModel
     let settings: ConnectivitySettingsStore
     let applicationSettings: ApplicationSettingsStore
-    
-    var offsetXTransition: CGFloat { -90 }
     
     var strokeColor: Color {
         guard settings.bluetoothAppearanceStyle.supportsBatteryPresentation,

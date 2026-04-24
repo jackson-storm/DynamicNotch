@@ -14,11 +14,11 @@ enum NotchSizeEvent: Equatable {
 
 struct NotchSizeWidthNotchContent: NotchContentProtocol {
     let id = "notchSize.width"
+    
     let settingsViewModel: SettingsViewModel
     
     var priority: Int { 60 }
     var strokeColor: Color { .red }
-    var offsetYTransition: CGFloat { -60 }
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         return .init(width: baseWidth, height: baseHeight + 40)
@@ -32,6 +32,7 @@ struct NotchSizeWidthNotchContent: NotchContentProtocol {
 
 struct NotchSizeHeightNotchContent: NotchContentProtocol {
     let id = "notchSize.height"
+    
     let settingsViewModel: SettingsViewModel
     
     var priority: Int { 61 }

@@ -9,10 +9,9 @@ import SwiftUI
 
 struct VpnConnectedNotchContent : NotchContentProtocol {
     let id = "vpn.connected"
+    
     let networkViewModel: NetworkViewModel
     let settings: ConnectivitySettingsStore
-    
-    var offsetXTransition: CGFloat { -90 }
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         let width: Int

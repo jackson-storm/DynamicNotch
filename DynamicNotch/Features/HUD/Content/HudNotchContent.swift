@@ -10,14 +10,13 @@ struct HudNotchContent: NotchContentProtocol {
     var id: String { kind.sharedContentID }
 
     let kind: HudPresentationKind
-    let level: Int
     let style: HudStyle
     let indicatorStyle: HudIndicatorStyle
+    let applicationSettings: ApplicationSettingsStore?
+    
+    let level: Int
     let usesColoredLevelTint: Bool
     let usesColoredLevelStroke: Bool
-    let applicationSettings: ApplicationSettingsStore?
-
-    var offsetXTransition: CGFloat { -90 }
     
     var strokeColor: Color { HudLevelStyling.strokeTint(for: level, isEnabled: resolvedColoredLevelStroke) }
 

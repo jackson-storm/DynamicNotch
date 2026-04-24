@@ -9,6 +9,7 @@ enum DownloadEvent: Equatable {
 
 struct DownloadNotchContent: NotchContentProtocol {
     let id = "download.active"
+    
     let downloadViewModel: DownloadViewModel
     let settingsViewModel: SettingsViewModel
     
@@ -21,9 +22,6 @@ struct DownloadNotchContent: NotchContentProtocol {
         .accentColor.opacity(0.30)
     }
     
-    var expandedOffsetXTransition: CGFloat { -80 }
-    var expandedOffsetYTransition: CGFloat { -60 }
-
     private var appearanceStyle: DownloadAppearanceStyle {
         settingsViewModel.mediaAndFiles.downloadsAppearanceStyle
     }

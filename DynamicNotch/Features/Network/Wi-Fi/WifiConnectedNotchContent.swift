@@ -9,9 +9,8 @@ import SwiftUI
 
 struct WifiConnectedNotchContent: NotchContentProtocol {
     let id = "wifi.connected"
-    let networkViewModel: NetworkViewModel
     
-    var offsetXTransition: CGFloat { -90 }
+    let networkViewModel: NetworkViewModel
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         .init(width: baseWidth + 170, height: baseHeight)

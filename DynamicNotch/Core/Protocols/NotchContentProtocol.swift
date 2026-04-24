@@ -12,10 +12,6 @@ protocol NotchContentProtocol {
     var stackID: String { get }
     var priority: Int { get }
     var strokeColor: Color { get }
-    var offsetXTransition: CGFloat { get }
-    var offsetYTransition: CGFloat { get }
-    var expandedOffsetXTransition: CGFloat { get }
-    var expandedOffsetYTransition: CGFloat { get }
     var isExpandable: Bool { get }
     var expandsOnTap: Bool { get }
     
@@ -32,12 +28,8 @@ extension NotchContentProtocol {
     var stackID: String { id }
     var priority: Int { 0 }
     var strokeColor: Color { .white.opacity(0.2) }
-    var offsetXTransition: CGFloat { 0 }
-    var offsetYTransition: CGFloat { 0 }
     var isExpandable: Bool { false }
     var expandsOnTap: Bool { isExpandable }
-    var expandedOffsetXTransition: CGFloat { offsetXTransition }
-    var expandedOffsetYTransition: CGFloat { offsetYTransition }
     
     func cornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
         return (top: baseRadius - 4, bottom: baseRadius)

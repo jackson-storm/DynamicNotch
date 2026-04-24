@@ -9,23 +9,19 @@ enum NowPlayingEvent: Equatable {
 
 struct NowPlayingNotchContent: NotchContentProtocol {
     let id = "nowPlaying"
+    
     let nowPlayingViewModel: NowPlayingViewModel
     let settings: MediaAndFilesSettingsStore
     let applicationSettings: ApplicationSettingsStore
     
     var priority: Int { 81 }
     var isExpandable: Bool { true }
-    
-    var offsetXTransition: CGFloat { -90 }
-    var expandedOffsetXTransition: CGFloat { -100 }
-    var expandedOffsetYTransition: CGFloat { -60 }
 
     var strokeColor: Color {
         guard settings.isNowPlayingArtworkStrokeEnabled,
               applicationSettings.isDefaultActivityStrokeEnabled == false else {
             return .white.opacity(0.2)
         }
-
         return Color(nsColor: nowPlayingViewModel.artworkPalette.equalizerBaseColor).opacity(0.4)
     }
     

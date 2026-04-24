@@ -318,11 +318,14 @@ final class NotchViewModel: ObservableObject {
         1 - pow(1 - swipeStretchProgress, 2)
     }
     
-    func contentTransition(offsetX: CGFloat, offsetY: CGFloat) -> AnyTransition {
-        .blurAndFade
-            .animation(animations.contentTransition)
-            .combined(with: .scale.animation(.spring(response: 0.4)))
-            .combined(with: .offset(x: offsetX, y: offsetY))
+    func contentTransition(notchWidth: CGFloat, notchHeight: CGFloat, baseHeight: CGFloat, isExpandedPresentation: Bool) -> AnyTransition {
+        .dynamicIslandContent(
+            notchWidth: notchWidth,
+            notchHeight: notchHeight,
+            baseHeight: baseHeight,
+            isExpandedPresentation: isExpandedPresentation
+        )
+        .animation(animations.contentTransition)
     }
     
     private func bindEngine() {

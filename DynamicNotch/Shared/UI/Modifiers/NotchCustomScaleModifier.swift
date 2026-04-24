@@ -10,11 +10,11 @@ import SwiftUI
 struct NotchCustomScaleModifier: ViewModifier {
     @ObservedObject var notchViewModel: NotchViewModel
     @Binding var isPressed: Bool
+    @State private var pendingExpansionToken: UUID?
     let baseSize: CGSize
     
     private let scaleFactor: CGFloat = 1.04
-    private let tapTriggerDelay: TimeInterval = 0.12
-    private let tapMovementTolerance: CGFloat = 6
+    private let holdToExpandDelay: TimeInterval = 0.18
     
     func body(content: Content) -> some View {
         pressableContent(content)
@@ -37,46 +37,67 @@ private extension NotchCustomScaleModifier {
                 DragGesture(minimumDistance: 0)
                     .onChanged { value in
                         guard !notchViewModel.notchModel.isPresentingExpandedLiveActivity else {
-                            if isPressed {
-                                isPressed = false
-                            }
+                            resetPressState()
                             return
                         }
 
-                        let shouldBePressed = hitBounds.contains(value.location)
-                        guard isPressed != shouldBePressed else { return }
-                        isPressed = shouldBePressed
+                        let isInsideBounds = hitBounds.contains(value.location)
+
+                        guard isInsideBounds else {
+                            resetPressState()
+                            return
+                        }
+
+                        if !isPressed {
+                            isPressed = true
+                        }
+
+                        scheduleExpansionIfNeeded()
                     }
-                    .onEnded { value in
+                    .onEnded { _ in
                         guard !notchViewModel.notchModel.isPresentingExpandedLiveActivity else {
-                            if isPressed {
-                                isPressed = false
-                            }
+                            resetPressState()
                             return
                         }
 
-                        let shouldTriggerTap = hitBounds.contains(value.location) && isTapLike(value.translation)
-
-                        if isPressed {
-                            isPressed = false
-                        }
-
-                        guard shouldTriggerTap, notchViewModel.isTapToExpandEnabled else { return }
-
-                        if notchViewModel.canExpandActiveLiveActivity {
-                            notchViewModel.handleActiveContentTap()
-                            return
-                        }
-
-                        DispatchQueue.main.asyncAfter(deadline: .now() + tapTriggerDelay) {
-                            notchViewModel.handleActiveContentTap()
-                        }
+                        resetPressState()
                     }
             )
+            .onDisappear {
+                resetPressState()
+            }
     }
 
-    private func isTapLike(_ translation: CGSize) -> Bool {
-        abs(translation.width) <= tapMovementTolerance &&
-        abs(translation.height) <= tapMovementTolerance
+    private func scheduleExpansionIfNeeded() {
+        guard pendingExpansionToken == nil,
+              notchViewModel.isTapToExpandEnabled,
+              notchViewModel.canExpandActiveLiveActivity else {
+            return
+        }
+
+        let token = UUID()
+        pendingExpansionToken = token
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + holdToExpandDelay) {
+            guard pendingExpansionToken == token,
+                  isPressed,
+                  notchViewModel.isTapToExpandEnabled,
+                  notchViewModel.canExpandActiveLiveActivity,
+                  !notchViewModel.notchModel.isPresentingExpandedLiveActivity else {
+                return
+            }
+
+            pendingExpansionToken = nil
+            isPressed = false
+            notchViewModel.handleActiveContentTap()
+        }
+    }
+
+    private func resetPressState() {
+        pendingExpansionToken = nil
+
+        if isPressed {
+            isPressed = false
+        }
     }
 }

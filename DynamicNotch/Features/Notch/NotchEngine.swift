@@ -62,6 +62,10 @@ final class NotchEngine: ObservableObject {
         lastDismissedContent != nil || !dismissedLiveActivityIDs.isEmpty
     }
 
+    var canOpenActiveWindowLink: Bool {
+        notchModel.content?.windowLink != nil
+    }
+
     func updateBaseGeometry(width: CGFloat, height: CGFloat, scale: CGFloat) {
         notchModel.baseWidth = width
         notchModel.baseHeight = height
@@ -181,6 +185,10 @@ final class NotchEngine: ObservableObject {
         }
 
         restoreDismissedLiveActivity()
+    }
+
+    func openActiveWindowLink() {
+        notchModel.content?.windowLink?()
     }
 
     func handleActiveContentTap() {

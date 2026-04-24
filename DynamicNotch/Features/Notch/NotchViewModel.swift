@@ -86,6 +86,10 @@ final class NotchViewModel: ObservableObject {
     var canRestoreDismissedContent: Bool {
         engine.canRestoreDismissedContent
     }
+
+    var canOpenActiveWindowLink: Bool {
+        engine.canOpenActiveWindowLink
+    }
     
     var canDismissWithMouseDrag: Bool {
         settings.isNotchMouseDragGesturesEnabled &&
@@ -281,6 +285,10 @@ final class NotchViewModel: ObservableObject {
     
     func restoreDismissedContent() {
         engine.restoreDismissedContent()
+    }
+
+    func openActiveWindowLink() {
+        engine.openActiveWindowLink()
     }
     
     func updateSwipeStretch(for interaction: NotchSwipeInteraction, progress: CGFloat) {

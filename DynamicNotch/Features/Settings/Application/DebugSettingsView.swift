@@ -366,6 +366,7 @@ struct DebugSequenceNotchContent: NotchContentProtocol {
     var strokeColor: Color { base.strokeColor }
     var isExpandable: Bool { base.isExpandable }
     var expandsOnTap: Bool { base.expandsOnTap }
+    var windowLink: (@MainActor () -> Void)? { base.windowLink }
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         base.size(baseWidth: baseWidth, baseHeight: baseHeight)

@@ -30,6 +30,14 @@ struct NowPlayingNotchContent: NotchContentProtocol {
     var priority: Int { 81 }
     var isExpandable: Bool { true }
 
+    var windowLink: (@MainActor () -> Void)? {
+        guard nowPlayingViewModel.canOpenPlaybackSource else { return nil }
+
+        return {
+            nowPlayingViewModel.openPlaybackSource()
+        }
+    }
+
     var strokeColor: Color {
         guard settings.isNowPlayingArtworkStrokeEnabled,
               applicationSettings.isDefaultActivityStrokeEnabled == false else {

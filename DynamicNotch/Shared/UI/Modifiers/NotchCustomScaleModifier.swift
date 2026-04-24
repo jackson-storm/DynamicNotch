@@ -11,14 +11,20 @@ import SwiftUI
 struct NotchCustomScaleModifier: ViewModifier {
     @ObservedObject var notchViewModel: NotchViewModel
     @Binding var isPressed: Bool
+    
     @State private var pendingExpansionToken: UUID?
     @State private var pressAnimationToken: UUID?
+    @State private var initialPressLocation: CGPoint?
+    @State private var isPressValidForTap = false
+    @State private var didCompleteHoldAction = false
     @State private var pressScale: CGFloat = 1
+    
     let baseSize: CGSize
     
     private let scaleFactor: CGFloat = 1.04
     private let pressPeakDuration: TimeInterval = 0.20
     private let holdToExpandDelay: TimeInterval = 0.20
+    private let tapMovementTolerance: CGFloat = 8
     
     func body(content: Content) -> some View {
         pressableContent(content)
@@ -47,28 +53,52 @@ private extension NotchCustomScaleModifier {
                         let isInsideBounds = hitBounds.contains(value.location)
 
                         guard isInsideBounds else {
+                            isPressValidForTap = false
                             resetPressState(cancelPressAnimation: true)
                             return
                         }
 
                         if !isPressed {
                             isPressed = true
+                            initialPressLocation = value.location
+                            isPressValidForTap = true
+                            didCompleteHoldAction = false
                             startPressAnimation()
                         }
 
-                        scheduleExpansionIfNeeded()
+                        if let initialPressLocation,
+                           distance(from: initialPressLocation, to: value.location) > tapMovementTolerance {
+                            isPressValidForTap = false
+                            pendingExpansionToken = nil
+                        }
+
+                        if isPressValidForTap {
+                            scheduleExpansionIfNeeded()
+                        }
                     }
-                    .onEnded { _ in
+                    .onEnded { value in
                         guard !notchViewModel.notchModel.isPresentingExpandedLiveActivity else {
                             resetPressState(cancelPressAnimation: true)
+                            didCompleteHoldAction = false
                             return
                         }
 
+                        let shouldOpenWindowLink = hitBounds.contains(value.location) &&
+                        isPressValidForTap &&
+                        !didCompleteHoldAction
+
                         resetPressState(cancelPressAnimation: false)
+
+                        if shouldOpenWindowLink {
+                            notchViewModel.openActiveWindowLink()
+                        }
+
+                        didCompleteHoldAction = false
                     }
             )
             .onDisappear {
                 resetPressState(cancelPressAnimation: true)
+                didCompleteHoldAction = false
             }
     }
 
@@ -116,6 +146,7 @@ private extension NotchCustomScaleModifier {
             }
 
             pendingExpansionToken = nil
+            didCompleteHoldAction = true
             performPressHaptic()
             resetPressState(cancelPressAnimation: true)
             notchViewModel.handleActiveContentTap()
@@ -124,6 +155,8 @@ private extension NotchCustomScaleModifier {
 
     private func resetPressState(cancelPressAnimation: Bool) {
         pendingExpansionToken = nil
+        initialPressLocation = nil
+        isPressValidForTap = false
 
         if cancelPressAnimation {
             pressAnimationToken = nil
@@ -138,5 +171,12 @@ private extension NotchCustomScaleModifier {
         if isPressed {
             isPressed = false
         }
+    }
+
+    private func distance(from start: CGPoint, to end: CGPoint) -> CGFloat {
+        let xDistance = end.x - start.x
+        let yDistance = end.y - start.y
+
+        return sqrt((xDistance * xDistance) + (yDistance * yDistance))
     }
 }

@@ -413,8 +413,7 @@ final class NotchViewModelIntegrationTests: XCTestCase {
                     collapsedWidthOffset: 20,
                     isExpandable: true,
                     expandedWidthOffset: 140,
-                    expandedHeightOffset: 80,
-                    expandedOffsetYTransition: -32
+                    expandedHeightOffset: 80
                 )
             )
         )
@@ -429,12 +428,10 @@ final class NotchViewModelIntegrationTests: XCTestCase {
 
         let expandedState = await MainActor.run { viewModel.notchModel.isLiveActivityExpanded }
         let expandedSize = await MainActor.run { viewModel.notchModel.size }
-        let expandedOffset = await MainActor.run { viewModel.notchModel.offsetYTransition }
 
         XCTAssertTrue(expandedState)
         XCTAssertGreaterThan(expandedSize.width, collapsedSize.width)
         XCTAssertGreaterThan(expandedSize.height, collapsedSize.height)
-        XCTAssertEqual(expandedOffset, -32, accuracy: 0.001)
     }
 
     @MainActor

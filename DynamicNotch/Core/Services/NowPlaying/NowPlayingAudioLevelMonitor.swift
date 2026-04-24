@@ -1,0 +1,542 @@
+internal import AppKit
+import Accelerate
+import CoreAudio
+import CoreMedia
+import Foundation
+#if canImport(ApplicationServices)
+import ApplicationServices
+#endif
+#if canImport(ScreenCaptureKit)
+import ScreenCaptureKit
+#endif
+import SwiftUI
+
+final class InactiveNowPlayingAudioLevelMonitor: NowPlayingAudioLevelMonitoring {
+    var onLevelsChange: (([CGFloat]) -> Void)?
+
+    func startMonitoring() {}
+    func stopMonitoring() {
+        onLevelsChange?(Array(repeating: 0, count: 5))
+    }
+}
+
+#if canImport(ScreenCaptureKit)
+final class SystemNowPlayingAudioLevelMonitor: NSObject, NowPlayingAudioLevelMonitoring {
+    struct NormalizedAudioFrame {
+        let samples: [Float]
+        let sampleRate: Double
+    }
+
+    var onLevelsChange: (([CGFloat]) -> Void)?
+
+    private let sampleHandlerQueue = DispatchQueue(
+        label: "com.dynamicnotch.nowplaying.audioReactive",
+        qos: .userInitiated
+    )
+    private let fftSize = 2048
+    private let bandFrequencyRanges: [ClosedRange<Float>] = [
+        20...125,
+        125...315,
+        315...1_250,
+        1_250...4_200,
+        4_200...12_000
+    ]
+    private let bandGains: [Float] = [2.45, 2.05, 1.72, 1.46, 1.7]
+
+    private var stream: SCStream?
+    private var startTask: Task<Void, Never>?
+    private var isMonitoring = false
+    private var hasPromptedForScreenCaptureAccess = false
+    private var sampleHistory: [Float] = []
+    private var smoothedBandLevels = Array(repeating: CGFloat(0), count: 5)
+    private var adaptiveBandPeaks: [Float] = [0.08, 0.065, 0.055, 0.045, 0.04]
+    private var adaptiveBandFloors: [Float] = [0.004, 0.0035, 0.003, 0.0026, 0.0022]
+    private var previousBassCarrier: Float = 0
+    private var bassImpactLevel: Float = 0
+    private lazy var discreteFourierTransform = try? vDSP.DiscreteFourierTransform(
+        count: fftSize,
+        direction: .forward,
+        transformType: .complexComplex,
+        ofType: Float.self
+    )
+    private lazy var fftWindow = vDSP.window(
+        ofType: Float.self,
+        usingSequence: .hanningDenormalized,
+        count: fftSize,
+        isHalfWindow: false
+    )
+
+    private lazy var zeroImaginarySamples = Array(repeating: Float(0), count: fftSize)
+
+    deinit {
+        stopMonitoring()
+    }
+
+    func startMonitoring() {
+        guard !isMonitoring, startTask == nil else { return }
+
+        guard hasScreenCaptureAccess() else {
+            requestScreenCaptureAccessIfNeeded()
+            onLevelsChange?(Array(repeating: 0, count: bandFrequencyRanges.count))
+            return
+        }
+
+        startTask = Task { [weak self] in
+            await self?.startStream()
+        }
+    }
+
+    func stopMonitoring() {
+        startTask?.cancel()
+        startTask = nil
+
+        let activeStream = stream
+        stream = nil
+        isMonitoring = false
+        sampleHistory.removeAll(keepingCapacity: false)
+        smoothedBandLevels = Array(repeating: 0, count: bandFrequencyRanges.count)
+        adaptiveBandPeaks = [0.08, 0.065, 0.055, 0.045, 0.04]
+        adaptiveBandFloors = [0.004, 0.0035, 0.003, 0.0026, 0.0022]
+        previousBassCarrier = 0
+        bassImpactLevel = 0
+        onLevelsChange?(Array(repeating: 0, count: bandFrequencyRanges.count))
+
+        guard let activeStream else { return }
+
+        Task {
+            try? await activeStream.stopCapture()
+        }
+    }
+}
+
+private extension SystemNowPlayingAudioLevelMonitor {
+    func startStream() async {
+        defer { startTask = nil }
+
+        do {
+            let content = try await SCShareableContent.excludingDesktopWindows(
+                false,
+                onScreenWindowsOnly: true
+            )
+
+            guard let display = content.displays.first else {
+                onLevelsChange?(Array(repeating: 0, count: bandFrequencyRanges.count))
+                return
+            }
+
+            let filter = SCContentFilter(display: display, excludingApplications: [], exceptingWindows: [])
+            let configuration = SCStreamConfiguration()
+            configuration.queueDepth = 1
+            configuration.width = 2
+            configuration.height = 2
+            configuration.capturesAudio = true
+            configuration.excludesCurrentProcessAudio = true
+            configuration.sampleRate = 48_000
+            configuration.channelCount = 2
+
+            let stream = SCStream(filter: filter, configuration: configuration, delegate: nil)
+            try stream.addStreamOutput(self, type: .audio, sampleHandlerQueue: sampleHandlerQueue)
+            try await stream.startCapture()
+
+            guard !Task.isCancelled else {
+                try? await stream.stopCapture()
+                return
+            }
+
+            self.stream = stream
+            self.isMonitoring = true
+        } catch {
+            onLevelsChange?(Array(repeating: 0, count: bandFrequencyRanges.count))
+            isMonitoring = false
+        }
+    }
+
+    func handleAudioSampleBuffer(_ sampleBuffer: CMSampleBuffer) {
+        guard let frame = normalizedAudioFrame(from: sampleBuffer) else { return }
+
+        append(samples: frame.samples)
+        let resolvedLevels = spectralBandLevels(from: sampleHistory, sampleRate: frame.sampleRate)
+        smooth(levels: resolvedLevels)
+
+        DispatchQueue.main.async { [weak self] in
+            self?.onLevelsChange?(self?.smoothedBandLevels ?? Array(repeating: 0, count: 5))
+        }
+    }
+
+    func normalizedAudioFrame(from sampleBuffer: CMSampleBuffer) -> NormalizedAudioFrame? {
+        guard
+            CMSampleBufferIsValid(sampleBuffer),
+            let formatDescription = CMSampleBufferGetFormatDescription(sampleBuffer),
+            let asbdPointer = CMAudioFormatDescriptionGetStreamBasicDescription(formatDescription)
+        else {
+            return nil
+        }
+
+        let asbd = asbdPointer.pointee
+        let channelCount = max(Int(asbd.mChannelsPerFrame), 1)
+        let bitsPerChannel = max(Int(asbd.mBitsPerChannel), 1)
+        let bytesPerSample = max(bitsPerChannel / 8, 1)
+        let isNonInterleaved = (asbd.mFormatFlags & kAudioFormatFlagIsNonInterleaved) != 0
+        let bufferListSize = MemoryLayout<AudioBufferList>.size +
+            (channelCount - 1) * MemoryLayout<AudioBuffer>.size
+
+        let audioBufferListPointer = UnsafeMutableRawPointer.allocate(
+            byteCount: bufferListSize,
+            alignment: MemoryLayout<AudioBufferList>.alignment
+        )
+        defer { audioBufferListPointer.deallocate() }
+
+        let audioBufferList = audioBufferListPointer.bindMemory(to: AudioBufferList.self, capacity: 1)
+        var blockBuffer: CMBlockBuffer?
+
+        let status = CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer(
+            sampleBuffer,
+            bufferListSizeNeededOut: nil,
+            bufferListOut: audioBufferList,
+            bufferListSize: bufferListSize,
+            blockBufferAllocator: kCFAllocatorDefault,
+            blockBufferMemoryAllocator: kCFAllocatorDefault,
+            flags: UInt32(kCMSampleBufferFlag_AudioBufferList_Assure16ByteAlignment),
+            blockBufferOut: &blockBuffer
+        )
+
+        guard status == noErr else { return nil }
+
+        let isFloat = (asbd.mFormatFlags & kAudioFormatFlagIsFloat) != 0
+        let isSignedInteger = (asbd.mFormatFlags & kAudioFormatFlagIsSignedInteger) != 0
+        let audioBuffers = UnsafeMutableAudioBufferListPointer(audioBufferList)
+
+        guard let firstBuffer = audioBuffers.first, firstBuffer.mData != nil else { return nil }
+
+        let normalizedSamples: [Float]
+
+        if isFloat {
+            if isNonInterleaved {
+                normalizedSamples = normalizedFloatSamples(
+                    from: audioBuffers,
+                    channelCount: channelCount,
+                    bytesPerSample: bytesPerSample
+                )
+            } else {
+                normalizedSamples = normalizedInterleavedFloatSamples(
+                    from: firstBuffer,
+                    channelCount: channelCount,
+                    bytesPerSample: bytesPerSample
+                )
+            }
+        } else if isSignedInteger && bitsPerChannel == 16 {
+            if isNonInterleaved {
+                normalizedSamples = normalizedInt16Samples(
+                    from: audioBuffers,
+                    channelCount: channelCount,
+                    bytesPerSample: bytesPerSample
+                )
+            } else {
+                normalizedSamples = normalizedInterleavedInt16Samples(
+                    from: firstBuffer,
+                    channelCount: channelCount,
+                    bytesPerSample: bytesPerSample
+                )
+            }
+        } else {
+            return nil
+        }
+
+        guard !normalizedSamples.isEmpty else { return nil }
+        return NormalizedAudioFrame(samples: normalizedSamples, sampleRate: asbd.mSampleRate)
+    }
+
+    func normalizedInterleavedFloatSamples(
+        from audioBuffer: AudioBuffer,
+        channelCount: Int,
+        bytesPerSample: Int
+    ) -> [Float] {
+        guard let mData = audioBuffer.mData else { return [] }
+
+        let frameCount = Int(audioBuffer.mDataByteSize) / (bytesPerSample * channelCount)
+        guard frameCount > 0 else { return [] }
+
+        let samples = mData.assumingMemoryBound(to: Float.self)
+        var mono = Array(repeating: Float(0), count: frameCount)
+
+        for frameIndex in 0..<frameCount {
+            let baseIndex = frameIndex * channelCount
+            var sum: Float = 0
+
+            for channelIndex in 0..<channelCount {
+                sum += samples[baseIndex + channelIndex]
+            }
+
+            mono[frameIndex] = sum / Float(channelCount)
+        }
+
+        return mono
+    }
+
+    func normalizedFloatSamples(
+        from audioBuffers: UnsafeMutableAudioBufferListPointer,
+        channelCount: Int,
+        bytesPerSample: Int
+    ) -> [Float] {
+        guard let firstBuffer = audioBuffers.first, firstBuffer.mData != nil else {
+            return []
+        }
+
+        let frameCount = Int(firstBuffer.mDataByteSize) / bytesPerSample
+        guard frameCount > 0 else { return [] }
+
+        var mono = Array(repeating: Float(0), count: frameCount)
+        let resolvedBufferCount = min(audioBuffers.count, channelCount)
+
+        for bufferIndex in 0..<resolvedBufferCount {
+            guard let bufferData = audioBuffers[bufferIndex].mData else { continue }
+            let samples = bufferData.assumingMemoryBound(to: Float.self)
+
+            for frameIndex in 0..<frameCount {
+                mono[frameIndex] += samples[frameIndex]
+            }
+        }
+
+        let divider = Float(max(resolvedBufferCount, 1))
+        for frameIndex in 0..<frameCount {
+            mono[frameIndex] /= divider
+        }
+        return mono
+    }
+
+    func normalizedInterleavedInt16Samples(
+        from audioBuffer: AudioBuffer,
+        channelCount: Int,
+        bytesPerSample: Int
+    ) -> [Float] {
+        guard let mData = audioBuffer.mData else { return [] }
+
+        let frameCount = Int(audioBuffer.mDataByteSize) / (bytesPerSample * channelCount)
+        guard frameCount > 0 else { return [] }
+
+        let samples = mData.assumingMemoryBound(to: Int16.self)
+        let normalizer = Float(Int16.max)
+        var mono = Array(repeating: Float(0), count: frameCount)
+
+        for frameIndex in 0..<frameCount {
+            let baseIndex = frameIndex * channelCount
+            var sum: Float = 0
+
+            for channelIndex in 0..<channelCount {
+                sum += Float(samples[baseIndex + channelIndex]) / normalizer
+            }
+
+            mono[frameIndex] = sum / Float(channelCount)
+        }
+
+        return mono
+    }
+
+    func normalizedInt16Samples(
+        from audioBuffers: UnsafeMutableAudioBufferListPointer,
+        channelCount: Int,
+        bytesPerSample: Int
+    ) -> [Float] {
+        guard let firstBuffer = audioBuffers.first else { return [] }
+
+        let frameCount = Int(firstBuffer.mDataByteSize) / bytesPerSample
+        guard frameCount > 0 else { return [] }
+
+        var mono = Array(repeating: Float(0), count: frameCount)
+        let resolvedBufferCount = min(audioBuffers.count, channelCount)
+        let normalizer = Float(Int16.max)
+
+        for bufferIndex in 0..<resolvedBufferCount {
+            guard let bufferData = audioBuffers[bufferIndex].mData else { continue }
+            let samples = bufferData.assumingMemoryBound(to: Int16.self)
+
+            for frameIndex in 0..<frameCount {
+                mono[frameIndex] += Float(samples[frameIndex]) / normalizer
+            }
+        }
+
+        let divider = Float(max(resolvedBufferCount, 1))
+        for frameIndex in 0..<frameCount {
+            mono[frameIndex] /= divider
+        }
+
+        return mono
+    }
+
+    func append(samples: [Float]) {
+        sampleHistory.append(contentsOf: samples)
+
+        if sampleHistory.count > fftSize {
+            sampleHistory.removeFirst(sampleHistory.count - fftSize)
+        }
+    }
+
+    func spectralBandLevels(from samples: [Float], sampleRate: Double) -> [CGFloat] {
+        guard
+            samples.count >= 128,
+            let discreteFourierTransform
+        else {
+            return Array(repeating: 0, count: bandFrequencyRanges.count)
+        }
+
+        var paddedSamples = Array(repeating: Float(0), count: fftSize)
+        let copyCount = min(samples.count, fftSize)
+        let startIndex = samples.count - copyCount
+
+        for offset in 0..<copyCount {
+            paddedSamples[offset] = samples[startIndex + offset]
+        }
+
+        var windowedSamples = Array(repeating: Float(0), count: fftSize)
+        vDSP_vmul(paddedSamples, 1, fftWindow, 1, &windowedSamples, 1, vDSP_Length(fftSize))
+
+        var real = Array(repeating: Float(0), count: fftSize)
+        var imaginary = Array(repeating: Float(0), count: fftSize)
+        discreteFourierTransform.transform(
+            inputReal: windowedSamples,
+            inputImaginary: zeroImaginarySamples,
+            outputReal: &real,
+            outputImaginary: &imaginary
+        )
+
+        let positiveSpectrumCount = fftSize / 2
+        var magnitudes = Array(repeating: Float(0), count: positiveSpectrumCount)
+        for index in 0..<positiveSpectrumCount {
+            let realPart = real[index]
+            let imaginaryPart = imaginary[index]
+            magnitudes[index] = sqrt((realPart * realPart) + (imaginaryPart * imaginaryPart))
+        }
+
+        let binWidth = Float(sampleRate) / Float(fftSize)
+        let spectralFloor = max(rms(of: samples), 0.004)
+        let rawBands = bandFrequencyRanges.enumerated().map { index, range -> Float in
+            let lowerBin = max(Int(floor(range.lowerBound / binWidth)), 1)
+            let upperBin = min(Int(ceil(range.upperBound / binWidth)), magnitudes.count - 1)
+
+            guard lowerBin <= upperBin else { return 0 }
+
+            var sum: Float = 0
+            for bin in lowerBin...upperBin {
+                sum += magnitudes[bin]
+            }
+
+            let averageMagnitude = sum / Float(upperBin - lowerBin + 1)
+            return averageMagnitude * bandGains[index]
+        }
+
+        let ensembleReference = max(rawBands.reduce(0, +) / Float(rawBands.count), spectralFloor * 3.2)
+        let loudness = min(max(pow(spectralFloor * 2.8, 0.6), 0), 1)
+        let relativeBiases: [Float] = [1.55, 1.18, 0.96, 0.82, 0.7]
+        let responseCurves: [Float] = [0.68, 0.74, 0.8, 0.84, 0.88]
+        let peakReleases: [Float] = [0.82, 0.86, 0.88, 0.9, 0.92]
+        var isolatedBands = Array(repeating: Float(0), count: rawBands.count)
+        var minimumPeaks = Array(repeating: Float(0), count: rawBands.count)
+
+        for (index, rawBand) in rawBands.enumerated() {
+            let targetFloor = max(rawBand * 0.035, spectralFloor * (0.55 - (Float(index) * 0.06)))
+            let currentFloor = adaptiveBandFloors[index]
+            let floorBlend: Float = rawBand < currentFloor ? 0.16 : 0.035
+            let updatedFloor = (currentFloor * (1 - floorBlend)) + (targetFloor * floorBlend)
+            adaptiveBandFloors[index] = max(updatedFloor, spectralFloor * 0.18)
+
+            let isolatedBand = max(rawBand - adaptiveBandFloors[index], 0)
+            let minimumPeak = max((ensembleReference * 0.18) / relativeBiases[index], spectralFloor * 0.85)
+            let currentPeak = adaptiveBandPeaks[index]
+
+            if isolatedBand > currentPeak {
+                adaptiveBandPeaks[index] += (isolatedBand - currentPeak) * 0.34
+            } else {
+                adaptiveBandPeaks[index] = max(minimumPeak, currentPeak * peakReleases[index])
+            }
+            isolatedBands[index] = isolatedBand
+            minimumPeaks[index] = minimumPeak
+        }
+
+        var resolvedLevels = rawBands.enumerated().map { index, _ in
+            let isolatedBand = isolatedBands[index]
+            let peakNormalized = isolatedBand / max(adaptiveBandPeaks[index], minimumPeaks[index])
+            let ensembleNormalized = isolatedBand / max(ensembleReference * relativeBiases[index], spectralFloor * 1.6)
+            let combined = min(max((peakNormalized * 0.72) + (ensembleNormalized * 0.28), 0), 1.35)
+            let shaped = pow(combined, responseCurves[index])
+            let gated = max(shaped - 0.025, 0) / 0.975
+            let resolvedLevel = gated * (0.14 + (loudness * 0.86))
+            return Float(min(max(resolvedLevel, 0), 1))
+        }
+
+        if !resolvedLevels.isEmpty {
+            let lowMidContribution = isolatedBands.indices.contains(1) ? isolatedBands[1] * 0.22 : 0
+            let bassCarrier = (isolatedBands[0] * 0.78) + lowMidContribution
+            let previousCarrier = previousBassCarrier
+            previousBassCarrier = (previousBassCarrier * 0.56) + (bassCarrier * 0.44)
+
+            let bassRise = max(bassCarrier - previousCarrier, 0)
+            let bassReference = max(adaptiveBandPeaks[0] * 0.32, ensembleReference * 0.18, spectralFloor * 1.2)
+            let targetImpact = min(max(bassRise / bassReference, 0), 1.15)
+
+            if targetImpact > bassImpactLevel {
+                bassImpactLevel += (targetImpact - bassImpactLevel) * 0.52
+            } else {
+                bassImpactLevel = (bassImpactLevel * 0.72) + (targetImpact * 0.28)
+            }
+
+            let bassTransient = pow(min(max(bassImpactLevel, 0), 1), 0.84)
+            let bassSustain = resolvedLevels[0] * 0.34
+            resolvedLevels[0] = min(max((bassTransient * 0.72) + bassSustain, 0), 1)
+        }
+
+        return resolvedLevels.map(CGFloat.init)
+    }
+
+    func smooth(levels: [CGFloat]) {
+        for index in smoothedBandLevels.indices {
+            let incoming = index < levels.count ? levels[index] : 0
+            let current = smoothedBandLevels[index]
+            let attacks: [CGFloat] = [0.58, 0.56, 0.52, 0.48, 0.46]
+            let releases: [CGFloat] = [0.68, 0.74, 0.78, 0.82, 0.86]
+
+            if incoming > current {
+                smoothedBandLevels[index] += (incoming - current) * attacks[index]
+            } else {
+                smoothedBandLevels[index] = max(incoming, current * releases[index])
+            }
+        }
+    }
+
+    func rms(of samples: [Float]) -> Float {
+        guard !samples.isEmpty else { return 0 }
+
+        var sumSquares: Float = 0
+        for sample in samples {
+            sumSquares += sample * sample
+        }
+
+        return sqrt(sumSquares / Float(samples.count))
+    }
+
+    func hasScreenCaptureAccess() -> Bool {
+        #if canImport(ApplicationServices)
+        return CGPreflightScreenCaptureAccess()
+        #else
+        return true
+        #endif
+    }
+
+    func requestScreenCaptureAccessIfNeeded() {
+        guard !hasPromptedForScreenCaptureAccess else { return }
+        hasPromptedForScreenCaptureAccess = true
+
+        #if canImport(ApplicationServices)
+        _ = CGRequestScreenCaptureAccess()
+        #endif
+    }
+}
+
+extension SystemNowPlayingAudioLevelMonitor: SCStreamOutput {
+    func stream(_ stream: SCStream, didOutputSampleBuffer sampleBuffer: CMSampleBuffer, of outputType: SCStreamOutputType) {
+        guard outputType == .audio else { return }
+        handleAudioSampleBuffer(sampleBuffer)
+    }
+}
+#else
+typealias SystemNowPlayingAudioLevelMonitor = InactiveNowPlayingAudioLevelMonitor
+#endif

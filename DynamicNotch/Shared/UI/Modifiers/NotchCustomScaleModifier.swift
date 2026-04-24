@@ -5,16 +5,20 @@
 //  Created by Евгений Петрукович on 2/14/26.
 //
 
+internal import AppKit
 import SwiftUI
 
 struct NotchCustomScaleModifier: ViewModifier {
     @ObservedObject var notchViewModel: NotchViewModel
     @Binding var isPressed: Bool
     @State private var pendingExpansionToken: UUID?
+    @State private var pressAnimationToken: UUID?
+    @State private var pressScale: CGFloat = 1
     let baseSize: CGSize
     
     private let scaleFactor: CGFloat = 1.04
-    private let holdToExpandDelay: TimeInterval = 0.18
+    private let pressPeakDuration: TimeInterval = 0.2
+    private let holdToExpandDelay: TimeInterval = 0.2
     
     func body(content: Content) -> some View {
         pressableContent(content)
@@ -28,44 +32,68 @@ private extension NotchCustomScaleModifier {
 
         return content
             .scaleEffect(
-                x: isPressed && !isExpandedPresentation ? scaleFactor : 1,
-                y: isPressed && !isExpandedPresentation ? scaleFactor : 1,
+                x: !isExpandedPresentation ? pressScale : 1,
+                y: !isExpandedPresentation ? pressScale : 1,
                 anchor: .top
             )
-            .animation(.spring(response: 0.3, dampingFraction: 0.5), value: isPressed)
             .simultaneousGesture(
                 DragGesture(minimumDistance: 0)
                     .onChanged { value in
                         guard !notchViewModel.notchModel.isPresentingExpandedLiveActivity else {
-                            resetPressState()
+                            resetPressState(cancelPressAnimation: true)
                             return
                         }
 
                         let isInsideBounds = hitBounds.contains(value.location)
 
                         guard isInsideBounds else {
-                            resetPressState()
+                            resetPressState(cancelPressAnimation: true)
                             return
                         }
 
                         if !isPressed {
                             isPressed = true
+                            startPressAnimation()
                         }
 
                         scheduleExpansionIfNeeded()
                     }
                     .onEnded { _ in
                         guard !notchViewModel.notchModel.isPresentingExpandedLiveActivity else {
-                            resetPressState()
+                            resetPressState(cancelPressAnimation: true)
                             return
                         }
 
-                        resetPressState()
+                        resetPressState(cancelPressAnimation: false)
                     }
             )
             .onDisappear {
-                resetPressState()
+                resetPressState(cancelPressAnimation: true)
             }
+    }
+
+    private func startPressAnimation() {
+        let token = UUID()
+        pressAnimationToken = token
+        pressScale = 1
+
+        withAnimation(.easeOut(duration: pressPeakDuration)) {
+            pressScale = scaleFactor
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + pressPeakDuration) {
+            guard pressAnimationToken == token else { return }
+
+            pressAnimationToken = nil
+
+            withAnimation(.spring(response: 0.30, dampingFraction: 0.5)) {
+                pressScale = 1
+            }
+        }
+    }
+
+    private func performPressHaptic() {
+        NSHapticFeedbackManager.defaultPerformer.perform(.alignment, performanceTime: .now)
     }
 
     private func scheduleExpansionIfNeeded() {
@@ -88,13 +116,24 @@ private extension NotchCustomScaleModifier {
             }
 
             pendingExpansionToken = nil
-            isPressed = false
+            performPressHaptic()
+            resetPressState(cancelPressAnimation: true)
             notchViewModel.handleActiveContentTap()
         }
     }
 
-    private func resetPressState() {
+    private func resetPressState(cancelPressAnimation: Bool) {
         pendingExpansionToken = nil
+
+        if cancelPressAnimation {
+            pressAnimationToken = nil
+
+            if pressScale != 1 {
+                withAnimation(.easeOut(duration: 0.12)) {
+                    pressScale = 1
+                }
+            }
+        }
 
         if isPressed {
             isPressed = false

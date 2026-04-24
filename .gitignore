@@ -1,2 +1,16 @@
-*.xcuserstate
+# macOS
 .DS_Store
+**/.DS_Store
+
+# Xcode user state
+*.xcuserstate
+*.xcbkptlist
+*.xccheckout
+*.xcscmblueprint
+xcuserdata/
+*.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+
+# Build products
+DerivedData/
+build/

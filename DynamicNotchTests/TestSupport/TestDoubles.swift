@@ -230,14 +230,12 @@ struct TestNotchContent: NotchContentProtocol {
     let id: String
     let priority: Int
     var strokeColor: Color = .clear
-    var offsetYTransition: CGFloat = 0
     var collapsedWidthOffset: CGFloat = 0
     var collapsedHeightOffset: CGFloat = 0
     var isExpandable: Bool = false
     var expandsOnTap: Bool = true
     var expandedWidthOffset: CGFloat = 0
     var expandedHeightOffset: CGFloat = 0
-    var expandedOffsetYTransition: CGFloat = 0
 
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         .init(

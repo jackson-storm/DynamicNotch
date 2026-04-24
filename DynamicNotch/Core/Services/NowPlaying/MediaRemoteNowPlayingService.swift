@@ -4,21 +4,28 @@ import Dispatch
 final class MediaRemoteNowPlayingService: NowPlayingMonitoring {
     var onSnapshotChange: ((NowPlayingSnapshot?) -> Void)?
 
-    private struct HelperSnapshot: Decodable {
-        let active: Bool
+    private struct AdapterStreamMessage: Decodable {
+        let type: String?
+        let payload: AdapterPayload?
+    }
+
+    fileprivate struct AdapterPayload: Decodable {
+        let playing: Bool?
         let title: String?
         let artist: String?
         let album: String?
         let duration: Double?
+        let durationMicros: Int64?
         let elapsedTime: Double?
+        let elapsedTimeMicros: Int64?
+        let elapsedTimeNow: Double?
+        let elapsedTimeNowMicros: Int64?
         let playbackRate: Double?
         let artworkData: String?
     }
 
-    private static let sourceHelperScriptURL = URL(fileURLWithPath: #filePath)
-        .deletingLastPathComponent()
-        .appendingPathComponent("mediaremote-helper.swiftscript")
-    private static let swiftExecutableURL = URL(fileURLWithPath: "/usr/bin/swift")
+    private static let perlExecutableURL = URL(fileURLWithPath: "/usr/bin/perl")
+    private static let microsecondsPerSecond: Double = 1_000_000
 
     private let callbackQueue = DispatchQueue(
         label: "com.dynamicnotch.nowplaying",
@@ -26,7 +33,6 @@ final class MediaRemoteNowPlayingService: NowPlayingMonitoring {
     )
     private let decoder = JSONDecoder()
     private let commandDispatcher = MediaRemoteCommandDispatcher()
-    private let elapsedTimeDispatcher = MediaRemoteElapsedTimeDispatcher()
 
     private var process: Process?
     private var outputPipe: Pipe?
@@ -74,12 +80,7 @@ final class MediaRemoteNowPlayingService: NowPlayingMonitoring {
     }
 
     func send(_ command: NowPlayingCommand) {
-        switch command {
-        case .seek(let position):
-            elapsedTimeDispatcher.seek(to: position)
-        default:
-            commandDispatcher.send(command)
-        }
+        commandDispatcher.send(command)
     }
 }
 
@@ -87,11 +88,7 @@ private extension MediaRemoteNowPlayingService {
     func launchHelperProcess() {
         guard isMonitoring else { return }
 
-        let scriptURL =
-            Bundle.main.url(forResource: "mediaremote-helper", withExtension: "swiftscript") ??
-            Self.sourceHelperScriptURL
-
-        guard FileManager.default.fileExists(atPath: scriptURL.path) else {
+        guard let resources = MediaRemoteAdapterResources.resolve() else {
             publish(snapshot: nil)
             return
         }
@@ -100,8 +97,14 @@ private extension MediaRemoteNowPlayingService {
         let outputPipe = Pipe()
         let errorPipe = Pipe()
 
-        process.executableURL = Self.swiftExecutableURL
-        process.arguments = [scriptURL.path]
+        process.executableURL = Self.perlExecutableURL
+        process.arguments = resources.invocationArguments(
+            for: [
+                "stream",
+                "--no-diff",
+                "--debounce=150"
+            ]
+        )
         process.standardOutput = outputPipe
         process.standardError = errorPipe
         process.terminationHandler = { [weak self] terminatedProcess in
@@ -158,7 +161,7 @@ private extension MediaRemoteNowPlayingService {
                 return
             }
 
-            fputs("NowPlaying helper: \(message)\n", stderr)
+            fputs("MediaRemote adapter: \(message)\n", stderr)
         }
     }
 
@@ -174,16 +177,17 @@ private extension MediaRemoteNowPlayingService {
             outputBuffer.removeSubrange(...lineBreak)
 
             guard !line.isEmpty else { continue }
-            processHelperLine(line)
+            processAdapterLine(line)
         }
     }
 
-    func processHelperLine(_ line: String) {
+    func processAdapterLine(_ line: String) {
         guard let data = line.data(using: .utf8) else { return }
 
         do {
-            let helperSnapshot = try decoder.decode(HelperSnapshot.self, from: data)
-            publish(snapshot: makeSnapshot(from: helperSnapshot))
+            let message = try decoder.decode(AdapterStreamMessage.self, from: data)
+            guard message.type == nil || message.type == "data" else { return }
+            publish(snapshot: makeSnapshot(from: message.payload))
         } catch {
             return
         }
@@ -200,6 +204,13 @@ private extension MediaRemoteNowPlayingService {
         outputBuffer = ""
 
         guard isMonitoring else { return }
+
+        if terminatedProcess.terminationReason == .exit,
+           terminatedProcess.terminationStatus != 0 {
+            publish(snapshot: nil)
+            return
+        }
+
         scheduleRestart()
     }
 
@@ -224,19 +235,17 @@ private extension MediaRemoteNowPlayingService {
         }
     }
 
-    private func makeSnapshot(from helperSnapshot: HelperSnapshot) -> NowPlayingSnapshot? {
-        guard helperSnapshot.active else {
-            return nil
-        }
+    private func makeSnapshot(from payload: AdapterPayload?) -> NowPlayingSnapshot? {
+        guard let payload, payload.isActive else { return nil }
 
         let snapshot = NowPlayingSnapshot(
-            title: helperSnapshot.title ?? "",
-            artist: helperSnapshot.artist ?? "",
-            album: helperSnapshot.album ?? "",
-            duration: helperSnapshot.duration ?? 0,
-            elapsedTime: helperSnapshot.elapsedTime ?? 0,
-            playbackRate: helperSnapshot.playbackRate ?? 0,
-            artworkData: decodeArtworkData(helperSnapshot.artworkData),
+            title: payload.title?.trimmed ?? "",
+            artist: payload.artist?.trimmed ?? "",
+            album: payload.album?.trimmed ?? "",
+            duration: payload.durationSeconds,
+            elapsedTime: payload.elapsedSeconds,
+            playbackRate: payload.resolvedPlaybackRate,
+            artworkData: decodeArtworkData(payload.artworkData),
             refreshedAt: .now
         )
 
@@ -250,5 +259,37 @@ private extension MediaRemoteNowPlayingService {
             base64Encoded: base64String.trimmingCharacters(in: .whitespacesAndNewlines),
             options: .ignoreUnknownCharacters
         )
+    }
+}
+
+private extension MediaRemoteNowPlayingService.AdapterPayload {
+    var isActive: Bool {
+        !(title?.trimmed.isEmpty ?? true) ||
+        !(artist?.trimmed.isEmpty ?? true) ||
+        !(album?.trimmed.isEmpty ?? true) ||
+        artworkData != nil ||
+        durationSeconds > 0 ||
+        elapsedSeconds > 0
+    }
+
+    var durationSeconds: TimeInterval {
+        duration ?? seconds(fromMicroseconds: durationMicros) ?? 0
+    }
+
+    var elapsedSeconds: TimeInterval {
+        elapsedTime ??
+        seconds(fromMicroseconds: elapsedTimeMicros) ??
+        elapsedTimeNow ??
+        seconds(fromMicroseconds: elapsedTimeNowMicros) ??
+        0
+    }
+
+    var resolvedPlaybackRate: Double {
+        playbackRate ?? (playing == true ? 1 : 0)
+    }
+
+    private func seconds(fromMicroseconds microseconds: Int64?) -> TimeInterval? {
+        guard let microseconds else { return nil }
+        return TimeInterval(microseconds) / MediaRemoteNowPlayingService.microsecondsPerSecond
     }
 }

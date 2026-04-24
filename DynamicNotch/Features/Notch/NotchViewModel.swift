@@ -47,6 +47,7 @@ final class NotchViewModel: ObservableObject {
     private let screenMetricsProvider: (any NotchSettingsProviding) -> NotchScreenMetrics?
     private var cancellables = Set<AnyCancellable>()
     private var stagedHeightTask: Task<Void, Never>?
+    private var swipeStretchResetWorkItem: DispatchWorkItem?
     private var isClosingHeightStaged = false
 
     var animations: NotchAnimations {
@@ -283,6 +284,9 @@ final class NotchViewModel: ObservableObject {
     }
     
     func updateSwipeStretch(for interaction: NotchSwipeInteraction, progress: CGFloat) {
+        swipeStretchResetWorkItem?.cancel()
+        swipeStretchResetWorkItem = nil
+
         let clampedProgress = min(max(progress, 0), 1)
         guard swipeInteraction != interaction || abs(swipeStretchProgress - clampedProgress) > 0.001 else {
             return
@@ -294,7 +298,20 @@ final class NotchViewModel: ObservableObject {
     
     func resetSwipeStretch() {
         guard swipeStretchProgress > 0 || swipeInteraction != nil else { return }
-        
+
+        swipeStretchResetWorkItem?.cancel()
+
+        let workItem = DispatchWorkItem { [weak self] in
+            self?.applySwipeStretchReset()
+        }
+        swipeStretchResetWorkItem = workItem
+        DispatchQueue.main.async(execute: workItem)
+    }
+
+    private func applySwipeStretchReset() {
+        swipeStretchResetWorkItem = nil
+        guard swipeStretchProgress > 0 || swipeInteraction != nil else { return }
+
         withAnimation(animations.stretchReset) {
             swipeStretchProgress = 0
             swipeInteraction = nil

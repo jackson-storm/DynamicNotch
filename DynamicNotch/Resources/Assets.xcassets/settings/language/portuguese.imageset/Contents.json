@@ -1,23 +1,23 @@
 {
-  "images" : [
+  "images": [
     {
-      "filename" : "Flag_of_Portugal_(official).svg",
-      "idiom" : "universal",
-      "scale" : "1x"
+      "filename": "portuguese_universal_1x.svg",
+      "idiom": "universal",
+      "scale": "1x"
     },
     {
-      "filename" : "Flag_of_Portugal_(official) 1.svg",
-      "idiom" : "universal",
-      "scale" : "2x"
+      "filename": "portuguese_universal_2x.svg",
+      "idiom": "universal",
+      "scale": "2x"
     },
     {
-      "filename" : "Flag_of_Portugal_(official) 2.svg",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "filename": "portuguese_universal_3x.svg",
+      "idiom": "universal",
+      "scale": "3x"
     }
   ],
-  "info" : {
-    "author" : "xcode",
-    "version" : 1
+  "info": {
+    "author": "xcode",
+    "version": 1
   }
 }

@@ -17,8 +17,8 @@ struct NotchCustomScaleModifier: ViewModifier {
     let baseSize: CGSize
     
     private let scaleFactor: CGFloat = 1.04
-    private let pressPeakDuration: TimeInterval = 0.2
-    private let holdToExpandDelay: TimeInterval = 0.2
+    private let pressPeakDuration: TimeInterval = 0.20
+    private let holdToExpandDelay: TimeInterval = 0.20
     
     func body(content: Content) -> some View {
         pressableContent(content)

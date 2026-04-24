@@ -10,6 +10,9 @@ final class MediaRemoteNowPlayingService: NowPlayingMonitoring {
     }
 
     fileprivate struct AdapterPayload: Decodable {
+        let processIdentifier: Int?
+        let bundleIdentifier: String?
+        let parentApplicationBundleIdentifier: String?
         let playing: Bool?
         let title: String?
         let artist: String?
@@ -22,6 +25,8 @@ final class MediaRemoteNowPlayingService: NowPlayingMonitoring {
         let elapsedTimeNowMicros: Int64?
         let playbackRate: Double?
         let artworkData: String?
+        let mediaType: String?
+        let contentItemIdentifier: String?
     }
 
     private static let perlExecutableURL = URL(fileURLWithPath: "/usr/bin/perl")
@@ -246,6 +251,9 @@ private extension MediaRemoteNowPlayingService {
             elapsedTime: payload.elapsedSeconds,
             playbackRate: payload.resolvedPlaybackRate,
             artworkData: decodeArtworkData(payload.artworkData),
+            playbackSource: payload.playbackSource,
+            mediaType: payload.mediaType,
+            contentItemIdentifier: payload.contentItemIdentifier,
             refreshedAt: .now
         )
 
@@ -263,6 +271,16 @@ private extension MediaRemoteNowPlayingService {
 }
 
 private extension MediaRemoteNowPlayingService.AdapterPayload {
+    var playbackSource: NowPlayingPlaybackSource? {
+        let source = NowPlayingPlaybackSource(
+            bundleIdentifier: bundleIdentifier,
+            parentBundleIdentifier: parentApplicationBundleIdentifier,
+            processIdentifier: processIdentifier
+        )
+
+        return source.hasOpenableTarget ? source : nil
+    }
+
     var isActive: Bool {
         !(title?.trimmed.isEmpty ?? true) ||
         !(artist?.trimmed.isEmpty ?? true) ||

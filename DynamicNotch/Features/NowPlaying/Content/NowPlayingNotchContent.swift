@@ -13,6 +13,19 @@ struct NowPlayingNotchContent: NotchContentProtocol {
     let nowPlayingViewModel: NowPlayingViewModel
     let settings: MediaAndFilesSettingsStore
     let applicationSettings: ApplicationSettingsStore
+    let onOpenPlaybackSource: @MainActor () -> Void
+
+    init(
+        nowPlayingViewModel: NowPlayingViewModel,
+        settings: MediaAndFilesSettingsStore,
+        applicationSettings: ApplicationSettingsStore,
+        onOpenPlaybackSource: @escaping @MainActor () -> Void = {}
+    ) {
+        self.nowPlayingViewModel = nowPlayingViewModel
+        self.settings = settings
+        self.applicationSettings = applicationSettings
+        self.onOpenPlaybackSource = onOpenPlaybackSource
+    }
     
     var priority: Int { 81 }
     var isExpandable: Bool { true }
@@ -53,7 +66,8 @@ struct NowPlayingNotchContent: NotchContentProtocol {
             NowPlayingExpandedNotchView(
                 nowPlayingViewModel: nowPlayingViewModel,
                 settings: settings,
-                applicationSettings: applicationSettings
+                applicationSettings: applicationSettings,
+                onOpenPlaybackSource: onOpenPlaybackSource
             )
         )
     }

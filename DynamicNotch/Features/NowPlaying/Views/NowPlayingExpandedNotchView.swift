@@ -12,6 +12,8 @@ struct NowPlayingExpandedNotchView: View {
     @ObservedObject var nowPlayingViewModel: NowPlayingViewModel
     @ObservedObject var settings: MediaAndFilesSettingsStore
     @ObservedObject var applicationSettings: ApplicationSettingsStore
+    
+    let onOpenPlaybackSource: @MainActor () -> Void
 
     @State private var scrubProgress: CGFloat?
     private let audioReactiveVisibilitySource = "nowPlaying.notch.expanded"
@@ -66,42 +68,54 @@ struct NowPlayingExpandedNotchView: View {
             Spacer()
 
             HStack(spacing: 15) {
-                ArtworkView(nowPlayingViewModel: nowPlayingViewModel, width: 60, height: 60, cornerRadius: 10)
+                Button(action: {
+                    openPlaybackSource()
+                }) {
+                    ArtworkView(nowPlayingViewModel: nowPlayingViewModel, width: 60, height: 60, cornerRadius: 10)
+                }
+                .buttonStyle(PlaybackSourceButtonStyle())
+                .disabled(!nowPlayingViewModel.canOpenPlaybackSource)
 
-                VStack(alignment: .leading, spacing: 3) {
-                    HStack(alignment: .center, spacing: 10) {
-                        MarqueeText(
-                            .constant(displayTitle(for: snapshot)),
-                            font: .system(size: 16, weight: .medium),
-                            nsFont: .headline,
-                            textColor: .white.opacity(0.8),
-                            backgroundColor: .clear,
-                            minDuration: 2.0,
-                            frameWidth: 170.scaled(by: scale)
-                        )
+                HStack(alignment: .top, spacing: 10) {
+                    Button(action: {
+                        openPlaybackSource()
+                    }) {
+                        VStack(alignment: .leading, spacing: 2) {
+                            MarqueeText(
+                                .constant(displayTitle(for: snapshot)),
+                                font: .system(size: 16, weight: .medium),
+                                nsFont: .headline,
+                                textColor: .white.opacity(0.8),
+                                backgroundColor: .clear,
+                                minDuration: 2.0,
+                                frameWidth: 170.scaled(by: scale)
+                            )
 
-                        Spacer(minLength: 0)
-
-                        EqualizerView(
-                            isPlaying: snapshot.isPlaying,
-                            mode: settings.nowPlayingEqualizerMode,
-                            palette: nowPlayingViewModel.artworkPalette,
-                            trackSeed: snapshot.waveSeed,
-                            audioLevels: nowPlayingViewModel.audioReactiveLevels,
-                            date: date,
-                            width: 2.7,
-                            height: 3.7
-                        )
+                            MarqueeText(
+                                .constant(displayArtist(for: snapshot)),
+                                font: .system(size: 14),
+                                nsFont: .headline,
+                                textColor: .white.opacity(0.5),
+                                backgroundColor: .clear,
+                                minDuration: 3.0,
+                                frameWidth: 170.scaled(by: scale)
+                            )
+                        }
                     }
+                    .buttonStyle(PlaybackSourceButtonStyle())
+                    .disabled(!nowPlayingViewModel.canOpenPlaybackSource)
 
-                    MarqueeText(
-                        .constant(displayArtist(for: snapshot)),
-                        font: .system(size: 14),
-                        nsFont: .headline,
-                        textColor: .white.opacity(0.5),
-                        backgroundColor: .clear,
-                        minDuration: 3.0,
-                        frameWidth: 170.scaled(by: scale)
+                    Spacer(minLength: 0)
+
+                    EqualizerView(
+                        isPlaying: snapshot.isPlaying,
+                        mode: settings.nowPlayingEqualizerMode,
+                        palette: nowPlayingViewModel.artworkPalette,
+                        trackSeed: snapshot.waveSeed,
+                        audioLevels: nowPlayingViewModel.audioReactiveLevels,
+                        date: date,
+                        width: 2.7,
+                        height: 3.7
                     )
                 }
             }
@@ -251,5 +265,20 @@ struct NowPlayingExpandedNotchView: View {
 
     private func animationTick(for snapshot: NowPlayingSnapshot) -> TimeInterval {
         snapshot.isPlaying ? (1.0 / 14.0) : 0.5
+    }
+
+    private func openPlaybackSource() {
+        guard nowPlayingViewModel.canOpenPlaybackSource else { return }
+
+        nowPlayingViewModel.openPlaybackSource()
+        onOpenPlaybackSource()
+    }
+}
+
+private struct PlaybackSourceButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .opacity(configuration.isPressed ? 0.4 : 1)
+            .animation(.easeInOut(duration: 0.12), value: configuration.isPressed)
     }
 }

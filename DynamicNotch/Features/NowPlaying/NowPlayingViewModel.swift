@@ -3,6 +3,27 @@ import Combine
 import SwiftUI
 
 @MainActor
+protocol PlaybackSourceOpening {
+    func openPlaybackSource(_ source: NowPlayingPlaybackSource)
+}
+
+@MainActor
+final class WorkspacePlaybackSourceOpener: PlaybackSourceOpening {
+    func openPlaybackSource(_ source: NowPlayingPlaybackSource) {
+        if let bundleIdentifier = source.preferredBundleIdentifier {
+            if openApplication(bundleIdentifier: bundleIdentifier) {
+                return
+            }
+        }
+
+        if let processIdentifier = source.validProcessIdentifier,
+           let application = NSRunningApplication(processIdentifier: pid_t(processIdentifier)) {
+            showRunningApplication(application)
+        }
+    }
+}
+
+@MainActor
 final class NowPlayingViewModel: ObservableObject {
     private static let favoriteTrackKeysStorageKey = "settings.nowPlaying.favoriteTrackKeys"
 
@@ -21,6 +42,7 @@ final class NowPlayingViewModel: ObservableObject {
     private let favoritesStore: UserDefaults
     private let mediaSettings: MediaAndFilesSettingsStore
     private let audioLevelMonitor: any NowPlayingAudioLevelMonitoring
+    private let playbackSourceOpener: any PlaybackSourceOpening
     private let artworkFlipAnimationDuration: TimeInterval = 0.45
     private let artworkSwapDelay: TimeInterval = 0.4
     private let transientSessionGracePeriod: TimeInterval = 0.55
@@ -49,7 +71,8 @@ final class NowPlayingViewModel: ObservableObject {
             audioOutputRouting: SystemAudioOutputRoutingService(),
             favoritesStore: .standard,
             mediaSettings: MediaAndFilesSettingsStore(defaults: .standard),
-            audioLevelMonitor: SystemNowPlayingAudioLevelMonitor()
+            audioLevelMonitor: SystemNowPlayingAudioLevelMonitor(),
+            playbackSourceOpener: WorkspacePlaybackSourceOpener()
         )
     }
 
@@ -58,13 +81,15 @@ final class NowPlayingViewModel: ObservableObject {
         audioOutputRouting: (any AudioOutputRouting)? = nil,
         favoritesStore: UserDefaults = .standard,
         mediaSettings: MediaAndFilesSettingsStore? = nil,
-        audioLevelMonitor: (any NowPlayingAudioLevelMonitoring)? = nil
+        audioLevelMonitor: (any NowPlayingAudioLevelMonitoring)? = nil,
+        playbackSourceOpener: (any PlaybackSourceOpening)? = nil
     ) {
         self.service = service
         self.audioOutputRouting = audioOutputRouting ?? InactiveAudioOutputRoutingService()
         self.favoritesStore = favoritesStore
         self.mediaSettings = mediaSettings ?? MediaAndFilesSettingsStore(defaults: favoritesStore)
         self.audioLevelMonitor = audioLevelMonitor ?? SystemNowPlayingAudioLevelMonitor()
+        self.playbackSourceOpener = playbackSourceOpener ?? WorkspacePlaybackSourceOpener()
         self.service.onSnapshotChange = { [weak self] snapshot in
             guard let self else { return }
 
@@ -161,6 +186,15 @@ final class NowPlayingViewModel: ObservableObject {
 
     var canToggleFavorite: Bool {
         snapshot?.favoriteTrackKey != nil
+    }
+
+    var canOpenPlaybackSource: Bool {
+        snapshot?.playbackSource?.hasOpenableTarget == true
+    }
+
+    func openPlaybackSource() {
+        guard let source = snapshot?.playbackSource else { return }
+        playbackSourceOpener.openPlaybackSource(source)
     }
 
     func toggleFavorite() {
@@ -442,6 +476,9 @@ private extension NowPlayingSnapshot {
             elapsedTime: elapsedTime(at: .now),
             playbackRate: isPlaying ? 0 : 1,
             artworkData: artworkData,
+            playbackSource: playbackSource,
+            mediaType: mediaType,
+            contentItemIdentifier: contentItemIdentifier,
             refreshedAt: .now
         )
     }
@@ -455,7 +492,41 @@ private extension NowPlayingSnapshot {
             elapsedTime: min(max(newElapsedTime, 0), duration > 0 ? duration : newElapsedTime),
             playbackRate: playbackRate,
             artworkData: artworkData,
+            playbackSource: playbackSource,
+            mediaType: mediaType,
+            contentItemIdentifier: contentItemIdentifier,
             refreshedAt: .now
         )
+    }
+}
+
+private extension WorkspacePlaybackSourceOpener {
+    func openApplication(bundleIdentifier: String) -> Bool {
+        guard let applicationURL = NSWorkspace.shared.urlForApplication(
+            withBundleIdentifier: bundleIdentifier
+        ) else {
+            return false
+        }
+
+        let configuration = NSWorkspace.OpenConfiguration()
+        configuration.activates = true
+
+        NSWorkspace.shared.openApplication(
+            at: applicationURL,
+            configuration: configuration
+        ) { application, _ in
+            guard let application else { return }
+
+            Task { @MainActor in
+                self.showRunningApplication(application)
+            }
+        }
+
+        return true
+    }
+
+    func showRunningApplication(_ application: NSRunningApplication) {
+        application.unhide()
+        application.activate(options: [.activateAllWindows])
     }
 }

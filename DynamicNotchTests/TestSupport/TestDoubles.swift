@@ -125,6 +125,15 @@ final class FakeNowPlayingService: NowPlayingMonitoring {
     }
 }
 
+@MainActor
+final class FakePlaybackSourceOpener: PlaybackSourceOpening {
+    private(set) var openedSources: [NowPlayingPlaybackSource] = []
+
+    func openPlaybackSource(_ source: NowPlayingPlaybackSource) {
+        openedSources.append(source)
+    }
+}
+
 final class FakeAudioOutputRoutingService: AudioOutputRouting {
     var routes: [AudioOutputRoute]
     private(set) var selectedRouteIDs: [AudioDeviceID] = []
@@ -269,7 +278,10 @@ func makeNowPlayingSnapshot(
     duration: TimeInterval = 243,
     elapsedTime: TimeInterval = 32,
     playbackRate: Double = 1,
-    artworkData: Data? = nil
+    artworkData: Data? = nil,
+    playbackSource: NowPlayingPlaybackSource? = nil,
+    mediaType: String? = nil,
+    contentItemIdentifier: String? = nil
 ) -> NowPlayingSnapshot {
     NowPlayingSnapshot(
         title: title,
@@ -279,6 +291,9 @@ func makeNowPlayingSnapshot(
         elapsedTime: elapsedTime,
         playbackRate: playbackRate,
         artworkData: artworkData,
+        playbackSource: playbackSource,
+        mediaType: mediaType,
+        contentItemIdentifier: contentItemIdentifier,
         refreshedAt: .now
     )
 }

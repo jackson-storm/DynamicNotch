@@ -183,7 +183,10 @@ final class NotchMediaEventsHandler {
                 NowPlayingNotchContent(
                     nowPlayingViewModel: nowPlayingViewModel,
                     settings: settingsViewModel.mediaAndFiles,
-                    applicationSettings: settingsViewModel.application
+                    applicationSettings: settingsViewModel.application,
+                    onOpenPlaybackSource: { [weak notchViewModel] in
+                        notchViewModel?.handleOutsideClick()
+                    }
                 )
             )
         )

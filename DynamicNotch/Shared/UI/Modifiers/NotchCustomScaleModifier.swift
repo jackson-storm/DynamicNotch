@@ -5,16 +5,26 @@
 //  Created by Евгений Петрукович on 2/14/26.
 //
 
+internal import AppKit
 import SwiftUI
 
 struct NotchCustomScaleModifier: ViewModifier {
     @ObservedObject var notchViewModel: NotchViewModel
     @Binding var isPressed: Bool
+    
+    @State private var pendingExpansionToken: UUID?
+    @State private var pressAnimationToken: UUID?
+    @State private var initialPressLocation: CGPoint?
+    @State private var isPressValidForTap = false
+    @State private var didCompleteHoldAction = false
+    @State private var pressScale: CGFloat = 1
+    
     let baseSize: CGSize
     
     private let scaleFactor: CGFloat = 1.04
-    private let tapTriggerDelay: TimeInterval = 0.12
-    private let tapMovementTolerance: CGFloat = 6
+    private let pressPeakDuration: TimeInterval = 0.20
+    private let holdToExpandDelay: TimeInterval = 0.20
+    private let tapMovementTolerance: CGFloat = 8
     
     func body(content: Content) -> some View {
         pressableContent(content)
@@ -28,55 +38,145 @@ private extension NotchCustomScaleModifier {
 
         return content
             .scaleEffect(
-                x: isPressed && !isExpandedPresentation ? scaleFactor : 1,
-                y: isPressed && !isExpandedPresentation ? scaleFactor : 1,
+                x: !isExpandedPresentation ? pressScale : 1,
+                y: !isExpandedPresentation ? pressScale : 1,
                 anchor: .top
             )
-            .animation(.spring(response: 0.3, dampingFraction: 0.5), value: isPressed)
             .simultaneousGesture(
                 DragGesture(minimumDistance: 0)
                     .onChanged { value in
                         guard !notchViewModel.notchModel.isPresentingExpandedLiveActivity else {
-                            if isPressed {
-                                isPressed = false
-                            }
+                            resetPressState(cancelPressAnimation: true)
                             return
                         }
 
-                        let shouldBePressed = hitBounds.contains(value.location)
-                        guard isPressed != shouldBePressed else { return }
-                        isPressed = shouldBePressed
+                        let isInsideBounds = hitBounds.contains(value.location)
+
+                        guard isInsideBounds else {
+                            isPressValidForTap = false
+                            resetPressState(cancelPressAnimation: true)
+                            return
+                        }
+
+                        if !isPressed {
+                            isPressed = true
+                            initialPressLocation = value.location
+                            isPressValidForTap = true
+                            didCompleteHoldAction = false
+                            startPressAnimation()
+                        }
+
+                        if let initialPressLocation,
+                           distance(from: initialPressLocation, to: value.location) > tapMovementTolerance {
+                            isPressValidForTap = false
+                            pendingExpansionToken = nil
+                        }
+
+                        if isPressValidForTap {
+                            scheduleExpansionIfNeeded()
+                        }
                     }
                     .onEnded { value in
                         guard !notchViewModel.notchModel.isPresentingExpandedLiveActivity else {
-                            if isPressed {
-                                isPressed = false
-                            }
+                            resetPressState(cancelPressAnimation: true)
+                            didCompleteHoldAction = false
                             return
                         }
 
-                        let shouldTriggerTap = hitBounds.contains(value.location) && isTapLike(value.translation)
+                        let shouldOpenWindowLink = hitBounds.contains(value.location) &&
+                        isPressValidForTap &&
+                        !didCompleteHoldAction
 
-                        if isPressed {
-                            isPressed = false
+                        resetPressState(cancelPressAnimation: false)
+
+                        if shouldOpenWindowLink {
+                            notchViewModel.openActiveWindowLink()
                         }
 
-                        guard shouldTriggerTap, notchViewModel.isTapToExpandEnabled else { return }
-
-                        if notchViewModel.canExpandActiveLiveActivity {
-                            notchViewModel.handleActiveContentTap()
-                            return
-                        }
-
-                        DispatchQueue.main.asyncAfter(deadline: .now() + tapTriggerDelay) {
-                            notchViewModel.handleActiveContentTap()
-                        }
+                        didCompleteHoldAction = false
                     }
             )
+            .onDisappear {
+                resetPressState(cancelPressAnimation: true)
+                didCompleteHoldAction = false
+            }
     }
 
-    private func isTapLike(_ translation: CGSize) -> Bool {
-        abs(translation.width) <= tapMovementTolerance &&
-        abs(translation.height) <= tapMovementTolerance
+    private func startPressAnimation() {
+        let token = UUID()
+        pressAnimationToken = token
+        pressScale = 1
+
+        withAnimation(.easeOut(duration: pressPeakDuration)) {
+            pressScale = scaleFactor
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + pressPeakDuration) {
+            guard pressAnimationToken == token else { return }
+
+            pressAnimationToken = nil
+
+            withAnimation(.spring(response: 0.30, dampingFraction: 0.5)) {
+                pressScale = 1
+            }
+        }
+    }
+
+    private func performPressHaptic() {
+        NSHapticFeedbackManager.defaultPerformer.perform(.alignment, performanceTime: .now)
+    }
+
+    private func scheduleExpansionIfNeeded() {
+        guard pendingExpansionToken == nil,
+              notchViewModel.isTapToExpandEnabled,
+              notchViewModel.canExpandActiveLiveActivity else {
+            return
+        }
+
+        let token = UUID()
+        pendingExpansionToken = token
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + holdToExpandDelay) {
+            guard pendingExpansionToken == token,
+                  isPressed,
+                  notchViewModel.isTapToExpandEnabled,
+                  notchViewModel.canExpandActiveLiveActivity,
+                  !notchViewModel.notchModel.isPresentingExpandedLiveActivity else {
+                return
+            }
+
+            pendingExpansionToken = nil
+            didCompleteHoldAction = true
+            performPressHaptic()
+            resetPressState(cancelPressAnimation: true)
+            notchViewModel.handleActiveContentTap()
+        }
+    }
+
+    private func resetPressState(cancelPressAnimation: Bool) {
+        pendingExpansionToken = nil
+        initialPressLocation = nil
+        isPressValidForTap = false
+
+        if cancelPressAnimation {
+            pressAnimationToken = nil
+
+            if pressScale != 1 {
+                withAnimation(.easeOut(duration: 0.12)) {
+                    pressScale = 1
+                }
+            }
+        }
+
+        if isPressed {
+            isPressed = false
+        }
+    }
+
+    private func distance(from start: CGPoint, to end: CGPoint) -> CGFloat {
+        let xDistance = end.x - start.x
+        let yDistance = end.y - start.y
+
+        return sqrt((xDistance * xDistance) + (yDistance * yDistance))
     }
 }

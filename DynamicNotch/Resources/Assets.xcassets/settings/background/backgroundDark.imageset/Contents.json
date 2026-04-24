@@ -1,23 +1,23 @@
 {
-  "images" : [
+  "images": [
     {
-      "filename" : "Снимок экрана — 2026-04-12 в 10.10.30 PM.png",
-      "idiom" : "universal",
-      "scale" : "1x"
+      "filename": "backgrounddark_universal_1x.png",
+      "idiom": "universal",
+      "scale": "1x"
     },
     {
-      "filename" : "Снимок экрана — 2026-04-12 в 10.10.30 PM 1.png",
-      "idiom" : "universal",
-      "scale" : "2x"
+      "filename": "backgrounddark_universal_2x.png",
+      "idiom": "universal",
+      "scale": "2x"
     },
     {
-      "filename" : "Снимок экрана — 2026-04-12 в 10.10.30 PM 2.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "filename": "backgrounddark_universal_3x.png",
+      "idiom": "universal",
+      "scale": "3x"
     }
   ],
-  "info" : {
-    "author" : "xcode",
-    "version" : 1
+  "info": {
+    "author": "xcode",
+    "version": 1
   }
 }

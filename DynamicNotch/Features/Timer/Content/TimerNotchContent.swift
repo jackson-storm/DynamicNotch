@@ -14,10 +14,6 @@ struct TimerNotchContent: NotchContentProtocol {
         .white.opacity(0.2) :
         .orange.opacity(0.3)
     }
-    
-    var offsetXTransition: CGFloat { -90 }
-    var expandedOffsetXTransition: CGFloat { -90 }
-    var expandedOffsetYTransition: CGFloat { -60 }
 
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         .init(width: baseWidth + minimalTimerSize, height: baseHeight)

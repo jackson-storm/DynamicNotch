@@ -125,6 +125,15 @@ final class FakeNowPlayingService: NowPlayingMonitoring {
     }
 }
 
+@MainActor
+final class FakePlaybackSourceOpener: PlaybackSourceOpening {
+    private(set) var openedSources: [NowPlayingPlaybackSource] = []
+
+    func openPlaybackSource(_ source: NowPlayingPlaybackSource) {
+        openedSources.append(source)
+    }
+}
+
 final class FakeAudioOutputRoutingService: AudioOutputRouting {
     var routes: [AudioOutputRoute]
     private(set) var selectedRouteIDs: [AudioDeviceID] = []
@@ -230,14 +239,12 @@ struct TestNotchContent: NotchContentProtocol {
     let id: String
     let priority: Int
     var strokeColor: Color = .clear
-    var offsetYTransition: CGFloat = 0
     var collapsedWidthOffset: CGFloat = 0
     var collapsedHeightOffset: CGFloat = 0
     var isExpandable: Bool = false
     var expandsOnTap: Bool = true
     var expandedWidthOffset: CGFloat = 0
     var expandedHeightOffset: CGFloat = 0
-    var expandedOffsetYTransition: CGFloat = 0
 
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         .init(
@@ -271,7 +278,10 @@ func makeNowPlayingSnapshot(
     duration: TimeInterval = 243,
     elapsedTime: TimeInterval = 32,
     playbackRate: Double = 1,
-    artworkData: Data? = nil
+    artworkData: Data? = nil,
+    playbackSource: NowPlayingPlaybackSource? = nil,
+    mediaType: String? = nil,
+    contentItemIdentifier: String? = nil
 ) -> NowPlayingSnapshot {
     NowPlayingSnapshot(
         title: title,
@@ -281,6 +291,9 @@ func makeNowPlayingSnapshot(
         elapsedTime: elapsedTime,
         playbackRate: playbackRate,
         artworkData: artworkData,
+        playbackSource: playbackSource,
+        mediaType: mediaType,
+        contentItemIdentifier: contentItemIdentifier,
         refreshedAt: .now
     )
 }

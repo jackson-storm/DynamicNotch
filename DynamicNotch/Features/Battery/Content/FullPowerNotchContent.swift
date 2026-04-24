@@ -2,6 +2,7 @@ import SwiftUI
 
 struct FullPowerNotchContent: NotchContentProtocol {
     let id = "battery.fullPower"
+    
     let powerService: PowerService
     let settingsViewModel: SettingsViewModel
 
@@ -14,9 +15,6 @@ struct FullPowerNotchContent: NotchContentProtocol {
         .white.opacity(0.2) :
         (powerService.isLowPowerMode ? .yellow.opacity(0.3) : .green.opacity(0.3))
     }
-
-    var offsetXTransition: CGFloat { style == .compact ? -90 : -30 }
-    var offsetYTransition: CGFloat { style == .compact ? 0 : -60 }
 
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         if style == .compact {

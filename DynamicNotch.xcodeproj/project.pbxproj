@@ -7,8 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E2A100022F90000000000001 /* MediaRemoteAdapter.framework in Embed MediaRemote Adapter */ = {isa = PBXBuildFile; fileRef = E2A100012F90000000000001 /* MediaRemoteAdapter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E2C135B72F59FA8100348421 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = E2C135B62F59FA8100348421 /* Lottie */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E2A100032F90000000000001 /* Embed MediaRemote Adapter */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				E2A100022F90000000000001 /* MediaRemoteAdapter.framework in Embed MediaRemote Adapter */,
+			);
+			name = "Embed MediaRemote Adapter";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXContainerItemProxy section */
 		F10000000000000000000007 /* PBXContainerItemProxy */ = {
@@ -28,6 +43,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E2A100012F90000000000001 /* MediaRemoteAdapter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DynamicNotch/Resources/MediaRemoteAdapter/MediaRemoteAdapter.framework; sourceTree = "<group>"; };
 		E2EF78512EDDB60E00F96D1E /* DynamicNotch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DynamicNotch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F10000000000000000000001 /* DynamicNotchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DynamicNotchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F20000000000000000000001 /* DynamicNotchUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DynamicNotchUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -60,6 +76,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Application/Info.plist,
+				Resources/MediaRemoteAdapter/MediaRemoteAdapter.framework,
 			);
 			target = E2EF78502EDDB60E00F96D1E /* DynamicNotch */;
 		};
@@ -79,6 +96,11 @@
 		F10000000000000000000002 /* DynamicNotchTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = DynamicNotchTests;
+			sourceTree = "<group>";
+		};
+		F20000000000000000000002 /* DynamicNotchUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = DynamicNotchUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -114,6 +136,7 @@
 			children = (
 				E2EF78532EDDB60E00F96D1E /* DynamicNotch */,
 				F10000000000000000000002 /* DynamicNotchTests */,
+				F20000000000000000000002 /* DynamicNotchUITests */,
 				E2EF78522EDDB60E00F96D1E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -137,6 +160,7 @@
 			buildPhases = (
 				E2EF784D2EDDB60E00F96D1E /* Sources */,
 				E2EF784E2EDDB60E00F96D1E /* Frameworks */,
+				E2A100032F90000000000001 /* Embed MediaRemote Adapter */,
 				E2EF784F2EDDB60E00F96D1E /* Resources */,
 				E2C1A0013000000000000001 /* Remove Stale XCTest Bundles */,
 			);
@@ -190,6 +214,9 @@
 			);
 			dependencies = (
 				F20000000000000000000008 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				F20000000000000000000002 /* DynamicNotchUITests */,
 			);
 			name = DynamicNotchUITests;
 			packageProductDependencies = (
@@ -471,7 +498,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 15;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = WZHZ6LB2F6;
 				ENABLE_APP_SANDBOX = NO;
@@ -495,7 +522,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.6;
-				MARKETING_VERSION = 1.4.1;
+				MARKETING_VERSION = 1.4.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Jackson.DynamicNotch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -523,7 +550,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 15;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = WZHZ6LB2F6;
 				ENABLE_APP_SANDBOX = NO;
@@ -547,7 +574,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.6;
-				MARKETING_VERSION = 1.4.1;
+				MARKETING_VERSION = 1.4.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Jackson.DynamicNotch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;

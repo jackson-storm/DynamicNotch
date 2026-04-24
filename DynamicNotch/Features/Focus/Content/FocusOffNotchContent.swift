@@ -9,13 +9,9 @@ import SwiftUI
 
 struct FocusOffNotchContent: NotchContentProtocol {
     let id = "focus.off"
-    let settingsViewModel: SettingsViewModel
-
-    private var appearanceStyle: FocusAppearanceStyle {
-        settingsViewModel.connectivity.focusAppearanceStyle
-    }
     
-    var offsetXTransition: CGFloat { -90 }
+    let settingsViewModel: SettingsViewModel
+    private var appearanceStyle: FocusAppearanceStyle { settingsViewModel.connectivity.focusAppearanceStyle}
     
     var strokeColor: Color {
         settingsViewModel.isDefaultActivityStrokeEnabled || settingsViewModel.connectivity.isFocusDefaultStrokeEnabled ?

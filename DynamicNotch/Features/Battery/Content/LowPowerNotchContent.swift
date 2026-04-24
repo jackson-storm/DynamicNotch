@@ -2,6 +2,7 @@ import SwiftUI
 
 struct LowPowerNotchContent: NotchContentProtocol {
     let id = "battery.lowPower"
+    
     let powerService: PowerService
     let settingsViewModel: SettingsViewModel
 
@@ -11,12 +12,9 @@ struct LowPowerNotchContent: NotchContentProtocol {
 
     var strokeColor: Color {
         settingsViewModel.isDefaultActivityStrokeEnabled || settingsViewModel.battery.isLowPowerDefaultStrokeEnabled ?
-        .white.opacity(0.2) :
+            .white.opacity(0.2) :
         (powerService.isLowPowerMode ? .yellow.opacity(0.3) : .red.opacity(0.3))
     }
-
-    var offsetXTransition: CGFloat { style == .compact ? -90 : -30 }
-    var offsetYTransition: CGFloat { style == .compact ? 0 : -60 }
 
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         if style == .compact {

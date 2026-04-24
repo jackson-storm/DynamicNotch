@@ -47,6 +47,7 @@ final class NotchViewModel: ObservableObject {
     private let screenMetricsProvider: (any NotchSettingsProviding) -> NotchScreenMetrics?
     private var cancellables = Set<AnyCancellable>()
     private var stagedHeightTask: Task<Void, Never>?
+    private var swipeStretchResetWorkItem: DispatchWorkItem?
     private var isClosingHeightStaged = false
 
     var animations: NotchAnimations {
@@ -84,6 +85,10 @@ final class NotchViewModel: ObservableObject {
     
     var canRestoreDismissedContent: Bool {
         engine.canRestoreDismissedContent
+    }
+
+    var canOpenActiveWindowLink: Bool {
+        engine.canOpenActiveWindowLink
     }
     
     var canDismissWithMouseDrag: Bool {
@@ -281,8 +286,15 @@ final class NotchViewModel: ObservableObject {
     func restoreDismissedContent() {
         engine.restoreDismissedContent()
     }
+
+    func openActiveWindowLink() {
+        engine.openActiveWindowLink()
+    }
     
     func updateSwipeStretch(for interaction: NotchSwipeInteraction, progress: CGFloat) {
+        swipeStretchResetWorkItem?.cancel()
+        swipeStretchResetWorkItem = nil
+
         let clampedProgress = min(max(progress, 0), 1)
         guard swipeInteraction != interaction || abs(swipeStretchProgress - clampedProgress) > 0.001 else {
             return
@@ -294,7 +306,20 @@ final class NotchViewModel: ObservableObject {
     
     func resetSwipeStretch() {
         guard swipeStretchProgress > 0 || swipeInteraction != nil else { return }
-        
+
+        swipeStretchResetWorkItem?.cancel()
+
+        let workItem = DispatchWorkItem { [weak self] in
+            self?.applySwipeStretchReset()
+        }
+        swipeStretchResetWorkItem = workItem
+        DispatchQueue.main.async(execute: workItem)
+    }
+
+    private func applySwipeStretchReset() {
+        swipeStretchResetWorkItem = nil
+        guard swipeStretchProgress > 0 || swipeInteraction != nil else { return }
+
         withAnimation(animations.stretchReset) {
             swipeStretchProgress = 0
             swipeInteraction = nil
@@ -318,11 +343,14 @@ final class NotchViewModel: ObservableObject {
         1 - pow(1 - swipeStretchProgress, 2)
     }
     
-    func contentTransition(offsetX: CGFloat, offsetY: CGFloat) -> AnyTransition {
-        .blurAndFade
-            .animation(animations.contentTransition)
-            .combined(with: .scale.animation(.spring(response: 0.4)))
-            .combined(with: .offset(x: offsetX, y: offsetY))
+    func contentTransition(notchWidth: CGFloat, notchHeight: CGFloat, baseHeight: CGFloat, isExpandedPresentation: Bool) -> AnyTransition {
+        .dynamicIslandContent(
+            notchWidth: notchWidth,
+            notchHeight: notchHeight,
+            baseHeight: baseHeight,
+            isExpandedPresentation: isExpandedPresentation
+        )
+        .animation(animations.contentTransition)
     }
     
     private func bindEngine() {

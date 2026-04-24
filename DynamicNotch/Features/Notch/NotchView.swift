@@ -70,6 +70,12 @@ private extension NotchView {
         notchSurface
             .overlay {
                 contentOverlay
+                    .clipShape(
+                        NotchShape(
+                            topCornerRadius: notchViewModel.interactiveCornerRadius.top,
+                            bottomCornerRadius: notchViewModel.interactiveCornerRadius.bottom
+                        )
+                    )
             }
             .shadow(
                 color: notchViewModel.notchModel.isPresentingExpandedLiveActivity ? .black.opacity(0.4) : .clear,
@@ -79,12 +85,12 @@ private extension NotchView {
                 width: notchViewModel.presentedNotchSize.width,
                 height: notchViewModel.presentedNotchSize.height
             )
-            .offset(y: 1)
             .customNotchPressable(
                 notchViewModel: notchViewModel,
                 isPressed: $notchViewModel.isPressed,
                 baseSize: notchViewModel.presentedNotchSize
             )
+            .offset(y: 1)
             .customNotchMouseSwipeable(
                 notchViewModel: notchViewModel
             )
@@ -128,8 +134,10 @@ private extension NotchView {
                 .id(notchViewModel.notchModel.presentationID)
                 .transition(
                     notchViewModel.contentTransition(
-                        offsetX: notchViewModel.notchModel.offsetXTransition,
-                        offsetY: notchViewModel.notchModel.offsetYTransition
+                        notchWidth: notchViewModel.presentedNotchSize.width,
+                        notchHeight: notchViewModel.presentedNotchSize.height,
+                        baseHeight: notchViewModel.notchModel.baseHeight,
+                        isExpandedPresentation: notchViewModel.notchModel.isPresentingExpandedLiveActivity
                     )
                 )
         }

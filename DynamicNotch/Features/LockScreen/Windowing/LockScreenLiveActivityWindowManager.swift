@@ -383,18 +383,19 @@ private struct LockScreenLiveActivityOverlayView: View {
         notchSurface
             .overlay {
                 contentOverlay
+                    .clipShape(Rectangle())
             }
-            .offset(y: 1)
             .environment(\.colorScheme, .dark)
+            .frame(
+                width: notchViewModel.interactiveNotchSize.width,
+                height: notchViewModel.interactiveNotchSize.height
+            )
             .customNotchPressable(
                 notchViewModel: notchViewModel,
                 isPressed: $notchViewModel.isPressed,
                 baseSize: notchViewModel.interactiveNotchSize
             )
-            .frame(
-                width: notchViewModel.interactiveNotchSize.width,
-                height: notchViewModel.interactiveNotchSize.height
-            )
+            .offset(y: 1)
             .scaleEffect(animator.scale)
             .opacity(animator.opacity)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
@@ -424,8 +425,10 @@ private struct LockScreenLiveActivityOverlayView: View {
                 .id(notchViewModel.notchModel.presentationID)
                 .transition(
                     notchViewModel.contentTransition(
-                        offsetX: notchViewModel.notchModel.offsetXTransition,
-                        offsetY: notchViewModel.notchModel.offsetYTransition
+                        notchWidth: notchViewModel.interactiveNotchSize.width,
+                        notchHeight: notchViewModel.interactiveNotchSize.height,
+                        baseHeight: notchViewModel.notchModel.baseHeight,
+                        isExpandedPresentation: notchViewModel.notchModel.isPresentingExpandedLiveActivity
                     )
                 )
         }

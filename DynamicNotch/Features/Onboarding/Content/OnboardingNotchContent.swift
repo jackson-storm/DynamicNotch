@@ -13,14 +13,12 @@ enum OnboardingEvent: Equatable {
 
 struct OnboardingNotchContent : NotchContentProtocol {
     let id: String
+    
     let stackID = OnboardingSteps.stackID
     let step: OnboardingSteps
     let notchEventCoordinator: NotchEventCoordinator
     
     var priority: Int { 100 }
-    
-    var offsetXTransition: CGFloat { step.offsetXTransition }
-    var offsetYTransition: CGFloat { -60 }
     
     init(step: OnboardingSteps, notchEventCoordinator: NotchEventCoordinator) {
         self.id = step.liveActivityID

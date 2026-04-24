@@ -50,6 +50,45 @@ final class NowPlayingViewModelIntegrationTests: XCTestCase {
         )
     }
 
+    func testOpenPlaybackSourceDelegatesToSourceOpener() {
+        let service = FakeNowPlayingService()
+        let source = NowPlayingPlaybackSource(
+            bundleIdentifier: "com.spotify.client",
+            parentBundleIdentifier: nil,
+            processIdentifier: 3659
+        )
+        let sourceOpener = FakePlaybackSourceOpener()
+        let viewModel = NowPlayingViewModel(
+            service: service,
+            playbackSourceOpener: sourceOpener
+        )
+        TestLifetime.retain(viewModel)
+        viewModel.startMonitoring()
+
+        service.publish(makeNowPlayingSnapshot(playbackSource: source))
+        viewModel.openPlaybackSource()
+
+        XCTAssertEqual(sourceOpener.openedSources, [source])
+        XCTAssertTrue(viewModel.canOpenPlaybackSource)
+    }
+
+    func testOpenPlaybackSourceDoesNothingWithoutSource() {
+        let service = FakeNowPlayingService()
+        let sourceOpener = FakePlaybackSourceOpener()
+        let viewModel = NowPlayingViewModel(
+            service: service,
+            playbackSourceOpener: sourceOpener
+        )
+        TestLifetime.retain(viewModel)
+        viewModel.startMonitoring()
+
+        service.publish(makeNowPlayingSnapshot(playbackSource: nil))
+        viewModel.openPlaybackSource()
+
+        XCTAssertTrue(sourceOpener.openedSources.isEmpty)
+        XCTAssertFalse(viewModel.canOpenPlaybackSource)
+    }
+
     func testTogglePlayPauseUpdatesCurrentSnapshotImmediately() {
         let service = FakeNowPlayingService()
         let viewModel = NowPlayingViewModel(service: service)

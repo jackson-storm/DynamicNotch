@@ -9,23 +9,40 @@ enum NowPlayingEvent: Equatable {
 
 struct NowPlayingNotchContent: NotchContentProtocol {
     let id = "nowPlaying"
+    
     let nowPlayingViewModel: NowPlayingViewModel
     let settings: MediaAndFilesSettingsStore
     let applicationSettings: ApplicationSettingsStore
+    let onOpenPlaybackSource: @MainActor () -> Void
+
+    init(
+        nowPlayingViewModel: NowPlayingViewModel,
+        settings: MediaAndFilesSettingsStore,
+        applicationSettings: ApplicationSettingsStore,
+        onOpenPlaybackSource: @escaping @MainActor () -> Void = {}
+    ) {
+        self.nowPlayingViewModel = nowPlayingViewModel
+        self.settings = settings
+        self.applicationSettings = applicationSettings
+        self.onOpenPlaybackSource = onOpenPlaybackSource
+    }
     
     var priority: Int { 81 }
     var isExpandable: Bool { true }
-    
-    var offsetXTransition: CGFloat { -90 }
-    var expandedOffsetXTransition: CGFloat { -100 }
-    var expandedOffsetYTransition: CGFloat { -60 }
+
+    var windowLink: (@MainActor () -> Void)? {
+        guard nowPlayingViewModel.canOpenPlaybackSource else { return nil }
+
+        return {
+            nowPlayingViewModel.openPlaybackSource()
+        }
+    }
 
     var strokeColor: Color {
         guard settings.isNowPlayingArtworkStrokeEnabled,
               applicationSettings.isDefaultActivityStrokeEnabled == false else {
             return .white.opacity(0.2)
         }
-
         return Color(nsColor: nowPlayingViewModel.artworkPalette.equalizerBaseColor).opacity(0.4)
     }
     
@@ -57,7 +74,8 @@ struct NowPlayingNotchContent: NotchContentProtocol {
             NowPlayingExpandedNotchView(
                 nowPlayingViewModel: nowPlayingViewModel,
                 settings: settings,
-                applicationSettings: applicationSettings
+                applicationSettings: applicationSettings,
+                onOpenPlaybackSource: onOpenPlaybackSource
             )
         )
     }

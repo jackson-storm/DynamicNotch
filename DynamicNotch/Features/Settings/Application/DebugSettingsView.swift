@@ -364,12 +364,9 @@ struct DebugSequenceNotchContent: NotchContentProtocol {
     let base: any NotchContentProtocol
     
     var strokeColor: Color { base.strokeColor }
-    var offsetXTransition: CGFloat { base.offsetXTransition }
-    var offsetYTransition: CGFloat { base.offsetYTransition }
-    var expandedOffsetXTransition: CGFloat { base.expandedOffsetXTransition }
-    var expandedOffsetYTransition: CGFloat { base.expandedOffsetYTransition }
     var isExpandable: Bool { base.isExpandable }
     var expandsOnTap: Bool { base.expandsOnTap }
+    var windowLink: (@MainActor () -> Void)? { base.windowLink }
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         base.size(baseWidth: baseWidth, baseHeight: baseHeight)
@@ -405,9 +402,6 @@ struct DebugOnboardingPreviewNotchContent: NotchContentProtocol {
     let notchEventCoordinator: NotchEventCoordinator
     
     var priority: Int { 100 }
-    
-    var offsetXTransition: CGFloat { step.offsetXTransition }
-    var offsetYTransition: CGFloat { -90 }
     
     init(step: OnboardingSteps, notchEventCoordinator: NotchEventCoordinator) {
         self.id = step.debugLiveActivityID

@@ -15,6 +15,7 @@ enum AirDropEvent: Equatable {
 
 struct AirDropNotchContent: NotchContentProtocol {
     let id = "airdrop"
+    
     let airDropViewModel: AirDropNotchViewModel
     let settingsViewModel: SettingsViewModel
     
@@ -24,8 +25,6 @@ struct AirDropNotchContent: NotchContentProtocol {
         .white.opacity(0.2) :
         Color.accentColor.opacity(0.3)
     }
-    var offsetXTransition: CGFloat { -20 }
-    var offsetYTransition: CGFloat { -60 }
     
     func cornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
         return (top: 24, bottom: 36)

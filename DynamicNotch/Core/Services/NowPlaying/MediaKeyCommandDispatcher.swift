@@ -26,7 +26,7 @@ final class MediaKeyCommandDispatcher {
             keyCode = .nextTrack
         case .previousTrack:
             keyCode = .previousTrack
-        case .seek:
+        case .play, .pause, .seek, .setShuffle, .setRepeatMode, .setVolume, .setFavorite:
             return
         }
 

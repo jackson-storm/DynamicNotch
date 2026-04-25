@@ -146,11 +146,30 @@ final class NowPlayingViewModel: ObservableObject {
     }
 
     func togglePlayPause() {
-        if let snapshot {
-            apply(snapshot: snapshot.togglingPlaybackState())
+        guard let snapshot else {
+            service.send(.togglePlayPause)
+            return
         }
 
-        service.send(.togglePlayPause)
+        let command: NowPlayingCommand = snapshot.isPlaying ? .pause : .play
+        apply(snapshot: snapshot.togglingPlaybackState())
+        service.send(command)
+    }
+
+    func play() {
+        if let snapshot, !snapshot.isPlaying {
+            apply(snapshot: snapshot.settingPlaybackRate(1))
+        }
+
+        service.send(.play)
+    }
+
+    func pause() {
+        if let snapshot, snapshot.isPlaying {
+            apply(snapshot: snapshot.settingPlaybackRate(0))
+        }
+
+        service.send(.pause)
     }
 
     func nextTrack() {
@@ -169,6 +188,35 @@ final class NowPlayingViewModel: ObservableObject {
         service.send(.seek(clampedElapsedTime))
     }
 
+    func skip(seconds: TimeInterval) {
+        guard let snapshot else { return }
+        seek(to: snapshot.elapsedTime(at: .now) + seconds)
+    }
+
+    func toggleShuffle() {
+        guard let snapshot else { return }
+
+        let isShuffled = !snapshot.isShuffled
+        apply(snapshot: snapshot.settingShuffle(isShuffled), emitEvent: false)
+        service.send(.setShuffle(isShuffled))
+    }
+
+    func toggleRepeat() {
+        guard let snapshot else { return }
+
+        let repeatMode = snapshot.repeatMode.next
+        apply(snapshot: snapshot.settingRepeatMode(repeatMode), emitEvent: false)
+        service.send(.setRepeatMode(repeatMode))
+    }
+
+    func setVolume(_ volume: Double) {
+        guard let snapshot, snapshot.supportsVolumeControl else { return }
+
+        let clampedVolume = min(max(volume, 0), 1)
+        apply(snapshot: snapshot.settingVolume(clampedVolume), emitEvent: false)
+        service.send(.setVolume(clampedVolume))
+    }
+
     func refreshAudioOutputRoutes() {
         let routes = audioOutputRouting.availableRoutes()
         audioOutputRoutes = routes
@@ -185,7 +233,7 @@ final class NowPlayingViewModel: ObservableObject {
     }
 
     var canToggleFavorite: Bool {
-        snapshot?.favoriteTrackKey != nil
+        snapshot?.supportsFavorite == true || snapshot?.favoriteTrackKey != nil
     }
 
     var canOpenPlaybackSource: Bool {
@@ -198,7 +246,17 @@ final class NowPlayingViewModel: ObservableObject {
     }
 
     func toggleFavorite() {
-        guard let favoriteTrackKey = snapshot?.favoriteTrackKey else { return }
+        guard let snapshot else { return }
+
+        if snapshot.supportsFavorite {
+            let isFavorite = !(snapshot.isFavorite ?? isCurrentTrackFavorite)
+            isCurrentTrackFavorite = isFavorite
+            apply(snapshot: snapshot.settingFavorite(isFavorite), emitEvent: false)
+            service.send(.setFavorite(isFavorite))
+            return
+        }
+
+        guard let favoriteTrackKey = snapshot.favoriteTrackKey else { return }
 
         var favoriteTrackKeys = storedFavoriteTrackKeys
 
@@ -330,7 +388,11 @@ private extension NowPlayingViewModel {
         }
 
         snapshot = newSnapshot
-        isCurrentTrackFavorite = newSnapshot?.favoriteTrackKey.map(storedFavoriteTrackKeys.contains) ?? false
+        if let remoteFavorite = newSnapshot?.isFavorite {
+            isCurrentTrackFavorite = remoteFavorite
+        } else {
+            isCurrentTrackFavorite = newSnapshot?.favoriteTrackKey.map(storedFavoriteTrackKeys.contains) ?? false
+        }
 
         switch newSnapshot?.artworkData {
         case let artworkData?:
@@ -479,6 +541,34 @@ private extension NowPlayingSnapshot {
             playbackSource: playbackSource,
             mediaType: mediaType,
             contentItemIdentifier: contentItemIdentifier,
+            isShuffled: isShuffled,
+            repeatMode: repeatMode,
+            volume: volume,
+            isFavorite: isFavorite,
+            supportsFavorite: supportsFavorite,
+            supportsVolumeControl: supportsVolumeControl,
+            refreshedAt: .now
+        )
+    }
+
+    func settingPlaybackRate(_ newPlaybackRate: Double) -> Self {
+        Self(
+            title: title,
+            artist: artist,
+            album: album,
+            duration: duration,
+            elapsedTime: elapsedTime(at: .now),
+            playbackRate: newPlaybackRate,
+            artworkData: artworkData,
+            playbackSource: playbackSource,
+            mediaType: mediaType,
+            contentItemIdentifier: contentItemIdentifier,
+            isShuffled: isShuffled,
+            repeatMode: repeatMode,
+            volume: volume,
+            isFavorite: isFavorite,
+            supportsFavorite: supportsFavorite,
+            supportsVolumeControl: supportsVolumeControl,
             refreshedAt: .now
         )
     }
@@ -495,6 +585,100 @@ private extension NowPlayingSnapshot {
             playbackSource: playbackSource,
             mediaType: mediaType,
             contentItemIdentifier: contentItemIdentifier,
+            isShuffled: isShuffled,
+            repeatMode: repeatMode,
+            volume: volume,
+            isFavorite: isFavorite,
+            supportsFavorite: supportsFavorite,
+            supportsVolumeControl: supportsVolumeControl,
+            refreshedAt: .now
+        )
+    }
+
+    func settingShuffle(_ isShuffled: Bool) -> Self {
+        Self(
+            title: title,
+            artist: artist,
+            album: album,
+            duration: duration,
+            elapsedTime: elapsedTime(at: .now),
+            playbackRate: playbackRate,
+            artworkData: artworkData,
+            playbackSource: playbackSource,
+            mediaType: mediaType,
+            contentItemIdentifier: contentItemIdentifier,
+            isShuffled: isShuffled,
+            repeatMode: repeatMode,
+            volume: volume,
+            isFavorite: isFavorite,
+            supportsFavorite: supportsFavorite,
+            supportsVolumeControl: supportsVolumeControl,
+            refreshedAt: .now
+        )
+    }
+
+    func settingRepeatMode(_ repeatMode: NowPlayingRepeatMode) -> Self {
+        Self(
+            title: title,
+            artist: artist,
+            album: album,
+            duration: duration,
+            elapsedTime: elapsedTime(at: .now),
+            playbackRate: playbackRate,
+            artworkData: artworkData,
+            playbackSource: playbackSource,
+            mediaType: mediaType,
+            contentItemIdentifier: contentItemIdentifier,
+            isShuffled: isShuffled,
+            repeatMode: repeatMode,
+            volume: volume,
+            isFavorite: isFavorite,
+            supportsFavorite: supportsFavorite,
+            supportsVolumeControl: supportsVolumeControl,
+            refreshedAt: .now
+        )
+    }
+
+    func settingVolume(_ volume: Double) -> Self {
+        Self(
+            title: title,
+            artist: artist,
+            album: album,
+            duration: duration,
+            elapsedTime: elapsedTime(at: .now),
+            playbackRate: playbackRate,
+            artworkData: artworkData,
+            playbackSource: playbackSource,
+            mediaType: mediaType,
+            contentItemIdentifier: contentItemIdentifier,
+            isShuffled: isShuffled,
+            repeatMode: repeatMode,
+            volume: volume,
+            isFavorite: isFavorite,
+            supportsFavorite: supportsFavorite,
+            supportsVolumeControl: supportsVolumeControl,
+            refreshedAt: .now
+        )
+    }
+
+    func settingFavorite(_ isFavorite: Bool) -> Self {
+        Self(
+            title: title,
+            artist: artist,
+            album: album,
+            duration: duration,
+            elapsedTime: elapsedTime(at: .now),
+            playbackRate: playbackRate,
+            artworkData: artworkData,
+            playbackSource: playbackSource,
+            mediaType: mediaType,
+            contentItemIdentifier: contentItemIdentifier,
+            isShuffled: isShuffled,
+            repeatMode: repeatMode,
+            volume: volume,
+            isFavorite: isFavorite,
+            supportsFavorite: supportsFavorite,
+            supportsVolumeControl: supportsVolumeControl,
             refreshedAt: .now
         )
     }

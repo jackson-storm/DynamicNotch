@@ -281,7 +281,13 @@ func makeNowPlayingSnapshot(
     artworkData: Data? = nil,
     playbackSource: NowPlayingPlaybackSource? = nil,
     mediaType: String? = nil,
-    contentItemIdentifier: String? = nil
+    contentItemIdentifier: String? = nil,
+    isShuffled: Bool = false,
+    repeatMode: NowPlayingRepeatMode = .off,
+    volume: Double? = nil,
+    isFavorite: Bool? = nil,
+    supportsFavorite: Bool? = nil,
+    supportsVolumeControl: Bool? = nil
 ) -> NowPlayingSnapshot {
     NowPlayingSnapshot(
         title: title,
@@ -294,6 +300,12 @@ func makeNowPlayingSnapshot(
         playbackSource: playbackSource,
         mediaType: mediaType,
         contentItemIdentifier: contentItemIdentifier,
+        isShuffled: isShuffled,
+        repeatMode: repeatMode,
+        volume: volume,
+        isFavorite: isFavorite,
+        supportsFavorite: supportsFavorite,
+        supportsVolumeControl: supportsVolumeControl,
         refreshedAt: .now
     )
 }

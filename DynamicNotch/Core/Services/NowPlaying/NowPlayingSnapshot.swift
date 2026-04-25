@@ -1,5 +1,44 @@
 import Foundation
 
+enum NowPlayingRepeatMode: Int, CaseIterable, Equatable {
+    case off = 1
+    case one = 2
+    case all = 3
+
+    init(mediaRemoteValue: Int?) {
+        switch mediaRemoteValue {
+        case Self.one.rawValue:
+            self = .one
+        case Self.all.rawValue:
+            self = .all
+        default:
+            self = .off
+        }
+    }
+
+    init(youtubeMusicValue: Int?) {
+        switch youtubeMusicValue {
+        case 1:
+            self = .all
+        case 2:
+            self = .one
+        default:
+            self = .off
+        }
+    }
+
+    var next: NowPlayingRepeatMode {
+        switch self {
+        case .off:
+            return .all
+        case .all:
+            return .one
+        case .one:
+            return .off
+        }
+    }
+}
+
 struct NowPlayingPlaybackSource: Equatable {
     let bundleIdentifier: String?
     let parentBundleIdentifier: String?
@@ -22,6 +61,24 @@ struct NowPlayingPlaybackSource: Equatable {
     var hasOpenableTarget: Bool {
         preferredBundleIdentifier != nil || validProcessIdentifier != nil
     }
+
+    var supportsFavoriteCommand: Bool {
+        switch preferredBundleIdentifier {
+        case "com.apple.Music", "com.github.th-ch.youtube-music":
+            return true
+        default:
+            return false
+        }
+    }
+
+    var supportsVolumeCommand: Bool {
+        switch preferredBundleIdentifier {
+        case "com.apple.Music", "com.spotify.client", "com.github.th-ch.youtube-music":
+            return true
+        default:
+            return false
+        }
+    }
 }
 
 struct NowPlayingSnapshot: Equatable {
@@ -35,6 +92,12 @@ struct NowPlayingSnapshot: Equatable {
     let playbackSource: NowPlayingPlaybackSource?
     let mediaType: String?
     let contentItemIdentifier: String?
+    let isShuffled: Bool
+    let repeatMode: NowPlayingRepeatMode
+    let volume: Double?
+    let isFavorite: Bool?
+    let supportsFavorite: Bool
+    let supportsVolumeControl: Bool
     let refreshedAt: Date
 
     init(
@@ -48,6 +111,12 @@ struct NowPlayingSnapshot: Equatable {
         playbackSource: NowPlayingPlaybackSource? = nil,
         mediaType: String? = nil,
         contentItemIdentifier: String? = nil,
+        isShuffled: Bool = false,
+        repeatMode: NowPlayingRepeatMode = .off,
+        volume: Double? = nil,
+        isFavorite: Bool? = nil,
+        supportsFavorite: Bool? = nil,
+        supportsVolumeControl: Bool? = nil,
         refreshedAt: Date
     ) {
         self.title = title
@@ -60,6 +129,12 @@ struct NowPlayingSnapshot: Equatable {
         self.playbackSource = playbackSource
         self.mediaType = mediaType
         self.contentItemIdentifier = contentItemIdentifier
+        self.isShuffled = isShuffled
+        self.repeatMode = repeatMode
+        self.volume = volume
+        self.isFavorite = isFavorite
+        self.supportsFavorite = supportsFavorite ?? playbackSource?.supportsFavoriteCommand ?? false
+        self.supportsVolumeControl = supportsVolumeControl ?? playbackSource?.supportsVolumeCommand ?? false
         self.refreshedAt = refreshedAt
     }
 
@@ -104,7 +179,13 @@ struct NowPlayingSnapshot: Equatable {
             lhs.artworkData == rhs.artworkData &&
             lhs.playbackSource == rhs.playbackSource &&
             lhs.mediaType == rhs.mediaType &&
-            lhs.contentItemIdentifier == rhs.contentItemIdentifier
+            lhs.contentItemIdentifier == rhs.contentItemIdentifier &&
+            lhs.isShuffled == rhs.isShuffled &&
+            lhs.repeatMode == rhs.repeatMode &&
+            lhs.volume == rhs.volume &&
+            lhs.isFavorite == rhs.isFavorite &&
+            lhs.supportsFavorite == rhs.supportsFavorite &&
+            lhs.supportsVolumeControl == rhs.supportsVolumeControl
     }
 }
 

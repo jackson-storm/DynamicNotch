@@ -5,6 +5,10 @@ import ServiceManagement
 
 @MainActor
 final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding {
+    static let notchPressHoldDurationRange: ClosedRange<Double> = 0.20...0.60
+    static let notchPressHoldDurationStep: Double = 0.01
+    static let defaultNotchPressHoldDuration: TimeInterval = 0.25
+
     @Published var isLaunchAtLoginEnabled: Bool {
         didSet {
             persist(isLaunchAtLoginEnabled, for: GeneralSettingsStorage.Keys.launchAtLogin)
@@ -128,6 +132,25 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         }
     }
 
+    @Published var notchExpandInteraction: NotchExpandInteraction {
+        didSet {
+            persist(notchExpandInteraction.rawValue, for: GeneralSettingsStorage.Keys.notchExpandInteraction)
+        }
+    }
+
+    @Published var notchPressHoldDuration: TimeInterval {
+        didSet {
+            let clampedValue = Self.clampNotchPressHoldDuration(notchPressHoldDuration)
+
+            if clampedValue != notchPressHoldDuration {
+                notchPressHoldDuration = clampedValue
+                return
+            }
+
+            persist(notchPressHoldDuration, for: GeneralSettingsStorage.Keys.notchPressHoldDuration)
+        }
+    }
+
     @Published var isNotchMouseDragGesturesEnabled: Bool {
         didSet {
             persist(
@@ -234,6 +257,13 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
             defaults: defaults,
             key: GeneralSettingsStorage.Keys.notchTapToExpandEnabled
         )
+        self.notchExpandInteraction = NotchExpandInteraction.resolved(
+            defaults.string(forKey: GeneralSettingsStorage.Keys.notchExpandInteraction)
+        )
+        self.notchPressHoldDuration = Self.clampNotchPressHoldDuration(
+            defaults.object(forKey: GeneralSettingsStorage.Keys.notchPressHoldDuration) as? Double ??
+            Self.defaultNotchPressHoldDuration
+        )
         self.isNotchMouseDragGesturesEnabled = Self.resolvedBool(
             defaults: defaults,
             key: GeneralSettingsStorage.Keys.notchMouseDragGesturesEnabled
@@ -288,6 +318,12 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
             rawValue: defaultString(for: GeneralSettingsStorage.Keys.notchAnimationPreset)
         ) ?? .balanced
         isNotchTapToExpandEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchTapToExpandEnabled)
+        notchExpandInteraction = NotchExpandInteraction.resolved(
+            defaultString(for: GeneralSettingsStorage.Keys.notchExpandInteraction)
+        )
+        notchPressHoldDuration = Self.clampNotchPressHoldDuration(
+            defaultDouble(for: GeneralSettingsStorage.Keys.notchPressHoldDuration)
+        )
         isNotchMouseDragGesturesEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchMouseDragGesturesEnabled)
         isNotchTrackpadSwipeGesturesEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchTrackpadSwipeGesturesEnabled)
         isNotchSwipeDismissEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchSwipeDismissEnabled)
@@ -335,6 +371,13 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         }
 
         return (GeneralSettingsStorage.defaultValues[key] as? Bool) ?? false
+    }
+
+    private static func clampNotchPressHoldDuration(_ value: TimeInterval) -> TimeInterval {
+        min(
+            max(value, notchPressHoldDurationRange.lowerBound),
+            notchPressHoldDurationRange.upperBound
+        )
     }
 
     private func updateLaunchAtLogin() {

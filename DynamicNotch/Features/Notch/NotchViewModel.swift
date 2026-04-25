@@ -79,8 +79,20 @@ final class NotchViewModel: ObservableObject {
         engine.canExpandActiveLiveActivity
     }
     
-    var isTapToExpandEnabled: Bool {
-        settings.isNotchTapToExpandEnabled
+    var shouldExpandActiveContentOnClick: Bool {
+        settings.isNotchTapToExpandEnabled &&
+        settings.notchExpandInteraction == .click &&
+        canExpandActiveLiveActivity
+    }
+
+    var shouldExpandActiveContentOnPressAndHold: Bool {
+        settings.isNotchTapToExpandEnabled &&
+        settings.notchExpandInteraction == .pressAndHold &&
+        canExpandActiveLiveActivity
+    }
+
+    var notchPressHoldDuration: TimeInterval {
+        settings.notchPressHoldDuration
     }
     
     var canRestoreDismissedContent: Bool {

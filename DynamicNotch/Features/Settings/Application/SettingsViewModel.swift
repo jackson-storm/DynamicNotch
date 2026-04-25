@@ -135,6 +135,16 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
         set { application.isNotchTapToExpandEnabled = newValue }
     }
 
+    var notchExpandInteraction: NotchExpandInteraction {
+        get { application.notchExpandInteraction }
+        set { application.notchExpandInteraction = newValue }
+    }
+
+    var notchPressHoldDuration: TimeInterval {
+        get { application.notchPressHoldDuration }
+        set { application.notchPressHoldDuration = newValue }
+    }
+
     var isNotchMouseDragGesturesEnabled: Bool {
         get { application.isNotchMouseDragGesturesEnabled }
         set { application.isNotchMouseDragGesturesEnabled = newValue }

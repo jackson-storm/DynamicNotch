@@ -70,7 +70,7 @@ final class NotchConnectivityEventsHandler {
             )
 
         case .hotspotHide:
-            notchViewModel.send(.hideLiveActivity(id: "hotspot.active"))
+            notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Network.hotspot.id))
         }
     }
 }

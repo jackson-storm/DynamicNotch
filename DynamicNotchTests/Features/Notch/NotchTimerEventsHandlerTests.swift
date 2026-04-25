@@ -11,7 +11,7 @@ final class NotchTimerEventsHandlerTests: XCTestCase {
 
         await assertEventually {
             await MainActor.run {
-                context.notchViewModel.notchModel.liveActivityContent?.id == TimerNotchContent.activityID
+                context.notchViewModel.notchModel.liveActivityContent?.id == NotchContentRegistry.Media.timer.id
             }
         }
     }
@@ -24,7 +24,7 @@ final class NotchTimerEventsHandlerTests: XCTestCase {
 
         await assertEventually {
             await MainActor.run {
-                context.notchViewModel.notchModel.liveActivityContent?.id == TimerNotchContent.activityID
+                context.notchViewModel.notchModel.liveActivityContent?.id == NotchContentRegistry.Media.timer.id
             }
         }
 
@@ -33,7 +33,7 @@ final class NotchTimerEventsHandlerTests: XCTestCase {
 
         await assertEventually {
             await MainActor.run {
-                context.notchViewModel.notchModel.liveActivityContent?.id == TimerNotchContent.activityID
+                context.notchViewModel.notchModel.liveActivityContent?.id == NotchContentRegistry.Media.timer.id
             }
         }
     }

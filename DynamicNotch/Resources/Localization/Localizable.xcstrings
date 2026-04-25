@@ -453,7 +453,6 @@
       }
     },
     "AirDrop" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -482,6 +481,7 @@
       }
     },
     "AirDrop activity" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -510,6 +510,7 @@
       }
     },
     "AirDrop live activity" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3106,6 +3107,9 @@
         }
       }
     },
+    "Choose which target appears while files are dragged over the notch." : {
+
+    },
     "Circle" : {
       "localizations" : {
         "en" : {
@@ -3359,6 +3363,9 @@
           }
         }
       }
+    },
+    "Combined" : {
+
     },
     "common.cancel" : {
       "extractionState" : "stale",
@@ -4188,6 +4195,15 @@
         }
       }
     },
+    "DragAndDrop activity" : {
+
+    },
+    "DragAndDrop live activity" : {
+
+    },
+    "Drop target" : {
+
+    },
     "Dynamic Notch" : {
       "localizations" : {
         "en" : {
@@ -4356,6 +4372,9 @@
           }
         }
       }
+    },
+    "File Tray" : {
+
     },
     "Fine-tune the notch frame and stroke so it better matches your hardware." : {
       "extractionState" : "stale",
@@ -11457,64 +11476,6 @@
         }
       }
     },
-    "settings.section.airDrop.subtitle" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Drag-and-drop sharing through the notch."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Compartir mediante arrastrar y soltar a través de la muesca."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Обмен через AirDrop с перетаскиванием через вырез."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "通过刘海拖放共享。"
-          }
-        }
-      }
-    },
-    "settings.section.airDrop.title" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "AirDrop"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lanzamiento aéreo"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "AirDrop"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "空投"
-          }
-        }
-      }
-    },
     "settings.section.battery.subtitle" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -11743,6 +11704,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "下载"
+          }
+        }
+      }
+    },
+    "settings.section.dragAndDrop.subtitle" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AirDrop and Tray targets for files dragged through the notch."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Objetivos de AirDrop y Tray para archivos arrastrados a través de la muesca."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цели AirDrop и Tray для файлов, перетаскиваемых через вырез."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通过刘海拖放文件时显示 AirDrop 和 Tray 目标。"
+          }
+        }
+      }
+    },
+    "settings.section.dragAndDrop.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DragAndDrop"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrastrar y soltar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DragAndDrop"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拖放"
           }
         }
       }
@@ -12834,6 +12853,9 @@
         }
       }
     },
+    "Show file drop targets when you drag files over the notch." : {
+
+    },
     "Show live download progress from monitored folders in the notch." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -12977,6 +12999,7 @@
       }
     },
     "Show the AirDrop drop target when you drag files over the notch." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -13766,6 +13789,9 @@
         }
       }
     },
+    "Target mode" : {
+
+    },
     "Teal" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -14135,6 +14161,9 @@
         }
       }
     },
+    "Tray" : {
+
+    },
     "Trigger Events" : {
       "localizations" : {
         "en" : {
@@ -14478,6 +14507,7 @@
       }
     },
     "Use the standard white notch stroke instead of the blue AirDrop stroke." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -14504,6 +14534,9 @@
           }
         }
       }
+    },
+    "Use the standard white notch stroke instead of the drag-and-drop accent stroke." : {
+
     },
     "Use the standard white notch stroke instead of the Focus accent stroke." : {
       "localizations" : {

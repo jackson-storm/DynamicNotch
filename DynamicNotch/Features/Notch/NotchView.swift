@@ -39,14 +39,28 @@ struct NotchView: View {
                     )
                 )
                 .overlay {
-                    AirDropDestinationView(
+                    DragAndDropDestinationView(
                         isTargeted: $airDropController.isTargeted,
-                        isDropZoneTargeted: Binding(
-                            get: { airDropViewModel.isDropZoneTargeted },
-                            set: { airDropViewModel.setDropZoneTargeted($0) }
+                        targetedDropTarget: Binding(
+                            get: { airDropViewModel.targetedDropTarget },
+                            set: { airDropViewModel.setTargetedDropTarget($0) }
                         ),
-                        onDropPasteboard: { pasteboard in
-                            airDropController.handlePasteboardDrop(pasteboard)
+                        mode: settingsViewModel.mediaAndFiles.dragAndDropActivityMode,
+                        onDropPasteboard: { target, pasteboard in
+                            switch target {
+                            case .airDrop:
+                                guard settingsViewModel.mediaAndFiles.dragAndDropActivityMode.showsAirDrop else {
+                                    return false
+                                }
+
+                                return airDropController.handlePasteboardDrop(pasteboard)
+                            case .tray:
+                                guard settingsViewModel.mediaAndFiles.dragAndDropActivityMode.showsTray else {
+                                    return false
+                                }
+
+                                return airDropController.handleTrayDrop()
+                            }
                         }
                     )
                 }

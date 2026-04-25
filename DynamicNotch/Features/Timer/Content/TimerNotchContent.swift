@@ -1,13 +1,13 @@
 import SwiftUI
 
 struct TimerNotchContent: NotchContentProtocol {
-    static let activityID = "clock.timer"
+    static let activityID = NotchContentRegistry.Media.timer.id
 
     let id = Self.activityID
     let timerViewModel: TimerViewModel
     let settingsViewModel: SettingsViewModel
 
-    var priority: Int { 86 }
+    var priority: Int { NotchContentRegistry.Media.timer.priority }
     var isExpandable: Bool { true }
     var strokeColor: Color {
         settingsViewModel.isDefaultActivityStrokeEnabled || settingsViewModel.mediaAndFiles.isTimerDefaultStrokeEnabled ?

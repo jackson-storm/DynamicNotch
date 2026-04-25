@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct HotspotActiveContent: NotchContentProtocol {
-    let id = "hotspot.active"
+    let id = NotchContentRegistry.Network.hotspot.id
     
     let settingsViewModel: SettingsViewModel
     private var appearanceStyle: HotspotAppearanceStyle { settingsViewModel.connectivity.hotspotAppearanceStyle}
     
-    var priority: Int { 70 }
+    var priority: Int { NotchContentRegistry.Network.hotspot.priority }
     var strokeColor: Color {
         settingsViewModel.isDefaultActivityStrokeEnabled || settingsViewModel.connectivity.isHotspotDefaultStrokeEnabled ?
             .white.opacity(0.2) :

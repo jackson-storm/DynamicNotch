@@ -60,6 +60,13 @@ final class NotchAirDropController: NSObject, ObservableObject {
         return true
     }
 
+    func handleTrayDrop() -> Bool {
+        suppressTargetResetEvent = true
+        isTargeted = false
+        airDropViewModel.handleSuccessfulDrop()
+        return true
+    }
+
     func handleDrop(_ providers: [NSItemProvider]) -> Bool {
         guard !providers.isEmpty else { return false }
 

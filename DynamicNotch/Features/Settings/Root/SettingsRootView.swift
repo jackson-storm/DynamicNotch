@@ -329,9 +329,9 @@ struct SettingsRootView: View {
                 )
             }
             
-        case .airDrop:
+        case .dragAndDrop:
             detailContainer(for: section) {
-                AirDropSettingsView(
+                DragAndDropSettingsView(
                     mediaSettings: settingsViewModel.mediaAndFiles,
                     appearanceSettings: settingsViewModel.application
                 )

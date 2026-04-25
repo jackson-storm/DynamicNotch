@@ -14,6 +14,6 @@ enum FocusAppearanceStyle: String, CaseIterable {
     }
 
     static func resolved(_ rawValue: String?) -> FocusAppearanceStyle {
-        FocusAppearanceStyle(rawValue: rawValue ?? FocusAppearanceStyle.standard.rawValue) ?? .standard
+        FocusAppearanceStyle(rawValue: rawValue ?? FocusAppearanceStyle.iconsOnly.rawValue) ?? .iconsOnly
     }
 }

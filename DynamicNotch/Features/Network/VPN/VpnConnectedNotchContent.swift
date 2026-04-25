@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct VpnConnectedNotchContent : NotchContentProtocol {
-    let id = "vpn.connected"
+    let id = NotchContentRegistry.Network.vpn.id
+    var priority: Int { NotchContentRegistry.Network.vpn.priority }
     
     let networkViewModel: NetworkViewModel
     let settings: ConnectivitySettingsStore

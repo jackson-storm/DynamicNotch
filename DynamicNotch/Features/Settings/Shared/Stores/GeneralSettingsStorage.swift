@@ -51,6 +51,7 @@ enum GeneralSettingsStorage {
         static let downloadsProgressIndicatorStyle = "settings.live.downloads.progressIndicatorStyle"
         static let airDropLiveActivityEnabled = "settings.live.airDrop"
         static let airDropDefaultStrokeEnabled = "settings.live.airDrop.defaultStroke"
+        static let dragAndDropActivityMode = "settings.live.dragAndDrop.mode"
         static let timerLiveActivityEnabled = "settings.live.timer"
         static let timerDefaultStrokeEnabled = "settings.live.timer.defaultStroke"
         static let legacyFileTransfersLiveActivityEnabled = "settings.live.fileTransfers"
@@ -119,13 +120,13 @@ enum GeneralSettingsStorage {
         Keys.brightnessHUDDuration: 2,
         Keys.keyboardHUDDuration: 2,
         Keys.volumeHUDDuration: 2,
-        Keys.hudStyle: HudStyle.standard.rawValue,
+        Keys.hudStyle: HudStyle.compact.rawValue,
         Keys.hudIndicatorStyle: HudIndicatorStyle.bar.rawValue,
         Keys.hudColoredLevelEnabled: true,
         Keys.hudColoredStrokeEnabled: false,
         Keys.hotspotLiveActivityEnabled: true,
         Keys.focusLiveActivityEnabled: true,
-        Keys.focusAppearanceStyle: FocusAppearanceStyle.standard.rawValue,
+        Keys.focusAppearanceStyle: FocusAppearanceStyle.iconsOnly.rawValue,
         Keys.nowPlayingLiveActivityEnabled: true,
         Keys.nowPlayingFavoriteButtonVisible: true,
         Keys.nowPlayingOutputDeviceButtonVisible: true,
@@ -140,6 +141,7 @@ enum GeneralSettingsStorage {
         Keys.downloadsProgressIndicatorStyle: DownloadProgressIndicatorStyle.percent.rawValue,
         Keys.airDropLiveActivityEnabled: true,
         Keys.airDropDefaultStrokeEnabled: false,
+        Keys.dragAndDropActivityMode: DragAndDropActivityMode.airDrop.rawValue,
         Keys.timerLiveActivityEnabled: true,
         Keys.timerDefaultStrokeEnabled: false,
         LockScreenSettings.liveActivityKey: true,
@@ -165,7 +167,7 @@ enum GeneralSettingsStorage {
         Keys.fullPowerNotificationStyle: BatteryNotificationStyle.standard.rawValue,
         Keys.bluetoothTemporaryActivityEnabled: true,
         Keys.bluetoothTemporaryActivityDuration: 5,
-        Keys.bluetoothAppearanceStyle: BluetoothAppearanceStyle.detailed.rawValue,
+        Keys.bluetoothAppearanceStyle: BluetoothAppearanceStyle.device.rawValue,
         Keys.bluetoothBatteryStrokeEnabled: false,
         Keys.bluetoothBatteryIndicatorStyle: BluetoothBatteryIndicatorStyle.percent.rawValue,
         Keys.wifiTemporaryActivityEnabled: true,
@@ -173,7 +175,7 @@ enum GeneralSettingsStorage {
         Keys.vpnTemporaryActivityEnabled: true,
         Keys.vpnTemporaryActivityDuration: 5,
         Keys.hotspotAppearanceStyle: HotspotAppearanceStyle.minimal.rawValue,
-        Keys.networkShowVPNDetail: true,
+        Keys.networkShowVPNDetail: false,
         Keys.networkShowVPNTimer: true,
         Keys.networkOnlyNotifyOnChange: false,
         Keys.focusOffTemporaryActivityEnabled: true,

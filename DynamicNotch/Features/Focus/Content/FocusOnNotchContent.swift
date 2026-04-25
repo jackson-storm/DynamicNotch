@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct FocusOnNotchContent: NotchContentProtocol {
-    let id = "focus.on"
+    let id = NotchContentRegistry.Focus.active.id
     let settingsViewModel: SettingsViewModel
 
     private var appearanceStyle: FocusAppearanceStyle {
         settingsViewModel.connectivity.focusAppearanceStyle
     }
     
-    var priority: Int { 60 }
+    var priority: Int { NotchContentRegistry.Focus.active.priority }
     var strokeColor: Color {
         settingsViewModel.isDefaultActivityStrokeEnabled || settingsViewModel.connectivity.isFocusDefaultStrokeEnabled ?
         .white.opacity(0.2) :

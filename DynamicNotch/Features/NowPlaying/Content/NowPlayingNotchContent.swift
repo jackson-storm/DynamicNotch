@@ -8,7 +8,7 @@ enum NowPlayingEvent: Equatable {
 }
 
 struct NowPlayingNotchContent: NotchContentProtocol {
-    let id = "nowPlaying"
+    let id = NotchContentRegistry.Media.nowPlaying.id
     
     let nowPlayingViewModel: NowPlayingViewModel
     let settings: MediaAndFilesSettingsStore
@@ -27,7 +27,7 @@ struct NowPlayingNotchContent: NotchContentProtocol {
         self.onOpenPlaybackSource = onOpenPlaybackSource
     }
     
-    var priority: Int { 81 }
+    var priority: Int { NotchContentRegistry.Media.nowPlaying.priority }
     var isExpandable: Bool { true }
 
     var windowLink: (@MainActor () -> Void)? {

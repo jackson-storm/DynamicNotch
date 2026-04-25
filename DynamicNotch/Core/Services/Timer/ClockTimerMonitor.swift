@@ -503,7 +503,7 @@ private extension ClockTimerMonitor {
         }
 
         let title = resolvedTitle()
-        let identifier = trackedTimerID ?? preferencesTimer?.identifier ?? "clock.timer"
+        let identifier = trackedTimerID ?? preferencesTimer?.identifier ?? NotchContentRegistry.Media.timer.id
         let duration = resolvedDuration(for: currentRemaining)
         let now = dateProvider()
         let candidate = makeSnapshot(

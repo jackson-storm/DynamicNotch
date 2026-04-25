@@ -98,8 +98,8 @@ final class HUDSettingsStore: SettingsStoreBase {
             Self.defaultTemporaryActivityDuration(for: GeneralSettingsStorage.Keys.volumeHUDDuration)
         )
         self.hudStyle = HudStyle(
-            rawValue: defaults.string(forKey: GeneralSettingsStorage.Keys.hudStyle) ?? HudStyle.standard.rawValue
-        ) ?? .standard
+            rawValue: defaults.string(forKey: GeneralSettingsStorage.Keys.hudStyle) ?? HudStyle.compact.rawValue
+        ) ?? .compact
         self.indicatorStyle = HudIndicatorStyle(
             rawValue: defaults.string(forKey: GeneralSettingsStorage.Keys.hudIndicatorStyle) ?? HudIndicatorStyle.bar.rawValue
         ) ?? .bar
@@ -121,7 +121,7 @@ final class HUDSettingsStore: SettingsStoreBase {
         volumeHUDDuration = Self.clampTemporaryActivityDuration(
             defaultInt(for: GeneralSettingsStorage.Keys.volumeHUDDuration)
         )
-        hudStyle = HudStyle(rawValue: defaultString(for: GeneralSettingsStorage.Keys.hudStyle)) ?? .standard
+        hudStyle = HudStyle(rawValue: defaultString(for: GeneralSettingsStorage.Keys.hudStyle)) ?? .compact
         indicatorStyle = HudIndicatorStyle(rawValue: defaultString(for: GeneralSettingsStorage.Keys.hudIndicatorStyle)) ?? .bar
         isColoredLevelEnabled = defaultBool(for: GeneralSettingsStorage.Keys.hudColoredLevelEnabled)
         isColoredLevelStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.hudColoredStrokeEnabled)

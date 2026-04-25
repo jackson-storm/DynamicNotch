@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct FocusOffNotchContent: NotchContentProtocol {
-    let id = "focus.off"
+    let id = NotchContentRegistry.Focus.inactive.id
+    var priority: Int { NotchContentRegistry.Focus.inactive.priority }
     
     let settingsViewModel: SettingsViewModel
     private var appearanceStyle: FocusAppearanceStyle { settingsViewModel.connectivity.focusAppearanceStyle}

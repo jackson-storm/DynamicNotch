@@ -41,7 +41,7 @@ final class NotchEventCoordinator: ObservableObject {
 
     private var isLockScreenTransitionActive: Bool {
         lockScreenManager.isTransitioning ||
-        notchViewModel.notchModel.liveActivityContent?.id == "lockScreen"
+        notchViewModel.notchModel.liveActivityContent?.id == NotchContentRegistry.LockScreen.activity.id
     }
     
     init (
@@ -242,7 +242,7 @@ final class NotchEventCoordinator: ObservableObject {
 
     func handleLockScreenEvent(_ event: LockScreenEvent) {
         guard settingsViewModel.isLiveActivityEnabled(.lockScreen) else {
-            notchViewModel.send(.hideLiveActivity(id: "lockScreen"))
+            notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.LockScreen.activity.id))
             return
         }
 
@@ -258,7 +258,7 @@ final class NotchEventCoordinator: ObservableObject {
             )
             
         case .stopped:
-            notchViewModel.send(.hideLiveActivity(id: "lockScreen"))
+            notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.LockScreen.activity.id))
         }
     }
 
@@ -269,7 +269,7 @@ final class NotchEventCoordinator: ObservableObject {
                 guard let self else { return }
 
                 if isEnabled == false {
-                    self.notchViewModel.send(.hideLiveActivity(id: "focus.on"))
+                    self.notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Focus.active.id))
                 }
             }
             .store(in: &cancellables)
@@ -284,7 +284,7 @@ final class NotchEventCoordinator: ObservableObject {
                         self.connectivityHandler.handleNetwork(.hotspotActive)
                     }
                 } else {
-                    self.notchViewModel.send(.hideLiveActivity(id: "hotspot.active"))
+                    self.notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Network.hotspot.id))
                 }
             }
             .store(in: &cancellables)
@@ -311,7 +311,7 @@ final class NotchEventCoordinator: ObservableObject {
                     }
                 } else {
                     self.mediaHandler.cancelDeferredNowPlayingHide()
-                    self.notchViewModel.send(.hideLiveActivity(id: "nowPlaying"))
+                    self.notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Media.nowPlaying.id))
                 }
             }
             .store(in: &cancellables)
@@ -339,8 +339,30 @@ final class NotchEventCoordinator: ObservableObject {
                         self.mediaHandler.handleDownload(.started)
                     }
                 } else {
-                    self.notchViewModel.send(.hideLiveActivity(id: "download.active"))
+                    self.notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Media.download.id))
                 }
+            }
+            .store(in: &cancellables)
+
+        settingsViewModel.mediaAndFiles.$isDragAndDropLiveActivityEnabled
+            .removeDuplicates()
+            .sink { [weak self] isEnabled in
+                guard let self else { return }
+
+                if isEnabled {
+                    self.mediaHandler.refreshDragAndDropPresentation()
+                } else {
+                    NotchContentRegistry.DragAndDrop.liveActivityIDs.forEach { id in
+                        self.notchViewModel.send(.hideLiveActivity(id: id))
+                    }
+                }
+            }
+            .store(in: &cancellables)
+
+        settingsViewModel.mediaAndFiles.$dragAndDropActivityMode
+            .removeDuplicates()
+            .sink { [weak self] _ in
+                self?.mediaHandler.refreshDragAndDropPresentation()
             }
             .store(in: &cancellables)
 
@@ -354,7 +376,7 @@ final class NotchEventCoordinator: ObservableObject {
                         self.timerHandler.handleTimer(.started)
                     }
                 } else {
-                    self.notchViewModel.send(.hideLiveActivity(id: TimerNotchContent.activityID))
+                    self.notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Media.timer.id))
                 }
             }
             .store(in: &cancellables)
@@ -377,7 +399,7 @@ final class NotchEventCoordinator: ObservableObject {
                         self.handleLockScreenEvent(.started)
                     }
                 } else {
-                    self.notchViewModel.send(.hideLiveActivity(id: "lockScreen"))
+                    self.notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.LockScreen.activity.id))
                 }
             }
             .store(in: &cancellables)
@@ -386,7 +408,7 @@ final class NotchEventCoordinator: ObservableObject {
             .removeDuplicates()
             .sink { [weak self] style in
                 guard let self else { return }
-                guard self.notchViewModel.notchModel.liveActivityContent?.id == "lockScreen" else {
+                guard self.notchViewModel.notchModel.liveActivityContent?.id == NotchContentRegistry.LockScreen.activity.id else {
                     return
                 }
 

@@ -1,7 +1,8 @@
 import SwiftUI
 
 struct LowPowerNotchContent: NotchContentProtocol {
-    let id = "battery.lowPower"
+    let id = NotchContentRegistry.Power.lowPower.id
+    var priority: Int { NotchContentRegistry.Power.lowPower.priority }
     
     let powerService: PowerService
     let settingsViewModel: SettingsViewModel

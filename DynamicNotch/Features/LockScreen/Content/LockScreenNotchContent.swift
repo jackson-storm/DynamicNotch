@@ -6,12 +6,12 @@ enum LockScreenEvent: Equatable {
 }
 
 struct LockScreenNotchContent: NotchContentProtocol {
-    let id = "lockScreen"
+    let id = NotchContentRegistry.LockScreen.activity.id
     
     let lockScreenManager: LockScreenManager
     let style: LockScreenStyle
 
-    var priority: Int { 92 }
+    var priority: Int { NotchContentRegistry.LockScreen.activity.priority }
 
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         switch style {

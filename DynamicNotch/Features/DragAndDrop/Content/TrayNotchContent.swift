@@ -1,30 +1,25 @@
 //
-//  AirDropNotch.swift
+//  TrayContent.swift
 //  DynamicNotch
 //
-//  Created by Евгений Петрукович on 3/24/26.
+//  Created by Евгений Петрукович on 4/25/26.
 //
 
 import SwiftUI
 
-enum AirDropEvent: Equatable {
+enum TrayEvent {
     case dragStarted
     case dragEnded
     case dropped
 }
 
-struct AirDropNotchContent: NotchContentProtocol {
-    let id = "airdrop"
-    
+struct TrayNotchContent: NotchContentProtocol {
+    let id = NotchContentRegistry.DragAndDrop.tray.id
+
     let airDropViewModel: AirDropNotchViewModel
     let settingsViewModel: SettingsViewModel
     
-    var priority: Int { 90 }
-    var strokeColor: Color {
-        settingsViewModel.isDefaultActivityStrokeEnabled || settingsViewModel.mediaAndFiles.isAirDropDefaultStrokeEnabled ?
-        .white.opacity(0.2) :
-        Color.accentColor.opacity(0.3)
-    }
+    var priority: Int { NotchContentRegistry.DragAndDrop.tray.priority }
     
     func cornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
         return (top: 24, bottom: 36)
@@ -36,6 +31,6 @@ struct AirDropNotchContent: NotchContentProtocol {
     
     @MainActor
     func makeView() -> AnyView {
-        AnyView(AirDropNotchView(airDropViewModel: airDropViewModel))
+        AnyView(TrayNotchView(airDropViewModel: airDropViewModel))
     }
 }

@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct WifiConnectedNotchContent: NotchContentProtocol {
-    let id = "wifi.connected"
+    let id = NotchContentRegistry.Network.wifi.id
+    var priority: Int { NotchContentRegistry.Network.wifi.priority }
     
     let networkViewModel: NetworkViewModel
     

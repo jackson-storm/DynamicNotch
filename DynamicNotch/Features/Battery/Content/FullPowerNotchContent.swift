@@ -1,7 +1,8 @@
 import SwiftUI
 
 struct FullPowerNotchContent: NotchContentProtocol {
-    let id = "battery.fullPower"
+    let id = NotchContentRegistry.Power.fullPower.id
+    var priority: Int { NotchContentRegistry.Power.fullPower.priority }
     
     let powerService: PowerService
     let settingsViewModel: SettingsViewModel

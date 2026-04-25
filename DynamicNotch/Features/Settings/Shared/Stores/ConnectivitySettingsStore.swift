@@ -182,7 +182,7 @@ final class ConnectivitySettingsStore: SettingsStoreBase {
             Self.defaultTemporaryActivityDuration(for: GeneralSettingsStorage.Keys.vpnTemporaryActivityDuration)
         )
         self.isVPNDetailVisible = defaults.object(forKey: GeneralSettingsStorage.Keys.networkShowVPNDetail) as? Bool ??
-        (GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.networkShowVPNDetail] as? Bool ?? true)
+        (GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.networkShowVPNDetail] as? Bool ?? false)
         self.hotspotAppearanceStyle = HotspotAppearanceStyle(
             rawValue: defaults.string(forKey: GeneralSettingsStorage.Keys.hotspotAppearanceStyle) ??
             HotspotAppearanceStyle.minimal.rawValue

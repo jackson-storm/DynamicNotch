@@ -8,7 +8,7 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
         case notch
         case nowPlaying
         case downloads
-        case airDrop
+        case dragAndDrop
         case timer
         case focus
         case bluetooth
@@ -24,7 +24,7 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
         case nowPlaying
         case lockScreen
         case downloads
-        case airDrop
+        case dragAndDrop
         case timer
     }
 
@@ -244,9 +244,9 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
         set { mediaAndFiles.isDownloadsLiveActivityEnabled = newValue }
     }
 
-    var isAirDropLiveActivityEnabled: Bool {
-        get { mediaAndFiles.isAirDropLiveActivityEnabled }
-        set { mediaAndFiles.isAirDropLiveActivityEnabled = newValue }
+    var isDragAndDropLiveActivityEnabled: Bool {
+        get { mediaAndFiles.isDragAndDropLiveActivityEnabled }
+        set { mediaAndFiles.isDragAndDropLiveActivityEnabled = newValue }
     }
 
     var isTimerLiveActivityEnabled: Bool {
@@ -301,8 +301,8 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
             return lockScreen.isLockScreenLiveActivityEnabled
         case .downloads:
             return mediaAndFiles.isDownloadsLiveActivityEnabled
-        case .airDrop:
-            return mediaAndFiles.isAirDropLiveActivityEnabled
+        case .dragAndDrop:
+            return mediaAndFiles.isDragAndDropLiveActivityEnabled
         case .timer:
             return mediaAndFiles.isTimerLiveActivityEnabled
         }
@@ -392,8 +392,8 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
             mediaAndFiles.resetNowPlaying()
         case .downloads:
             mediaAndFiles.resetDownloads()
-        case .airDrop:
-            mediaAndFiles.resetAirDrop()
+        case .dragAndDrop:
+            mediaAndFiles.resetDragAndDrop()
         case .timer:
             mediaAndFiles.resetTimer()
         case .focus:

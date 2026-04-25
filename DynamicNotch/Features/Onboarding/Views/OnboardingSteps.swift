@@ -13,10 +13,10 @@ enum OnboardingSteps: String, Equatable, CaseIterable {
     case third
     case fourth
     
-    static let stackID = "onboarding"
+    static let stackID = NotchContentRegistry.Onboarding.stackID
     
     var liveActivityID: String {
-        "\(Self.stackID).\(rawValue)"
+        NotchContentRegistry.Onboarding.id(forStep: rawValue)
     }
     
     static func contains(id: String?) -> Bool {
@@ -25,10 +25,10 @@ enum OnboardingSteps: String, Equatable, CaseIterable {
     }
     
     #if DEBUG
-    static let debugStackID = "onboarding.debug"
+    static let debugStackID = NotchContentRegistry.Onboarding.debugStackID
     
     var debugLiveActivityID: String {
-        "\(Self.debugStackID).\(rawValue)"
+        NotchContentRegistry.Onboarding.debugID(forStep: rawValue)
     }
     
     static func containsDebug(id: String?) -> Bool {

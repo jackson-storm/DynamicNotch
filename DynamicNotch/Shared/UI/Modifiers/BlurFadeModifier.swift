@@ -77,7 +77,7 @@ extension AnyTransition {
             insertion: .modifier(
                 active: DynamicIslandTransitionModifier(
                     blur: 40,
-                    offsetX: horizontalOffset / 2,
+                    offsetX: horizontalOffset,
                     offsetY: verticalOffset,
                     scaleX: 0.4,
                     scaleY: 0.6,
@@ -88,7 +88,7 @@ extension AnyTransition {
             removal: .modifier(
                 active: DynamicIslandTransitionModifier(
                     blur: 40,
-                    offsetX: horizontalOffset / 2,
+                    offsetX: horizontalOffset,
                     offsetY: verticalOffset,
                     scaleX: 0.4,
                     scaleY: 0.6,

@@ -8,46 +8,50 @@
 import SwiftUI
 import UniformTypeIdentifiers
 
-struct AirDropDestinationView: NSViewRepresentable {
+struct DragAndDropDestinationView: NSViewRepresentable {
     @Binding var isTargeted: Bool
-    @Binding var isDropZoneTargeted: Bool
-    let onDropPasteboard: (NSPasteboard) -> Bool
+    @Binding var targetedDropTarget: DragAndDropTarget?
+    let mode: DragAndDropActivityMode
+    let onDropPasteboard: (DragAndDropTarget, NSPasteboard) -> Bool
 
-    func makeNSView(context: Context) -> AirDropView {
-        let view = AirDropView()
+    func makeNSView(context: Context) -> DragAndDropView {
+        let view = DragAndDropView()
+        view.mode = mode
         view.onTargetedChange = { isTargeted in
             DispatchQueue.main.async {
                 self.isTargeted = isTargeted
             }
         }
-        view.onDropZoneTargetedChange = { isTargeted in
+        view.onTargetedDropTargetChange = { target in
             DispatchQueue.main.async {
-                self.isDropZoneTargeted = isTargeted
+                self.targetedDropTarget = target
             }
         }
         view.onDropPasteboard = onDropPasteboard
         return view
     }
 
-    func updateNSView(_ nsView: AirDropView, context: Context) {
+    func updateNSView(_ nsView: DragAndDropView, context: Context) {
+        nsView.mode = mode
         nsView.onTargetedChange = { isTargeted in
             DispatchQueue.main.async {
                 self.isTargeted = isTargeted
             }
         }
-        nsView.onDropZoneTargetedChange = { isTargeted in
+        nsView.onTargetedDropTargetChange = { target in
             DispatchQueue.main.async {
-                self.isDropZoneTargeted = isTargeted
+                self.targetedDropTarget = target
             }
         }
         nsView.onDropPasteboard = onDropPasteboard
     }
 }
 
-final class AirDropView: NSView {
+final class DragAndDropView: NSView {
+    var mode: DragAndDropActivityMode = .airDrop
     var onTargetedChange: (Bool) -> Void = { _ in }
-    var onDropZoneTargetedChange: (Bool) -> Void = { _ in }
-    var onDropPasteboard: (NSPasteboard) -> Bool = { _ in false }
+    var onTargetedDropTargetChange: (DragAndDropTarget?) -> Void = { _ in }
+    var onDropPasteboard: (DragAndDropTarget, NSPasteboard) -> Bool = { _, _ in false }
 
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
@@ -83,61 +87,81 @@ final class AirDropView: NSView {
     override func draggingEntered(_ sender: NSDraggingInfo) -> NSDragOperation {
         guard sender.draggingPasteboard.containsAirDropFiles else {
             onTargetedChange(false)
-            onDropZoneTargetedChange(false)
+            onTargetedDropTargetChange(nil)
             return []
         }
 
         onTargetedChange(true)
-        let isInsideDropZone = isDropPointInsideTargetZone(sender)
-        onDropZoneTargetedChange(isInsideDropZone)
-        return isInsideDropZone ? .copy : []
+        let target = dropTarget(for: sender)
+        onTargetedDropTargetChange(target)
+        return target == nil ? [] : .copy
     }
 
     override func draggingUpdated(_ sender: NSDraggingInfo) -> NSDragOperation {
         guard sender.draggingPasteboard.containsAirDropFiles else {
             onTargetedChange(false)
-            onDropZoneTargetedChange(false)
+            onTargetedDropTargetChange(nil)
             return []
         }
 
         onTargetedChange(true)
-        let isInsideDropZone = isDropPointInsideTargetZone(sender)
-        onDropZoneTargetedChange(isInsideDropZone)
-        return isInsideDropZone ? .copy : []
+        let target = dropTarget(for: sender)
+        onTargetedDropTargetChange(target)
+        return target == nil ? [] : .copy
     }
 
     override func draggingExited(_ sender: NSDraggingInfo?) {
         onTargetedChange(false)
-        onDropZoneTargetedChange(false)
+        onTargetedDropTargetChange(nil)
     }
 
     override func prepareForDragOperation(_ sender: NSDraggingInfo) -> Bool {
-        sender.draggingPasteboard.containsAirDropFiles && isDropPointInsideTargetZone(sender)
+        sender.draggingPasteboard.containsAirDropFiles && dropTarget(for: sender) != nil
     }
 
     override func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
-        guard sender.draggingPasteboard.containsAirDropFiles, isDropPointInsideTargetZone(sender) else {
-            onDropZoneTargetedChange(false)
+        guard sender.draggingPasteboard.containsAirDropFiles, let target = dropTarget(for: sender) else {
+            onTargetedDropTargetChange(nil)
             return false
         }
 
-        let result = onDropPasteboard(sender.draggingPasteboard)
+        let result = onDropPasteboard(target, sender.draggingPasteboard)
         onTargetedChange(false)
-        onDropZoneTargetedChange(false)
+        onTargetedDropTargetChange(nil)
         return result
     }
 
     override func concludeDragOperation(_ sender: NSDraggingInfo?) {
         onTargetedChange(false)
-        onDropZoneTargetedChange(false)
+        onTargetedDropTargetChange(nil)
     }
 
-    private func isDropPointInsideTargetZone(_ sender: NSDraggingInfo) -> Bool {
+    private func dropTarget(for sender: NSDraggingInfo) -> DragAndDropTarget? {
         let location = convert(sender.draggingLocation, from: nil)
-        return targetDropZoneRect.contains(location)
+        return DragAndDropTarget.allCases.first { targetDropZoneRect(for: $0).contains(location) }
     }
 
-    private var targetDropZoneRect: NSRect {
+    private func targetDropZoneRect(for target: DragAndDropTarget) -> NSRect {
+        switch mode {
+        case .airDrop:
+            return target == .airDrop ? outerDropZoneRect : .null
+        case .tray:
+            return target == .tray ? outerDropZoneRect : .null
+        case .combined:
+            let spacing = AirDropDropZoneMetrics.combinedSpacing
+            let itemWidth = max((outerDropZoneRect.width - spacing) / 2, 0)
+            let xOffset: CGFloat = target == .airDrop ? 0 : itemWidth + spacing
+
+            return NSRect(
+                x: outerDropZoneRect.minX + xOffset,
+                y: outerDropZoneRect.minY,
+                width: itemWidth,
+                height: outerDropZoneRect.height
+            )
+        }
+    }
+
+    private var outerDropZoneRect: NSRect {
         let width = max(bounds.width - (AirDropDropZoneMetrics.horizontalPadding * 2), 0)
         let height = min(AirDropDropZoneMetrics.height, bounds.height)
 

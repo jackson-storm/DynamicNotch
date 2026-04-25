@@ -397,11 +397,11 @@ struct DebugSequenceNotchContent: NotchContentProtocol {
 
 struct DebugOnboardingPreviewNotchContent: NotchContentProtocol {
     let id: String
-    let stackID = OnboardingSteps.debugStackID
+    let stackID = NotchContentRegistry.Onboarding.debugStackID
     let step: OnboardingSteps
     let notchEventCoordinator: NotchEventCoordinator
     
-    var priority: Int { 100 }
+    var priority: Int { NotchContentRegistry.Onboarding.priority }
     
     init(step: OnboardingSteps, notchEventCoordinator: NotchEventCoordinator) {
         self.id = step.debugLiveActivityID

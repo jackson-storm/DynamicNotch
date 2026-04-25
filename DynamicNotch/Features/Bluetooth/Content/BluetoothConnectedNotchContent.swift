@@ -5,7 +5,8 @@ enum BluetoothEvent: Equatable {
 }
 
 struct BluetoothConnectedNotchContent: NotchContentProtocol {
-    let id = "bluetooth.connected"
+    let id = NotchContentRegistry.Network.bluetooth.id
+    var priority: Int { NotchContentRegistry.Network.bluetooth.priority }
     
     let bluetoothViewModel: BluetoothViewModel
     let settings: ConnectivitySettingsStore

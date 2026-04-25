@@ -51,14 +51,13 @@ extension AnyTransition {
         )
     }
 
-    static func dynamicIslandContent(
-        notchWidth: CGFloat,
-        notchHeight: CGFloat,
-        baseHeight: CGFloat,
-        isExpandedPresentation: Bool
-    ) -> AnyTransition {
+    static func dynamicIslandContent(notchWidth: CGFloat, notchHeight: CGFloat, baseHeight: CGFloat, isExpandedPresentation: Bool) -> AnyTransition {
         if isExpandedPresentation {
-            return dynamicIslandExpanded(notchWidth: notchWidth)
+            return dynamicIslandExpanded(
+                notchWidth: notchWidth,
+                notchHeight: notchHeight,
+                baseHeight: baseHeight
+            )
         }
         return dynamicIslandCompact(
             notchWidth: notchWidth,
@@ -78,7 +77,7 @@ extension AnyTransition {
             insertion: .modifier(
                 active: DynamicIslandTransitionModifier(
                     blur: 40,
-                    offsetX: horizontalOffset,
+                    offsetX: horizontalOffset / 2,
                     offsetY: verticalOffset,
                     scaleX: 0.4,
                     scaleY: 0.6,
@@ -89,7 +88,7 @@ extension AnyTransition {
             removal: .modifier(
                 active: DynamicIslandTransitionModifier(
                     blur: 40,
-                    offsetX: horizontalOffset,
+                    offsetX: horizontalOffset / 2,
                     offsetY: verticalOffset,
                     scaleX: 0.4,
                     scaleY: 0.6,
@@ -100,8 +99,12 @@ extension AnyTransition {
         )
     }
 
-    private static func dynamicIslandExpanded(notchWidth: CGFloat) -> AnyTransition {
+    private static func dynamicIslandExpanded(notchWidth: CGFloat, notchHeight: CGFloat, baseHeight: CGFloat) -> AnyTransition {
         let horizontalOffset = DynamicIslandTransitionMetrics.horizontalCompensationOffset(for: notchWidth)
+        let verticalOffset = DynamicIslandTransitionMetrics.verticalCompensationOffset(
+            for: notchHeight,
+            baseHeight: baseHeight
+        )
 
         return .asymmetric(
             insertion: .modifier(
@@ -109,6 +112,7 @@ extension AnyTransition {
                     blur: 20,
                     opacity: 0,
                     offsetX: horizontalOffset,
+                    offsetY: verticalOffset / 3,
                     scaleX: 0.4,
                     scaleY: 0.6,
                     anchor: .top
@@ -120,6 +124,7 @@ extension AnyTransition {
                     blur: 20,
                     opacity: 0,
                     offsetX: horizontalOffset,
+                    offsetY: verticalOffset / 3,
                     scaleX: 0.4,
                     scaleY: 0.6,
                     anchor: .top

@@ -78,7 +78,7 @@ private extension NotchView {
                     )
             }
             .shadow(
-                color: notchViewModel.notchModel.isPresentingExpandedLiveActivity ? .black.opacity(0.4) : .clear,
+                color: notchViewModel.notchModel.isPresentingExpandedLiveActivity ? .black.opacity(0.5) : .clear,
                 radius: 15
             )
             .frame(

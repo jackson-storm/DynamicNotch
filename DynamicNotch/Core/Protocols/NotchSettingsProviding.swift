@@ -7,6 +7,8 @@ protocol NotchSettingsProviding: AnyObject {
     var screenSelectionPreferences: NotchScreenSelectionPreferences { get }
     var notchAnimationPreset: NotchAnimationPreset { get }
     var isNotchTapToExpandEnabled: Bool { get }
+    var notchExpandInteraction: NotchExpandInteraction { get }
+    var notchPressHoldDuration: TimeInterval { get }
     var isNotchMouseDragGesturesEnabled: Bool { get }
     var isNotchTrackpadSwipeGesturesEnabled: Bool { get }
     var isNotchSwipeDismissEnabled: Bool { get }

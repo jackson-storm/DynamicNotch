@@ -99,9 +99,24 @@ final class NowPlayingViewModelIntegrationTests: XCTestCase {
 
         viewModel.togglePlayPause()
 
-        XCTAssertEqual(service.commands, [.togglePlayPause])
+        XCTAssertEqual(service.commands, [.pause])
         XCTAssertEqual(viewModel.snapshot?.playbackRate, 0)
         XCTAssertFalse(viewModel.snapshot?.isPlaying ?? true)
+    }
+
+    func testTogglePlayPauseSendsExplicitPlayWhenPaused() {
+        let service = FakeNowPlayingService()
+        let viewModel = NowPlayingViewModel(service: service)
+        TestLifetime.retain(viewModel)
+        viewModel.startMonitoring()
+
+        service.publish(makeNowPlayingSnapshot(elapsedTime: 42, playbackRate: 0))
+
+        viewModel.togglePlayPause()
+
+        XCTAssertEqual(service.commands, [.play])
+        XCTAssertEqual(viewModel.snapshot?.playbackRate, 1)
+        XCTAssertTrue(viewModel.snapshot?.isPlaying ?? false)
     }
 
     func testPlaybackStateChangesPublishPlaybackStateEvent() {
@@ -134,6 +149,54 @@ final class NowPlayingViewModelIntegrationTests: XCTestCase {
         XCTAssertEqual(viewModel.snapshot?.elapsedTime, 120)
         XCTAssertEqual(viewModel.snapshot?.duration, 243)
         XCTAssertEqual(viewModel.snapshot?.playbackRate, 1)
+    }
+
+    func testAdvancedPlaybackControlsUpdateSnapshotAndSendCommands() {
+        let service = FakeNowPlayingService()
+        let viewModel = NowPlayingViewModel(service: service)
+        TestLifetime.retain(viewModel)
+        viewModel.startMonitoring()
+
+        service.publish(
+            makeNowPlayingSnapshot(
+                isShuffled: false,
+                repeatMode: .off,
+                volume: 0.25,
+                supportsVolumeControl: true
+            )
+        )
+
+        viewModel.toggleShuffle()
+        viewModel.toggleRepeat()
+        viewModel.setVolume(1.3)
+
+        XCTAssertEqual(
+            service.commands,
+            [.setShuffle(true), .setRepeatMode(.all), .setVolume(1)]
+        )
+        XCTAssertEqual(viewModel.snapshot?.isShuffled, true)
+        XCTAssertEqual(viewModel.snapshot?.repeatMode, .all)
+        XCTAssertEqual(viewModel.snapshot?.volume, 1)
+    }
+
+    func testRemoteFavoriteSendsFavoriteCommandWhenSourceSupportsIt() {
+        let service = FakeNowPlayingService()
+        let viewModel = NowPlayingViewModel(service: service)
+        TestLifetime.retain(viewModel)
+        viewModel.startMonitoring()
+
+        service.publish(
+            makeNowPlayingSnapshot(
+                isFavorite: false,
+                supportsFavorite: true
+            )
+        )
+
+        viewModel.toggleFavorite()
+
+        XCTAssertEqual(service.commands, [.setFavorite(true)])
+        XCTAssertTrue(viewModel.isCurrentTrackFavorite)
+        XCTAssertEqual(viewModel.snapshot?.isFavorite, true)
     }
 
     func testArtworkPaletteUpdatesFromArtworkData() {

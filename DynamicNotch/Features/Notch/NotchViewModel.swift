@@ -79,8 +79,20 @@ final class NotchViewModel: ObservableObject {
         engine.canExpandActiveLiveActivity
     }
     
-    var isTapToExpandEnabled: Bool {
-        settings.isNotchTapToExpandEnabled
+    var shouldExpandActiveContentOnClick: Bool {
+        settings.isNotchTapToExpandEnabled &&
+        settings.notchExpandInteraction == .click &&
+        canExpandActiveLiveActivity
+    }
+
+    var shouldExpandActiveContentOnPressAndHold: Bool {
+        settings.isNotchTapToExpandEnabled &&
+        settings.notchExpandInteraction == .pressAndHold &&
+        canExpandActiveLiveActivity
+    }
+
+    var notchPressHoldDuration: TimeInterval {
+        settings.notchPressHoldDuration
     }
     
     var canRestoreDismissedContent: Bool {
@@ -344,13 +356,17 @@ final class NotchViewModel: ObservableObject {
     }
     
     func contentTransition(notchWidth: CGFloat, notchHeight: CGFloat, baseHeight: CGFloat, isExpandedPresentation: Bool) -> AnyTransition {
-        .dynamicIslandContent(
+        let animation = isExpandedPresentation
+            ? animations.expandLiveActivityContentTransition
+            : animations.openContentTransition
+
+        return .dynamicIslandContent(
             notchWidth: notchWidth,
             notchHeight: notchHeight,
             baseHeight: baseHeight,
             isExpandedPresentation: isExpandedPresentation
         )
-        .animation(animations.contentTransition)
+        .animation(animation)
     }
     
     private func bindEngine() {

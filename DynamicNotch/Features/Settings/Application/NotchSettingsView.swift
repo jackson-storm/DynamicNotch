@@ -120,8 +120,8 @@ struct NotchSettingsView: View {
     private var gesturesCard: some View {
         SettingsCard(title: "Gestures") {
             SettingsToggleRow(
-                title: "Tap to expand live activity",
-                description: "Click the notch to open the expanded live activity layout when the current content supports it.",
+                title: "Expand live activity",
+                description: "Allow the selected notch gesture to open the expanded live activity layout when supported.",
                 systemImage: "hand.tap.fill",
                 color: .blue,
                 isOn: $applicationSettings.isNotchTapToExpandEnabled,
@@ -130,8 +130,32 @@ struct NotchSettingsView: View {
 
             Divider()
                 .opacity(0.6)
-                .padding(.leading, 43)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+
+            SettingsMenuRow(
+                title: "Expand gesture",
+                description: "Choose whether expanded content opens on click or after holding the notch.",
+                options: Array(NotchExpandInteraction.allCases),
+                optionTitle: { $0.title },
+                accessibilityIdentifier: "settings.notch.expandInteraction",
+                selection: $applicationSettings.notchExpandInteraction
+            )
+
+            Divider()
+                .opacity(0.6)
+
+            SettingsSliderRow(
+                title: "Press and hold timing",
+                description: "Adjust how quickly the notch press peaks and hold-to-expand triggers.",
+                range: ApplicationSettingsStore.notchPressHoldDurationRange,
+                step: ApplicationSettingsStore.notchPressHoldDurationStep,
+                fractionLength: 2,
+                suffix: "s",
+                accessibilityIdentifier: "settings.notch.pressHoldDuration",
+                value: $applicationSettings.notchPressHoldDuration
+            )
+
+            Divider()
+                .opacity(0.6)
 
             SettingsToggleRow(
                 title: "Mouse drag gestures",

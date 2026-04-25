@@ -7,23 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E2A100022F90000000000001 /* MediaRemoteAdapter.framework in Embed MediaRemote Adapter */ = {isa = PBXBuildFile; fileRef = E2A100012F90000000000001 /* MediaRemoteAdapter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E2A100022F90000000000001 /* DynamicNotch/Resources/MediaRemoteAdapter/MediaRemoteAdapter.framework in Embed MediaRemote Adapter */ = {isa = PBXBuildFile; fileRef = E2A100012F90000000000001 /* DynamicNotch/Resources/MediaRemoteAdapter/MediaRemoteAdapter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E2C135B72F59FA8100348421 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = E2C135B62F59FA8100348421 /* Lottie */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		E2A100032F90000000000001 /* Embed MediaRemote Adapter */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				E2A100022F90000000000001 /* MediaRemoteAdapter.framework in Embed MediaRemote Adapter */,
-			);
-			name = "Embed MediaRemote Adapter";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXContainerItemProxy section */
 		F10000000000000000000007 /* PBXContainerItemProxy */ = {
@@ -42,8 +28,22 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		E2A100032F90000000000001 /* Embed MediaRemote Adapter */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				E2A100022F90000000000001 /* DynamicNotch/Resources/MediaRemoteAdapter/MediaRemoteAdapter.framework in Embed MediaRemote Adapter */,
+			);
+			name = "Embed MediaRemote Adapter";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		E2A100012F90000000000001 /* MediaRemoteAdapter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DynamicNotch/Resources/MediaRemoteAdapter/MediaRemoteAdapter.framework; sourceTree = "<group>"; };
+		E2A100012F90000000000001 /* DynamicNotch/Resources/MediaRemoteAdapter/MediaRemoteAdapter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DynamicNotch/Resources/MediaRemoteAdapter/MediaRemoteAdapter.framework; sourceTree = "<group>"; };
 		E2EF78512EDDB60E00F96D1E /* DynamicNotch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DynamicNotch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F10000000000000000000001 /* DynamicNotchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DynamicNotchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F20000000000000000000001 /* DynamicNotchUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DynamicNotchUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -131,6 +131,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E259C11B2F9D265D0016657D /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				E2A100012F90000000000001 /* DynamicNotch/Resources/MediaRemoteAdapter/MediaRemoteAdapter.framework */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		E2EF78482EDDB60E00F96D1E = {
 			isa = PBXGroup;
 			children = (
@@ -138,6 +146,7 @@
 				F10000000000000000000002 /* DynamicNotchTests */,
 				F20000000000000000000002 /* DynamicNotchUITests */,
 				E2EF78522EDDB60E00F96D1E /* Products */,
+				E259C11B2F9D265D0016657D /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -510,6 +519,10 @@
 				ENABLE_RESOURCE_ACCESS_CONTACTS = NO;
 				ENABLE_RESOURCE_ACCESS_LOCATION = NO;
 				ENABLE_RESOURCE_ACCESS_PHOTO_LIBRARY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/DynamicNotch/Resources/MediaRemoteAdapter",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DynamicNotch/Application/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
@@ -562,6 +575,10 @@
 				ENABLE_RESOURCE_ACCESS_CONTACTS = NO;
 				ENABLE_RESOURCE_ACCESS_LOCATION = NO;
 				ENABLE_RESOURCE_ACCESS_PHOTO_LIBRARY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/DynamicNotch/Resources/MediaRemoteAdapter",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DynamicNotch/Application/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";

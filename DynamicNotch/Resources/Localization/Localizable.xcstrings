@@ -396,6 +396,34 @@
         }
       }
     },
+    "Adjust how quickly the notch press peaks and hold-to-expand triggers." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adjust how quickly the notch press peaks and hold-to-expand triggers."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajusta la rapidez con la que la pulsación en la muesca alcanza su punto máximo y activa la expansión al mantener pulsado."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройте, как быстро нажатие на вырез достигает пика и срабатывает раскрытие по удержанию."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "调整按下刘海达到峰值以及长按展开触发的速度。"
+          }
+        }
+      }
+    },
     "Adjust the thickness of the notch outline." : {
       "localizations" : {
         "en" : {
@@ -589,6 +617,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "允许通过手势隐藏当前可见的实时活动或临时活动。"
+          }
+        }
+      }
+    },
+    "Allow the selected notch gesture to open the expanded live activity layout when supported." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allow the selected notch gesture to open the expanded live activity layout when supported."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permite que el gesto seleccionado de la muesca abra el diseño expandido de la actividad en vivo cuando esté disponible."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Разрешить выбранным жестом открывать расширенный режим live activity, если он поддерживается."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "允许所选刘海手势在支持时打开实时活动的展开布局。"
           }
         }
       }
@@ -2767,6 +2823,34 @@
         }
       }
     },
+    "Choose whether expanded content opens on click or after holding the notch." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose whether expanded content opens on click or after holding the notch."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige si el contenido expandido se abre con un clic o al mantener pulsada la muesca."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите, открывать расширенный контент нажатием или после удержания выреза."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择展开内容是点击打开，还是按住刘海后打开。"
+          }
+        }
+      }
+    },
     "Choose whether Focus shows the On and Off labels or only the moon icon." : {
       "localizations" : {
         "en" : {
@@ -3107,7 +3191,36 @@
         }
       }
     },
+    "Click" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Click"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clic"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нажатие"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "点击"
+          }
+        }
+      }
+    },
     "Click the notch to open the expanded live activity layout when the current content supports it." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4184,6 +4297,62 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "退出"
+          }
+        }
+      }
+    },
+    "Expand gesture" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Expand gesture"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gesto de expansión"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Жест раскрытия"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "展开手势"
+          }
+        }
+      }
+    },
+    "Expand live activity" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Expand live activity"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Expandir actividad en vivo"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Раскрывать live activity"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "展开实时活动"
           }
         }
       }
@@ -7292,6 +7461,62 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "请在 GitHub 上给它点个星，这会对推广很有帮助。"
+          }
+        }
+      }
+    },
+    "Press and hold" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Press and hold"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mantener pulsado"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зажатие"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按住"
+          }
+        }
+      }
+    },
+    "Press and hold timing" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Press and hold timing"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duración de mantener pulsado"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Время зажатия"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按住时长"
           }
         }
       }
@@ -13513,6 +13738,7 @@
       }
     },
     "Tap to expand live activity" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

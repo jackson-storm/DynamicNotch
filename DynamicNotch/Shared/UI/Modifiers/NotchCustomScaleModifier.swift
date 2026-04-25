@@ -22,8 +22,6 @@ struct NotchCustomScaleModifier: ViewModifier {
     let baseSize: CGSize
     
     private let scaleFactor: CGFloat = 1.04
-    private let pressPeakDuration: TimeInterval = 0.20
-    private let holdToExpandDelay: TimeInterval = 0.20
     private let tapMovementTolerance: CGFloat = 8
     
     func body(content: Content) -> some View {
@@ -83,13 +81,15 @@ private extension NotchCustomScaleModifier {
                             return
                         }
 
-                        let shouldOpenWindowLink = hitBounds.contains(value.location) &&
+                        let isValidPress = hitBounds.contains(value.location) &&
                         isPressValidForTap &&
                         !didCompleteHoldAction
 
                         resetPressState(cancelPressAnimation: false)
 
-                        if shouldOpenWindowLink {
+                        if notchViewModel.shouldExpandActiveContentOnClick && isValidPress {
+                            notchViewModel.handleActiveContentTap()
+                        } else if isValidPress {
                             notchViewModel.openActiveWindowLink()
                         }
 
@@ -104,6 +104,7 @@ private extension NotchCustomScaleModifier {
 
     private func startPressAnimation() {
         let token = UUID()
+        let pressPeakDuration = notchViewModel.notchPressHoldDuration
         pressAnimationToken = token
         pressScale = 1
 
@@ -128,19 +129,18 @@ private extension NotchCustomScaleModifier {
 
     private func scheduleExpansionIfNeeded() {
         guard pendingExpansionToken == nil,
-              notchViewModel.isTapToExpandEnabled,
-              notchViewModel.canExpandActiveLiveActivity else {
+              notchViewModel.shouldExpandActiveContentOnPressAndHold else {
             return
         }
 
         let token = UUID()
+        let holdToExpandDelay = notchViewModel.notchPressHoldDuration
         pendingExpansionToken = token
 
         DispatchQueue.main.asyncAfter(deadline: .now() + holdToExpandDelay) {
             guard pendingExpansionToken == token,
                   isPressed,
-                  notchViewModel.isTapToExpandEnabled,
-                  notchViewModel.canExpandActiveLiveActivity,
+                  notchViewModel.shouldExpandActiveContentOnPressAndHold,
                   !notchViewModel.notchModel.isPresentingExpandedLiveActivity else {
                 return
             }

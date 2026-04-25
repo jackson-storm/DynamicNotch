@@ -344,13 +344,17 @@ final class NotchViewModel: ObservableObject {
     }
     
     func contentTransition(notchWidth: CGFloat, notchHeight: CGFloat, baseHeight: CGFloat, isExpandedPresentation: Bool) -> AnyTransition {
-        .dynamicIslandContent(
+        let animation = isExpandedPresentation
+            ? animations.expandLiveActivityContentTransition
+            : animations.openContentTransition
+
+        return .dynamicIslandContent(
             notchWidth: notchWidth,
             notchHeight: notchHeight,
             baseHeight: baseHeight,
             isExpandedPresentation: isExpandedPresentation
         )
-        .animation(animations.contentTransition)
+        .animation(animation)
     }
     
     private func bindEngine() {

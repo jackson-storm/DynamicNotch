@@ -28,12 +28,12 @@ enum DragAndDropTarget: String, Equatable, CaseIterable {
     var titleIcon: some View {
         switch self {
         case .airDrop:
-            Text("AirDrop")
+            Text(verbatim: "AirDrop")
                 .font(.system(size: 12))
                 .foregroundStyle(Color.accentColor)
             
         case .tray:
-            Text("File Tray")
+            Text(verbatim: "File Tray")
                 .font(.system(size: 12))
                 .foregroundStyle(Color.white.opacity(0.8))
         }

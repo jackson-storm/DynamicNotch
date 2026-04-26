@@ -15,6 +15,7 @@ final class NotchEventCoordinator: ObservableObject {
     private let downloadViewModel: DownloadViewModel
     private let settingsViewModel: SettingsViewModel
     private let nowPlayingViewModel: NowPlayingViewModel
+    private let fileTrayViewModel: FileTrayViewModel
     private let timerViewModel: TimerViewModel
     private let lockScreenManager: LockScreenManager
     private let systemHandler: NotchSystemEventsHandler
@@ -51,6 +52,7 @@ final class NotchEventCoordinator: ObservableObject {
         networkViewModel: NetworkViewModel,
         downloadViewModel: DownloadViewModel,
         airDropViewModel: AirDropNotchViewModel,
+        fileTrayViewModel: FileTrayViewModel,
         settingsViewModel: SettingsViewModel,
         nowPlayingViewModel: NowPlayingViewModel,
         timerViewModel: TimerViewModel,
@@ -61,6 +63,7 @@ final class NotchEventCoordinator: ObservableObject {
         self.downloadViewModel = downloadViewModel
         self.settingsViewModel = settingsViewModel
         self.nowPlayingViewModel = nowPlayingViewModel
+        self.fileTrayViewModel = fileTrayViewModel
         self.timerViewModel = timerViewModel
         self.lockScreenManager = lockScreenManager
         self.systemHandler = NotchSystemEventsHandler(
@@ -98,6 +101,26 @@ final class NotchEventCoordinator: ObservableObject {
             timerViewModel: timerViewModel,
             settingsViewModel: settingsViewModel
         )
+        self.fileTrayViewModel.onItemsChange = { [weak notchViewModel, weak settingsViewModel, weak fileTrayViewModel] items in
+            guard let notchViewModel, let settingsViewModel, let fileTrayViewModel else {
+                return
+            }
+
+            let hasTrayItems = items.isEmpty == false
+
+            guard settingsViewModel.isLiveActivityEnabled(.drop),
+                  hasTrayItems else {
+                notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.DragAndDrop.trayActive.id))
+                return
+            }
+
+            notchViewModel.send(
+                .showLiveActivity(
+                    TrayActiveNotchContent(fileTrayViewModel: fileTrayViewModel)
+                )
+            )
+        }
+
         observeSettingsChanges()
     }
     
@@ -262,6 +285,22 @@ final class NotchEventCoordinator: ObservableObject {
         }
     }
 
+    private func syncFileTrayLiveActivity(hasItems: Bool? = nil) {
+        let hasTrayItems = hasItems ?? fileTrayViewModel.items.isEmpty == false
+
+        guard settingsViewModel.isLiveActivityEnabled(.drop),
+              hasTrayItems else {
+            notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.DragAndDrop.trayActive.id))
+            return
+        }
+
+        notchViewModel.send(
+            .showLiveActivity(
+                TrayActiveNotchContent(fileTrayViewModel: fileTrayViewModel)
+            )
+        )
+    }
+
     private func observeSettingsChanges() {
         settingsViewModel.connectivity.$isFocusLiveActivityEnabled
             .removeDuplicates()
@@ -351,15 +390,25 @@ final class NotchEventCoordinator: ObservableObject {
 
                 if isEnabled {
                     self.mediaHandler.refreshDragAndDropPresentation()
+                    self.syncFileTrayLiveActivity()
                 } else {
                     NotchContentRegistry.DragAndDrop.liveActivityIDs.forEach { id in
                         self.notchViewModel.send(.hideLiveActivity(id: id))
                     }
+                    self.notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.DragAndDrop.trayActive.id))
                 }
             }
             .store(in: &cancellables)
 
         settingsViewModel.mediaAndFiles.$dragAndDropActivityMode
+            .removeDuplicates()
+            .sink { [weak self] _ in
+                self?.mediaHandler.refreshDragAndDropPresentation()
+                self?.syncFileTrayLiveActivity()
+            }
+            .store(in: &cancellables)
+
+        settingsViewModel.mediaAndFiles.$isDropMotionAnimationEnabled
             .removeDuplicates()
             .sink { [weak self] _ in
                 self?.mediaHandler.refreshDragAndDropPresentation()

@@ -23,11 +23,10 @@ enum NotchContentPriority {
     static let notchSizeHeight = 3
     static let hotspot = 4
     static let download = 5
-    static let nowPlaying = 6
-    static let timer = 7
-    static let airDrop = 8
-    static let tray = 9
-    static let dragAndDropCombined = 9
+    static let trayActive = 6
+    static let nowPlaying = 7
+    static let timer = 8
+    static let dragAndDrop = 9
     static let lockScreen = 10
     static let onboarding = 11
 }
@@ -80,15 +79,20 @@ enum NotchContentRegistry {
     enum DragAndDrop {
         static let airDrop = NotchContentDescriptor(
             id: "airdrop",
-            priority: NotchContentPriority.airDrop
+            priority: NotchContentPriority.dragAndDrop
         )
         static let tray = NotchContentDescriptor(
             id: "tray",
-            priority: NotchContentPriority.tray
+            priority: NotchContentPriority.dragAndDrop
         )
         static let combined = NotchContentDescriptor(
             id: "dragAndDrop.combined",
-            priority: NotchContentPriority.dragAndDropCombined
+            priority: NotchContentPriority.dragAndDrop
+        )
+        
+        static let trayActive = NotchContentDescriptor(
+            id: "tray.active",
+            priority: NotchContentPriority.trayActive
         )
 
         static let liveActivityIDs = [

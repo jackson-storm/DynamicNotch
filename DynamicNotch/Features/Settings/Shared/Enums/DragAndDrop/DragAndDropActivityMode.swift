@@ -31,7 +31,7 @@ enum DragAndDropActivityMode: String, CaseIterable {
         case DragAndDropActivityMode.combined.rawValue:
             return .combined
         default:
-            return .airDrop
+            return .combined
         }
     }
 }

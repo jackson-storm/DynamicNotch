@@ -101,6 +101,7 @@ struct DownloadsSettingsView: View {
                 
                 HStack(spacing: 8) {
                     Image(systemName: "document.fill")
+                        .foregroundStyle(.white)
                         .font(.system(size: 16, weight: .semibold))
                     
                     Spacer()

@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct DragAndDropSettingsView: View {
+struct DropSettingsView: View {
     @ObservedObject var mediaSettings: MediaAndFilesSettingsStore
     @ObservedObject var appearanceSettings: ApplicationSettingsStore
 
@@ -16,29 +16,15 @@ struct DragAndDropSettingsView: View {
     }
     
     private var dragAndDropActivity: some View {
-        SettingsCard(title: "DragAndDrop activity") {
+        SettingsCard(title: "Drop activity") {
             SettingsToggleRow(
-                title: "DragAndDrop live activity",
+                title: "Drop live activity",
                 description: "Show file drop targets when you drag files over the notch.",
                 systemImage: "tray.and.arrow.down.fill",
                 color: .blue,
                 isOn: $mediaSettings.isDragAndDropLiveActivityEnabled,
-                accessibilityIdentifier: "settings.activities.live.dragAndDrop"
+                accessibilityIdentifier: "settings.activities.live.drop"
             )
-
-            Divider()
-                .opacity(0.6)
-                .padding(.leading, 43)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
-
-            SettingsStrokeToggleRow(
-                title: "Default stroke",
-                description: "Use the standard white notch stroke instead of the drag-and-drop accent stroke.",
-                isOn: $mediaSettings.isDragAndDropDefaultStrokeEnabled,
-                accessibilityIdentifier: "settings.activities.live.dragAndDrop.defaultStroke"
-            )
-            .disabled(isDefaultStrokeLocked)
-            .opacity(isDefaultStrokeLocked ? 0.5 : 1)
         }
     }
 
@@ -60,16 +46,40 @@ struct DragAndDropSettingsView: View {
                 dragAndDropPreviewContent
             }
 
-            Divider()
-                .opacity(0.6)
+            Divider().opacity(0.6)
 
             SettingsMenuRow(
                 title: "Target mode",
                 description: "Choose which target appears while files are dragged over the notch.",
                 options: Array(DragAndDropActivityMode.allCases),
                 optionTitle: { $0.title },
-                accessibilityIdentifier: "settings.activities.live.dragAndDrop.mode",
+                accessibilityIdentifier: "settings.activities.live.drop.mode",
                 selection: $mediaSettings.dragAndDropActivityMode
+            )
+            
+            Divider().opacity(0.6)
+
+            SettingsStrokeToggleRow(
+                title: "Default stroke",
+                description: "Use the standard white notch stroke instead of the Drop accent stroke.",
+                isOn: $mediaSettings.isDragAndDropDefaultStrokeEnabled,
+                accessibilityIdentifier: "settings.activities.live.drop.defaultStroke"
+            )
+            .disabled(isDefaultStrokeLocked)
+            .opacity(isDefaultStrokeLocked ? 0.5 : 1)
+            
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+            
+            SettingsToggleRow(
+                title: "Motion animation",
+                description: "Play animation of cell movement when hovering a file over an area.",
+                systemImage: "cursorarrow.motionlines",
+                color: .pink,
+                isOn: $mediaSettings.isDropMotionAnimationEnabled,
+                accessibilityIdentifier: "settings.activities.live.drop.motionAnimation"
             )
         }
     }

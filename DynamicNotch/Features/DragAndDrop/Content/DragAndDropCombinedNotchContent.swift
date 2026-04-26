@@ -31,6 +31,11 @@ struct DragAndDropCombinedNotchContent: NotchContentProtocol {
 
     @MainActor
     func makeView() -> AnyView {
-        AnyView(DragAndDropCombinedNotchView(airDropViewModel: airDropViewModel))
+        AnyView(
+            DragAndDropCombinedNotchView(
+                airDropViewModel: airDropViewModel,
+                isMotionAnimationEnabled: settingsViewModel.mediaAndFiles.isDropMotionAnimationEnabled
+            )
+        )
     }
 }

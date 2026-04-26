@@ -8,7 +8,7 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
         case notch
         case nowPlaying
         case downloads
-        case dragAndDrop
+        case drop
         case timer
         case focus
         case bluetooth
@@ -24,7 +24,7 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
         case nowPlaying
         case lockScreen
         case downloads
-        case dragAndDrop
+        case drop
         case timer
     }
 
@@ -301,7 +301,7 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
             return lockScreen.isLockScreenLiveActivityEnabled
         case .downloads:
             return mediaAndFiles.isDownloadsLiveActivityEnabled
-        case .dragAndDrop:
+        case .drop:
             return mediaAndFiles.isDragAndDropLiveActivityEnabled
         case .timer:
             return mediaAndFiles.isTimerLiveActivityEnabled
@@ -392,7 +392,7 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
             mediaAndFiles.resetNowPlaying()
         case .downloads:
             mediaAndFiles.resetDownloads()
-        case .dragAndDrop:
+        case .drop:
             mediaAndFiles.resetDragAndDrop()
         case .timer:
             mediaAndFiles.resetTimer()

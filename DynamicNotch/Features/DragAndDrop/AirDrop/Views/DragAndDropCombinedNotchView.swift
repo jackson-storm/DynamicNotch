@@ -9,8 +9,18 @@ import SwiftUI
 
 struct DragAndDropCombinedNotchView: View {
     @ObservedObject var airDropViewModel: AirDropNotchViewModel
+    
+    let isMotionAnimationEnabled: Bool
 
     var body: some View {
+        if isMotionAnimationEnabled {
+            motionLayout
+        } else {
+            staticLayout
+        }
+    }
+
+    private var motionLayout: some View {
         GeometryReader { proxy in
             let spacing = AirDropDropZoneMetrics.combinedSpacing
             let horizontalPadding = AirDropDropZoneMetrics.horizontalPadding
@@ -43,5 +53,35 @@ struct DragAndDropCombinedNotchView: View {
             .padding(.vertical, AirDropDropZoneMetrics.verticalPadding)
             .animation(.spring(response: 0.3, dampingFraction: 0.8), value: airDropViewModel.targetedDropTarget)
         }
+    }
+
+    private var staticLayout: some View {
+        VStack {
+            Spacer()
+
+            HStack(spacing: AirDropDropZoneMetrics.combinedSpacing) {
+                DragAndDropDropZoneContent(
+                    target: .airDrop,
+                    isTargeted: airDropViewModel.targetedDropTarget == .airDrop
+                )
+                .frame(
+                    maxWidth: .infinity,
+                    minHeight: AirDropDropZoneMetrics.height,
+                    maxHeight: AirDropDropZoneMetrics.height
+                )
+
+                DragAndDropDropZoneContent(
+                    target: .tray,
+                    isTargeted: airDropViewModel.targetedDropTarget == .tray
+                )
+                .frame(
+                    maxWidth: .infinity,
+                    minHeight: AirDropDropZoneMetrics.height,
+                    maxHeight: AirDropDropZoneMetrics.height
+                )
+            }
+        }
+        .padding(.horizontal, AirDropDropZoneMetrics.horizontalPadding)
+        .padding(.vertical, AirDropDropZoneMetrics.verticalPadding)
     }
 }

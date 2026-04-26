@@ -6,6 +6,7 @@ final class AppContainer {
     let bluetoothViewModel = BluetoothViewModel()
     let focusViewModel = FocusViewModel()
     let airDropViewModel = AirDropNotchViewModel()
+    let fileTrayViewModel = FileTrayViewModel()
     let settingsViewModel: SettingsViewModel
     let networkViewModel: NetworkViewModel
 
@@ -29,7 +30,10 @@ final class AppContainer {
     }()
 
     lazy var notchViewModel = NotchViewModel(settings: settingsViewModel.application)
-    lazy var airDropController = NotchAirDropController(airDropViewModel: airDropViewModel)
+    lazy var airDropController = NotchAirDropController(
+        airDropViewModel: airDropViewModel,
+        fileTrayViewModel: fileTrayViewModel
+    )
 
     lazy var notchEventCoordinator = NotchEventCoordinator(
         notchViewModel: notchViewModel,
@@ -38,6 +42,7 @@ final class AppContainer {
         networkViewModel: networkViewModel,
         downloadViewModel: downloadViewModel,
         airDropViewModel: airDropViewModel,
+        fileTrayViewModel: fileTrayViewModel,
         settingsViewModel: settingsViewModel,
         nowPlayingViewModel: nowPlayingViewModel,
         timerViewModel: timerViewModel,

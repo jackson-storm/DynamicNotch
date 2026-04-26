@@ -98,6 +98,12 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
             persist(isDragAndDropDefaultStrokeEnabled, for: GeneralSettingsStorage.Keys.airDropDefaultStrokeEnabled)
         }
     }
+    
+    @Published var isDropMotionAnimationEnabled: Bool {
+        didSet {
+            persist(isDropMotionAnimationEnabled, for: GeneralSettingsStorage.Keys.dropMotionAnimationEnabled)
+        }
+    }
 
     @Published var dragAndDropActivityMode: DragAndDropActivityMode {
         didSet {
@@ -150,6 +156,10 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         )
         self.isDragAndDropLiveActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.airDropLiveActivityEnabled)
         self.isDragAndDropDefaultStrokeEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.airDropDefaultStrokeEnabled)
+        self.isDropMotionAnimationEnabled = Self.resolvedBool(
+            defaults: defaults,
+            key: GeneralSettingsStorage.Keys.dropMotionAnimationEnabled
+        )
         self.dragAndDropActivityMode = DragAndDropActivityMode.resolved(
             defaults.string(forKey: GeneralSettingsStorage.Keys.dragAndDropActivityMode)
         )
@@ -189,6 +199,7 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
     func resetDragAndDrop() {
         isDragAndDropLiveActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.airDropLiveActivityEnabled)
         isDragAndDropDefaultStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.airDropDefaultStrokeEnabled)
+        isDropMotionAnimationEnabled = defaultBool(for: GeneralSettingsStorage.Keys.dropMotionAnimationEnabled)
         dragAndDropActivityMode = DragAndDropActivityMode.resolved(
             defaultString(for: GeneralSettingsStorage.Keys.dragAndDropActivityMode)
         )

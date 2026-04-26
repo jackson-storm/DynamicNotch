@@ -59,7 +59,7 @@ struct NotchView: View {
                                     return false
                                 }
 
-                                return airDropController.handleTrayDrop()
+                                return airDropController.handleTrayDrop(pasteboard)
                             }
                         }
                     )

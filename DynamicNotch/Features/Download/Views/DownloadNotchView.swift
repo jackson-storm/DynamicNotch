@@ -68,9 +68,9 @@ struct DownloadNotchView: View {
                 if let url = download?.url {
                     DownloadFileThumbnailView(url: url, size: 25)
                 } else {
-                    Image(systemName: "doc.zipper")
+                    Image(systemName: "document.fill")
                         .font(.system(size: 14, weight: .semibold))
-                        .foregroundStyle(.white.opacity(0.75))
+                        .foregroundStyle(.white.opacity(0.8))
                         .frame(width: 25, height: 25)
                 }
             }

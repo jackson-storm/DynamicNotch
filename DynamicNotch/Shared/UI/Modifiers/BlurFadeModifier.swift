@@ -46,7 +46,7 @@ private struct DynamicIslandTransitionModifier: ViewModifier {
 extension AnyTransition {
     static var blurAndFade: AnyTransition {
         .modifier(
-            active: BlurFadeModifier(blur: 20, opacity: 0),
+            active: BlurFadeModifier(blur: 40, opacity: 0),
             identity: BlurFadeModifier(blur: 0, opacity: 1)
         )
     }
@@ -76,7 +76,8 @@ extension AnyTransition {
         return .asymmetric(
             insertion: .modifier(
                 active: DynamicIslandTransitionModifier(
-                    blur: 40,
+                    blur: 20,
+                    opacity: 0,
                     offsetX: horizontalOffset,
                     offsetY: verticalOffset,
                     scaleX: 0.4,
@@ -87,7 +88,8 @@ extension AnyTransition {
             ),
             removal: .modifier(
                 active: DynamicIslandTransitionModifier(
-                    blur: 40,
+                    blur: 20,
+                    opacity: 0,
                     offsetX: horizontalOffset,
                     offsetY: verticalOffset,
                     scaleX: 0.4,

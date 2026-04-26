@@ -51,7 +51,7 @@ final class NotchMediaEventsHandler {
     func handleAirDrop(_ event: AirDropEvent) {
         switch event {
         case .dragStarted:
-            guard settingsViewModel.isLiveActivityEnabled(.dragAndDrop) else { return }
+            guard settingsViewModel.isLiveActivityEnabled(.drop) else { return }
             hideInactiveDragAndDropActivities()
             showDragAndDropLiveActivity()
 

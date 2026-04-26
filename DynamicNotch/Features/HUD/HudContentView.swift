@@ -13,9 +13,9 @@ struct HudContentView: View {
     private var barIndicatorWidth: CGFloat {
         switch style {
         case .standard:
-            return 60
+            return 50
         case .compact:
-            return 60
+            return 50
         case .minimal:
             return 60
         }
@@ -48,7 +48,7 @@ struct HudContentView: View {
     private var horizontalPadding: CGFloat {
         switch style {
         case .standard:
-            return 14
+            return 16
         case .compact:
             return 14
         case .minimal:
@@ -60,20 +60,13 @@ struct HudContentView: View {
         HStack(spacing: 12) {
             switch style {
             case .standard:
-                HStack(spacing: 10) {
-                    icon
-                    
-                    Text(verbatim: text)
-                        .font(.system(size: 14))
-                        .foregroundColor(.white.opacity(0.8))
-                }
+                Text(verbatim: text)
+                    .font(.system(size: 14))
+                    .foregroundColor(.white.opacity(0.8))
                 
                 Spacer(minLength: 12)
-                
-                HStack(spacing: 10) {
-                    AnimatedLevelText(level: clampedLevel, fontSize: 14)
-                    indicator
-                }
+        
+                indicator
                 
             case .compact:
                 icon
@@ -83,7 +76,7 @@ struct HudContentView: View {
             case .minimal:
                 icon
                 Spacer()
-                AnimatedLevelText(level: clampedLevel, fontSize: 14)
+                AnimatedLevelText(level: clampedLevel, fontSize: 16)
                 
             }
         }

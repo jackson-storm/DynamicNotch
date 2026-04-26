@@ -24,11 +24,16 @@ struct WifiConnectedNotchView: View {
     @ViewBuilder
     private var leftContent: some View {
         HStack(spacing: 6) {
-            Image(systemName: "wifi")
-                .font(.system(size: 16, weight: .semibold))
-                .foregroundStyle(Color.accentColor.gradient)
-                .contentTransition(.symbolEffect(.replace))
-            
+            ZStack {
+                RoundedRectangle(cornerRadius: 6)
+                    .fill(Color.accentColor.gradient.opacity(0.2))
+                    .frame(width: 24, height: 24)
+                
+                Image(systemName: "wifi")
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundStyle(Color.accentColor.gradient)
+                    .contentTransition(.symbolEffect(.replace))
+            }
             Text(verbatim: "Wi-Fi")
                 .foregroundColor(.white.opacity(0.8))
         }

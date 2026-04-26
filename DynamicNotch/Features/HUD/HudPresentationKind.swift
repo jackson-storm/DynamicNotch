@@ -17,9 +17,9 @@ enum HudPresentationKind {
     var title: String {
         switch self {
         case .brightness:
-            return "Brightness"
+            return "Display"
         case .keyboard:
-            return "Keyboard Brightness"
+            return "Keyboard"
         case .volume:
             return "Volume"
         }

@@ -235,6 +235,33 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
         }
     }
 
+    func testFileTrayItemsShowTrayActiveLiveActivity() async {
+        let context = makeContext(dragAndDropActivityMode: .tray)
+
+        withExtendedLifetime(context.coordinator) {
+            context.fileTrayViewModel.add([
+                URL(fileURLWithPath: "/tmp/DynamicNotch-Tray-First.txt"),
+                URL(fileURLWithPath: "/tmp/DynamicNotch-Tray-Folder", isDirectory: true)
+            ])
+        }
+
+        await assertEventually({
+            await MainActor.run {
+                context.notchViewModel.notchModel.liveActivityContent?.id == NotchContentRegistry.DragAndDrop.trayActive.id
+            }
+        }, message: "Expected tray active content, got \(String(describing: context.notchViewModel.notchModel.liveActivityContent?.id)); count: \(context.fileTrayViewModel.count); enabled: \(context.settingsViewModel.isLiveActivityEnabled(.drop))")
+
+        XCTAssertEqual(context.fileTrayViewModel.count, 2)
+
+        context.fileTrayViewModel.clear()
+
+        await assertEventually {
+            await MainActor.run {
+                context.notchViewModel.notchModel.liveActivityContent == nil
+            }
+        }
+    }
+
     func testDisabledDragAndDropSuppressesLiveActivity() async {
         let context = makeContext(dragAndDropEnabled: false)
 
@@ -336,6 +363,7 @@ private extension NotchEventCoordinatorIntegrationTests {
         let downloadViewModel: DownloadViewModel
         let downloadMonitor: FakeFileDownloadMonitor
         let airDropViewModel: AirDropNotchViewModel
+        let fileTrayViewModel: FileTrayViewModel
         let settingsViewModel: SettingsViewModel
         let nowPlayingViewModel: NowPlayingViewModel
         let nowPlayingService: FakeNowPlayingService
@@ -394,6 +422,7 @@ private extension NotchEventCoordinatorIntegrationTests {
         let lockScreenService = FakeLockScreenMonitoringService()
         let nowPlayingViewModel = NowPlayingViewModel(service: nowPlayingService)
         let airDropViewModel = AirDropNotchViewModel()
+        let fileTrayViewModel = FileTrayViewModel()
         let timerViewModel = TimerViewModel(monitor: ClockTimerMonitor())
         let lockScreenManager = LockScreenManager(
             service: lockScreenService,
@@ -413,6 +442,7 @@ private extension NotchEventCoordinatorIntegrationTests {
             networkViewModel: networkViewModel,
             downloadViewModel: downloadViewModel,
             airDropViewModel: airDropViewModel,
+            fileTrayViewModel: fileTrayViewModel,
             settingsViewModel: settingsViewModel,
             nowPlayingViewModel: nowPlayingViewModel,
             timerViewModel: timerViewModel,
@@ -440,6 +470,7 @@ private extension NotchEventCoordinatorIntegrationTests {
             downloadViewModel: downloadViewModel,
             downloadMonitor: downloadMonitor,
             airDropViewModel: airDropViewModel,
+            fileTrayViewModel: fileTrayViewModel,
             settingsViewModel: settingsViewModel,
             nowPlayingViewModel: nowPlayingViewModel,
             nowPlayingService: nowPlayingService,

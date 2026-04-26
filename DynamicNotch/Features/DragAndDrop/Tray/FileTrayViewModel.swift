@@ -9,6 +9,11 @@ import Foundation
 import Combine
 internal import AppKit
 
+enum FileTrayPasteboard {
+    static let localDragTypeIdentifier = "com.dynamicnotch.file-tray.local-drag"
+    static let localDragPasteboardType = NSPasteboard.PasteboardType(localDragTypeIdentifier)
+}
+
 struct FileTrayItem: Identifiable, Equatable {
     let id: UUID
     let url: URL
@@ -39,6 +44,13 @@ struct FileTrayItem: Identifiable, Equatable {
     var itemProvider: NSItemProvider {
         let provider = NSItemProvider(object: url as NSURL)
         provider.suggestedName = displayName
+        provider.registerDataRepresentation(
+            forTypeIdentifier: FileTrayPasteboard.localDragTypeIdentifier,
+            visibility: .ownProcess
+        ) { completion in
+            completion(Data([1]), nil)
+            return nil
+        }
         return provider
     }
 }

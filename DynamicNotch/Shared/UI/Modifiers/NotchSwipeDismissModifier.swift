@@ -3,12 +3,14 @@ internal import AppKit
 
 struct NotchSwipeDismissModifier: ViewModifier {
     @ObservedObject var notchViewModel: NotchViewModel
+    
+    let isEnabled: Bool
 
     func body(content: Content) -> some View {
         content.background(
             NotchSwipeDismissMonitorRepresentable(
-                canSwipeUp: notchViewModel.canDismissWithTrackpadSwipe,
-                canSwipeDown: notchViewModel.canRestoreWithTrackpadSwipe,
+                canSwipeUp: isEnabled && notchViewModel.canDismissWithTrackpadSwipe,
+                canSwipeDown: isEnabled && notchViewModel.canRestoreWithTrackpadSwipe,
                 onSwipeUp: {
                     notchViewModel.dismissActiveContent()
                 },

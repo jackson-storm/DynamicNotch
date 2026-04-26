@@ -243,6 +243,13 @@ private struct ResolvedAirDropBatch {
 }
 
 extension NSPasteboard {
+    var isFileTrayLocalDrag: Bool {
+        availableType(from: [FileTrayPasteboard.localDragPasteboardType]) != nil ||
+        pasteboardItems?.contains {
+            $0.data(forType: FileTrayPasteboard.localDragPasteboardType) != nil
+        } == true
+    }
+
     var containsAirDropFiles: Bool {
         fileURLsForAirDrop()?.isEmpty == false
     }

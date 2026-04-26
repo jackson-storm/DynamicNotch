@@ -53,6 +53,10 @@ presentation, gesture support, and system-aware feature routing.
 The app is built with SwiftUI and AppKit, so the notch window, settings UI, and event handling feel
 like part of macOS rather than a web-style overlay.
 
+The difference between this project and others is that it is built on its own engine, and not taken from other ready-made repositories. It completely copies the logic, animations, and behavior of a real Dynamic Island on an iPhone, unlike other projects. 
+
+The main goal is to make the project as native as possible, both in terms of design and interaction.
+
 ## 🚀 Highlights
 
 - 🎵 Live activities for Now Playing, Downloads, AirDrop, Timer, Focus, Personal Hotspot, and Lock Screen media/live activity surfaces
@@ -105,15 +109,6 @@ open DynamicNotch.xcodeproj
 
 Then run the `DynamicNotch` scheme from Xcode. Swift Package Manager dependencies are resolved by the project.
 
-## 🧪 Run Tests
-
-```bash
-xcodebuild -project DynamicNotch.xcodeproj -scheme DynamicNotch -destination 'platform=macOS' test
-```
-
-Automated coverage in this repository focuses on notch queue behavior, restore flows, battery and network events,
-download monitoring, Now Playing lifecycle, timer handling, and lock-screen-related transitions.
-
 ## 🗂️ Repository Layout
 
 ```text
@@ -121,7 +116,7 @@ DynamicNotch/
 ├── Application/        # App entry point, app delegate, window setup, and settings shell
 ├── Core/               # Shared models, protocols, services, and infrastructure
 ├── Features/
-│   ├── AirDrop/
+│   ├── DragAndDrop/
 │   ├── Battery/
 │   ├── Bluetooth/
 │   ├── Download/
@@ -139,7 +134,11 @@ DynamicNotch/
 
 DynamicNotchTests/
 ├── Features/
+├── Shared/
 └── TestSupport/
+
+DynamicNotchUITest/
+└── DynamicNotchUITest.swift
 ```
 
 ## 🏗️ Architecture at a Glance
@@ -157,7 +156,6 @@ DynamicNotchTests/
 - SwiftUI for notch content and settings UI
 - AppKit for windows, input handling, and macOS integration
 - Combine for feature and settings streams
-- [Defaults](https://github.com/sindresorhus/Defaults) for preferences
 - [Lottie](https://github.com/airbnb/lottie-ios) for animation assets
 
 ## 🌍 Localization
@@ -176,14 +174,6 @@ DynamicNotch already includes a working native notch window, live activities, te
 custom HUD flows, a dedicated settings experience, and lock-screen-specific behavior.
 
 Some lock-screen-related flows depend on private or system-level behavior and can vary across macOS versions and environments.
-
-## 🙏 Acknowledgements
-
-DynamicNotch benefited from ideas and selected implementation details inspired by other open-source work on GitHub.
-Thank you to the maintainers and contributors behind these projects:
-
-- [Ebullioscopic/Atoll](https://github.com/Ebullioscopic/Atoll)
-- [MrKai77/DynamicNotchKit](https://github.com/MrKai77/DynamicNotchKit)
 
 ## 📄 License
 

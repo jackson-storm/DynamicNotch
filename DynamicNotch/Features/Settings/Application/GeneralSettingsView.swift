@@ -64,20 +64,6 @@ struct GeneralSettingsView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
             
             SettingsToggleRow(
-                title: "Show menu bar icon",
-                description: "Show a menu bar shortcut for quick access to Settings and Quit.",
-                systemImage: "menubar.rectangle",
-                color: .blue,
-                isOn: $applicationSettings.isMenuBarIconVisible,
-                accessibilityIdentifier: "settings.general.menuBarIcon"
-            )
-            
-            Divider()
-                .opacity(0.6)
-                .padding(.leading, 43)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
-            
-            SettingsToggleRow(
                 title: "Show Dock icon",
                 description: "Keep the app visible in the Dock for faster switching and window access.",
                 systemImage: "dock.rectangle",
@@ -85,6 +71,33 @@ struct GeneralSettingsView: View {
                 isOn: $applicationSettings.isDockIconVisible,
                 accessibilityIdentifier: "settings.general.dockIcon"
             )
+            
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+            
+            VStack(alignment: .leading, spacing: 14) {
+                SettingsToggleRow(
+                    title: "Show menu bar icon",
+                    description: "Show a menu bar shortcut for quick access to Settings and Quit.",
+                    systemImage: "menubar.rectangle",
+                    color: .blue,
+                    isOn: $applicationSettings.isMenuBarIconVisible,
+                    accessibilityIdentifier: "settings.general.menuBarIcon"
+                )
+                if !applicationSettings.isMenuBarIconVisible {
+                    HStack {
+                        Image(systemName: "exclamationmark.triangle.fill")
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundStyle(Color.yellow)
+                        
+                        Text("You can access the menu by right-clicking on the notch area.")
+                            .font(.system(size: 10))
+                            .foregroundStyle(Color.secondary)
+                    }
+                }
+            }
         }
     }
     

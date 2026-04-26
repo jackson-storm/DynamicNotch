@@ -106,10 +106,12 @@ private extension NotchView {
             )
             .offset(y: 1)
             .customNotchMouseSwipeable(
-                notchViewModel: notchViewModel
+                notchViewModel: notchViewModel,
+                isEnabled: shouldEnableNotchSwipeGestures
             )
             .customNotchSwipeDismissable(
-                notchViewModel: notchViewModel
+                notchViewModel: notchViewModel,
+                isEnabled: shouldEnableNotchSwipeGestures
             )
             .contextMenu {
                 if !settingsViewModel.isMenuBarIconVisible {
@@ -119,6 +121,13 @@ private extension NotchView {
             .environment(\.colorScheme, .dark)
             .animation(notchViewModel.animations.strokeVisibility, value: settingsViewModel.isShowNotchStrokeEnabled)
             .animation(notchViewModel.animations.notchVisibility, value: notchViewModel.showNotch)
+    }
+    
+    var shouldEnableNotchSwipeGestures: Bool {
+        !(
+            notchViewModel.notchModel.isPresentingExpandedLiveActivity &&
+            notchViewModel.notchModel.content?.id == NotchContentRegistry.DragAndDrop.trayActive.id
+        )
     }
     
     var visibleStrokeColor: Color {

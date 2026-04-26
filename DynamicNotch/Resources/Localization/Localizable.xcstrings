@@ -15555,6 +15555,34 @@
         }
       }
     },
+    "You can access the menu by right-clicking on the notch area." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can access the menu by right-clicking on the notch area."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Puedes acceder al menú haciendo clic derecho en el área del notch."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вы можете открыть меню, щелкнув правой кнопкой мыши по области notch."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你可以通过右键点击刘海区域访问菜单。"
+          }
+        }
+      }
+    },
     "You need to make sure that the application has been granted permission." : {
       "extractionState" : "stale",
       "localizations" : {

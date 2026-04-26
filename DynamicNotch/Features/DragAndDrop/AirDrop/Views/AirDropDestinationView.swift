@@ -74,6 +74,14 @@ final class DragAndDropView: NSView {
              .rightMouseUp,
              .otherMouseDown,
              .otherMouseUp,
+             .scrollWheel,
+             .swipe,
+             .gesture,
+             .magnify,
+             .rotate,
+             .beginGesture,
+             .endGesture,
+             .smartMagnify,
              .mouseMoved,
              .mouseEntered,
              .mouseExited,
@@ -85,7 +93,8 @@ final class DragAndDropView: NSView {
     }
 
     override func draggingEntered(_ sender: NSDraggingInfo) -> NSDragOperation {
-        guard sender.draggingPasteboard.containsAirDropFiles else {
+        guard sender.draggingPasteboard.isFileTrayLocalDrag == false,
+              sender.draggingPasteboard.containsAirDropFiles else {
             onTargetedChange(false)
             onTargetedDropTargetChange(nil)
             return []
@@ -98,7 +107,8 @@ final class DragAndDropView: NSView {
     }
 
     override func draggingUpdated(_ sender: NSDraggingInfo) -> NSDragOperation {
-        guard sender.draggingPasteboard.containsAirDropFiles else {
+        guard sender.draggingPasteboard.isFileTrayLocalDrag == false,
+              sender.draggingPasteboard.containsAirDropFiles else {
             onTargetedChange(false)
             onTargetedDropTargetChange(nil)
             return []
@@ -116,11 +126,15 @@ final class DragAndDropView: NSView {
     }
 
     override func prepareForDragOperation(_ sender: NSDraggingInfo) -> Bool {
-        sender.draggingPasteboard.containsAirDropFiles && dropTarget(for: sender) != nil
+        sender.draggingPasteboard.isFileTrayLocalDrag == false &&
+        sender.draggingPasteboard.containsAirDropFiles &&
+        dropTarget(for: sender) != nil
     }
 
     override func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
-        guard sender.draggingPasteboard.containsAirDropFiles, let target = dropTarget(for: sender) else {
+        guard sender.draggingPasteboard.isFileTrayLocalDrag == false,
+              sender.draggingPasteboard.containsAirDropFiles,
+              let target = dropTarget(for: sender) else {
             onTargetedDropTargetChange(nil)
             return false
         }

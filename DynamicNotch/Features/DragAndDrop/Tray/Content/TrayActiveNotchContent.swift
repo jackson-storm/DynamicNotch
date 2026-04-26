@@ -20,7 +20,7 @@ struct TrayActiveNotchContent: NotchContentProtocol {
     }
 
     func expandedSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        return .init(width: baseWidth + 190, height: baseHeight + 115)
+        return .init(width: baseWidth + 208, height: baseHeight + 115)
     }
     
     func expandedCornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {

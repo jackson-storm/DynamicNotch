@@ -7,7 +7,8 @@ enum PowerEvent: Equatable {
 }
 
 struct ChargerNotchContent: NotchContentProtocol {
-    let id = "battery.charger"
+    let id = NotchContentRegistry.Power.charger.id
+    var priority: Int { NotchContentRegistry.Power.charger.priority }
     
     let powerService: PowerService
     let settingsViewModel: SettingsViewModel

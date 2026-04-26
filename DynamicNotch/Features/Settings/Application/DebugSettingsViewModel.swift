@@ -41,12 +41,12 @@ final class DebugSettingsViewModel: ObservableObject {
 
     @Published private(set) var isPreviewSequenceRunning = false
 
-    private static let sequenceContentPrefix = "debug.sequence."
-    private static let sequenceFocusID = "debug.sequence.focus.on"
-    private static let sequenceHotspotID = "debug.sequence.hotspot.active"
-    private static let sequenceNowPlayingID = "debug.sequence.nowPlaying"
-    private static let sequenceDownloadsID = "debug.sequence.download.active"
-    private static let sequenceTimerID = "debug.sequence.clock.timer"
+    private static let sequenceContentPrefix = NotchContentRegistry.DebugSequence.prefix
+    private static let sequenceFocusID = NotchContentRegistry.DebugSequence.focus
+    private static let sequenceHotspotID = NotchContentRegistry.DebugSequence.hotspot
+    private static let sequenceNowPlayingID = NotchContentRegistry.DebugSequence.nowPlaying
+    private static let sequenceDownloadsID = NotchContentRegistry.DebugSequence.download
+    private static let sequenceTimerID = NotchContentRegistry.DebugSequence.timer
     private static let livePreviewDuration: TimeInterval = 4
     private static let previewGapDuration: TimeInterval = 1
     private static let transitionBufferDuration: TimeInterval = 0.35
@@ -190,7 +190,7 @@ final class DebugSettingsViewModel: ObservableObject {
         if isFocusLivePreviewEnabled {
             notchEventCoordinator.handleFocusEvent(.FocusOn)
         } else {
-            notchViewModel.send(.hideLiveActivity(id: "focus.on"))
+            notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Focus.active.id))
         }
     }
 
@@ -268,7 +268,7 @@ final class DebugSettingsViewModel: ObservableObject {
                 )
                 try await self.playTemporaryPreview(
                     FocusOffNotchContent(settingsViewModel: settingsViewModel),
-                    id: "\(Self.sequenceContentPrefix)focus.off",
+                    id: NotchContentRegistry.DebugSequence.focusOff,
                     duration: 3
                 )
                 try await self.playLivePreview(
@@ -283,7 +283,7 @@ final class DebugSettingsViewModel: ObservableObject {
                     WifiConnectedNotchContent(
                         networkViewModel: networkViewModel
                     ),
-                    id: "\(Self.sequenceContentPrefix)wifi.connected",
+                    id: NotchContentRegistry.DebugSequence.wifi,
                     duration: 3
                 )
                 try await self.playVPNPreview()
@@ -296,7 +296,7 @@ final class DebugSettingsViewModel: ObservableObject {
                         level: 72,
                         applicationSettings: settingsViewModel.application
                     ),
-                    id: "\(Self.sequenceContentPrefix)hud.brightness",
+                    id: NotchContentRegistry.DebugSequence.hudBrightness,
                     duration: 2
                 )
                 try await self.playTemporaryPreview(
@@ -305,7 +305,7 @@ final class DebugSettingsViewModel: ObservableObject {
                         level: 64,
                         applicationSettings: settingsViewModel.application
                     ),
-                    id: "\(Self.sequenceContentPrefix)hud.keyboard",
+                    id: NotchContentRegistry.DebugSequence.hudKeyboard,
                     duration: 2
                 )
                 try await self.playTemporaryPreview(
@@ -314,7 +314,7 @@ final class DebugSettingsViewModel: ObservableObject {
                         level: 42,
                         applicationSettings: settingsViewModel.application
                     ),
-                    id: "\(Self.sequenceContentPrefix)hud.volume",
+                    id: NotchContentRegistry.DebugSequence.hudVolume,
                     duration: 2
                 )
             } catch is CancellationError {
@@ -338,7 +338,7 @@ final class DebugSettingsViewModel: ObservableObject {
                 settings: settingsViewModel.connectivity,
                 applicationSettings: settingsViewModel.application
             ),
-            id: "\(Self.sequenceContentPrefix)bluetooth.connected",
+            id: NotchContentRegistry.DebugSequence.bluetooth,
             duration: 5
         )
     }
@@ -350,7 +350,7 @@ final class DebugSettingsViewModel: ObservableObject {
                 networkViewModel: networkViewModel,
                 settings: settingsViewModel.connectivity
             ),
-            id: "\(Self.sequenceContentPrefix)vpn.connected",
+            id: NotchContentRegistry.DebugSequence.vpn,
             duration: 5
         )
     }
@@ -362,7 +362,7 @@ final class DebugSettingsViewModel: ObservableObject {
                 powerService: powerService,
                 settingsViewModel: settingsViewModel
             ),
-            id: "\(Self.sequenceContentPrefix)charger",
+            id: NotchContentRegistry.DebugSequence.charging,
             duration: 4
         )
     }
@@ -374,7 +374,7 @@ final class DebugSettingsViewModel: ObservableObject {
                 powerService: powerService,
                 settingsViewModel: settingsViewModel
             ),
-            id: "\(Self.sequenceContentPrefix)lowPower",
+            id: NotchContentRegistry.DebugSequence.lowPower,
             duration: 4
         )
     }
@@ -386,7 +386,7 @@ final class DebugSettingsViewModel: ObservableObject {
                 powerService: powerService,
                 settingsViewModel: settingsViewModel
             ),
-            id: "\(Self.sequenceContentPrefix)fullPower",
+            id: NotchContentRegistry.DebugSequence.fullPower,
             duration: 4
         )
     }

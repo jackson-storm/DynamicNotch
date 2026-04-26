@@ -44,26 +44,26 @@ final class NotchMediaEventsHandler {
             )
 
         case .stopped:
-            notchViewModel.send(.hideLiveActivity(id: "download.active"))
+            notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Media.download.id))
         }
     }
 
     func handleAirDrop(_ event: AirDropEvent) {
         switch event {
         case .dragStarted:
-            guard settingsViewModel.isLiveActivityEnabled(.airDrop) else { return }
-            notchViewModel.send(
-                .showLiveActivity(
-                    AirDropNotchContent(
-                        airDropViewModel: airDropViewModel,
-                        settingsViewModel: settingsViewModel
-                    )
-                )
-            )
+            guard settingsViewModel.isLiveActivityEnabled(.drop) else { return }
+            hideInactiveDragAndDropActivities()
+            showDragAndDropLiveActivity()
 
         case .dragEnded, .dropped:
-            notchViewModel.send(.hideLiveActivity(id: "airdrop"))
+            hideDragAndDropActivities()
         }
+    }
+
+    func refreshDragAndDropPresentation() {
+        hideDragAndDropActivities()
+        guard airDropViewModel.isDraggingFile else { return }
+        handleAirDrop(.dragStarted)
     }
 
     func handleNowPlaying(_ event: NowPlayingEvent) {
@@ -84,7 +84,7 @@ final class NotchMediaEventsHandler {
             }
 
             deferredNowPlayingHideWhileExpanded = nil
-            notchViewModel.send(.hideLiveActivity(id: "nowPlaying"))
+            notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Media.nowPlaying.id))
 
         case let .playbackStateChanged(isPlaying):
             guard settingsViewModel.isLiveActivityEnabled(.nowPlaying) else {
@@ -119,7 +119,7 @@ final class NotchMediaEventsHandler {
             }
 
             deferredNowPlayingHideWhileExpanded = nil
-            notchViewModel.send(.hideLiveActivity(id: "nowPlaying"))
+            notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Media.nowPlaying.id))
 
         case .pauseTimer:
             guard settingsViewModel.mediaAndFiles.isNowPlayingPauseHideTimerEnabled else {
@@ -171,8 +171,67 @@ final class NotchMediaEventsHandler {
     }
 
     private var isExpandedNowPlayingVisible: Bool {
-        notchViewModel.notchModel.liveActivityContent?.id == "nowPlaying" &&
+        notchViewModel.notchModel.liveActivityContent?.id == NotchContentRegistry.Media.nowPlaying.id &&
         notchViewModel.notchModel.isLiveActivityExpanded
+    }
+
+    private func showDragAndDropLiveActivity() {
+        switch settingsViewModel.mediaAndFiles.dragAndDropActivityMode {
+        case .airDrop:
+            notchViewModel.send(
+                .showLiveActivity(
+                    AirDropNotchContent(
+                        airDropViewModel: airDropViewModel,
+                        settingsViewModel: settingsViewModel
+                    )
+                )
+            )
+
+        case .tray:
+            notchViewModel.send(
+                .showLiveActivity(
+                    TrayNotchContent(
+                        airDropViewModel: airDropViewModel,
+                        settingsViewModel: settingsViewModel
+                    )
+                )
+            )
+
+        case .combined:
+            notchViewModel.send(
+                .showLiveActivity(
+                    DragAndDropCombinedNotchContent(
+                        airDropViewModel: airDropViewModel,
+                        settingsViewModel: settingsViewModel
+                    )
+                )
+            )
+        }
+    }
+
+    private func hideDragAndDropActivities() {
+        NotchContentRegistry.DragAndDrop.liveActivityIDs.forEach { id in
+            notchViewModel.send(.hideLiveActivity(id: id))
+        }
+    }
+
+    private func hideInactiveDragAndDropActivities() {
+        let activeID: String
+
+        switch settingsViewModel.mediaAndFiles.dragAndDropActivityMode {
+        case .airDrop:
+            activeID = NotchContentRegistry.DragAndDrop.airDrop.id
+        case .tray:
+            activeID = NotchContentRegistry.DragAndDrop.tray.id
+        case .combined:
+            activeID = NotchContentRegistry.DragAndDrop.combined.id
+        }
+
+        NotchContentRegistry.DragAndDrop.liveActivityIDs
+            .filter { $0 != activeID }
+            .forEach { id in
+                notchViewModel.send(.hideLiveActivity(id: id))
+            }
     }
 
     private func showNowPlayingLiveActivity() {
@@ -225,6 +284,6 @@ final class NotchMediaEventsHandler {
         cancelNowPlayingPauseHideTimer()
         deferredNowPlayingHideWhileExpanded = nil
         isNowPlayingHiddenForPauseTimer = true
-        notchViewModel.send(.hideLiveActivity(id: "nowPlaying"))
+        notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Media.nowPlaying.id))
     }
 }

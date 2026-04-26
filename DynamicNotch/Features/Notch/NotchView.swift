@@ -39,14 +39,28 @@ struct NotchView: View {
                     )
                 )
                 .overlay {
-                    AirDropDestinationView(
+                    DragAndDropDestinationView(
                         isTargeted: $airDropController.isTargeted,
-                        isDropZoneTargeted: Binding(
-                            get: { airDropViewModel.isDropZoneTargeted },
-                            set: { airDropViewModel.setDropZoneTargeted($0) }
+                        targetedDropTarget: Binding(
+                            get: { airDropViewModel.targetedDropTarget },
+                            set: { airDropViewModel.setTargetedDropTarget($0) }
                         ),
-                        onDropPasteboard: { pasteboard in
-                            airDropController.handlePasteboardDrop(pasteboard)
+                        mode: settingsViewModel.mediaAndFiles.dragAndDropActivityMode,
+                        onDropPasteboard: { target, pasteboard in
+                            switch target {
+                            case .airDrop:
+                                guard settingsViewModel.mediaAndFiles.dragAndDropActivityMode.showsAirDrop else {
+                                    return false
+                                }
+
+                                return airDropController.handlePasteboardDrop(pasteboard)
+                            case .tray:
+                                guard settingsViewModel.mediaAndFiles.dragAndDropActivityMode.showsTray else {
+                                    return false
+                                }
+
+                                return airDropController.handleTrayDrop(pasteboard)
+                            }
                         }
                     )
                 }
@@ -92,10 +106,12 @@ private extension NotchView {
             )
             .offset(y: 1)
             .customNotchMouseSwipeable(
-                notchViewModel: notchViewModel
+                notchViewModel: notchViewModel,
+                isEnabled: shouldEnableNotchSwipeGestures
             )
             .customNotchSwipeDismissable(
-                notchViewModel: notchViewModel
+                notchViewModel: notchViewModel,
+                isEnabled: shouldEnableNotchSwipeGestures
             )
             .contextMenu {
                 if !settingsViewModel.isMenuBarIconVisible {
@@ -105,6 +121,13 @@ private extension NotchView {
             .environment(\.colorScheme, .dark)
             .animation(notchViewModel.animations.strokeVisibility, value: settingsViewModel.isShowNotchStrokeEnabled)
             .animation(notchViewModel.animations.notchVisibility, value: notchViewModel.showNotch)
+    }
+    
+    var shouldEnableNotchSwipeGestures: Bool {
+        !(
+            notchViewModel.notchModel.isPresentingExpandedLiveActivity &&
+            notchViewModel.notchModel.content?.id == NotchContentRegistry.DragAndDrop.trayActive.id
+        )
     }
     
     var visibleStrokeColor: Color {

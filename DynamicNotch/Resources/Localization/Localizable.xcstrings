@@ -87,6 +87,9 @@
         }
       }
     },
+    "%lld" : {
+
+    },
     "%lld%%" : {
       "localizations" : {
         "en" : {
@@ -453,7 +456,6 @@
       }
     },
     "AirDrop" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -482,6 +484,7 @@
       }
     },
     "AirDrop activity" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -510,6 +513,7 @@
       }
     },
     "AirDrop live activity" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3106,6 +3110,34 @@
         }
       }
     },
+    "Choose which target appears while files are dragged over the notch." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose which target appears while files are dragged over the notch."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige qué destino aparece al arrastrar archivos sobre la muesca."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите, какая цель появляется при перетаскивании файлов над нотчем."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择将文件拖到刘海上方时显示的目标。"
+          }
+        }
+      }
+    },
     "Circle" : {
       "localizations" : {
         "en" : {
@@ -3190,6 +3222,9 @@
           }
         }
       }
+    },
+    "Clear All" : {
+
     },
     "Click" : {
       "localizations" : {
@@ -3356,6 +3391,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "色彩层次色调"
+          }
+        }
+      }
+    },
+    "Combined" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Combined"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Combinado"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Совмещено"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "组合"
           }
         }
       }
@@ -4188,6 +4251,177 @@
         }
       }
     },
+    "Drag&Drop activity" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Drag&Drop activity"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actividad Drag&Drop"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Активность Drag&Drop"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Drag&Drop 活动"
+          }
+        }
+      }
+    },
+    "Drag&Drop live activity" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Drag&Drop live activity"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live activity de Drag&Drop"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live activity Drag&Drop"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Drag&Drop 实时活动"
+          }
+        }
+      }
+    },
+    "Drag&Drop target" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Drag&Drop target"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Destino Drag&Drop"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цель Drag&Drop"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Drag&Drop 目标"
+          }
+        }
+      }
+    },
+    "Drop activity" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Drop activity"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actividad Drop"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Активность Drop"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Drop 活动"
+          }
+        }
+      }
+    },
+    "Drop live activity" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Drop live activity"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live activity de Drop"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live activity Drop"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Drop 实时活动"
+          }
+        }
+      }
+    },
+    "Drop target" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Drop target"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Destino Drop"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цель Drop"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Drop 目标"
+          }
+        }
+      }
+    },
     "Dynamic Notch" : {
       "localizations" : {
         "en" : {
@@ -4353,6 +4587,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "展开实时活动"
+          }
+        }
+      }
+    },
+    "File Tray" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "File Tray"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bandeja de archivos"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Файловый трей"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "文件托盘"
           }
         }
       }
@@ -6445,6 +6708,34 @@
         }
       }
     },
+    "Motion animation" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Motion animation"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Animación de movimiento"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Анимация движения"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移动动画"
+          }
+        }
+      }
+    },
     "Mouse drag gestures" : {
       "localizations" : {
         "en" : {
@@ -7318,6 +7609,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "参加所有赛事"
+          }
+        }
+      }
+    },
+    "Play animation of cell movement when hovering a file over an area." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Play animation of cell movement when hovering a file over an area."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reproduce la animación del movimiento de las celdas al pasar un archivo sobre un área."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Воспроизводить анимацию движения ячеек при наведении файла на область."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "将文件悬停在区域上方时播放单元格移动动画。"
           }
         }
       }
@@ -11457,64 +11776,6 @@
         }
       }
     },
-    "settings.section.airDrop.subtitle" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Drag-and-drop sharing through the notch."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Compartir mediante arrastrar y soltar a través de la muesca."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Обмен через AirDrop с перетаскиванием через вырез."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "通过刘海拖放共享。"
-          }
-        }
-      }
-    },
-    "settings.section.airDrop.title" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "AirDrop"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lanzamiento aéreo"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "AirDrop"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "空投"
-          }
-        }
-      }
-    },
     "settings.section.battery.subtitle" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -11743,6 +12004,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "下载"
+          }
+        }
+      }
+    },
+    "settings.section.drop.subtitle" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AirDrop and Tray targets for files dragged through the notch."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Destinos de AirDrop y Tray para archivos arrastrados por la muesca."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цели AirDrop и Tray для файлов, перетаскиваемых через нотч."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通过刘海拖动文件时显示 AirDrop 和 Tray 目标。"
+          }
+        }
+      }
+    },
+    "settings.section.drop.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Drag&Drop"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Drag&Drop"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Drag&Drop"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Drag&Drop"
           }
         }
       }
@@ -12806,6 +13125,34 @@
         }
       }
     },
+    "Show AirDrop and Tray targets when you drag files over the notch." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show AirDrop and Tray targets when you drag files over the notch."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Muestra los destinos AirDrop y Tray al arrastrar archivos sobre la muesca."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показывать цели AirDrop и Tray при перетаскивании файлов над нотчем."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "将文件拖到刘海上方时显示 AirDrop 和 Tray 目标。"
+          }
+        }
+      }
+    },
     "Show Dock icon" : {
       "localizations" : {
         "en" : {
@@ -12830,6 +13177,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "显示 Dock 图标"
+          }
+        }
+      }
+    },
+    "Show file drop targets when you drag files over the notch." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show file drop targets when you drag files over the notch."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Muestra destinos Drop de archivos al arrastrarlos sobre la muesca."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показывать цели Drop для файлов при перетаскивании над нотчем."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "将文件拖到刘海上方时显示文件 Drop 目标。"
           }
         }
       }
@@ -12977,6 +13353,7 @@
       }
     },
     "Show the AirDrop drop target when you drag files over the notch." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -13280,6 +13657,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "当音频或视频播放处于活动状态时显示“正在播放”实时活动。"
+          }
+        }
+      }
+    },
+    "Show the pinned file tray after files are dropped into Tray." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show the pinned file tray after files are dropped into Tray."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Muestra la bandeja de archivos fijada después de soltar archivos en Tray."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показывать закрепленный файловый трей после добавления файлов в Tray."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "文件放入 Tray 后显示固定的文件托盘。"
           }
         }
       }
@@ -13766,6 +14171,34 @@
         }
       }
     },
+    "Target mode" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Target mode"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modo de destino"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Режим цели"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "目标模式"
+          }
+        }
+      }
+    },
     "Teal" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -14135,6 +14568,62 @@
         }
       }
     },
+    "Tray" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tray"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bandeja"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Трей"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "托盘"
+          }
+        }
+      }
+    },
+    "Tray live activity" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tray live activity"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live activity de Tray"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live activity трея"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tray 实时活动"
+          }
+        }
+      }
+    },
     "Trigger Events" : {
       "localizations" : {
         "en" : {
@@ -14478,6 +14967,7 @@
       }
     },
     "Use the standard white notch stroke instead of the blue AirDrop stroke." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -14501,6 +14991,63 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "使用标准的白色凹口笔划而不是蓝色的 AirDrop 笔划。"
+          }
+        }
+      }
+    },
+    "Use the standard white notch stroke instead of the Drag&Drop accent stroke." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use the standard white notch stroke instead of the Drag&Drop accent stroke."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usa el trazo blanco estándar de la muesca en lugar del trazo de acento de Drag&Drop."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Использовать стандартную белую обводку нотча вместо акцентной обводки Drag&Drop."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用标准白色刘海描边，而不是 Drag&Drop 强调色描边。"
+          }
+        }
+      }
+    },
+    "Use the standard white notch stroke instead of the Drop accent stroke." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use the standard white notch stroke instead of the Drop accent stroke."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usa el trazo blanco estándar de la muesca en lugar del trazo de acento de Drop."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Использовать стандартную белую обводку нотча вместо акцентной обводки Drop."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用标准白色刘海描边，而不是 Drop 强调色描边。"
           }
         }
       }
@@ -15205,6 +15752,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "不使用关闭计时器"
+          }
+        }
+      }
+    },
+    "You can access the menu by right-clicking on the notch area." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can access the menu by right-clicking on the notch area."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Puedes acceder al menú haciendo clic derecho en el área del notch."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вы можете открыть меню, щелкнув правой кнопкой мыши по области notch."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你可以通过右键点击刘海区域访问菜单。"
           }
         }
       }

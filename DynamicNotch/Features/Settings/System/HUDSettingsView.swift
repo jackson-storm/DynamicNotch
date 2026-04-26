@@ -182,15 +182,10 @@ struct HUDSettingsView: View {
                     .frame(height: 30)
                 
                 HStack(spacing: 8) {
-                    Image(systemName: "speaker.wave.2.fill")
-                        .font(.system(size: 13, weight: .semibold))
-                    
                     Text(verbatim: "Volume")
                         .lineLimit(1)
                     
                     Spacer()
-                    
-                    Text(verbatim: "72")
                     
                     pickerIndicator
                 }

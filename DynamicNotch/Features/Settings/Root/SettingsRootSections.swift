@@ -47,7 +47,7 @@ extension SettingsRootViewModel {
         case notch
         case nowPlaying
         case downloads
-        case airDrop
+        case drop
         case timer
         case bluetooth
         case focus
@@ -118,6 +118,8 @@ extension SettingsRootViewModel {
                 return .permissions
             case "activities", "liveActivity":
                 return .nowPlaying
+            case "airDrop", "dragAndDrop":
+                return .drop
             case "temporaryActivity":
                 return .battery
             case "hotspot", "wifi", "vpn":
@@ -281,23 +283,27 @@ private enum SettingsSectionCatalog {
                 resetGroup: .downloads
             )
 
-        case .airDrop:
+        case .drop:
             return .init(
                 sidebarGroup: .media,
-                titleKey: "settings.section.airDrop.title",
-                fallbackTitle: "AirDrop",
-                subtitleKey: "settings.section.airDrop.subtitle",
-                fallbackSubtitle: "Drag-and-drop sharing through the notch.",
+                titleKey: "settings.section.drop.title",
+                fallbackTitle: "Drag&Drop",
+                subtitleKey: "settings.section.drop.subtitle",
+                fallbackSubtitle: "AirDrop and Tray targets for files dragged through the notch.",
                 searchKeywords: [
+                    "drag and drop",
+                    "drag",
+                    "drop",
                     "airdrop",
+                    "tray",
                     "share",
                     "transfer",
                     "stroke"
                 ],
-                systemImage: "dot.radiowaves.left.and.right",
-                imageName: "airdrop.white",
+                systemImage: "tray.and.arrow.down.fill",
+                imageName: nil,
                 tint: .blue,
-                resetGroup: .airDrop
+                resetGroup: .drop
             )
 
         case .timer:

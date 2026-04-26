@@ -3,12 +3,13 @@ internal import AppKit
 
 struct NotchMouseSwipeModifier: ViewModifier {
     @ObservedObject var notchViewModel: NotchViewModel
+    let isEnabled: Bool
 
     func body(content: Content) -> some View {
         content.background(
             NotchMouseSwipeMonitorRepresentable(
-                canSwipeUp: notchViewModel.canDismissWithMouseDrag,
-                canSwipeDown: notchViewModel.canRestoreWithMouseDrag,
+                canSwipeUp: isEnabled && notchViewModel.canDismissWithMouseDrag,
+                canSwipeDown: isEnabled && notchViewModel.canRestoreWithMouseDrag,
                 onSwipeUp: {
                     notchViewModel.dismissActiveContent()
                 },

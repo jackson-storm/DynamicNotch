@@ -8,12 +8,12 @@ enum DownloadEvent: Equatable {
 }
 
 struct DownloadNotchContent: NotchContentProtocol {
-    let id = "download.active"
+    let id = NotchContentRegistry.Media.download.id
     
     let downloadViewModel: DownloadViewModel
     let settingsViewModel: SettingsViewModel
     
-    var priority: Int { 82 }
+    var priority: Int { NotchContentRegistry.Media.download.priority }
     var isExpandable: Bool { true }
     
     var strokeColor: Color {

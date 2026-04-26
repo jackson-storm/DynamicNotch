@@ -18,18 +18,20 @@ extension View {
         )
     }
 
-    func customNotchMouseSwipeable(notchViewModel: NotchViewModel) -> some View {
+    func customNotchMouseSwipeable(notchViewModel: NotchViewModel, isEnabled: Bool = true) -> some View {
         modifier(
             NotchMouseSwipeModifier(
-                notchViewModel: notchViewModel
+                notchViewModel: notchViewModel,
+                isEnabled: isEnabled
             )
         )
     }
 
-    func customNotchSwipeDismissable(notchViewModel: NotchViewModel) -> some View {
+    func customNotchSwipeDismissable(notchViewModel: NotchViewModel, isEnabled: Bool = true) -> some View {
         modifier(
             NotchSwipeDismissModifier(
-                notchViewModel: notchViewModel
+                notchViewModel: notchViewModel,
+                isEnabled: isEnabled
             )
         )
     }

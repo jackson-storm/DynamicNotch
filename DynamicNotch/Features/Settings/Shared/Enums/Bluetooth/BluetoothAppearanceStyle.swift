@@ -26,7 +26,7 @@ enum BluetoothAppearanceStyle: String, CaseIterable {
         case BluetoothAppearanceStyle.detailed.rawValue:
             return .detailed
         default:
-            return .detailed
+            return .device
         }
     }
 }

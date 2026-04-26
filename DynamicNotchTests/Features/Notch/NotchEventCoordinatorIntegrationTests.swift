@@ -31,7 +31,7 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
         context.coordinator.handleFocusEvent(.FocusOn)
 
         await assertEventually {
-            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id == "focus.on" }
+            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id == NotchContentRegistry.Focus.active.id }
         }
 
         context.coordinator.handleFocusEvent(.FocusOff)
@@ -39,7 +39,7 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
         await assertEventually {
             await MainActor.run {
                 context.notchViewModel.notchModel.liveActivityContent == nil &&
-                context.notchViewModel.notchModel.temporaryNotificationContent?.id == "focus.off"
+                context.notchViewModel.notchModel.temporaryNotificationContent?.id == NotchContentRegistry.Focus.inactive.id
             }
         }
     }
@@ -50,7 +50,7 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
         context.coordinator.handleNetworkEvent(.hotspotActive)
 
         await assertEventually {
-            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id == "hotspot.active" }
+            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id == NotchContentRegistry.Network.hotspot.id }
         }
 
         context.coordinator.handleNetworkEvent(.hotspotHide)
@@ -67,7 +67,7 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
 
         await assertEventually {
             await MainActor.run {
-                context.notchViewModel.notchModel.temporaryNotificationContent?.id == "hud.system"
+                context.notchViewModel.notchModel.temporaryNotificationContent?.id == NotchContentRegistry.HUD.system.id
             }
         }
     }
@@ -118,7 +118,7 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
 
         await assertEventually {
             await MainActor.run {
-                context.notchViewModel.notchModel.temporaryNotificationContent?.id == "hud.system"
+                context.notchViewModel.notchModel.temporaryNotificationContent?.id == NotchContentRegistry.HUD.system.id
             }
         }
 
@@ -136,7 +136,7 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
         context.coordinator.handleNowPlayingEvent(context.nowPlayingViewModel.event ?? .started)
 
         await assertEventually {
-            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id == "nowPlaying" }
+            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id == NotchContentRegistry.Media.nowPlaying.id }
         }
 
         context.nowPlayingService.publish(nil)
@@ -154,11 +154,11 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
         context.coordinator.handleNowPlayingEvent(context.nowPlayingViewModel.event ?? .started)
 
         await assertEventually {
-            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id == "nowPlaying" }
+            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id == NotchContentRegistry.Media.nowPlaying.id }
         }
 
         await assertEventually(timeout: 1.4) {
-            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id != "nowPlaying" }
+            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id != NotchContentRegistry.Media.nowPlaying.id }
         }
     }
 
@@ -169,7 +169,7 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
         context.coordinator.handleNowPlayingEvent(context.nowPlayingViewModel.event ?? .started)
 
         await assertEventually {
-            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id == "nowPlaying" }
+            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id == NotchContentRegistry.Media.nowPlaying.id }
         }
 
         try? await Task.sleep(nanoseconds: 1_250_000_000)
@@ -177,7 +177,7 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
         let liveActivityID = await MainActor.run {
             context.notchViewModel.notchModel.liveActivityContent?.id
         }
-        XCTAssertEqual(liveActivityID, "nowPlaying")
+        XCTAssertEqual(liveActivityID, NotchContentRegistry.Media.nowPlaying.id)
     }
 
     func testDownloadEventsShowAndHideLiveActivity() async {
@@ -199,7 +199,7 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
         ])
 
         await assertEventually {
-            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id == "download.active" }
+            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id == NotchContentRegistry.Media.download.id }
         }
 
         context.downloadMonitor.publish([])
@@ -209,13 +209,101 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
         }
     }
 
+    func testDragAndDropTrayModeShowsTrayLiveActivity() async {
+        let context = makeContext(dragAndDropActivityMode: .tray)
+
+        context.airDropViewModel.setDraggingFile(true)
+        context.coordinator.handleAirDropEvent(.dragStarted)
+
+        await assertEventually {
+            await MainActor.run {
+                context.notchViewModel.notchModel.liveActivityContent?.id == NotchContentRegistry.DragAndDrop.tray.id
+            }
+        }
+    }
+
+    func testDragAndDropCombinedModeShowsCombinedLiveActivity() async {
+        let context = makeContext(dragAndDropActivityMode: .combined)
+
+        context.airDropViewModel.setDraggingFile(true)
+        context.coordinator.handleAirDropEvent(.dragStarted)
+
+        await assertEventually {
+            await MainActor.run {
+                context.notchViewModel.notchModel.liveActivityContent?.id == NotchContentRegistry.DragAndDrop.combined.id
+            }
+        }
+    }
+
+    func testFileTrayItemsShowTrayActiveLiveActivity() async {
+        let context = makeContext(dragAndDropActivityMode: .tray)
+
+        withExtendedLifetime(context.coordinator) {
+            context.fileTrayViewModel.add([
+                URL(fileURLWithPath: "/tmp/DynamicNotch-Tray-First.txt"),
+                URL(fileURLWithPath: "/tmp/DynamicNotch-Tray-Folder", isDirectory: true)
+            ])
+        }
+
+        await assertEventually({
+            await MainActor.run {
+                context.notchViewModel.notchModel.liveActivityContent?.id == NotchContentRegistry.DragAndDrop.trayActive.id
+            }
+        }, message: "Expected tray active content, got \(String(describing: context.notchViewModel.notchModel.liveActivityContent?.id)); count: \(context.fileTrayViewModel.count); enabled: \(context.settingsViewModel.isLiveActivityEnabled(.drop))")
+
+        XCTAssertEqual(context.fileTrayViewModel.count, 2)
+
+        context.fileTrayViewModel.clear()
+
+        await assertEventually {
+            await MainActor.run {
+                context.notchViewModel.notchModel.liveActivityContent == nil
+            }
+        }
+    }
+
+    func testDisabledTrayLiveActivitySuppressesFileTrayItems() async {
+        let context = makeContext(
+            dragAndDropActivityMode: .tray,
+            trayLiveActivityEnabled: false
+        )
+
+        withExtendedLifetime(context.coordinator) {
+            context.fileTrayViewModel.add([
+                URL(fileURLWithPath: "/tmp/DynamicNotch-Tray-Disabled.txt")
+            ])
+        }
+
+        XCTAssertEqual(context.fileTrayViewModel.count, 1)
+
+        await assertEventually {
+            await MainActor.run {
+                context.notchViewModel.notchModel.liveActivityContent == nil
+            }
+        }
+    }
+
+    func testDisabledDragAndDropSuppressesLiveActivity() async {
+        let context = makeContext(dragAndDropEnabled: false)
+
+        context.airDropViewModel.setDraggingFile(true)
+        context.coordinator.handleAirDropEvent(.dragStarted)
+
+        try? await Task.sleep(nanoseconds: 50_000_000)
+
+        let liveActivityContent = await MainActor.run {
+            context.notchViewModel.notchModel.liveActivityContent
+        }
+        XCTAssertNil(liveActivityContent)
+    }
+
     func testLockScreenEventsShowAndHideLockLiveActivity() async {
         let context = makeContext()
 
         context.lockScreenService.publish(isLocked: true)
 
         await assertEventually {
-            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id == "lockScreen" }
+            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id == NotchContentRegistry.LockScreen.activity.id }
         }
 
         context.lockScreenService.publish(isLocked: false)
@@ -232,19 +320,19 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
         context.coordinator.handleNowPlayingEvent(context.nowPlayingViewModel.event ?? .started)
 
         await assertEventually {
-            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id == "nowPlaying" }
+            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id == NotchContentRegistry.Media.nowPlaying.id }
         }
 
         context.lockScreenService.publish(isLocked: true)
 
         await assertEventually {
-            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id == "lockScreen" }
+            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id == NotchContentRegistry.LockScreen.activity.id }
         }
 
         context.lockScreenService.publish(isLocked: false)
 
         await assertEventually(timeout: 0.5) {
-            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id == "nowPlaying" }
+            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id == NotchContentRegistry.Media.nowPlaying.id }
         }
     }
 
@@ -257,7 +345,7 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
         context.coordinator.checkFirstLaunch()
 
         await assertEventually {
-            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id == "nowPlaying" }
+            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id == NotchContentRegistry.Media.nowPlaying.id }
         }
     }
 
@@ -284,7 +372,7 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
         context.coordinator.finishOnboarding()
 
         await assertEventually {
-            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id == "nowPlaying" }
+            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id == NotchContentRegistry.Media.nowPlaying.id }
         }
     }
 }
@@ -295,6 +383,9 @@ private extension NotchEventCoordinatorIntegrationTests {
         let coordinator: NotchEventCoordinator
         let downloadViewModel: DownloadViewModel
         let downloadMonitor: FakeFileDownloadMonitor
+        let airDropViewModel: AirDropNotchViewModel
+        let fileTrayViewModel: FileTrayViewModel
+        let settingsViewModel: SettingsViewModel
         let nowPlayingViewModel: NowPlayingViewModel
         let nowPlayingService: FakeNowPlayingService
         let lockScreenManager: LockScreenManager
@@ -308,7 +399,10 @@ private extension NotchEventCoordinatorIntegrationTests {
         volumeHUDEnabled: Bool = true,
         temporaryActivityDurationScale: Double = 1,
         nowPlayingPauseHideTimerEnabled: Bool = true,
-        nowPlayingPauseHideDelay: Int = 5
+        nowPlayingPauseHideDelay: Int = 5,
+        dragAndDropEnabled: Bool = true,
+        dragAndDropActivityMode: DragAndDropActivityMode = .airDrop,
+        trayLiveActivityEnabled: Bool = true
     ) -> TestContext {
         UserDefaults.standard.set(false, forKey: "isLaunchAtLoginEnabled")
         UserDefaults.standard.set(0, forKey: "notchWidth")
@@ -324,6 +418,9 @@ private extension NotchEventCoordinatorIntegrationTests {
         UserDefaults.standard.set(nowPlayingPauseHideTimerEnabled, forKey: "settings.nowPlaying.pauseHideTimerEnabled")
         UserDefaults.standard.set(nowPlayingPauseHideDelay, forKey: "settings.nowPlaying.pauseHideDelay")
         UserDefaults.standard.set(true, forKey: "settings.live.downloads")
+        UserDefaults.standard.set(dragAndDropEnabled, forKey: "settings.live.airDrop")
+        UserDefaults.standard.set(dragAndDropActivityMode.rawValue, forKey: "settings.live.dragAndDrop.mode")
+        UserDefaults.standard.set(trayLiveActivityEnabled, forKey: "settings.live.tray")
         UserDefaults.standard.set(true, forKey: LockScreenSettings.liveActivityKey)
         UserDefaults.standard.set(true, forKey: LockScreenSettings.mediaPanelKey)
         UserDefaults.standard.set(true, forKey: "settings.temporary.charger")
@@ -347,6 +444,8 @@ private extension NotchEventCoordinatorIntegrationTests {
         let nowPlayingService = FakeNowPlayingService()
         let lockScreenService = FakeLockScreenMonitoringService()
         let nowPlayingViewModel = NowPlayingViewModel(service: nowPlayingService)
+        let airDropViewModel = AirDropNotchViewModel()
+        let fileTrayViewModel = FileTrayViewModel()
         let timerViewModel = TimerViewModel(monitor: ClockTimerMonitor())
         let lockScreenManager = LockScreenManager(
             service: lockScreenService,
@@ -365,7 +464,8 @@ private extension NotchEventCoordinatorIntegrationTests {
             powerService: PowerService(startMonitoring: false),
             networkViewModel: networkViewModel,
             downloadViewModel: downloadViewModel,
-            airDropViewModel: AirDropNotchViewModel(),
+            airDropViewModel: airDropViewModel,
+            fileTrayViewModel: fileTrayViewModel,
             settingsViewModel: settingsViewModel,
             nowPlayingViewModel: nowPlayingViewModel,
             timerViewModel: timerViewModel,
@@ -392,6 +492,9 @@ private extension NotchEventCoordinatorIntegrationTests {
             coordinator: coordinator,
             downloadViewModel: downloadViewModel,
             downloadMonitor: downloadMonitor,
+            airDropViewModel: airDropViewModel,
+            fileTrayViewModel: fileTrayViewModel,
+            settingsViewModel: settingsViewModel,
             nowPlayingViewModel: nowPlayingViewModel,
             nowPlayingService: nowPlayingService,
             lockScreenManager: lockScreenManager,

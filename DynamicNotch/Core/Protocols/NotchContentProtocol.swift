@@ -27,7 +27,7 @@ protocol NotchContentProtocol {
 
 extension NotchContentProtocol {
     var stackID: String { id }
-    var priority: Int { 0 }
+    var priority: Int { NotchContentPriority.default }
     var strokeColor: Color { .white.opacity(0.2) }
     var isExpandable: Bool { false }
     var expandsOnTap: Bool { isExpandable }

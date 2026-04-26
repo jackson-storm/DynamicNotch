@@ -176,7 +176,7 @@ final class LockScreenLiveActivityWindowManager {
         isPreparingLock: Bool,
         isLockIdle: Bool
     ) {
-        let isLockScreenContentReady = notchViewModel.notchModel.content?.id == "lockScreen"
+        let isLockScreenContentReady = notchViewModel.notchModel.content?.id == NotchContentRegistry.LockScreen.activity.id
         
         guard LockScreenSettings.isLiveActivityEnabled() else {
             hideOverlay(animated: true, releaseResources: true)

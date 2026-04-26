@@ -20,7 +20,7 @@ final class NotchFocusEventsHandler {
             notchViewModel.send(.showLiveActivity(FocusOnNotchContent(settingsViewModel: settingsViewModel)))
 
         case .FocusOff:
-            notchViewModel.send(.hideLiveActivity(id: "focus.on"))
+            notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Focus.active.id))
             guard settingsViewModel.isTemporaryActivityEnabled(.focusOff) else { return }
             notchViewModel.send(.showTemporaryNotification(FocusOffNotchContent(settingsViewModel: settingsViewModel), duration: settingsViewModel.temporaryActivityDuration(for: .focusOff))
             )

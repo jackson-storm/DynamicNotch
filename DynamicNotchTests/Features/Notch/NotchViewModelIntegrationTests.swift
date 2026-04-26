@@ -160,7 +160,7 @@ final class NotchViewModelIntegrationTests: XCTestCase {
 
         await assertEventually {
             await MainActor.run {
-                viewModel.notchModel.liveActivityContent?.id == TimerNotchContent.activityID
+                viewModel.notchModel.liveActivityContent?.id == NotchContentRegistry.Media.timer.id
             }
         }
 
@@ -175,7 +175,7 @@ final class NotchViewModelIntegrationTests: XCTestCase {
 
         await assertEventually {
             await MainActor.run {
-                viewModel.notchModel.liveActivityContent?.id == TimerNotchContent.activityID &&
+                viewModel.notchModel.liveActivityContent?.id == NotchContentRegistry.Media.timer.id &&
                 !viewModel.notchModel.isLiveActivityExpanded
             }
         }
@@ -562,7 +562,7 @@ final class NotchViewModelIntegrationTests: XCTestCase {
         viewModel.send(.showLiveActivity(DownloadNotchContent(downloadViewModel: downloadViewModel, settingsViewModel: settingsViewModel)))
 
         await assertEventually {
-            await MainActor.run { viewModel.notchModel.liveActivityContent?.id == "download.active" }
+            await MainActor.run { viewModel.notchModel.liveActivityContent?.id == NotchContentRegistry.Media.download.id }
         }
 
         let collapsedSize = await MainActor.run { viewModel.notchModel.size }

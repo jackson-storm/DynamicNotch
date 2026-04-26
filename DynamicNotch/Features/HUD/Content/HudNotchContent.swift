@@ -8,6 +8,7 @@ enum HudEvent: Equatable {
 
 struct HudNotchContent: NotchContentProtocol {
     var id: String { kind.sharedContentID }
+    var priority: Int { NotchContentPriority.default }
 
     let kind: HudPresentationKind
     let style: HudStyle
@@ -61,19 +62,19 @@ struct HudNotchContent: NotchContentProtocol {
         case .standard:
             switch indicatorStyle {
             case .bar:
-                return 230
+                return kind == .keyboard ? 150 : 140
             case .circle:
-                return 230
+                return 140
             }
         case .compact:
             switch indicatorStyle {
             case .bar:
-                return 165
+                return 140
             case .circle:
-                return 70
+                return 85
             }
         case .minimal:
-            return 70
+            return 80
         }
     }
 

@@ -8,18 +8,18 @@ enum HudPresentationKind {
     var sharedContentID: String {
         switch self {
         case .brightness, .volume:
-            return "hud.system"
+            return NotchContentRegistry.HUD.system.id
         case .keyboard:
-            return "hud.keyboard"
+            return NotchContentRegistry.HUD.keyboard.id
         }
     }
 
     var title: String {
         switch self {
         case .brightness:
-            return "Brightness"
+            return "Display"
         case .keyboard:
-            return "Keyboard Brightness"
+            return "Keyboard"
         case .volume:
             return "Volume"
         }

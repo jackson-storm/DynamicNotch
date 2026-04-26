@@ -20,7 +20,7 @@ final class NotchTimerEventsHandler {
         switch event {
         case .started:
             guard settingsViewModel.isLiveActivityEnabled(.timer) else {
-                notchViewModel.send(.hideLiveActivity(id: TimerNotchContent.activityID))
+                notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Media.timer.id))
                 return
             }
             guard timerViewModel.snapshot != nil else { return }
@@ -35,7 +35,7 @@ final class NotchTimerEventsHandler {
 
         case .updated:
             guard settingsViewModel.isLiveActivityEnabled(.timer) else {
-                notchViewModel.send(.hideLiveActivity(id: TimerNotchContent.activityID))
+                notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Media.timer.id))
                 return
             }
             guard timerViewModel.snapshot != nil else { return }
@@ -49,7 +49,7 @@ final class NotchTimerEventsHandler {
             )
 
         case .stopped:
-            notchViewModel.send(.hideLiveActivity(id: TimerNotchContent.activityID))
+            notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Media.timer.id))
         }
     }
 }

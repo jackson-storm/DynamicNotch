@@ -26,11 +26,16 @@ final class NotchAirDropController: NSObject, ObservableObject {
     }
 
     private let airDropViewModel: AirDropNotchViewModel
+    private let fileTrayViewModel: FileTrayViewModel
     private var activeShares: [UUID: NotchAirDropShareSession] = [:]
     private var suppressTargetResetEvent = false
 
-    init(airDropViewModel: AirDropNotchViewModel) {
+    init(
+        airDropViewModel: AirDropNotchViewModel,
+        fileTrayViewModel: FileTrayViewModel
+    ) {
         self.airDropViewModel = airDropViewModel
+        self.fileTrayViewModel = fileTrayViewModel
         super.init()
     }
 
@@ -57,6 +62,18 @@ final class NotchAirDropController: NSObject, ObservableObject {
             }
         }
 
+        return true
+    }
+
+    func handleTrayDrop(_ pasteboard: NSPasteboard) -> Bool {
+        guard let fileURLs = pasteboard.fileURLsForAirDrop(), !fileURLs.isEmpty else {
+            return false
+        }
+
+        fileTrayViewModel.add(fileURLs)
+        suppressTargetResetEvent = true
+        isTargeted = false
+        airDropViewModel.handleSuccessfulDrop()
         return true
     }
 
@@ -226,6 +243,13 @@ private struct ResolvedAirDropBatch {
 }
 
 extension NSPasteboard {
+    var isFileTrayLocalDrag: Bool {
+        availableType(from: [FileTrayPasteboard.localDragPasteboardType]) != nil ||
+        pasteboardItems?.contains {
+            $0.data(forType: FileTrayPasteboard.localDragPasteboardType) != nil
+        } == true
+    }
+
     var containsAirDropFiles: Bool {
         fileURLsForAirDrop()?.isEmpty == false
     }

@@ -18,7 +18,7 @@ struct OnboardingNotchContent : NotchContentProtocol {
     let step: OnboardingSteps
     let notchEventCoordinator: NotchEventCoordinator
     
-    var priority: Int { 100 }
+    var priority: Int { NotchContentRegistry.Onboarding.priority }
     
     init(step: OnboardingSteps, notchEventCoordinator: NotchEventCoordinator) {
         self.id = step.liveActivityID

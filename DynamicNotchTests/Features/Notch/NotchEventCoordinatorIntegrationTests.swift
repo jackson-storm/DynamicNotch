@@ -262,6 +262,27 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
         }
     }
 
+    func testDisabledTrayLiveActivitySuppressesFileTrayItems() async {
+        let context = makeContext(
+            dragAndDropActivityMode: .tray,
+            trayLiveActivityEnabled: false
+        )
+
+        withExtendedLifetime(context.coordinator) {
+            context.fileTrayViewModel.add([
+                URL(fileURLWithPath: "/tmp/DynamicNotch-Tray-Disabled.txt")
+            ])
+        }
+
+        XCTAssertEqual(context.fileTrayViewModel.count, 1)
+
+        await assertEventually {
+            await MainActor.run {
+                context.notchViewModel.notchModel.liveActivityContent == nil
+            }
+        }
+    }
+
     func testDisabledDragAndDropSuppressesLiveActivity() async {
         let context = makeContext(dragAndDropEnabled: false)
 
@@ -380,7 +401,8 @@ private extension NotchEventCoordinatorIntegrationTests {
         nowPlayingPauseHideTimerEnabled: Bool = true,
         nowPlayingPauseHideDelay: Int = 5,
         dragAndDropEnabled: Bool = true,
-        dragAndDropActivityMode: DragAndDropActivityMode = .airDrop
+        dragAndDropActivityMode: DragAndDropActivityMode = .airDrop,
+        trayLiveActivityEnabled: Bool = true
     ) -> TestContext {
         UserDefaults.standard.set(false, forKey: "isLaunchAtLoginEnabled")
         UserDefaults.standard.set(0, forKey: "notchWidth")
@@ -398,6 +420,7 @@ private extension NotchEventCoordinatorIntegrationTests {
         UserDefaults.standard.set(true, forKey: "settings.live.downloads")
         UserDefaults.standard.set(dragAndDropEnabled, forKey: "settings.live.airDrop")
         UserDefaults.standard.set(dragAndDropActivityMode.rawValue, forKey: "settings.live.dragAndDrop.mode")
+        UserDefaults.standard.set(trayLiveActivityEnabled, forKey: "settings.live.tray")
         UserDefaults.standard.set(true, forKey: LockScreenSettings.liveActivityKey)
         UserDefaults.standard.set(true, forKey: LockScreenSettings.mediaPanelKey)
         UserDefaults.standard.set(true, forKey: "settings.temporary.charger")

@@ -109,6 +109,7 @@ final class NotchEventCoordinator: ObservableObject {
             let hasTrayItems = items.isEmpty == false
 
             guard settingsViewModel.isLiveActivityEnabled(.drop),
+                  settingsViewModel.mediaAndFiles.isTrayLiveActivityEnabled,
                   hasTrayItems else {
                 notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.DragAndDrop.trayActive.id))
                 return
@@ -289,6 +290,7 @@ final class NotchEventCoordinator: ObservableObject {
         let hasTrayItems = hasItems ?? fileTrayViewModel.items.isEmpty == false
 
         guard settingsViewModel.isLiveActivityEnabled(.drop),
+              settingsViewModel.mediaAndFiles.isTrayLiveActivityEnabled,
               hasTrayItems else {
             notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.DragAndDrop.trayActive.id))
             return
@@ -405,6 +407,21 @@ final class NotchEventCoordinator: ObservableObject {
             .sink { [weak self] _ in
                 self?.mediaHandler.refreshDragAndDropPresentation()
                 self?.syncFileTrayLiveActivity()
+            }
+            .store(in: &cancellables)
+
+        settingsViewModel.mediaAndFiles.$isTrayLiveActivityEnabled
+            .removeDuplicates()
+            .sink { [weak self] isEnabled in
+                guard let self else { return }
+
+                if isEnabled {
+                    self.syncFileTrayLiveActivity()
+                } else {
+                    self.notchViewModel.send(
+                        .hideLiveActivity(id: NotchContentRegistry.DragAndDrop.trayActive.id)
+                    )
+                }
             }
             .store(in: &cancellables)
 

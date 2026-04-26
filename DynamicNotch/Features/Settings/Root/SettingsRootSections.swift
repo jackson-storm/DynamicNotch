@@ -287,9 +287,9 @@ private enum SettingsSectionCatalog {
             return .init(
                 sidebarGroup: .media,
                 titleKey: "settings.section.drop.title",
-                fallbackTitle: "Drop",
+                fallbackTitle: "Drag&Drop",
                 subtitleKey: "settings.section.drop.subtitle",
-                fallbackSubtitle: "AirDrop and Tray targets for files dropped through the notch.",
+                fallbackSubtitle: "AirDrop and Tray targets for files dragged through the notch.",
                 searchKeywords: [
                     "drag and drop",
                     "drag",

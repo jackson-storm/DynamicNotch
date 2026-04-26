@@ -53,6 +53,7 @@ enum GeneralSettingsStorage {
         static let airDropDefaultStrokeEnabled = "settings.live.airDrop.defaultStroke"
         static let dragAndDropActivityMode = "settings.live.dragAndDrop.mode"
         static let dropMotionAnimationEnabled = "settings.live.drop.motionAnimation"
+        static let trayLiveActivityEnabled = "settings.live.tray"
         static let timerLiveActivityEnabled = "settings.live.timer"
         static let timerDefaultStrokeEnabled = "settings.live.timer.defaultStroke"
         static let legacyFileTransfersLiveActivityEnabled = "settings.live.fileTransfers"
@@ -144,6 +145,7 @@ enum GeneralSettingsStorage {
         Keys.airDropDefaultStrokeEnabled: false,
         Keys.dragAndDropActivityMode: DragAndDropActivityMode.combined.rawValue,
         Keys.dropMotionAnimationEnabled: true,
+        Keys.trayLiveActivityEnabled: true,
         Keys.timerLiveActivityEnabled: true,
         Keys.timerDefaultStrokeEnabled: false,
         LockScreenSettings.liveActivityKey: true,

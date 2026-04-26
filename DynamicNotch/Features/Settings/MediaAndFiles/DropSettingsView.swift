@@ -16,20 +16,34 @@ struct DropSettingsView: View {
     }
     
     private var dragAndDropActivity: some View {
-        SettingsCard(title: "Drop activity") {
+        SettingsCard(title: "Drag&Drop activity") {
             SettingsToggleRow(
-                title: "Drop live activity",
-                description: "Show file drop targets when you drag files over the notch.",
+                title: "Drag&Drop live activity",
+                description: "Show AirDrop and Tray targets when you drag files over the notch.",
                 systemImage: "tray.and.arrow.down.fill",
                 color: .blue,
                 isOn: $mediaSettings.isDragAndDropLiveActivityEnabled,
                 accessibilityIdentifier: "settings.activities.live.drop"
             )
+
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+
+            SettingsToggleRow(
+                title: "Tray live activity",
+                description: "Show the pinned file tray after files are dropped into Tray.",
+                systemImage: "tray.full.fill",
+                color: .black,
+                isOn: $mediaSettings.isTrayLiveActivityEnabled,
+                accessibilityIdentifier: "settings.activities.live.drop.tray"
+            )
         }
     }
 
     private var dragAndDropMode: some View {
-        SettingsCard(title: "Drop target") {
+        SettingsCard(title: "Drag&Drop target") {
             SettingsNotchPreview(
                 width: dragAndDropPreviewNotchWidth,
                 height: 148,
@@ -61,7 +75,7 @@ struct DropSettingsView: View {
 
             SettingsStrokeToggleRow(
                 title: "Default stroke",
-                description: "Use the standard white notch stroke instead of the Drop accent stroke.",
+                description: "Use the standard white notch stroke instead of the Drag&Drop accent stroke.",
                 isOn: $mediaSettings.isDragAndDropDefaultStrokeEnabled,
                 accessibilityIdentifier: "settings.activities.live.drop.defaultStroke"
             )

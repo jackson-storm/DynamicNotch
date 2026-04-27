@@ -148,9 +148,9 @@ private struct LockScreenNowPlayingView: View {
                 displayedElapsedTime: displayedElapsedTime,
                 duration: snapshot.duration,
                 isInteractive: snapshot.duration > 0,
-                tintGradient: nowPlayingViewModel.artworkPalette.equalizerGradient,
-                primaryColor: Color(nsColor: nowPlayingViewModel.artworkPalette.equalizerHighlightColor),
-                secondaryColor: Color(nsColor: nowPlayingViewModel.artworkPalette.equalizerBaseColor),
+                tintGradient: nil,
+                primaryColor: .secondary,
+                secondaryColor: .secondary,
                 onScrubChanged: { newProgress in
                     scrubProgress = newProgress
                 },

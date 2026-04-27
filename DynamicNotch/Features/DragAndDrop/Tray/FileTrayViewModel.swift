@@ -129,6 +129,10 @@ final class FileTrayViewModel: ObservableObject {
             selectedItemIDs.insert(item.id)
         }
     }
+    
+    func selectAll() {
+        selectedItemIDs = Set(items.map { $0.id })
+    }
 
     func clearSelection() {
         selectedItemIDs.removeAll()
@@ -165,3 +169,4 @@ final class FileTrayViewModel: ObservableObject {
         url.resolvingSymlinksInPath().standardizedFileURL.path
     }
 }
+

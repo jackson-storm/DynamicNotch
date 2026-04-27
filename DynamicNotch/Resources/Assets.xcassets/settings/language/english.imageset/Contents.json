@@ -1,23 +1,23 @@
 {
-  "images": [
+  "images" : [
     {
-      "filename": "free-icon-united-kingdom-5111640.png",
-      "idiom": "universal",
-      "scale": "1x"
+      "filename" : "Flag_of_the_United_Kingdom_(3-5).svg.png",
+      "idiom" : "universal",
+      "scale" : "1x"
     },
     {
-      "filename": "english_universal_2x.png",
-      "idiom": "universal",
-      "scale": "2x"
+      "filename" : "Flag_of_the_United_Kingdom_(3-5).svg 1.png",
+      "idiom" : "universal",
+      "scale" : "2x"
     },
     {
-      "filename": "english_universal_3x.png",
-      "idiom": "universal",
-      "scale": "3x"
+      "filename" : "gb 2.png",
+      "idiom" : "universal",
+      "scale" : "3x"
     }
   ],
-  "info": {
-    "author": "xcode",
-    "version": 1
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
   }
 }

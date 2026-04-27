@@ -27,17 +27,17 @@ struct LockScreenNowPlayingPanelView: View {
             settings: settingsViewModel.mediaAndFiles,
             nowPlayingViewModel: nowPlayingViewModel
         )
-            .frame(width: Self.panelSize.width, height: Self.panelSize.height, alignment: .topLeading)
-            .background {
-                panelBackground
-            }
-            .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
-            .environment(\.colorScheme, .dark)
-            .shadow(color: .black.opacity(0.24), radius: 26, x: 0, y: 14)
-            .opacity(animator.isPresented ? 1 : 0)
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+        .frame(width: Self.panelSize.width, height: Self.panelSize.height, alignment: .topLeading)
+        .background {
+            panelBackground
+        }
+        .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
+        .environment(\.colorScheme, .dark)
+        .shadow(color: .black.opacity(0.24), radius: 26, x: 0, y: 14)
+        .opacity(animator.isPresented ? 1 : 0)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
     }
-
+    
     @ViewBuilder
     private var panelBackground: some View {
         LockScreenWidgetSurface(
@@ -53,7 +53,7 @@ private struct LockScreenNowPlayingView: View {
     @Environment(\.notchScale) var scale
     @ObservedObject var settings: MediaAndFilesSettingsStore
     @ObservedObject var nowPlayingViewModel: NowPlayingViewModel
-
+    
     @State private var scrubProgress: CGFloat?
     private let audioReactiveVisibilitySource = "nowPlaying.lockScreen.panel"
     
@@ -72,7 +72,7 @@ private struct LockScreenNowPlayingView: View {
     
     var body: some View {
         let snapshot = resolvedSnapshot
-
+        
         return TimelineView(.periodic(from: .now, by: animationTick(for: snapshot))) { context in
             timelineContent(snapshot: snapshot, at: context.date)
         }
@@ -89,7 +89,7 @@ private struct LockScreenNowPlayingView: View {
             )
         }
     }
-
+    
     private func timelineContent(snapshot: NowPlayingSnapshot, at date: Date) -> some View {
         let elapsedTime = nowPlayingViewModel.snapshot != nil ?
         nowPlayingViewModel.elapsedTime(at: date) :
@@ -99,11 +99,11 @@ private struct LockScreenNowPlayingView: View {
         let displayedElapsedTime = snapshot.duration > 0 ?
         TimeInterval(displayedProgress) * snapshot.duration :
         elapsedTime
-
+        
         return VStack {
             HStack(spacing: 15) {
                 ArtworkView(nowPlayingViewModel: nowPlayingViewModel, width: 60, height: 60, cornerRadius: 10)
-
+                
                 VStack(alignment: .leading, spacing: 3) {
                     HStack(alignment: .center, spacing: 10) {
                         MarqueeText(
@@ -115,9 +115,9 @@ private struct LockScreenNowPlayingView: View {
                             minDuration: 2.0,
                             frameWidth: 170.scaled(by: scale)
                         )
-
+                        
                         Spacer(minLength: 0)
-
+                        
                         EqualizerView(
                             isPlaying: snapshot.isPlaying,
                             mode: settings.nowPlayingEqualizerMode,
@@ -129,7 +129,7 @@ private struct LockScreenNowPlayingView: View {
                             height: 3.7
                         )
                     }
-
+                    
                     MarqueeText(
                         .constant(displayArtist(for: snapshot)),
                         font: .system(size: 14),
@@ -142,32 +142,26 @@ private struct LockScreenNowPlayingView: View {
                 }
             }
             Spacer()
-
-            HStack(spacing: 10) {
-                Text(formattedTime(displayedElapsedTime))
-                    .font(.system(size: 11, weight: .medium, design: .rounded))
-                    .foregroundStyle(.secondary)
-
-                PlayerProgressBar(
-                    progress: displayedProgress,
-                    isInteractive: snapshot.duration > 0,
-                    tintGradient: nil,
-                    onScrubChanged: { newProgress in
-                        scrubProgress = newProgress
-                    },
-                    onScrubEnded: { newProgress in
-                        nowPlayingViewModel.seek(to: snapshot.duration * TimeInterval(newProgress))
-                        scrubProgress = nil
-                    }
-                )
-
-                Text(snapshot.duration > 0 ? formattedTime(snapshot.duration) : "LIVE")
-                    .font(.system(size: 11, weight: .medium, design: .rounded))
-                    .foregroundStyle(.secondary)
-            }
-
+            
+            PlayerProgressBar(
+                progress: displayedProgress,
+                displayedElapsedTime: displayedElapsedTime,
+                duration: snapshot.duration,
+                isInteractive: snapshot.duration > 0,
+                tintGradient: nowPlayingViewModel.artworkPalette.equalizerGradient,
+                primaryColor: Color(nsColor: nowPlayingViewModel.artworkPalette.equalizerHighlightColor),
+                secondaryColor: Color(nsColor: nowPlayingViewModel.artworkPalette.equalizerBaseColor),
+                onScrubChanged: { newProgress in
+                    scrubProgress = newProgress
+                },
+                onScrubEnded: { newProgress in
+                    nowPlayingViewModel.seek(to: snapshot.duration * TimeInterval(newProgress))
+                    scrubProgress = nil
+                }
+            )
+            
             Spacer()
-
+            
             ZStack {
                 HStack(spacing: 25) {
                     PlayerControlButton(
@@ -178,7 +172,7 @@ private struct LockScreenNowPlayingView: View {
                     ) {
                         nowPlayingViewModel.previousTrack()
                     }
-
+                    
                     PlayerControlButton(
                         systemImage: snapshot.isPlaying ? "pause.fill" : "play.fill",
                         fontSize: 32,
@@ -187,7 +181,7 @@ private struct LockScreenNowPlayingView: View {
                     ) {
                         nowPlayingViewModel.togglePlayPause()
                     }
-
+                    
                     PlayerControlButton(
                         systemImage: "forward.fill",
                         fontSize: 22,
@@ -197,7 +191,7 @@ private struct LockScreenNowPlayingView: View {
                         nowPlayingViewModel.nextTrack()
                     }
                 }
-
+                
                 HStack {
                     FavoriteTrackButton(
                         nowPlayingViewModel: nowPlayingViewModel,
@@ -205,9 +199,9 @@ private struct LockScreenNowPlayingView: View {
                         height: 42,
                         fontSize: 22
                     )
-
+                    
                     Spacer()
-
+                    
                     AudioOutputRoutePickerButton(
                         nowPlayingViewModel: nowPlayingViewModel,
                         width: 42,
@@ -252,7 +246,7 @@ private struct LockScreenNowPlayingView: View {
         
         return String(format: "%02d:%02d", minutes, seconds)
     }
-
+    
     private func animationTick(for snapshot: NowPlayingSnapshot) -> TimeInterval {
         snapshot.isPlaying ? (1.0 / 14.0) : 0.5
     }

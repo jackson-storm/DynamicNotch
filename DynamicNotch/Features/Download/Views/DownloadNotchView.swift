@@ -130,6 +130,7 @@ struct DownloadNotchView: View {
                 }
             }
         }
+        .padding(.vertical, 10)
         .padding(.horizontal, 12.scaled(by: scale))
     }
 }

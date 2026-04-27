@@ -80,6 +80,7 @@ struct HudContentView: View {
                 
             }
         }
+        .padding(.vertical, 10)
         .padding(.horizontal, horizontalPadding.scaled(by: scale))
     }
     

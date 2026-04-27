@@ -28,7 +28,7 @@ struct TrayExpandedActiveNotchView: View {
                     HStack(spacing: 10) {
                         ForEach(fileTrayViewModel.items) { item in
                             let isSelected = fileTrayViewModel.selectedItemIDs.contains(item.id)
-
+                            
                             TrayExpandedItemView(
                                 item: item,
                                 isSelected: isSelected,
@@ -76,10 +76,12 @@ struct TrayExpandedActiveNotchView: View {
     private var header: some View {
         HStack(spacing: 5) {
             Button {
-                guard fileTrayViewModel.hasSelection else { return }
-
                 withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
-                    fileTrayViewModel.clearSelection()
+                    if fileTrayViewModel.hasSelection {
+                        fileTrayViewModel.clearSelection()
+                    } else {
+                        fileTrayViewModel.selectAll()
+                    }
                 }
             } label: {
                 HStack(spacing: 5) {
@@ -124,7 +126,7 @@ private struct TrayExpandedItemView: View {
     let draggedItems: () -> [FileTrayItem]
     let onSelect: () -> Void
     let onRemove: () -> Void
-
+    
     @State private var isPressed = false
     
     var body: some View {
@@ -179,7 +181,7 @@ private struct TrayExpandedItemDragView: NSViewRepresentable {
     let draggedItems: () -> [FileTrayItem]
     let onSelect: () -> Void
     let onPressedChange: (Bool) -> Void
-
+    
     func makeNSView(context: Context) -> TrayExpandedItemDragNSView {
         let view = TrayExpandedItemDragNSView()
         view.draggedItems = draggedItems
@@ -187,7 +189,7 @@ private struct TrayExpandedItemDragView: NSViewRepresentable {
         view.onPressedChange = onPressedChange
         return view
     }
-
+    
     func updateNSView(_ nsView: TrayExpandedItemDragNSView, context: Context) {
         nsView.draggedItems = draggedItems
         nsView.onSelect = onSelect
@@ -199,84 +201,84 @@ private final class TrayExpandedItemDragNSView: NSView, NSDraggingSource {
     var draggedItems: () -> [FileTrayItem] = { [] }
     var onSelect: () -> Void = {}
     var onPressedChange: (Bool) -> Void = { _ in }
-
+    
     private var mouseDownEvent: NSEvent?
     private var didBeginDragging = false
-
+    
     override func acceptsFirstMouse(for event: NSEvent?) -> Bool {
         true
     }
-
+    
     override func hitTest(_ point: NSPoint) -> NSView? {
         if closeButtonHitRect.contains(point) {
             return nil
         }
-
+        
         return super.hitTest(point)
     }
-
+    
     override func mouseDown(with event: NSEvent) {
         mouseDownEvent = event
         didBeginDragging = false
         onPressedChange(true)
     }
-
+    
     override func mouseDragged(with event: NSEvent) {
         guard didBeginDragging == false,
               let mouseDownEvent else {
             return
         }
-
+        
         let startPoint = convert(mouseDownEvent.locationInWindow, from: nil)
         let currentPoint = convert(event.locationInWindow, from: nil)
         let distance = hypot(currentPoint.x - startPoint.x, currentPoint.y - startPoint.y)
-
+        
         guard distance >= 3 else {
             return
         }
-
+        
         didBeginDragging = true
         onPressedChange(false)
         beginDragging(with: event)
     }
-
+    
     override func mouseUp(with event: NSEvent) {
         onPressedChange(false)
-
+        
         if didBeginDragging == false {
             onSelect()
         }
-
+        
         mouseDownEvent = nil
         didBeginDragging = false
     }
-
+    
     func draggingSession(
         _ session: NSDraggingSession,
         sourceOperationMaskFor context: NSDraggingContext
     ) -> NSDragOperation {
         .copy
     }
-
+    
     func ignoreModifierKeys(for session: NSDraggingSession) -> Bool {
         true
     }
-
+    
     private func beginDragging(with event: NSEvent) {
         let items = draggedItems()
         guard items.isEmpty == false else {
             return
         }
-
+        
         let point = convert(event.locationInWindow, from: nil)
         let draggingItems = items.enumerated().map { index, item in
             makeDraggingItem(for: item, index: index, at: point)
         }
-
+        
         beginDraggingSession(with: draggingItems, event: event, source: self)
         mouseDownEvent = nil
     }
-
+    
     private func makeDraggingItem(
         for item: FileTrayItem,
         index: Int,
@@ -293,17 +295,17 @@ private final class TrayExpandedItemDragNSView: NSView, NSDraggingSource {
         let draggingItem = NSDraggingItem(
             pasteboardWriter: FileTrayPasteboardWriter(url: item.url)
         )
-
+        
         draggingItem.setDraggingFrame(frame, contents: dragImage(for: item, size: dragSize))
         return draggingItem
     }
-
+    
     private func dragImage(for item: FileTrayItem, size: NSSize) -> NSImage {
         let image = (item.icon.copy() as? NSImage) ?? item.icon
         image.size = size
         return image
     }
-
+    
     private var closeButtonHitRect: NSRect {
         NSRect(
             x: bounds.maxX - 30,

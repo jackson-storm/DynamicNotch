@@ -14,6 +14,33 @@ enum FileTrayPasteboard {
     static let localDragPasteboardType = NSPasteboard.PasteboardType(localDragTypeIdentifier)
 }
 
+final class FileTrayPasteboardWriter: NSObject, NSPasteboardWriting {
+    private let url: URL
+
+    init(url: URL) {
+        self.url = url.standardizedFileURL
+    }
+
+    func writableTypes(for pasteboard: NSPasteboard) -> [NSPasteboard.PasteboardType] {
+        [
+            .fileURL,
+            .URL,
+            FileTrayPasteboard.localDragPasteboardType
+        ]
+    }
+
+    func pasteboardPropertyList(forType type: NSPasteboard.PasteboardType) -> Any? {
+        switch type {
+        case .fileURL, .URL:
+            return url.absoluteString
+        case FileTrayPasteboard.localDragPasteboardType:
+            return Data([1])
+        default:
+            return nil
+        }
+    }
+}
+
 struct FileTrayItem: Identifiable, Equatable {
     let id: UUID
     let url: URL
@@ -57,11 +84,25 @@ struct FileTrayItem: Identifiable, Equatable {
 
 @MainActor
 final class FileTrayViewModel: ObservableObject {
+    @Published var selectedItemIDs: Set<FileTrayItem.ID> = []
     @Published private(set) var items: [FileTrayItem] = []
+
     var onItemsChange: (([FileTrayItem]) -> Void)?
 
     var count: Int {
         items.count
+    }
+
+    var selectedCount: Int {
+        selectedItems.count
+    }
+
+    var hasSelection: Bool {
+        selectedItemIDs.isEmpty == false
+    }
+
+    var selectedItems: [FileTrayItem] {
+        items.filter { selectedItemIDs.contains($0.id) }
     }
 
     func add(_ urls: [URL]) {
@@ -81,8 +122,37 @@ final class FileTrayViewModel: ObservableObject {
         updateItems(items + newItems)
     }
 
+    func toggleSelection(for item: FileTrayItem) {
+        if selectedItemIDs.contains(item.id) {
+            selectedItemIDs.remove(item.id)
+        } else {
+            selectedItemIDs.insert(item.id)
+        }
+    }
+    
+    func selectAll() {
+        selectedItemIDs = Set(items.map { $0.id })
+    }
+
+    func clearSelection() {
+        selectedItemIDs.removeAll()
+    }
+
+    func itemsForDrag(startingAt item: FileTrayItem) -> [FileTrayItem] {
+        if selectedItemIDs.contains(item.id) {
+            return selectedItems
+        }
+
+        return [item]
+    }
+
     func remove(_ item: FileTrayItem) {
         updateItems(items.filter { $0.id != item.id })
+    }
+
+    func removeSelectedItems() {
+        guard hasSelection else { return }
+        updateItems(items.filter { selectedItemIDs.contains($0.id) == false })
     }
 
     func clear() {
@@ -91,6 +161,7 @@ final class FileTrayViewModel: ObservableObject {
 
     private func updateItems(_ newItems: [FileTrayItem]) {
         items = newItems
+        selectedItemIDs.formIntersection(Set(newItems.map(\.id)))
         onItemsChange?(newItems)
     }
 
@@ -98,3 +169,4 @@ final class FileTrayViewModel: ObservableObject {
         url.resolvingSymlinksInPath().standardizedFileURL.path
     }
 }
+

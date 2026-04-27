@@ -14,7 +14,7 @@ struct NowPlayingExpandedNotchView: View {
     @ObservedObject var applicationSettings: ApplicationSettingsStore
     
     let onOpenPlaybackSource: @MainActor () -> Void
-
+    
     @State private var scrubProgress: CGFloat?
     private let audioReactiveVisibilitySource = "nowPlaying.notch.expanded"
     
@@ -121,28 +121,22 @@ struct NowPlayingExpandedNotchView: View {
             }
             Spacer()
 
-            HStack(spacing: 10) {
-                Text(formattedTime(displayedElapsedTime))
-                    .font(.system(size: 11, weight: .medium, design: .rounded))
-                    .foregroundStyle(progressTimeColor(isPrimary: true, appearance: appearance))
-
-                PlayerProgressBar(
-                    progress: displayedProgress,
-                    isInteractive: snapshot.duration > 0,
-                    tintGradient: appearance.usesArtworkTint ? nowPlayingViewModel.artworkPalette.equalizerGradient : nil,
-                    onScrubChanged: { newProgress in
-                        scrubProgress = newProgress
-                    },
-                    onScrubEnded: { newProgress in
-                        nowPlayingViewModel.seek(to: snapshot.duration * TimeInterval(newProgress))
-                        scrubProgress = nil
-                    }
-                )
-
-                Text(snapshot.duration > 0 ? formattedTime(snapshot.duration) : "LIVE")
-                    .font(.system(size: 11, weight: .medium, design: .rounded))
-                    .foregroundStyle(progressTimeColor(isPrimary: false, appearance: appearance))
-            }
+            PlayerProgressBar(
+                progress: displayedProgress,
+                displayedElapsedTime: displayedElapsedTime,
+                duration: snapshot.duration,
+                isInteractive: snapshot.duration > 0,
+                tintGradient: appearance.usesArtworkTint ? nowPlayingViewModel.artworkPalette.equalizerGradient : nil,
+                primaryColor: progressTimeColor(isPrimary: true, appearance: appearance),
+                secondaryColor: progressTimeColor(isPrimary: false, appearance: appearance),
+                onScrubChanged: { newProgress in
+                    scrubProgress = newProgress
+                },
+                onScrubEnded: { newProgress in
+                    nowPlayingViewModel.seek(to: snapshot.duration * TimeInterval(newProgress))
+                    scrubProgress = nil
+                }
+            )
 
             Spacer()
 

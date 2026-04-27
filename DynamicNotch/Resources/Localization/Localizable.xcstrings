@@ -569,6 +569,9 @@
         }
       }
     },
+    "All" : {
+
+    },
     "Allow gestures to bring back the most recently dismissed activity." : {
       "localizations" : {
         "en" : {
@@ -3222,9 +3225,6 @@
           }
         }
       }
-    },
-    "Clear All" : {
-
     },
     "Click" : {
       "localizations" : {

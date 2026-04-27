@@ -31,6 +31,7 @@ struct BluetoothConnectedNotchView: View {
             Spacer()
             rightContent
         }
+        .padding(.vertical, 10)
         .padding(.horizontal, 14.scaled(by: scale))
         .font(.system(size: 14))
     }

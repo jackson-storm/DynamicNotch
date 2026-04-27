@@ -198,15 +198,17 @@ struct GeneralSettingsView: View {
                         if let assetName = language.flagAssetName {
                             Image(assetName)
                                 .resizable()
-                                .scaledToFill()
-                                .clipped()
+                                .aspectRatio(contentMode: .fit)
+                                .clipShape(RoundedRectangle(cornerRadius: 6))
+                                .frame(width: 54, height: 54)
+                                
                         } else {
                             Image(systemName: "globe")
                                 .font(.system(size: 20, weight: .semibold))
                                 .foregroundStyle(.primary)
                         }
                     }
-                    .frame(width: 44, height: 34)
+                    .frame(width: 54, height: 54)
                 }
                 .accessibilityIdentifier("settings.language.card")
 

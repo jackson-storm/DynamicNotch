@@ -426,6 +426,13 @@ final class NotchViewModel: ObservableObject {
                 self?.cachedStrokeColor = $0
             }
             .store(in: &cancellables)
+
+        NotificationCenter.default.publisher(for: .notchContentPrioritiesDidChange)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                self?.engine.refreshLiveActivityPriorities()
+            }
+            .store(in: &cancellables)
     }
 
     private func scheduleStagedHeightUpdate(to targetHeight: CGFloat) {

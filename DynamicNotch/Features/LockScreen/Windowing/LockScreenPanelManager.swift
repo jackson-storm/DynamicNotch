@@ -16,7 +16,7 @@ final class LockScreenPanelManager {
     private let animator = LockScreenPanelAnimator()
     
     private var panelWindow: OverlayPanelWindow?
-    private var hostingView: NSHostingView<LockScreenNowPlayingPanelView>?
+    private var hostingView: NotchHostingView?
     private var hasDelegatedWindow = false
     private var appObservers: [NSObjectProtocol] = []
     private var workspaceObservers: [NSObjectProtocol] = []
@@ -206,10 +206,10 @@ final class LockScreenPanelManager {
         }
         
         if let hostingView {
-            hostingView.rootView = rootView
+            hostingView.rootView = AnyView(rootView)
             hostingView.frame = NSRect(origin: .zero, size: targetFrame.size)
         } else {
-            let hostingView = NSHostingView(rootView: rootView)
+            let hostingView = NotchHostingView(rootView: rootView)
             hostingView.frame = NSRect(origin: .zero, size: targetFrame.size)
             hostingView.autoresizingMask = [.width, .height]
             self.hostingView = hostingView
@@ -311,14 +311,14 @@ final class LockScreenPanelManager {
         
         if let resolvedSnapshot, let hostingView {
             hostingView.frame = NSRect(origin: .zero, size: targetFrame.size)
-            hostingView.rootView = LockScreenNowPlayingPanelView(
+            hostingView.rootView = AnyView(LockScreenNowPlayingPanelView(
                 snapshot: resolvedSnapshot,
                 artworkImage: resolvedArtworkImage,
                 settingsViewModel: settingsViewModel,
                 nowPlayingViewModel: nowPlayingViewModel,
                 lockScreenManager: lockScreenManager,
                 animator: animator
-            )
+            ))
         }
         
         window.orderFrontRegardless()

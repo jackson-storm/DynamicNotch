@@ -22,7 +22,7 @@ final class LockScreenLiveActivityWindowManager {
     private let animator = LockScreenLiveActivityAnimator()
     
     private var overlayWindow: OverlayPanelWindow?
-    private var hostingView: NSHostingView<LockScreenLiveActivityOverlayView>?
+    private var hostingView: NotchHostingView?
     private var appObservers: [NSObjectProtocol] = []
     private var workspaceObservers: [NSObjectProtocol] = []
     private var cancellables = Set<AnyCancellable>()
@@ -237,10 +237,10 @@ final class LockScreenLiveActivityWindowManager {
         }
         
         if let hostingView {
-            hostingView.rootView = rootView
+            hostingView.rootView = AnyView(rootView)
             hostingView.frame = NSRect(origin: .zero, size: targetFrame.size)
         } else {
-            let hostingView = NSHostingView(rootView: rootView)
+            let hostingView = NotchHostingView(rootView: rootView)
             hostingView.frame = NSRect(origin: .zero, size: targetFrame.size)
             hostingView.autoresizingMask = [.width, .height]
             self.hostingView = hostingView
@@ -333,12 +333,12 @@ final class LockScreenLiveActivityWindowManager {
         }
         
         hostingView?.frame = NSRect(origin: .zero, size: targetFrame.size)
-        hostingView?.rootView = LockScreenLiveActivityOverlayView(
+        hostingView?.rootView = AnyView(LockScreenLiveActivityOverlayView(
             notchViewModel: notchViewModel,
             settingsViewModel: settingsViewModel,
             lockScreenManager: lockScreenManager,
             animator: animator
-        )
+        ))
         
         window.orderFrontRegardless()
     }

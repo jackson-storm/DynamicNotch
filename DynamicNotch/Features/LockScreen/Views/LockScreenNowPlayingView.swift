@@ -36,8 +36,13 @@ struct LockScreenNowPlayingPanelView: View {
             if onTapArtwork {
                 ZStack {
                     Color.black
-                    nowPlayingViewModel.artworkPalette.equalizerGradient
-                        .opacity(0.6)
+                    NowPlayingArtworkBackground(
+                        artworkImage: resolvedArtworkImage,
+                        blurRadius: 200,
+                        darkeningOpacity: 0.6,
+                        saturation: 1.45,
+                        scale: 1
+                    )
                 }
                 .ignoresSafeArea()
                 .transition(.opacity)
@@ -143,6 +148,10 @@ struct LockScreenNowPlayingPanelView: View {
             brightness: settingsViewModel.lockScreen.widgetBackgroundBrightness,
             cornerRadius: 28
         )
+    }
+
+    private var resolvedArtworkImage: NSImage? {
+        artworkImage ?? nowPlayingViewModel.artworkImage
     }
 }
 
@@ -259,27 +268,35 @@ private struct LockScreenNowPlayingView: View {
                 }
                 
                 HStack(alignment: .top, spacing: 10) {
-                    VStack(alignment: .leading, spacing: 2) {
-                        MarqueeText(
-                            .constant(displayTitle(for: snapshot)),
-                            font: .system(size: 16, weight: .medium),
-                            nsFont: .headline,
-                            textColor: .white.opacity(0.8),
-                            backgroundColor: .clear,
-                            minDuration: 2.0,
-                            frameWidth: onTapArtwork ? 260.scaled(by: scale) : 180.scaled(by: scale)
-                        )
-                        
-                        MarqueeText(
-                            .constant(displayArtist(for: snapshot)),
-                            font: .system(size: 14),
-                            nsFont: .headline,
-                            textColor: .white.opacity(0.5),
-                            backgroundColor: .clear,
-                            minDuration: 3.0,
-                            frameWidth: onTapArtwork ? 260.scaled(by: scale) : 180.scaled(by: scale)
-                        )
+                    Button(action: {
+                        withAnimation(.spring(response: 0.6)) {
+                            onTapArtwork.toggle()
+                        }
+                    }) {
+                        VStack(alignment: .leading, spacing: 2) {
+                            MarqueeText(
+                                .constant(displayTitle(for: snapshot)),
+                                font: .system(size: 16, weight: .medium),
+                                nsFont: .headline,
+                                textColor: .white.opacity(0.8),
+                                backgroundColor: .clear,
+                                minDuration: 2.0,
+                                frameWidth: onTapArtwork ? 260.scaled(by: scale) : 180.scaled(by: scale)
+                            )
+
+                            MarqueeText(
+                                .constant(displayArtist(for: snapshot)),
+                                font: .system(size: 14),
+                                nsFont: .headline,
+                                textColor: .white.opacity(0.5),
+                                backgroundColor: .clear,
+                                minDuration: 3.0,
+                                frameWidth: onTapArtwork ? 260.scaled(by: scale) : 180.scaled(by: scale)
+                            )
+                        }
                     }
+                    .buttonStyle(PlaybackSourceButtonStyle())
+
                     Spacer(minLength: 0)
                     
                     EqualizerView(

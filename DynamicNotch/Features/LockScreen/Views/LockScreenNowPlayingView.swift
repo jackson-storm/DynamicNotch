@@ -28,6 +28,8 @@ struct LockScreenNowPlayingPanelView: View {
     
     @State private var scrubProgress: CGFloat?
     @State private var onTapArtwork: Bool = false
+    @State private var backgroundRotation: Double = 0
+    @State private var backgroundScale: CGFloat = 1
     
     private let animationTick: TimeInterval = 1.0 / 10.0
     
@@ -36,13 +38,21 @@ struct LockScreenNowPlayingPanelView: View {
             if onTapArtwork {
                 ZStack {
                     Color.black
-                    NowPlayingArtworkBackground(
-                        artworkImage: resolvedArtworkImage,
-                        blurRadius: 200,
-                        darkeningOpacity: 0.6,
-                        saturation: 1.45,
-                        scale: 1
-                    )
+
+                    if mediaPanelBackgroundStyle != .black {
+                        NowPlayingArtworkBackground(
+                            artworkImage: resolvedArtworkImage,
+                            blurRadius: 200,
+                            darkeningOpacity: 0.6,
+                            saturation: 1.45,
+                            scale: mediaPanelBackgroundScale
+                        )
+                        .rotationEffect(mediaPanelBackgroundRotation)
+                    }
+                }
+                .onAppear(perform: configureMediaPanelBackgroundAnimation)
+                .onChange(of: mediaPanelBackgroundStyle) {
+                    configureMediaPanelBackgroundAnimation()
                 }
                 .ignoresSafeArea()
                 .transition(.opacity)
@@ -138,6 +148,39 @@ struct LockScreenNowPlayingPanelView: View {
 
     private var playerPanelOffset: CGFloat {
         onTapArtwork ? ((Self.expandedArtworkSize + Self.expandedArtworkSpacing) / 2) - Self.expandedStackLift : 0
+    }
+
+    private var mediaPanelBackgroundStyle: LockScreenMediaPanelBackgroundStyle {
+        settingsViewModel.lockScreen.mediaPanelBackgroundStyle
+    }
+
+    private var mediaPanelBackgroundScale: CGFloat {
+        mediaPanelBackgroundStyle == .animatedArtwork ? backgroundScale : 1
+    }
+
+    private var mediaPanelBackgroundRotation: Angle {
+        mediaPanelBackgroundStyle == .animatedArtwork ? .degrees(backgroundRotation) : .zero
+    }
+
+    private func configureMediaPanelBackgroundAnimation() {
+        var transaction = Transaction()
+        transaction.disablesAnimations = true
+        withTransaction(transaction) {
+            backgroundRotation = 0
+            backgroundScale = 1
+        }
+
+        guard mediaPanelBackgroundStyle == .animatedArtwork else {
+            return
+        }
+
+        withAnimation(.linear(duration: 30).repeatForever(autoreverses: false)) {
+            backgroundRotation = 360
+        }
+
+        withAnimation(.easeInOut(duration: 4).repeatForever(autoreverses: true)) {
+            backgroundScale = 2
+        }
     }
     
     @ViewBuilder

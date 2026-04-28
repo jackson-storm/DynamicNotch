@@ -57,6 +57,15 @@ final class LockScreenFeatureSettingsStore: SettingsStoreBase {
         }
     }
 
+    @Published var mediaPanelBackgroundStyle: LockScreenMediaPanelBackgroundStyle {
+        didSet {
+            persist(
+                mediaPanelBackgroundStyle.rawValue,
+                for: LockScreenSettings.mediaPanelBackgroundStyleKey
+            )
+        }
+    }
+
     override init(defaults: UserDefaults) {
         let legacyCustomSoundPath = LockScreenSettings.legacyCustomSoundPath(in: defaults) ?? ""
         let storedLockSoundPath = defaults.string(forKey: LockScreenSettings.customLockSoundPathKey)
@@ -77,6 +86,7 @@ final class LockScreenFeatureSettingsStore: SettingsStoreBase {
         self.widgetAppearanceStyle = LockScreenSettings.widgetAppearanceStyle(in: defaults)
         self.widgetTintStyle = LockScreenSettings.widgetTintStyle(in: defaults)
         self.widgetBackgroundBrightness = LockScreenSettings.widgetBackgroundBrightness(in: defaults)
+        self.mediaPanelBackgroundStyle = LockScreenSettings.mediaPanelBackgroundStyle(in: defaults)
         super.init(defaults: defaults)
 
         migrateLegacyCustomSoundIfNeeded(
@@ -100,6 +110,9 @@ final class LockScreenFeatureSettingsStore: SettingsStoreBase {
             rawValue: defaultString(for: LockScreenSettings.widgetTintStyleKey)
         ) ?? .neutral
         widgetBackgroundBrightness = defaultDouble(for: LockScreenSettings.widgetBackgroundBrightnessKey)
+        mediaPanelBackgroundStyle = LockScreenMediaPanelBackgroundStyle(
+            rawValue: defaultString(for: LockScreenSettings.mediaPanelBackgroundStyleKey)
+        ) ?? .animatedArtwork
     }
 
     private static func resolvedCustomSoundPath(_ rawValue: String?, legacyValue: String) -> String {

@@ -107,6 +107,18 @@ struct LockScreenSettingsView: View {
             
             Divider().opacity(0.6)
             
+            SettingsMenuRow(
+                title: "Media panel background",
+                description: "Choose which background will be displayed when playing media.",
+                options: Array(LockScreenMediaPanelBackgroundStyle.allCases),
+                optionTitle: { $0.title },
+                accessibilityIdentifier: "settings.general.hud.indicatorStyle",
+                selection: $settings.mediaPanelBackgroundStyle
+            )
+            .accessibilityIdentifier("settings.activities.lockScreen.mediaPanelBackground")
+            
+            Divider().opacity(0.6)
+            
             SettingsToggleRow(
                 title: "Accent tint",
                 description: "Blend the app accent color into the lock-screen widget background.",
@@ -342,6 +354,19 @@ struct LockScreenSettingsView: View {
     private func resetCustomSoundSelection(for kind: LockScreenCustomSoundKind) {
         setCustomSoundPath("", for: kind)
         setCustomSoundSelectionError(nil, for: kind)
+    }
+}
+
+private extension LockScreenMediaPanelBackgroundStyle {
+    var previewSystemImage: String {
+        switch self {
+        case .animatedArtwork:
+            "sparkles"
+        case .staticArtwork:
+            "photo.fill"
+        case .black:
+            "circle.fill"
+        }
     }
 }
 

@@ -10,6 +10,8 @@ final class LockScreenPanelAnimator: ObservableObject {
 
 @MainActor
 final class LockScreenPanelManager {
+    private static let rotationOverscanScale: CGFloat = 1.04
+
     private let nowPlayingViewModel: NowPlayingViewModel
     private let lockScreenManager: LockScreenManager
     private let settingsViewModel: SettingsViewModel
@@ -365,6 +367,17 @@ final class LockScreenPanelManager {
     }
     
     private func panelFrame(for screen: NSScreen) -> NSRect {
-        OverlayWindowLayout.lockScreenCanvasFrame(on: screen)
+        let screenFrame = OverlayWindowLayout.lockScreenCanvasFrame(on: screen)
+        let diagonal = hypot(screenFrame.width, screenFrame.height)
+        let sideLength = ceil(diagonal * Self.rotationOverscanScale)
+        let origin = CGPoint(
+            x: floor(screenFrame.midX - sideLength / 2),
+            y: floor(screenFrame.midY - sideLength / 2)
+        )
+
+        return NSRect(
+            origin: origin,
+            size: CGSize(width: sideLength, height: sideLength)
+        )
     }
 }

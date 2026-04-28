@@ -31,12 +31,18 @@ private enum SurfaceResizeMetrics {
     static let heightFollowUpDelay: TimeInterval = 0.1
 }
 
+private enum ExpansionTransitionTiming {
+    static let preparationDelay: UInt64 = 16_000_000
+    static let resetDelay: UInt64 = 120_000_000
+}
+
 @MainActor
 final class NotchViewModel: ObservableObject {
     @Published private(set) var notchModel = NotchModel()
     @Published private(set) var swipeStretchProgress: CGFloat = 0
     @Published private(set) var swipeInteraction: NotchSwipeInteraction?
     @Published private(set) var stagedNotchHeight: CGFloat = NotchModel().baseHeight
+    @Published private(set) var isExpandingLiveActivityTransition = false
     
     @Published var showNotch = false
     @Published var isPressed = false
@@ -47,6 +53,7 @@ final class NotchViewModel: ObservableObject {
     private let screenMetricsProvider: (any NotchSettingsProviding) -> NotchScreenMetrics?
     private var cancellables = Set<AnyCancellable>()
     private var stagedHeightTask: Task<Void, Never>?
+    private var expansionTransitionTask: Task<Void, Never>?
     private var swipeStretchResetWorkItem: DispatchWorkItem?
     private var isClosingHeightStaged = false
 
@@ -339,8 +346,24 @@ final class NotchViewModel: ObservableObject {
     }
     
     func handleActiveContentTap() {
-        guard settings.isNotchTapToExpandEnabled else { return }
-        engine.handleActiveContentTap()
+        guard settings.isNotchTapToExpandEnabled,
+              canExpandActiveLiveActivity else { return }
+
+        expansionTransitionTask?.cancel()
+        isExpandingLiveActivityTransition = true
+
+        expansionTransitionTask = Task { @MainActor [weak self] in
+            try? await Task.sleep(nanoseconds: ExpansionTransitionTiming.preparationDelay)
+            guard let self, !Task.isCancelled else { return }
+
+            self.engine.handleActiveContentTap()
+
+            try? await Task.sleep(nanoseconds: ExpansionTransitionTiming.resetDelay)
+            guard !Task.isCancelled else { return }
+
+            self.isExpandingLiveActivityTransition = false
+            self.expansionTransitionTask = nil
+        }
     }
     
     func handleOutsideClick() {
@@ -355,7 +378,14 @@ final class NotchViewModel: ObservableObject {
         1 - pow(1 - swipeStretchProgress, 2)
     }
     
-    func contentTransition(notchWidth: CGFloat, notchHeight: CGFloat, baseHeight: CGFloat, isExpandedPresentation: Bool) -> AnyTransition {
+    func contentTransition(
+        notchWidth: CGFloat,
+        notchHeight: CGFloat,
+        baseHeight: CGFloat,
+        isExpandedPresentation: Bool,
+        isCompactRemovalForExpansion: Bool = false
+    ) -> AnyTransition {
+
         let animation = isExpandedPresentation
             ? animations.expandLiveActivityContentTransition
             : animations.openContentTransition
@@ -364,7 +394,8 @@ final class NotchViewModel: ObservableObject {
             notchWidth: notchWidth,
             notchHeight: notchHeight,
             baseHeight: baseHeight,
-            isExpandedPresentation: isExpandedPresentation
+            isExpandedPresentation: isExpandedPresentation,
+            isCompactRemovalForExpansion: isCompactRemovalForExpansion
         )
         .animation(animation)
     }

@@ -190,7 +190,7 @@ final class LockScreenPanelManager {
     ) {
         guard let screen = currentScreen() else { return }
         
-        let window = makeWindowIfNeeded()
+        let window = makeWindowIfNeeded(for: screen)
         let targetFrame = panelFrame(for: screen)
         let rootView = LockScreenNowPlayingPanelView(
             snapshot: snapshot,
@@ -343,14 +343,14 @@ final class LockScreenPanelManager {
         return isShowingLockPresentation ? cachedArtworkImage : nil
     }
     
-    private func makeWindowIfNeeded() -> OverlayPanelWindow {
+    private func makeWindowIfNeeded(for screen: NSScreen) -> OverlayPanelWindow {
         if let panelWindow {
             return panelWindow
         }
 
         let window = OverlayPanelFactory.makePanel(
-            frame: NSRect(origin: .zero, size: OverlayWindowLayout.lockScreenCanvasSize),
-            level: OverlayWindowLevel.shieldingOverlay
+            frame: panelFrame(for: screen),
+            level: OverlayWindowLevel.lockScreenPanel
         )
 
         panelWindow = window
@@ -365,16 +365,6 @@ final class LockScreenPanelManager {
     }
     
     private func panelFrame(for screen: NSScreen) -> NSRect {
-        let canvasSize = OverlayWindowLayout.lockScreenCanvasSize
-        let size = LockScreenNowPlayingPanelView.panelSize
-        let screenFrame = screen.frame
-        
-        let desiredPanelX = screenFrame.midX - size.width / 2
-        let desiredPanelY = screenFrame.midY - size.height - 80
-        
-        let x = floor(desiredPanelX - (canvasSize.width - size.width) / 2)
-        let y = floor(desiredPanelY - (canvasSize.height - size.height) / 2)
-        
-        return NSRect(origin: CGPoint(x: x, y: y), size: canvasSize)
+        OverlayWindowLayout.lockScreenCanvasFrame(on: screen)
     }
 }

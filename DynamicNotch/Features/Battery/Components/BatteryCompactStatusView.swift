@@ -18,7 +18,7 @@ struct BatteryCompactStatusView: View {
             HStack(spacing: 6) {
                 Text("\(batteryLevel)%")
                     .font(.system(size: 14))
-                    .foregroundColor(tint)
+                    .foregroundStyle(tint.gradient)
 
                 HStack(spacing: 1.5) {
                     ZStack(alignment: .leading) {

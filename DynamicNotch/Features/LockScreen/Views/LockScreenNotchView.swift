@@ -28,7 +28,6 @@ struct LockScreenNotchView: View {
         }
         .padding(.horizontal, horizontalPadding.scaled(by: scale))
     }
-
     private var statusTitle: String {
         lockScreenManager.isShowingLockPresentation ? "Locked" : "Unlocked"
     }

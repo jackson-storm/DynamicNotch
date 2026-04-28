@@ -8,11 +8,16 @@ final class OverlayPanelWindow: NSPanel {
 enum OverlayWindowLevel {
     static let interactiveNotch = NSWindow.Level.mainMenu + 3
     static let shieldingOverlay = NSWindow.Level(rawValue: Int(CGShieldingWindowLevel()))
+    static let lockScreenPanel = shieldingOverlay
+    static let lockScreenNotch = NSWindow.Level(rawValue: shieldingOverlay.rawValue + 1)
 }
 
 enum OverlayWindowLayout {
     static let appCanvasSize = CGSize(width: 1000, height: 1000)
-    static let lockScreenCanvasSize = CGSize(width: 500, height: 500)
+
+    static func lockScreenCanvasFrame(on screen: NSScreen) -> NSRect {
+        screen.frame
+    }
 
     static func topAnchoredFrame(on screen: NSScreen, size: CGSize, yOffset: CGFloat = 1) -> NSRect {
         let x = floor(screen.frame.midX - size.width / 2)

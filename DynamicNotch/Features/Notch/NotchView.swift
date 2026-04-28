@@ -160,7 +160,8 @@ private extension NotchView {
                         notchWidth: notchViewModel.presentedNotchSize.width,
                         notchHeight: notchViewModel.presentedNotchSize.height,
                         baseHeight: notchViewModel.notchModel.baseHeight,
-                        isExpandedPresentation: notchViewModel.notchModel.isPresentingExpandedLiveActivity
+                        isExpandedPresentation: notchViewModel.notchModel.isPresentingExpandedLiveActivity,
+                        isCompactRemovalForExpansion: notchViewModel.isExpandingLiveActivityTransition
                     )
                 )
         }

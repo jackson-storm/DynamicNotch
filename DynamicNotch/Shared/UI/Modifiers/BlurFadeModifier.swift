@@ -51,7 +51,14 @@ extension AnyTransition {
         )
     }
 
-    static func dynamicIslandContent(notchWidth: CGFloat, notchHeight: CGFloat, baseHeight: CGFloat, isExpandedPresentation: Bool) -> AnyTransition {
+    static func dynamicIslandContent(
+        notchWidth: CGFloat,
+        notchHeight: CGFloat,
+        baseHeight: CGFloat,
+        isExpandedPresentation: Bool,
+        isCompactRemovalForExpansion: Bool = false
+    ) -> AnyTransition {
+
         if isExpandedPresentation {
             return dynamicIslandExpanded(
                 notchWidth: notchWidth,
@@ -62,16 +69,21 @@ extension AnyTransition {
         return dynamicIslandCompact(
             notchWidth: notchWidth,
             notchHeight: notchHeight,
-            baseHeight: baseHeight
+            baseHeight: baseHeight,
+            isRemovalForExpansion: isCompactRemovalForExpansion
         )
     }
 
-    private static func dynamicIslandCompact(notchWidth: CGFloat, notchHeight: CGFloat, baseHeight: CGFloat) -> AnyTransition {
+    private static func dynamicIslandCompact(
+        notchWidth: CGFloat,
+        notchHeight: CGFloat,
+        baseHeight: CGFloat,
+        isRemovalForExpansion: Bool = false
+    ) -> AnyTransition {
+
         let horizontalOffset = DynamicIslandTransitionMetrics.horizontalCompensationOffset(for: notchWidth)
-        let verticalOffset = DynamicIslandTransitionMetrics.verticalCompensationOffset(
-            for: notchHeight,
-            baseHeight: baseHeight
-        )
+        let removalHorizontalOffset = isRemovalForExpansion ? 0 : horizontalOffset
+        let verticalOffset = DynamicIslandTransitionMetrics.verticalCompensationOffset(for: notchHeight, baseHeight: baseHeight)
 
         return .asymmetric(
             insertion: .modifier(
@@ -90,7 +102,7 @@ extension AnyTransition {
                 active: DynamicIslandTransitionModifier(
                     blur: 20,
                     opacity: 0,
-                    offsetX: horizontalOffset,
+                    offsetX: removalHorizontalOffset,
                     offsetY: verticalOffset,
                     scaleX: 0.4,
                     scaleY: 0.6,
@@ -101,12 +113,14 @@ extension AnyTransition {
         )
     }
 
-    private static func dynamicIslandExpanded(notchWidth: CGFloat, notchHeight: CGFloat, baseHeight: CGFloat) -> AnyTransition {
+    private static func dynamicIslandExpanded(
+        notchWidth: CGFloat,
+        notchHeight: CGFloat,
+        baseHeight: CGFloat
+    ) -> AnyTransition {
+
         let horizontalOffset = DynamicIslandTransitionMetrics.horizontalCompensationOffset(for: notchWidth)
-        let verticalOffset = DynamicIslandTransitionMetrics.verticalCompensationOffset(
-            for: notchHeight,
-            baseHeight: baseHeight
-        )
+        let verticalOffset = DynamicIslandTransitionMetrics.verticalCompensationOffset(for: notchHeight, baseHeight: baseHeight)
 
         return .asymmetric(
             insertion: .modifier(

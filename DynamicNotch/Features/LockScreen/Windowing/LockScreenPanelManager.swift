@@ -10,13 +10,15 @@ final class LockScreenPanelAnimator: ObservableObject {
 
 @MainActor
 final class LockScreenPanelManager {
+    private static let rotationOverscanScale: CGFloat = 1.04
+
     private let nowPlayingViewModel: NowPlayingViewModel
     private let lockScreenManager: LockScreenManager
     private let settingsViewModel: SettingsViewModel
     private let animator = LockScreenPanelAnimator()
     
     private var panelWindow: OverlayPanelWindow?
-    private var hostingView: NSHostingView<LockScreenNowPlayingPanelView>?
+    private var hostingView: NotchHostingView?
     private var hasDelegatedWindow = false
     private var appObservers: [NSObjectProtocol] = []
     private var workspaceObservers: [NSObjectProtocol] = []
@@ -190,7 +192,7 @@ final class LockScreenPanelManager {
     ) {
         guard let screen = currentScreen() else { return }
         
-        let window = makeWindowIfNeeded()
+        let window = makeWindowIfNeeded(for: screen)
         let targetFrame = panelFrame(for: screen)
         let rootView = LockScreenNowPlayingPanelView(
             snapshot: snapshot,
@@ -206,10 +208,10 @@ final class LockScreenPanelManager {
         }
         
         if let hostingView {
-            hostingView.rootView = rootView
+            hostingView.rootView = AnyView(rootView)
             hostingView.frame = NSRect(origin: .zero, size: targetFrame.size)
         } else {
-            let hostingView = NSHostingView(rootView: rootView)
+            let hostingView = NotchHostingView(rootView: rootView)
             hostingView.frame = NSRect(origin: .zero, size: targetFrame.size)
             hostingView.autoresizingMask = [.width, .height]
             self.hostingView = hostingView
@@ -311,14 +313,14 @@ final class LockScreenPanelManager {
         
         if let resolvedSnapshot, let hostingView {
             hostingView.frame = NSRect(origin: .zero, size: targetFrame.size)
-            hostingView.rootView = LockScreenNowPlayingPanelView(
+            hostingView.rootView = AnyView(LockScreenNowPlayingPanelView(
                 snapshot: resolvedSnapshot,
                 artworkImage: resolvedArtworkImage,
                 settingsViewModel: settingsViewModel,
                 nowPlayingViewModel: nowPlayingViewModel,
                 lockScreenManager: lockScreenManager,
                 animator: animator
-            )
+            ))
         }
         
         window.orderFrontRegardless()
@@ -343,14 +345,14 @@ final class LockScreenPanelManager {
         return isShowingLockPresentation ? cachedArtworkImage : nil
     }
     
-    private func makeWindowIfNeeded() -> OverlayPanelWindow {
+    private func makeWindowIfNeeded(for screen: NSScreen) -> OverlayPanelWindow {
         if let panelWindow {
             return panelWindow
         }
 
         let window = OverlayPanelFactory.makePanel(
-            frame: NSRect(origin: .zero, size: OverlayWindowLayout.lockScreenCanvasSize),
-            level: OverlayWindowLevel.shieldingOverlay
+            frame: panelFrame(for: screen),
+            level: OverlayWindowLevel.lockScreenPanel
         )
 
         panelWindow = window
@@ -365,16 +367,17 @@ final class LockScreenPanelManager {
     }
     
     private func panelFrame(for screen: NSScreen) -> NSRect {
-        let canvasSize = OverlayWindowLayout.lockScreenCanvasSize
-        let size = LockScreenNowPlayingPanelView.panelSize
-        let screenFrame = screen.frame
-        
-        let desiredPanelX = screenFrame.midX - size.width / 2
-        let desiredPanelY = screenFrame.midY - size.height - 80
-        
-        let x = floor(desiredPanelX - (canvasSize.width - size.width) / 2)
-        let y = floor(desiredPanelY - (canvasSize.height - size.height) / 2)
-        
-        return NSRect(origin: CGPoint(x: x, y: y), size: canvasSize)
+        let screenFrame = OverlayWindowLayout.lockScreenCanvasFrame(on: screen)
+        let diagonal = hypot(screenFrame.width, screenFrame.height)
+        let sideLength = ceil(diagonal * Self.rotationOverscanScale)
+        let origin = CGPoint(
+            x: floor(screenFrame.midX - sideLength / 2),
+            y: floor(screenFrame.midY - sideLength / 2)
+        )
+
+        return NSRect(
+            origin: origin,
+            size: CGSize(width: sideLength, height: sideLength)
+        )
     }
 }

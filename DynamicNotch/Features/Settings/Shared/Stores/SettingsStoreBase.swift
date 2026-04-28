@@ -28,6 +28,10 @@ class SettingsStoreBase: ObservableObject {
         defaults.set(value, forKey: key)
     }
 
+    func persist(_ value: [String: Int], for key: String) {
+        defaults.set(value, forKey: key)
+    }
+
     func defaultBool(for key: String) -> Bool {
         (GeneralSettingsStorage.defaultValues[key] as? Bool) ?? false
     }

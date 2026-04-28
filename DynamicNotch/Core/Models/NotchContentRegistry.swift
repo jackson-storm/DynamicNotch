@@ -3,32 +3,141 @@ import Foundation
 struct NotchContentDescriptor: Equatable {
     let id: String
     let stackID: String
-    let priority: Int
+    let defaultPriority: Int
+    let priorityKey: NotchContentPriority.Key?
+
+    var priority: Int {
+        guard let priorityKey else {
+            return defaultPriority
+        }
+
+        return NotchContentPriority.resolvedValue(for: priorityKey)
+    }
 
     init(
         id: String,
         stackID: String? = nil,
-        priority: Int = NotchContentPriority.default
+        priority: Int = NotchContentPriority.default,
+        priorityKey: NotchContentPriority.Key? = nil
     ) {
         self.id = id
         self.stackID = stackID ?? id
-        self.priority = priority
+        self.defaultPriority = priority
+        self.priorityKey = priorityKey
+    }
+
+    init(
+        id: String,
+        stackID: String? = nil,
+        priorityKey: NotchContentPriority.Key
+    ) {
+        self.init(
+            id: id,
+            stackID: stackID,
+            priority: priorityKey.defaultValue,
+            priorityKey: priorityKey
+        )
     }
 }
 
 enum NotchContentPriority {
+    enum Key: String, CaseIterable, Identifiable {
+        case focus
+        case hotspot
+        case download
+        case trayActive
+        case nowPlaying
+        case timer
+
+        var id: String { rawValue }
+
+        var defaultValue: Int {
+            switch self {
+            case .focus:
+                NotchContentPriority.focus
+            case .hotspot:
+                NotchContentPriority.hotspot
+            case .download:
+                NotchContentPriority.download
+            case .trayActive:
+                NotchContentPriority.trayActive
+            case .nowPlaying:
+                NotchContentPriority.nowPlaying
+            case .timer:
+                NotchContentPriority.timer
+            }
+        }
+
+    }
+
+    static let overrideStorageKey = "settings.notch.priorityOverrides"
+    static let priorityRange: ClosedRange<Int> = 0...20
+    static let configurableKeys: [Key] = [
+        .focus,
+        .hotspot,
+        .download,
+        .trayActive,
+        .nowPlaying,
+        .timer
+    ]
+
     static let `default` = 0
     static let focus = 1
-    static let notchSizeWidth = 2
-    static let notchSizeHeight = 3
-    static let hotspot = 4
-    static let download = 5
-    static let trayActive = 6
-    static let nowPlaying = 7
-    static let timer = 8
-    static let dragAndDrop = 9
-    static let lockScreen = 10
-    static let onboarding = 11
+    static let hotspot = 2
+    static let download = 3
+    static let trayActive = 4
+    static let nowPlaying = 5
+    static let timer = 6
+
+    static let notchSizeWidth = 90
+    static let notchSizeHeight = 91
+    static let dragAndDrop = 100
+    static let lockScreen = 110
+    static let onboarding = 120
+
+    static func resolvedValue(for key: Key, defaults: UserDefaults = .standard) -> Int {
+        overrideValues(defaults: defaults)[key.rawValue] ?? key.defaultValue
+    }
+
+    static func overrideValues(defaults: UserDefaults = .standard) -> [String: Int] {
+        guard let storedValues = defaults.dictionary(forKey: overrideStorageKey) else {
+            return [:]
+        }
+
+        return sanitizedOverrides(
+            storedValues.compactMapValues { value in
+                if let intValue = value as? Int {
+                    return intValue
+                }
+
+                if let numberValue = value as? NSNumber {
+                    return numberValue.intValue
+                }
+
+                return nil
+            }
+        )
+    }
+
+    static func sanitizedOverrides(_ overrides: [String: Int]) -> [String: Int] {
+        overrides.reduce(into: [:]) { result, pair in
+            guard let key = Key(rawValue: pair.key) else { return }
+            let clampedValue = clamped(pair.value)
+
+            guard clampedValue != key.defaultValue else { return }
+            result[key.rawValue] = clampedValue
+        }
+    }
+
+    static func clamped(_ priority: Int) -> Int {
+        min(max(priority, priorityRange.lowerBound), priorityRange.upperBound)
+    }
+}
+
+extension Notification.Name {
+    static let notchContentPrioritiesDidChange = Notification.Name(
+        "DynamicNotch.notchContentPrioritiesDidChange"
+    )
 }
 
 enum NotchContentRegistry {
@@ -46,7 +155,7 @@ enum NotchContentRegistry {
     enum Focus {
         static let active = NotchContentDescriptor(
             id: "focus.on",
-            priority: NotchContentPriority.focus
+            priorityKey: .focus
         )
         static let inactive = NotchContentDescriptor(id: "focus.off")
     }
@@ -55,7 +164,7 @@ enum NotchContentRegistry {
         static let bluetooth = NotchContentDescriptor(id: "bluetooth.connected")
         static let hotspot = NotchContentDescriptor(
             id: "hotspot.active",
-            priority: NotchContentPriority.hotspot
+            priorityKey: .hotspot
         )
         static let wifi = NotchContentDescriptor(id: "wifi.connected")
         static let vpn = NotchContentDescriptor(id: "vpn.connected")
@@ -64,15 +173,15 @@ enum NotchContentRegistry {
     enum Media {
         static let nowPlaying = NotchContentDescriptor(
             id: "nowPlaying",
-            priority: NotchContentPriority.nowPlaying
+            priorityKey: .nowPlaying
         )
         static let download = NotchContentDescriptor(
             id: "download.active",
-            priority: NotchContentPriority.download
+            priorityKey: .download
         )
         static let timer = NotchContentDescriptor(
             id: "clock.timer",
-            priority: NotchContentPriority.timer
+            priorityKey: .timer
         )
     }
 
@@ -92,7 +201,7 @@ enum NotchContentRegistry {
         
         static let trayActive = NotchContentDescriptor(
             id: "tray.active",
-            priority: NotchContentPriority.trayActive
+            priorityKey: .trayActive
         )
 
         static let liveActivityIDs = [

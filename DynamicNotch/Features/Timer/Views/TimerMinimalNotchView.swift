@@ -38,6 +38,7 @@ struct TimerMinimalNotchView: View {
             )
             .foregroundStyle(.orange)
         }
+        .padding(.vertical, 10)
         .padding(.horizontal, 14.scaled(by: scale))
     }
 }

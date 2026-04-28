@@ -187,6 +187,26 @@ final class NotchEngine: ObservableObject {
         restoreDismissedLiveActivity()
     }
 
+    func refreshLiveActivityPriorities() {
+        sortActiveLiveActivitiesByPriority()
+
+        guard let bestVisible = highestPriorityVisibleActivity else {
+            return
+        }
+
+        if notchModel.temporaryNotificationContent != nil {
+            suspendedActivity = bestVisible
+            return
+        }
+
+        guard bestVisible.id != notchModel.liveActivityContent?.id else {
+            return
+        }
+
+        eventQueue.append(.showLiveActivity(bestVisible))
+        processQueue()
+    }
+
     func openActiveWindowLink() {
         notchModel.content?.windowLink?()
     }
@@ -402,7 +422,17 @@ final class NotchEngine: ObservableObject {
             activeLiveActivities.append(content)
         }
 
-        activeLiveActivities.sort { $0.priority > $1.priority }
+        sortActiveLiveActivitiesByPriority()
+    }
+
+    private func sortActiveLiveActivitiesByPriority() {
+        activeLiveActivities.sort { lhs, rhs in
+            if lhs.priority == rhs.priority {
+                return lhs.id < rhs.id
+            }
+
+            return lhs.priority > rhs.priority
+        }
     }
 
     private func transition(customDelay: TimeInterval? = nil, hide: @escaping () -> Void, show: @escaping () -> Void) {

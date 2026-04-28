@@ -181,6 +181,23 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         }
     }
 
+    @Published var notchContentPriorityOverrides: [String: Int] {
+        didSet {
+            let sanitizedOverrides = NotchContentPriority.sanitizedOverrides(notchContentPriorityOverrides)
+
+            guard sanitizedOverrides == notchContentPriorityOverrides else {
+                notchContentPriorityOverrides = sanitizedOverrides
+                return
+            }
+
+            persist(
+                notchContentPriorityOverrides,
+                for: GeneralSettingsStorage.Keys.notchContentPriorityOverrides
+            )
+            NotificationCenter.default.post(name: .notchContentPrioritiesDidChange, object: self)
+        }
+    }
+
     @Published var isNotchSizeTemporaryActivityEnabled: Bool {
         didSet {
             persist(
@@ -280,6 +297,7 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
             defaults: defaults,
             key: GeneralSettingsStorage.Keys.notchSwipeRestoreEnabled
         )
+        self.notchContentPriorityOverrides = NotchContentPriority.overrideValues(defaults: defaults)
         self.isNotchSizeTemporaryActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.notchSizeTemporaryActivityEnabled)
         self.notchSizeTemporaryActivityDuration = Self.clampTemporaryActivityDuration(
             defaults.object(forKey: GeneralSettingsStorage.Keys.notchSizeTemporaryActivityDuration) as? Int ??
@@ -328,6 +346,7 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         isNotchTrackpadSwipeGesturesEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchTrackpadSwipeGesturesEnabled)
         isNotchSwipeDismissEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchSwipeDismissEnabled)
         isNotchSwipeRestoreEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchSwipeRestoreEnabled)
+        resetNotchContentPriorities()
         isShowNotchStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchStrokeEnabled)
         isDefaultActivityStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.defaultActivityStrokeEnabled)
         isNotchSizeTemporaryActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchSizeTemporaryActivityEnabled)
@@ -345,6 +364,27 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
     func reset() {
         resetGeneral()
         resetNotch()
+    }
+
+    func notchContentPriority(for key: NotchContentPriority.Key) -> Int {
+        notchContentPriorityOverrides[key.rawValue] ?? key.defaultValue
+    }
+
+    func setNotchContentPriority(_ priority: Int, for key: NotchContentPriority.Key) {
+        let clampedPriority = NotchContentPriority.clamped(priority)
+        var overrides = notchContentPriorityOverrides
+
+        if clampedPriority == key.defaultValue {
+            overrides.removeValue(forKey: key.rawValue)
+        } else {
+            overrides[key.rawValue] = clampedPriority
+        }
+
+        notchContentPriorityOverrides = overrides
+    }
+
+    func resetNotchContentPriorities() {
+        notchContentPriorityOverrides = [:]
     }
 
     private static func resolvedDefaultActivityStrokeEnabled(defaults: UserDefaults) -> Bool {

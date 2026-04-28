@@ -4,6 +4,7 @@ import Darwin
 enum SkyLightSpaceLevel: Int32, CaseIterable {
     case notchSurface = 2_147_483_647
     case lockScreenOverlay = 400
+    case lockScreenNotchOverlay = 401
 }
 
 @MainActor

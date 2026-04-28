@@ -22,7 +22,7 @@ final class LockScreenLiveActivityWindowManager {
     private let animator = LockScreenLiveActivityAnimator()
     
     private var overlayWindow: OverlayPanelWindow?
-    private var hostingView: NSHostingView<LockScreenLiveActivityOverlayView>?
+    private var hostingView: NotchHostingView?
     private var appObservers: [NSObjectProtocol] = []
     private var workspaceObservers: [NSObjectProtocol] = []
     private var cancellables = Set<AnyCancellable>()
@@ -214,9 +214,8 @@ final class LockScreenLiveActivityWindowManager {
     private func presentOverlay(animatedIn: Bool) {
         guard let screen = currentScreen() else { return }
         
-        let size = overlaySize
-        let window = makeWindowIfNeeded()
-        let targetFrame = overlayFrame(for: size, on: screen)
+        let window = makeWindowIfNeeded(for: screen)
+        let targetFrame = overlayFrame(on: screen)
         
         if window.frame != targetFrame {
             window.setFrame(targetFrame, display: true)
@@ -238,10 +237,10 @@ final class LockScreenLiveActivityWindowManager {
         }
         
         if let hostingView {
-            hostingView.rootView = rootView
+            hostingView.rootView = AnyView(rootView)
             hostingView.frame = NSRect(origin: .zero, size: targetFrame.size)
         } else {
-            let hostingView = NSHostingView(rootView: rootView)
+            let hostingView = NotchHostingView(rootView: rootView)
             hostingView.frame = NSRect(origin: .zero, size: targetFrame.size)
             hostingView.autoresizingMask = [.width, .height]
             self.hostingView = hostingView
@@ -253,7 +252,7 @@ final class LockScreenLiveActivityWindowManager {
         }
         
         if !hasDelegatedWindow {
-            SkyLightOperator.shared.delegateWindow(window, to: .lockScreenOverlay)
+            SkyLightOperator.shared.delegateWindow(window, to: .lockScreenNotchOverlay)
             hasDelegatedWindow = true
         }
         
@@ -322,7 +321,7 @@ final class LockScreenLiveActivityWindowManager {
             return
         }
         
-        let targetFrame = overlayFrame(for: overlaySize, on: screen)
+        let targetFrame = overlayFrame(on: screen)
         
         if animated {
             NSAnimationContext.runAnimationGroup { context in
@@ -334,36 +333,32 @@ final class LockScreenLiveActivityWindowManager {
         }
         
         hostingView?.frame = NSRect(origin: .zero, size: targetFrame.size)
-        hostingView?.rootView = LockScreenLiveActivityOverlayView(
+        hostingView?.rootView = AnyView(LockScreenLiveActivityOverlayView(
             notchViewModel: notchViewModel,
             settingsViewModel: settingsViewModel,
             lockScreenManager: lockScreenManager,
             animator: animator
-        )
+        ))
         
         window.orderFrontRegardless()
     }
     
-    private func makeWindowIfNeeded() -> OverlayPanelWindow {
+    private func makeWindowIfNeeded(for screen: NSScreen) -> OverlayPanelWindow {
         if let overlayWindow {
             return overlayWindow
         }
         
         let window = OverlayPanelFactory.makePanel(
-            frame: NSRect(origin: .zero, size: overlaySize),
-            level: OverlayWindowLevel.shieldingOverlay
+            frame: overlayFrame(on: screen),
+            level: OverlayWindowLevel.lockScreenNotch
         )
         
         overlayWindow = window
         return window
     }
     
-    private var overlaySize: CGSize {
-        OverlayWindowLayout.lockScreenCanvasSize
-    }
-    
-    private func overlayFrame(for size: CGSize, on screen: NSScreen) -> NSRect {
-        OverlayWindowLayout.topAnchoredFrame(on: screen, size: size)
+    private func overlayFrame(on screen: NSScreen) -> NSRect {
+        OverlayWindowLayout.lockScreenCanvasFrame(on: screen)
     }
     
     private func currentScreen() -> NSScreen? {
@@ -395,7 +390,6 @@ private struct LockScreenLiveActivityOverlayView: View {
                 isPressed: $notchViewModel.isPressed,
                 baseSize: notchViewModel.interactiveNotchSize
             )
-            .offset(y: 1)
             .scaleEffect(animator.scale)
             .opacity(animator.opacity)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)

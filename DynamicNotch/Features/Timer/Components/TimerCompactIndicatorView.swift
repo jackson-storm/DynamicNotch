@@ -15,7 +15,7 @@ struct TimerCompactIndicatorView: View {
     var body: some View {
         TimelineView(.animation(minimumInterval: 1 / 24, paused: snapshot.isPaused)) { context in
             let progress = resolvedProgress(at: context.date)
-            let angle = Angle.degrees((Double(progress) * 360) - 90)
+            let angle = Angle.degrees((-Double(progress) * 360) - 90)
 
             ZStack {
                 Circle()
@@ -28,6 +28,7 @@ struct TimerCompactIndicatorView: View {
                     .trim(from: 0, to: progress)
                     .stroke(.orange.gradient, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
                     .rotationEffect(.degrees(-90))
+                    .scaleEffect(x: -1, y: 1)
 
                 Circle()
                     .fill(.black.opacity(0.34))

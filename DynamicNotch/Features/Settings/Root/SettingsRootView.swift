@@ -401,7 +401,12 @@ struct SettingsRootView: View {
             
         case .about:
             detailContainer(for: section) {
-                AboutAppSettingsView(applicationSettings: settingsViewModel.application)
+                AboutAppSettingsView(
+                    applicationSettings: settingsViewModel.application,
+                    onRequestInternetAccess: {
+                        notchEventCoordinator.requestInternetAccess()
+                    }
+                )
             }
         }
     }
@@ -441,7 +446,7 @@ struct SettingsRootView: View {
         if section == .about {
             ToolbarItem(placement: .primaryAction) {
                 Button {
-                    openURL(aboutWebsiteURL)
+                    openInternetURL(aboutWebsiteURL)
                 } label: {
                     Text("Check update")
                 }
@@ -466,5 +471,10 @@ struct SettingsRootView: View {
                 .accessibilityIdentifier("settings.toolbar.resetCurrentTab")
             }
         }
+    }
+
+    private func openInternetURL(_ url: URL) {
+        guard notchEventCoordinator.requestInternetAccess() else { return }
+        openURL(url)
     }
 }

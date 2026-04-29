@@ -17,6 +17,7 @@ final class NetworkMonitor: NetworkMonitoring {
     var onStatusChange: ((_ wifi: Bool, _ hotspot: Bool, _ vpn: Bool) -> Void)?
     private(set) var currentWiFiName: String?
     private(set) var currentVPNName: String?
+    private(set) var isInternetAvailable = true
 
     deinit {
         stopMonitoring()
@@ -30,11 +31,12 @@ final class NetworkMonitor: NetworkMonitoring {
     }
 
     private func updateStatus(path: NWPath) {
-        let isWifi = path.usesInterfaceType(.wifi) && path.status == .satisfied
+        let hasInternetConnection = path.status == .satisfied
+        let isWifi = hasInternetConnection && path.usesInterfaceType(.wifi)
         
         let isHotspot = isWifi && path.isExpensive
         
-        let isVpn = path.availableInterfaces.contains { interface in
+        let isVpn = hasInternetConnection && path.availableInterfaces.contains { interface in
             let name = interface.name.lowercased()
             return name.hasPrefix("utun") || name.hasPrefix("ipsec") || name.hasPrefix("ppp")
         }
@@ -45,6 +47,7 @@ final class NetworkMonitor: NetworkMonitoring {
         DispatchQueue.main.async {
             self.currentWiFiName = wifiName
             self.currentVPNName = vpnName
+            self.isInternetAvailable = hasInternetConnection
             self.onStatusChange?(isWifi && !isHotspot, isHotspot, isVpn)
         }
     }

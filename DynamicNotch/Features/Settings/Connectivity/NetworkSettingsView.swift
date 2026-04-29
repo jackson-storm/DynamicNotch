@@ -75,6 +75,19 @@ struct NetworkSettingsView: View {
             Divider()
                 .opacity(0.6)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+
+            SettingsToggleRow(
+                title: "No internet temporary activity",
+                description: "Show a short notification when your Mac loses internet access.",
+                systemImage: "wifi.slash",
+                color: .red,
+                isOn: $connectivitySettings.isNoInternetTemporaryActivityEnabled,
+                accessibilityIdentifier: "settings.activities.temporary.noInternet"
+            )
+
+            Divider()
+                .opacity(0.6)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
             
             SettingsToggleRow(
                 title: "Personal Hotspot live activity",

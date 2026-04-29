@@ -165,6 +165,19 @@ struct DebugSettingsView: View {
                 .opacity(0.6)
                 .padding(.leading, 43)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+
+            DebugActionRow(
+                title: "No Internet Connection",
+                description: "Show the offline temporary notification with its actions.",
+                systemImage: "wifi.slash",
+                color: .red,
+                action: viewModel.triggerNoInternetConnectionPreview
+            )
+
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
             
             DebugActionRow(
                 title: "VPN Connected",

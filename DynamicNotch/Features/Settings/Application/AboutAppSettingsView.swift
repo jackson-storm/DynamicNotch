@@ -12,6 +12,8 @@ struct AboutAppSettingsView: View {
     @Environment(\.colorScheme) private var colorScheme
     @ObservedObject var applicationSettings: ApplicationSettingsStore
 
+    let onRequestInternetAccess: () -> Bool
+
     private let heroCardHeight: CGFloat = 300
     
     private var appVersionText: String {
@@ -79,7 +81,7 @@ struct AboutAppSettingsView: View {
                 HStack(spacing: 14) {
                     Button(action: {
                         if let url = URL(string: "https://t.me/Dynamic_Notch") {
-                            openURL(url)
+                            openInternetURL(url)
                         }
                     }) {
                         Image("telegram")
@@ -90,7 +92,7 @@ struct AboutAppSettingsView: View {
                     
                     Button(action: {
                         if let url = URL(string: "https://github.com/jackson-storm/DynamicNotch") {
-                            openURL(url)
+                            openInternetURL(url)
                         }
                     }) {
                         Image("gitHub")
@@ -168,6 +170,11 @@ struct AboutAppSettingsView: View {
     
     private func open(_ value: String) {
         guard let url = URL(string: value) else { return }
+        openInternetURL(url)
+    }
+
+    private func openInternetURL(_ url: URL) {
+        guard onRequestInternetAccess() else { return }
         openURL(url)
     }
 }

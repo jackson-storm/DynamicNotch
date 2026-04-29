@@ -3568,6 +3568,35 @@
         }
       }
     },
+    "Connect to Wi-Fi, Ethernet, or Personal Hotspot to continue." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connect to Wi-Fi, Ethernet, or Personal Hotspot to continue."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conéctate a Wi‑Fi, Ethernet o Punto de acceso personal para continuar."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подключитесь к Wi‑Fi, Ethernet или личной точке доступа, чтобы продолжить."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "连接到 Wi-Fi、以太网或个人热点以继续。"
+          }
+        }
+      }
+    },
     "Connected" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -6932,6 +6961,62 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "没有可用的音频输出"
+          }
+        }
+      }
+    },
+    "No Internet Connection" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Internet Connection"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin conexión a internet"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нет подключения к интернету"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无互联网连接"
+          }
+        }
+      }
+    },
+    "No internet temporary activity" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No internet temporary activity"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actividad temporal sin internet"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Временная активность без интернета"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无互联网临时活动"
           }
         }
       }
@@ -13381,6 +13466,34 @@
         }
       }
     },
+    "Show a short notification when your Mac loses internet access." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show a short notification when your Mac loses internet access."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Muestra una breve notificación cuando tu Mac pierde el acceso a internet."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показывать короткое уведомление, когда Mac теряет доступ к интернету."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当 Mac 失去互联网访问时显示简短通知。"
+          }
+        }
+      }
+    },
     "Show a subtle outline that adapts to the active content color." : {
       "localizations" : {
         "en" : {
@@ -14082,6 +14195,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "当音频或视频播放处于活动状态时显示“正在播放”实时活动。"
+          }
+        }
+      }
+    },
+    "Show the offline temporary notification with its actions." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show the offline temporary notification with its actions."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Muestra la notificación temporal sin conexión con sus acciones."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показать временное уведомление офлайн с действиями."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示带操作的离线临时通知。"
           }
         }
       }

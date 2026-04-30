@@ -109,6 +109,10 @@ final class DebugSettingsViewModel: ObservableObject {
         notchEventCoordinator.handleNetworkEvent(.wifiConnected)
     }
 
+    func triggerNoInternetConnectionPreview() {
+        notchEventCoordinator.handleNetworkEvent(.noInternetConnection)
+    }
+
     func triggerVPNPreview() {
         applyVPNPreviewState()
         notchEventCoordinator.handleNetworkEvent(.vpnConnected)
@@ -285,6 +289,15 @@ final class DebugSettingsViewModel: ObservableObject {
                     ),
                     id: NotchContentRegistry.DebugSequence.wifi,
                     duration: 3
+                )
+                try await self.playTemporaryPreview(
+                    NoInternetConnectionContent(
+                        onDismiss: { [weak self] in
+                            self?.notchViewModel.hideTemporaryNotification()
+                        }
+                    ),
+                    id: NotchContentRegistry.DebugSequence.noInternet,
+                    duration: 5
                 )
                 try await self.playVPNPreview()
                 try await self.playChargingPreview()

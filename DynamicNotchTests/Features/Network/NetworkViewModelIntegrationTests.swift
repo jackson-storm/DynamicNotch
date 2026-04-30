@@ -83,6 +83,32 @@ final class NetworkViewModelIntegrationTests: XCTestCase {
         monitor.send(wifi: false, hotspot: false, vpn: false)
         XCTAssertNil(viewModel.vpnConnectedAt)
     }
+
+    func testInternetBecomingUnavailableProducesNoInternetEvent() {
+        let monitor = FakeNetworkMonitor()
+        let viewModel = makeViewModel(monitor: monitor)
+
+        monitor.send(wifi: true, hotspot: false, vpn: false, internetAvailable: true)
+
+        viewModel.networkEvent = nil
+        monitor.send(wifi: false, hotspot: false, vpn: false, internetAvailable: false)
+
+        XCTAssertEqual(viewModel.networkEvent, .noInternetConnection)
+        XCTAssertFalse(viewModel.isInternetAvailable)
+        XCTAssertFalse(viewModel.wifiConnected)
+        XCTAssertFalse(viewModel.hotspotActive)
+        XCTAssertFalse(viewModel.vpnConnected)
+    }
+
+    func testInitialUnavailableInternetUpdatesStateWithoutShowingNotification() {
+        let monitor = FakeNetworkMonitor()
+        let viewModel = makeViewModel(monitor: monitor)
+
+        monitor.send(wifi: false, hotspot: false, vpn: false, internetAvailable: false)
+
+        XCTAssertNil(viewModel.networkEvent)
+        XCTAssertFalse(viewModel.isInternetAvailable)
+    }
 }
 
 private extension NetworkViewModelIntegrationTests {

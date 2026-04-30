@@ -60,6 +60,31 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
         }
     }
 
+    func testNoInternetEventShowsTemporaryNotification() async {
+        let context = makeContext()
+
+        context.coordinator.handleNetworkEvent(.noInternetConnection)
+
+        await assertEventually {
+            await MainActor.run {
+                context.notchViewModel.notchModel.temporaryNotificationContent?.id == NotchContentRegistry.Network.noInternet.id
+            }
+        }
+    }
+
+    func testDisabledNoInternetTemporaryActivitySuppressesNotification() async {
+        let context = makeContext(noInternetTemporaryActivityEnabled: false)
+
+        context.coordinator.handleNetworkEvent(.noInternetConnection)
+
+        try? await Task.sleep(nanoseconds: 50_000_000)
+
+        let temporaryContent = await MainActor.run {
+            context.notchViewModel.notchModel.temporaryNotificationContent
+        }
+        XCTAssertNil(temporaryContent)
+    }
+
     func testVolumeHUDEventsShowTemporaryNotificationWhenEnabled() async {
         let context = makeContext()
 
@@ -402,7 +427,8 @@ private extension NotchEventCoordinatorIntegrationTests {
         nowPlayingPauseHideDelay: Int = 5,
         dragAndDropEnabled: Bool = true,
         dragAndDropActivityMode: DragAndDropActivityMode = .airDrop,
-        trayLiveActivityEnabled: Bool = true
+        trayLiveActivityEnabled: Bool = true,
+        noInternetTemporaryActivityEnabled: Bool = true
     ) -> TestContext {
         UserDefaults.standard.set(false, forKey: "isLaunchAtLoginEnabled")
         UserDefaults.standard.set(0, forKey: "notchWidth")
@@ -429,6 +455,7 @@ private extension NotchEventCoordinatorIntegrationTests {
         UserDefaults.standard.set(true, forKey: "settings.temporary.bluetooth")
         UserDefaults.standard.set(true, forKey: "settings.temporary.wifi")
         UserDefaults.standard.set(true, forKey: "settings.temporary.vpn")
+        UserDefaults.standard.set(noInternetTemporaryActivityEnabled, forKey: "settings.temporary.noInternet")
         UserDefaults.standard.set(true, forKey: "settings.temporary.focusOff")
         UserDefaults.standard.set(true, forKey: "settings.temporary.notchSize")
 

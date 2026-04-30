@@ -78,6 +78,7 @@ enum GeneralSettingsStorage {
         static let wifiTemporaryActivityDuration = "settings.temporary.wifi.duration"
         static let vpnTemporaryActivityEnabled = "settings.temporary.vpn"
         static let vpnTemporaryActivityDuration = "settings.temporary.vpn.duration"
+        static let noInternetTemporaryActivityEnabled = "settings.temporary.noInternet"
         static let hotspotAppearanceStyle = "settings.network.hotspotAppearanceStyle"
         static let networkShowVPNDetail = "settings.network.showVPNDetail"
         static let networkShowVPNTimer = "settings.network.showVPNTimer"
@@ -181,6 +182,7 @@ enum GeneralSettingsStorage {
         Keys.wifiTemporaryActivityDuration: 3,
         Keys.vpnTemporaryActivityEnabled: true,
         Keys.vpnTemporaryActivityDuration: 5,
+        Keys.noInternetTemporaryActivityEnabled: true,
         Keys.hotspotAppearanceStyle: HotspotAppearanceStyle.minimal.rawValue,
         Keys.networkShowVPNDetail: false,
         Keys.networkShowVPNTimer: true,

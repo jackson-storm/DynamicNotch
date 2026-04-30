@@ -284,6 +284,11 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
         set { connectivity.isVpnTemporaryActivityEnabled = newValue }
     }
 
+    var isNoInternetTemporaryActivityEnabled: Bool {
+        get { connectivity.isNoInternetTemporaryActivityEnabled }
+        set { connectivity.isNoInternetTemporaryActivityEnabled = newValue }
+    }
+
     var isFocusOffTemporaryActivityEnabled: Bool {
         get { connectivity.isFocusOffTemporaryActivityEnabled }
         set { connectivity.isFocusOffTemporaryActivityEnabled = newValue }

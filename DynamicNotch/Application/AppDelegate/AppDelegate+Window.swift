@@ -41,7 +41,7 @@ extension AppDelegate {
 
         window.contentView = hostingView
         window.collectionBehavior = OverlayPanelFactory.collectionBehavior(
-            includesFullscreenAuxiliary: !settingsViewModel.application.isNotchHiddenInFullscreenEnabled
+            includesFullscreenAuxiliary: true
         )
         SkyLightOperator.shared.delegateWindow(window, to: .notchSurface)
         updateWindowFrame()
@@ -64,10 +64,10 @@ extension AppDelegate {
         )
 
         window.collectionBehavior = OverlayPanelFactory.collectionBehavior(
-            includesFullscreenAuxiliary: !settingsViewModel.application.isNotchHiddenInFullscreenEnabled
+            includesFullscreenAuxiliary: true
         )
         window.setFrame(targetFrame, display: true, animate: false)
-        updatePrimaryWindowVisibility(on: screen)
+        updatePrimaryWindowPresentation(on: screen)
     }
 
     func suspendPrimaryWindowForLock() {
@@ -84,17 +84,16 @@ extension AppDelegate {
         updateWindowFrame()
     }
 
-    private func updatePrimaryWindowVisibility(on screen: NSScreen) {
+    private func updatePrimaryWindowPresentation(on screen: NSScreen) {
         guard let window, !isPrimaryWindowSuspendedForLock else { return }
 
-        if shouldHidePrimaryWindowInFullscreen(on: screen) {
-            window.orderOut(nil)
-        } else {
-            window.orderFrontRegardless()
-        }
+        notchViewModel.setActivityPresentationHidden(
+            shouldHidePrimaryWindowActivitiesInFullscreen(on: screen)
+        )
+        window.orderFrontRegardless()
     }
 
-    private func shouldHidePrimaryWindowInFullscreen(on screen: NSScreen) -> Bool {
+    private func shouldHidePrimaryWindowActivitiesInFullscreen(on screen: NSScreen) -> Bool {
         settingsViewModel.application.isNotchHiddenInFullscreenEnabled &&
         SkyLightOperator.shared.isFullscreenSpaceActive(on: screen)
     }

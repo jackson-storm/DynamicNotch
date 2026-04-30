@@ -14,6 +14,7 @@ enum NetworkEvent: Equatable {
     case vpnConnected
     case hotspotActive
     case hotspotHide
+    case noInternetConnection
 }
 
 @MainActor
@@ -21,6 +22,7 @@ final class NetworkViewModel: ObservableObject {
     @Published var wifiConnected: Bool = false
     @Published var hotspotActive: Bool = false
     @Published var vpnConnected: Bool = false
+    @Published var isInternetAvailable: Bool = true
     @Published var wifiName: String = ""
     @Published var vpnName: String = ""
     @Published var vpnConnectedAt: Date?
@@ -62,6 +64,7 @@ final class NetworkViewModel: ObservableObject {
 
             let nextWiFiName = (wifi && !hotspot) ? (self.monitor.currentWiFiName ?? "") : ""
             let nextVPNName = vpn ? (self.monitor.currentVPNName ?? "") : ""
+            let nextInternetAvailable = self.monitor.isInternetAvailable
             let nextWiFiIdentity = wifi && !hotspot ? self.resolvedIdentity(for: nextWiFiName, fallback: "Wi-Fi") : nil
             let nextVPNIdentity = vpn ? self.resolvedIdentity(for: nextVPNName, fallback: "VPN") : nil
 
@@ -99,6 +102,9 @@ final class NetworkViewModel: ObservableObject {
                 if !hotspot && self.hotspotActive {
                     self.networkEvent = .hotspotHide
                 }
+                if !nextInternetAvailable && self.isInternetAvailable {
+                    self.networkEvent = .noInternetConnection
+                }
             } else if hotspot {
                 self.networkEvent = .hotspotActive
             }
@@ -106,6 +112,7 @@ final class NetworkViewModel: ObservableObject {
             self.wifiConnected = wifi
             self.hotspotActive = hotspot
             self.vpnConnected = vpn
+            self.isInternetAvailable = nextInternetAvailable
 
             if let nextWiFiIdentity {
                 self.lastConnectedWiFiIdentity = nextWiFiIdentity

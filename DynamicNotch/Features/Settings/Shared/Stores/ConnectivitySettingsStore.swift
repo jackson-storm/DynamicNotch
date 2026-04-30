@@ -102,6 +102,12 @@ final class ConnectivitySettingsStore: SettingsStoreBase {
         }
     }
 
+    @Published var isNoInternetTemporaryActivityEnabled: Bool {
+        didSet {
+            persist(isNoInternetTemporaryActivityEnabled, for: GeneralSettingsStorage.Keys.noInternetTemporaryActivityEnabled)
+        }
+    }
+
     @Published var isVPNDetailVisible: Bool {
         didSet {
             persist(isVPNDetailVisible, for: GeneralSettingsStorage.Keys.networkShowVPNDetail)
@@ -181,6 +187,8 @@ final class ConnectivitySettingsStore: SettingsStoreBase {
             defaults.object(forKey: GeneralSettingsStorage.Keys.vpnTemporaryActivityDuration) as? Int ??
             Self.defaultTemporaryActivityDuration(for: GeneralSettingsStorage.Keys.vpnTemporaryActivityDuration)
         )
+        self.isNoInternetTemporaryActivityEnabled = defaults.object(forKey: GeneralSettingsStorage.Keys.noInternetTemporaryActivityEnabled) as? Bool ??
+        (GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.noInternetTemporaryActivityEnabled] as? Bool ?? true)
         self.isVPNDetailVisible = defaults.object(forKey: GeneralSettingsStorage.Keys.networkShowVPNDetail) as? Bool ??
         (GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.networkShowVPNDetail] as? Bool ?? false)
         self.hotspotAppearanceStyle = HotspotAppearanceStyle(
@@ -224,6 +232,7 @@ final class ConnectivitySettingsStore: SettingsStoreBase {
         vpnTemporaryActivityDuration = Self.clampTemporaryActivityDuration(
             defaultInt(for: GeneralSettingsStorage.Keys.vpnTemporaryActivityDuration)
         )
+        isNoInternetTemporaryActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.noInternetTemporaryActivityEnabled)
         isVPNDetailVisible = defaultBool(for: GeneralSettingsStorage.Keys.networkShowVPNDetail)
         hotspotAppearanceStyle = HotspotAppearanceStyle(rawValue: defaultString(for: GeneralSettingsStorage.Keys.hotspotAppearanceStyle)) ?? .minimal
         isHotspotDefaultStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.hotspotDefaultStrokeEnabled)

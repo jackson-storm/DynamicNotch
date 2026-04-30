@@ -33,17 +33,19 @@ private extension NotchCustomScaleModifier {
     func pressableContent(_ content: Content) -> some View {
         let hitBounds = CGRect(origin: .zero, size: baseSize)
         let isExpandedPresentation = notchViewModel.notchModel.isPresentingExpandedLiveActivity
+        let isPresentationHidden = notchViewModel.isActivityPresentationHidden
 
         return content
             .scaleEffect(
-                x: !isExpandedPresentation ? pressScale : 1,
-                y: !isExpandedPresentation ? pressScale : 1,
+                x: !isExpandedPresentation && !isPresentationHidden ? pressScale : 1,
+                y: !isExpandedPresentation && !isPresentationHidden ? pressScale : 1,
                 anchor: .top
             )
             .simultaneousGesture(
                 DragGesture(minimumDistance: 0)
                     .onChanged { value in
-                        guard !notchViewModel.notchModel.isPresentingExpandedLiveActivity else {
+                        guard !notchViewModel.isActivityPresentationHidden,
+                              !notchViewModel.notchModel.isPresentingExpandedLiveActivity else {
                             resetPressState(cancelPressAnimation: true)
                             return
                         }
@@ -75,7 +77,8 @@ private extension NotchCustomScaleModifier {
                         }
                     }
                     .onEnded { value in
-                        guard !notchViewModel.notchModel.isPresentingExpandedLiveActivity else {
+                        guard !notchViewModel.isActivityPresentationHidden,
+                              !notchViewModel.notchModel.isPresentingExpandedLiveActivity else {
                             resetPressState(cancelPressAnimation: true)
                             didCompleteHoldAction = false
                             return

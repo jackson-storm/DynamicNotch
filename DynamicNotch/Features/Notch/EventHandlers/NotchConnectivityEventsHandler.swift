@@ -61,6 +61,19 @@ final class NotchConnectivityEventsHandler {
                 )
             )
 
+        case .noInternetConnection:
+            guard settingsViewModel.connectivity.isNoInternetTemporaryActivityEnabled else { return }
+            notchViewModel.send(
+                .showTemporaryNotification(
+                    NoInternetConnectionContent(
+                        onDismiss: { [weak self] in
+                            self?.notchViewModel.hideTemporaryNotification()
+                        }
+                    ),
+                    duration: .infinity
+                )
+            )
+
         case .hotspotActive:
             guard settingsViewModel.isLiveActivityEnabled(.hotspot) else { return }
             notchViewModel.send(

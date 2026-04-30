@@ -82,6 +82,7 @@ final class FakeNetworkMonitor: NetworkMonitoring {
     var onStatusChange: ((_ wifi: Bool, _ hotspot: Bool, _ vpn: Bool) -> Void)?
     var currentWiFiName: String?
     var currentVPNName: String?
+    var isInternetAvailable = true
 
     private(set) var startCalls = 0
     private(set) var stopCalls = 0
@@ -99,10 +100,12 @@ final class FakeNetworkMonitor: NetworkMonitoring {
         hotspot: Bool,
         vpn: Bool,
         wifiName: String? = nil,
-        vpnName: String? = nil
+        vpnName: String? = nil,
+        internetAvailable: Bool = true
     ) {
         currentWiFiName = wifiName
         currentVPNName = vpnName
+        isInternetAvailable = internetAvailable
         onStatusChange?(wifi, hotspot, vpn)
     }
 }

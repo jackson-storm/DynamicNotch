@@ -225,10 +225,22 @@ final class NotchEventCoordinator: ObservableObject {
     }
     
     func handleNetworkEvent(_ event: NetworkEvent) {
-        guard !isOnboardingActive else { return }
         guard !isLockScreenTransitionActive else { return }
+        if event != .noInternetConnection {
+            guard !isOnboardingActive else { return }
+        }
 
         connectivityHandler.handleNetwork(event)
+    }
+
+    @discardableResult
+    func requestInternetAccess() -> Bool {
+        guard networkViewModel.isInternetAvailable else {
+            handleNetworkEvent(.noInternetConnection)
+            return false
+        }
+
+        return true
     }
     
     func handlePowerEvent(_ event: PowerEvent) {

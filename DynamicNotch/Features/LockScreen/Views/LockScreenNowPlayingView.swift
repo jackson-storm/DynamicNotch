@@ -17,6 +17,7 @@ struct LockScreenNowPlayingPanelView: View {
     private static let expandedClockHeight: CGFloat = 76
     private static let expandedClockArtworkSpacing: CGFloat = 20
     private static let panelCenterYOffset: CGFloat = (Self.panelSize.height / 2) + 80
+    private static let backgroundScaleRange: ClosedRange<CGFloat> = 1...2
     
     let snapshot: NowPlayingSnapshot
     let artworkImage: NSImage?
@@ -61,6 +62,7 @@ struct LockScreenNowPlayingPanelView: View {
                 .offset(y: Self.panelCenterYOffset)
         }
         .opacity(animator.isPresented ? 1 : 0)
+        .animation(.spring(response: 0.3), value: animator.isPresented)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
     }
 
@@ -167,7 +169,7 @@ struct LockScreenNowPlayingPanelView: View {
         transaction.disablesAnimations = true
         withTransaction(transaction) {
             backgroundRotation = 0
-            backgroundScale = 1
+            backgroundScale = Self.backgroundScaleRange.lowerBound
         }
 
         guard mediaPanelBackgroundStyle == .animatedArtwork else {
@@ -179,7 +181,7 @@ struct LockScreenNowPlayingPanelView: View {
         }
 
         withAnimation(.easeInOut(duration: 4).repeatForever(autoreverses: true)) {
-            backgroundScale = 2
+            backgroundScale = Self.backgroundScaleRange.upperBound
         }
     }
     

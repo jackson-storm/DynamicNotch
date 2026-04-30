@@ -43,6 +43,7 @@ final class NotchViewModel: ObservableObject {
     @Published private(set) var swipeInteraction: NotchSwipeInteraction?
     @Published private(set) var stagedNotchHeight: CGFloat = NotchModel().baseHeight
     @Published private(set) var isExpandingLiveActivityTransition = false
+    @Published private(set) var isActivityPresentationHidden = false
     
     @Published var showNotch = false
     @Published var isPressed = false
@@ -66,6 +67,10 @@ final class NotchViewModel: ObservableObject {
     }
 
     var presentedNotchSize: CGSize {
+        if isActivityPresentationHidden {
+            return baseNotchSize
+        }
+
         let size = interactiveNotchSize
 
         guard !isSwipeInteractionActive, isClosingHeightStaged else {
@@ -83,7 +88,8 @@ final class NotchViewModel: ObservableObject {
     }
     
     var canExpandActiveLiveActivity: Bool {
-        engine.canExpandActiveLiveActivity
+        guard !isActivityPresentationHidden else { return false }
+        return engine.canExpandActiveLiveActivity
     }
     
     var shouldExpandActiveContentOnClick: Bool {
@@ -107,12 +113,14 @@ final class NotchViewModel: ObservableObject {
     }
 
     var canOpenActiveWindowLink: Bool {
-        engine.canOpenActiveWindowLink
+        guard !isActivityPresentationHidden else { return false }
+        return engine.canOpenActiveWindowLink
     }
     
     var canDismissWithMouseDrag: Bool {
         settings.isNotchMouseDragGesturesEnabled &&
         settings.isNotchSwipeDismissEnabled &&
+        !isActivityPresentationHidden &&
         notchModel.content != nil
     }
     
@@ -125,6 +133,7 @@ final class NotchViewModel: ObservableObject {
     var canDismissWithTrackpadSwipe: Bool {
         settings.isNotchTrackpadSwipeGesturesEnabled &&
         settings.isNotchSwipeDismissEnabled &&
+        !isActivityPresentationHidden &&
         notchModel.content != nil
     }
     
@@ -135,6 +144,10 @@ final class NotchViewModel: ObservableObject {
     }
     
     var interactiveNotchSize: CGSize {
+        if isActivityPresentationHidden {
+            return baseNotchSize
+        }
+
         let baseSize = notchModel.size
         let progress = easedSwipeStretchProgress
         
@@ -174,6 +187,10 @@ final class NotchViewModel: ObservableObject {
     }
     
     var interactiveCornerRadius: (top: CGFloat, bottom: CGFloat) {
+        if isActivityPresentationHidden {
+            return baseCornerRadius
+        }
+
         let baseCornerRadius = notchModel.cornerRadius
         let progress = easedSwipeStretchProgress
         
@@ -287,6 +304,16 @@ final class NotchViewModel: ObservableObject {
     func send(_ notchState: NotchState) {
         engine.send(notchState)
     }
+
+    func setActivityPresentationHidden(_ isHidden: Bool) {
+        guard isActivityPresentationHidden != isHidden else { return }
+
+        resetSwipeStretch()
+
+        withAnimation(animations.notchVisibility) {
+            isActivityPresentationHidden = isHidden
+        }
+    }
     
     func hideTemporaryNotification() {
         engine.hideTemporaryNotification()
@@ -377,14 +404,18 @@ final class NotchViewModel: ObservableObject {
     private var easedSwipeStretchProgress: CGFloat {
         1 - pow(1 - swipeStretchProgress, 2)
     }
+
+    private var baseNotchSize: CGSize {
+        CGSize(width: notchModel.baseWidth, height: notchModel.baseHeight)
+    }
+
+    private var baseCornerRadius: (top: CGFloat, bottom: CGFloat) {
+        let baseRadius = notchModel.baseHeight / 3
+
+        return (top: baseRadius - 4, bottom: baseRadius)
+    }
     
-    func contentTransition(
-        notchWidth: CGFloat,
-        notchHeight: CGFloat,
-        baseHeight: CGFloat,
-        isExpandedPresentation: Bool,
-        isCompactRemovalForExpansion: Bool = false
-    ) -> AnyTransition {
+    func contentTransition(notchWidth: CGFloat, notchHeight: CGFloat, baseHeight: CGFloat, isExpandedPresentation: Bool, isCompactRemovalForExpansion: Bool = false) -> AnyTransition {
 
         let animation = isExpandedPresentation
             ? animations.expandLiveActivityContentTransition

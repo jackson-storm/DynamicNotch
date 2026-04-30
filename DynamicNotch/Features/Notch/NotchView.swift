@@ -124,7 +124,9 @@ private extension NotchView {
     }
     
     var shouldEnableNotchSwipeGestures: Bool {
-        !(
+        guard !notchViewModel.isActivityPresentationHidden else { return false }
+
+        return !(
             notchViewModel.notchModel.isPresentingExpandedLiveActivity &&
             notchViewModel.notchModel.content?.id == NotchContentRegistry.DragAndDrop.trayActive.id
         )
@@ -140,14 +142,20 @@ private extension NotchView {
             style: settingsViewModel.application.notchBackgroundStyle,
             topCornerRadius: notchViewModel.interactiveCornerRadius.top,
             bottomCornerRadius: notchViewModel.interactiveCornerRadius.bottom,
-            strokeColor: settingsViewModel.isShowNotchStrokeEnabled ? visibleStrokeColor : .clear,
+            strokeColor: shouldShowStroke ? visibleStrokeColor : .clear,
             strokeWidth: settingsViewModel.notchStrokeWidth
         )
+    }
+
+    var shouldShowStroke: Bool {
+        settingsViewModel.isShowNotchStrokeEnabled &&
+        !notchViewModel.isActivityPresentationHidden
     }
     
     @ViewBuilder
     var contentOverlay: some View {
-        if let content = notchViewModel.notchModel.content {
+        if !notchViewModel.isActivityPresentationHidden,
+           let content = notchViewModel.notchModel.content {
             renderedContentView(for: content)
                 .resizeAwareBlur(
                     size: notchViewModel.interactiveNotchSize,

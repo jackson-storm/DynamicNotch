@@ -56,6 +56,123 @@ final class NotchViewModelIntegrationTests: XCTestCase {
     }
 
     @MainActor
+    func testActivityPresentationHiddenCollapsesSurfaceWithoutClearingLiveActivity() async {
+        let viewModel = NotchViewModel(
+            settings: TestNotchSettings(),
+            hideDelay: 0.01,
+            queueDelay: 0
+        )
+        TestLifetime.retain(viewModel)
+
+        viewModel.send(
+            .showLiveActivity(
+                TestNotchContent(
+                    id: "expandable",
+                    priority: 10,
+                    isExpandable: true,
+                    expandedWidthOffset: 140,
+                    expandedHeightOffset: 80
+                )
+            )
+        )
+
+        await assertEventually {
+            await MainActor.run { viewModel.notchModel.liveActivityContent?.id == "expandable" }
+        }
+
+        viewModel.handleActiveContentTap()
+
+        await assertEventually {
+            await MainActor.run { viewModel.notchModel.isLiveActivityExpanded }
+        }
+
+        let expandedPresentedSize = await MainActor.run { viewModel.presentedNotchSize }
+
+        viewModel.setActivityPresentationHidden(true)
+
+        let hiddenState = await MainActor.run {
+            (
+                contentID: viewModel.notchModel.liveActivityContent?.id,
+                isExpanded: viewModel.notchModel.isLiveActivityExpanded,
+                presentedSize: viewModel.presentedNotchSize,
+                baseWidth: viewModel.notchModel.baseWidth,
+                baseHeight: viewModel.notchModel.baseHeight,
+                canDismiss: viewModel.canDismissWithMouseDrag
+            )
+        }
+
+        XCTAssertEqual(hiddenState.contentID, "expandable")
+        XCTAssertTrue(hiddenState.isExpanded)
+        XCTAssertEqual(hiddenState.presentedSize.width, hiddenState.baseWidth, accuracy: 0.001)
+        XCTAssertEqual(hiddenState.presentedSize.height, hiddenState.baseHeight, accuracy: 0.001)
+        XCTAssertFalse(hiddenState.canDismiss)
+
+        viewModel.setActivityPresentationHidden(false)
+
+        let restoredState = await MainActor.run {
+            (
+                contentID: viewModel.notchModel.liveActivityContent?.id,
+                isExpanded: viewModel.notchModel.isLiveActivityExpanded,
+                presentedSize: viewModel.presentedNotchSize
+            )
+        }
+
+        XCTAssertEqual(restoredState.contentID, "expandable")
+        XCTAssertTrue(restoredState.isExpanded)
+        XCTAssertEqual(restoredState.presentedSize.width, expandedPresentedSize.width, accuracy: 0.001)
+        XCTAssertEqual(restoredState.presentedSize.height, expandedPresentedSize.height, accuracy: 0.001)
+    }
+
+    @MainActor
+    func testActivityPresentationHiddenKeepsProcessingLiveActivityUpdates() async {
+        let viewModel = NotchViewModel(
+            settings: TestNotchSettings(),
+            hideDelay: 0.01,
+            queueDelay: 0
+        )
+        TestLifetime.retain(viewModel)
+
+        viewModel.send(.showLiveActivity(TestNotchContent(id: "low", priority: 10)))
+
+        await assertEventually {
+            await MainActor.run { viewModel.notchModel.liveActivityContent?.id == "low" }
+        }
+
+        viewModel.setActivityPresentationHidden(true)
+        viewModel.send(
+            .showLiveActivity(
+                TestNotchContent(
+                    id: "high",
+                    priority: 50,
+                    collapsedWidthOffset: 60
+                )
+            )
+        )
+
+        await assertEventually {
+            await MainActor.run { viewModel.notchModel.liveActivityContent?.id == "high" }
+        }
+
+        let hiddenPresentedSize = await MainActor.run {
+            (
+                presented: viewModel.presentedNotchSize,
+                baseWidth: viewModel.notchModel.baseWidth,
+                baseHeight: viewModel.notchModel.baseHeight
+            )
+        }
+
+        XCTAssertEqual(hiddenPresentedSize.presented.width, hiddenPresentedSize.baseWidth, accuracy: 0.001)
+        XCTAssertEqual(hiddenPresentedSize.presented.height, hiddenPresentedSize.baseHeight, accuracy: 0.001)
+
+        viewModel.setActivityPresentationHidden(false)
+
+        let restoredPresentedSize = await MainActor.run { viewModel.presentedNotchSize }
+
+        XCTAssertGreaterThan(restoredPresentedSize.width, hiddenPresentedSize.baseWidth)
+        XCTAssertEqual(restoredPresentedSize.height, hiddenPresentedSize.baseHeight, accuracy: 0.001)
+    }
+
+    @MainActor
     func testHidingCurrentLiveActivityRestoresNextHighestPriorityActivity() async {
         let viewModel = NotchViewModel(
             settings: TestNotchSettings(),

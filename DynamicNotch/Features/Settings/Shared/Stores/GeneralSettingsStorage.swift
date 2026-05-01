@@ -57,6 +57,8 @@ enum GeneralSettingsStorage {
         static let trayLiveActivityEnabled = "settings.live.tray"
         static let timerLiveActivityEnabled = "settings.live.timer"
         static let timerDefaultStrokeEnabled = "settings.live.timer.defaultStroke"
+        static let screenRecordingLiveActivityEnabled = "settings.live.screenRecording"
+        static let screenRecordingDefaultStrokeEnabled = "settings.live.screenRecording.defaultStroke"
         static let legacyFileTransfersLiveActivityEnabled = "settings.live.fileTransfers"
         static let chargerTemporaryActivityEnabled = "settings.temporary.charger"
         static let lowPowerTemporaryActivityEnabled = "settings.temporary.lowPower"
@@ -151,6 +153,8 @@ enum GeneralSettingsStorage {
         Keys.trayLiveActivityEnabled: true,
         Keys.timerLiveActivityEnabled: true,
         Keys.timerDefaultStrokeEnabled: false,
+        Keys.screenRecordingLiveActivityEnabled: true,
+        Keys.screenRecordingDefaultStrokeEnabled: false,
         LockScreenSettings.liveActivityKey: true,
         LockScreenSettings.soundKey: true,
         LockScreenSettings.customSoundPathKey: "",

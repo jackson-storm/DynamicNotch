@@ -17,6 +17,7 @@ struct NotchView: View {
     @ObservedObject var settingsViewModel: SettingsViewModel
     @ObservedObject var nowPlayingViewModel: NowPlayingViewModel
     @ObservedObject var timerViewModel: TimerViewModel
+    @ObservedObject var screenRecordingViewModel: ScreenRecordingViewModel
     @ObservedObject var lockScreenManager: LockScreenManager
     
     var body: some View {
@@ -35,6 +36,7 @@ struct NotchView: View {
                         settingsViewModel: settingsViewModel,
                         nowPlayingViewModel: nowPlayingViewModel,
                         timerViewModel: timerViewModel,
+                        screenRecordingViewModel: screenRecordingViewModel,
                         lockScreenManager: lockScreenManager
                     )
                 )
@@ -220,6 +222,7 @@ private struct NotchEventHandlersView: View {
     let settingsViewModel: SettingsViewModel
     let nowPlayingViewModel: NowPlayingViewModel
     let timerViewModel: TimerViewModel
+    let screenRecordingViewModel: ScreenRecordingViewModel
     let lockScreenManager: LockScreenManager
     
     var body: some View {
@@ -250,6 +253,9 @@ private struct NotchEventHandlersView: View {
             }
             .onReceive(timerViewModel.$event.compactMap { $0 }) { event in
                 notchEventCoordinator.handleTimerEvent(event)
+            }
+            .onReceive(screenRecordingViewModel.$event.compactMap { $0 }) { event in
+                notchEventCoordinator.handleScreenRecordingEvent(event)
             }
             .onReceive(lockScreenManager.$event.compactMap { $0 }) { event in
                 notchEventCoordinator.handleLockScreenEvent(event)

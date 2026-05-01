@@ -19,6 +19,10 @@ final class DebugSettingsViewModel: ObservableObject {
         didSet { guard isReady else { return }; updateFocusPreview() }
     }
 
+    @Published var isScreenRecordingPreviewEnabled = false {
+        didSet { guard isReady else { return }; updateScreenRecordingPreview() }
+    }
+
     @Published var isHotspotPreviewEnabled = false {
         didSet { guard isReady else { return }; updateHotspotPreview() }
     }
@@ -43,6 +47,7 @@ final class DebugSettingsViewModel: ObservableObject {
 
     private static let sequenceContentPrefix = NotchContentRegistry.DebugSequence.prefix
     private static let sequenceFocusID = NotchContentRegistry.DebugSequence.focus
+    private static let sequenceScreenRecordingID = NotchContentRegistry.DebugSequence.screenRecording
     private static let sequenceHotspotID = NotchContentRegistry.DebugSequence.hotspot
     private static let sequenceNowPlayingID = NotchContentRegistry.DebugSequence.nowPlaying
     private static let sequenceDownloadsID = NotchContentRegistry.DebugSequence.download
@@ -53,6 +58,7 @@ final class DebugSettingsViewModel: ObservableObject {
     private static let waitPollInterval: UInt64 = 50_000_000
     private static let sequenceLiveActivityIDs = [
         sequenceFocusID,
+        sequenceScreenRecordingID,
         sequenceHotspotID,
         sequenceNowPlayingID,
         sequenceDownloadsID,
@@ -174,6 +180,7 @@ final class DebugSettingsViewModel: ObservableObject {
         stopPreviewSequence()
         isOnboardingPreviewEnabled = false
         isFocusLivePreviewEnabled = false
+        isScreenRecordingPreviewEnabled = false
         isHotspotPreviewEnabled = false
         isNowPlayingPreviewEnabled = false
         isDownloadPreviewEnabled = false
@@ -195,6 +202,14 @@ final class DebugSettingsViewModel: ObservableObject {
             notchEventCoordinator.handleFocusEvent(.FocusOn)
         } else {
             notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Focus.active.id))
+        }
+    }
+
+    private func updateScreenRecordingPreview() {
+        if isScreenRecordingPreviewEnabled {
+            notchEventCoordinator.handleScreenRecordingEvent(.started)
+        } else {
+            notchEventCoordinator.handleScreenRecordingEvent(.stopped)
         }
     }
 
@@ -269,6 +284,10 @@ final class DebugSettingsViewModel: ObservableObject {
                 try await self.playLivePreview(
                     FocusOnNotchContent(settingsViewModel: settingsViewModel),
                     id: Self.sequenceFocusID
+                )
+                try await self.playLivePreview(
+                    ScreenRecordingContent(settingsViewModel: settingsViewModel),
+                    id: Self.sequenceScreenRecordingID
                 )
                 try await self.playTemporaryPreview(
                     FocusOffNotchContent(settingsViewModel: settingsViewModel),
@@ -536,6 +555,10 @@ final class DebugSettingsViewModel: ObservableObject {
 
         if isTimerPreviewEnabled {
             updateTimerPreview()
+        }
+
+        if isScreenRecordingPreviewEnabled {
+            updateScreenRecordingPreview()
         }
     }
 

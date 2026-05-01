@@ -199,6 +199,26 @@ final class FakeFileDownloadMonitor: DownloadMonitoring {
     }
 }
 
+@MainActor
+final class FakeScreenRecordingMonitor: ScreenRecordingMonitoring {
+    var onRecordingStateChange: ((Bool) -> Void)?
+
+    private(set) var startCalls = 0
+    private(set) var stopCalls = 0
+
+    func startMonitoring() {
+        startCalls += 1
+    }
+
+    func stopMonitoring() {
+        stopCalls += 1
+    }
+
+    func publish(isRecording: Bool) {
+        onRecordingStateChange?(isRecording)
+    }
+}
+
 final class FakeLockScreenMonitoringService: LockScreenMonitoring {
     var onLockStateChange: ((Bool) -> Void)?
 

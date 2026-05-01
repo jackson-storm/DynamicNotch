@@ -8068,6 +8068,34 @@
         }
       }
     },
+    "Preview the persistent screen recording indicator." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preview the persistent screen recording indicator."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Previsualiza el indicador persistente de grabación de pantalla."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показать предпросмотр постоянного индикатора записи экрана."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "预览持续的屏幕录制指示器。"
+          }
+        }
+      }
+    },
     "Progress indicator" : {
       "localizations" : {
         "en" : {
@@ -8461,6 +8489,90 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "扩展 HUD、电池、连接等临时活动的持续时间，并调整反馈大小。"
+          }
+        }
+      }
+    },
+    "Screen Recording" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Screen Recording"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grabación de pantalla"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Запись экрана"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "屏幕录制"
+          }
+        }
+      }
+    },
+    "Screen Recording activity" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Screen Recording activity"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actividad de grabación de pantalla"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Активность записи экрана"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "屏幕录制活动"
+          }
+        }
+      }
+    },
+    "Screen Recording live activity" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Screen Recording live activity"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actividad en vivo de grabación de pantalla"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live activity записи экрана"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "屏幕录制实时活动"
           }
         }
       }
@@ -11217,6 +11329,34 @@
         }
       }
     },
+    "settings.notch.priorities.row.screenRecording" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Screen Recording"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grabación de pantalla"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Запись экрана"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "屏幕录制"
+          }
+        }
+      }
+    },
     "settings.notch.priorities.row.timer" : {
       "localizations" : {
         "en" : {
@@ -13098,6 +13238,64 @@
         }
       }
     },
+    "settings.section.screenRecording.subtitle" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recording indicator behavior and stroke appearance."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comportamiento del indicador de grabación y apariencia del borde."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поведение индикатора записи и внешний вид обводки."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "录制指示器行为和描边外观。"
+          }
+        }
+      }
+    },
+    "settings.section.screenRecording.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Screen Recording"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grabación de pantalla"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Запись экрана"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "屏幕录制"
+          }
+        }
+      }
+    },
     "settings.section.timer.subtitle" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -13321,6 +13519,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "显示菜单栏快捷方式，以便快速访问“设置”和“退出”。"
+          }
+        }
+      }
+    },
+    "Show a red recording indicator in the notch while screen capture is active." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show a red recording indicator in the notch while screen capture is active."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Muestra un indicador rojo de grabación en el notch mientras la captura de pantalla está activa."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показывать красный индикатор записи в вырезе, пока активен захват экрана."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "屏幕捕获处于活动状态时，在刘海中显示红色录制指示器。"
           }
         }
       }
@@ -15782,6 +16008,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "使用标准白色刘海描边，而不是橙色计时器描边。"
+          }
+        }
+      }
+    },
+    "Use the standard white notch stroke instead of the red recording stroke." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use the standard white notch stroke instead of the red recording stroke."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usa el borde blanco estándar del notch en lugar del borde rojo de grabación."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Использовать стандартную белую обводку выреза вместо красной обводки записи."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用标准白色刘海描边，而不是红色录制描边。"
           }
         }
       }

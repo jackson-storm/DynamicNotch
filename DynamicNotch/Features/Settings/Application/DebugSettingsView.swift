@@ -38,6 +38,20 @@ struct DebugSettingsView: View {
                 isOn: $viewModel.isFocusLivePreviewEnabled,
                 accessibilityIdentifier: "settings.debug.focusOn"
             )
+
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+
+            SettingsToggleRow(
+                title: "Screen Recording",
+                description: "Preview the persistent screen recording indicator.",
+                systemImage: "record.circle.fill",
+                color: .red,
+                isOn: $viewModel.isScreenRecordingPreviewEnabled,
+                accessibilityIdentifier: "settings.debug.screenRecording"
+            )
             
             Divider()
                 .opacity(0.6)

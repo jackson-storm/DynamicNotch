@@ -35,6 +35,7 @@ extension AppDelegate {
                 settingsViewModel: settingsViewModel,
                 nowPlayingViewModel: nowPlayingViewModel,
                 timerViewModel: timerViewModel,
+                screenRecordingViewModel: screenRecordingViewModel,
                 lockScreenManager: lockScreenManager
             )
         )

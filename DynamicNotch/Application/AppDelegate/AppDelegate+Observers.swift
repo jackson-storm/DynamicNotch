@@ -48,6 +48,19 @@ extension AppDelegate {
                 }
             }
             .store(in: &cancellables)
+
+        settingsViewModel.screenRecording.$isScreenRecordingLiveActivityEnabled
+            .removeDuplicates()
+            .sink { [weak self] isScreenRecordingLiveActivityEnabled in
+                guard let self else { return }
+
+                if isScreenRecordingLiveActivityEnabled {
+                    screenRecordingViewModel.startMonitoring()
+                } else {
+                    screenRecordingViewModel.stopMonitoring()
+                }
+            }
+            .store(in: &cancellables)
     }
 
     func observeDockIconVisibilityChanges() {

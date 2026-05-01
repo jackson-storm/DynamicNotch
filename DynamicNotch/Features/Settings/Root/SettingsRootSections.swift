@@ -49,6 +49,7 @@ extension SettingsRootViewModel {
         case downloads
         case drop
         case timer
+        case screenRecording
         case bluetooth
         case focus
         case network
@@ -324,6 +325,28 @@ private enum SettingsSectionCatalog {
                 imageName: nil,
                 tint: .orange,
                 resetGroup: .timer
+            )
+
+        case .screenRecording:
+            return .init(
+                sidebarGroup: .system,
+                titleKey: "settings.section.screenRecording.title",
+                fallbackTitle: "Screen Recording",
+                subtitleKey: "settings.section.screenRecording.subtitle",
+                fallbackSubtitle: "Recording indicator behavior and stroke appearance.",
+                searchKeywords: [
+                    "screen recording",
+                    "recording",
+                    "capture",
+                    "record",
+                    "indicator",
+                    "stroke",
+                    "live activity"
+                ],
+                systemImage: "record.circle",
+                imageName: nil,
+                tint: .red,
+                resetGroup: .screenRecording
             )
 
         case .focus:

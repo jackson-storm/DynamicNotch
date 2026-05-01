@@ -33,11 +33,19 @@ struct NoInternetConnectionContent: NotchContentProtocol {
         return (top: 24, bottom: 36)
     }
 
+    @MainActor
     func makeView() -> AnyView {
+        let onDismiss = onDismiss
+        let onOpenNetworkSettings = onOpenNetworkSettings
+
         AnyView(
             NoInternetConnectionView(
-                onDismiss: onDismiss,
-                onOpenNetworkSettings: onOpenNetworkSettings
+                onDismiss: {
+                    onDismiss()
+                },
+                onOpenNetworkSettings: {
+                    onOpenNetworkSettings()
+                }
             )
         )
     }

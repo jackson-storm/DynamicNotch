@@ -14,6 +14,7 @@ final class AppContainer {
     let downloadViewModel: DownloadViewModel
     let nowPlayingViewModel: NowPlayingViewModel
     let timerViewModel: TimerViewModel
+    let screenRecordingViewModel: ScreenRecordingViewModel
     let lockScreenManager: LockScreenManager
     let clockTimerController: any ClockTimerControlling
 
@@ -93,6 +94,11 @@ final class AppContainer {
                 InactiveClockTimerMonitor() :
                 ClockTimerMonitor(),
             controller: clockTimerController
+        )
+        self.screenRecordingViewModel = ScreenRecordingViewModel(
+            monitor: isRunningUITests ?
+                InactiveScreenRecordingMonitor() :
+                SystemScreenRecordingMonitor()
         )
         self.lockScreenManager = LockScreenManager(
             service: isRunningUITests ?

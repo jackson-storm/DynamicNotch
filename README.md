@@ -10,7 +10,7 @@
 
 <p align="center">
   DynamicNotch is a native macOS app for notched MacBooks that turns the notch into a live system surface for media,
-  downloads, AirDrop, timers, connectivity events, lock-screen transitions, and custom hardware HUDs.
+  downloads, AirDrop, timers, screen recording, connectivity events, lock-screen transitions, and custom hardware HUDs.
 </p>
 
 <p align="center">
@@ -22,6 +22,9 @@
   </a>
   <a href="mailto:evgeniy.petrukovich@icloud.com?subject=A%20question%20about%20Dynamic%20Notch">
     <img src="https://img.shields.io/badge/Email-Contact%20Me-0A84FF?style=for-the-badge&logo=icloud&logoColor=white" alt="Send an email about DynamicNotch" />
+  </a>
+  <a href="https://t.me/id10101101">
+    <img src="https://img.shields.io/badge/Telegram-Contact%20Me-229ED9?style=for-the-badge&logo=telegram&logoColor=white" alt="Contact me on Telegram" />
   </a>
 </p>
 
@@ -59,11 +62,12 @@ The main goal is to make the project as native as possible, both in terms of des
 
 ## 🚀 Highlights
 
-- 🎵 Live activities for Now Playing, Downloads, AirDrop, Timer, Focus, Personal Hotspot, and Lock Screen media/live activity surfaces
+- 🎵 Live activities for Now Playing, Downloads, AirDrop, Timer, Screen Recording, Focus, Personal Hotspot, and Lock Screen media/live activity surfaces
 - ⚡ Temporary alerts for charging, low battery, full battery, Bluetooth, Wi-Fi, VPN, Focus-off, and notch resize feedback
 - 🎚️ Custom hardware HUD replacements for brightness, keyboard brightness, and volume
 - 🖱️ Native interactions including tap to expand, mouse drag gestures, trackpad swipes, swipe-to-dismiss, and swipe-to-restore
 - 🎨 Personalization for notch width and height, background style, stroke options, animation presets, fullscreen behavior, display placement, and app language
+- 🔴 Screen Recording indicator that lights up in the notch while macOS reports active screen capture
 - 🔒 Lock Screen controls for sounds, media panel behavior, widget appearance, tint, and background brightness
 - ⚙️ A dedicated settings experience grouped into Application, Media & Files, Connectivity, and System sections
 
@@ -97,6 +101,7 @@ The main goal is to make the project as native as possible, both in terms of des
 - Feature-specific permissions as needed:
   - Accessibility for custom HUD interception and some system-level interactions
   - Bluetooth access for accessory status updates
+  - Screen Recording access for audio-reactive Now Playing visualization where macOS requires it
   - Media/Now Playing access where macOS requires it
 
 ## 🛠️ Build From Source
@@ -127,6 +132,7 @@ DynamicNotch/
 │   ├── Notch/
 │   ├── NowPlaying/
 │   ├── Onboarding/
+│   ├── ScreenRecording/
 │   ├── Settings/
 │   └── Timer/
 ├── Resources/          # Assets, localization, bundled media
@@ -149,7 +155,8 @@ DynamicNotchUITest/
 - `NotchViewModel` is the SwiftUI-facing layer for geometry, gestures, interactive resize, and engine-backed presentation state.
 - `NotchEventCoordinator` routes system events while feature-specific handlers translate them into notch content.
 - `SettingsViewModel` acts as a facade over dedicated settings stores for application, media/files, connectivity, battery, HUD, and lock-screen behavior.
-- Feature view models provide domain state for battery, Bluetooth, downloads, network, now playing, timer, AirDrop, and lock screen.
+- Feature view models provide domain state for battery, Bluetooth, downloads, network, now playing, screen recording, timer, AirDrop, and lock screen.
+- Fullscreen hiding keeps the overlay window alive and hides notch activities until the user leaves fullscreen, so active features can restore cleanly.
 
 ## 🧰 Tech Stack
 
@@ -171,9 +178,9 @@ The project currently includes localized app content for:
 ## 📈 Project Status
 
 DynamicNotch already includes a working native notch window, live activities, temporary alerts, AirDrop handoff,
-custom HUD flows, a dedicated settings experience, and lock-screen-specific behavior.
+screen recording detection, custom HUD flows, a dedicated settings experience, and lock-screen-specific behavior.
 
-Some lock-screen-related flows depend on private or system-level behavior and can vary across macOS versions and environments.
+Some lock-screen and screen-recording-related flows depend on private or system-level behavior and can vary across macOS versions and environments.
 
 ## 📄 License
 

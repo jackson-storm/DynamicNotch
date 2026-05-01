@@ -10,7 +10,7 @@ import SwiftUI
 struct NotchSettingsView: View {
     @ObservedObject var powerService: PowerService
     @ObservedObject var applicationSettings: ApplicationSettingsStore
-    
+
     var body: some View {
         SettingsPageScrollView {
             prioritiesCard
@@ -20,13 +20,13 @@ struct NotchSettingsView: View {
         }
         .accessibilityIdentifier("settings.notch.root")
     }
-    
+
     private var prioritiesCard: some View {
         SettingsCard(title: "settings.notch.priorities.title") {
             VStack(alignment: .leading, spacing: 8) {
                 ForEach(Array(NotchContentPriority.configurableKeys.enumerated()), id: \.element.id) { index, priorityKey in
                     priorityRow(for: priorityKey)
-                    
+
                     if index < NotchContentPriority.configurableKeys.count - 1 {
                         Divider()
                             .opacity(0.6)
@@ -35,9 +35,9 @@ struct NotchSettingsView: View {
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            
+
             Divider().opacity(0.6)
-            
+
             HStack {
                 VStack(alignment: .leading, spacing: 2) {
                     Text("settings.notch.priorities.customOrder.title")
@@ -47,7 +47,7 @@ struct NotchSettingsView: View {
                         .fixedSize(horizontal: false, vertical: true)
                 }
                 Spacer(minLength: 12)
-                
+
                 Button {
                     applicationSettings.resetNotchContentPriorities()
                 } label: {
@@ -58,7 +58,7 @@ struct NotchSettingsView: View {
             .modifier(SettingsAccessibilityModifier(identifier: "settings.notch.priorities.reset"))
         }
     }
-    
+
     private var appearanceCard: some View {
         SettingsCard(title: "Notch appearance") {
             CustomPicker(
@@ -73,9 +73,9 @@ struct NotchSettingsView: View {
                 backgroundPickerContent(for: style, isSelected: isSelected)
             }
             .accessibilityIdentifier("settings.notch.backgroundStyle")
-            
+
             Divider().opacity(0.6)
-            
+
             SettingsToggleRow(
                 title: "Show notch stroke",
                 description: "Show a subtle outline that adapts to the active content color.",
@@ -84,12 +84,12 @@ struct NotchSettingsView: View {
                 isOn: $applicationSettings.isShowNotchStrokeEnabled,
                 accessibilityIdentifier: "settings.general.showNotchStroke"
             )
-            
+
             Divider()
                 .opacity(0.6)
                 .padding(.leading, 43)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
-            
+
             SettingsToggleRow(
                 title: "Use default activity stroke color",
                 description: "Apply the standard white stroke to supported activities instead of feature accent colors.",
@@ -98,9 +98,9 @@ struct NotchSettingsView: View {
                 isOn: $applicationSettings.isDefaultActivityStrokeEnabled,
                 accessibilityIdentifier: "settings.general.defaultActivityStroke"
             )
-            
+
             Divider().opacity(0.6)
-            
+
             SettingsSliderRow(
                 title: "Stroke width",
                 description: "Adjust the thickness of the notch outline.",
@@ -111,7 +111,7 @@ struct NotchSettingsView: View {
                 accessibilityIdentifier: "settings.general.notchStrokeWidth",
                 value: $applicationSettings.notchStrokeWidth
             )
-            
+
             SettingsSliderRow(
                 title: "Notch width",
                 description: "Fine-tune the notch width to better match your display cutout.",
@@ -125,7 +125,7 @@ struct NotchSettingsView: View {
                     set: { applicationSettings.notchWidth = Int($0.rounded()) }
                 )
             )
-            
+
             SettingsSliderRow(
                 title: "Notch height",
                 description: "Fine-tune the notch height to better match your display cutout.",
@@ -141,7 +141,7 @@ struct NotchSettingsView: View {
             )
         }
     }
-    
+
     private var animationCard: some View {
         SettingsCard(title: "Animation") {
             CustomPicker(
@@ -155,7 +155,7 @@ struct NotchSettingsView: View {
             .accessibilityIdentifier("settings.general.animationPreset")
         }
     }
-    
+
     private var gesturesCard: some View {
         SettingsCard(title: "Gestures") {
             SettingsToggleRow(
@@ -166,10 +166,10 @@ struct NotchSettingsView: View {
                 isOn: $applicationSettings.isNotchTapToExpandEnabled,
                 accessibilityIdentifier: "settings.notch.tapToExpand"
             )
-            
+
             Divider()
                 .opacity(0.6)
-            
+
             SettingsMenuRow(
                 title: "Expand gesture",
                 description: "Choose whether expanded content opens on click or after holding the notch.",
@@ -178,10 +178,10 @@ struct NotchSettingsView: View {
                 accessibilityIdentifier: "settings.notch.expandInteraction",
                 selection: $applicationSettings.notchExpandInteraction
             )
-            
+
             Divider()
                 .opacity(0.6)
-            
+
             SettingsSliderRow(
                 title: "Press and hold timing",
                 description: "Adjust how quickly the notch press peaks and hold-to-expand triggers.",
@@ -192,10 +192,10 @@ struct NotchSettingsView: View {
                 accessibilityIdentifier: "settings.notch.pressHoldDuration",
                 value: $applicationSettings.notchPressHoldDuration
             )
-            
+
             Divider()
                 .opacity(0.6)
-            
+
             SettingsToggleRow(
                 title: "Mouse drag gestures",
                 description: "Use click-and-drag over the notch to preview dismiss and restore interactions.",
@@ -204,12 +204,12 @@ struct NotchSettingsView: View {
                 isOn: $applicationSettings.isNotchMouseDragGesturesEnabled,
                 accessibilityIdentifier: "settings.notch.mouseDragGestures"
             )
-            
+
             Divider()
                 .opacity(0.6)
                 .padding(.leading, 43)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
-            
+
             SettingsToggleRow(
                 title: "Trackpad swipe gestures",
                 description: "Use vertical two-finger scrolling over the notch to dismiss or restore the latest activity.",
@@ -218,12 +218,12 @@ struct NotchSettingsView: View {
                 isOn: $applicationSettings.isNotchTrackpadSwipeGesturesEnabled,
                 accessibilityIdentifier: "settings.notch.trackpadSwipeGestures"
             )
-            
+
             Divider()
                 .opacity(0.6)
                 .padding(.leading, 43)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
-            
+
             SettingsToggleRow(
                 title: "Swipe up to dismiss",
                 description: "Allow gestures to hide the currently visible live or temporary activity.",
@@ -232,12 +232,12 @@ struct NotchSettingsView: View {
                 isOn: $applicationSettings.isNotchSwipeDismissEnabled,
                 accessibilityIdentifier: "settings.notch.swipeDismiss"
             )
-            
+
             Divider()
                 .opacity(0.6)
                 .padding(.leading, 43)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
-            
+
             SettingsToggleRow(
                 title: "Swipe down to restore",
                 description: "Allow gestures to bring back the most recently dismissed activity.",
@@ -248,21 +248,21 @@ struct NotchSettingsView: View {
             )
         }
     }
-    
+
     private func priorityRow(for priorityKey: NotchContentPriority.Key) -> some View {
         HStack(alignment: .center, spacing: 12) {
             priorityIcon(for: priorityKey)
-            
+
             VStack(alignment: .leading, spacing: 2) {
                 Text(priorityKey.titleKey)
-                
+
                 Text(priorityDefaultText(for: priorityKey))
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
-            
+
             Spacer(minLength: 12)
-            
+
             Stepper(
                 value: priorityBinding(for: priorityKey),
                 in: NotchContentPriority.priorityRange
@@ -278,7 +278,7 @@ struct NotchSettingsView: View {
         .padding(.vertical, 1)
         .modifier(SettingsAccessibilityModifier(identifier: "settings.notch.priority.\(priorityKey.rawValue)"))
     }
-    
+
     private func priorityBinding(for priorityKey: NotchContentPriority.Key) -> Binding<Int> {
         Binding(
             get: {
@@ -289,7 +289,7 @@ struct NotchSettingsView: View {
             }
         )
     }
-    
+
     private func priorityDefaultText(for priorityKey: NotchContentPriority.Key) -> String {
         applicationSettings.appLanguage.locale.dnFormat(
             "settings.notch.priorities.row.default",
@@ -297,11 +297,11 @@ struct NotchSettingsView: View {
             Int64(priorityKey.defaultValue)
         )
     }
-    
+
     @ViewBuilder
     private func priorityIcon(for priorityKey: NotchContentPriority.Key) -> some View {
         let sidebarSection = priorityKey.sidebarSection
-        
+
         if let imageName = sidebarSection.imageName {
             SettingsIconBadge(
                 imageName: imageName,
@@ -320,7 +320,7 @@ struct NotchSettingsView: View {
             )
         }
     }
-    
+
     @ViewBuilder
     private func backgroundPickerContent(for style: NotchBackgroundStyle, isSelected: Bool) -> some View {
         ZStack {
@@ -330,7 +330,7 @@ struct NotchSettingsView: View {
         .environment(\.colorScheme, .dark)
         .scaleEffect(isSelected ? 1 : 0.97)
     }
-    
+
     @ViewBuilder
     private func previewCapsule(for style: NotchBackgroundStyle) -> some View {
         switch style {
@@ -341,12 +341,12 @@ struct NotchSettingsView: View {
                     Capsule()
                         .stroke(previewStrokeColor, lineWidth: previewStrokeWidth)
                 }
-            
+
         case .ultraThickMaterial:
             ZStack {
                 Capsule()
                     .fill(Color.white.opacity(0.05))
-                
+
                 Capsule()
                     .fill(.ultraThinMaterial)
                     .overlay {
@@ -367,7 +367,7 @@ struct NotchSettingsView: View {
                             .stroke(previewStrokeColor, lineWidth: previewStrokeWidth)
                     }
             }
-            
+
         case .liquidGlass:
             if #available(macOS 26.0, *) {
                 Color.clear
@@ -379,17 +379,17 @@ struct NotchSettingsView: View {
             }
         }
     }
-    
+
     private var previewStrokeColor: Color {
         guard applicationSettings.isShowNotchStrokeEnabled else {
             return .clear
         }
-        
+
         return applicationSettings.isDefaultActivityStrokeEnabled ?
             .white.opacity(0.2) :
             .green.opacity(0.3)
     }
-    
+
     private var previewStrokeWidth: CGFloat {
         applicationSettings.isShowNotchStrokeEnabled ? CGFloat(applicationSettings.notchStrokeWidth) : 0
     }
@@ -410,6 +410,8 @@ private extension NotchContentPriority.Key {
             "settings.notch.priorities.row.nowPlaying"
         case .timer:
             "settings.notch.priorities.row.timer"
+        case .screenRecording:
+            "settings.notch.priorities.row.screenRecording"
         }
     }
 
@@ -427,6 +429,8 @@ private extension NotchContentPriority.Key {
                 .nowPlaying
         case .timer:
                 .timer
+        case .screenRecording:
+                .screenRecording
         }
     }
 }

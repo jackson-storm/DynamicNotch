@@ -16,6 +16,7 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
         case battery
         case hud
         case lockScreen
+        case screenRecording
     }
 
     enum LiveActivityPreference {
@@ -26,6 +27,7 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
         case downloads
         case drop
         case timer
+        case screenRecording
     }
 
     enum TemporaryActivityPreference {
@@ -51,6 +53,7 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
     let battery: BatterySettingsStore
     let hud: HUDSettingsStore
     let lockScreen: LockScreenFeatureSettingsStore
+    let screenRecording: ScreenRecordingSettingsStore
     private let defaults: UserDefaults
 
     private var cancellables = Set<AnyCancellable>()
@@ -63,6 +66,7 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
         self.battery = BatterySettingsStore(defaults: defaults)
         self.hud = HUDSettingsStore(defaults: defaults)
         self.lockScreen = LockScreenFeatureSettingsStore(defaults: defaults)
+        self.screenRecording = ScreenRecordingSettingsStore(defaults: defaults)
         bindStores()
     }
 
@@ -254,6 +258,11 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
         set { mediaAndFiles.isTimerLiveActivityEnabled = newValue }
     }
 
+    var isScreenRecordingLiveActivityEnabled: Bool {
+        get { screenRecording.isScreenRecordingLiveActivityEnabled }
+        set { screenRecording.isScreenRecordingLiveActivityEnabled = newValue }
+    }
+
     var isChargerTemporaryActivityEnabled: Bool {
         get { battery.isChargerTemporaryActivityEnabled }
         set { battery.isChargerTemporaryActivityEnabled = newValue }
@@ -310,6 +319,8 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
             return mediaAndFiles.isDragAndDropLiveActivityEnabled
         case .timer:
             return mediaAndFiles.isTimerLiveActivityEnabled
+        case .screenRecording:
+            return screenRecording.isScreenRecordingLiveActivityEnabled
         }
     }
 
@@ -413,6 +424,8 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
             hud.reset()
         case .lockScreen:
             lockScreen.reset()
+        case .screenRecording:
+            screenRecording.reset()
         }
     }
 
@@ -423,6 +436,7 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
         bind(store: battery)
         bind(store: hud)
         bind(store: lockScreen)
+        bind(store: screenRecording)
     }
 
     private func bind<Object: ObservableObject>(store: Object)

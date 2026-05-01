@@ -22,6 +22,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     var settingsViewModel: SettingsViewModel { container.settingsViewModel }
     var nowPlayingViewModel: NowPlayingViewModel { container.nowPlayingViewModel }
     var timerViewModel: TimerViewModel { container.timerViewModel }
+    var screenRecordingViewModel: ScreenRecordingViewModel { container.screenRecordingViewModel }
     var airDropViewModel: AirDropNotchViewModel { container.airDropViewModel }
     var lockScreenManager: LockScreenManager { container.lockScreenManager }
     var hardwareHUDMonitor: HardwareHUDMonitor { container.hardwareHUDMonitor }
@@ -95,6 +96,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         nowPlayingViewModel.stopMonitoring()
         downloadViewModel.stopMonitoring()
         timerViewModel.stopMonitoring()
+        screenRecordingViewModel.stopMonitoring()
         hardwareHUDMonitor.stopMonitoring()
         if !isRunningUITests {
             lockScreenPanelManager.invalidate()

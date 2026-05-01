@@ -16,7 +16,7 @@ struct SettingsRootView: View {
     @Environment(\.openURL) private var openURL
     @ObservedObject var powerService: PowerService
     @ObservedObject var settingsViewModel: SettingsViewModel
-    
+
     let notchViewModel: NotchViewModel
     let notchEventCoordinator: NotchEventCoordinator
     let bluetoothViewModel: BluetoothViewModel
@@ -25,7 +25,7 @@ struct SettingsRootView: View {
     let nowPlayingViewModel: NowPlayingViewModel
     let timerViewModel: TimerViewModel
     let lockScreenManager: LockScreenManager
-    
+
     private let aboutWebsiteURL = URL(string: "https://dynamicnotch.evgeniy-petrukovich.workers.dev/download")!
     private let viewModel: SettingsRootViewModel
     @State private var searchText = ""
@@ -34,7 +34,7 @@ struct SettingsRootView: View {
     @State private var isShowingSearchSelection = false
     @State private var pendingResetSection: SettingsRootViewModel.Section?
     @StateObject private var permissionController = SettingsPermissionController()
-    
+
     init(
         powerService: PowerService,
         settingsViewModel: SettingsViewModel,
@@ -74,11 +74,11 @@ struct SettingsRootView: View {
         _selectedSection = State(initialValue: initialSelection)
         _selectionHistory = State(initialValue: .init(initialSelection: initialSelection))
     }
-    
+
     private func localized(_ key: String, fallback: String? = nil) -> String {
         settingsViewModel.application.appLanguage.locale.dn(key, fallback: fallback)
     }
-    
+
     var body: some View {
         NavigationSplitView {
             List(selection: selectionBinding) {
@@ -114,7 +114,7 @@ struct SettingsRootView: View {
                 prompt: localized("settings.search.prompt")
             )
             .navigationSplitViewColumnWidth(min: 170, ideal: 200, max: 200)
-            
+
         } detail: {
             Group {
                 if filteredSections.isEmpty {
@@ -167,13 +167,13 @@ struct SettingsRootView: View {
             set: { applySelection($0, origin: .sidebar) }
         )
     }
-    
+
     private var filteredSections: [SettingsRootViewModel.Section] {
         let query = trimmedSearchText
         guard !query.isEmpty else {
             return viewModel.sections
         }
-        
+
         return viewModel.sections.filter { section in
             searchableStrings(for: section).contains { value in
                 value.localizedCaseInsensitiveContains(query)
@@ -193,7 +193,7 @@ struct SettingsRootView: View {
             section.fallbackSubtitle
         ] + section.searchKeywords
     }
-    
+
     private var groupedSections: [(group: SettingsRootViewModel.SidebarGroup, sections: [SettingsRootViewModel.Section])] {
         SettingsRootViewModel.SidebarGroup.allCases.compactMap { group in
             let sections = filteredSections.filter { $0.sidebarGroup == group }
@@ -209,7 +209,7 @@ struct SettingsRootView: View {
 
         return filteredSections.first ?? .general
     }
-    
+
     private var canNavigateBack: Bool {
         selectionHistory.canGoBack
     }
@@ -286,7 +286,7 @@ struct SettingsRootView: View {
         guard !filteredSections.contains(section) else { return }
         searchText = ""
     }
-    
+
     @ViewBuilder
     private func detailView(for section: SettingsRootViewModel.Section) -> some View {
         switch section {
@@ -304,7 +304,7 @@ struct SettingsRootView: View {
                     applicationSettings: settingsViewModel.application
                 )
             }
-            
+
         case .notch:
             detailContainer(for: section) {
                 NotchSettingsView(
@@ -312,7 +312,7 @@ struct SettingsRootView: View {
                     applicationSettings: settingsViewModel.application
                 )
             }
-            
+
         case .nowPlaying:
             detailContainer(for: section) {
                 NowPlayingSettingsView(
@@ -320,7 +320,7 @@ struct SettingsRootView: View {
                     applicationSettings: settingsViewModel.application
                 )
             }
-            
+
         case .downloads:
             detailContainer(for: section) {
                 DownloadsSettingsView(
@@ -328,7 +328,7 @@ struct SettingsRootView: View {
                     appearanceSettings: settingsViewModel.application
                 )
             }
-            
+
         case .drop:
             detailContainer(for: section) {
                 DropSettingsView(
@@ -344,7 +344,15 @@ struct SettingsRootView: View {
                     appearanceSettings: settingsViewModel.application
                 )
             }
-            
+
+        case .screenRecording:
+            detailContainer(for: section) {
+                ScreenRecordingSettingsView(
+                    settings: settingsViewModel.screenRecording,
+                    appearanceSettings: settingsViewModel.application
+                )
+            }
+
         case .focus:
             detailContainer(for: section) {
                 FocusSettingsView(
@@ -352,7 +360,7 @@ struct SettingsRootView: View {
                     appearanceSettings: settingsViewModel.application
                 )
             }
-            
+
         case .bluetooth:
             detailContainer(for: section) {
                 BluetoothSettingsView(
@@ -360,7 +368,7 @@ struct SettingsRootView: View {
                     applicationSettings: settingsViewModel.application
                 )
             }
-            
+
         case .network:
             detailContainer(for: section) {
                 NetworkSettingsView(
@@ -368,7 +376,7 @@ struct SettingsRootView: View {
                     appearanceSettings: settingsViewModel.application
                 )
             }
-            
+
         case .battery:
             detailContainer(for: section) {
                 BatterySettingsView(
@@ -376,7 +384,7 @@ struct SettingsRootView: View {
                     appearanceSettings: settingsViewModel.application
                 )
             }
-            
+
         case .hud:
             detailContainer(for: section) {
                 HUDSettingsView(
@@ -384,21 +392,21 @@ struct SettingsRootView: View {
                     applicationSettings: settingsViewModel.application
                 )
             }
-            
+
         case .lockScreen:
             detailContainer(for: section) {
                 LockScreenSettingsView(settings: settingsViewModel.lockScreen, applicationSettings: settingsViewModel.application)
             }
-            
-        #if DEBUG
+
+#if DEBUG
         case .debug:
             detailContainer(for: section) {
                 DebugSettingsView(
                     viewModel: viewModel.debugViewModel
                 )
             }
-        #endif
-            
+#endif
+
         case .about:
             detailContainer(for: section) {
                 AboutAppSettingsView(
@@ -410,13 +418,13 @@ struct SettingsRootView: View {
             }
         }
     }
-    
+
     private func detailContainer<Content: View>(for section: SettingsRootViewModel.Section, @ViewBuilder content: () -> Content) -> some View {
         content()
             .accessibilityIdentifier(section.accessibilityIdentifier)
             .toolbar { toolbarContent(for: section) }
     }
-    
+
     @ToolbarContentBuilder
     private func toolbarContent(for section: SettingsRootViewModel.Section) -> some ToolbarContent {
         ToolbarItemGroup(placement: .navigation) {
@@ -454,7 +462,7 @@ struct SettingsRootView: View {
                 .accessibilityIdentifier("settings.toolbar.aboutWebsite")
             }
         }
-        
+
         if viewModel.canReset(section) {
             ToolbarItem(placement: .confirmationAction) {
                 Button {

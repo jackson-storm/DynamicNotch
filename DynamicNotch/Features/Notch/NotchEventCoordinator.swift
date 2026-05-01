@@ -276,6 +276,27 @@ final class NotchEventCoordinator: ObservableObject {
         timerHandler.handleTimer(event)
     }
 
+    func handleScreenRecordingEvent(_ event: ScreenRecordingEvent) {
+        guard !isOnboardingActive else { return }
+        guard !isLockScreenTransitionActive else { return }
+        guard settingsViewModel.isLiveActivityEnabled(.screenRecording) else {
+            notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.ScreenRecording.active.id))
+            return
+        }
+
+        switch event {
+        case .started:
+            notchViewModel.send(
+                .showLiveActivity(
+                    ScreenRecordingContent(settingsViewModel: settingsViewModel)
+                )
+            )
+
+        case .stopped:
+            notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.ScreenRecording.active.id))
+        }
+    }
+
     func handleLockScreenEvent(_ event: LockScreenEvent) {
         guard settingsViewModel.isLiveActivityEnabled(.lockScreen) else {
             notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.LockScreen.activity.id))
@@ -455,6 +476,19 @@ final class NotchEventCoordinator: ObservableObject {
                     }
                 } else {
                     self.notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Media.timer.id))
+                }
+            }
+            .store(in: &cancellables)
+
+        settingsViewModel.screenRecording.$isScreenRecordingLiveActivityEnabled
+            .removeDuplicates()
+            .sink { [weak self] isEnabled in
+                guard let self else { return }
+
+                if isEnabled == false {
+                    self.notchViewModel.send(
+                        .hideLiveActivity(id: NotchContentRegistry.ScreenRecording.active.id)
+                    )
                 }
             }
             .store(in: &cancellables)

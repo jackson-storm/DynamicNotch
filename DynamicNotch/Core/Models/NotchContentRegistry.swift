@@ -48,6 +48,7 @@ enum NotchContentPriority {
         case trayActive
         case nowPlaying
         case timer
+        case screenRecording
 
         var id: String { rawValue }
 
@@ -65,6 +66,8 @@ enum NotchContentPriority {
                 NotchContentPriority.nowPlaying
             case .timer:
                 NotchContentPriority.timer
+            case .screenRecording:
+                NotchContentPriority.screenRecording
             }
         }
 
@@ -78,7 +81,8 @@ enum NotchContentPriority {
         .download,
         .trayActive,
         .nowPlaying,
-        .timer
+        .timer,
+        .screenRecording
     ]
 
     static let `default` = 0
@@ -88,12 +92,13 @@ enum NotchContentPriority {
     static let trayActive = 4
     static let nowPlaying = 5
     static let timer = 6
+    static let screenRecording = 7
 
-    static let notchSizeWidth = 90
-    static let notchSizeHeight = 91
-    static let dragAndDrop = 100
-    static let lockScreen = 110
-    static let onboarding = 120
+    static let notchSizeWidth = 1000
+    static let notchSizeHeight = 1001
+    static let dragAndDrop = 1002
+    static let lockScreen = 1003
+    static let onboarding = 1004
 
     static func resolvedValue(for key: Key, defaults: UserDefaults = .standard) -> Int {
         overrideValues(defaults: defaults)[key.rawValue] ?? key.defaultValue
@@ -158,6 +163,14 @@ enum NotchContentRegistry {
             priorityKey: .focus
         )
         static let inactive = NotchContentDescriptor(id: "focus.off")
+    }
+
+    enum ScreenRecording {
+        static let active = NotchContentDescriptor(
+            id: "screen.recording",
+            priorityKey: .screenRecording
+        )
+        static let inactive = NotchContentDescriptor(id: "screen.recording.inactive")
     }
 
     enum Network {
@@ -251,6 +264,8 @@ enum NotchContentRegistry {
 
         static let focus = id(Focus.active.id)
         static let focusOff = id(Focus.inactive.id)
+        static let screenRecording = id(ScreenRecording.active.id)
+        static let screenRecordingInactive = id(ScreenRecording.inactive.id)
         static let hotspot = id(Network.hotspot.id)
         static let nowPlaying = id(Media.nowPlaying.id)
         static let download = id(Media.download.id)

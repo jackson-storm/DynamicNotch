@@ -41,6 +41,7 @@
   <a href="LICENSE">
     <img src="https://img.shields.io/github/license/jackson-storm/DynamicNotch" alt="License" />
   </a>
+  <img src="https://api.oosmetrics.com/api/v1/badge/achievement/431461ff-f316-4858-bf84-c3aeab2f5b04.svg" alt="OOS Metrics achievement" />
 </p>
 
 <p>

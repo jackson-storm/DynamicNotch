@@ -110,12 +110,14 @@ final class FakeNetworkMonitor: NetworkMonitoring {
     }
 }
 
-final class FakeNowPlayingService: NowPlayingMonitoring {
+final class FakeNowPlayingService: NowPlayingMonitoring, NowPlayingDetailPollingConfigurable {
     var onSnapshotChange: ((NowPlayingSnapshot?) -> Void)?
 
     private(set) var startCalls = 0
     private(set) var stopCalls = 0
     private(set) var commands: [NowPlayingCommand] = []
+    private(set) var detailPollingStates: [Bool] = []
+    private var isDetailPollingEnabled = false
 
     func startMonitoring() {
         startCalls += 1
@@ -127,6 +129,13 @@ final class FakeNowPlayingService: NowPlayingMonitoring {
 
     func send(_ command: NowPlayingCommand) {
         commands.append(command)
+    }
+
+    func setDetailPollingEnabled(_ isEnabled: Bool) {
+        guard isDetailPollingEnabled != isEnabled else { return }
+
+        isDetailPollingEnabled = isEnabled
+        detailPollingStates.append(isEnabled)
     }
 
     func publish(_ snapshot: NowPlayingSnapshot?) {
@@ -216,6 +225,26 @@ final class FakeScreenRecordingMonitor: ScreenRecordingMonitoring {
 
     func publish(isRecording: Bool) {
         onRecordingStateChange?(isRecording)
+    }
+}
+
+@MainActor
+final class FakeClipboardMonitor: ClipboardMonitoring {
+    var onClipboardChange: ((ClipboardSnapshot) -> Void)?
+
+    private(set) var startCalls = 0
+    private(set) var stopCalls = 0
+
+    func startMonitoring() {
+        startCalls += 1
+    }
+
+    func stopMonitoring() {
+        stopCalls += 1
+    }
+
+    func publish(_ snapshot: ClipboardSnapshot) {
+        onClipboardChange?(snapshot)
     }
 }
 

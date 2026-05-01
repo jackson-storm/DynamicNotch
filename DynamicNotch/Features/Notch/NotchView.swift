@@ -116,9 +116,7 @@ private extension NotchView {
                 isEnabled: shouldEnableNotchSwipeGestures
             )
             .contextMenu {
-                if !settingsViewModel.isMenuBarIconVisible {
-                    contextMenuItem
-                }
+                contextMenuItem
             }
             .environment(\.colorScheme, .dark)
             .animation(notchViewModel.animations.strokeVisibility, value: settingsViewModel.isShowNotchStrokeEnabled)

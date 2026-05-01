@@ -95,7 +95,6 @@ struct LockScreenNowPlayingPanelView: View {
 
     private var playerPanel: some View {
         LockScreenNowPlayingView(
-            settings: settingsViewModel.mediaAndFiles,
             nowPlayingViewModel: nowPlayingViewModel,
             onTapArtwork: $onTapArtwork
         )
@@ -249,12 +248,10 @@ private extension String {
 
 private struct LockScreenNowPlayingView: View {
     @Environment(\.notchScale) var scale
-    @ObservedObject var settings: MediaAndFilesSettingsStore
     @ObservedObject var nowPlayingViewModel: NowPlayingViewModel
     @Binding var onTapArtwork: Bool
     
     @State private var scrubProgress: CGFloat?
-    private let audioReactiveVisibilitySource = "nowPlaying.lockScreen.panel"
     
     private var resolvedSnapshot: NowPlayingSnapshot {
         nowPlayingViewModel.snapshot ?? NowPlayingSnapshot(
@@ -272,20 +269,8 @@ private struct LockScreenNowPlayingView: View {
     var body: some View {
         let snapshot = resolvedSnapshot
         
-        return TimelineView(.periodic(from: .now, by: animationTick(for: snapshot))) { context in
+        return TimelineView(.periodic(from: .now, by: progressTick(for: snapshot))) { context in
             timelineContent(snapshot: snapshot, at: context.date)
-        }
-        .onAppear {
-            nowPlayingViewModel.setAudioReactiveVisualizationActive(
-                true,
-                source: audioReactiveVisibilitySource
-            )
-        }
-        .onDisappear {
-            nowPlayingViewModel.setAudioReactiveVisualizationActive(
-                false,
-                source: audioReactiveVisibilitySource
-            )
         }
     }
     
@@ -344,16 +329,13 @@ private struct LockScreenNowPlayingView: View {
 
                     Spacer(minLength: 0)
                     
-                    EqualizerView(
+                    LightweightNowPlayingEqualizerView(
                         isPlaying: snapshot.isPlaying,
-                        mode: settings.nowPlayingEqualizerMode,
-                        palette: nowPlayingViewModel.artworkPalette,
-                        trackSeed: snapshot.waveSeed,
-                        audioLevels: nowPlayingViewModel.audioReactiveLevels,
-                        date: date,
-                        width: onTapArtwork ? 2.3 : 2.7,
-                        height: onTapArtwork ? 3.3 : 3.7
+                        color: nowPlayingViewModel.artworkPalette.equalizerBaseColor,
+                        barHeight: onTapArtwork ? 18 : 23,
+                        barWidth: 2.7
                     )
+                    .frame(width: 23, height: 18)
                 }
             }
             Spacer()
@@ -463,8 +445,8 @@ private struct LockScreenNowPlayingView: View {
         return String(format: "%02d:%02d", minutes, seconds)
     }
     
-    private func animationTick(for snapshot: NowPlayingSnapshot) -> TimeInterval {
-        snapshot.isPlaying ? (1.0 / 14.0) : 0.5
+    private func progressTick(for snapshot: NowPlayingSnapshot) -> TimeInterval {
+        snapshot.isPlaying ? 1.0 : 30.0
     }
     
     private func playbackStatusColor(for snapshot: NowPlayingSnapshot) -> Color {

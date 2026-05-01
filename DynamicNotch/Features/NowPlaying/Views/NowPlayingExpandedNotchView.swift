@@ -16,7 +16,7 @@ struct NowPlayingExpandedNotchView: View {
     let onOpenPlaybackSource: @MainActor () -> Void
     
     @State private var scrubProgress: CGFloat?
-    private let audioReactiveVisibilitySource = "nowPlaying.notch.expanded"
+    private let detailedPresentationSource = "nowPlaying.notch.expanded"
     
     private var resolvedSnapshot: NowPlayingSnapshot {
         nowPlayingViewModel.snapshot ?? NowPlayingSnapshot(
@@ -34,19 +34,19 @@ struct NowPlayingExpandedNotchView: View {
     var body: some View {
         let snapshot = resolvedSnapshot
 
-        return TimelineView(.periodic(from: .now, by: animationTick(for: snapshot))) { context in
+        return TimelineView(.periodic(from: .now, by: progressTick(for: snapshot))) { context in
             timelineContent(snapshot: snapshot, at: context.date)
         }
         .onAppear {
-            nowPlayingViewModel.setAudioReactiveVisualizationActive(
+            nowPlayingViewModel.setDetailedPresentationActive(
                 true,
-                source: audioReactiveVisibilitySource
+                source: detailedPresentationSource
             )
         }
         .onDisappear {
-            nowPlayingViewModel.setAudioReactiveVisualizationActive(
+            nowPlayingViewModel.setDetailedPresentationActive(
                 false,
-                source: audioReactiveVisibilitySource
+                source: detailedPresentationSource
             )
         }
     }
@@ -107,16 +107,13 @@ struct NowPlayingExpandedNotchView: View {
 
                     Spacer(minLength: 0)
 
-                    EqualizerView(
+                    LightweightNowPlayingEqualizerView(
                         isPlaying: snapshot.isPlaying,
-                        mode: settings.nowPlayingEqualizerMode,
-                        palette: nowPlayingViewModel.artworkPalette,
-                        trackSeed: snapshot.waveSeed,
-                        audioLevels: nowPlayingViewModel.audioReactiveLevels,
-                        date: date,
-                        width: 2.7,
-                        height: 3.7
+                        color: nowPlayingViewModel.artworkPalette.equalizerBaseColor,
+                        barHeight: 23,
+                        barWidth: 2.7
                     )
+                    .frame(width: 23, height: 18)
                 }
             }
             Spacer()
@@ -257,8 +254,8 @@ struct NowPlayingExpandedNotchView: View {
             .white.opacity(0.48)
     }
 
-    private func animationTick(for snapshot: NowPlayingSnapshot) -> TimeInterval {
-        snapshot.isPlaying ? (1.0 / 14.0) : 0.5
+    private func progressTick(for snapshot: NowPlayingSnapshot) -> TimeInterval {
+        snapshot.isPlaying ? 1.0 : 30.0
     }
 
     private func openPlaybackSource() {

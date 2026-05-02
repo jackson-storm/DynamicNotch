@@ -1,7 +1,7 @@
 import SwiftUI
 import Combine
 
-typealias NotchScreenMetrics = (width: CGFloat, topInset: CGFloat)
+typealias NotchScreenMetrics = (width: CGFloat, topInset: CGFloat, notchSize: CGSize?)
 
 enum NotchSwipeInteraction {
     case dismiss
@@ -279,17 +279,16 @@ final class NotchViewModel: ObservableObject {
         }
         
         let screenWidth = screenMetrics.width
-        let topInset = screenMetrics.topInset
         let baseScreenWidth: CGFloat = 1440.0
         let scale = max(0.35, screenWidth / baseScreenWidth)
         
         let widthOffset = CGFloat(settings.notchWidth)
         let heightOffset = CGFloat(settings.notchHeight)
         
-        if topInset > 0 {
+        if let notchSize = screenMetrics.notchSize {
             engine.updateBaseGeometry(
-                width: (190 * scale) + widthOffset,
-                height: topInset + heightOffset,
+                width: notchSize.width + 14.scaled(by: scale) + widthOffset,
+                height: notchSize.height + heightOffset,
                 scale: scale
             )
         } else {

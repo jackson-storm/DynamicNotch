@@ -115,7 +115,7 @@ struct NotchSettingsView: View {
             SettingsSliderRow(
                 title: "Notch width",
                 description: "Fine-tune the notch width to better match your display cutout.",
-                range: -8...8,
+                range: -32...16,
                 step: 1,
                 fractionLength: 0,
                 suffix: "px",

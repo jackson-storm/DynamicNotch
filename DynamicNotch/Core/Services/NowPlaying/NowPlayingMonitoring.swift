@@ -5,3 +5,7 @@ protocol NowPlayingMonitoring: AnyObject {
     func stopMonitoring()
     func send(_ command: NowPlayingCommand)
 }
+
+protocol NowPlayingDetailPollingConfigurable: AnyObject {
+    func setDetailPollingEnabled(_ isEnabled: Bool)
+}

@@ -181,7 +181,7 @@ final class LockScreenPanelManager {
         if isShowingLockPresentation, let snapshot {
             showPanel(snapshot: snapshot, artworkImage: artworkImage, animated: false)
         } else {
-            hidePanel(animated: true)
+            hidePanel(animated: true, releaseResources: true)
         }
     }
     

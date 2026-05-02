@@ -12,84 +12,120 @@ struct BluetoothConnectedNotchView: View {
     @ObservedObject var bluetoothViewModel: BluetoothViewModel
     @ObservedObject var settings: ConnectivitySettingsStore
     @ObservedObject var applicationSettings: ApplicationSettingsStore
-
+    
     private var appearanceStyle: BluetoothAppearanceStyle {
         settings.bluetoothAppearanceStyle
     }
-
+    
     private var batteryIndicatorStyle: BluetoothBatteryIndicatorStyle {
         settings.bluetoothBatteryIndicatorStyle
     }
-
+    
     private var isBatteryStrokeActive: Bool {
         settings.isBluetoothBatteryStrokeEnabled && applicationSettings.isDefaultActivityStrokeEnabled == false
     }
     
+    private var clampedLevel: Int? {
+        bluetoothViewModel.batteryLevel.map { max(0, min(100, $0)) }
+    }
+    
+    private func tint(for level: Int) -> Color {
+        if level < 20 { return .red }
+        if level < 50 { return .yellow }
+        return .green
+    }
+    
     var body: some View {
         HStack {
-            leftContent
-            Spacer()
-            rightContent
+            switch appearanceStyle {
+            case .compact:
+                compactView
+                
+            case .detailed:
+                detailedView
+            }
         }
-        .padding(.vertical, 10)
-        .padding(.horizontal, 14.scaled(by: scale))
         .font(.system(size: 14))
     }
     
     @ViewBuilder
-    private var leftContent: some View {
-        switch appearanceStyle {
-        case .device:
+    private var compactView: some View {
+        HStack {
             Image(systemName: bluetoothViewModel.deviceType.sfSymbol)
                 .font(.system(size: 18))
                 .foregroundStyle(.white.opacity(0.8))
-                .transition(.blurAndFade.animation(.spring(duration: 0.4)))
-
-        case .detailed:
-            MarqueeText(
-                $bluetoothViewModel.deviceName,
-                font: .system(size: 14),
-                nsFont: .body,
-                textColor: .white.opacity(0.8),
-                backgroundColor: .clear,
-                minDuration: 0.5,
-                frameWidth: 90
-            )
-            .lineLimit(1)
-            .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .push(from: .trailing)))
+            
+            Spacer()
+            
+            switch batteryIndicatorStyle {
+            case .circle:
+                BluetoothBatteryIndicatorView(
+                    batteryLevel: bluetoothViewModel.batteryLevel,
+                    circleSize: 18,
+                    circleLineWidth: 3,
+                    usesTintedTrackStroke: isBatteryStrokeActive
+                )
+                
+            case .percent:
+                if let clampedLevel {
+                    Text("\(String(describing: clampedLevel))%")
+                        .foregroundStyle(tint(for: clampedLevel).gradient)
+                }
+            }
         }
+        .padding(.vertical, 10)
+        .padding(.horizontal, 14.scaled(by: scale))
     }
     
     @ViewBuilder
-    private var rightContent: some View {
-        switch appearanceStyle {
-        case .device:
-            HStack(spacing: 8) {
-                BluetoothBatteryIndicatorView(
-                    batteryLevel: bluetoothViewModel.batteryLevel,
-                    indicatorStyle: batteryIndicatorStyle,
-                    circleSize: 18,
-                    circleLineWidth: 3,
-                    usesTintedTrackStroke: isBatteryStrokeActive
-                )
+    private var detailedView: some View {
+        VStack {
+            Spacer()
+            
+            HStack {
+                HStack(spacing: 16) {
+                    Image(systemName: bluetoothViewModel.deviceType.sfSymbol)
+                        .font(.system(size: 30))
+                        .foregroundStyle(.white.opacity(0.8))
+                        .padding(.bottom, 10)
+                    
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text(verbatim: "Connected")
+                            .lineLimit(1)
+                            .font(.system(size: 13))
+                            .foregroundStyle(.white.opacity(0.4))
+                        
+                        MarqueeText(
+                            $bluetoothViewModel.deviceName,
+                            font: .system(size: 16, weight: .regular),
+                            nsFont: .body,
+                            textColor: .white.opacity(0.8),
+                            backgroundColor: .clear,
+                            minDuration: 0.5,
+                            frameWidth: 150.scaled(by: scale)
+                        )
+                    }
+                }
+                
+                Spacer()
+                
+                ZStack {
+                    BluetoothBatteryIndicatorView(
+                        batteryLevel: bluetoothViewModel.batteryLevel,
+                        circleSize: 40,
+                        circleLineWidth: 4,
+                        usesTintedTrackStroke: isBatteryStrokeActive
+                    )
+                    if let clampedLevel {
+                        Text(String(describing: clampedLevel))
+                            .font(.system(size: 14))
+                            .foregroundStyle(tint(for: clampedLevel))
+                    }
+                }
+                .padding(.bottom, 10)
             }
-            .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .push(from: .leading)))
-
-        case .detailed:
-            HStack(spacing: 6) {
-                BluetoothBatteryIndicatorView(
-                    batteryLevel: bluetoothViewModel.batteryLevel,
-                    indicatorStyle: batteryIndicatorStyle,
-                    circleSize: 18,
-                    circleLineWidth: 3,
-                    usesTintedTrackStroke: isBatteryStrokeActive
-                )
-
-                Image(systemName: bluetoothViewModel.deviceType.sfSymbol)
-                    .font(.system(size: 18))
-                    .foregroundStyle(.white.opacity(0.8))
-            }
-            .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .push(from: .leading)))
         }
+        .padding(.horizontal, 38)
+        .padding(.bottom, 10)
     }
 }

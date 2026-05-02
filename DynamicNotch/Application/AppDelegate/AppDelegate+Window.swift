@@ -55,6 +55,7 @@ extension AppDelegate {
         notchViewModel.updateDimensions()
 
         guard let screen = NSScreen.preferredNotchScreen(for: settingsViewModel) else {
+            clearNowPlayingPrimaryWindowPresentationState()
             window.orderOut(nil)
             return
         }
@@ -75,6 +76,7 @@ extension AppDelegate {
         guard let window, !isPrimaryWindowSuspendedForLock else { return }
 
         isPrimaryWindowSuspendedForLock = true
+        clearNowPlayingPrimaryWindowPresentationState()
         window.orderOut(nil)
     }
 
@@ -88,14 +90,22 @@ extension AppDelegate {
     private func updatePrimaryWindowPresentation(on screen: NSScreen) {
         guard let window, !isPrimaryWindowSuspendedForLock else { return }
 
-        notchViewModel.setActivityPresentationHidden(
-            shouldHidePrimaryWindowActivitiesInFullscreen(on: screen)
-        )
+        let shouldHideActivities = shouldHidePrimaryWindowActivitiesInFullscreen(on: screen)
+        notchViewModel.setActivityPresentationHidden(shouldHideActivities)
+
+        if shouldHideActivities {
+            clearNowPlayingPrimaryWindowPresentationState()
+        }
+
         window.orderFrontRegardless()
     }
 
     private func shouldHidePrimaryWindowActivitiesInFullscreen(on screen: NSScreen) -> Bool {
         settingsViewModel.application.isNotchHiddenInFullscreenEnabled &&
         SkyLightOperator.shared.isFullscreenSpaceActive(on: screen)
+    }
+
+    private func clearNowPlayingPrimaryWindowPresentationState() {
+        nowPlayingViewModel.clearPresentationActivityState()
     }
 }

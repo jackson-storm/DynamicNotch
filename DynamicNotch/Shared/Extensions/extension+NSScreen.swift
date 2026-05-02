@@ -185,7 +185,8 @@ extension NSScreen {
 
         return (
             width: screen.frame.width,
-            topInset: screen.safeAreaInsets.top
+            topInset: screen.safeAreaInsets.top,
+            notchSize: screen.notchSize
         )
     }
 
@@ -261,5 +262,23 @@ extension NSScreen {
     var isBuiltInDisplay: Bool {
         guard let displayID else { return false }
         return CGDisplayIsBuiltin(displayID) != 0
+    }
+
+    var notchSize: CGSize? {
+        if #available(macOS 12.0, *) {
+            guard let leftArea = auxiliaryTopLeftArea,
+                  let rightArea = auxiliaryTopRightArea else {
+                return nil
+            }
+
+            let notchWidth = frame.width - (leftArea.width + rightArea.width)
+            let notchHeight = leftArea.height
+
+            guard notchWidth > 0 else { return nil }
+
+            return CGSize(width: notchWidth, height: notchHeight)
+        }
+
+        return nil
     }
 }

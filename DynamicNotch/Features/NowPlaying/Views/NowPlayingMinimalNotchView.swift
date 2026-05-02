@@ -10,9 +10,6 @@ import SwiftUI
 struct NowPlayingMinimalNotchView: View {
     @Environment(\.notchScale) var scale
     @ObservedObject var nowPlayingViewModel: NowPlayingViewModel
-    @ObservedObject var settings: MediaAndFilesSettingsStore
-
-    private let audioReactiveVisibilitySource = "nowPlaying.notch.minimal"
     
     private var resolvedSnapshot: NowPlayingSnapshot {
         nowPlayingViewModel.snapshot ?? NowPlayingSnapshot(
@@ -30,42 +27,19 @@ struct NowPlayingMinimalNotchView: View {
     var body: some View {
         let snapshot = resolvedSnapshot
 
-        return TimelineView(.periodic(from: .now, by: animationTick(for: snapshot))) { context in
-            timelineContent(snapshot: snapshot, at: context.date)
-        }
-        .onAppear {
-            nowPlayingViewModel.setAudioReactiveVisualizationActive(
-                true,
-                source: audioReactiveVisibilitySource
-            )
-        }
-        .onDisappear {
-            nowPlayingViewModel.setAudioReactiveVisualizationActive(
-                false,
-                source: audioReactiveVisibilitySource
-            )
-        }
+        timelineContent(snapshot: snapshot)
     }
 
-    private func timelineContent(snapshot: NowPlayingSnapshot, at date: Date) -> some View {
+    private func timelineContent(snapshot: NowPlayingSnapshot) -> some View {
         HStack {
             ArtworkView(nowPlayingViewModel: nowPlayingViewModel, width: 24, height: 24, cornerRadius: 5)
             Spacer()
-            EqualizerView(
+            LightweightNowPlayingEqualizerView(
                 isPlaying: snapshot.isPlaying,
-                mode: settings.nowPlayingEqualizerMode,
-                palette: nowPlayingViewModel.artworkPalette,
-                trackSeed: snapshot.waveSeed,
-                audioLevels: nowPlayingViewModel.audioReactiveLevels,
-                date: date,
-                width: 2,
-                height: 2
+                color: nowPlayingViewModel.artworkPalette.equalizerBaseColor
             )
+            .frame(width: 18, height: 16)
         }
         .padding(.horizontal, 14.scaled(by: scale))
-    }
-
-    private func animationTick(for snapshot: NowPlayingSnapshot) -> TimeInterval {
-        snapshot.isPlaying ? (1.0 / 14.0) : 0.5
     }
 }

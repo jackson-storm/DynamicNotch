@@ -356,6 +356,33 @@ final class NowPlayingViewModelIntegrationTests: XCTestCase {
         XCTAssertEqual(viewModel.audioOutputRoutes.first(where: { $0.id == 2 })?.isCurrent, true)
     }
 
+    func testDetailPollingIsEnabledOnlyWhileDetailedPresentationIsActive() {
+        let service = FakeNowPlayingService()
+        let viewModel = NowPlayingViewModel(service: service)
+        TestLifetime.retain(viewModel)
+
+        viewModel.startMonitoring()
+
+        XCTAssertTrue(service.detailPollingStates.isEmpty)
+
+        viewModel.setDetailedPresentationActive(true, source: "test.expanded")
+        viewModel.setDetailedPresentationActive(false, source: "test.expanded")
+
+        XCTAssertEqual(service.detailPollingStates, [true, false])
+    }
+
+    func testClearingPresentationActivityStateDisablesDetailPolling() {
+        let service = FakeNowPlayingService()
+        let viewModel = NowPlayingViewModel(service: service)
+        TestLifetime.retain(viewModel)
+
+        viewModel.startMonitoring()
+        viewModel.setDetailedPresentationActive(true, source: "test.expanded")
+        viewModel.clearPresentationActivityState()
+
+        XCTAssertEqual(service.detailPollingStates, [true, false])
+    }
+
     func testFavoriteStatePersistsForTrackIdentity() {
         let service = FakeNowPlayingService()
         let favoritesStore = makeFavoriteStore(named: #function)

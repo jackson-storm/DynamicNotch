@@ -1,7 +1,7 @@
 import SwiftUI
 import Combine
 
-typealias NotchScreenMetrics = (width: CGFloat, topInset: CGFloat)
+typealias NotchScreenMetrics = (width: CGFloat, topInset: CGFloat, notchSize: CGSize?)
 
 enum NotchSwipeInteraction {
     case dismiss
@@ -66,11 +66,19 @@ final class NotchViewModel: ObservableObject {
         isSwipeInteractionActive ? nil : animations.contentUpdate
     }
 
-    var presentedNotchSize: CGSize {
-        if isActivityPresentationHidden {
-            return baseNotchSize
-        }
+    var displayedContent: NotchContentProtocol? {
+        displayedNotchModel.content
+    }
 
+    var displayedPresentationID: String? {
+        displayedNotchModel.presentationID
+    }
+
+    var isDisplayingExpandedLiveActivity: Bool {
+        displayedNotchModel.isPresentingExpandedLiveActivity
+    }
+
+    var presentedNotchSize: CGSize {
         let size = interactiveNotchSize
 
         guard !isSwipeInteractionActive, isClosingHeightStaged else {
@@ -144,16 +152,13 @@ final class NotchViewModel: ObservableObject {
     }
     
     var interactiveNotchSize: CGSize {
-        if isActivityPresentationHidden {
-            return baseNotchSize
-        }
-
-        let baseSize = notchModel.size
+        let model = displayedNotchModel
+        let baseSize = model.size
         let progress = easedSwipeStretchProgress
         
         switch swipeInteraction {
         case .dismiss:
-            if notchModel.isPresentingExpandedLiveActivity {
+            if model.isPresentingExpandedLiveActivity {
                 let heightCompression = min(
                     max(baseSize.height * SwipeFeedbackMetrics.expandedDismissHeightFactor, SwipeFeedbackMetrics.expandedDismissMinimumHeight),
                     SwipeFeedbackMetrics.expandedDismissMaximumHeight
@@ -161,7 +166,7 @@ final class NotchViewModel: ObservableObject {
                 
                 return CGSize(
                     width: baseSize.width,
-                    height: max(notchModel.baseHeight, baseSize.height - (heightCompression * progress))
+                    height: max(model.baseHeight, baseSize.height - (heightCompression * progress))
                 )
             }
             
@@ -187,16 +192,13 @@ final class NotchViewModel: ObservableObject {
     }
     
     var interactiveCornerRadius: (top: CGFloat, bottom: CGFloat) {
-        if isActivityPresentationHidden {
-            return baseCornerRadius
-        }
-
-        let baseCornerRadius = notchModel.cornerRadius
+        let model = displayedNotchModel
+        let baseCornerRadius = model.cornerRadius
         let progress = easedSwipeStretchProgress
         
         switch swipeInteraction {
         case .dismiss:
-            if notchModel.isPresentingExpandedLiveActivity {
+            if model.isPresentingExpandedLiveActivity {
                 return (
                     top: baseCornerRadius.top,
                     bottom: max(
@@ -279,17 +281,16 @@ final class NotchViewModel: ObservableObject {
         }
         
         let screenWidth = screenMetrics.width
-        let topInset = screenMetrics.topInset
         let baseScreenWidth: CGFloat = 1440.0
         let scale = max(0.35, screenWidth / baseScreenWidth)
         
         let widthOffset = CGFloat(settings.notchWidth)
         let heightOffset = CGFloat(settings.notchHeight)
         
-        if topInset > 0 {
+        if let notchSize = screenMetrics.notchSize {
             engine.updateBaseGeometry(
-                width: (190 * scale) + widthOffset,
-                height: topInset + heightOffset,
+                width: notchSize.width + 14.scaled(by: scale) + widthOffset,
+                height: notchSize.height + heightOffset,
                 scale: scale
             )
         } else {
@@ -405,16 +406,17 @@ final class NotchViewModel: ObservableObject {
         1 - pow(1 - swipeStretchProgress, 2)
     }
 
-    private var baseNotchSize: CGSize {
-        CGSize(width: notchModel.baseWidth, height: notchModel.baseHeight)
+    private var displayedNotchModel: NotchModel {
+        guard isActivityPresentationHidden else {
+            return notchModel
+        }
+
+        var model = notchModel
+        model.liveActivityContent = nil
+        model.isLiveActivityExpanded = false
+        return model
     }
 
-    private var baseCornerRadius: (top: CGFloat, bottom: CGFloat) {
-        let baseRadius = notchModel.baseHeight / 3
-
-        return (top: baseRadius - 4, bottom: baseRadius)
-    }
-    
     func contentTransition(notchWidth: CGFloat, notchHeight: CGFloat, baseHeight: CGFloat, isExpandedPresentation: Bool, isCompactRemovalForExpansion: Bool = false) -> AnyTransition {
 
         let animation = isExpandedPresentation

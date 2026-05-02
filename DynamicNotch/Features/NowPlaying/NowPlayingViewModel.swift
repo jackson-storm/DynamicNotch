@@ -34,14 +34,12 @@ final class NowPlayingViewModel: ObservableObject {
     @Published private(set) var audioOutputRoutes: [AudioOutputRoute] = []
     @Published private(set) var currentAudioOutputRoute: AudioOutputRoute?
     @Published private(set) var isCurrentTrackFavorite = false
-    @Published private(set) var audioReactiveLevels = Array(repeating: CGFloat(0), count: 5)
     @Published var event: NowPlayingEvent?
 
     private var service: any NowPlayingMonitoring
     private let audioOutputRouting: any AudioOutputRouting
     private let favoritesStore: UserDefaults
-    private let mediaSettings: MediaAndFilesSettingsStore
-    private let audioLevelMonitor: any NowPlayingAudioLevelMonitoring
+    private let detailPollingService: (any NowPlayingDetailPollingConfigurable)?
     private let playbackSourceOpener: any PlaybackSourceOpening
     private let artworkFlipAnimationDuration: TimeInterval = 0.45
     private let artworkSwapDelay: TimeInterval = 0.4
@@ -53,8 +51,7 @@ final class NowPlayingViewModel: ObservableObject {
     private var pendingSessionEndWorkItem: DispatchWorkItem?
     private var artworkFlipTrackKey: String?
     private var artworkFlipStartedAt: Date?
-    private var activeAudioReactiveVisualizationSources = Set<String>()
-    private var cancellables = Set<AnyCancellable>()
+    private var activeDetailedPresentationSources = Set<String>()
     #if DEBUG
     private var isShowingDebugPreviewSnapshot = false
     #endif
@@ -63,15 +60,11 @@ final class NowPlayingViewModel: ObservableObject {
         snapshot != nil
     }
 
-    private static let emptyReactiveLevels = Array(repeating: CGFloat(0), count: 5)
-
     convenience init() {
         self.init(
             service: MediaRemoteNowPlayingService(),
             audioOutputRouting: SystemAudioOutputRoutingService(),
             favoritesStore: .standard,
-            mediaSettings: MediaAndFilesSettingsStore(defaults: .standard),
-            audioLevelMonitor: SystemNowPlayingAudioLevelMonitor(),
             playbackSourceOpener: WorkspacePlaybackSourceOpener()
         )
     }
@@ -80,15 +73,12 @@ final class NowPlayingViewModel: ObservableObject {
         service: any NowPlayingMonitoring,
         audioOutputRouting: (any AudioOutputRouting)? = nil,
         favoritesStore: UserDefaults = .standard,
-        mediaSettings: MediaAndFilesSettingsStore? = nil,
-        audioLevelMonitor: (any NowPlayingAudioLevelMonitoring)? = nil,
         playbackSourceOpener: (any PlaybackSourceOpening)? = nil
     ) {
         self.service = service
         self.audioOutputRouting = audioOutputRouting ?? InactiveAudioOutputRoutingService()
         self.favoritesStore = favoritesStore
-        self.mediaSettings = mediaSettings ?? MediaAndFilesSettingsStore(defaults: favoritesStore)
-        self.audioLevelMonitor = audioLevelMonitor ?? SystemNowPlayingAudioLevelMonitor()
+        self.detailPollingService = service as? any NowPlayingDetailPollingConfigurable
         self.playbackSourceOpener = playbackSourceOpener ?? WorkspacePlaybackSourceOpener()
         self.service.onSnapshotChange = { [weak self] snapshot in
             guard let self else { return }
@@ -103,28 +93,7 @@ final class NowPlayingViewModel: ObservableObject {
                 }
             }
         }
-        self.audioLevelMonitor.onLevelsChange = { [weak self] levels in
-            guard let self else { return }
-
-            if Thread.isMainThread {
-                MainActor.assumeIsolated {
-                    self.audioReactiveLevels = levels
-                }
-            } else {
-                DispatchQueue.main.async { [weak self] in
-                    self?.audioReactiveLevels = levels
-                }
-            }
-        }
-        bindAudioReactiveMonitoring()
         refreshAudioOutputRoutes()
-    }
-
-    deinit {
-        let monitor = audioLevelMonitor
-        Task { @MainActor in
-            monitor.stopMonitoring()
-        }
     }
 
     func startMonitoring() {
@@ -132,7 +101,7 @@ final class NowPlayingViewModel: ObservableObject {
         hasStartedMonitoring = true
         ignoresServiceSnapshots = false
         service.startMonitoring()
-        updateAudioReactiveMonitoringState()
+        updateDetailPollingState()
     }
 
     func stopMonitoring() {
@@ -140,6 +109,8 @@ final class NowPlayingViewModel: ObservableObject {
         hasStartedMonitoring = false
         ignoresServiceSnapshots = true
         service.stopMonitoring()
+        activeDetailedPresentationSources.removeAll()
+        updateDetailPollingState()
         cancelPendingSessionEnd()
         cancelPendingArtworkPresentation()
         apply(snapshot: nil)
@@ -274,14 +245,19 @@ final class NowPlayingViewModel: ObservableObject {
         snapshot?.elapsedTime(at: date) ?? 0
     }
 
-    func setAudioReactiveVisualizationActive(_ isActive: Bool, source: String) {
+    func setDetailedPresentationActive(_ isActive: Bool, source: String) {
         if isActive {
-            activeAudioReactiveVisualizationSources.insert(source)
+            activeDetailedPresentationSources.insert(source)
         } else {
-            activeAudioReactiveVisualizationSources.remove(source)
+            activeDetailedPresentationSources.remove(source)
         }
 
-        updateAudioReactiveMonitoringState()
+        updateDetailPollingState()
+    }
+
+    func clearPresentationActivityState() {
+        activeDetailedPresentationSources.removeAll()
+        updateDetailPollingState()
     }
 
     #if DEBUG
@@ -355,16 +331,6 @@ private extension NowPlayingViewModel {
         }
     }
 
-    func bindAudioReactiveMonitoring() {
-        mediaSettings.$nowPlayingEqualizerMode
-            .removeDuplicates()
-            .receive(on: RunLoop.main)
-            .sink { [weak self] _ in
-                self?.updateAudioReactiveMonitoringState()
-            }
-            .store(in: &cancellables)
-    }
-
     var storedFavoriteTrackKeys: Set<String> {
         Set(favoritesStore.stringArray(forKey: Self.favoriteTrackKeysStorageKey) ?? [])
     }
@@ -425,26 +391,12 @@ private extension NowPlayingViewModel {
                 event = .playbackStateChanged(isPlaying: isPlaying)
             }
         }
-
-        updateAudioReactiveMonitoringState()
     }
 
-    func updateAudioReactiveMonitoringState() {
-        let shouldUseAudioReactiveMonitoring =
-            hasStartedMonitoring &&
-            !activeAudioReactiveVisualizationSources.isEmpty &&
-            mediaSettings.nowPlayingEqualizerMode == .audioReactive &&
-            snapshot?.isPlaying == true
-
-        if shouldUseAudioReactiveMonitoring {
-            audioLevelMonitor.startMonitoring()
-        } else {
-            audioLevelMonitor.stopMonitoring()
-
-            if audioReactiveLevels != Self.emptyReactiveLevels {
-                audioReactiveLevels = Self.emptyReactiveLevels
-            }
-        }
+    func updateDetailPollingState() {
+        detailPollingService?.setDetailPollingEnabled(
+            hasStartedMonitoring && !activeDetailedPresentationSources.isEmpty
+        )
     }
 
     func scheduleSessionEnd() {

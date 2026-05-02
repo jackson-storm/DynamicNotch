@@ -1,7 +1,7 @@
 import Foundation
 import Dispatch
 
-final class MediaRemoteNowPlayingService: NowPlayingMonitoring, @unchecked Sendable {
+final class MediaRemoteNowPlayingService: NowPlayingMonitoring, NowPlayingDetailPollingConfigurable, @unchecked Sendable {
     var onSnapshotChange: ((NowPlayingSnapshot?) -> Void)?
 
     private struct AdapterStreamMessage: Decodable {
@@ -55,6 +55,7 @@ final class MediaRemoteNowPlayingService: NowPlayingMonitoring, @unchecked Senda
     private var applicationPlaybackRefreshKeys: [String: String] = [:]
     private var applicationPlaybackObservers: [NSObjectProtocol] = []
     private var applicationPlaybackPollTimer: DispatchSourceTimer?
+    private var isDetailPollingEnabled = false
     private var isMonitoring = false
     private var restartWorkItem: DispatchWorkItem?
 
@@ -96,6 +97,7 @@ final class MediaRemoteNowPlayingService: NowPlayingMonitoring, @unchecked Senda
         favoriteRefreshKey = nil
         applicationPlaybackRefreshTask?.cancel()
         applicationPlaybackRefreshTask = nil
+        isDetailPollingEnabled = false
         applicationPlaybackStates.removeAll()
         applicationPlaybackRefreshKeys.removeAll()
         stopApplicationPlaybackObservers()
@@ -115,6 +117,26 @@ final class MediaRemoteNowPlayingService: NowPlayingMonitoring, @unchecked Senda
         }
 
         commandDispatcher.send(command)
+    }
+
+    func setDetailPollingEnabled(_ isEnabled: Bool) {
+        callbackQueue.async { [weak self] in
+            guard let self, self.isDetailPollingEnabled != isEnabled else { return }
+
+            self.isDetailPollingEnabled = isEnabled
+
+            if isEnabled {
+                self.refreshFavoriteStateIfNeeded(for: self.lastSnapshot)
+                self.scheduleApplicationPlaybackRefresh(for: self.lastSnapshot, force: false)
+                self.updateApplicationPlaybackPolling(for: self.lastSnapshot)
+            } else {
+                self.favoriteRefreshTask?.cancel()
+                self.favoriteRefreshTask = nil
+                self.applicationPlaybackRefreshTask?.cancel()
+                self.applicationPlaybackRefreshTask = nil
+                self.stopApplicationPlaybackPolling()
+            }
+        }
     }
 }
 
@@ -274,8 +296,10 @@ private extension MediaRemoteNowPlayingService {
         guard snapshot != lastSnapshot else { return }
 
         lastSnapshot = snapshot
-        refreshFavoriteStateIfNeeded(for: snapshot)
-        scheduleApplicationPlaybackRefresh(for: snapshot, force: false)
+        if isDetailPollingEnabled {
+            refreshFavoriteStateIfNeeded(for: snapshot)
+            scheduleApplicationPlaybackRefresh(for: snapshot, force: false)
+        }
         updateApplicationPlaybackPolling(for: snapshot)
 
         DispatchQueue.main.async { [weak self] in
@@ -403,7 +427,8 @@ private extension MediaRemoteNowPlayingService {
     }
 
     func updateApplicationPlaybackPolling(for snapshot: NowPlayingSnapshot?) {
-        guard let bundleIdentifier = snapshot?.playbackSource?.preferredBundleIdentifier,
+        guard isDetailPollingEnabled,
+              let bundleIdentifier = snapshot?.playbackSource?.preferredBundleIdentifier,
               supportsApplicationPlaybackState(bundleIdentifier: bundleIdentifier) else {
             stopApplicationPlaybackPolling()
             return

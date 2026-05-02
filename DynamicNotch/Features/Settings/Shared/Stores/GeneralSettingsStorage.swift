@@ -43,7 +43,6 @@ enum GeneralSettingsStorage {
         static let nowPlayingOutputDeviceButtonVisible = "settings.nowPlaying.outputDeviceButtonVisible"
         static let nowPlayingArtworkTintEnabled = "settings.nowPlaying.artworkTintEnabled"
         static let nowPlayingArtworkStrokeEnabled = "settings.nowPlaying.artworkStrokeEnabled"
-        static let nowPlayingEqualizerMode = "settings.nowPlaying.equalizerMode"
         static let nowPlayingPauseHideTimerEnabled = "settings.nowPlaying.pauseHideTimerEnabled"
         static let nowPlayingPauseHideDelay = "settings.nowPlaying.pauseHideDelay"
         static let downloadsLiveActivityEnabled = "settings.live.downloads"
@@ -139,7 +138,6 @@ enum GeneralSettingsStorage {
         Keys.nowPlayingOutputDeviceButtonVisible: true,
         Keys.nowPlayingArtworkTintEnabled: false,
         Keys.nowPlayingArtworkStrokeEnabled: false,
-        Keys.nowPlayingEqualizerMode: NowPlayingEqualizerMode.classic.rawValue,
         Keys.nowPlayingPauseHideTimerEnabled: true,
         Keys.nowPlayingPauseHideDelay: 5,
         Keys.downloadsLiveActivityEnabled: true,
@@ -179,7 +177,7 @@ enum GeneralSettingsStorage {
         Keys.fullPowerNotificationStyle: BatteryNotificationStyle.standard.rawValue,
         Keys.bluetoothTemporaryActivityEnabled: true,
         Keys.bluetoothTemporaryActivityDuration: 5,
-        Keys.bluetoothAppearanceStyle: BluetoothAppearanceStyle.device.rawValue,
+        Keys.bluetoothAppearanceStyle: BluetoothAppearanceStyle.compact.rawValue,
         Keys.bluetoothBatteryStrokeEnabled: false,
         Keys.bluetoothBatteryIndicatorStyle: BluetoothBatteryIndicatorStyle.percent.rawValue,
         Keys.wifiTemporaryActivityEnabled: true,

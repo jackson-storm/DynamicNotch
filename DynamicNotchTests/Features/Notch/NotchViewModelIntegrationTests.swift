@@ -173,6 +173,56 @@ final class NotchViewModelIntegrationTests: XCTestCase {
     }
 
     @MainActor
+    func testActivityPresentationHiddenKeepsTemporaryNotificationVisible() async {
+        let viewModel = NotchViewModel(
+            settings: TestNotchSettings(),
+            hideDelay: 0.01,
+            queueDelay: 0
+        )
+        TestLifetime.retain(viewModel)
+
+        viewModel.send(.showLiveActivity(TestNotchContent(id: "live", priority: 10)))
+        await assertEventually {
+            await MainActor.run { viewModel.notchModel.liveActivityContent?.id == "live" }
+        }
+
+        viewModel.send(
+            .showTemporaryNotification(
+                TestNotchContent(
+                    id: "temporary",
+                    priority: 0,
+                    collapsedWidthOffset: 80,
+                    collapsedHeightOffset: 12
+                ),
+                duration: .infinity
+            )
+        )
+
+        await assertEventually {
+            await MainActor.run { viewModel.notchModel.temporaryNotificationContent?.id == "temporary" }
+        }
+
+        let visibleTemporarySize = await MainActor.run { viewModel.presentedNotchSize }
+
+        viewModel.setActivityPresentationHidden(true)
+
+        let hiddenState = await MainActor.run {
+            (
+                displayedContentID: viewModel.displayedContent?.id,
+                presentedSize: viewModel.presentedNotchSize,
+                baseWidth: viewModel.notchModel.baseWidth,
+                baseHeight: viewModel.notchModel.baseHeight
+            )
+        }
+
+        XCTAssertEqual(hiddenState.displayedContentID, "temporary")
+        XCTAssertGreaterThan(hiddenState.presentedSize.width, hiddenState.baseWidth)
+        XCTAssertGreaterThan(hiddenState.presentedSize.height, hiddenState.baseHeight)
+        XCTAssertEqual(hiddenState.presentedSize.width, visibleTemporarySize.width, accuracy: 0.001)
+        XCTAssertEqual(hiddenState.presentedSize.height, visibleTemporarySize.height, accuracy: 0.001)
+    }
+
+    @MainActor
     func testHidingCurrentLiveActivityRestoresNextHighestPriorityActivity() async {
         let viewModel = NotchViewModel(
             settings: TestNotchSettings(),
@@ -845,7 +895,7 @@ final class NotchViewModelIntegrationTests: XCTestCase {
         let baseSettings = TestNotchSettings()
         let offsetSettings = TestNotchSettings(notchWidth: 7, notchHeight: 3)
         let screenMetricsProvider: (any NotchSettingsProviding) -> NotchScreenMetrics? = { _ in
-            (width: 1440, topInset: 74)
+            (width: 1440, topInset: 74, notchSize: CGSize(width: 190, height: 74))
         }
 
         let baseViewModel = NotchViewModel(
@@ -871,19 +921,18 @@ final class NotchViewModelIntegrationTests: XCTestCase {
             screenMetricsProvider: { settings in
                 switch settings.displayLocation {
                 case .builtIn:
-                    return (width: 1512, topInset: 74)
+                    return (width: 1512, topInset: 74, notchSize: CGSize(width: 206, height: 37))
                 case .main:
-                    return (width: 1728, topInset: 0)
+                    return (width: 1728, topInset: 0, notchSize: nil)
                 case .specific:
-                    return (width: 1600, topInset: 0)
+                    return (width: 1600, topInset: 0, notchSize: nil)
                 }
             }
         )
         TestLifetime.retain(viewModel)
 
-        let builtInScale = max(0.35, CGFloat(1512) / 1440.0)
-        XCTAssertEqual(viewModel.notchModel.baseWidth, 190 * builtInScale, accuracy: 0.001)
-        XCTAssertEqual(viewModel.notchModel.baseHeight, 74, accuracy: 0.001)
+        XCTAssertEqual(viewModel.notchModel.baseWidth, 206, accuracy: 0.001)
+        XCTAssertEqual(viewModel.notchModel.baseHeight, 37, accuracy: 0.001)
 
         settings.displayLocation = .main
         viewModel.updateDimensions()
@@ -908,11 +957,11 @@ final class NotchViewModelIntegrationTests: XCTestCase {
             screenMetricsProvider: { settings in
                 switch settings.screenSelectionPreferences.displayLocation {
                 case .builtIn:
-                    return (width: 1512, topInset: 74)
+                    return (width: 1512, topInset: 74, notchSize: CGSize(width: 206, height: 37))
                 case .main:
-                    return (width: 1728, topInset: 0)
+                    return (width: 1728, topInset: 0, notchSize: nil)
                 case .specific:
-                    return (width: 1920, topInset: 0)
+                    return (width: 1920, topInset: 0, notchSize: nil)
                 }
             }
         )

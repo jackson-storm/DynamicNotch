@@ -113,7 +113,7 @@ struct BluetoothSettingsView: View {
     @ViewBuilder
     private func bluetoothAppearancePickerContent(for style: BluetoothAppearanceStyle, isSelected: Bool) -> some View {
         switch style {
-        case .device:
+        case .compact:
             ZStack {
                 Capsule()
                     .fill(.black)
@@ -128,13 +128,19 @@ struct BluetoothSettingsView: View {
 
                     Spacer()
 
-                    BluetoothBatteryIndicatorView(
-                        batteryLevel: 82,
-                        indicatorStyle: settings.bluetoothBatteryIndicatorStyle,
-                        circleSize: 16,
-                        circleLineWidth: 2.5,
-                        usesTintedTrackStroke: isBatteryStrokeActive
-                    )
+                    if settings.bluetoothBatteryIndicatorStyle == .circle {
+                        BluetoothBatteryIndicatorView(
+                            batteryLevel: 82,
+                            circleSize: 16,
+                            circleLineWidth: 2.5,
+                            usesTintedTrackStroke: isBatteryStrokeActive
+                        )
+                    } else {
+                        Text("78%")
+                            .foregroundStyle(.green.gradient)
+                            .font(.system(size: 12))
+                    }
+                    
                 }
                 .padding(.horizontal, 7)
             }
@@ -150,28 +156,42 @@ struct BluetoothSettingsView: View {
                             .stroke(bluetoothPreviewStrokeColor, lineWidth: 1)
                     }
                 HStack {
-                    Text("AirPods Max")
-                        .foregroundStyle(.white.opacity(0.8))
-                        .lineLimit(1)
+                    HStack(spacing: 10) {
+                        Image(systemName: "airpods.pro")
+                            .font(.system(size: 20))
+                            .foregroundStyle(.white.opacity(0.8))
+                        
+                        VStack(alignment: .leading, spacing: 0) {
+                            Text(verbatim: "Connected")
+                                .lineLimit(1)
+                                .font(.system(size: 10))
+                                .foregroundStyle(.white.opacity(0.4))
+                            
+                            Text("AirPods Pro")
+                                .lineLimit(1)
+                                .font(.system(size: 12))
+                                .foregroundStyle(.white.opacity(0.8))
+                        }
+                    }
                     
                     Spacer()
-
-                    BluetoothBatteryIndicatorView(
-                        batteryLevel: 82,
-                        indicatorStyle: settings.bluetoothBatteryIndicatorStyle,
-                        circleSize: 16,
-                        circleLineWidth: 2.5,
-                        usesTintedTrackStroke: isBatteryStrokeActive
-                    )
                     
-                    Image(systemName: "airpodsmax")
-                        .font(.system(size: 16, weight: .semibold))
-                        .foregroundStyle(.white.opacity(0.8))
+                    ZStack {
+                        BluetoothBatteryIndicatorView(
+                            batteryLevel: 78,
+                            circleSize: 24,
+                            circleLineWidth: 2.5,
+                            usesTintedTrackStroke: isBatteryStrokeActive
+                        )
+                        Text(String(describing: 78))
+                            .font(.system(size: 10))
+                            .foregroundStyle(.green)
+                        
+                    }
                 }
-                .padding(.trailing, 7)
-                .padding(.leading, 10)
+                .padding(.horizontal, 12)
             }
-            .frame(width: 210, height: 30)
+            .frame(width: 210, height: 50)
             .scaleEffect(isSelected ? 1 : 0.97)
         }
     }

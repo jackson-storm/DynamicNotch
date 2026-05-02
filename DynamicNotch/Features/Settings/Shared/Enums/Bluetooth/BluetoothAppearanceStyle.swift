@@ -1,13 +1,13 @@
 import SwiftUI
 
 enum BluetoothAppearanceStyle: String, CaseIterable {
-    case device
+    case compact
     case detailed
 
     var title: LocalizedStringKey {
         switch self {
-        case .device:
-            return "Device"
+        case .compact:
+            return "Compact"
         case .detailed:
             return "Detailed"
         }
@@ -20,13 +20,13 @@ enum BluetoothAppearanceStyle: String, CaseIterable {
     static func resolved(_ rawValue: String?) -> BluetoothAppearanceStyle {
         switch rawValue {
         case "compact":
-            return .device
-        case BluetoothAppearanceStyle.device.rawValue:
-            return .device
+            return .compact
+        case BluetoothAppearanceStyle.compact.rawValue:
+            return .compact
         case BluetoothAppearanceStyle.detailed.rawValue:
             return .detailed
         default:
-            return .device
+            return .compact
         }
     }
 }

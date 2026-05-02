@@ -87,6 +87,9 @@
         }
       }
     },
+    "%@%%" : {
+
+    },
     "%lld" : {
 
     },
@@ -315,6 +318,9 @@
         }
       }
     },
+    "78%" : {
+
+    },
     "100%" : {
       "localizations" : {
         "en" : {
@@ -542,6 +548,7 @@
       }
     },
     "AirPods Max" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -568,6 +575,9 @@
           }
         }
       }
+    },
+    "AirPods Pro" : {
+
     },
     "All" : {
 
@@ -3999,6 +4009,7 @@
       }
     },
     "Device" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

@@ -22,16 +22,23 @@ struct BluetoothConnectedNotchContent: NotchContentProtocol {
         return batteryStrokeColor(for: batteryLevel).opacity(0.3)
     }
     
+    func cornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
+        return (
+            top: settings.bluetoothAppearanceStyle == .compact ? baseRadius - 4 : 20,
+            bottom: settings.bluetoothAppearanceStyle == .compact ? baseRadius : 38
+        )
+    }
+    
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         let width: CGFloat
 
         switch settings.bluetoothAppearanceStyle {
-        case .device:
+        case .compact:
             width = settings.bluetoothBatteryIndicatorStyle == .circle ? 80 : 90
         case .detailed:
-            width = settings.bluetoothBatteryIndicatorStyle == .circle ? 180 : 180
+            width = settings.bluetoothBatteryIndicatorStyle == .circle ? 145 : 145
         }
-        return .init(width: baseWidth + CGFloat(width), height: baseHeight)
+        return .init(width: baseWidth + CGFloat(width), height: settings.bluetoothAppearanceStyle == .compact ? baseHeight : 95)
     }
     
     @MainActor

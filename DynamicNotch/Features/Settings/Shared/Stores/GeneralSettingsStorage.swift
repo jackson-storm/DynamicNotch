@@ -177,7 +177,7 @@ enum GeneralSettingsStorage {
         Keys.fullPowerNotificationStyle: BatteryNotificationStyle.standard.rawValue,
         Keys.bluetoothTemporaryActivityEnabled: true,
         Keys.bluetoothTemporaryActivityDuration: 5,
-        Keys.bluetoothAppearanceStyle: BluetoothAppearanceStyle.device.rawValue,
+        Keys.bluetoothAppearanceStyle: BluetoothAppearanceStyle.compact.rawValue,
         Keys.bluetoothBatteryStrokeEnabled: false,
         Keys.bluetoothBatteryIndicatorStyle: BluetoothBatteryIndicatorStyle.percent.rawValue,
         Keys.wifiTemporaryActivityEnabled: true,

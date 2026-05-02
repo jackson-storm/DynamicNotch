@@ -173,6 +173,56 @@ final class NotchViewModelIntegrationTests: XCTestCase {
     }
 
     @MainActor
+    func testActivityPresentationHiddenKeepsTemporaryNotificationVisible() async {
+        let viewModel = NotchViewModel(
+            settings: TestNotchSettings(),
+            hideDelay: 0.01,
+            queueDelay: 0
+        )
+        TestLifetime.retain(viewModel)
+
+        viewModel.send(.showLiveActivity(TestNotchContent(id: "live", priority: 10)))
+        await assertEventually {
+            await MainActor.run { viewModel.notchModel.liveActivityContent?.id == "live" }
+        }
+
+        viewModel.send(
+            .showTemporaryNotification(
+                TestNotchContent(
+                    id: "temporary",
+                    priority: 0,
+                    collapsedWidthOffset: 80,
+                    collapsedHeightOffset: 12
+                ),
+                duration: .infinity
+            )
+        )
+
+        await assertEventually {
+            await MainActor.run { viewModel.notchModel.temporaryNotificationContent?.id == "temporary" }
+        }
+
+        let visibleTemporarySize = await MainActor.run { viewModel.presentedNotchSize }
+
+        viewModel.setActivityPresentationHidden(true)
+
+        let hiddenState = await MainActor.run {
+            (
+                displayedContentID: viewModel.displayedContent?.id,
+                presentedSize: viewModel.presentedNotchSize,
+                baseWidth: viewModel.notchModel.baseWidth,
+                baseHeight: viewModel.notchModel.baseHeight
+            )
+        }
+
+        XCTAssertEqual(hiddenState.displayedContentID, "temporary")
+        XCTAssertGreaterThan(hiddenState.presentedSize.width, hiddenState.baseWidth)
+        XCTAssertGreaterThan(hiddenState.presentedSize.height, hiddenState.baseHeight)
+        XCTAssertEqual(hiddenState.presentedSize.width, visibleTemporarySize.width, accuracy: 0.001)
+        XCTAssertEqual(hiddenState.presentedSize.height, visibleTemporarySize.height, accuracy: 0.001)
+    }
+
+    @MainActor
     func testHidingCurrentLiveActivityRestoresNextHighestPriorityActivity() async {
         let viewModel = NotchViewModel(
             settings: TestNotchSettings(),

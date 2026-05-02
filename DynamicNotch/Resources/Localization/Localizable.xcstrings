@@ -937,6 +937,7 @@
       }
     },
     "Automatically hide Dynamic Notch while the selected display is showing a full-screen space." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -960,6 +961,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "当所选显示器处于全屏空间时，自动隐藏 Dynamic Notch。"
+          }
+        }
+      }
+    },
+    "Automatically hide live activity while the selected display is showing a full-screen space." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oculta automáticamente la actividad en vivo mientras la pantalla seleccionada muestra un espacio de pantalla completa."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Автоматическое скрытие активных действий в режиме реального времени, когда выбранный дисплей отображается во весь экран."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在所选显示屏显示全屏空间时自动隐藏实时活动"
           }
         }
       }
@@ -5216,7 +5239,30 @@
         }
       }
     },
+    "Hide live activity in full-screen mode" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ocultar actividad en vivo en modo de pantalla completa"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скрытие активных действий в полноэкранном режиме"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在全屏模式下隐藏实时活动"
+          }
+        }
+      }
+    },
     "Hide notch in full-screen mode" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

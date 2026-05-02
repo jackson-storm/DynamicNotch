@@ -94,7 +94,7 @@ private extension NotchView {
                     )
             }
             .shadow(
-                color: notchViewModel.notchModel.isPresentingExpandedLiveActivity ? .black.opacity(0.5) : .clear,
+                color: notchViewModel.isDisplayingExpandedLiveActivity ? .black.opacity(0.5) : .clear,
                 radius: 15
             )
             .frame(
@@ -133,7 +133,7 @@ private extension NotchView {
     }
     
     var visibleStrokeColor: Color {
-        notchViewModel.notchModel.content?.strokeColor ?? notchViewModel.cachedStrokeColor
+        notchViewModel.displayedContent?.strokeColor ?? notchViewModel.cachedStrokeColor
     }
     
     @ViewBuilder
@@ -149,26 +149,25 @@ private extension NotchView {
 
     var shouldShowStroke: Bool {
         settingsViewModel.isShowNotchStrokeEnabled &&
-        !notchViewModel.isActivityPresentationHidden
+        notchViewModel.displayedContent != nil
     }
     
     @ViewBuilder
     var contentOverlay: some View {
-        if !notchViewModel.isActivityPresentationHidden,
-           let content = notchViewModel.notchModel.content {
+        if let content = notchViewModel.displayedContent {
             renderedContentView(for: content)
                 .resizeAwareBlur(
                     size: notchViewModel.interactiveNotchSize,
                     interactiveBlur: notchViewModel.contentResizeBlurRadius,
                     interactiveOpacity: notchViewModel.contentResizeOpacity
                 )
-                .id(notchViewModel.notchModel.presentationID)
+                .id(notchViewModel.displayedPresentationID)
                 .transition(
                     notchViewModel.contentTransition(
                         notchWidth: notchViewModel.presentedNotchSize.width,
                         notchHeight: notchViewModel.presentedNotchSize.height,
                         baseHeight: notchViewModel.notchModel.baseHeight,
-                        isExpandedPresentation: notchViewModel.notchModel.isPresentingExpandedLiveActivity,
+                        isExpandedPresentation: notchViewModel.isDisplayingExpandedLiveActivity,
                         isCompactRemovalForExpansion: notchViewModel.isExpandingLiveActivityTransition
                     )
                 )
@@ -178,7 +177,7 @@ private extension NotchView {
     @MainActor
     @ViewBuilder
     func renderedContentView(for content: NotchContentProtocol) -> some View {
-        if notchViewModel.notchModel.isPresentingExpandedLiveActivity {
+        if notchViewModel.isDisplayingExpandedLiveActivity {
             content.makeExpandedView()
         } else {
             content.makeView()

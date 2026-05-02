@@ -170,8 +170,8 @@ struct GeneralSettingsView: View {
             }
 
             SettingsToggleRow(
-                title: "Hide notch in full-screen mode",
-                description: "Automatically hide Dynamic Notch while the selected display is showing a full-screen space.",
+                title: "Hide live activity in full-screen mode",
+                description: "Automatically hide live activity while the selected display is showing a full-screen space.",
                 systemImage: "arrow.up.left.and.arrow.down.right",
                 color: .purple,
                 isOn: $applicationSettings.isNotchHiddenInFullscreenEnabled,

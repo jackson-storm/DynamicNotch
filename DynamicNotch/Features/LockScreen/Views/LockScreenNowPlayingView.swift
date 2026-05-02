@@ -209,13 +209,13 @@ private struct ExpandedLockScreenClockView: View {
             Spacer()
             
             Text(timeString)
-                .font(.system(size: 38, weight: .semibold, design: .rounded))
+                .font(.system(size: 34, weight: .semibold, design: .rounded))
                 .monospacedDigit()
                 .foregroundStyle(.white)
             
             Text(dateString)
-                .font(.system(size: 28, weight: .semibold))
-                .foregroundStyle(.white.opacity(0.82))
+                .font(.system(size: 34, weight: .semibold))
+                .foregroundStyle(.white.opacity(0.8))
             
             Spacer()
         }

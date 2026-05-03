@@ -159,22 +159,6 @@ struct NetworkSettingsView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
             
             SettingsToggleRow(
-                title: "Show VPN timer",
-                description: "Show the elapsed session timer inside the detailed VPN notification.",
-                systemImage: "timer",
-                color: .orange,
-                isOn: $connectivitySettings.isVPNTimerVisible,
-                accessibilityIdentifier: "settings.activities.temporary.vpn.timer"
-            )
-            .disabled(!isDetailedVPNStyle)
-            .opacity(isDetailedVPNStyle ? 1 : 0.5)
-            
-            Divider()
-                .opacity(0.6)
-                .padding(.leading, 43)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
-            
-            SettingsToggleRow(
                 title: "Only notify on network change",
                 description: "Only show Wi-Fi or VPN notifications when the connected network actually changes.",
                 systemImage: "point.3.connected.trianglepath.dotted",
@@ -225,24 +209,26 @@ struct NetworkSettingsView: View {
                             .stroke(vpnPreviewStrokeColor, lineWidth: 1)
                     }
                 HStack {
-                    Image(systemName: "network.badge.shield.half.filled")
-                        .font(.system(size: 16, weight: .semibold))
-                        .foregroundStyle(Color.accentColor)
-                    
-                    Text("VPN")
-                        .foregroundStyle(.white.opacity(0.8))
-                        .lineLimit(1)
+                    ZStack {
+                        Capsule()
+                            .fill(Color.accentColor.gradient)
+                            .frame(width: 40, height: 20)
+                        
+                        Image(systemName: "network.badge.shield.half.filled")
+                            .font(.system(size: 12, weight: .semibold))
+                            .foregroundStyle(Color.white.gradient)
+                    }
                     
                     Spacer()
                     
-                    Text(verbatim: "Connected")
+                    Text(verbatim: "Active")
                         .foregroundStyle(.white.opacity(0.8))
                         .lineLimit(1)
                 }
-                .padding(.leading, 6)
+                .padding(.leading, 5)
                 .padding(.trailing, 10)
             }
-            .frame(height: 30)
+            .frame(width: 200, height: 30)
             .scaleEffect(isSelected ? 1 : 0.97)
             
         case .detailed:
@@ -254,38 +240,35 @@ struct NetworkSettingsView: View {
                             .stroke(vpnPreviewStrokeColor, lineWidth: 1)
                     }
                 HStack {
-                    Text("WireGuard")
-                        .foregroundStyle(.white.opacity(0.8))
-                        .lineLimit(1)
-                    
-                    Spacer()
-                    
-                    if isTimerVisible {
-                        HStack(spacing: 6) {
-                            Text("00:13:06")
-                                .foregroundStyle(.orange.gradient)
-                            
-                            Image(systemName: "gauge.with.needle")
-                                .font(.system(size: 16, weight: .semibold))
+                    HStack(spacing: 10) {
+                        Image(systemName: "network.badge.shield.half.filled")
+                            .font(.system(size: 20))
+                            .foregroundStyle(.white.opacity(0.8))
+                        
+                        VStack(alignment: .leading, spacing: 0) {
+                            Text(verbatim: "Connected")
                                 .lineLimit(1)
-                                .foregroundStyle(.orange.gradient)
-                        }
-                    } else {
-                        HStack(spacing: 6) {
-                            Image(systemName: "checkmark.shield.fill")
-                                .font(.system(size: 16, weight: .semibold))
-                                .foregroundStyle(.orange)
+                                .font(.system(size: 10))
+                                .foregroundStyle(.white.opacity(0.4))
                             
-                            Text(verbatim: "Protected")
+                            Text("WireGuard VPN")
+                                .lineLimit(1)
+                                .font(.system(size: 12))
                                 .foregroundStyle(.white.opacity(0.8))
-                                .lineLimit(1)
                         }
                     }
+                    
+                    Spacer()
+                
+                    Text("00:10")
+                        .font(.system(size: 14, design: .rounded))
+                        .foregroundStyle(.orange)
+                        .monospacedDigit()
+                        .contentTransition(.numericText())
                 }
-                .padding(.trailing, isTimerVisible ? 6 : 10)
-                .padding(.leading, 10)
+                .padding(.horizontal, 12)
             }
-            .frame(height: 30)
+            .frame(width: 210, height: 50)
             .scaleEffect(isSelected ? 1 : 0.97)
         }
     }

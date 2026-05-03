@@ -121,7 +121,11 @@
         }
       }
     },
+    "00:10" : {
+
+    },
     "00:13:06" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -14205,6 +14209,7 @@
       }
     },
     "Show the elapsed session timer inside the detailed VPN notification." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -14516,6 +14521,7 @@
       }
     },
     "Show VPN timer" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -16158,6 +16164,7 @@
       }
     },
     "VPN" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -16496,6 +16503,7 @@
       }
     },
     "WireGuard" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -16522,6 +16530,9 @@
           }
         }
       }
+    },
+    "WireGuard VPN" : {
+
     },
     "Without close timer" : {
       "localizations" : {

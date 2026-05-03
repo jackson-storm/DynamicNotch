@@ -14,7 +14,7 @@ struct WifiConnectedNotchContent: NotchContentProtocol {
     let networkViewModel: NetworkViewModel
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        .init(width: baseWidth + 170, height: baseHeight)
+        .init(width: baseWidth + 110, height: baseHeight)
     }
     
     @MainActor

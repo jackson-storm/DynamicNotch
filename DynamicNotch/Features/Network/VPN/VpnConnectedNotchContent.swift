@@ -14,16 +14,18 @@ struct VpnConnectedNotchContent : NotchContentProtocol {
     let networkViewModel: NetworkViewModel
     let settings: ConnectivitySettingsStore
     
+    func cornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
+        return (
+            top: settings.isVPNDetailVisible ? 20 : baseRadius - 4 ,
+            bottom: settings.isVPNDetailVisible ? 38 : baseRadius
+        )
+    }
+    
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        let width: Int
-        
-        if settings.isVPNDetailVisible {
-            width = settings.isVPNTimerVisible ? 210 : 205
-        } else {
-            width = 170
-        }
-        
-        return .init(width: baseWidth + CGFloat(width), height: baseHeight)
+        .init(
+            width: settings.isVPNDetailVisible ? baseWidth + 145 : baseWidth + 110,
+            height: settings.isVPNDetailVisible ? 95 : baseHeight
+        )
     }
     
     @MainActor

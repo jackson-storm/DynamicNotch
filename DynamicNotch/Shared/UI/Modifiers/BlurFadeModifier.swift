@@ -88,7 +88,7 @@ extension AnyTransition {
         return .asymmetric(
             insertion: .modifier(
                 active: DynamicIslandTransitionModifier(
-                    blur: 20,
+                    blur: 40,
                     opacity: 0,
                     offsetX: horizontalOffset,
                     offsetY: verticalOffset,
@@ -100,7 +100,7 @@ extension AnyTransition {
             ),
             removal: .modifier(
                 active: DynamicIslandTransitionModifier(
-                    blur: 20,
+                    blur: 40,
                     opacity: 0,
                     offsetX: removalHorizontalOffset,
                     offsetY: verticalOffset,

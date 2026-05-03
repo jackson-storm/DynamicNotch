@@ -6,11 +6,15 @@
 //
 
 import SwiftUI
+import Combine
 
 struct VpnConnectedNotchView: View {
     @Environment(\.notchScale) private var scale
     @ObservedObject var networkViewModel: NetworkViewModel
     @ObservedObject var settings: ConnectivitySettingsStore
+    
+    @State private var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    @State private var timeString: String = "00:00"
     
     private var resolvedVPNName: String {
         let trimmedText = networkViewModel.vpnName.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -20,94 +24,96 @@ struct VpnConnectedNotchView: View {
     private var isShowingDetail: Bool {
         settings.isVPNDetailVisible
     }
-
-    private func formattedElapsedTime(since startDate: Date, currentDate: Date) -> String {
-        let totalSeconds = max(0, Int(currentDate.timeIntervalSince(startDate)))
-        let hours = totalSeconds / 3600
-        let minutes = (totalSeconds % 3600) / 60
-        let seconds = totalSeconds % 60
-        return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+    
+    private func updateTimer() {
+        guard let startDate = networkViewModel.vpnConnectedAt else {
+            timeString = "00:00"
+            return
+        }
+        
+        let elapsed = Date().timeIntervalSince(startDate)
+        timeString = elapsed.formattedDuration
     }
     
     var body: some View {
         HStack {
-            leftContent
-            Spacer()
-            rightContent
+            if isShowingDetail {
+                detailedView
+            } else {
+                compactView
+            }
         }
-        .padding(.horizontal, 14.scaled(by: scale))
         .font(.system(size: 14))
     }
-
+    
     @ViewBuilder
-    private var leftContent: some View {
-        if !isShowingDetail {
-            HStack {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 6)
-                        .fill(Color.accentColor.gradient.opacity(0.2))
-                        .frame(width: 24, height: 24)
-                    
-                    Image(systemName: "network.badge.shield.half.filled")
-                        .font(.system(size: 14, weight: .semibold))
-                        .foregroundStyle(Color.accentColor.gradient)
-                        .contentTransition(.symbolEffect(.replace))
-                }
-
-                Text(verbatim: "VPN")
-                    .foregroundStyle(.white.opacity(0.8))
-                    .lineLimit(1)
+    private var compactView: some View {
+        HStack {
+            ZStack {
+                RoundedRectangle(cornerRadius: 6)
+                    .fill(Color.accentColor.gradient)
+                    .frame(width: 24, height: 24)
+                
+                Image(systemName: "network.badge.shield.half.filled")
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundStyle(Color.white.gradient)
             }
-            .transition(.blurAndFade.animation(.spring(duration: 0.4)))
-
-        } else {
-            MarqueeText(
-                .constant(resolvedVPNName),
-                font: .system(size: 14),
-                nsFont: .body,
-                textColor: .white.opacity(0.8),
-                backgroundColor: .clear,
-                minDuration: 0.5,
-                frameWidth: 100
-            )
-            .lineLimit(1)
-            .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .push(from: .trailing)))
-        }
-    }
-
-    @ViewBuilder
-    private var rightContent: some View {
-        if !isShowingDetail {
-            Text(verbatim: "Connected")
-                .transition(.blurAndFade.animation(.spring(duration: 0.4)))
+            Spacer()
+            
+            Text(verbatim: "Active")
                 .foregroundStyle(.white.opacity(0.8))
-                .lineLimit(1)
-
-        } else if settings.isVPNTimerVisible {
-            HStack {
-                TimelineView(.periodic(from: .now, by: 1)) { context in
-                    Text(networkViewModel.vpnConnectedAt.map { formattedElapsedTime(since: $0, currentDate: context.date) } ?? "--:--:--")
-                        .monospacedDigit()
-                        .foregroundStyle(.orange.gradient)
-                }
-
-                Image(systemName: "gauge.with.needle")
-                    .font(Font.system(size: 18, weight: .semibold))
-                    .foregroundStyle(.orange.gradient)
-            }
-            .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .push(from: .leading)))
-
-        } else {
-            HStack(spacing: 6) {
-                Image(systemName: "checkmark.shield.fill")
-                    .font(.system(size: 18, weight: .semibold))
-                    .foregroundStyle(.orange)
-
-                Text(verbatim: "Protected")
-                    .foregroundStyle(.white.opacity(0.8))
-                    .lineLimit(1)
-            }
-            .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .push(from: .leading)))
         }
+        .padding(.horizontal, 14.scaled(by: scale))
+        .padding(.vertical, 10)
+    }
+    
+    @ViewBuilder
+    private var detailedView: some View {
+        VStack {
+            Spacer()
+            
+            HStack {
+                HStack(spacing: 16) {
+                    Image(systemName: "network.badge.shield.half.filled")
+                        .font(.system(size: 30))
+                        .foregroundStyle(.white.opacity(0.8))
+                        .padding(.bottom, 10)
+                    
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text(verbatim: "Connected")
+                            .lineLimit(1)
+                            .font(.system(size: 13))
+                            .foregroundStyle(.white.opacity(0.4))
+                        
+                        MarqueeText(
+                            Binding.constant(resolvedVPNName),
+                            font: .system(size: 15, weight: .regular),
+                            nsFont: .body,
+                            textColor: .white.opacity(0.8),
+                            backgroundColor: .clear,
+                            minDuration: 0.5,
+                            frameWidth: 130.scaled(by: scale)
+                        )
+                    }
+                }
+                Spacer()
+                
+                Text(timeString)
+                    .padding(.bottom, 10)
+                    .font(.system(size: 26, weight: .semibold, design: .rounded))
+                    .monospacedDigit()
+                    .foregroundStyle(Color.orange)
+                    .contentTransition(.numericText())
+                    .onReceive(timer) { _ in
+                        updateTimer()
+                    }
+                    .onAppear {
+                        updateTimer()
+                    }
+            }
+        }
+        .padding(.horizontal, 36)
+        .padding(.vertical, 10)
     }
 }
+

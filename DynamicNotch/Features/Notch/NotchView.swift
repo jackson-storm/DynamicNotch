@@ -54,13 +54,13 @@ struct NotchView: View {
                                 guard settingsViewModel.mediaAndFiles.dragAndDropActivityMode.showsAirDrop else {
                                     return false
                                 }
-
+                                
                                 return airDropController.handlePasteboardDrop(pasteboard)
                             case .tray:
                                 guard settingsViewModel.mediaAndFiles.dragAndDropActivityMode.showsTray else {
                                     return false
                                 }
-
+                                
                                 return airDropController.handleTrayDrop(pasteboard)
                             }
                         }
@@ -125,7 +125,7 @@ private extension NotchView {
     
     var shouldEnableNotchSwipeGestures: Bool {
         guard !notchViewModel.isActivityPresentationHidden else { return false }
-
+        
         return !(
             notchViewModel.notchModel.isPresentingExpandedLiveActivity &&
             notchViewModel.notchModel.content?.id == NotchContentRegistry.DragAndDrop.trayActive.id
@@ -146,7 +146,7 @@ private extension NotchView {
             strokeWidth: settingsViewModel.notchStrokeWidth
         )
     }
-
+    
     var shouldShowStroke: Bool {
         settingsViewModel.isShowNotchStrokeEnabled &&
         notchViewModel.displayedContent != nil

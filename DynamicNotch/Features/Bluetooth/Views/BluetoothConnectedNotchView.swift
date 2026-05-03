@@ -97,7 +97,7 @@ struct BluetoothConnectedNotchView: View {
                         
                         MarqueeText(
                             $bluetoothViewModel.deviceName,
-                            font: .system(size: 16, weight: .regular),
+                            font: .system(size: 15, weight: .regular),
                             nsFont: .body,
                             textColor: .white.opacity(0.8),
                             backgroundColor: .clear,

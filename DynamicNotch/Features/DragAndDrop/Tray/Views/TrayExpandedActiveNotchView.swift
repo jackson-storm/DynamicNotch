@@ -78,7 +78,7 @@ struct TrayExpandedActiveNotchView: View {
                     if fileTrayViewModel.hasSelection {
                         AnimatedLevelText(level: fileTrayViewModel.selectedCount, fontSize: 14)
                     } else {
-                        Text("All")
+                        Text(verbatim: "All")
                             .font(.system(size: 14))
                     }
                 }
@@ -120,6 +120,7 @@ struct TrayExpandedActiveNotchView: View {
             TrayExpandedItemView(
                 item: item,
                 isSelected: isSelected,
+                showsRemoveButton: !mediaSettings.isFileTrayRemoveButtonHidden,
                 draggedItems: {
                     fileTrayViewModel.itemsForDrag(startingAt: item)
                 },
@@ -151,6 +152,7 @@ struct TrayExpandedActiveNotchView: View {
 private struct TrayExpandedItemView: View {
     let item: FileTrayItem
     let isSelected: Bool
+    let showsRemoveButton: Bool
     let draggedItems: () -> [FileTrayItem]
     let onMoveCompleted: ([FileTrayItem]) -> Void
     let onSelect: () -> Void
@@ -183,6 +185,7 @@ private struct TrayExpandedItemView: View {
         .overlay {
             TrayExpandedItemDragView(
                 draggedItems: draggedItems,
+                showsRemoveButton: showsRemoveButton,
                 onMoveCompleted: onMoveCompleted,
                 onSelect: onSelect,
                 onPressedChange: { isPressed in
@@ -191,15 +194,17 @@ private struct TrayExpandedItemView: View {
             )
         }
         .overlay(alignment: .topTrailing) {
-            Button(action: onRemove) {
-                Image(systemName: "xmark.circle.fill")
-                    .font(.system(size: 14, weight: .semibold))
-                    .foregroundStyle(.white.opacity(0.58))
-                    .background(Circle().fill(.black.opacity(0.28)))
+            if showsRemoveButton {
+                Button(action: onRemove) {
+                    Image(systemName: "xmark.circle.fill")
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundStyle(.white.opacity(0.58))
+                        .background(Circle().fill(.black.opacity(0.28)))
+                }
+                .buttonStyle(PressedButtonStyle(width: 18, height: 18))
+                .padding(.top, 5)
+                .padding(.trailing, 5)
             }
-            .buttonStyle(PressedButtonStyle(width: 18, height: 18))
-            .padding(.top, 5)
-            .padding(.trailing, 5)
         }
         .scaleEffect(isPressed ? 0.9 : 1)
         .animation(.spring(response: 0.22, dampingFraction: 0.58), value: isPressed)
@@ -209,6 +214,7 @@ private struct TrayExpandedItemView: View {
 
 private struct TrayExpandedItemDragView: NSViewRepresentable {
     let draggedItems: () -> [FileTrayItem]
+    let showsRemoveButton: Bool
     let onMoveCompleted: ([FileTrayItem]) -> Void
     let onSelect: () -> Void
     let onPressedChange: (Bool) -> Void
@@ -216,6 +222,7 @@ private struct TrayExpandedItemDragView: NSViewRepresentable {
     func makeNSView(context: Context) -> TrayExpandedItemDragNSView {
         let view = TrayExpandedItemDragNSView()
         view.draggedItems = draggedItems
+        view.showsRemoveButton = showsRemoveButton
         view.onMoveCompleted = onMoveCompleted
         view.onSelect = onSelect
         view.onPressedChange = onPressedChange
@@ -224,6 +231,7 @@ private struct TrayExpandedItemDragView: NSViewRepresentable {
     
     func updateNSView(_ nsView: TrayExpandedItemDragNSView, context: Context) {
         nsView.draggedItems = draggedItems
+        nsView.showsRemoveButton = showsRemoveButton
         nsView.onMoveCompleted = onMoveCompleted
         nsView.onSelect = onSelect
         nsView.onPressedChange = onPressedChange
@@ -232,6 +240,7 @@ private struct TrayExpandedItemDragView: NSViewRepresentable {
 
 private final class TrayExpandedItemDragNSView: NSView, NSDraggingSource {
     var draggedItems: () -> [FileTrayItem] = { [] }
+    var showsRemoveButton = true
     var onMoveCompleted: ([FileTrayItem]) -> Void = { _ in }
     var onSelect: () -> Void = {}
     var onPressedChange: (Bool) -> Void = { _ in }
@@ -243,9 +252,9 @@ private final class TrayExpandedItemDragNSView: NSView, NSDraggingSource {
     override func acceptsFirstMouse(for event: NSEvent?) -> Bool {
         true
     }
-    
+
     override func hitTest(_ point: NSPoint) -> NSView? {
-        if closeButtonHitRect.contains(point) {
+        if showsRemoveButton && closeButtonHitRect.contains(point) {
             return nil
         }
         

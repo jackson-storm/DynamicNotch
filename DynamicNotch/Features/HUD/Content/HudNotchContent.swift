@@ -16,7 +16,8 @@ struct HudNotchContent: NotchContentProtocol {
     let applicationSettings: ApplicationSettingsStore?
     
     let level: Int
-    let usesColoredLevelTint: Bool
+    let indicatorTintStyle: HudIndicatorTintStyle
+    let showsIndicatorGlow: Bool
     let usesColoredLevelStroke: Bool
     
     var strokeColor: Color { HudLevelStyling.strokeTint(for: level, isEnabled: resolvedColoredLevelStroke) }
@@ -26,7 +27,8 @@ struct HudNotchContent: NotchContentProtocol {
         level: Int,
         style: HudStyle = .standard,
         indicatorStyle: HudIndicatorStyle = .bar,
-        usesColoredLevelTint: Bool = true,
+        indicatorTintStyle: HudIndicatorTintStyle = .levelColor,
+        showsIndicatorGlow: Bool = true,
         usesColoredLevelStroke: Bool = false,
         applicationSettings: ApplicationSettingsStore? = nil
     ) {
@@ -34,7 +36,8 @@ struct HudNotchContent: NotchContentProtocol {
         self.level = level
         self.style = style
         self.indicatorStyle = indicatorStyle
-        self.usesColoredLevelTint = usesColoredLevelTint
+        self.indicatorTintStyle = indicatorTintStyle
+        self.showsIndicatorGlow = showsIndicatorGlow
         self.usesColoredLevelStroke = usesColoredLevelStroke
         self.applicationSettings = applicationSettings
     }
@@ -52,7 +55,8 @@ struct HudNotchContent: NotchContentProtocol {
                 level: level,
                 style: style,
                 indicatorStyle: indicatorStyle,
-                usesColoredLevelTint: usesColoredLevelTint
+                indicatorTintStyle: indicatorTintStyle,
+                showsIndicatorGlow: showsIndicatorGlow
             )
         )
     }

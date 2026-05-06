@@ -69,9 +69,15 @@ final class HUDSettingsStore: SettingsStoreBase {
         }
     }
 
-    @Published var isColoredLevelEnabled: Bool {
+    @Published var indicatorTintStyle: HudIndicatorTintStyle {
         didSet {
-            persist(isColoredLevelEnabled, for: GeneralSettingsStorage.Keys.hudColoredLevelEnabled)
+            persist(indicatorTintStyle.rawValue, for: GeneralSettingsStorage.Keys.hudIndicatorTintStyle)
+        }
+    }
+
+    @Published var isIndicatorGlowEnabled: Bool {
+        didSet {
+            persist(isIndicatorGlowEnabled, for: GeneralSettingsStorage.Keys.hudIndicatorGlowEnabled)
         }
     }
 
@@ -82,6 +88,11 @@ final class HUDSettingsStore: SettingsStoreBase {
     }
 
     override init(defaults: UserDefaults) {
+        let storedIndicatorTintStyle = defaults.string(forKey: GeneralSettingsStorage.Keys.hudIndicatorTintStyle)
+        let legacyColoredLevel = defaults.object(
+            forKey: GeneralSettingsStorage.Keys.hudColoredLevelEnabled
+        ) as? Bool
+
         defaults.register(defaults: GeneralSettingsStorage.defaultValues)
         self.isBrightnessHUDEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.brightnessHUDEnabled)
         self.brightnessHUDDuration = Self.clampTemporaryActivityDuration(
@@ -104,7 +115,11 @@ final class HUDSettingsStore: SettingsStoreBase {
         self.indicatorStyle = HudIndicatorStyle(
             rawValue: defaults.string(forKey: GeneralSettingsStorage.Keys.hudIndicatorStyle) ?? HudIndicatorStyle.bar.rawValue
         ) ?? .bar
-        self.isColoredLevelEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.hudColoredLevelEnabled)
+        self.indicatorTintStyle = Self.resolvedIndicatorTintStyle(
+            storedRawValue: storedIndicatorTintStyle,
+            legacyColoredLevel: legacyColoredLevel
+        )
+        self.isIndicatorGlowEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.hudIndicatorGlowEnabled)
         self.isColoredLevelStrokeEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.hudColoredStrokeEnabled)
         super.init(defaults: defaults)
     }
@@ -124,7 +139,26 @@ final class HUDSettingsStore: SettingsStoreBase {
         )
         hudStyle = HudStyle(rawValue: defaultString(for: GeneralSettingsStorage.Keys.hudStyle)) ?? .compact
         indicatorStyle = HudIndicatorStyle(rawValue: defaultString(for: GeneralSettingsStorage.Keys.hudIndicatorStyle)) ?? .bar
-        isColoredLevelEnabled = defaultBool(for: GeneralSettingsStorage.Keys.hudColoredLevelEnabled)
+        indicatorTintStyle = HudIndicatorTintStyle(
+            rawValue: defaultString(for: GeneralSettingsStorage.Keys.hudIndicatorTintStyle)
+        ) ?? .levelColor
+        isIndicatorGlowEnabled = defaultBool(for: GeneralSettingsStorage.Keys.hudIndicatorGlowEnabled)
         isColoredLevelStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.hudColoredStrokeEnabled)
+    }
+
+    private static func resolvedIndicatorTintStyle(
+        storedRawValue: String?,
+        legacyColoredLevel: Bool?
+    ) -> HudIndicatorTintStyle {
+        if let rawValue = storedRawValue,
+           let style = HudIndicatorTintStyle(rawValue: rawValue) {
+            return style
+        }
+
+        if let legacyColoredLevel {
+            return legacyColoredLevel ? .levelColor : .plainWhite
+        }
+
+        return .levelColor
     }
 }

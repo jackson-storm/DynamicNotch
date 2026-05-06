@@ -3,14 +3,25 @@ import SwiftUI
 enum HudLevelStyling {
     private static let previewLevel = 72
 
-    static func fillTint(for level: Int, isEnabled: Bool) -> Color {
+    static func fillTint(for level: Int, tintStyle: HudIndicatorTintStyle) -> Color {
         let clampedLevel = clamped(level)
 
-        guard isEnabled else {
+        switch tintStyle {
+        case .plainWhite:
             return .white.opacity(clampedLevel > 0 ? 0.92 : 0.45)
-        }
+        case .levelColor:
+            return baseTint(for: clampedLevel)
+        case .accentColor:
+            guard clampedLevel > 0 else {
+                return .white.opacity(0.45)
+            }
 
-        return baseTint(for: clampedLevel)
+            return .accentColor
+        }
+    }
+
+    static func fillTint(for level: Int, isEnabled: Bool) -> Color {
+        fillTint(for: level, tintStyle: isEnabled ? .levelColor : .plainWhite)
     }
 
     static func strokeTint(for level: Int, isEnabled: Bool) -> Color {

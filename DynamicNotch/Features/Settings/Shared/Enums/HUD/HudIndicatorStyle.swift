@@ -22,3 +22,20 @@ enum HudIndicatorStyle: String, CaseIterable {
         }
     }
 }
+
+enum HudIndicatorTintStyle: String, CaseIterable {
+    case plainWhite
+    case levelColor
+    case accentColor
+
+    var title: LocalizedStringKey {
+        switch self {
+        case .plainWhite:
+            return "White"
+        case .levelColor:
+            return "Level color"
+        case .accentColor:
+            return "System accent"
+        }
+    }
+}

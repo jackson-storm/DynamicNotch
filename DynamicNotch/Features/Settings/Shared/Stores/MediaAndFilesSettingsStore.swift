@@ -117,6 +117,12 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         }
     }
 
+    @Published var isFileTrayRemoveButtonHidden: Bool {
+        didSet {
+            persist(isFileTrayRemoveButtonHidden, for: GeneralSettingsStorage.Keys.fileTrayRemoveButtonHidden)
+        }
+    }
+
     @Published var dragAndDropActivityMode: DragAndDropActivityMode {
         didSet {
             persist(dragAndDropActivityMode.rawValue, for: GeneralSettingsStorage.Keys.dragAndDropActivityMode)
@@ -180,6 +186,10 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         self.fileTrayScrollDirection = FileTrayScrollDirection.resolved(
             defaults.string(forKey: GeneralSettingsStorage.Keys.fileTrayScrollDirection)
         )
+        self.isFileTrayRemoveButtonHidden = Self.resolvedBool(
+            defaults: defaults,
+            key: GeneralSettingsStorage.Keys.fileTrayRemoveButtonHidden
+        )
         self.dragAndDropActivityMode = DragAndDropActivityMode.resolved(
             defaults.string(forKey: GeneralSettingsStorage.Keys.dragAndDropActivityMode)
         )
@@ -227,6 +237,7 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         fileTrayScrollDirection = FileTrayScrollDirection.resolved(
             defaultString(for: GeneralSettingsStorage.Keys.fileTrayScrollDirection)
         )
+        isFileTrayRemoveButtonHidden = defaultBool(for: GeneralSettingsStorage.Keys.fileTrayRemoveButtonHidden)
     }
 
     func resetTimer() {

@@ -109,7 +109,7 @@ struct DragAndDropSettingsView: View {
                 bottomCornerRadius: 36,
                 backgroundStyle: .black,
                 showsStroke: appearanceSettings.isShowNotchStrokeEnabled,
-                strokeColor: dragAndDropPreviewStrokeColor,
+                strokeColor: .white.opacity(0.2),
                 strokeWidth: appearanceSettings.notchStrokeWidth,
                 lightBackgroundImage: Image("backgroundLight"),
                 darkBackgroundImage: Image("backgroundDark")
@@ -121,8 +121,20 @@ struct DragAndDropSettingsView: View {
                 .opacity(0.6)
 
             SettingsMenuRow(
+                title: "Scroll direction",
+                description: "Choose how files scroll inside the expanded Tray.",
+                options: Array(FileTrayScrollDirection.allCases),
+                optionTitle: { $0.title },
+                accessibilityIdentifier: "settings.activities.live.drop.trayScrollDirection",
+                selection: $mediaSettings.fileTrayScrollDirection
+            )
+
+            Divider()
+                .opacity(0.6)
+
+            SettingsMenuRow(
                 title: "Tray usage",
-                description: "Choose whether Tray keeps file references or moves originals into Tray storage.",
+                description: "Choose whether Tray keeps file copies or moves originals into Tray storage.",
                 options: Array(FileTrayUsageMode.allCases),
                 optionTitle: { $0.title },
                 accessibilityIdentifier: "settings.activities.live.drop.trayUsage",
@@ -144,13 +156,13 @@ struct DragAndDropSettingsView: View {
             Divider()
                 .opacity(0.6)
 
-            SettingsMenuRow(
-                title: "Scroll direction",
-                description: "Choose how files scroll inside the expanded Tray.",
-                options: Array(FileTrayScrollDirection.allCases),
-                optionTitle: { $0.title },
-                accessibilityIdentifier: "settings.activities.live.drop.trayScrollDirection",
-                selection: $mediaSettings.fileTrayScrollDirection
+            SettingsToggleRow(
+                title: "Hide remove button",
+                description: "Hide the x button on file cards in the expanded Tray.",
+                systemImage: "xmark.circle.fill",
+                color: .red,
+                isOn: $mediaSettings.isFileTrayRemoveButtonHidden,
+                accessibilityIdentifier: "settings.activities.live.drop.tray.hideRemoveButton"
             )
         }
     }
@@ -182,7 +194,10 @@ struct DragAndDropSettingsView: View {
 
             HStack(spacing: 10) {
                 ForEach(trayPreviewItems) { item in
-                    TrayAppearancePreviewItemView(item: item)
+                    TrayAppearancePreviewItemView(
+                        item: item,
+                        showsRemoveButton: !mediaSettings.isFileTrayRemoveButtonHidden
+                    )
                 }
             }
         }
@@ -231,8 +246,8 @@ struct DragAndDropSettingsView: View {
     private var trayPreviewItems: [TrayAppearancePreviewItem] {
         [
             TrayAppearancePreviewItem(name: "Report.pdf", systemImage: "doc.richtext.fill", color: .red),
-            TrayAppearancePreviewItem(name: "Photo.png", systemImage: "photo.fill", color: .blue),
-            TrayAppearancePreviewItem(name: "Designs", systemImage: "folder.fill", color: .yellow),
+            TrayAppearancePreviewItem(name: "Photo.png", systemImage: "photo.fill", color: .indigo),
+            TrayAppearancePreviewItem(name: "Designs", systemImage: "folder.fill", color: .accentColor),
             TrayAppearancePreviewItem(name: "Installer", systemImage: "opticaldiscdrive.fill", color: .white.opacity(0.8))
         ]
     }
@@ -247,6 +262,7 @@ struct DragAndDropSettingsView: View {
 
     private struct TrayAppearancePreviewItemView: View {
         let item: TrayAppearancePreviewItem
+        let showsRemoveButton: Bool
 
         var body: some View {
             VStack(spacing: 7) {
@@ -270,12 +286,14 @@ struct DragAndDropSettingsView: View {
                     .fill(.white.opacity(0.1))
             )
             .overlay(alignment: .topTrailing) {
-                Image(systemName: "xmark.circle.fill")
-                    .font(.system(size: 14, weight: .semibold))
-                    .foregroundStyle(.white.opacity(0.58))
-                    .background(Circle().fill(.black.opacity(0.28)))
-                    .padding(.top, 5)
-                    .padding(.trailing, 5)
+                if showsRemoveButton {
+                    Image(systemName: "xmark.circle.fill")
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundStyle(.white.opacity(0.58))
+                        .background(Circle().fill(.black.opacity(0.28)))
+                        .padding(.top, 5)
+                        .padding(.trailing, 5)
+                }
             }
         }
     }

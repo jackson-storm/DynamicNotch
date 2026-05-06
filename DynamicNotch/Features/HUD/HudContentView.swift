@@ -8,7 +8,8 @@ struct HudContentView: View {
     let level: Int
     let style: HudStyle
     let indicatorStyle: HudIndicatorStyle
-    let usesColoredLevelTint: Bool
+    let indicatorTintStyle: HudIndicatorTintStyle
+    let showsIndicatorGlow: Bool
     
     private var barIndicatorWidth: CGFloat {
         switch style {
@@ -95,7 +96,8 @@ struct HudContentView: View {
         HudLevelIndicatorView(
             level: clampedLevel,
             indicatorStyle: indicatorStyle,
-            usesColoredLevelTint: usesColoredLevelTint,
+            tintStyle: indicatorTintStyle,
+            showsGlow: showsIndicatorGlow,
             barWidth: barIndicatorWidth,
             barHeight: barIndicatorHeight,
             circleSize: circleIndicatorSize,

@@ -75,7 +75,8 @@ final class AppContainer {
                 MediaRemoteNowPlayingService(),
             audioOutputRouting: isRunningUITests ?
                 InactiveAudioOutputRoutingService() :
-                SystemAudioOutputRoutingService()
+                SystemAudioOutputRoutingService(),
+            sourceFilter: settingsViewModel.mediaAndFiles.nowPlayingSourceFilter
         )
         self.downloadViewModel = DownloadViewModel(
             monitor: isRunningUITests ?

@@ -33,6 +33,8 @@ enum GeneralSettingsStorage {
         static let volumeHUDDuration = "settings.hud.volume.duration"
         static let hudStyle = "settings.hud.style"
         static let hudIndicatorStyle = "settings.hud.indicatorStyle"
+        static let hudIndicatorTintStyle = "settings.hud.indicatorTintStyle"
+        static let hudIndicatorGlowEnabled = "settings.hud.indicatorGlow"
         static let hudColoredLevelEnabled = "settings.hud.coloredLevel"
         static let hudColoredStrokeEnabled = "settings.hud.coloredStroke"
         static let hotspotLiveActivityEnabled = "settings.live.hotspot"
@@ -45,6 +47,7 @@ enum GeneralSettingsStorage {
         static let nowPlayingArtworkStrokeEnabled = "settings.nowPlaying.artworkStrokeEnabled"
         static let nowPlayingPauseHideTimerEnabled = "settings.nowPlaying.pauseHideTimerEnabled"
         static let nowPlayingPauseHideDelay = "settings.nowPlaying.pauseHideDelay"
+        static let nowPlayingSourceFilter = "settings.nowPlaying.sourceFilter"
         static let downloadsLiveActivityEnabled = "settings.live.downloads"
         static let downloadsDefaultStrokeEnabled = "settings.live.downloads.defaultStroke"
         static let downloadsAppearanceStyle = "settings.live.downloads.appearanceStyle"
@@ -52,6 +55,9 @@ enum GeneralSettingsStorage {
         static let airDropLiveActivityEnabled = "settings.live.airDrop"
         static let airDropDefaultStrokeEnabled = "settings.live.airDrop.defaultStroke"
         static let dragAndDropActivityMode = "settings.live.dragAndDrop.mode"
+        static let fileTrayUsageMode = "settings.live.tray.usageMode"
+        static let fileTrayScrollDirection = "settings.live.tray.scrollDirection"
+        static let fileTrayRemoveButtonHidden = "settings.live.tray.removeButtonHidden"
         static let dropMotionAnimationEnabled = "settings.live.drop.motionAnimation"
         static let trayLiveActivityEnabled = "settings.live.tray"
         static let timerLiveActivityEnabled = "settings.live.timer"
@@ -128,6 +134,8 @@ enum GeneralSettingsStorage {
         Keys.volumeHUDDuration: 2,
         Keys.hudStyle: HudStyle.compact.rawValue,
         Keys.hudIndicatorStyle: HudIndicatorStyle.bar.rawValue,
+        Keys.hudIndicatorTintStyle: HudIndicatorTintStyle.levelColor.rawValue,
+        Keys.hudIndicatorGlowEnabled: true,
         Keys.hudColoredLevelEnabled: true,
         Keys.hudColoredStrokeEnabled: false,
         Keys.hotspotLiveActivityEnabled: true,
@@ -140,6 +148,7 @@ enum GeneralSettingsStorage {
         Keys.nowPlayingArtworkStrokeEnabled: false,
         Keys.nowPlayingPauseHideTimerEnabled: true,
         Keys.nowPlayingPauseHideDelay: 5,
+        Keys.nowPlayingSourceFilter: NowPlayingSourceFilter.any.rawValue,
         Keys.downloadsLiveActivityEnabled: true,
         Keys.downloadsDefaultStrokeEnabled: false,
         Keys.downloadsAppearanceStyle: DownloadAppearanceStyle.minimal.rawValue,
@@ -149,6 +158,9 @@ enum GeneralSettingsStorage {
         Keys.dragAndDropActivityMode: DragAndDropActivityMode.combined.rawValue,
         Keys.dropMotionAnimationEnabled: true,
         Keys.trayLiveActivityEnabled: true,
+        Keys.fileTrayUsageMode: FileTrayUsageMode.copy.rawValue,
+        Keys.fileTrayScrollDirection: FileTrayScrollDirection.horizontal.rawValue,
+        Keys.fileTrayRemoveButtonHidden: false,
         Keys.timerLiveActivityEnabled: true,
         Keys.timerDefaultStrokeEnabled: false,
         Keys.screenRecordingLiveActivityEnabled: true,

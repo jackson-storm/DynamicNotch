@@ -56,27 +56,6 @@ final class NotchViewModelIntegrationTests: XCTestCase {
     }
 
     @MainActor
-    func testTemporaryNotificationAppearsImmediatelyWhenNotchIsEmpty() async {
-        let viewModel = NotchViewModel(
-            settings: TestNotchSettings(),
-            hideDelay: 0.5,
-            queueDelay: 0
-        )
-        TestLifetime.retain(viewModel)
-
-        viewModel.send(
-            .showTemporaryNotification(
-                TestNotchContent(id: "hud", priority: 0),
-                duration: .infinity
-            )
-        )
-
-        await assertEventually(timeout: 0.15) {
-            await MainActor.run { viewModel.notchModel.temporaryNotificationContent?.id == "hud" }
-        }
-    }
-
-    @MainActor
     func testActivityPresentationHiddenCollapsesSurfaceWithoutClearingLiveActivity() async {
         let viewModel = NotchViewModel(
             settings: TestNotchSettings(),

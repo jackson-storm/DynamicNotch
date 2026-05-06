@@ -12,11 +12,13 @@ struct NotchCustomScaleModifier: ViewModifier {
     @ObservedObject var notchViewModel: NotchViewModel
     @Binding var isPressed: Bool
     
-    @State private var pendingExpansionToken: UUID?
+    @State private var pendingHoldExpansionToken: UUID?
+    @State private var pendingHoverExpansionToken: UUID?
     @State private var pressAnimationToken: UUID?
     @State private var initialPressLocation: CGPoint?
     @State private var isPressValidForTap = false
-    @State private var didCompleteHoldAction = false
+    @State private var didCompleteExpandAction = false
+    @State private var isHovering = false
     @State private var pressScale: CGFloat = 1
     
     let baseSize: CGSize
@@ -46,7 +48,7 @@ private extension NotchCustomScaleModifier {
                     .onChanged { value in
                         guard !notchViewModel.isActivityPresentationHidden,
                               !notchViewModel.notchModel.isPresentingExpandedLiveActivity else {
-                            resetPressState(cancelPressAnimation: true)
+                            resetInteractionState(cancelScaleAnimation: true)
                             return
                         }
 
@@ -54,7 +56,7 @@ private extension NotchCustomScaleModifier {
 
                         guard isInsideBounds else {
                             isPressValidForTap = false
-                            resetPressState(cancelPressAnimation: true)
+                            resetInteractionState(cancelScaleAnimation: true)
                             return
                         }
 
@@ -62,33 +64,36 @@ private extension NotchCustomScaleModifier {
                             isPressed = true
                             initialPressLocation = value.location
                             isPressValidForTap = true
-                            didCompleteHoldAction = false
-                            startPressAnimation()
+                            didCompleteExpandAction = false
+
+                            if !shouldUseHoverExpansion {
+                                startPressAnimation()
+                            }
                         }
 
                         if let initialPressLocation,
                            distance(from: initialPressLocation, to: value.location) > tapMovementTolerance {
                             isPressValidForTap = false
-                            pendingExpansionToken = nil
+                            pendingHoldExpansionToken = nil
                         }
 
                         if isPressValidForTap {
-                            scheduleExpansionIfNeeded()
+                            schedulePressHoldExpansionIfNeeded()
                         }
                     }
                     .onEnded { value in
                         guard !notchViewModel.isActivityPresentationHidden,
                               !notchViewModel.notchModel.isPresentingExpandedLiveActivity else {
-                            resetPressState(cancelPressAnimation: true)
-                            didCompleteHoldAction = false
+                            resetInteractionState(cancelScaleAnimation: true)
+                            didCompleteExpandAction = false
                             return
                         }
 
                         let isValidPress = hitBounds.contains(value.location) &&
                         isPressValidForTap &&
-                        !didCompleteHoldAction
+                        !didCompleteExpandAction
 
-                        resetPressState(cancelPressAnimation: false)
+                        resetInteractionState(cancelScaleAnimation: !shouldMaintainHoverScaleAfterRelease)
 
                         if notchViewModel.shouldExpandActiveContentOnClick && isValidPress {
                             notchViewModel.handleActiveContentTap()
@@ -96,13 +101,34 @@ private extension NotchCustomScaleModifier {
                             notchViewModel.openActiveWindowLink()
                         }
 
-                        didCompleteHoldAction = false
+                        didCompleteExpandAction = false
                     }
             )
-            .onDisappear {
-                resetPressState(cancelPressAnimation: true)
-                didCompleteHoldAction = false
+            .onHover { hovering in
+                handleHoverChange(isHovering: hovering)
             }
+            .onChange(of: notchViewModel.displayedPresentationID) {
+                if notchViewModel.displayedPresentationID == nil {
+                    resetInteractionState(cancelScaleAnimation: true)
+                }
+            }
+            .onChange(of: notchViewModel.isActivityPresentationHidden) {
+                if notchViewModel.isActivityPresentationHidden {
+                    resetInteractionState(cancelScaleAnimation: true)
+                }
+            }
+            .onDisappear {
+                resetInteractionState(cancelScaleAnimation: true)
+                didCompleteExpandAction = false
+            }
+    }
+
+    var shouldUseHoverExpansion: Bool {
+        notchViewModel.shouldExpandActiveContentOnHover
+    }
+
+    var shouldMaintainHoverScaleAfterRelease: Bool {
+        shouldUseHoverExpansion && isHovering
     }
 
     private func startPressAnimation() {
@@ -126,42 +152,111 @@ private extension NotchCustomScaleModifier {
         }
     }
 
-    private func performPressHaptic() {
+    private func startHoverAnimation() {
+        pressAnimationToken = nil
+
+        withAnimation(.easeOut(duration: min(0.18, notchViewModel.notchHoverExpandDelay))) {
+            pressScale = scaleFactor
+        }
+    }
+
+    private func performExpandHaptic() {
         NSHapticFeedbackManager.defaultPerformer.perform(.alignment, performanceTime: .now)
     }
 
-    private func scheduleExpansionIfNeeded() {
-        guard pendingExpansionToken == nil,
+    private func schedulePressHoldExpansionIfNeeded() {
+        guard pendingHoldExpansionToken == nil,
               notchViewModel.shouldExpandActiveContentOnPressAndHold else {
             return
         }
 
         let token = UUID()
         let holdToExpandDelay = notchViewModel.notchPressHoldDuration
-        pendingExpansionToken = token
+        pendingHoldExpansionToken = token
 
         DispatchQueue.main.asyncAfter(deadline: .now() + holdToExpandDelay) {
-            guard pendingExpansionToken == token,
+            guard pendingHoldExpansionToken == token,
                   isPressed,
                   notchViewModel.shouldExpandActiveContentOnPressAndHold,
                   !notchViewModel.notchModel.isPresentingExpandedLiveActivity else {
                 return
             }
 
-            pendingExpansionToken = nil
-            didCompleteHoldAction = true
-            performPressHaptic()
-            resetPressState(cancelPressAnimation: true)
+            pendingHoldExpansionToken = nil
+            didCompleteExpandAction = true
+            performExpandHaptic()
+            resetInteractionState(cancelScaleAnimation: true)
             notchViewModel.handleActiveContentTap()
         }
     }
 
-    private func resetPressState(cancelPressAnimation: Bool) {
-        pendingExpansionToken = nil
+    private func scheduleHoverExpansionIfNeeded() {
+        guard pendingHoverExpansionToken == nil,
+              isHovering,
+              notchViewModel.shouldExpandActiveContentOnHover else {
+            return
+        }
+
+        let token = UUID()
+        let hoverToExpandDelay = notchViewModel.notchHoverExpandDelay
+        pendingHoverExpansionToken = token
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + hoverToExpandDelay) {
+            guard pendingHoverExpansionToken == token,
+                  isHovering,
+                  notchViewModel.shouldExpandActiveContentOnHover,
+                  !notchViewModel.notchModel.isPresentingExpandedLiveActivity,
+                  !notchViewModel.isActivityPresentationHidden else {
+                return
+            }
+
+            pendingHoverExpansionToken = nil
+            didCompleteExpandAction = true
+            performExpandHaptic()
+            resetInteractionState(cancelScaleAnimation: true)
+            notchViewModel.handleActiveContentTap()
+        }
+    }
+
+    private func handleHoverChange(isHovering: Bool) {
+        self.isHovering = isHovering
+
+        guard notchViewModel.shouldExpandActiveContentOnHover,
+              !notchViewModel.isActivityPresentationHidden,
+              !notchViewModel.notchModel.isPresentingExpandedLiveActivity else {
+            if !isHovering {
+                resetHoverState()
+            }
+            return
+        }
+
+        if isHovering {
+            didCompleteExpandAction = false
+            startHoverAnimation()
+            scheduleHoverExpansionIfNeeded()
+        } else {
+            resetHoverState()
+        }
+    }
+
+    private func resetHoverState() {
+        pendingHoverExpansionToken = nil
+        pressAnimationToken = nil
+
+        if pressScale != 1 {
+            withAnimation(.easeOut(duration: 0.12)) {
+                pressScale = 1
+            }
+        }
+    }
+
+    private func resetInteractionState(cancelScaleAnimation: Bool) {
+        pendingHoldExpansionToken = nil
+        pendingHoverExpansionToken = nil
         initialPressLocation = nil
         isPressValidForTap = false
 
-        if cancelPressAnimation {
+        if cancelScaleAnimation {
             pressAnimationToken = nil
 
             if pressScale != 1 {

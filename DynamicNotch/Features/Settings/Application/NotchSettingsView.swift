@@ -172,7 +172,7 @@ struct NotchSettingsView: View {
 
             SettingsMenuRow(
                 title: "Expand gesture",
-                description: "Choose whether expanded content opens on click or after holding the notch.",
+                description: "Choose whether expanded content opens on click, after holding the notch, or after hovering over it.",
                 options: Array(NotchExpandInteraction.allCases),
                 optionTitle: { $0.title },
                 accessibilityIdentifier: "settings.notch.expandInteraction",
@@ -184,7 +184,7 @@ struct NotchSettingsView: View {
 
             SettingsSliderRow(
                 title: "Press and hold timing",
-                description: "Adjust how quickly the notch press peaks and hold-to-expand triggers.",
+                description: "Adjust how quickly press-and-hold and hover expansion trigger.",
                 range: ApplicationSettingsStore.notchPressHoldDurationRange,
                 step: ApplicationSettingsStore.notchPressHoldDurationStep,
                 fractionLength: 2,
@@ -192,6 +192,7 @@ struct NotchSettingsView: View {
                 accessibilityIdentifier: "settings.notch.pressHoldDuration",
                 value: $applicationSettings.notchPressHoldDuration
             )
+            .disabled(applicationSettings.notchExpandInteraction == .click)
 
             Divider()
                 .opacity(0.6)

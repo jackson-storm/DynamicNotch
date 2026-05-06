@@ -5,7 +5,23 @@ enum SettingsWindowCoordinator {
     static let identifier = NSUserInterfaceItemIdentifier(WindowsScene.settings)
 
     static func configure(_ window: NSWindow) {
+        if let existingWindow = settingsWindow(excluding: window) {
+            window.close()
+            focus(existingWindow)
+            return
+        }
+
         window.identifier = identifier
+    }
+
+    @discardableResult
+    static func activateExisting() -> Bool {
+        guard let window = settingsWindow() else {
+            return false
+        }
+
+        focus(window)
+        return true
     }
 
     static func activate(attempts: Int = 6) {
@@ -14,9 +30,8 @@ enum SettingsWindowCoordinator {
     }
 
     private static func focusWindow(attempts: Int) {
-        if let window = NSApp.windows.first(where: { $0.identifier == identifier }) {
-            window.makeKeyAndOrderFront(nil)
-            NSApp.activate(ignoringOtherApps: true)
+        if let window = settingsWindow() {
+            focus(window)
             return
         }
 
@@ -25,6 +40,21 @@ enum SettingsWindowCoordinator {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
             focusWindow(attempts: attempts - 1)
         }
+    }
+
+    private static func settingsWindow(excluding excludedWindow: NSWindow? = nil) -> NSWindow? {
+        NSApp.windows.first {
+            $0.identifier == identifier && $0 !== excludedWindow
+        }
+    }
+
+    private static func focus(_ window: NSWindow) {
+        if window.isMiniaturized {
+            window.deminiaturize(nil)
+        }
+
+        window.makeKeyAndOrderFront(nil)
+        NSApp.activate(ignoringOtherApps: true)
     }
 }
 

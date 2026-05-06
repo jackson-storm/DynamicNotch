@@ -22,6 +22,7 @@ final class ScreenRecordingSettingsStore: SettingsStoreBase {
     }
 
     override init(defaults: UserDefaults) {
+        defaults.register(defaults: GeneralSettingsStorage.defaultValues)
         self.isScreenRecordingLiveActivityEnabled = Self.resolvedBool(
             defaults: defaults,
             key: GeneralSettingsStorage.Keys.screenRecordingLiveActivityEnabled

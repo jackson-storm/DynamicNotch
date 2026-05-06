@@ -24,7 +24,8 @@ final class NotchHUDEventsHandler {
                         level: level,
                         style: settingsViewModel.hudStyle,
                         indicatorStyle: settingsViewModel.hudIndicatorStyle,
-                        usesColoredLevelTint: settingsViewModel.isHUDColoredLevelEnabled,
+                        indicatorTintStyle: settingsViewModel.hudIndicatorTintStyle,
+                        showsIndicatorGlow: settingsViewModel.isHUDIndicatorGlowEnabled,
                         usesColoredLevelStroke: settingsViewModel.isHUDColoredLevelStrokeEnabled,
                         applicationSettings: settingsViewModel.application
                     ),
@@ -41,7 +42,8 @@ final class NotchHUDEventsHandler {
                         level: level,
                         style: settingsViewModel.hudStyle,
                         indicatorStyle: settingsViewModel.hudIndicatorStyle,
-                        usesColoredLevelTint: settingsViewModel.isHUDColoredLevelEnabled,
+                        indicatorTintStyle: settingsViewModel.hudIndicatorTintStyle,
+                        showsIndicatorGlow: settingsViewModel.isHUDIndicatorGlowEnabled,
                         usesColoredLevelStroke: settingsViewModel.isHUDColoredLevelStrokeEnabled,
                         applicationSettings: settingsViewModel.application
                     ),
@@ -58,7 +60,8 @@ final class NotchHUDEventsHandler {
                         level: level,
                         style: settingsViewModel.hudStyle,
                         indicatorStyle: settingsViewModel.hudIndicatorStyle,
-                        usesColoredLevelTint: settingsViewModel.isHUDColoredLevelEnabled,
+                        indicatorTintStyle: settingsViewModel.hudIndicatorTintStyle,
+                        showsIndicatorGlow: settingsViewModel.isHUDIndicatorGlowEnabled,
                         usesColoredLevelStroke: settingsViewModel.isHUDColoredLevelStrokeEnabled,
                         applicationSettings: settingsViewModel.application
                     ),

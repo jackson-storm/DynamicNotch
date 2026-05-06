@@ -157,6 +157,7 @@ final class ConnectivitySettingsStore: SettingsStoreBase {
     }
 
     override init(defaults: UserDefaults) {
+        defaults.register(defaults: GeneralSettingsStorage.defaultValues)
         self.isHotspotLiveActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.hotspotLiveActivityEnabled)
         self.isFocusLiveActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.focusLiveActivityEnabled)
         self.focusAppearanceStyle = FocusAppearanceStyle.resolved(

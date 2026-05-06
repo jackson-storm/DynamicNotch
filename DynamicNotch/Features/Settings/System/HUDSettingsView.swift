@@ -141,13 +141,24 @@ struct HUDSettingsView: View {
 
             Divider().opacity(0.6)
 
+            SettingsMenuRow(
+                title: "Indicator tint",
+                description: "Choose the color used by the HUD level indicator.",
+                options: Array(HudIndicatorTintStyle.allCases),
+                optionTitle: { $0.title },
+                accessibilityIdentifier: "settings.general.hud.indicatorTint",
+                selection: $settings.indicatorTintStyle
+            )
+            
+            Divider().opacity(0.6)
+
             SettingsToggleRow(
-                title: "Colored level tint",
-                description: "Use the dynamic green-to-red fill for the HUD level indicator instead of a plain white fill.",
-                systemImage: "paintpalette.fill",
-                color: .purple,
-                isOn: $settings.isColoredLevelEnabled,
-                accessibilityIdentifier: "settings.general.hud.coloredLevel"
+                title: "Indicator glow",
+                description: "Add a soft glow around the HUD level indicator.",
+                systemImage: "sparkles",
+                color: .yellow,
+                isOn: $settings.isIndicatorGlowEnabled,
+                accessibilityIdentifier: "settings.general.hud.indicatorGlow"
             )
 
             Divider()
@@ -243,7 +254,8 @@ struct HUDSettingsView: View {
         HudLevelIndicatorView(
             level: 72,
             indicatorStyle: settings.indicatorStyle,
-            usesColoredLevelTint: settings.isColoredLevelEnabled,
+            tintStyle: settings.indicatorTintStyle,
+            showsGlow: settings.isIndicatorGlowEnabled,
             barWidth: 30,
             barHeight: 4,
             circleSize: 16,

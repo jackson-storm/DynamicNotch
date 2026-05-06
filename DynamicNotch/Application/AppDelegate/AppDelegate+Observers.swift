@@ -4,6 +4,13 @@ import Combine
 
 extension AppDelegate {
     func observeFeatureMonitoringChanges() {
+        settingsViewModel.mediaAndFiles.$nowPlayingSourceFilter
+            .removeDuplicates()
+            .sink { [weak self] sourceFilter in
+                self?.nowPlayingViewModel.updateSourceFilter(sourceFilter)
+            }
+            .store(in: &cancellables)
+
         Publishers.CombineLatest(
             settingsViewModel.mediaAndFiles.$isNowPlayingLiveActivityEnabled.removeDuplicates(),
             settingsViewModel.lockScreen.$isLockScreenMediaPanelEnabled.removeDuplicates()

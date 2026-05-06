@@ -331,7 +331,7 @@ struct SettingsRootView: View {
 
         case .drop:
             detailContainer(for: section) {
-                DropSettingsView(
+                DragAndDropSettingsView(
                     mediaSettings: settingsViewModel.mediaAndFiles,
                     appearanceSettings: settingsViewModel.application
                 )

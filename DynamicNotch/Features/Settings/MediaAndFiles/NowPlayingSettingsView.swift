@@ -37,6 +37,17 @@ struct NowPlayingSettingsView: View {
                 isOn: $settings.isNowPlayingLiveActivityEnabled,
                 accessibilityIdentifier: "settings.activities.live.nowPlaying"
             )
+
+            Divider().opacity(0.6)
+
+            SettingsMenuRow(
+                title: "Playback source",
+                description: "Choose which media app can show Now Playing in the notch.",
+                options: Array(NowPlayingSourceFilter.allCases),
+                optionTitle: { $0.title },
+                accessibilityIdentifier: "settings.activities.live.nowPlaying.sourceFilter",
+                selection: $settings.nowPlayingSourceFilter
+            )
         }
     }
 

@@ -409,7 +409,64 @@
         }
       }
     },
+    "Add a soft glow around the HUD level indicator." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add a soft glow around the HUD level indicator."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Añade un brillo suave alrededor del indicador de nivel del HUD."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавить мягкое свечение вокруг индикатора уровня HUD."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "为 HUD 级别指示器添加柔和光晕。"
+          }
+        }
+      }
+    },
+    "Adjust how quickly press-and-hold and hover expansion trigger." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adjust how quickly press-and-hold and hover expansion trigger."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajusta la rapidez con la que se activan la expansión al mantener pulsado y al pasar el cursor."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройте, как быстро срабатывает раскрытие при удержании и наведении."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "调整按住和悬停展开的触发速度。"
+          }
+        }
+      }
+    },
     "Adjust how quickly the notch press peaks and hold-to-expand triggers." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -584,7 +641,32 @@
 
     },
     "All" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todo"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Все"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部"
+          }
+        }
+      }
     },
     "Allow gestures to bring back the most recently dismissed activity." : {
       "localizations" : {
@@ -750,6 +832,174 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "动画速度"
+          }
+        }
+      }
+    },
+    "Any source" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Any source"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cualquier fuente"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Любой источник"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "任何来源"
+          }
+        }
+      }
+    },
+    "Apple Music" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple Music"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple Music"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple Music"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple Music"
+          }
+        }
+      }
+    },
+    "Choose which media app can show Now Playing in the notch." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose which media app can show Now Playing in the notch."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige qué app multimedia puede mostrar Now Playing en la muesca."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите, из какого медиаприложения показывать Now Playing в notch."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择哪个媒体 App 可以在刘海中显示正在播放。"
+          }
+        }
+      }
+    },
+    "Playback source" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Playback source"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fuente de reproducción"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Источник воспроизведения"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "播放来源"
+          }
+        }
+      }
+    },
+    "Spotify" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotify"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotify"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotify"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotify"
+          }
+        }
+      }
+    },
+    "YouTube Music" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "YouTube Music"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "YouTube Music"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "YouTube Music"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "YouTube Music"
           }
         }
       }
@@ -1931,6 +2181,34 @@
         }
       }
     },
+    "Choose how files scroll inside the expanded Tray." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose how files scroll inside the expanded Tray."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige cómo se desplazan los archivos dentro del Tray expandido."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите, как файлы прокручиваются в раскрытом трее."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择文件在展开的 Tray 中的滚动方式。"
+          }
+        }
+      }
+    },
     "Choose how hardware HUD feedback is laid out inside the notch." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -2583,6 +2861,34 @@
         }
       }
     },
+    "Choose the color used by the HUD level indicator." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose the color used by the HUD level indicator."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige el color usado por el indicador de nivel del HUD."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите цвет индикатора уровня HUD."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择 HUD 级别指示器使用的颜色。"
+          }
+        }
+      }
+    },
     "Choose the interface appearance used by the app." : {
       "localizations" : {
         "en" : {
@@ -2811,30 +3117,30 @@
         }
       }
     },
-    "Choose whether expanded content opens on click or after holding the notch." : {
+    "Choose whether expanded content opens on click, after holding the notch, or after hovering over it." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Choose whether expanded content opens on click or after holding the notch."
+            "value" : "Choose whether expanded content opens on click, after holding the notch, or after hovering over it."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Elige si el contenido expandido se abre con un clic o al mantener pulsada la muesca."
+            "value" : "Elige si el contenido expandido se abre con un clic, al mantener pulsada la muesca o al pasar el cursor sobre ella."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Выберите, открывать расширенный контент нажатием или после удержания выреза."
+            "value" : "Выберите, открывать расширенный контент нажатием, после удержания выреза или после наведения на него."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "选择展开内容是点击打开，还是按住刘海后打开。"
+            "value" : "选择展开内容是点击打开、按住刘海后打开，还是悬停在其上方后打开。"
           }
         }
       }
@@ -3004,6 +3310,63 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "选择 VPN 活动是保持紧凑还是显示隧道详细信息。"
+          }
+        }
+      }
+    },
+    "Choose whether Tray keeps file copies or moves originals into Tray storage." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose whether Tray keeps file copies or moves originals into Tray storage."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige si Tray conserva copias de los archivos o mueve los originales al almacenamiento de Tray."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите, будет ли Tray хранить копии файлов или перемещать оригиналы в хранилище Tray."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择 Tray 是保留文件副本，还是将原件移动到 Tray 存储中。"
+          }
+        }
+      }
+    },
+    "Choose whether Tray keeps file references or moves originals into Tray storage." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose whether Tray keeps file references or moves originals into Tray storage."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige si Tray conserva referencias a los archivos o mueve los originales al almacenamiento de Tray."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите, будет ли Tray хранить ссылки на файлы или перемещать оригиналы в хранилище Tray."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择 Tray 是保留文件引用，还是将原件移动到 Tray 存储中。"
           }
         }
       }
@@ -3324,6 +3687,7 @@
       }
     },
     "Colored level tint" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3809,6 +4173,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "控制网络通知的显示时间以及 VPN 活动在凹口中的外观。"
+          }
+        }
+      }
+    },
+    "Copy" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copy"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copiar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Копировать"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "复制"
           }
         }
       }
@@ -4550,7 +4942,6 @@
       }
     },
     "File Tray" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -5333,6 +5724,34 @@
         }
       }
     },
+    "Hide remove button" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide remove button"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ocultar botón de eliminación"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скрыть кнопку удаления"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隐藏移除按钮"
+          }
+        }
+      }
+    },
     "Hide the Focus live activity and show the short \"Off\" notification." : {
       "localizations" : {
         "en" : {
@@ -5357,6 +5776,62 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "隐藏 Focus 实时活动并显示简短的“关闭”通知。"
+          }
+        }
+      }
+    },
+    "Hide the x button on file cards in the expanded Tray." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide the x button on file cards in the expanded Tray."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oculta el botón x en las tarjetas de archivos del Tray expandido."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скрывать кнопку x на карточках файлов в раскрытом трее."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隐藏展开的 Tray 中文件卡片上的 x 按钮。"
+          }
+        }
+      }
+    },
+    "Horizontal" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Horizontal"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Horizontal"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Горизонтально"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "水平"
           }
         }
       }
@@ -5418,7 +5893,6 @@
       }
     },
     "Hover" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -5670,6 +6144,90 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "仅图标"
+          }
+        }
+      }
+    },
+    "If the original is moved to the tray and deleted from there, you can restore it in the system trash." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "If the original is moved to the tray and deleted from there, you can restore it in the system trash."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si el original se mueve al Tray y se elimina desde allí, puedes restaurarlo desde la papelera del sistema."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Если оригинал перемещен в трей и удален оттуда, его можно восстановить из системной корзины."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果原件被移动到 Tray 后又从那里删除，你可以在系统废纸篓中恢复。"
+          }
+        }
+      }
+    },
+    "Indicator glow" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indicator glow"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Brillo del indicador"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Свечение индикатора"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "指示器光晕"
+          }
+        }
+      }
+    },
+    "Indicator tint" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indicator tint"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Color del indicador"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цвет индикатора"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "指示器颜色"
           }
         }
       }
@@ -5952,6 +6510,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "登录时自动启动 Dynamic Notch。"
+          }
+        }
+      }
+    },
+    "Level color" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Level color"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Color del nivel"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цвет уровня"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "级别颜色"
           }
         }
       }
@@ -6769,6 +7355,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "鼠标拖动手势"
+          }
+        }
+      }
+    },
+    "Move originals" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Move originals"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mover originales"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перемещать оригиналы"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移动原件"
           }
         }
       }
@@ -8466,6 +9080,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "屏幕录制实时活动"
+          }
+        }
+      }
+    },
+    "Scroll direction" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scroll direction"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dirección de desplazamiento"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Направление прокрутки"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "滚动方向"
           }
         }
       }
@@ -14915,6 +15557,34 @@
         }
       }
     },
+    "System accent" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "System accent"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acento del sistema"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Системный акцент"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "系统强调色"
+          }
+        }
+      }
+    },
     "Tap to expand live activity" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -15369,6 +16039,34 @@
         }
       }
     },
+    "Tray appearance" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tray appearance"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aspecto de Tray"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Внешний вид трея"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tray 外观"
+          }
+        }
+      }
+    },
     "Tray live activity" : {
       "localizations" : {
         "en" : {
@@ -15393,6 +16091,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tray 实时活动"
+          }
+        }
+      }
+    },
+    "Tray usage" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tray usage"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uso de Tray"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Режим трея"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tray 使用方式"
           }
         }
       }
@@ -15684,6 +16410,7 @@
       }
     },
     "Use the dynamic green-to-red fill for the HUD level indicator instead of a plain white fill." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -16078,6 +16805,34 @@
         }
       }
     },
+    "Vertical" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vertical"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vertical"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вертикально"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "垂直"
+          }
+        }
+      }
+    },
     "Volume" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -16357,6 +17112,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "网站"
+          }
+        }
+      }
+    },
+    "White" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "White"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blanco"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Белый"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "白色"
           }
         }
       }

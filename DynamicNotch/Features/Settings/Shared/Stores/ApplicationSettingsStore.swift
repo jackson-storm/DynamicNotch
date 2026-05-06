@@ -8,6 +8,7 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
     static let notchPressHoldDurationRange: ClosedRange<Double> = 0.20...0.60
     static let notchPressHoldDurationStep: Double = 0.01
     static let defaultNotchPressHoldDuration: TimeInterval = 0.25
+    static let notchStrokeWidthRange: ClosedRange<Double> = 1.0...3.0
 
     @Published var isLaunchAtLoginEnabled: Bool {
         didSet {
@@ -70,6 +71,13 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
 
     @Published var notchStrokeWidth: Double {
         didSet {
+            let clampedValue = Self.clampNotchStrokeWidth(notchStrokeWidth)
+
+            if clampedValue != notchStrokeWidth {
+                notchStrokeWidth = clampedValue
+                return
+            }
+
             persist(notchStrokeWidth, for: GeneralSettingsStorage.Keys.notchStrokeWidth)
         }
     }
@@ -233,6 +241,8 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
     }
 
     override init(defaults: UserDefaults) {
+        defaults.register(defaults: GeneralSettingsStorage.defaultValues)
+
         self.isLaunchAtLoginEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.launchAtLogin)
         self.isDockIconVisible = defaults.bool(forKey: GeneralSettingsStorage.Keys.dockIcon)
         self.appearanceMode = SettingsAppearanceMode.resolved(
@@ -244,9 +254,12 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         self.notchWidth = defaults.integer(forKey: GeneralSettingsStorage.Keys.notchWidth)
         self.notchHeight = defaults.integer(forKey: GeneralSettingsStorage.Keys.notchHeight)
         self.isMenuBarIconVisible = defaults.bool(forKey: GeneralSettingsStorage.Keys.menuBarIcon)
-        self.isShowNotchStrokeEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.notchStrokeEnabled)
+        self.isShowNotchStrokeEnabled = Self.resolvedBool(
+            defaults: defaults,
+            key: GeneralSettingsStorage.Keys.notchStrokeEnabled
+        )
         self.isDefaultActivityStrokeEnabled = Self.resolvedDefaultActivityStrokeEnabled(defaults: defaults)
-        self.notchStrokeWidth = defaults.double(forKey: GeneralSettingsStorage.Keys.notchStrokeWidth)
+        self.notchStrokeWidth = Self.resolvedNotchStrokeWidth(defaults: defaults)
         self.displayLocation = NotchDisplayLocation(
             rawValue: defaults.string(forKey: GeneralSettingsStorage.Keys.displayLocation) ?? NotchDisplayLocation.main.rawValue
         ) ?? .main
@@ -304,6 +317,7 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
             Self.defaultTemporaryActivityDuration(for: GeneralSettingsStorage.Keys.notchSizeTemporaryActivityDuration)
         )
         super.init(defaults: defaults)
+        persistSanitizedNotchStrokeSettingsIfNeeded()
         ensureSpecificDisplaySelection(previousLocation: .main)
         updateLaunchAtLogin()
     }
@@ -411,6 +425,40 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         }
 
         return (GeneralSettingsStorage.defaultValues[key] as? Bool) ?? false
+    }
+
+    private static func resolvedNotchStrokeWidth(defaults: UserDefaults) -> Double {
+        let key = GeneralSettingsStorage.Keys.notchStrokeWidth
+
+        guard let currentValue = (defaults.object(forKey: key) as? NSNumber)?.doubleValue else {
+            return defaultDoubleValue(for: key)
+        }
+
+        return clampNotchStrokeWidth(currentValue)
+    }
+
+    private static func defaultDoubleValue(for key: String) -> Double {
+        (GeneralSettingsStorage.defaultValues[key] as? Double) ?? 0
+    }
+
+    private static func clampNotchStrokeWidth(_ value: Double) -> Double {
+        min(
+            max(value, notchStrokeWidthRange.lowerBound),
+            notchStrokeWidthRange.upperBound
+        )
+    }
+
+    private func persistSanitizedNotchStrokeSettingsIfNeeded() {
+        let key = GeneralSettingsStorage.Keys.notchStrokeWidth
+
+        guard let storedValue = (defaults.object(forKey: key) as? NSNumber)?.doubleValue else {
+            return
+        }
+
+        let clampedValue = Self.clampNotchStrokeWidth(storedValue)
+        guard clampedValue != storedValue else { return }
+
+        persist(clampedValue, for: key)
     }
 
     private static func clampNotchPressHoldDuration(_ value: TimeInterval) -> TimeInterval {

@@ -5,7 +5,7 @@ import Combine
 class SettingsStoreBase: ObservableObject {
     class var temporaryActivityDurationRange: ClosedRange<Int> { 1...5 }
 
-    fileprivate let defaults: UserDefaults
+    let defaults: UserDefaults
 
     init(defaults: UserDefaults) {
         self.defaults = defaults

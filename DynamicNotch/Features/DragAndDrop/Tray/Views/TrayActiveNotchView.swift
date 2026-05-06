@@ -13,7 +13,7 @@ struct TrayActiveNotchView: View {
     
     var body: some View {
         HStack {
-            Image(systemName: "document.fill")
+            Image(systemName: "tray.full.fill")
                 .font(.system(size: 18, weight: .semibold))
                 .foregroundStyle(.white)
             

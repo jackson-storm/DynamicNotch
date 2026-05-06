@@ -49,6 +49,10 @@ final class NotchEngine: ObservableObject {
         max(0, configuredQueueDelay ?? animations.queuePacingDelay)
     }
 
+    private var strokeHideDelay: TimeInterval {
+        max(0, hideDelay + 0.01)
+    }
+
     var canExpandActiveLiveActivity: Bool {
         guard notchModel.temporaryNotificationContent == nil else { return false }
         guard let liveActivityContent = notchModel.liveActivityContent else { return false }
@@ -243,7 +247,7 @@ final class NotchEngine: ObservableObject {
             cachedStrokeColor = content.strokeColor
             showNotch = true
         } else {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
+            DispatchQueue.main.asyncAfter(deadline: .now() + strokeHideDelay) { [weak self] in
                 guard let self, self.notchModel.content == nil else { return }
                 self.cachedStrokeColor = .clear
                 self.showNotch = false

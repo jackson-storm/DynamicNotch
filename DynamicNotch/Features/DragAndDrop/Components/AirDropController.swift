@@ -65,12 +65,17 @@ final class NotchAirDropController: NSObject, ObservableObject {
         return true
     }
 
-    func handleTrayDrop(_ pasteboard: NSPasteboard) -> Bool {
+    func handleTrayDrop(_ pasteboard: NSPasteboard, mode: FileTrayUsageMode) -> Bool {
         guard let fileURLs = pasteboard.fileURLsForAirDrop(), !fileURLs.isEmpty else {
             return false
         }
 
-        fileTrayViewModel.add(fileURLs)
+        do {
+            try fileTrayViewModel.add(fileURLs, mode: mode)
+        } catch {
+            present(error: error)
+            return false
+        }
         suppressTargetResetEvent = true
         isTargeted = false
         airDropViewModel.handleSuccessfulDrop()

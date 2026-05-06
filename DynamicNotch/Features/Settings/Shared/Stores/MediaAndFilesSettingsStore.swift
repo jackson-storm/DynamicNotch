@@ -54,6 +54,12 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         }
     }
 
+    @Published var nowPlayingSourceFilter: NowPlayingSourceFilter {
+        didSet {
+            persist(nowPlayingSourceFilter.rawValue, for: GeneralSettingsStorage.Keys.nowPlayingSourceFilter)
+        }
+    }
+
     @Published var isDownloadsLiveActivityEnabled: Bool {
         didSet {
             persist(isDownloadsLiveActivityEnabled, for: GeneralSettingsStorage.Keys.downloadsLiveActivityEnabled)
@@ -104,6 +110,24 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
             persist(isTrayLiveActivityEnabled, for: GeneralSettingsStorage.Keys.trayLiveActivityEnabled)
         }
     }
+    
+    @Published var fileTrayUsageMode: FileTrayUsageMode {
+        didSet {
+            persist(fileTrayUsageMode.rawValue, for: GeneralSettingsStorage.Keys.fileTrayUsageMode)
+        }
+    }
+
+    @Published var fileTrayScrollDirection: FileTrayScrollDirection {
+        didSet {
+            persist(fileTrayScrollDirection.rawValue, for: GeneralSettingsStorage.Keys.fileTrayScrollDirection)
+        }
+    }
+
+    @Published var isFileTrayRemoveButtonHidden: Bool {
+        didSet {
+            persist(isFileTrayRemoveButtonHidden, for: GeneralSettingsStorage.Keys.fileTrayRemoveButtonHidden)
+        }
+    }
 
     @Published var dragAndDropActivityMode: DragAndDropActivityMode {
         didSet {
@@ -124,6 +148,7 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
     }
 
     override init(defaults: UserDefaults) {
+        defaults.register(defaults: GeneralSettingsStorage.defaultValues)
         self.isNowPlayingLiveActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.nowPlayingLiveActivityEnabled)
         self.isNowPlayingFavoriteButtonVisible = defaults.bool(forKey: GeneralSettingsStorage.Keys.nowPlayingFavoriteButtonVisible)
         self.isNowPlayingOutputDeviceButtonVisible = defaults.bool(forKey: GeneralSettingsStorage.Keys.nowPlayingOutputDeviceButtonVisible)
@@ -136,6 +161,9 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         self.nowPlayingPauseHideDelay = Self.clampTemporaryActivityDuration(
             defaults.object(forKey: GeneralSettingsStorage.Keys.nowPlayingPauseHideDelay) as? Int ??
             Self.defaultTemporaryActivityDuration(for: GeneralSettingsStorage.Keys.nowPlayingPauseHideDelay)
+        )
+        self.nowPlayingSourceFilter = NowPlayingSourceFilter.resolved(
+            defaults.string(forKey: GeneralSettingsStorage.Keys.nowPlayingSourceFilter)
         )
         let hasLegacyDownloadsValue = defaults.object(forKey: GeneralSettingsStorage.Keys.legacyFileTransfersLiveActivityEnabled) != nil
         let downloadsSettingValue = defaults.object(forKey: GeneralSettingsStorage.Keys.downloadsLiveActivityEnabled) as? Bool
@@ -161,6 +189,16 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
             defaults: defaults,
             key: GeneralSettingsStorage.Keys.trayLiveActivityEnabled
         )
+        self.fileTrayUsageMode = FileTrayUsageMode.resolved(
+            defaults.string(forKey: GeneralSettingsStorage.Keys.fileTrayUsageMode)
+        )
+        self.fileTrayScrollDirection = FileTrayScrollDirection.resolved(
+            defaults.string(forKey: GeneralSettingsStorage.Keys.fileTrayScrollDirection)
+        )
+        self.isFileTrayRemoveButtonHidden = Self.resolvedBool(
+            defaults: defaults,
+            key: GeneralSettingsStorage.Keys.fileTrayRemoveButtonHidden
+        )
         self.dragAndDropActivityMode = DragAndDropActivityMode.resolved(
             defaults.string(forKey: GeneralSettingsStorage.Keys.dragAndDropActivityMode)
         )
@@ -180,6 +218,9 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         )
         nowPlayingPauseHideDelay = Self.clampTemporaryActivityDuration(
             defaultInt(for: GeneralSettingsStorage.Keys.nowPlayingPauseHideDelay)
+        )
+        nowPlayingSourceFilter = NowPlayingSourceFilter.resolved(
+            defaultString(for: GeneralSettingsStorage.Keys.nowPlayingSourceFilter)
         )
     }
 
@@ -202,6 +243,13 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         dragAndDropActivityMode = DragAndDropActivityMode.resolved(
             defaultString(for: GeneralSettingsStorage.Keys.dragAndDropActivityMode)
         )
+        fileTrayUsageMode = FileTrayUsageMode.resolved(
+            defaultString(for: GeneralSettingsStorage.Keys.fileTrayUsageMode)
+        )
+        fileTrayScrollDirection = FileTrayScrollDirection.resolved(
+            defaultString(for: GeneralSettingsStorage.Keys.fileTrayScrollDirection)
+        )
+        isFileTrayRemoveButtonHidden = defaultBool(for: GeneralSettingsStorage.Keys.fileTrayRemoveButtonHidden)
     }
 
     func resetTimer() {

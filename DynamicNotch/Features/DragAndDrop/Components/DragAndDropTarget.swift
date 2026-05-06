@@ -33,7 +33,7 @@ enum DragAndDropTarget: String, Equatable, CaseIterable {
                 .foregroundStyle(Color.accentColor)
             
         case .tray:
-            Text(verbatim: "File Tray")
+            Text("File Tray")
                 .font(.system(size: 12))
                 .foregroundStyle(Color.white.opacity(0.8))
         }

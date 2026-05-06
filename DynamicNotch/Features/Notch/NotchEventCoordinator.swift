@@ -117,7 +117,10 @@ final class NotchEventCoordinator: ObservableObject {
 
             notchViewModel.send(
                 .showLiveActivity(
-                    TrayActiveNotchContent(fileTrayViewModel: fileTrayViewModel)
+                    TrayActiveNotchContent(
+                        fileTrayViewModel: fileTrayViewModel,
+                        mediaSettings: settingsViewModel.mediaAndFiles
+                    )
                 )
             )
         }
@@ -331,7 +334,10 @@ final class NotchEventCoordinator: ObservableObject {
 
         notchViewModel.send(
             .showLiveActivity(
-                TrayActiveNotchContent(fileTrayViewModel: fileTrayViewModel)
+                TrayActiveNotchContent(
+                    fileTrayViewModel: fileTrayViewModel,
+                    mediaSettings: settingsViewModel.mediaAndFiles
+                )
             )
         )
     }

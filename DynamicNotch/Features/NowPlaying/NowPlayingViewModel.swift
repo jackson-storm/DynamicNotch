@@ -44,8 +44,10 @@ final class NowPlayingViewModel: ObservableObject {
     private let artworkFlipAnimationDuration: TimeInterval = 0.45
     private let artworkSwapDelay: TimeInterval = 0.4
     private let transientSessionGracePeriod: TimeInterval = 0.55
+    private var sourceFilter: NowPlayingSourceFilter
     private var hasStartedMonitoring = false
     private var ignoresServiceSnapshots = false
+    private var latestServiceSnapshot: NowPlayingSnapshot?
     private var artworkFlipCooldownActive = false
     private var artworkPresentationWorkItem: DispatchWorkItem?
     private var pendingSessionEndWorkItem: DispatchWorkItem?
@@ -65,7 +67,8 @@ final class NowPlayingViewModel: ObservableObject {
             service: MediaRemoteNowPlayingService(),
             audioOutputRouting: SystemAudioOutputRoutingService(),
             favoritesStore: .standard,
-            playbackSourceOpener: WorkspacePlaybackSourceOpener()
+            playbackSourceOpener: WorkspacePlaybackSourceOpener(),
+            sourceFilter: .any
         )
     }
 
@@ -73,13 +76,15 @@ final class NowPlayingViewModel: ObservableObject {
         service: any NowPlayingMonitoring,
         audioOutputRouting: (any AudioOutputRouting)? = nil,
         favoritesStore: UserDefaults = .standard,
-        playbackSourceOpener: (any PlaybackSourceOpening)? = nil
+        playbackSourceOpener: (any PlaybackSourceOpening)? = nil,
+        sourceFilter: NowPlayingSourceFilter = .any
     ) {
         self.service = service
         self.audioOutputRouting = audioOutputRouting ?? InactiveAudioOutputRoutingService()
         self.favoritesStore = favoritesStore
         self.detailPollingService = service as? any NowPlayingDetailPollingConfigurable
         self.playbackSourceOpener = playbackSourceOpener ?? WorkspacePlaybackSourceOpener()
+        self.sourceFilter = sourceFilter
         self.service.onSnapshotChange = { [weak self] snapshot in
             guard let self else { return }
 
@@ -113,7 +118,20 @@ final class NowPlayingViewModel: ObservableObject {
         updateDetailPollingState()
         cancelPendingSessionEnd()
         cancelPendingArtworkPresentation()
+        latestServiceSnapshot = nil
         apply(snapshot: nil)
+    }
+
+    func updateSourceFilter(_ sourceFilter: NowPlayingSourceFilter) {
+        guard self.sourceFilter != sourceFilter else { return }
+
+        self.sourceFilter = sourceFilter
+
+        #if DEBUG
+        guard !isShowingDebugPreviewSnapshot else { return }
+        #endif
+
+        refreshVisibleSnapshotForCurrentSourceFilter()
     }
 
     func togglePlayPause() {
@@ -323,9 +341,10 @@ private extension NowPlayingViewModel {
     func handleServiceSnapshot(_ snapshot: NowPlayingSnapshot?) {
         guard !ignoresServiceSnapshots else { return }
 
+        latestServiceSnapshot = snapshot
+
         if let snapshot {
-            cancelPendingSessionEnd()
-            apply(snapshot: snapshot)
+            applyServiceSnapshotIfAllowed(snapshot)
         } else {
             scheduleSessionEnd()
         }
@@ -391,6 +410,29 @@ private extension NowPlayingViewModel {
                 event = .playbackStateChanged(isPlaying: isPlaying)
             }
         }
+    }
+
+    func applyServiceSnapshotIfAllowed(_ serviceSnapshot: NowPlayingSnapshot) {
+        cancelPendingSessionEnd()
+
+        guard sourceFilter.allows(serviceSnapshot.playbackSource) else {
+            cancelPendingArtworkPresentation()
+            apply(snapshot: nil)
+            return
+        }
+
+        apply(snapshot: serviceSnapshot)
+    }
+
+    func refreshVisibleSnapshotForCurrentSourceFilter() {
+        cancelPendingSessionEnd()
+
+        guard let latestServiceSnapshot else {
+            apply(snapshot: nil)
+            return
+        }
+
+        applyServiceSnapshotIfAllowed(latestServiceSnapshot)
     }
 
     func updateDetailPollingState() {

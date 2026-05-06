@@ -11,16 +11,17 @@ struct TrayActiveNotchContent: NotchContentProtocol {
     let id = NotchContentRegistry.DragAndDrop.trayActive.id
 
     let fileTrayViewModel: FileTrayViewModel
+    let mediaSettings: MediaAndFilesSettingsStore
     
     var priority: Int { NotchContentRegistry.DragAndDrop.trayActive.priority }
     var isExpandable: Bool { true }
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        return .init(width: baseWidth + 65, height: baseHeight)
+        return .init(width: baseWidth + 75, height: baseHeight)
     }
 
     func expandedSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        return .init(width: baseWidth + 208, height: baseHeight + 115)
+        return .init(width: baseWidth + 208, height: baseHeight + 120)
     }
     
     func expandedCornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
@@ -34,6 +35,11 @@ struct TrayActiveNotchContent: NotchContentProtocol {
     
     @MainActor
     func makeExpandedView() -> AnyView {
-        AnyView(TrayExpandedActiveNotchView(fileTrayViewModel: fileTrayViewModel))
+        AnyView(
+            TrayExpandedActiveNotchView(
+                fileTrayViewModel: fileTrayViewModel,
+                mediaSettings: mediaSettings
+            )
+        )
     }
 }

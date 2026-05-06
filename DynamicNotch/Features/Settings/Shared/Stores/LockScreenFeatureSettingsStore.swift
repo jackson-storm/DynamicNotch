@@ -67,6 +67,7 @@ final class LockScreenFeatureSettingsStore: SettingsStoreBase {
     }
 
     override init(defaults: UserDefaults) {
+        defaults.register(defaults: GeneralSettingsStorage.defaultValues)
         let legacyCustomSoundPath = LockScreenSettings.legacyCustomSoundPath(in: defaults) ?? ""
         let storedLockSoundPath = defaults.string(forKey: LockScreenSettings.customLockSoundPathKey)
         let storedUnlockSoundPath = defaults.string(forKey: LockScreenSettings.customUnlockSoundPathKey)

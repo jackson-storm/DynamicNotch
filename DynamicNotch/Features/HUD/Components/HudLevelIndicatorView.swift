@@ -3,7 +3,8 @@ import SwiftUI
 struct HudLevelIndicatorView: View {
     let level: Int
     let indicatorStyle: HudIndicatorStyle
-    let usesColoredLevelTint: Bool
+    let tintStyle: HudIndicatorTintStyle
+    let showsGlow: Bool
     let barWidth: CGFloat
     let barHeight: CGFloat
     let circleSize: CGFloat
@@ -12,12 +13,16 @@ struct HudLevelIndicatorView: View {
     private var clampedLevel: Int { max(0, min(100, level)) }
     private var progress: CGFloat { CGFloat(clampedLevel) / 100 }
 
-    private var levelTint: Color {
-        HudLevelStyling.fillTint(for: clampedLevel, isEnabled: true)
+    private var activeLevelTint: Color {
+        HudLevelStyling.fillTint(for: clampedLevel, tintStyle: tintStyle)
     }
 
-    private var activeLevelTint: Color {
-        usesColoredLevelTint ? levelTint : HudLevelStyling.fillTint(for: clampedLevel, isEnabled: false)
+    private var glowColor: Color {
+        showsGlow ? activeLevelTint.opacity(0.8) : .clear
+    }
+
+    private var glowRadius: CGFloat {
+        showsGlow ? 10 : 0
     }
 
     private var barFill: LinearGradient {
@@ -62,7 +67,7 @@ struct HudLevelIndicatorView: View {
                 RoundedRectangle(cornerRadius: barHeight / 2, style: .continuous)
                     .fill(barFill)
                     .frame(width: barWidth * progress, height: barHeight)
-                    .shadow(color: activeLevelTint.opacity(0.35), radius: 5, y: 0)
+                    .shadow(color: glowColor, radius: glowRadius)
             }
     }
 
@@ -81,7 +86,7 @@ struct HudLevelIndicatorView: View {
                     style: StrokeStyle(lineWidth: circleLineWidth, lineCap: .round)
                 )
                 .rotationEffect(.degrees(-90))
-                .shadow(color: activeLevelTint.opacity(0.35), radius: 5, y: 0)
+                .shadow(color: glowColor, radius: glowRadius)
         }
         .frame(width: circleSize, height: circleSize)
     }

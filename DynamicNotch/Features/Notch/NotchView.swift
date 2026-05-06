@@ -61,7 +61,10 @@ struct NotchView: View {
                                     return false
                                 }
                                 
-                                return airDropController.handleTrayDrop(pasteboard)
+                                return airDropController.handleTrayDrop(
+                                    pasteboard,
+                                    mode: settingsViewModel.mediaAndFiles.fileTrayUsageMode
+                                )
                             }
                         }
                     )
@@ -119,6 +122,7 @@ private extension NotchView {
                 contextMenuItem
             }
             .environment(\.colorScheme, .dark)
+            .animation(notchViewModel.animations.strokeVisibility, value: notchViewModel.shouldRenderStroke)
             .animation(notchViewModel.animations.strokeVisibility, value: settingsViewModel.isShowNotchStrokeEnabled)
             .animation(notchViewModel.animations.notchVisibility, value: notchViewModel.showNotch)
     }
@@ -149,7 +153,7 @@ private extension NotchView {
     
     var shouldShowStroke: Bool {
         settingsViewModel.isShowNotchStrokeEnabled &&
-        notchViewModel.displayedContent != nil
+        notchViewModel.shouldRenderStroke
     }
     
     @ViewBuilder
@@ -187,8 +191,10 @@ private extension NotchView {
     @ViewBuilder
     var contextMenuItem: some View {
         Button {
-            openWindow(id: WindowsScene.settings)
-            SettingsWindowCoordinator.activate()
+            if !SettingsWindowCoordinator.activateExisting() {
+                openWindow(id: WindowsScene.settings)
+                SettingsWindowCoordinator.activate()
+            }
         } label: {
             Image(systemName: "gearshape")
             Text(verbatim: "Settings")

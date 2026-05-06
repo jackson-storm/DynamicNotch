@@ -3,6 +3,7 @@ import SwiftUI
 enum NotchExpandInteraction: String, CaseIterable {
     case click
     case pressAndHold
+    case hover
 
     var title: LocalizedStringKey {
         switch self {
@@ -10,6 +11,8 @@ enum NotchExpandInteraction: String, CaseIterable {
             return "Click"
         case .pressAndHold:
             return "Press and hold"
+        case .hover:
+            return "Hover"
         }
     }
 

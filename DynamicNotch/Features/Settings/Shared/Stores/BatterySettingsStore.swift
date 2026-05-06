@@ -110,6 +110,7 @@ final class BatterySettingsStore: SettingsStoreBase {
     }
 
     override init(defaults: UserDefaults) {
+        defaults.register(defaults: GeneralSettingsStorage.defaultValues)
         Self.migrateLegacyDefaultStrokeIfNeeded(defaults: defaults)
         self.isChargerTemporaryActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.chargerTemporaryActivityEnabled)
         self.chargerTemporaryActivityDuration = Self.clampTemporaryActivityDuration(

@@ -608,6 +608,9 @@
         }
       }
     },
+    "AirDrop Target" : {
+
+    },
     "AirPods Max" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -864,146 +867,6 @@
         }
       }
     },
-    "Apple Music" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Apple Music"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Apple Music"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Apple Music"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Apple Music"
-          }
-        }
-      }
-    },
-    "Choose which media app can show Now Playing in the notch." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choose which media app can show Now Playing in the notch."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Elige qué app multimedia puede mostrar Now Playing en la muesca."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Выберите, из какого медиаприложения показывать Now Playing в notch."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "选择哪个媒体 App 可以在刘海中显示正在播放。"
-          }
-        }
-      }
-    },
-    "Playback source" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Playback source"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fuente de reproducción"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Источник воспроизведения"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "播放来源"
-          }
-        }
-      }
-    },
-    "Spotify" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Spotify"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Spotify"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Spotify"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Spotify"
-          }
-        }
-      }
-    },
-    "YouTube Music" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "YouTube Music"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "YouTube Music"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "YouTube Music"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "YouTube Music"
-          }
-        }
-      }
-    },
     "Appearance" : {
       "localizations" : {
         "en" : {
@@ -1028,6 +891,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "外貌"
+          }
+        }
+      }
+    },
+    "Apple Music" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple Music"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple Music"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple Music"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple Music"
           }
         }
       }
@@ -2152,6 +2043,34 @@
         }
       }
     },
+    "Choose how Drag&Drop target zones are colored." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose how Drag&Drop target zones are colored."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige cómo se colorean las zonas de destino de Drag&Drop."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите, как окрашиваются зоны целей Drag&Drop."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择 Drag&Drop 目标区域的着色方式。"
+          }
+        }
+      }
+    },
     "Choose how file downloads look in the notch while progress is active." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -2318,6 +2237,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "选择充电通知保持可见的时间。"
+          }
+        }
+      }
+    },
+    "Choose how long the conversion success checkmark stays visible." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose how long the conversion success checkmark stays visible."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige cuánto tiempo permanece visible la marca de conversión correcta."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите, как долго показывать галочку успешной конвертации."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择转换成功勾选标记的显示时长。"
           }
         }
       }
@@ -3431,6 +3379,34 @@
         }
       }
     },
+    "Choose which media app can show Now Playing in the notch." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose which media app can show Now Playing in the notch."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige qué app multimedia puede mostrar Now Playing en la muesca."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите, из какого медиаприложения показывать Now Playing в notch."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择哪个媒体 App 可以在刘海中显示正在播放。"
+          }
+        }
+      }
+    },
     "Choose which system HUDs Dynamic Notch should replace." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -3742,6 +3718,9 @@
           }
         }
       }
+    },
+    "Combined Targets" : {
+
     },
     "common.cancel" : {
       "extractionState" : "stale",
@@ -4177,6 +4156,69 @@
         }
       }
     },
+    "Conversion success duration" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conversion success duration"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duración del éxito de conversión"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Длительность успешной конвертации"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "转换成功时长"
+          }
+        }
+      }
+    },
+    "Converter" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Converter"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conversor"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Конвертер"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "转换器"
+          }
+        }
+      }
+    },
+    "Converter Success" : {
+
+    },
+    "Converter Target" : {
+
+    },
     "Copy" : {
       "localizations" : {
         "en" : {
@@ -4545,6 +4587,9 @@
         }
       }
     },
+    "Download Stopped" : {
+
+    },
     "Download style" : {
       "localizations" : {
         "en" : {
@@ -4628,6 +4673,9 @@
           }
         }
       }
+    },
+    "Drag Ended" : {
+
     },
     "Drag&Drop activity" : {
       "localizations" : {
@@ -4741,6 +4789,9 @@
           }
         }
       }
+    },
+    "Drop Completed" : {
+
     },
     "Drop live activity" : {
       "extractionState" : "stale",
@@ -4941,7 +4992,67 @@
         }
       }
     },
+    "File Converter" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "File Converter"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conversor de archivos"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Конвертер файлов"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "文件转换器"
+          }
+        }
+      }
+    },
+    "File Converter Active" : {
+
+    },
+    "File Converter live activity" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "File Converter live activity"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live activity de File Converter"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live activity File Converter"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "File Converter 实时活动"
+          }
+        }
+      }
+    },
     "File Tray" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4968,6 +5079,9 @@
           }
         }
       }
+    },
+    "File Tray Active" : {
+
     },
     "Fine-tune the notch frame and stroke so it better matches your hardware." : {
       "extractionState" : "stale",
@@ -5053,6 +5167,9 @@
           }
         }
       }
+    },
+    "Finish an active drag with the dropped event." : {
+
     },
     "Focus activity" : {
       "localizations" : {
@@ -5589,6 +5706,9 @@
         }
       }
     },
+    "Hide active drag targets with the drag-ended event." : {
+
+    },
     "Hide Current Temporary" : {
       "localizations" : {
         "en" : {
@@ -5752,6 +5872,9 @@
         }
       }
     },
+    "Hide the downloads live activity with the stopped event." : {
+
+    },
     "Hide the Focus live activity and show the short \"Off\" notification." : {
       "localizations" : {
         "en" : {
@@ -5779,6 +5902,21 @@
           }
         }
       }
+    },
+    "Hide the hotspot live activity with the hotspot-hide event." : {
+
+    },
+    "Hide the lock screen live activity with the stopped event." : {
+
+    },
+    "Hide the Now Playing live activity with the stopped event." : {
+
+    },
+    "Hide the screen recording live activity." : {
+
+    },
+    "Hide the timer live activity with the stopped event." : {
+
     },
     "Hide the x button on file cards in the expanded Tray." : {
       "localizations" : {
@@ -5891,6 +6029,9 @@
           }
         }
       }
+    },
+    "Hotspot Hidden" : {
+
     },
     "Hover" : {
       "localizations" : {
@@ -6907,6 +7048,9 @@
         }
       }
     },
+    "Lock Screen Stopped" : {
+
+    },
     "Lock sound" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -7867,6 +8011,15 @@
         }
       }
     },
+    "Now Playing Paused" : {
+
+    },
+    "Now Playing Playing" : {
+
+    },
+    "Now Playing Stopped" : {
+
+    },
     "Off" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -8090,6 +8243,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "橙色"
+          }
+        }
+      }
+    },
+    "Original" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Original"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Original"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оригинальные"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原始"
           }
         }
       }
@@ -8400,6 +8581,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "回放活动"
+          }
+        }
+      }
+    },
+    "Playback source" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Playback source"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fuente de reproducción"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Источник воспроизведения"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "播放来源"
           }
         }
       }
@@ -8774,6 +8983,9 @@
         }
       }
     },
+    "Refresh the timer live activity with the updated event." : {
+
+    },
     "Remove the favorite button from the expanded player controls." : {
       "localizations" : {
         "en" : {
@@ -8999,7 +9211,11 @@
         }
       }
     },
+    "Run every debug event in sequence, keep each item visible for its configured duration, and wait 1 second between items." : {
+
+    },
     "Run every debug event in sequence, keep each item visible for its configured duration, wait 1 second between items, and skip onboarding, notch size, and lock screen previews." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -9140,6 +9356,9 @@
         }
       }
     },
+    "Screen Recording Stopped" : {
+
+    },
     "Scroll direction" : {
       "localizations" : {
         "en" : {
@@ -9167,6 +9386,12 @@
           }
         }
       }
+    },
+    "Send the Now Playing playback-state changed event for pause." : {
+
+    },
+    "Send the Now Playing playback-state changed event for play." : {
+
     },
     "Set a global motion parameter that controls the speed of the animation." : {
       "localizations" : {
@@ -14539,6 +14764,7 @@
       }
     },
     "Show AirDrop and Tray targets when you drag files over the notch." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -14565,6 +14791,37 @@
           }
         }
       }
+    },
+    "Show AirDrop, Tray, and File Converter targets when you drag files over the notch." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show AirDrop, Tray, and File Converter targets when you drag files over the notch."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Muestra los destinos AirDrop, Tray y File Converter al arrastrar archivos sobre la muesca."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показывать цели AirDrop, Tray и File Converter при перетаскивании файлов над нотчем."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "将文件拖到刘海上方时显示 AirDrop、Tray 和 File Converter 目标。"
+          }
+        }
+      }
+    },
+    "Show all drag targets with the converter target highlighted." : {
+
     },
     "Show Dock icon" : {
       "localizations" : {
@@ -14765,6 +15022,12 @@
         }
       }
     },
+    "Show the active tray live activity with sample files." : {
+
+    },
+    "Show the AirDrop drag target as an active drag event." : {
+
+    },
     "Show the AirDrop drop target when you drag files over the notch." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -14850,6 +15113,12 @@
         }
       }
     },
+    "Show the converter collapsed success state." : {
+
+    },
+    "Show the converter live activity with a sample image." : {
+
+    },
     "Show the detached media panel on the lock screen while playback is active." : {
       "localizations" : {
         "en" : {
@@ -14931,6 +15200,37 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在详细的 VPN 通知中显示已用会话计时器。"
+          }
+        }
+      }
+    },
+    "Show the File Converter drag target as an active drag event." : {
+
+    },
+    "Show the File Converter live activity after a file is dropped for conversion." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show the File Converter live activity after a file is dropped for conversion."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Muestra la live activity de File Converter después de soltar un archivo para convertirlo."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показывать live activity File Converter после сброса файла для конвертации."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "放下文件进行转换后显示 File Converter 实时活动。"
           }
         }
       }
@@ -15132,6 +15432,9 @@
       }
     },
     "Show the timer live activity with sample transfer data." : {
+
+    },
+    "Show the Tray drag target as an active drag event." : {
 
     },
     "Show the volume HUD preview at 42%." : {
@@ -15356,6 +15659,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "坚硬的"
+          }
+        }
+      }
+    },
+    "Spotify" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotify"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotify"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotify"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spotify"
           }
         }
       }
@@ -15670,6 +16001,34 @@
         }
       }
     },
+    "Target colors" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Target colors"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Colores de destino"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цвета целей"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "目标颜色"
+          }
+        }
+      }
+    },
     "Target mode" : {
       "localizations" : {
         "en" : {
@@ -15925,6 +16284,12 @@
         }
       }
     },
+    "Timer Stopped" : {
+
+    },
+    "Timer Updated" : {
+
+    },
     "Tint" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -16150,6 +16515,9 @@
           }
         }
       }
+    },
+    "Tray Target" : {
+
     },
     "Tray usage" : {
       "localizations" : {
@@ -17483,6 +17851,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "您的 Mac 已充满电。"
+          }
+        }
+      }
+    },
+    "YouTube Music" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "YouTube Music"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "YouTube Music"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "YouTube Music"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "YouTube Music"
           }
         }
       }

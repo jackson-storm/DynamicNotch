@@ -20,6 +20,12 @@ struct TrayNotchContent: NotchContentProtocol {
     let settingsViewModel: SettingsViewModel
     
     var priority: Int { NotchContentRegistry.DragAndDrop.tray.priority }
+
+    var strokeColor: Color {
+        settingsViewModel.isDefaultActivityStrokeEnabled || settingsViewModel.mediaAndFiles.isDragAndDropDefaultStrokeEnabled ?
+        .white.opacity(0.2) :
+        DragAndDropTarget.tray.activityStrokeColor(for: settingsViewModel.mediaAndFiles.dragAndDropTargetColorStyle)
+    }
     
     func cornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
         return (top: 24, bottom: 36)
@@ -31,6 +37,11 @@ struct TrayNotchContent: NotchContentProtocol {
     
     @MainActor
     func makeView() -> AnyView {
-        AnyView(TrayNotchView(airDropViewModel: airDropViewModel))
+        AnyView(
+            TrayNotchView(
+                airDropViewModel: airDropViewModel,
+                targetColorStyle: settingsViewModel.mediaAndFiles.dragAndDropTargetColorStyle
+            )
+        )
     }
 }

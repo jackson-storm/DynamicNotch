@@ -20,7 +20,7 @@ struct DragAndDropSettingsView: View {
         SettingsCard(title: "Drag&Drop activity") {
             SettingsToggleRow(
                 title: "Drag&Drop live activity",
-                description: "Show AirDrop and Tray targets when you drag files over the notch.",
+                description: "Show AirDrop, Tray, and File Converter targets when you drag files over the notch.",
                 systemImage: "tray.and.arrow.down.fill",
                 color: .blue,
                 isOn: $mediaSettings.isDragAndDropLiveActivityEnabled,
@@ -40,13 +40,27 @@ struct DragAndDropSettingsView: View {
                 isOn: $mediaSettings.isTrayLiveActivityEnabled,
                 accessibilityIdentifier: "settings.activities.live.drop.tray"
             )
+
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+
+            SettingsToggleRow(
+                title: "File Converter live activity",
+                description: "Show the File Converter live activity after a file is dropped for conversion.",
+                systemImage: "arrow.trianglehead.2.clockwise.rotate.90.circle.fill",
+                color: .green,
+                isOn: $mediaSettings.isFileConverterLiveActivityEnabled,
+                accessibilityIdentifier: "settings.activities.live.drop.fileConverter"
+            )
         }
     }
 
     private var dragAndDropMode: some View {
         SettingsCard(title: "Drag&Drop target") {
             SettingsNotchPreview(
-                width: mediaSettings.dragAndDropActivityMode == .combined ? 460 : 280,
+                width: dragAndDropPreviewWidth,
                 height: 148,
                 previewHeight: 166,
                 topCornerRadius: 24,
@@ -70,6 +84,17 @@ struct DragAndDropSettingsView: View {
                 optionTitle: { $0.title },
                 accessibilityIdentifier: "settings.activities.live.drop.mode",
                 selection: $mediaSettings.dragAndDropActivityMode
+            )
+
+            Divider().opacity(0.6)
+
+            SettingsMenuRow(
+                title: "Target colors",
+                description: "Choose how Drag&Drop target zones are colored.",
+                options: Array(DragAndDropTargetColorStyle.allCases),
+                optionTitle: { $0.title },
+                accessibilityIdentifier: "settings.activities.live.drop.targetColors",
+                selection: $mediaSettings.dragAndDropTargetColorStyle
             )
 
             Divider().opacity(0.6)
@@ -212,12 +237,8 @@ struct DragAndDropSettingsView: View {
             Spacer()
 
             HStack(spacing: AirDropDropZoneMetrics.combinedSpacing) {
-                if mediaSettings.dragAndDropActivityMode.showsAirDrop {
-                    dragAndDropPreviewTarget(.airDrop)
-                }
-
-                if mediaSettings.dragAndDropActivityMode.showsTray {
-                    dragAndDropPreviewTarget(.tray)
+                ForEach(mediaSettings.dragAndDropActivityMode.targets, id: \.self) { target in
+                    dragAndDropPreviewTarget(target)
                 }
             }
             .frame(height: AirDropDropZoneMetrics.height)
@@ -235,11 +256,42 @@ struct DragAndDropSettingsView: View {
             return .white.opacity(0.2)
         }
 
-        return mediaSettings.dragAndDropActivityMode == .tray ? .white.opacity(0.2) : Color.accentColor.opacity(0.3)
+        switch mediaSettings.dragAndDropTargetColorStyle {
+        case .white:
+            return .white.opacity(0.2)
+
+        case .accent:
+            return .accentColor.opacity(0.3)
+
+        case .original:
+            break
+        }
+
+        switch mediaSettings.dragAndDropActivityMode {
+        case .tray:
+            return DragAndDropTarget.tray.activityStrokeColor(for: .original)
+
+        case .fileConverter:
+            return DragAndDropTarget.fileConverter.activityStrokeColor(for: .original)
+
+        case .airDrop:
+            return DragAndDropTarget.airDrop.activityStrokeColor(for: .original)
+
+        case .combined:
+            return .white.opacity(0.2)
+        }
+    }
+
+    private var dragAndDropPreviewWidth: CGFloat {
+        mediaSettings.dragAndDropActivityMode.targets.count > 1 ? 430 : 280
     }
 
     private func dragAndDropPreviewTarget(_ target: DragAndDropTarget) -> some View {
-        DragAndDropDropZoneContent(target: target, isTargeted: false)
+        DragAndDropDropZoneContent(
+            target: target,
+            isTargeted: false,
+            targetColorStyle: mediaSettings.dragAndDropTargetColorStyle
+        )
             .frame(maxWidth: .infinity)
     }
 

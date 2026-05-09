@@ -11,6 +11,7 @@ struct DragAndDropCombinedNotchView: View {
     @ObservedObject var airDropViewModel: AirDropNotchViewModel
     
     let isMotionAnimationEnabled: Bool
+    let targetColorStyle: DragAndDropTargetColorStyle
 
     var body: some View {
         if isMotionAnimationEnabled {
@@ -24,29 +25,32 @@ struct DragAndDropCombinedNotchView: View {
         GeometryReader { proxy in
             let spacing = AirDropDropZoneMetrics.combinedSpacing
             let horizontalPadding = AirDropDropZoneMetrics.horizontalPadding
-            let availableWidth = max(proxy.size.width - (horizontalPadding * 2) - spacing, 0)
-            let isAirDropTargeted = airDropViewModel.targetedDropTarget == .airDrop
-            let isTrayTargeted = airDropViewModel.targetedDropTarget == .tray
-            let expandedPortion: CGFloat = 0.65
-            let equalPortion: CGFloat = 0.5
-            let airDropWidth = isAirDropTargeted ? availableWidth * expandedPortion : (isTrayTargeted ? availableWidth * (1 - expandedPortion) : availableWidth * equalPortion)
-            let trayWidth = availableWidth - airDropWidth
+            let targets = DragAndDropActivityMode.combined.targets
+            let availableWidth = max(proxy.size.width - (horizontalPadding * 2) - (spacing * CGFloat(targets.count - 1)), 0)
+            let targetedDropTarget = airDropViewModel.targetedDropTarget
+            let expandedPortion: CGFloat = 0.5
+            let collapsedPortion: CGFloat = targets.count > 1 ? (1 - expandedPortion) / CGFloat(targets.count - 1) : 1
+            let equalPortion = 1 / CGFloat(targets.count)
 
             VStack {
                 Spacer()
 
                 HStack(spacing: spacing) {
-                    DragAndDropDropZoneContent(
-                        target: .airDrop,
-                        isTargeted: isAirDropTargeted
-                    )
-                    .frame(width: airDropWidth, height: AirDropDropZoneMetrics.height)
+                    ForEach(targets, id: \.self) { target in
+                        let isTargeted = targetedDropTarget == target
+                        let width = availableWidth * (
+                            targetedDropTarget == nil ?
+                            equalPortion :
+                            (isTargeted ? expandedPortion : collapsedPortion)
+                        )
 
-                    DragAndDropDropZoneContent(
-                        target: .tray,
-                        isTargeted: isTrayTargeted
-                    )
-                    .frame(width: trayWidth, height: AirDropDropZoneMetrics.height)
+                        DragAndDropDropZoneContent(
+                            target: target,
+                            isTargeted: isTargeted,
+                            targetColorStyle: targetColorStyle
+                        )
+                        .frame(width: width, height: AirDropDropZoneMetrics.height)
+                    }
                 }
             }
             .padding(.horizontal, horizontalPadding)
@@ -60,25 +64,18 @@ struct DragAndDropCombinedNotchView: View {
             Spacer()
 
             HStack(spacing: AirDropDropZoneMetrics.combinedSpacing) {
-                DragAndDropDropZoneContent(
-                    target: .airDrop,
-                    isTargeted: airDropViewModel.targetedDropTarget == .airDrop
-                )
-                .frame(
-                    maxWidth: .infinity,
-                    minHeight: AirDropDropZoneMetrics.height,
-                    maxHeight: AirDropDropZoneMetrics.height
-                )
-
-                DragAndDropDropZoneContent(
-                    target: .tray,
-                    isTargeted: airDropViewModel.targetedDropTarget == .tray
-                )
-                .frame(
-                    maxWidth: .infinity,
-                    minHeight: AirDropDropZoneMetrics.height,
-                    maxHeight: AirDropDropZoneMetrics.height
-                )
+                ForEach(DragAndDropActivityMode.combined.targets, id: \.self) { target in
+                    DragAndDropDropZoneContent(
+                        target: target,
+                        isTargeted: airDropViewModel.targetedDropTarget == target,
+                        targetColorStyle: targetColorStyle
+                    )
+                    .frame(
+                        maxWidth: .infinity,
+                        minHeight: AirDropDropZoneMetrics.height,
+                        maxHeight: AirDropDropZoneMetrics.height
+                    )
+                }
             }
         }
         .padding(.horizontal, AirDropDropZoneMetrics.horizontalPadding)

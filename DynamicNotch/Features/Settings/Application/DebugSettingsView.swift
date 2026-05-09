@@ -13,6 +13,13 @@ struct DebugSettingsView: View {
         }
         .accessibilityIdentifier("settings.debug.root")
     }
+
+    private var debugDivider: some View {
+        Divider()
+            .opacity(0.6)
+            .padding(.leading, 43)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+    }
     
     private var persistentPreviewsCard: some View {
         SettingsCard(title: "Persistent Events") {
@@ -113,6 +120,34 @@ struct DebugSettingsView: View {
                 .opacity(0.6)
                 .padding(.leading, 43)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+
+            SettingsToggleRow(
+                title: "File Tray Active",
+                description: "Show the active tray live activity with sample files.",
+                systemImage: "tray.full.fill",
+                color: .white,
+                isOn: $viewModel.isFileTrayPreviewEnabled,
+                accessibilityIdentifier: "settings.debug.fileTrayActive"
+            )
+
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+
+            SettingsToggleRow(
+                title: "File Converter Active",
+                description: "Show the converter live activity with a sample image.",
+                systemImage: "arrow.trianglehead.2.clockwise.rotate.90.circle.fill",
+                color: .green,
+                isOn: $viewModel.isFileConverterPreviewEnabled,
+                accessibilityIdentifier: "settings.debug.fileConverterActive"
+            )
+
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
             
             SettingsToggleRow(
                 title: "Lock Screen",
@@ -129,7 +164,7 @@ struct DebugSettingsView: View {
         SettingsCard(title: "Trigger Events") {
             DebugActionRow(
                 title: "Play All Events",
-                description: "Run every debug event in sequence, keep each item visible for its configured duration, wait 1 second between items, and skip onboarding, notch size, and lock screen previews.",
+                description: "Run every debug event in sequence, keep each item visible for its configured duration, and wait 1 second between items.",
                 systemImage: viewModel.isPreviewSequenceRunning ? "stop.circle.fill" : "play.circle.fill",
                 color: .accentColor,
                 buttonTitle: viewModel.isPreviewSequenceRunning ? LocalizedStringKey("Stop") : LocalizedStringKey("Start"),
@@ -140,6 +175,76 @@ struct DebugSettingsView: View {
                 .opacity(0.6)
                 .padding(.leading, 43)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+
+            DebugActionRow(
+                title: "AirDrop Target",
+                description: "Show the AirDrop drag target as an active drag event.",
+                systemImage: "airplayaudio",
+                color: .blue,
+                action: viewModel.triggerAirDropTargetPreview
+            )
+
+            debugDivider
+
+            DebugActionRow(
+                title: "Tray Target",
+                description: "Show the Tray drag target as an active drag event.",
+                systemImage: "tray.full.fill",
+                color: .white,
+                action: viewModel.triggerTrayTargetPreview
+            )
+
+            debugDivider
+
+            DebugActionRow(
+                title: "Converter Target",
+                description: "Show the File Converter drag target as an active drag event.",
+                systemImage: "arrow.trianglehead.2.clockwise.rotate.90.circle.fill",
+                color: .green,
+                action: viewModel.triggerFileConverterTargetPreview
+            )
+
+            debugDivider
+
+            DebugActionRow(
+                title: "Combined Targets",
+                description: "Show all drag targets with the converter target highlighted.",
+                systemImage: "square.grid.3x3.fill",
+                color: .accentColor,
+                action: viewModel.triggerCombinedDragAndDropPreview
+            )
+
+            debugDivider
+
+            DebugActionRow(
+                title: "Drag Ended",
+                description: "Hide active drag targets with the drag-ended event.",
+                systemImage: "xmark.circle.fill",
+                color: .gray,
+                action: viewModel.triggerDragAndDropEndedPreview
+            )
+
+            debugDivider
+
+            DebugActionRow(
+                title: "Drop Completed",
+                description: "Finish an active drag with the dropped event.",
+                systemImage: "checkmark.circle.fill",
+                color: .green,
+                action: viewModel.triggerDragAndDropDroppedPreview
+            )
+
+            debugDivider
+
+            DebugActionRow(
+                title: "Converter Success",
+                description: "Show the converter collapsed success state.",
+                systemImage: "checkmark.seal.fill",
+                color: .green,
+                action: viewModel.triggerFileConverterConvertedPreview
+            )
+
+            debugDivider
             
             DebugActionRow(
                 title: "Focus Off",
@@ -147,6 +252,16 @@ struct DebugSettingsView: View {
                 systemImage: "moon.zzz.fill",
                 color: .gray,
                 action: viewModel.triggerFocusOffPreview
+            )
+
+            debugDivider
+
+            DebugActionRow(
+                title: "Screen Recording Stopped",
+                description: "Hide the screen recording live activity.",
+                systemImage: "stop.circle.fill",
+                color: .red,
+                action: viewModel.triggerScreenRecordingStoppedPreview
             )
             
             Divider()
@@ -199,6 +314,16 @@ struct DebugSettingsView: View {
                 systemImage: "network.badge.shield.half.filled",
                 color: .blue,
                 action: viewModel.triggerVPNPreview
+            )
+
+            debugDivider
+
+            DebugActionRow(
+                title: "Hotspot Hidden",
+                description: "Hide the hotspot live activity with the hotspot-hide event.",
+                systemImage: "personalhotspot",
+                color: .gray,
+                action: viewModel.triggerHotspotHidePreview
             )
             
             Divider()
@@ -277,6 +402,76 @@ struct DebugSettingsView: View {
                 systemImage: "speaker.wave.2.fill",
                 color: .purple,
                 action: viewModel.triggerVolumeHUDPreview
+            )
+
+            debugDivider
+
+            DebugActionRow(
+                title: "Now Playing Paused",
+                description: "Send the Now Playing playback-state changed event for pause.",
+                systemImage: "pause.circle.fill",
+                color: .orange,
+                action: viewModel.triggerNowPlayingPausePreview
+            )
+
+            debugDivider
+
+            DebugActionRow(
+                title: "Now Playing Playing",
+                description: "Send the Now Playing playback-state changed event for play.",
+                systemImage: "play.circle.fill",
+                color: .orange,
+                action: viewModel.triggerNowPlayingPlayPreview
+            )
+
+            debugDivider
+
+            DebugActionRow(
+                title: "Now Playing Stopped",
+                description: "Hide the Now Playing live activity with the stopped event.",
+                systemImage: "stop.circle.fill",
+                color: .orange,
+                action: viewModel.triggerNowPlayingStoppedPreview
+            )
+
+            debugDivider
+
+            DebugActionRow(
+                title: "Download Stopped",
+                description: "Hide the downloads live activity with the stopped event.",
+                systemImage: "arrow.down.circle.fill",
+                color: .blue,
+                action: viewModel.triggerDownloadStoppedPreview
+            )
+
+            debugDivider
+
+            DebugActionRow(
+                title: "Timer Updated",
+                description: "Refresh the timer live activity with the updated event.",
+                systemImage: "timer",
+                color: .orange,
+                action: viewModel.triggerTimerUpdatedPreview
+            )
+
+            debugDivider
+
+            DebugActionRow(
+                title: "Timer Stopped",
+                description: "Hide the timer live activity with the stopped event.",
+                systemImage: "timer",
+                color: .gray,
+                action: viewModel.triggerTimerStoppedPreview
+            )
+
+            debugDivider
+
+            DebugActionRow(
+                title: "Lock Screen Stopped",
+                description: "Hide the lock screen live activity with the stopped event.",
+                systemImage: "lock.open.fill",
+                color: .gray,
+                action: viewModel.triggerLockScreenStoppedPreview
             )
             
             Divider()

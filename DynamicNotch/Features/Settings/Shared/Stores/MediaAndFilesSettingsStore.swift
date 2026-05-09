@@ -110,6 +110,30 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
             persist(isTrayLiveActivityEnabled, for: GeneralSettingsStorage.Keys.trayLiveActivityEnabled)
         }
     }
+
+    @Published var isFileConverterLiveActivityEnabled: Bool {
+        didSet {
+            persist(
+                isFileConverterLiveActivityEnabled,
+                for: GeneralSettingsStorage.Keys.fileConverterLiveActivityEnabled
+            )
+        }
+    }
+
+    @Published var fileConverterConvertedTemporaryActivityDuration: Int {
+        didSet {
+            let clampedValue = Self.clampTemporaryActivityDuration(fileConverterConvertedTemporaryActivityDuration)
+            if clampedValue != fileConverterConvertedTemporaryActivityDuration {
+                fileConverterConvertedTemporaryActivityDuration = clampedValue
+                return
+            }
+
+            persist(
+                fileConverterConvertedTemporaryActivityDuration,
+                for: GeneralSettingsStorage.Keys.fileConverterConvertedTemporaryActivityDuration
+            )
+        }
+    }
     
     @Published var fileTrayUsageMode: FileTrayUsageMode {
         didSet {
@@ -132,6 +156,15 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
     @Published var dragAndDropActivityMode: DragAndDropActivityMode {
         didSet {
             persist(dragAndDropActivityMode.rawValue, for: GeneralSettingsStorage.Keys.dragAndDropActivityMode)
+        }
+    }
+
+    @Published var dragAndDropTargetColorStyle: DragAndDropTargetColorStyle {
+        didSet {
+            persist(
+                dragAndDropTargetColorStyle.rawValue,
+                for: GeneralSettingsStorage.Keys.dragAndDropTargetColorStyle
+            )
         }
     }
 
@@ -189,6 +222,16 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
             defaults: defaults,
             key: GeneralSettingsStorage.Keys.trayLiveActivityEnabled
         )
+        self.isFileConverterLiveActivityEnabled = Self.resolvedBool(
+            defaults: defaults,
+            key: GeneralSettingsStorage.Keys.fileConverterLiveActivityEnabled
+        )
+        self.fileConverterConvertedTemporaryActivityDuration = Self.clampTemporaryActivityDuration(
+            defaults.object(forKey: GeneralSettingsStorage.Keys.fileConverterConvertedTemporaryActivityDuration) as? Int ??
+            Self.defaultTemporaryActivityDuration(
+                for: GeneralSettingsStorage.Keys.fileConverterConvertedTemporaryActivityDuration
+            )
+        )
         self.fileTrayUsageMode = FileTrayUsageMode.resolved(
             defaults.string(forKey: GeneralSettingsStorage.Keys.fileTrayUsageMode)
         )
@@ -201,6 +244,9 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         )
         self.dragAndDropActivityMode = DragAndDropActivityMode.resolved(
             defaults.string(forKey: GeneralSettingsStorage.Keys.dragAndDropActivityMode)
+        )
+        self.dragAndDropTargetColorStyle = DragAndDropTargetColorStyle.resolved(
+            defaults.string(forKey: GeneralSettingsStorage.Keys.dragAndDropTargetColorStyle)
         )
         self.isTimerLiveActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.timerLiveActivityEnabled)
         self.isTimerDefaultStrokeEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.timerDefaultStrokeEnabled)
@@ -240,8 +286,17 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         isDragAndDropDefaultStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.airDropDefaultStrokeEnabled)
         isDropMotionAnimationEnabled = defaultBool(for: GeneralSettingsStorage.Keys.dropMotionAnimationEnabled)
         isTrayLiveActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.trayLiveActivityEnabled)
+        isFileConverterLiveActivityEnabled = defaultBool(
+            for: GeneralSettingsStorage.Keys.fileConverterLiveActivityEnabled
+        )
+        fileConverterConvertedTemporaryActivityDuration = Self.clampTemporaryActivityDuration(
+            defaultInt(for: GeneralSettingsStorage.Keys.fileConverterConvertedTemporaryActivityDuration)
+        )
         dragAndDropActivityMode = DragAndDropActivityMode.resolved(
             defaultString(for: GeneralSettingsStorage.Keys.dragAndDropActivityMode)
+        )
+        dragAndDropTargetColorStyle = DragAndDropTargetColorStyle.resolved(
+            defaultString(for: GeneralSettingsStorage.Keys.dragAndDropTargetColorStyle)
         )
         fileTrayUsageMode = FileTrayUsageMode.resolved(
             defaultString(for: GeneralSettingsStorage.Keys.fileTrayUsageMode)

@@ -447,6 +447,7 @@ private extension NotchEventCoordinatorIntegrationTests {
         UserDefaults.standard.set(dragAndDropEnabled, forKey: "settings.live.airDrop")
         UserDefaults.standard.set(dragAndDropActivityMode.rawValue, forKey: "settings.live.dragAndDrop.mode")
         UserDefaults.standard.set(trayLiveActivityEnabled, forKey: "settings.live.tray")
+        UserDefaults.standard.set(true, forKey: "settings.live.fileConverter")
         UserDefaults.standard.set(true, forKey: LockScreenSettings.liveActivityKey)
         UserDefaults.standard.set(true, forKey: LockScreenSettings.mediaPanelKey)
         UserDefaults.standard.set(true, forKey: "settings.temporary.charger")
@@ -473,6 +474,7 @@ private extension NotchEventCoordinatorIntegrationTests {
         let nowPlayingViewModel = NowPlayingViewModel(service: nowPlayingService)
         let airDropViewModel = AirDropNotchViewModel()
         let fileTrayViewModel = FileTrayViewModel()
+        let fileConverterViewModel = FileConverterViewModel()
         let timerViewModel = TimerViewModel(monitor: ClockTimerMonitor())
         let lockScreenManager = LockScreenManager(
             service: lockScreenService,
@@ -493,6 +495,7 @@ private extension NotchEventCoordinatorIntegrationTests {
             downloadViewModel: downloadViewModel,
             airDropViewModel: airDropViewModel,
             fileTrayViewModel: fileTrayViewModel,
+            fileConverterViewModel: fileConverterViewModel,
             settingsViewModel: settingsViewModel,
             nowPlayingViewModel: nowPlayingViewModel,
             timerViewModel: timerViewModel,

@@ -16,9 +16,29 @@ struct DragAndDropCombinedNotchContent: NotchContentProtocol {
     var priority: Int { NotchContentRegistry.DragAndDrop.combined.priority }
 
     var strokeColor: Color {
-        settingsViewModel.isDefaultActivityStrokeEnabled || settingsViewModel.mediaAndFiles.isDragAndDropDefaultStrokeEnabled ?
-        .white.opacity(0.2) :
-        airDropViewModel.targetedDropTarget == .airDrop ? .accentColor.opacity(0.3) : .white.opacity(0.2)
+        if settingsViewModel.isDefaultActivityStrokeEnabled || settingsViewModel.mediaAndFiles.isDragAndDropDefaultStrokeEnabled {
+            return .white.opacity(0.2)
+        }
+
+        let colorStyle = settingsViewModel.mediaAndFiles.dragAndDropTargetColorStyle
+
+        switch airDropViewModel.targetedDropTarget {
+        case .airDrop:
+            return DragAndDropTarget.airDrop.activityStrokeColor(for: colorStyle)
+
+        case .fileConverter:
+            return DragAndDropTarget.fileConverter.activityStrokeColor(for: colorStyle)
+
+        case .tray:
+            return DragAndDropTarget.tray.activityStrokeColor(for: colorStyle)
+
+        case nil:
+            return colorStyle == .accent ? .accentColor.opacity(0.3) : .white.opacity(0.2)
+        }
+    }
+
+    private var targetColorStyle: DragAndDropTargetColorStyle {
+        settingsViewModel.mediaAndFiles.dragAndDropTargetColorStyle
     }
 
     func cornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
@@ -26,7 +46,7 @@ struct DragAndDropCombinedNotchContent: NotchContentProtocol {
     }
 
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        return .init(width: max(baseWidth + 220, 420), height: baseHeight + 110)
+        return .init(width: baseWidth + 200, height: baseHeight + 110)
     }
 
     @MainActor
@@ -34,7 +54,8 @@ struct DragAndDropCombinedNotchContent: NotchContentProtocol {
         AnyView(
             DragAndDropCombinedNotchView(
                 airDropViewModel: airDropViewModel,
-                isMotionAnimationEnabled: settingsViewModel.mediaAndFiles.isDropMotionAnimationEnabled
+                isMotionAnimationEnabled: settingsViewModel.mediaAndFiles.isDropMotionAnimationEnabled,
+                targetColorStyle: targetColorStyle
             )
         )
     }

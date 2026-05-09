@@ -103,7 +103,7 @@ final class DragAndDropView: NSView {
         onTargetedChange(true)
         let target = dropTarget(for: sender)
         onTargetedDropTargetChange(target)
-        return target == nil ? [] : .copy
+        return target?.acceptsDrop == true ? .copy : []
     }
 
     override func draggingUpdated(_ sender: NSDraggingInfo) -> NSDragOperation {
@@ -117,7 +117,7 @@ final class DragAndDropView: NSView {
         onTargetedChange(true)
         let target = dropTarget(for: sender)
         onTargetedDropTargetChange(target)
-        return target == nil ? [] : .copy
+        return target?.acceptsDrop == true ? .copy : []
     }
 
     override func draggingExited(_ sender: NSDraggingInfo?) {
@@ -128,7 +128,7 @@ final class DragAndDropView: NSView {
     override func prepareForDragOperation(_ sender: NSDraggingInfo) -> Bool {
         sender.draggingPasteboard.isFileTrayLocalDrag == false &&
         sender.draggingPasteboard.containsAirDropFiles &&
-        dropTarget(for: sender) != nil
+        dropTarget(for: sender)?.acceptsDrop == true
     }
 
     override func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
@@ -152,27 +152,30 @@ final class DragAndDropView: NSView {
 
     private func dropTarget(for sender: NSDraggingInfo) -> DragAndDropTarget? {
         let location = convert(sender.draggingLocation, from: nil)
-        return DragAndDropTarget.allCases.first { targetDropZoneRect(for: $0).contains(location) }
+        return mode.targets.first { targetDropZoneRect(for: $0).contains(location) }
     }
 
     private func targetDropZoneRect(for target: DragAndDropTarget) -> NSRect {
-        switch mode {
-        case .airDrop:
-            return target == .airDrop ? outerDropZoneRect : .null
-        case .tray:
-            return target == .tray ? outerDropZoneRect : .null
-        case .combined:
-            let spacing = AirDropDropZoneMetrics.combinedSpacing
-            let itemWidth = max((outerDropZoneRect.width - spacing) / 2, 0)
-            let xOffset: CGFloat = target == .airDrop ? 0 : itemWidth + spacing
-
-            return NSRect(
-                x: outerDropZoneRect.minX + xOffset,
-                y: outerDropZoneRect.minY,
-                width: itemWidth,
-                height: outerDropZoneRect.height
-            )
+        let targets = mode.targets
+        guard let index = targets.firstIndex(of: target) else {
+            return .null
         }
+
+        guard targets.count > 1 else {
+            return outerDropZoneRect
+        }
+
+        let spacing = AirDropDropZoneMetrics.combinedSpacing
+        let spacingWidth = spacing * CGFloat(targets.count - 1)
+        let itemWidth = max((outerDropZoneRect.width - spacingWidth) / CGFloat(targets.count), 0)
+        let xOffset = CGFloat(index) * (itemWidth + spacing)
+
+        return NSRect(
+            x: outerDropZoneRect.minX + xOffset,
+            y: outerDropZoneRect.minY,
+            width: itemWidth,
+            height: outerDropZoneRect.height
+        )
     }
 
     private var outerDropZoneRect: NSRect {

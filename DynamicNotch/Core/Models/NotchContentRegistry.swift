@@ -208,6 +208,10 @@ enum NotchContentRegistry {
             id: "tray",
             priority: NotchContentPriority.dragAndDrop
         )
+        static let fileConverter = NotchContentDescriptor(
+            id: "fileConverter",
+            priority: NotchContentPriority.dragAndDrop
+        )
         static let combined = NotchContentDescriptor(
             id: "dragAndDrop.combined",
             priority: NotchContentPriority.dragAndDrop
@@ -217,10 +221,18 @@ enum NotchContentRegistry {
             id: "tray.active",
             priorityKey: .trayActive
         )
+        static let fileConverterActive = NotchContentDescriptor(
+            id: "fileConverter.active",
+            priorityKey: .trayActive
+        )
+        static let fileConverterConverted = NotchContentDescriptor(
+            id: "fileConverter.converted"
+        )
 
         static let liveActivityIDs = [
             airDrop.id,
             tray.id,
+            fileConverter.id,
             combined.id
         ]
     }
@@ -262,6 +274,7 @@ enum NotchContentRegistry {
     enum DebugSequence {
         static let prefix = "debug.sequence."
 
+        static let onboarding = id(Onboarding.debugStackID)
         static let focus = id(Focus.active.id)
         static let focusOff = id(Focus.inactive.id)
         static let screenRecording = id(ScreenRecording.active.id)
@@ -270,6 +283,13 @@ enum NotchContentRegistry {
         static let nowPlaying = id(Media.nowPlaying.id)
         static let download = id(Media.download.id)
         static let timer = id(Media.timer.id)
+        static let airDrop = id(DragAndDrop.airDrop.id)
+        static let tray = id(DragAndDrop.tray.id)
+        static let fileConverter = id(DragAndDrop.fileConverter.id)
+        static let combinedDrop = id(DragAndDrop.combined.id)
+        static let trayActive = id(DragAndDrop.trayActive.id)
+        static let fileConverterActive = id(DragAndDrop.fileConverterActive.id)
+        static let fileConverterConverted = id(DragAndDrop.fileConverterConverted.id)
         static let bluetooth = id(Network.bluetooth.id)
         static let wifi = id(Network.wifi.id)
         static let vpn = id(Network.vpn.id)
@@ -280,6 +300,9 @@ enum NotchContentRegistry {
         static let hudBrightness = id("hud.brightness")
         static let hudKeyboard = id("hud.keyboard")
         static let hudVolume = id("hud.volume")
+        static let notchSizeWidth = id(NotchSize.width.id)
+        static let notchSizeHeight = id(NotchSize.height.id)
+        static let lockScreen = id(LockScreen.activity.id)
 
         static func id(_ suffix: String) -> String {
             "\(prefix)\(suffix)"

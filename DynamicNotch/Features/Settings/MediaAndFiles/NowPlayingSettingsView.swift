@@ -92,6 +92,20 @@ struct NowPlayingSettingsView: View {
             Divider().opacity(0.6)
 
             SettingsToggleRow(
+                title: "Artwork 3D effect",
+                description: "Animate artwork with a 3D flip when the track cover changes.",
+                systemImage: "square.stack.3d.up.fill",
+                color: .purple,
+                isOn: $settings.isNowPlayingArtwork3DEffectEnabled,
+                accessibilityIdentifier: "settings.activities.live.nowPlaying.artwork3DEffect"
+            )
+
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+
+            SettingsToggleRow(
                 title: "Hide favorite",
                 description: "Remove the favorite button from the expanded player controls.",
                 systemImage: "star.slash.fill",

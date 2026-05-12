@@ -16,3 +16,17 @@ enum LockScreenMediaPanelBackgroundStyle: String, CaseIterable {
         }
     }
 }
+
+enum LockScreenArtworkPresentationStyle: String, CaseIterable {
+    case coverAndBackground
+    case fullscreenCover
+
+    var title: LocalizedStringKey {
+        switch self {
+        case .coverAndBackground:
+            return "Cover and background"
+        case .fullscreenCover:
+            return "Fullscreen cover"
+        }
+    }
+}

@@ -10,6 +10,7 @@ import SwiftUI
 struct NowPlayingMinimalNotchView: View {
     @Environment(\.notchScale) var scale
     @ObservedObject var nowPlayingViewModel: NowPlayingViewModel
+    @ObservedObject var settings: MediaAndFilesSettingsStore
     
     private var resolvedSnapshot: NowPlayingSnapshot {
         nowPlayingViewModel.snapshot ?? NowPlayingSnapshot(
@@ -32,7 +33,13 @@ struct NowPlayingMinimalNotchView: View {
 
     private func timelineContent(snapshot: NowPlayingSnapshot) -> some View {
         HStack {
-            ArtworkView(nowPlayingViewModel: nowPlayingViewModel, width: 24, height: 24, cornerRadius: 5)
+            ArtworkView(
+                nowPlayingViewModel: nowPlayingViewModel,
+                width: 24,
+                height: 24,
+                cornerRadius: 5,
+                usesFlipAnimation: settings.isNowPlayingArtwork3DEffectEnabled
+            )
             Spacer()
             LightweightNowPlayingEqualizerView(
                 isPlaying: snapshot.isPlaying,

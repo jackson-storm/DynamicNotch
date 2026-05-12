@@ -21,6 +21,12 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         }
     }
 
+    @Published var isNowPlayingArtwork3DEffectEnabled: Bool {
+        didSet {
+            persist(isNowPlayingArtwork3DEffectEnabled, for: GeneralSettingsStorage.Keys.nowPlayingArtwork3DEffectEnabled)
+        }
+    }
+
     @Published var isNowPlayingArtworkTintEnabled: Bool {
         didSet {
             persist(isNowPlayingArtworkTintEnabled, for: GeneralSettingsStorage.Keys.nowPlayingArtworkTintEnabled)
@@ -230,6 +236,10 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         self.isNowPlayingLiveActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.nowPlayingLiveActivityEnabled)
         self.isNowPlayingFavoriteButtonVisible = defaults.bool(forKey: GeneralSettingsStorage.Keys.nowPlayingFavoriteButtonVisible)
         self.isNowPlayingOutputDeviceButtonVisible = defaults.bool(forKey: GeneralSettingsStorage.Keys.nowPlayingOutputDeviceButtonVisible)
+        self.isNowPlayingArtwork3DEffectEnabled = Self.resolvedBool(
+            defaults: defaults,
+            key: GeneralSettingsStorage.Keys.nowPlayingArtwork3DEffectEnabled
+        )
         self.isNowPlayingArtworkTintEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.nowPlayingArtworkTintEnabled)
         self.isNowPlayingArtworkStrokeEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.nowPlayingArtworkStrokeEnabled)
         self.isNowPlayingPauseHideTimerEnabled = Self.resolvedBool(
@@ -321,6 +331,9 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         isNowPlayingLiveActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.nowPlayingLiveActivityEnabled)
         isNowPlayingFavoriteButtonVisible = defaultBool(for: GeneralSettingsStorage.Keys.nowPlayingFavoriteButtonVisible)
         isNowPlayingOutputDeviceButtonVisible = defaultBool(for: GeneralSettingsStorage.Keys.nowPlayingOutputDeviceButtonVisible)
+        isNowPlayingArtwork3DEffectEnabled = defaultBool(
+            for: GeneralSettingsStorage.Keys.nowPlayingArtwork3DEffectEnabled
+        )
         isNowPlayingArtworkTintEnabled = defaultBool(for: GeneralSettingsStorage.Keys.nowPlayingArtworkTintEnabled)
         isNowPlayingArtworkStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.nowPlayingArtworkStrokeEnabled)
         isNowPlayingPauseHideTimerEnabled = defaultBool(
@@ -414,6 +427,7 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
 struct NowPlayingAppearanceOptions {
     let showsFavoriteButton: Bool
     let showsOutputDeviceButton: Bool
+    let usesArtwork3DEffect: Bool
     let usesArtworkTint: Bool
     let usesArtworkStrokeTint: Bool
 }
@@ -429,6 +443,7 @@ extension MediaAndFilesSettingsStore {
         .init(
             showsFavoriteButton: isNowPlayingFavoriteButtonVisible,
             showsOutputDeviceButton: isNowPlayingOutputDeviceButtonVisible,
+            usesArtwork3DEffect: isNowPlayingArtwork3DEffectEnabled,
             usesArtworkTint: isNowPlayingArtworkTintEnabled,
             usesArtworkStrokeTint: isNowPlayingArtworkStrokeEnabled && !isDefaultActivityStrokeEnabled
         )

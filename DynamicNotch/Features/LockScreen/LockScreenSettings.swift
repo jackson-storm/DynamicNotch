@@ -12,9 +12,12 @@ enum LockScreenSettings {
     static let widgetTintStyleKey = "settings.lockScreen.widgetTintStyle"
     static let widgetBackgroundBrightnessKey = "settings.lockScreen.widgetBackgroundBrightness"
     static let mediaPanelBackgroundStyleKey = "settings.lockScreen.mediaPanelBackgroundStyle"
+    static let artworkPresentationStyleKey = "settings.lockScreen.artworkPresentationStyle"
     static let widgetBackgroundBrightnessRange = 0.75...1.25
     static let mediaPanelVerticalOffsetKey = "settings.lockScreen.mediaPanelVerticalOffset"
     static let mediaPanelVerticalOffsetRange = -100.0...100.0
+    static let clockVerticalOffsetKey = "settings.lockScreen.clockVerticalOffset"
+    static let clockVerticalOffsetRange = -100.0...100.0
 
     static func isLiveActivityEnabled(in defaults: UserDefaults = .standard) -> Bool {
         resolvedBoolean(forKey: liveActivityKey, defaultValue: true, in: defaults)
@@ -95,12 +98,31 @@ enum LockScreenSettings {
         return style
     }
 
+    static func artworkPresentationStyle(in defaults: UserDefaults = .standard) -> LockScreenArtworkPresentationStyle {
+        guard
+            let rawValue = defaults.string(forKey: artworkPresentationStyleKey),
+            let style = LockScreenArtworkPresentationStyle(rawValue: rawValue)
+        else {
+            return .coverAndBackground
+        }
+
+        return style
+    }
+
     static func mediaPanelVerticalOffset(in defaults: UserDefaults = .standard) -> Double {
         guard let value = defaults.object(forKey: mediaPanelVerticalOffsetKey) as? Double else {
             return 0
         }
 
         return min(max(value, mediaPanelVerticalOffsetRange.lowerBound), mediaPanelVerticalOffsetRange.upperBound)
+    }
+
+    static func clockVerticalOffset(in defaults: UserDefaults = .standard) -> Double {
+        guard let value = defaults.object(forKey: clockVerticalOffsetKey) as? Double else {
+            return 0
+        }
+
+        return min(max(value, clockVerticalOffsetRange.lowerBound), clockVerticalOffsetRange.upperBound)
     }
 
     private static func resolvedBoolean(

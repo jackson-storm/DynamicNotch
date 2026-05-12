@@ -62,7 +62,8 @@ struct NowPlayingNotchContent: NotchContentProtocol {
     func makeView() -> AnyView {
         AnyView(
             NowPlayingMinimalNotchView(
-                nowPlayingViewModel: nowPlayingViewModel
+                nowPlayingViewModel: nowPlayingViewModel,
+                settings: settings
             )
         )
     }

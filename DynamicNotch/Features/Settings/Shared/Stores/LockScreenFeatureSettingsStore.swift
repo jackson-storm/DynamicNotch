@@ -66,6 +66,15 @@ final class LockScreenFeatureSettingsStore: SettingsStoreBase {
         }
     }
 
+    @Published var artworkPresentationStyle: LockScreenArtworkPresentationStyle {
+        didSet {
+            persist(
+                artworkPresentationStyle.rawValue,
+                for: LockScreenSettings.artworkPresentationStyleKey
+            )
+        }
+    }
+
     @Published var mediaPanelVerticalOffset: Double {
         didSet {
             let clampedValue = min(
@@ -73,6 +82,16 @@ final class LockScreenFeatureSettingsStore: SettingsStoreBase {
                 LockScreenSettings.mediaPanelVerticalOffsetRange.upperBound
             )
             persist(clampedValue, for: LockScreenSettings.mediaPanelVerticalOffsetKey)
+        }
+    }
+
+    @Published var clockVerticalOffset: Double {
+        didSet {
+            let clampedValue = min(
+                max(clockVerticalOffset, LockScreenSettings.clockVerticalOffsetRange.lowerBound),
+                LockScreenSettings.clockVerticalOffsetRange.upperBound
+            )
+            persist(clampedValue, for: LockScreenSettings.clockVerticalOffsetKey)
         }
     }
 
@@ -98,7 +117,9 @@ final class LockScreenFeatureSettingsStore: SettingsStoreBase {
         self.widgetTintStyle = LockScreenSettings.widgetTintStyle(in: defaults)
         self.widgetBackgroundBrightness = LockScreenSettings.widgetBackgroundBrightness(in: defaults)
         self.mediaPanelBackgroundStyle = LockScreenSettings.mediaPanelBackgroundStyle(in: defaults)
+        self.artworkPresentationStyle = LockScreenSettings.artworkPresentationStyle(in: defaults)
         self.mediaPanelVerticalOffset = LockScreenSettings.mediaPanelVerticalOffset(in: defaults)
+        self.clockVerticalOffset = LockScreenSettings.clockVerticalOffset(in: defaults)
         super.init(defaults: defaults)
 
         migrateLegacyCustomSoundIfNeeded(
@@ -125,7 +146,11 @@ final class LockScreenFeatureSettingsStore: SettingsStoreBase {
         mediaPanelBackgroundStyle = LockScreenMediaPanelBackgroundStyle(
             rawValue: defaultString(for: LockScreenSettings.mediaPanelBackgroundStyleKey)
         ) ?? .animatedArtwork
+        artworkPresentationStyle = LockScreenArtworkPresentationStyle(
+            rawValue: defaultString(for: LockScreenSettings.artworkPresentationStyleKey)
+        ) ?? .coverAndBackground
         mediaPanelVerticalOffset = defaultDouble(for: LockScreenSettings.mediaPanelVerticalOffsetKey)
+        clockVerticalOffset = defaultDouble(for: LockScreenSettings.clockVerticalOffsetKey)
     }
 
     private static func resolvedCustomSoundPath(_ rawValue: String?, legacyValue: String) -> String {

@@ -395,6 +395,14 @@ private enum FileConverterProcessRunner {
     }
 }
 
+private final class FileConverterExportSessionBox: @unchecked Sendable {
+    let session: AVAssetExportSession
+
+    init(_ session: AVAssetExportSession) {
+        self.session = session
+    }
+}
+
 @MainActor
 final class FileConverterViewModel: ObservableObject {
     @Published private(set) var item: FileConverterItem?
@@ -477,7 +485,7 @@ final class FileConverterViewModel: ObservableObject {
         onItemChange?(converterItem)
     }
     
-    func convert(options: FileConverterConversionOptions = .init()) {
+    func convert(options: FileConverterConversionOptions) {
         guard let item, status != .converting else { return }
         
         conversionTask?.cancel()
@@ -712,8 +720,11 @@ final class FileConverterViewModel: ObservableObject {
         exportSession.outputFileType = outputFileType
         exportSession.shouldOptimizeForNetworkUse = true
         
+        let exportSessionBox = FileConverterExportSessionBox(exportSession)
         try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
             exportSession.exportAsynchronously {
+                let exportSession = exportSessionBox.session
+
                 switch exportSession.status {
                 case .completed:
                     continuation.resume(returning: ())

@@ -71,7 +71,13 @@ struct NowPlayingExpandedNotchView: View {
                 Button(action: {
                     openPlaybackSource()
                 }) {
-                    ArtworkView(nowPlayingViewModel: nowPlayingViewModel, width: 60, height: 60, cornerRadius: 10)
+                    ArtworkView(
+                        nowPlayingViewModel: nowPlayingViewModel,
+                        width: 60,
+                        height: 60,
+                        cornerRadius: 10,
+                        usesFlipAnimation: appearance.usesArtwork3DEffect
+                    )
                 }
                 .buttonStyle(PlaybackSourceButtonStyle())
                 .disabled(!nowPlayingViewModel.canOpenPlaybackSource)

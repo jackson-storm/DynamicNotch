@@ -895,6 +895,34 @@
         }
       }
     },
+    "Animate artwork with a 3D flip when the track cover changes." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Animate artwork with a 3D flip when the track cover changes."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anima la carátula con un giro 3D cuando cambia la portada de la pista."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Анимировать обложку 3D-переворотом при смене обложки трека."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当曲目封面变化时，用 3D 翻转动画显示封面。"
+          }
+        }
+      }
+    },
     "Appearance" : {
       "localizations" : {
         "en" : {
@@ -1062,6 +1090,37 @@
           }
         }
       }
+    },
+    "Artwork 3D effect" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Artwork 3D effect"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Efecto 3D de la carátula"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "3D-эффект обложки"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "封面 3D 效果"
+          }
+        }
+      }
+    },
+    "Artwork appearance" : {
+
     },
     "Artwork-tinted progress" : {
       "localizations" : {
@@ -2721,6 +2780,34 @@
         }
       }
     },
+    "Choose how the track cover opens on the lock screen." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose how the track cover opens on the lock screen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige cómo se abre la portada de la pista en la pantalla de bloqueo."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите, как обложка трека открывается на экране блокировки."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择曲目封面在锁屏上的展开方式。"
+          }
+        }
+      }
+    },
     "Choose Lock Sound" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -3946,6 +4033,34 @@
     "Combined Targets" : {
 
     },
+    "Clock position" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clock position"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Posición del reloj"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Позиция часов"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "时钟位置"
+          }
+        }
+      }
+    },
     "common.cancel" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -4502,6 +4617,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "珊瑚色"
+          }
+        }
+      }
+    },
+    "Cover and background" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cover and background"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Portada y fondo"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Обложка и фон"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "封面和背景"
           }
         }
       }
@@ -5929,6 +6072,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "充满电阈值"
+          }
+        }
+      }
+    },
+    "Fullscreen cover" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fullscreen cover"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Portada a pantalla completa"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Обложка на весь экран"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全屏封面"
           }
         }
       }
@@ -8009,6 +8180,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "移动原件"
+          }
+        }
+      }
+    },
+    "Move the lock-screen clock up or down." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Move the lock-screen clock up or down."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mueve el reloj de la pantalla de bloqueo hacia arriba o abajo."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перемещает часы экрана блокировки вверх или вниз."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "向上或向下移动锁屏时钟。"
           }
         }
       }
@@ -17028,6 +17227,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "切换持久预览以检查其实时活动界面。"
+          }
+        }
+      }
+    },
+    "Track artwork" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Track artwork"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Portada de la pista"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Обложка трека"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "曲目封面"
           }
         }
       }

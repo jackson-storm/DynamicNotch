@@ -43,6 +43,7 @@ enum GeneralSettingsStorage {
         static let nowPlayingLiveActivityEnabled = "settings.live.nowPlaying"
         static let nowPlayingFavoriteButtonVisible = "settings.nowPlaying.favoriteButtonVisible"
         static let nowPlayingOutputDeviceButtonVisible = "settings.nowPlaying.outputDeviceButtonVisible"
+        static let nowPlayingArtwork3DEffectEnabled = "settings.nowPlaying.artwork3DEffectEnabled"
         static let nowPlayingArtworkTintEnabled = "settings.nowPlaying.artworkTintEnabled"
         static let nowPlayingArtworkStrokeEnabled = "settings.nowPlaying.artworkStrokeEnabled"
         static let nowPlayingPauseHideTimerEnabled = "settings.nowPlaying.pauseHideTimerEnabled"
@@ -153,6 +154,7 @@ enum GeneralSettingsStorage {
         Keys.nowPlayingLiveActivityEnabled: true,
         Keys.nowPlayingFavoriteButtonVisible: true,
         Keys.nowPlayingOutputDeviceButtonVisible: true,
+        Keys.nowPlayingArtwork3DEffectEnabled: true,
         Keys.nowPlayingArtworkTintEnabled: false,
         Keys.nowPlayingArtworkStrokeEnabled: false,
         Keys.nowPlayingPauseHideTimerEnabled: true,
@@ -194,7 +196,9 @@ enum GeneralSettingsStorage {
         LockScreenSettings.widgetTintStyleKey: LockScreenWidgetTintStyle.neutral.rawValue,
         LockScreenSettings.widgetBackgroundBrightnessKey: 1.0,
         LockScreenSettings.mediaPanelBackgroundStyleKey: LockScreenMediaPanelBackgroundStyle.animatedArtwork.rawValue,
+        LockScreenSettings.artworkPresentationStyleKey: LockScreenArtworkPresentationStyle.coverAndBackground.rawValue,
         LockScreenSettings.mediaPanelVerticalOffsetKey: 0.0,
+        LockScreenSettings.clockVerticalOffsetKey: 0.0,
         Keys.chargerTemporaryActivityEnabled: true,
         Keys.temporaryActivityDurationScale: 1.0,
         Keys.chargerTemporaryActivityDuration: 4,

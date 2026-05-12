@@ -37,26 +37,19 @@ struct LockScreenNowPlayingPanelView: View {
     var body: some View {
         ZStack {
             if onTapArtwork {
-                ZStack {
-                    Color.black
-
-                    if mediaPanelBackgroundStyle != .black {
-                        NowPlayingArtworkBackground(
-                            artworkImage: resolvedArtworkImage,
-                            blurRadius: 200,
-                            darkeningOpacity: 0.6,
-                            saturation: 1.45,
-                            scale: mediaPanelBackgroundScale
-                        )
-                        .rotationEffect(mediaPanelBackgroundRotation)
+                artworkPresentationBackground
+                    .onAppear(perform: configureMediaPanelBackgroundAnimation)
+                    .onChange(of: mediaPanelBackgroundStyle) {
+                        configureMediaPanelBackgroundAnimation()
                     }
-                }
-                .onAppear(perform: configureMediaPanelBackgroundAnimation)
-                .onChange(of: mediaPanelBackgroundStyle) {
-                    configureMediaPanelBackgroundAnimation()
-                }
-                .ignoresSafeArea()
-                .transition(.opacity)
+                    .onChange(of: artworkPresentationStyle) {
+                        configureMediaPanelBackgroundAnimation()
+                    }
+                    .onTapGesture {
+                        closeFullscreenArtworkIfNeeded()
+                    }
+                    .ignoresSafeArea()
+                    .transition(.opacity)
             }
             expandedContent
                 .offset(y: Self.panelCenterYOffset + activeMediaPanelVerticalOffset)
@@ -67,20 +60,23 @@ struct LockScreenNowPlayingPanelView: View {
     }
 
     private var expandedContent: some View {
-        ZStack {
+        return ZStack {
             if onTapArtwork {
-                VStack {
-                    TimelineView(.periodic(from: .now, by: 30)) { context in
-                        ExpandedLockScreenClockView(
-                            date: context.date,
-                            width: Self.expandedArtworkSize,
-                            height: Self.expandedClockHeight
-                        )
+                switch artworkPresentationStyle {
+                case .coverAndBackground:
+                    VStack {
+                        expandedClockView
+                            .offset(y: clockVerticalOffset)
+                        expandedArtworkButton
                     }
-                    expandedArtworkButton
+                    .offset(y: expandedArtworkOffset)
+                    .transition(.scale(scale: 0.82).combined(with: .opacity))
+                case .fullscreenCover:
+                    expandedClockView
+                        .offset(y: expandedClockOffset + clockVerticalOffset)
+                        .transition(.scale(scale: 0.82).combined(with: .opacity))
+                        .allowsHitTesting(false)
                 }
-                .offset(y: expandedArtworkOffset)
-                .transition(.scale(scale: 0.82).combined(with: .opacity))
             }
 
             playerPanel
@@ -122,11 +118,22 @@ struct LockScreenNowPlayingPanelView: View {
                 nowPlayingViewModel: nowPlayingViewModel,
                 width: Self.expandedArtworkSize,
                 height: Self.expandedArtworkSize,
-                cornerRadius: 30
+                cornerRadius: 30,
+                usesFlipAnimation: false
             )
             .shadow(color: .black.opacity(0.45), radius: 24, x: 0, y: 16)
         }
         .buttonStyle(PlaybackSourceButtonStyle())
+    }
+
+    private var expandedClockView: some View {
+        TimelineView(.periodic(from: .now, by: 30)) { context in
+            ExpandedLockScreenClockView(
+                date: context.date,
+                width: Self.expandedArtworkSize,
+                height: Self.expandedClockHeight
+            )
+        }
     }
 
     private var expandedPresentationHeight: CGFloat {
@@ -156,6 +163,10 @@ struct LockScreenNowPlayingPanelView: View {
         CGFloat(settingsViewModel.lockScreen.mediaPanelVerticalOffset)
     }
 
+    private var clockVerticalOffset: CGFloat {
+        CGFloat(settingsViewModel.lockScreen.clockVerticalOffset)
+    }
+
     private var activeMediaPanelVerticalOffset: CGFloat {
         onTapArtwork ? 0 : mediaPanelVerticalOffset
     }
@@ -164,12 +175,20 @@ struct LockScreenNowPlayingPanelView: View {
         settingsViewModel.lockScreen.mediaPanelBackgroundStyle
     }
 
+    private var artworkPresentationStyle: LockScreenArtworkPresentationStyle {
+        settingsViewModel.lockScreen.artworkPresentationStyle
+    }
+
     private var mediaPanelBackgroundScale: CGFloat {
-        mediaPanelBackgroundStyle == .animatedArtwork ? backgroundScale : 1
+        artworkPresentationStyle == .coverAndBackground && mediaPanelBackgroundStyle == .animatedArtwork ?
+        backgroundScale :
+        1
     }
 
     private var mediaPanelBackgroundRotation: Angle {
-        mediaPanelBackgroundStyle == .animatedArtwork ? .degrees(backgroundRotation) : .zero
+        artworkPresentationStyle == .coverAndBackground && mediaPanelBackgroundStyle == .animatedArtwork ?
+        .degrees(backgroundRotation) :
+        .zero
     }
 
     private func configureMediaPanelBackgroundAnimation() {
@@ -180,7 +199,10 @@ struct LockScreenNowPlayingPanelView: View {
             backgroundScale = Self.backgroundScaleRange.lowerBound
         }
 
-        guard mediaPanelBackgroundStyle == .animatedArtwork else {
+        guard
+            artworkPresentationStyle == .coverAndBackground,
+            mediaPanelBackgroundStyle == .animatedArtwork
+        else {
             return
         }
 
@@ -192,7 +214,93 @@ struct LockScreenNowPlayingPanelView: View {
             backgroundScale = Self.backgroundScaleRange.upperBound
         }
     }
-    
+
+    @ViewBuilder
+    private var artworkPresentationBackground: some View {
+        switch artworkPresentationStyle {
+        case .coverAndBackground:
+            coverAndBackgroundPresentation
+        case .fullscreenCover:
+            fullscreenCoverPresentation
+        }
+    }
+
+    private var coverAndBackgroundPresentation: some View {
+        ZStack {
+            Color.black
+
+            if mediaPanelBackgroundStyle != .black {
+                NowPlayingArtworkBackground(
+                    artworkImage: resolvedArtworkImage,
+                    blurRadius: 200,
+                    darkeningOpacity: 0.6,
+                    saturation: 1.45,
+                    scale: mediaPanelBackgroundScale
+                )
+                .rotationEffect(mediaPanelBackgroundRotation)
+            }
+        }
+    }
+
+    private var fullscreenCoverPresentation: some View {
+        GeometryReader { proxy in
+            ZStack {
+                if let resolvedArtworkImage {
+                    fullscreenArtworkBackground(
+                        image: resolvedArtworkImage,
+                        canvasSize: proxy.size
+                    )
+
+                    LinearGradient(
+                        colors: [
+                            .black.opacity(0.36),
+                            .clear,
+                            .black.opacity(0.42)
+                        ],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                }
+            }
+            .frame(width: proxy.size.width, height: proxy.size.height)
+            .clipped()
+        }
+    }
+
+    private func fullscreenArtworkBackground(image: NSImage, canvasSize: CGSize) -> some View {
+        Image(nsImage: image)
+            .resizable()
+            .scaledToFill()
+            .frame(width: canvasSize.width, height: canvasSize.height)
+            .scaleEffect(0.8)
+            .blur(radius: 25, opaque: true)
+            .overlay {
+                LinearGradient(
+                    colors: [
+                        Color(nsColor: nowPlayingViewModel.artworkPalette.equalizerHighlightColor).opacity(0.18),
+                        Color(nsColor: nowPlayingViewModel.artworkPalette.equalizerBaseColor).opacity(0.22),
+                        .black.opacity(0.28)
+                    ],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+            }
+            .overlay {
+                Color.black.opacity(0.16)
+            }
+            .clipped()
+    }
+
+    private func closeFullscreenArtworkIfNeeded() {
+        guard artworkPresentationStyle == .fullscreenCover else {
+            return
+        }
+
+        withAnimation(.spring(response: 0.55, dampingFraction: 0.86)) {
+            onTapArtwork = false
+        }
+    }
+
     @ViewBuilder
     private var panelBackground: some View {
         LockScreenWidgetSurface(
@@ -303,7 +411,13 @@ private struct LockScreenNowPlayingView: View {
                             onTapArtwork = true
                         }
                     }) {
-                        ArtworkView(nowPlayingViewModel: nowPlayingViewModel, width: 60, height: 60, cornerRadius: 10)
+                        ArtworkView(
+                            nowPlayingViewModel: nowPlayingViewModel,
+                            width: 60,
+                            height: 60,
+                            cornerRadius: 10,
+                            usesFlipAnimation: false
+                        )
                     }
                     .buttonStyle(PlaybackSourceButtonStyle())
                 }

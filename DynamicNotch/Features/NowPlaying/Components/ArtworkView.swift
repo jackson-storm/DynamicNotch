@@ -13,6 +13,21 @@ struct ArtworkView: View {
     let width: CGFloat
     let height: CGFloat
     let cornerRadius: CGFloat
+    let usesFlipAnimation: Bool
+
+    init(
+        nowPlayingViewModel: NowPlayingViewModel,
+        width: CGFloat,
+        height: CGFloat,
+        cornerRadius: CGFloat,
+        usesFlipAnimation: Bool = true
+    ) {
+        self.nowPlayingViewModel = nowPlayingViewModel
+        self.width = width
+        self.height = height
+        self.cornerRadius = cornerRadius
+        self.usesFlipAnimation = usesFlipAnimation
+    }
 
     private var artworkScale: CGFloat {
         guard nowPlayingViewModel.snapshot != nil else { return 1 }
@@ -42,7 +57,7 @@ struct ArtworkView: View {
         }
         .frame(width: width, height: height)
         .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
-        .albumArtFlip(angle: nowPlayingViewModel.artworkFlipAngle)
+        .albumArtFlip(angle: nowPlayingViewModel.artworkFlipAngle, isEnabled: usesFlipAnimation)
         .opacity(artworkOpacity)
         .scaleEffect(artworkScale)
         .animation(.easeInOut(duration: 0.18), value: artworkOpacity)
@@ -76,7 +91,12 @@ private struct AlbumArtFlipModifier: ViewModifier {
 }
 
 private extension View {
-    func albumArtFlip(angle: Double) -> some View {
-        modifier(AlbumArtFlipModifier(angle: angle))
+    @ViewBuilder
+    func albumArtFlip(angle: Double, isEnabled: Bool) -> some View {
+        if isEnabled {
+            modifier(AlbumArtFlipModifier(angle: angle))
+        } else {
+            self
+        }
     }
 }

@@ -207,6 +207,24 @@ enum FileConverterOutputFormat: String, CaseIterable, Identifiable {
             return nil
         }
     }
+
+    var usesLossyImageQuality: Bool {
+        switch self {
+        case .jpeg, .heic, .webp, .avif:
+            return true
+        default:
+            return false
+        }
+    }
+
+    var usesCompressedAudioBitrate: Bool {
+        switch self {
+        case .aac, .m4a, .mp3, .ogg:
+            return true
+        default:
+            return false
+        }
+    }
     
     static func formats(for kind: FileConverterMediaKind, isDirectory: Bool = false) -> [FileConverterOutputFormat] {
         switch kind {
@@ -279,6 +297,56 @@ enum FileConverterStatus: Equatable {
     case converting
     case converted(URL)
     case failed(String)
+}
+
+struct FileConverterConversionOptions {
+    var outputLocation: FileConverterOutputLocation = .sameFolder
+    var existingFileBehavior: FileConverterExistingFileBehavior = .createUniqueName
+    var filenameSuffix: String = "-converted"
+    var imageQuality: Double = 0.92
+    var videoQuality: FileConverterVideoQuality = .high
+    var audioQuality: FileConverterAudioQuality = .high
+
+    init() {}
+
+    init(settings: MediaAndFilesSettingsStore) {
+        outputLocation = settings.fileConverterOutputLocation
+        existingFileBehavior = settings.fileConverterExistingFileBehavior
+        filenameSuffix = settings.fileConverterFilenameSuffix
+        imageQuality = MediaAndFilesSettingsStore.clampFileConverterImageQuality(settings.fileConverterImageQuality)
+        videoQuality = settings.fileConverterVideoQuality
+        audioQuality = settings.fileConverterAudioQuality
+    }
+}
+
+private extension FileConverterVideoQuality {
+    var exportPresetNames: [String] {
+        switch self {
+        case .passthrough:
+            return [
+                AVAssetExportPresetPassthrough,
+                AVAssetExportPresetHighestQuality
+            ]
+        case .high:
+            return [
+                AVAssetExportPresetHighestQuality,
+                AVAssetExportPresetPassthrough
+            ]
+        case .medium:
+            return [
+                AVAssetExportPresetMediumQuality,
+                AVAssetExportPresetHighestQuality,
+                AVAssetExportPresetPassthrough
+            ]
+        case .small:
+            return [
+                AVAssetExportPresetLowQuality,
+                AVAssetExportPresetMediumQuality,
+                AVAssetExportPresetHighestQuality,
+                AVAssetExportPresetPassthrough
+            ]
+        }
+    }
 }
 
 private enum FileConverterProcessRunner {
@@ -409,18 +477,31 @@ final class FileConverterViewModel: ObservableObject {
         onItemChange?(converterItem)
     }
     
-    func convert() {
+    func convert(options: FileConverterConversionOptions = .init()) {
         guard let item, status != .converting else { return }
         
         conversionTask?.cancel()
         status = .converting
         
         let outputFormat = selectedFormat
+
+        let outputURL: URL
+        do {
+            outputURL = try preparedOutputURL(for: item.url, format: outputFormat, options: options)
+        } catch {
+            handleConversionFailure(error.localizedDescription)
+            return
+        }
         
         if outputFormat.mediaKind == .archive {
             conversionTask = Task { [weak self] in
                 await self?.runAsyncConversion {
-                    try await self?.convertArchive(at: item.url, isDirectory: item.isDirectory, to: outputFormat)
+                    try await self?.convertArchive(
+                        at: item.url,
+                        isDirectory: item.isDirectory,
+                        to: outputFormat,
+                        outputURL: outputURL
+                    )
                 }
             }
             return
@@ -429,28 +510,38 @@ final class FileConverterViewModel: ObservableObject {
         switch (item.mediaKind, outputFormat.mediaKind) {
         case (.image, .image):
             do {
-                let outputURL = try convertImage(at: item.url, to: outputFormat)
-                status = .converted(outputURL)
+                try convertImage(at: item.url, to: outputFormat, outputURL: outputURL, options: options)
+                handleConversionSuccess(outputURL)
             } catch {
-                status = .failed(error.localizedDescription)
+                handleConversionFailure(error.localizedDescription)
             }
             
         case (.video, .video):
             conversionTask = Task { [weak self] in
                 await self?.runAsyncConversion {
-                    try await self?.convertVideo(at: item.url, to: outputFormat)
+                    try await self?.convertVideo(
+                        at: item.url,
+                        to: outputFormat,
+                        outputURL: outputURL,
+                        options: options
+                    )
                 }
             }
             
         case (.audio, .audio):
             conversionTask = Task { [weak self] in
                 await self?.runAsyncConversion {
-                    try await self?.convertAudio(at: item.url, to: outputFormat)
+                    try await self?.convertAudio(
+                        at: item.url,
+                        to: outputFormat,
+                        outputURL: outputURL,
+                        options: options
+                    )
                 }
             }
             
         default:
-            status = .failed("\(outputFormat.title) is not available for this file.")
+            handleConversionFailure("\(outputFormat.title) is not available for this file.")
         }
     }
     
@@ -503,11 +594,21 @@ final class FileConverterViewModel: ObservableObject {
         do {
             guard let outputURL = try await conversion() else { return }
             guard !Task.isCancelled else { return }
-            status = .converted(outputURL)
+            handleConversionSuccess(outputURL)
         } catch {
             guard !Task.isCancelled else { return }
-            status = .failed(error.localizedDescription)
+            handleConversionFailure(error.localizedDescription)
         }
+    }
+
+    private func handleConversionSuccess(_ outputURL: URL) {
+        conversionTask = nil
+        status = .converted(outputURL)
+    }
+
+    private func handleConversionFailure(_ message: String) {
+        conversionTask = nil
+        status = .failed(message)
     }
     
     private func defaultFormat(for item: FileConverterItem) -> FileConverterOutputFormat {
@@ -516,7 +617,12 @@ final class FileConverterViewModel: ObservableObject {
         } ?? item.mediaKind.defaultOutputFormat
     }
     
-    private func convertImage(at sourceURL: URL, to format: FileConverterOutputFormat) throws -> URL {
+    private func convertImage(
+        at sourceURL: URL,
+        to format: FileConverterOutputFormat,
+        outputURL: URL,
+        options: FileConverterConversionOptions
+    ) throws {
         guard format.mediaKind == .image,
               let imageTypeIdentifier = format.imageTypeIdentifier else {
             throw NSError(
@@ -535,7 +641,6 @@ final class FileConverterViewModel: ObservableObject {
             )
         }
         
-        let outputURL = uniqueOutputURL(for: sourceURL, format: format)
         guard let destination = CGImageDestinationCreateWithURL(
             outputURL as CFURL,
             imageTypeIdentifier as CFString,
@@ -550,8 +655,10 @@ final class FileConverterViewModel: ObservableObject {
         }
         
         let properties: CFDictionary?
-        if format == .jpeg {
-            properties = [kCGImageDestinationLossyCompressionQuality as String: 0.92] as CFDictionary
+        if format.usesLossyImageQuality {
+            properties = [
+                kCGImageDestinationLossyCompressionQuality as String: options.imageQuality
+            ] as CFDictionary
         } else {
             properties = nil
         }
@@ -565,11 +672,14 @@ final class FileConverterViewModel: ObservableObject {
                 userInfo: [NSLocalizedDescriptionKey: "Could not encode this image."]
             )
         }
-        
-        return outputURL
     }
     
-    private func convertVideo(at sourceURL: URL, to format: FileConverterOutputFormat) async throws -> URL {
+    private func convertVideo(
+        at sourceURL: URL,
+        to format: FileConverterOutputFormat,
+        outputURL: URL,
+        options: FileConverterConversionOptions
+    ) async throws -> URL {
         guard let outputFileType = format.avFileType else {
             throw NSError(
                 domain: "DynamicNotch.FileConverter",
@@ -580,8 +690,9 @@ final class FileConverterViewModel: ObservableObject {
         
         let asset = AVURLAsset(url: sourceURL)
         
-        guard let exportSession = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetHighestQuality) ??
-                AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetPassthrough) else {
+        guard let exportSession = options.videoQuality.exportPresetNames.lazy.compactMap({
+            AVAssetExportSession(asset: asset, presetName: $0)
+        }).first else {
             throw NSError(
                 domain: "DynamicNotch.FileConverter",
                 code: 8,
@@ -597,7 +708,6 @@ final class FileConverterViewModel: ObservableObject {
             )
         }
         
-        let outputURL = uniqueOutputURL(for: sourceURL, format: format)
         exportSession.outputURL = outputURL
         exportSession.outputFileType = outputFileType
         exportSession.shouldOptimizeForNetworkUse = true
@@ -636,7 +746,12 @@ final class FileConverterViewModel: ObservableObject {
         return outputURL
     }
     
-    private func convertAudio(at sourceURL: URL, to format: FileConverterOutputFormat) async throws -> URL {
+    private func convertAudio(
+        at sourceURL: URL,
+        to format: FileConverterOutputFormat,
+        outputURL: URL,
+        options: FileConverterConversionOptions
+    ) async throws -> URL {
         guard let fileFormat = format.afconvertFileFormat else {
             throw NSError(
                 domain: "DynamicNotch.FileConverter",
@@ -645,10 +760,13 @@ final class FileConverterViewModel: ObservableObject {
             )
         }
         
-        let outputURL = uniqueOutputURL(for: sourceURL, format: format)
         var arguments = ["-f", fileFormat]
         if let dataFormat = format.afconvertDataFormat {
             arguments += ["-d", dataFormat]
+        }
+        if let bitrate = options.audioQuality.bitrate,
+           format.usesCompressedAudioBitrate {
+            arguments += ["-b", "\(bitrate)"]
         }
         arguments += [sourceURL.path, outputURL.path]
         
@@ -662,9 +780,9 @@ final class FileConverterViewModel: ObservableObject {
     private func convertArchive(
         at sourceURL: URL,
         isDirectory: Bool,
-        to format: FileConverterOutputFormat
+        to format: FileConverterOutputFormat,
+        outputURL: URL
     ) async throws -> URL {
-        let outputURL = uniqueOutputURL(for: sourceURL, format: format)
         let parentPath = sourceURL.deletingLastPathComponent().path
         let itemName = sourceURL.lastPathComponent
         
@@ -749,23 +867,128 @@ final class FileConverterViewModel: ObservableObject {
         return .generic
     }
     
-    private func uniqueOutputURL(for sourceURL: URL, format: FileConverterOutputFormat) -> URL {
-        let directory = sourceURL.deletingLastPathComponent()
+    private func preparedOutputURL(
+        for sourceURL: URL,
+        format: FileConverterOutputFormat,
+        options: FileConverterConversionOptions
+    ) throws -> URL {
+        let outputURL: URL
+
+        if options.outputLocation == .askEveryTime {
+            outputURL = try askForOutputURL(sourceURL: sourceURL, format: format, options: options)
+        } else {
+            let preferredURL = preferredOutputURL(sourceURL: sourceURL, format: format, options: options)
+            outputURL = try resolvedOutputURL(
+                preferredURL,
+                sourceURL: sourceURL,
+                format: format,
+                options: options
+            )
+        }
+
+        guard outputURL.standardizedFileURL != sourceURL.standardizedFileURL else {
+            throw NSError(
+                domain: "DynamicNotch.FileConverter",
+                code: 15,
+                userInfo: [NSLocalizedDescriptionKey: "Choose a different output file."]
+            )
+        }
+
+        if FileManager.default.fileExists(atPath: outputURL.path) {
+            try FileManager.default.removeItem(at: outputURL)
+        }
+
+        return outputURL
+    }
+
+    private func preferredOutputURL(
+        sourceURL: URL,
+        format: FileConverterOutputFormat,
+        options: FileConverterConversionOptions
+    ) -> URL {
+        let directory = outputDirectory(for: sourceURL, options: options)
         let baseName = sourceURL.deletingPathExtension().lastPathComponent
-        let preferredName = "\(baseName)-converted"
-        var candidate = directory
-            .appendingPathComponent(preferredName)
+        let suffix = normalizedFilenameSuffix(options.filenameSuffix)
+        let preferredName = "\(baseName)\(suffix)"
+
+        return directory
+            .appendingPathComponent(preferredName.isEmpty ? baseName : preferredName)
             .appendingPathExtension(format.fileExtension)
+    }
+
+    private func resolvedOutputURL(
+        _ preferredURL: URL,
+        sourceURL: URL,
+        format: FileConverterOutputFormat,
+        options: FileConverterConversionOptions
+    ) throws -> URL {
+        guard FileManager.default.fileExists(atPath: preferredURL.path) else {
+            return preferredURL
+        }
+
+        switch options.existingFileBehavior {
+        case .createUniqueName:
+            return uniqueOutputURL(from: preferredURL, format: format)
+        case .replace:
+            return preferredURL
+        case .ask:
+            return try askForOutputURL(sourceURL: sourceURL, format: format, options: options)
+        }
+    }
+
+    private func uniqueOutputURL(from preferredURL: URL, format: FileConverterOutputFormat) -> URL {
+        let directory = preferredURL.deletingLastPathComponent()
+        let baseName = preferredURL.deletingPathExtension().lastPathComponent
+        var candidate = preferredURL
         var suffix = 1
         
         while FileManager.default.fileExists(atPath: candidate.path) {
             candidate = directory
-                .appendingPathComponent("\(preferredName)-\(suffix)")
+                .appendingPathComponent("\(baseName)-\(suffix)")
                 .appendingPathExtension(format.fileExtension)
             suffix += 1
         }
-
+        
         return candidate
+    }
+
+    private func askForOutputURL(
+        sourceURL: URL,
+        format: FileConverterOutputFormat,
+        options: FileConverterConversionOptions
+    ) throws -> URL {
+        let panel = NSSavePanel()
+        let preferredURL = preferredOutputURL(sourceURL: sourceURL, format: format, options: options)
+
+        panel.directoryURL = preferredURL.deletingLastPathComponent()
+        panel.nameFieldStringValue = preferredURL.lastPathComponent
+        panel.canCreateDirectories = true
+        panel.prompt = "Convert"
+        panel.message = "Choose where to save the converted file."
+
+        guard panel.runModal() == .OK, let url = panel.url else {
+            throw NSError(
+                domain: "DynamicNotch.FileConverter",
+                code: 16,
+                userInfo: [NSLocalizedDescriptionKey: "Conversion was cancelled."]
+            )
+        }
+
+        return url
+    }
+
+    private func outputDirectory(for sourceURL: URL, options: FileConverterConversionOptions) -> URL {
+        switch options.outputLocation {
+        case .sameFolder, .askEveryTime:
+            return sourceURL.deletingLastPathComponent()
+        case .downloads:
+            return FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask).first ??
+            sourceURL.deletingLastPathComponent()
+        }
+    }
+
+    private func normalizedFilenameSuffix(_ suffix: String) -> String {
+        suffix.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 }
 

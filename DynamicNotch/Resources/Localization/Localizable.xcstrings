@@ -437,6 +437,34 @@
         }
       }
     },
+    "Add this suffix before the converted file extension." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add this suffix before the converted file extension."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Añade este sufijo antes de la extensión del archivo convertido."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавляет этот суффикс перед расширением сконвертированного файла."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在转换后的文件扩展名前添加此后缀。"
+          }
+        }
+      }
+    },
     "Adjust how quickly press-and-hold and hover expansion trigger." : {
       "localizations" : {
         "en" : {
@@ -1087,6 +1115,90 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "封面配色描边"
+          }
+        }
+      }
+    },
+    "Ask" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ask"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preguntar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Спрашивать"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "询问"
+          }
+        }
+      }
+    },
+    "Ask every time" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ask every time"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preguntar siempre"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Спрашивать каждый раз"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每次询问"
+          }
+        }
+      }
+    },
+    "Audio quality" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Audio quality"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calidad de audio"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Качество аудио"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "音频质量"
           }
         }
       }
@@ -2809,6 +2921,34 @@
         }
       }
     },
+    "Choose the bitrate target for compressed audio formats." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose the bitrate target for compressed audio formats."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige el bitrate objetivo para formatos de audio comprimidos."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите целевой битрейт для сжатых аудиоформатов."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择压缩音频格式的目标比特率。"
+          }
+        }
+      }
+    },
     "Choose the color used by the HUD level indicator." : {
       "localizations" : {
         "en" : {
@@ -2833,6 +2973,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "选择 HUD 级别指示器使用的颜色。"
+          }
+        }
+      }
+    },
+    "Choose the export preset used for video conversion." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose the export preset used for video conversion."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige el ajuste de exportación usado para convertir video."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите пресет экспорта для конвертации видео."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择用于视频转换的导出预设。"
           }
         }
       }
@@ -2951,6 +3119,34 @@
         }
       }
     },
+    "Choose what happens when a converted filename already exists." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose what happens when a converted filename already exists."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige qué ocurre cuando ya existe un archivo convertido con ese nombre."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите, что делать, если файл с таким именем уже существует."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择转换后的文件名已存在时的处理方式。"
+          }
+        }
+      }
+    },
     "Choose when the alert appears and how the full battery notification looks." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -3005,6 +3201,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "选择警报出现的时间以及低电量通知的外观。"
+          }
+        }
+      }
+    },
+    "Choose where converted files are saved." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose where converted files are saved."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige dónde se guardan los archivos convertidos."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите, куда сохранять сконвертированные файлы."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择转换后的文件保存位置。"
           }
         }
       }
@@ -4282,6 +4506,34 @@
         }
       }
     },
+    "Create unique name" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create unique name"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crear nombre único"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Создать уникальное имя"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "创建唯一名称"
+          }
+        }
+      }
+    },
     "Debug Ensemble" : {
       "localizations" : {
         "en" : {
@@ -4913,6 +5165,34 @@
         }
       }
     },
+    "Existing files" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Existing files"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Archivos existentes"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Существующие файлы"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已有文件"
+          }
+        }
+      }
+    },
     "Exit" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -5029,6 +5309,34 @@
     "File Converter Active" : {
 
     },
+    "File Converter files" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "File Converter files"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Archivos del conversor"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Файлы конвертера"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "文件转换器文件"
+          }
+        }
+      }
+    },
     "File Converter live activity" : {
       "localizations" : {
         "en" : {
@@ -5053,6 +5361,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "File Converter 实时活动"
+          }
+        }
+      }
+    },
+    "File Converter quality" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "File Converter quality"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calidad del conversor"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Качество конвертера"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "文件转换器质量"
           }
         }
       }
@@ -5088,6 +5424,34 @@
     },
     "File Tray Active" : {
 
+    },
+    "Filename suffix" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filename suffix"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sufijo del nombre"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Суффикс имени файла"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "文件名后缀"
+          }
+        }
+      }
     },
     "Fine-tune the notch frame and stroke so it better matches your hardware." : {
       "extractionState" : "stale",
@@ -5952,6 +6316,34 @@
         }
       }
     },
+    "High" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "High"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alta"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Высокое"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "高"
+          }
+        }
+      }
+    },
     "Horizontal" : {
       "localizations" : {
         "en" : {
@@ -6319,6 +6711,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "如果原件被移动到 Tray 后又从那里删除，你可以在系统废纸篓中恢复。"
+          }
+        }
+      }
+    },
+    "Image quality" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Image quality"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calidad de imagen"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Качество изображения"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "图像质量"
           }
         }
       }
@@ -7425,6 +7845,34 @@
         }
       }
     },
+    "Medium" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Medium"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Media"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Среднее"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中"
+          }
+        }
+      }
+    },
     "Midnight Echoes" : {
       "localizations" : {
         "en" : {
@@ -8281,6 +8729,62 @@
         }
       }
     },
+    "Output location" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Output location"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ubicación de salida"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Папка сохранения"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "输出位置"
+          }
+        }
+      }
+    },
+    "Passthrough" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passthrough"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin recodificar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Без перекодирования"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "直通"
+          }
+        }
+      }
+    },
     "Paused playback" : {
       "localizations" : {
         "en" : {
@@ -9048,6 +9552,34 @@
         }
       }
     },
+    "Replace" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Replace"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reemplazar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Заменять"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "替换"
+          }
+        }
+      }
+    },
     "Replace the keyboard backlight HUD with DynamicNotch HUD." : {
       "localizations" : {
         "en" : {
@@ -9245,6 +9777,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "按顺序运行每个调试事件，在配置的持续时间内保持每个项目可见，在项目之间等待 1 秒，并跳过启动、缺口大小和锁定屏幕预览。"
+          }
+        }
+      }
+    },
+    "Same folder" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Same folder"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Misma carpeta"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Та же папка"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "同一文件夹"
           }
         }
       }
@@ -15619,6 +16179,34 @@
         }
       }
     },
+    "Small" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Small"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pequeño"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Малый размер"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "小"
+          }
+        }
+      }
+    },
     "Soft" : {
       "localizations" : {
         "en" : {
@@ -15671,6 +16259,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "坚硬的"
+          }
+        }
+      }
+    },
+    "Source" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Source"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Origen"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Источник"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "源文件"
           }
         }
       }
@@ -17184,6 +17800,34 @@
         }
       }
     },
+    "Used for lossy image formats like JPEG, HEIC, WEBP, and AVIF." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Used for lossy image formats like JPEG, HEIC, WEBP, and AVIF."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se usa para formatos de imagen con pérdida como JPEG, HEIC, WEBP y AVIF."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Используется для форматов с потерями, таких как JPEG, HEIC, WEBP и AVIF."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用于 JPEG、HEIC、WEBP 和 AVIF 等有损图像格式。"
+          }
+        }
+      }
+    },
     "Utilities" : {
       "localizations" : {
         "en" : {
@@ -17265,6 +17909,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "垂直"
+          }
+        }
+      }
+    },
+    "Video quality" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Video quality"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calidad de video"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Качество видео"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "视频质量"
           }
         }
       }

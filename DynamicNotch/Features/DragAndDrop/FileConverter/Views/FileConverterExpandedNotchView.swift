@@ -178,7 +178,9 @@ struct FileConverterExpandedActiveNotchView: View {
             
             Button(action: {
                 withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
-                    fileConverterViewModel.convert()
+                    fileConverterViewModel.convert(
+                        options: FileConverterConversionOptions(settings: mediaSettings)
+                    )
                 }
                 onRequestCollapse()
             }) {

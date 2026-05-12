@@ -277,7 +277,7 @@ final class DebugSettingsViewModel: ObservableObject {
 
     func triggerFileConverterConvertedPreview() {
         showFileConverterStatusPreview {
-            fileConverterPreviewViewModel.convert()
+            fileConverterPreviewViewModel.convert(options: fileConverterDebugConversionOptions)
         }
     }
 
@@ -692,6 +692,13 @@ final class DebugSettingsViewModel: ObservableObject {
         )
     }
 
+    private var fileConverterDebugConversionOptions: FileConverterConversionOptions {
+        var options = FileConverterConversionOptions(settings: settingsViewModel.mediaAndFiles)
+        options.outputLocation = .sameFolder
+        options.existingFileBehavior = .createUniqueName
+        return options
+    }
+
     private func playBluetoothPreview() async throws {
         applyBluetoothPreviewState()
         try await playTemporaryPreview(
@@ -875,7 +882,7 @@ final class DebugSettingsViewModel: ObservableObject {
 
     private func playFileConverterConvertedPreview() async throws {
         try prepareFileConverterPreviewItem()
-        fileConverterPreviewViewModel.convert()
+        fileConverterPreviewViewModel.convert(options: fileConverterDebugConversionOptions)
         try await playLivePreview(
             makeFileConverterActivePreviewContent(),
             id: Self.sequenceFileConverterActiveID,

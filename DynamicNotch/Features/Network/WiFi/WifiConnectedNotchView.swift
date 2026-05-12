@@ -13,16 +13,8 @@ struct WifiConnectedNotchView: View {
     
     var body: some View {
         HStack(spacing: 0) {
-            ZStack {
-                RoundedRectangle(cornerRadius: 6)
-                    .fill(Color.accentColor.gradient)
-                    .frame(width: 24, height: 24)
-                
-                Image(systemName: "wifi")
-                    .font(.system(size: 14, weight: .semibold))
-                    .foregroundStyle(Color.white.gradient)
-                    .contentTransition(.symbolEffect(.replace))
-            }
+            AnimatedWifiIcon(targetLevel: networkViewModel.wifiSignalLevel)
+                .frame(width: 20, height: 18)
             
             Spacer()
             
@@ -30,6 +22,63 @@ struct WifiConnectedNotchView: View {
                 .foregroundStyle(.white.opacity(0.8))
         }
         .font(.system(size: 14))
-        .padding(.horizontal, 14.scaled(by: scale))
+        .padding(.horizontal, 16.scaled(by: scale))
+        .padding(.vertical, 10)
+    }
+}
+
+private struct AnimatedWifiIcon: View {
+    let targetLevel: Double
+
+    @State private var signalLevel = 0.0
+    @State private var animationTask: Task<Void, Never>?
+
+    var body: some View {
+        Image(systemName: "wifi", variableValue: signalLevel)
+            .font(.system(size: 18, weight: .semibold))
+            .symbolRenderingMode(.hierarchical)
+            .foregroundStyle(Color.white)
+            .animation(.snappy(duration: 0.22, extraBounce: 0.08), value: signalLevel)
+            .onAppear {
+                startAnimation()
+            }
+            .onDisappear {
+                animationTask?.cancel()
+                animationTask = nil
+            }
+    }
+
+    private func startAnimation() {
+        animationTask?.cancel()
+
+        animationTask = Task { @MainActor in
+            signalLevel = 0
+            await play(levels: [0.18, 0.44, 0.72, 1.0])
+
+            guard !Task.isCancelled else { return }
+
+            signalLevel = 0
+            await play(levels: levels(upTo: targetLevel))
+
+            animationTask = nil
+        }
+    }
+
+    private func play(levels: [Double]) async {
+        for level in levels {
+            guard !Task.isCancelled else { return }
+
+            withAnimation(.snappy(duration: 0.22, extraBounce: 0.08)) {
+                signalLevel = level
+            }
+
+            try? await Task.sleep(nanoseconds: 420_000_000)
+        }
+    }
+
+    private func levels(upTo targetLevel: Double) -> [Double] {
+        let target = min(max(targetLevel, 0.08), 1)
+        let steps = [0.18, 0.44, 0.72].filter { $0 < target }
+        return steps + [target]
     }
 }

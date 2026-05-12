@@ -16,6 +16,7 @@ final class NotchEventCoordinator: ObservableObject {
     private let settingsViewModel: SettingsViewModel
     private let nowPlayingViewModel: NowPlayingViewModel
     private let fileTrayViewModel: FileTrayViewModel
+    private let fileConverterViewModel: FileConverterViewModel
     private let timerViewModel: TimerViewModel
     private let lockScreenManager: LockScreenManager
     private let systemHandler: NotchSystemEventsHandler
@@ -26,6 +27,7 @@ final class NotchEventCoordinator: ObservableObject {
     private let mediaHandler: NotchMediaEventsHandler
     private let timerHandler: NotchTimerEventsHandler
     private var cancellables = Set<AnyCancellable>()
+    private var fileConverterExpansionTask: Task<Void, Never>?
     
     private var isOnboardingActive: Bool {
         OnboardingSteps.contains(id: notchViewModel.notchModel.liveActivityContent?.id) ||
@@ -53,6 +55,7 @@ final class NotchEventCoordinator: ObservableObject {
         downloadViewModel: DownloadViewModel,
         airDropViewModel: AirDropNotchViewModel,
         fileTrayViewModel: FileTrayViewModel,
+        fileConverterViewModel: FileConverterViewModel,
         settingsViewModel: SettingsViewModel,
         nowPlayingViewModel: NowPlayingViewModel,
         timerViewModel: TimerViewModel,
@@ -64,6 +67,7 @@ final class NotchEventCoordinator: ObservableObject {
         self.settingsViewModel = settingsViewModel
         self.nowPlayingViewModel = nowPlayingViewModel
         self.fileTrayViewModel = fileTrayViewModel
+        self.fileConverterViewModel = fileConverterViewModel
         self.timerViewModel = timerViewModel
         self.lockScreenManager = lockScreenManager
         self.systemHandler = NotchSystemEventsHandler(
@@ -123,6 +127,23 @@ final class NotchEventCoordinator: ObservableObject {
                     )
                 )
             )
+        }
+        self.fileConverterViewModel.onItemChange = { [weak self] item in
+            guard let self else {
+                return
+            }
+
+            guard self.settingsViewModel.isLiveActivityEnabled(.drop),
+                  self.settingsViewModel.mediaAndFiles.isFileConverterLiveActivityEnabled,
+                  !self.fileConverterViewModel.isConverted,
+                  item != nil else {
+                self.fileConverterExpansionTask?.cancel()
+                self.notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.DragAndDrop.fileConverterActive.id))
+                return
+            }
+
+            self.notchViewModel.send(.showLiveActivity(self.makeFileConverterActiveContent()))
+            self.scheduleFileConverterExpansion()
         }
 
         observeSettingsChanges()
@@ -342,6 +363,80 @@ final class NotchEventCoordinator: ObservableObject {
         )
     }
 
+    private func syncFileConverterLiveActivity(hasItem: Bool? = nil) {
+        let hasConverterItem = hasItem ?? fileConverterViewModel.hasItem
+
+        guard settingsViewModel.isLiveActivityEnabled(.drop),
+              settingsViewModel.mediaAndFiles.isFileConverterLiveActivityEnabled,
+              !fileConverterViewModel.isConverted,
+              hasConverterItem else {
+            fileConverterExpansionTask?.cancel()
+            notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.DragAndDrop.fileConverterActive.id))
+            return
+        }
+
+        notchViewModel.send(.showLiveActivity(makeFileConverterActiveContent()))
+    }
+
+    private func makeFileConverterActiveContent() -> FileConverterActiveNotchContent {
+        FileConverterActiveNotchContent(
+            fileConverterViewModel: fileConverterViewModel,
+            mediaSettings: settingsViewModel.mediaAndFiles,
+            onRequestCollapse: { [weak notchViewModel] in
+                notchViewModel?.handleOutsideClick()
+            }
+        )
+    }
+
+    private func scheduleFileConverterExpansion() {
+        fileConverterExpansionTask?.cancel()
+        fileConverterExpansionTask = Task { [weak self] in
+            for _ in 0..<20 {
+                try? await Task.sleep(nanoseconds: 50_000_000)
+                guard !Task.isCancelled else { return }
+
+                let didFinish = await MainActor.run { [weak self] in
+                    self?.expandFileConverterIfReady() ?? true
+                }
+
+                if didFinish {
+                    return
+                }
+            }
+
+            await MainActor.run { [weak self] in
+                self?.fileConverterExpansionTask = nil
+            }
+        }
+    }
+
+    @discardableResult
+    private func expandFileConverterIfReady() -> Bool {
+        guard fileConverterViewModel.hasItem,
+              !fileConverterViewModel.isConverted else {
+            fileConverterExpansionTask = nil
+            return true
+        }
+
+        guard notchViewModel.notchModel.liveActivityContent?.id == NotchContentRegistry.DragAndDrop.fileConverterActive.id,
+              notchViewModel.notchModel.temporaryNotificationContent == nil else {
+            return false
+        }
+
+        guard !notchViewModel.notchModel.isLiveActivityExpanded else {
+            fileConverterExpansionTask = nil
+            return true
+        }
+
+        guard notchViewModel.canExpandActiveLiveActivity else {
+            return false
+        }
+
+        notchViewModel.expandActiveLiveActivity()
+        fileConverterExpansionTask = nil
+        return true
+    }
+
     private func observeSettingsChanges() {
         settingsViewModel.connectivity.$isFocusLiveActivityEnabled
             .removeDuplicates()
@@ -432,11 +527,13 @@ final class NotchEventCoordinator: ObservableObject {
                 if isEnabled {
                     self.mediaHandler.refreshDragAndDropPresentation()
                     self.syncFileTrayLiveActivity()
+                    self.syncFileConverterLiveActivity()
                 } else {
                     NotchContentRegistry.DragAndDrop.liveActivityIDs.forEach { id in
                         self.notchViewModel.send(.hideLiveActivity(id: id))
                     }
                     self.notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.DragAndDrop.trayActive.id))
+                    self.notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.DragAndDrop.fileConverterActive.id))
                 }
             }
             .store(in: &cancellables)
@@ -446,6 +543,15 @@ final class NotchEventCoordinator: ObservableObject {
             .sink { [weak self] _ in
                 self?.mediaHandler.refreshDragAndDropPresentation()
                 self?.syncFileTrayLiveActivity()
+                self?.syncFileConverterLiveActivity()
+            }
+            .store(in: &cancellables)
+
+        settingsViewModel.mediaAndFiles.$dragAndDropTargetColorStyle
+            .removeDuplicates()
+            .sink { [weak self] _ in
+                self?.mediaHandler.refreshDragAndDropPresentation()
+                self?.syncFileConverterLiveActivity()
             }
             .store(in: &cancellables)
 
@@ -459,6 +565,21 @@ final class NotchEventCoordinator: ObservableObject {
                 } else {
                     self.notchViewModel.send(
                         .hideLiveActivity(id: NotchContentRegistry.DragAndDrop.trayActive.id)
+                    )
+                }
+            }
+            .store(in: &cancellables)
+
+        settingsViewModel.mediaAndFiles.$isFileConverterLiveActivityEnabled
+            .removeDuplicates()
+            .sink { [weak self] isEnabled in
+                guard let self else { return }
+
+                if isEnabled {
+                    self.syncFileConverterLiveActivity()
+                } else {
+                    self.notchViewModel.send(
+                        .hideLiveActivity(id: NotchContentRegistry.DragAndDrop.fileConverterActive.id)
                     )
                 }
             }

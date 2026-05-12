@@ -12,6 +12,8 @@ struct DragAndDropSettingsView: View {
         SettingsPageScrollView {
             dragAndDropActivity
             dragAndDropMode
+            fileConverterFiles
+            fileConverterQuality
             trayAppearance
         }
     }
@@ -20,7 +22,7 @@ struct DragAndDropSettingsView: View {
         SettingsCard(title: "Drag&Drop activity") {
             SettingsToggleRow(
                 title: "Drag&Drop live activity",
-                description: "Show AirDrop and Tray targets when you drag files over the notch.",
+                description: "Show AirDrop, Tray, and File Converter targets when you drag files over the notch.",
                 systemImage: "tray.and.arrow.down.fill",
                 color: .blue,
                 isOn: $mediaSettings.isDragAndDropLiveActivityEnabled,
@@ -40,13 +42,27 @@ struct DragAndDropSettingsView: View {
                 isOn: $mediaSettings.isTrayLiveActivityEnabled,
                 accessibilityIdentifier: "settings.activities.live.drop.tray"
             )
+
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+
+            SettingsToggleRow(
+                title: "File Converter live activity",
+                description: "Show the File Converter live activity after a file is dropped for conversion.",
+                systemImage: "arrow.trianglehead.2.clockwise.rotate.90.circle.fill",
+                color: .green,
+                isOn: $mediaSettings.isFileConverterLiveActivityEnabled,
+                accessibilityIdentifier: "settings.activities.live.drop.fileConverter"
+            )
         }
     }
 
     private var dragAndDropMode: some View {
         SettingsCard(title: "Drag&Drop target") {
             SettingsNotchPreview(
-                width: mediaSettings.dragAndDropActivityMode == .combined ? 460 : 280,
+                width: dragAndDropPreviewWidth,
                 height: 148,
                 previewHeight: 166,
                 topCornerRadius: 24,
@@ -70,6 +86,17 @@ struct DragAndDropSettingsView: View {
                 optionTitle: { $0.title },
                 accessibilityIdentifier: "settings.activities.live.drop.mode",
                 selection: $mediaSettings.dragAndDropActivityMode
+            )
+
+            Divider().opacity(0.6)
+
+            SettingsMenuRow(
+                title: "Target colors",
+                description: "Choose how Drag&Drop target zones are colored.",
+                options: Array(DragAndDropTargetColorStyle.allCases),
+                optionTitle: { $0.title },
+                accessibilityIdentifier: "settings.activities.live.drop.targetColors",
+                selection: $mediaSettings.dragAndDropTargetColorStyle
             )
 
             Divider().opacity(0.6)
@@ -167,6 +194,77 @@ struct DragAndDropSettingsView: View {
         }
     }
 
+    private var fileConverterFiles: some View {
+        SettingsCard(title: "File Converter files") {
+            SettingsMenuRow(
+                title: "Output location",
+                description: "Choose where converted files are saved.",
+                options: Array(FileConverterOutputLocation.allCases),
+                optionTitle: { $0.title },
+                accessibilityIdentifier: "settings.activities.live.drop.fileConverter.outputLocation",
+                selection: $mediaSettings.fileConverterOutputLocation
+            )
+
+            Divider().opacity(0.6)
+
+            SettingsMenuRow(
+                title: "Existing files",
+                description: "Choose what happens when a converted filename already exists.",
+                options: Array(FileConverterExistingFileBehavior.allCases),
+                optionTitle: { $0.title },
+                accessibilityIdentifier: "settings.activities.live.drop.fileConverter.existingFiles",
+                selection: $mediaSettings.fileConverterExistingFileBehavior
+            )
+
+            Divider().opacity(0.6)
+
+            SettingsTextFieldRow(
+                title: "Filename suffix",
+                description: "Add this suffix before the converted file extension.",
+                placeholder: "-converted",
+                accessibilityIdentifier: "settings.activities.live.drop.fileConverter.filenameSuffix",
+                text: $mediaSettings.fileConverterFilenameSuffix
+            )
+        }
+    }
+
+    private var fileConverterQuality: some View {
+        SettingsCard(title: "File Converter quality") {
+            SettingsSliderRow(
+                title: "Image quality",
+                description: "Used for lossy image formats like JPEG, HEIC, WEBP, and AVIF.",
+                range: 10...100,
+                step: 1,
+                fractionLength: 0,
+                suffix: "%",
+                accessibilityIdentifier: "settings.activities.live.drop.fileConverter.imageQuality",
+                value: imageQualityPercent
+            )
+
+            Divider().opacity(0.6)
+
+            SettingsMenuRow(
+                title: "Video quality",
+                description: "Choose the export preset used for video conversion.",
+                options: Array(FileConverterVideoQuality.allCases),
+                optionTitle: { $0.title },
+                accessibilityIdentifier: "settings.activities.live.drop.fileConverter.videoQuality",
+                selection: $mediaSettings.fileConverterVideoQuality
+            )
+
+            Divider().opacity(0.6)
+
+            SettingsMenuRow(
+                title: "Audio quality",
+                description: "Choose the bitrate target for compressed audio formats.",
+                options: Array(FileConverterAudioQuality.allCases),
+                optionTitle: { $0.title },
+                accessibilityIdentifier: "settings.activities.live.drop.fileConverter.audioQuality",
+                selection: $mediaSettings.fileConverterAudioQuality
+            )
+        }
+    }
+
     @ViewBuilder
     private var trayAppearancePreviewContent: some View {
         VStack(alignment: .leading) {
@@ -212,12 +310,8 @@ struct DragAndDropSettingsView: View {
             Spacer()
 
             HStack(spacing: AirDropDropZoneMetrics.combinedSpacing) {
-                if mediaSettings.dragAndDropActivityMode.showsAirDrop {
-                    dragAndDropPreviewTarget(.airDrop)
-                }
-
-                if mediaSettings.dragAndDropActivityMode.showsTray {
-                    dragAndDropPreviewTarget(.tray)
+                ForEach(mediaSettings.dragAndDropActivityMode.targets, id: \.self) { target in
+                    dragAndDropPreviewTarget(target)
                 }
             }
             .frame(height: AirDropDropZoneMetrics.height)
@@ -235,11 +329,49 @@ struct DragAndDropSettingsView: View {
             return .white.opacity(0.2)
         }
 
-        return mediaSettings.dragAndDropActivityMode == .tray ? .white.opacity(0.2) : Color.accentColor.opacity(0.3)
+        switch mediaSettings.dragAndDropTargetColorStyle {
+        case .white:
+            return .white.opacity(0.2)
+
+        case .accent:
+            return .accentColor.opacity(0.3)
+
+        case .original:
+            break
+        }
+
+        switch mediaSettings.dragAndDropActivityMode {
+        case .tray:
+            return DragAndDropTarget.tray.activityStrokeColor(for: .original)
+
+        case .fileConverter:
+            return DragAndDropTarget.fileConverter.activityStrokeColor(for: .original)
+
+        case .airDrop:
+            return DragAndDropTarget.airDrop.activityStrokeColor(for: .original)
+
+        case .combined:
+            return .white.opacity(0.2)
+        }
+    }
+
+    private var dragAndDropPreviewWidth: CGFloat {
+        mediaSettings.dragAndDropActivityMode.targets.count > 1 ? 430 : 280
+    }
+
+    private var imageQualityPercent: Binding<Double> {
+        Binding(
+            get: { mediaSettings.fileConverterImageQuality * 100 },
+            set: { mediaSettings.fileConverterImageQuality = $0 / 100 }
+        )
     }
 
     private func dragAndDropPreviewTarget(_ target: DragAndDropTarget) -> some View {
-        DragAndDropDropZoneContent(target: target, isTargeted: false)
+        DragAndDropDropZoneContent(
+            target: target,
+            isTargeted: false,
+            targetColorStyle: mediaSettings.dragAndDropTargetColorStyle
+        )
             .frame(maxWidth: .infinity)
     }
 
@@ -295,6 +427,34 @@ struct DragAndDropSettingsView: View {
                         .padding(.trailing, 5)
                 }
             }
+        }
+    }
+
+    private struct SettingsTextFieldRow: View {
+        let title: LocalizedStringKey
+        let description: LocalizedStringKey
+        let placeholder: String
+        let accessibilityIdentifier: String?
+
+        @Binding var text: String
+
+        var body: some View {
+            HStack(alignment: .center, spacing: 12) {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(title)
+                    Text(description)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+
+                Spacer(minLength: 12)
+
+                TextField(placeholder, text: $text)
+                    .textFieldStyle(.roundedBorder)
+                    .frame(width: 132)
+            }
+            .modifier(SettingsAccessibilityModifier(identifier: accessibilityIdentifier))
         }
     }
 }

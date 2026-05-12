@@ -26,7 +26,7 @@ final class NetworkViewModel: ObservableObject {
     @Published var wifiName: String = ""
     @Published var vpnName: String = ""
     @Published var vpnConnectedAt: Date?
-    
+    @Published var wifiSignalLevel: Double = 1
     @Published var networkEvent: NetworkEvent? = nil
     
     private let monitor: any NetworkMonitoring

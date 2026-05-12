@@ -55,11 +55,20 @@ enum GeneralSettingsStorage {
         static let airDropLiveActivityEnabled = "settings.live.airDrop"
         static let airDropDefaultStrokeEnabled = "settings.live.airDrop.defaultStroke"
         static let dragAndDropActivityMode = "settings.live.dragAndDrop.mode"
+        static let dragAndDropTargetColorStyle = "settings.live.dragAndDrop.targetColorStyle"
         static let fileTrayUsageMode = "settings.live.tray.usageMode"
         static let fileTrayScrollDirection = "settings.live.tray.scrollDirection"
         static let fileTrayRemoveButtonHidden = "settings.live.tray.removeButtonHidden"
         static let dropMotionAnimationEnabled = "settings.live.drop.motionAnimation"
         static let trayLiveActivityEnabled = "settings.live.tray"
+        static let fileConverterLiveActivityEnabled = "settings.live.fileConverter"
+        static let fileConverterConvertedTemporaryActivityDuration = "settings.temporary.fileConverter.converted.duration"
+        static let fileConverterOutputLocation = "settings.fileConverter.outputLocation"
+        static let fileConverterExistingFileBehavior = "settings.fileConverter.existingFileBehavior"
+        static let fileConverterFilenameSuffix = "settings.fileConverter.filenameSuffix"
+        static let fileConverterImageQuality = "settings.fileConverter.imageQuality"
+        static let fileConverterVideoQuality = "settings.fileConverter.videoQuality"
+        static let fileConverterAudioQuality = "settings.fileConverter.audioQuality"
         static let timerLiveActivityEnabled = "settings.live.timer"
         static let timerDefaultStrokeEnabled = "settings.live.timer.defaultStroke"
         static let screenRecordingLiveActivityEnabled = "settings.live.screenRecording"
@@ -156,8 +165,17 @@ enum GeneralSettingsStorage {
         Keys.airDropLiveActivityEnabled: true,
         Keys.airDropDefaultStrokeEnabled: false,
         Keys.dragAndDropActivityMode: DragAndDropActivityMode.combined.rawValue,
+        Keys.dragAndDropTargetColorStyle: DragAndDropTargetColorStyle.original.rawValue,
         Keys.dropMotionAnimationEnabled: true,
         Keys.trayLiveActivityEnabled: true,
+        Keys.fileConverterLiveActivityEnabled: true,
+        Keys.fileConverterConvertedTemporaryActivityDuration: 3,
+        Keys.fileConverterOutputLocation: FileConverterOutputLocation.sameFolder.rawValue,
+        Keys.fileConverterExistingFileBehavior: FileConverterExistingFileBehavior.createUniqueName.rawValue,
+        Keys.fileConverterFilenameSuffix: "-converted",
+        Keys.fileConverterImageQuality: 0.92,
+        Keys.fileConverterVideoQuality: FileConverterVideoQuality.high.rawValue,
+        Keys.fileConverterAudioQuality: FileConverterAudioQuality.high.rawValue,
         Keys.fileTrayUsageMode: FileTrayUsageMode.copy.rawValue,
         Keys.fileTrayScrollDirection: FileTrayScrollDirection.horizontal.rawValue,
         Keys.fileTrayRemoveButtonHidden: false,
@@ -176,6 +194,7 @@ enum GeneralSettingsStorage {
         LockScreenSettings.widgetTintStyleKey: LockScreenWidgetTintStyle.neutral.rawValue,
         LockScreenSettings.widgetBackgroundBrightnessKey: 1.0,
         LockScreenSettings.mediaPanelBackgroundStyleKey: LockScreenMediaPanelBackgroundStyle.animatedArtwork.rawValue,
+        LockScreenSettings.mediaPanelVerticalOffsetKey: 0.0,
         Keys.chargerTemporaryActivityEnabled: true,
         Keys.temporaryActivityDurationScale: 1.0,
         Keys.chargerTemporaryActivityDuration: 4,

@@ -118,6 +118,19 @@ struct LockScreenSettingsView: View {
             .accessibilityIdentifier("settings.activities.lockScreen.mediaPanelBackground")
             
             Divider().opacity(0.6)
+
+            SettingsSliderRow(
+                title: "Media panel position",
+                description: "Move the lock-screen media panel up or down.",
+                range: LockScreenSettings.mediaPanelVerticalOffsetRange,
+                step: 5,
+                fractionLength: 0,
+                suffix: "px",
+                accessibilityIdentifier: "settings.activities.lockScreen.mediaPanelPosition",
+                value: $settings.mediaPanelVerticalOffset
+            )
+
+            Divider().opacity(0.6)
             
             SettingsToggleRow(
                 title: "Accent tint",

@@ -175,13 +175,6 @@ The project currently includes localized app content for:
 - Spanish
 - Simplified Chinese
 
-## 📈 Project Status
-
-DynamicNotch already includes a working native notch window, live activities, temporary alerts, AirDrop handoff,
-screen recording detection, custom HUD flows, a dedicated settings experience, and lock-screen-specific behavior.
-
-Some lock-screen and screen-recording-related flows depend on private or system-level behavior and can vary across macOS versions and environments.
-
 ## 📄 License
 
 DynamicNotch is released under the GNU General Public License v3.0. See [LICENSE](LICENSE) for details.

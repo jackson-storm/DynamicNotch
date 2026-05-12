@@ -110,6 +110,75 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
             persist(isTrayLiveActivityEnabled, for: GeneralSettingsStorage.Keys.trayLiveActivityEnabled)
         }
     }
+
+    @Published var isFileConverterLiveActivityEnabled: Bool {
+        didSet {
+            persist(
+                isFileConverterLiveActivityEnabled,
+                for: GeneralSettingsStorage.Keys.fileConverterLiveActivityEnabled
+            )
+        }
+    }
+
+    @Published var fileConverterConvertedTemporaryActivityDuration: Int {
+        didSet {
+            let clampedValue = Self.clampTemporaryActivityDuration(fileConverterConvertedTemporaryActivityDuration)
+            if clampedValue != fileConverterConvertedTemporaryActivityDuration {
+                fileConverterConvertedTemporaryActivityDuration = clampedValue
+                return
+            }
+
+            persist(
+                fileConverterConvertedTemporaryActivityDuration,
+                for: GeneralSettingsStorage.Keys.fileConverterConvertedTemporaryActivityDuration
+            )
+        }
+    }
+
+    @Published var fileConverterOutputLocation: FileConverterOutputLocation {
+        didSet {
+            persist(fileConverterOutputLocation.rawValue, for: GeneralSettingsStorage.Keys.fileConverterOutputLocation)
+        }
+    }
+
+    @Published var fileConverterExistingFileBehavior: FileConverterExistingFileBehavior {
+        didSet {
+            persist(
+                fileConverterExistingFileBehavior.rawValue,
+                for: GeneralSettingsStorage.Keys.fileConverterExistingFileBehavior
+            )
+        }
+    }
+
+    @Published var fileConverterFilenameSuffix: String {
+        didSet {
+            persist(fileConverterFilenameSuffix, for: GeneralSettingsStorage.Keys.fileConverterFilenameSuffix)
+        }
+    }
+
+    @Published var fileConverterImageQuality: Double {
+        didSet {
+            let clampedValue = Self.clampFileConverterImageQuality(fileConverterImageQuality)
+            if clampedValue != fileConverterImageQuality {
+                fileConverterImageQuality = clampedValue
+                return
+            }
+
+            persist(fileConverterImageQuality, for: GeneralSettingsStorage.Keys.fileConverterImageQuality)
+        }
+    }
+
+    @Published var fileConverterVideoQuality: FileConverterVideoQuality {
+        didSet {
+            persist(fileConverterVideoQuality.rawValue, for: GeneralSettingsStorage.Keys.fileConverterVideoQuality)
+        }
+    }
+
+    @Published var fileConverterAudioQuality: FileConverterAudioQuality {
+        didSet {
+            persist(fileConverterAudioQuality.rawValue, for: GeneralSettingsStorage.Keys.fileConverterAudioQuality)
+        }
+    }
     
     @Published var fileTrayUsageMode: FileTrayUsageMode {
         didSet {
@@ -132,6 +201,15 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
     @Published var dragAndDropActivityMode: DragAndDropActivityMode {
         didSet {
             persist(dragAndDropActivityMode.rawValue, for: GeneralSettingsStorage.Keys.dragAndDropActivityMode)
+        }
+    }
+
+    @Published var dragAndDropTargetColorStyle: DragAndDropTargetColorStyle {
+        didSet {
+            persist(
+                dragAndDropTargetColorStyle.rawValue,
+                for: GeneralSettingsStorage.Keys.dragAndDropTargetColorStyle
+            )
         }
     }
 
@@ -189,6 +267,35 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
             defaults: defaults,
             key: GeneralSettingsStorage.Keys.trayLiveActivityEnabled
         )
+        self.isFileConverterLiveActivityEnabled = Self.resolvedBool(
+            defaults: defaults,
+            key: GeneralSettingsStorage.Keys.fileConverterLiveActivityEnabled
+        )
+        self.fileConverterConvertedTemporaryActivityDuration = Self.clampTemporaryActivityDuration(
+            defaults.object(forKey: GeneralSettingsStorage.Keys.fileConverterConvertedTemporaryActivityDuration) as? Int ??
+            Self.defaultTemporaryActivityDuration(
+                for: GeneralSettingsStorage.Keys.fileConverterConvertedTemporaryActivityDuration
+            )
+        )
+        self.fileConverterOutputLocation = FileConverterOutputLocation.resolved(
+            defaults.string(forKey: GeneralSettingsStorage.Keys.fileConverterOutputLocation)
+        )
+        self.fileConverterExistingFileBehavior = FileConverterExistingFileBehavior.resolved(
+            defaults.string(forKey: GeneralSettingsStorage.Keys.fileConverterExistingFileBehavior)
+        )
+        self.fileConverterFilenameSuffix = defaults.string(
+            forKey: GeneralSettingsStorage.Keys.fileConverterFilenameSuffix
+        ) ?? (GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.fileConverterFilenameSuffix] as? String ?? "-converted")
+        self.fileConverterImageQuality = Self.clampFileConverterImageQuality(
+            defaults.object(forKey: GeneralSettingsStorage.Keys.fileConverterImageQuality) as? Double ??
+            Self.defaultFileConverterImageQuality()
+        )
+        self.fileConverterVideoQuality = FileConverterVideoQuality.resolved(
+            defaults.string(forKey: GeneralSettingsStorage.Keys.fileConverterVideoQuality)
+        )
+        self.fileConverterAudioQuality = FileConverterAudioQuality.resolved(
+            defaults.string(forKey: GeneralSettingsStorage.Keys.fileConverterAudioQuality)
+        )
         self.fileTrayUsageMode = FileTrayUsageMode.resolved(
             defaults.string(forKey: GeneralSettingsStorage.Keys.fileTrayUsageMode)
         )
@@ -201,6 +308,9 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         )
         self.dragAndDropActivityMode = DragAndDropActivityMode.resolved(
             defaults.string(forKey: GeneralSettingsStorage.Keys.dragAndDropActivityMode)
+        )
+        self.dragAndDropTargetColorStyle = DragAndDropTargetColorStyle.resolved(
+            defaults.string(forKey: GeneralSettingsStorage.Keys.dragAndDropTargetColorStyle)
         )
         self.isTimerLiveActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.timerLiveActivityEnabled)
         self.isTimerDefaultStrokeEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.timerDefaultStrokeEnabled)
@@ -240,8 +350,33 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         isDragAndDropDefaultStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.airDropDefaultStrokeEnabled)
         isDropMotionAnimationEnabled = defaultBool(for: GeneralSettingsStorage.Keys.dropMotionAnimationEnabled)
         isTrayLiveActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.trayLiveActivityEnabled)
+        isFileConverterLiveActivityEnabled = defaultBool(
+            for: GeneralSettingsStorage.Keys.fileConverterLiveActivityEnabled
+        )
+        fileConverterConvertedTemporaryActivityDuration = Self.clampTemporaryActivityDuration(
+            defaultInt(for: GeneralSettingsStorage.Keys.fileConverterConvertedTemporaryActivityDuration)
+        )
+        fileConverterOutputLocation = FileConverterOutputLocation.resolved(
+            defaultString(for: GeneralSettingsStorage.Keys.fileConverterOutputLocation)
+        )
+        fileConverterExistingFileBehavior = FileConverterExistingFileBehavior.resolved(
+            defaultString(for: GeneralSettingsStorage.Keys.fileConverterExistingFileBehavior)
+        )
+        fileConverterFilenameSuffix = defaultString(for: GeneralSettingsStorage.Keys.fileConverterFilenameSuffix)
+        fileConverterImageQuality = Self.clampFileConverterImageQuality(
+            defaultDouble(for: GeneralSettingsStorage.Keys.fileConverterImageQuality)
+        )
+        fileConverterVideoQuality = FileConverterVideoQuality.resolved(
+            defaultString(for: GeneralSettingsStorage.Keys.fileConverterVideoQuality)
+        )
+        fileConverterAudioQuality = FileConverterAudioQuality.resolved(
+            defaultString(for: GeneralSettingsStorage.Keys.fileConverterAudioQuality)
+        )
         dragAndDropActivityMode = DragAndDropActivityMode.resolved(
             defaultString(for: GeneralSettingsStorage.Keys.dragAndDropActivityMode)
+        )
+        dragAndDropTargetColorStyle = DragAndDropTargetColorStyle.resolved(
+            defaultString(for: GeneralSettingsStorage.Keys.dragAndDropTargetColorStyle)
         )
         fileTrayUsageMode = FileTrayUsageMode.resolved(
             defaultString(for: GeneralSettingsStorage.Keys.fileTrayUsageMode)
@@ -263,6 +398,16 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         }
 
         return (GeneralSettingsStorage.defaultValues[key] as? Bool) ?? false
+    }
+
+    static func clampFileConverterImageQuality(_ value: Double) -> Double {
+        min(max(value, 0.1), 1.0)
+    }
+
+    private static func defaultFileConverterImageQuality() -> Double {
+        clampFileConverterImageQuality(
+            (GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.fileConverterImageQuality] as? Double) ?? 0.92
+        )
     }
 }
 

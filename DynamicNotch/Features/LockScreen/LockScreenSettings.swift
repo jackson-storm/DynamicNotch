@@ -13,6 +13,8 @@ enum LockScreenSettings {
     static let widgetBackgroundBrightnessKey = "settings.lockScreen.widgetBackgroundBrightness"
     static let mediaPanelBackgroundStyleKey = "settings.lockScreen.mediaPanelBackgroundStyle"
     static let widgetBackgroundBrightnessRange = 0.75...1.25
+    static let mediaPanelVerticalOffsetKey = "settings.lockScreen.mediaPanelVerticalOffset"
+    static let mediaPanelVerticalOffsetRange = -100.0...100.0
 
     static func isLiveActivityEnabled(in defaults: UserDefaults = .standard) -> Bool {
         resolvedBoolean(forKey: liveActivityKey, defaultValue: true, in: defaults)
@@ -91,6 +93,14 @@ enum LockScreenSettings {
             return .animatedArtwork
         }
         return style
+    }
+
+    static func mediaPanelVerticalOffset(in defaults: UserDefaults = .standard) -> Double {
+        guard let value = defaults.object(forKey: mediaPanelVerticalOffsetKey) as? Double else {
+            return 0
+        }
+
+        return min(max(value, mediaPanelVerticalOffsetRange.lowerBound), mediaPanelVerticalOffsetRange.upperBound)
     }
 
     private static func resolvedBoolean(

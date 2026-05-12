@@ -66,6 +66,16 @@ final class LockScreenFeatureSettingsStore: SettingsStoreBase {
         }
     }
 
+    @Published var mediaPanelVerticalOffset: Double {
+        didSet {
+            let clampedValue = min(
+                max(mediaPanelVerticalOffset, LockScreenSettings.mediaPanelVerticalOffsetRange.lowerBound),
+                LockScreenSettings.mediaPanelVerticalOffsetRange.upperBound
+            )
+            persist(clampedValue, for: LockScreenSettings.mediaPanelVerticalOffsetKey)
+        }
+    }
+
     override init(defaults: UserDefaults) {
         defaults.register(defaults: GeneralSettingsStorage.defaultValues)
         let legacyCustomSoundPath = LockScreenSettings.legacyCustomSoundPath(in: defaults) ?? ""
@@ -88,6 +98,7 @@ final class LockScreenFeatureSettingsStore: SettingsStoreBase {
         self.widgetTintStyle = LockScreenSettings.widgetTintStyle(in: defaults)
         self.widgetBackgroundBrightness = LockScreenSettings.widgetBackgroundBrightness(in: defaults)
         self.mediaPanelBackgroundStyle = LockScreenSettings.mediaPanelBackgroundStyle(in: defaults)
+        self.mediaPanelVerticalOffset = LockScreenSettings.mediaPanelVerticalOffset(in: defaults)
         super.init(defaults: defaults)
 
         migrateLegacyCustomSoundIfNeeded(
@@ -114,6 +125,7 @@ final class LockScreenFeatureSettingsStore: SettingsStoreBase {
         mediaPanelBackgroundStyle = LockScreenMediaPanelBackgroundStyle(
             rawValue: defaultString(for: LockScreenSettings.mediaPanelBackgroundStyleKey)
         ) ?? .animatedArtwork
+        mediaPanelVerticalOffset = defaultDouble(for: LockScreenSettings.mediaPanelVerticalOffsetKey)
     }
 
     private static func resolvedCustomSoundPath(_ rawValue: String?, legacyValue: String) -> String {

@@ -63,7 +63,8 @@ struct VpnConnectedNotchView: View {
             Text(verbatim: "Active")
                 .foregroundStyle(.white.opacity(0.8))
         }
-        .padding(.horizontal, 14.scaled(by: scale))
+        .padding(.leading, 14.scaled(by: scale))
+        .padding(.trailing, 16.scaled(by: scale))
         .padding(.vertical, 10)
     }
     

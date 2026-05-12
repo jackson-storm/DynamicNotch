@@ -5,6 +5,7 @@ protocol NetworkMonitoring: AnyObject {
     var currentWiFiName: String? { get }
     var currentVPNName: String? { get }
     var isInternetAvailable: Bool { get }
+    var currentWiFiSignalLevel: Double { get }
 
     func startMonitoring()
     func stopMonitoring()

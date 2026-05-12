@@ -36,12 +36,22 @@ struct MarqueeText: View {
     let backgroundColor: Color
     let minDuration: Double
     let frameWidth: CGFloat
+    let shortTextAlignment: TextAlignment
     
     @State private var animate = false
     @State private var textSize: CGSize = .zero
     @State private var offset: CGFloat = 0
     
-    init(_ text: Binding<String>, font: Font = .body, nsFont: NSFont.TextStyle = .body, textColor: Color = .primary, backgroundColor: Color = .clear, minDuration: Double = 3.0, frameWidth: CGFloat = 200) {
+    init(
+        _ text: Binding<String>,
+        font: Font = .body,
+        nsFont: NSFont.TextStyle = .body,
+        textColor: Color = .primary,
+        backgroundColor: Color = .clear,
+        minDuration: Double = 3.0,
+        frameWidth: CGFloat = 200,
+        shortTextAlignment: TextAlignment = .leading
+    ) {
         _text = text
         self.font = font
         self.nsFont = nsFont
@@ -49,6 +59,7 @@ struct MarqueeText: View {
         self.backgroundColor = backgroundColor
         self.minDuration = minDuration
         self.frameWidth = frameWidth
+        self.shortTextAlignment = shortTextAlignment
     }
     
     private var needsScrolling: Bool {
@@ -57,6 +68,21 @@ struct MarqueeText: View {
 
     private var restartKey: RestartKey {
         RestartKey(text: text, textWidth: textSize.width, frameWidth: frameWidth)
+    }
+
+    private var textOffset: CGFloat {
+        guard !needsScrolling else {
+            return animate ? offset : 0
+        }
+
+        switch shortTextAlignment {
+        case .center:
+            return max((frameWidth - textSize.width) / 2, 0)
+        case .trailing:
+            return max(frameWidth - textSize.width, 0)
+        default:
+            return 0
+        }
     }
     
     var body: some View {
@@ -70,7 +96,7 @@ struct MarqueeText: View {
             .font(font)
             .foregroundColor(textColor)
             .fixedSize(horizontal: true, vertical: false)
-            .offset(x: animate ? offset : 0)
+            .offset(x: textOffset)
             .animation(
                 animate ?
                     .linear(duration: Double(textSize.width / 30))
@@ -120,19 +146,4 @@ struct MarqueeText: View {
         }
         .frame(height: textSize.height * 1.3)
     }
-}
-
-#Preview {
-    @Previewable @State var text = "Honor Airbuds 2 lite"
-    MarqueeText(
-        $text,
-        font: .system(size: 14),
-        nsFont: .body,
-        textColor: .white.opacity(0.8),
-        backgroundColor: .clear,
-        minDuration: 0,
-        frameWidth: 80
-    )
-    .padding(20)
-    .background(.black)
 }

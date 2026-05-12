@@ -197,6 +197,16 @@ final class NotchMediaEventsHandler {
                 )
             )
 
+        case .fileConverter:
+            notchViewModel.send(
+                .showLiveActivity(
+                    FileConverterNotchContent(
+                        airDropViewModel: airDropViewModel,
+                        settingsViewModel: settingsViewModel
+                    )
+                )
+            )
+
         case .combined:
             notchViewModel.send(
                 .showLiveActivity(
@@ -223,6 +233,8 @@ final class NotchMediaEventsHandler {
             activeID = NotchContentRegistry.DragAndDrop.airDrop.id
         case .tray:
             activeID = NotchContentRegistry.DragAndDrop.tray.id
+        case .fileConverter:
+            activeID = NotchContentRegistry.DragAndDrop.fileConverter.id
         case .combined:
             activeID = NotchContentRegistry.DragAndDrop.combined.id
         }

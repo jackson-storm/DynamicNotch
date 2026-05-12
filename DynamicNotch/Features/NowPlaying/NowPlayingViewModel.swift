@@ -42,7 +42,6 @@ final class NowPlayingViewModel: ObservableObject {
     private let detailPollingService: (any NowPlayingDetailPollingConfigurable)?
     private let playbackSourceOpener: any PlaybackSourceOpening
     private let artworkFlipAnimationDuration: TimeInterval = 0.45
-    private let artworkSwapDelay: TimeInterval = 0.4
     private let transientSessionGracePeriod: TimeInterval = 0.55
     private var sourceFilter: NowPlayingSourceFilter
     private var hasStartedMonitoring = false
@@ -60,6 +59,10 @@ final class NowPlayingViewModel: ObservableObject {
 
     var hasActiveSession: Bool {
         snapshot != nil
+    }
+
+    private var artworkSwapDelay: TimeInterval {
+        artworkFlipAnimationDuration / 2
     }
 
     convenience init() {
@@ -355,21 +358,23 @@ private extension NowPlayingViewModel {
     }
 
     func apply(snapshot newSnapshot: NowPlayingSnapshot?, emitEvent: Bool = true) {
+        if let newSnapshot, shouldPresentTrackChangeWithFlip(newSnapshot) {
+            scheduleFlippedTrackPresentation(newSnapshot, emitEvent: emitEvent)
+            return
+        }
+
+        applyPresentedSnapshot(newSnapshot, emitEvent: emitEvent)
+    }
+
+    func applyPresentedSnapshot(_ newSnapshot: NowPlayingSnapshot?, emitEvent: Bool = true) {
         let wasActive = snapshot != nil
         let wasPlaying = snapshot?.isPlaying
         let previousTrackKey = snapshot?.favoriteTrackKey
         let newTrackKey = newSnapshot?.favoriteTrackKey
         let previousArtworkData = snapshot?.artworkData
-        let didTrackChange = previousTrackKey != nil &&
-            newTrackKey != nil &&
-            previousTrackKey != newTrackKey
 
         if previousTrackKey != newTrackKey {
             cancelPendingArtworkPresentation()
-        }
-
-        if didTrackChange {
-            triggerArtworkFlip(for: newTrackKey)
         }
 
         snapshot = newSnapshot
@@ -385,13 +390,9 @@ private extension NowPlayingViewModel {
                 break
             }
 
-            if shouldDelayArtworkPresentation(for: newTrackKey) {
-                scheduleArtworkPresentation(artworkData, for: newTrackKey)
-            } else {
-                applyArtworkPresentation(artworkData)
-            }
+            applyArtworkPresentation(artworkData)
         case nil:
-            if newSnapshot == nil || previousArtworkData == nil {
+            if newSnapshot == nil || previousArtworkData != nil {
                 cancelPendingArtworkPresentation()
                 artworkImage = nil
                 artworkPalette = .fallback
@@ -410,6 +411,15 @@ private extension NowPlayingViewModel {
                 event = .playbackStateChanged(isPlaying: isPlaying)
             }
         }
+    }
+
+    func shouldPresentTrackChangeWithFlip(_ newSnapshot: NowPlayingSnapshot) -> Bool {
+        guard let previousTrackKey = snapshot?.favoriteTrackKey,
+              let newTrackKey = newSnapshot.favoriteTrackKey else {
+            return false
+        }
+
+        return previousTrackKey != newTrackKey
     }
 
     func applyServiceSnapshotIfAllowed(_ serviceSnapshot: NowPlayingSnapshot) {
@@ -475,29 +485,21 @@ private extension NowPlayingViewModel {
         DispatchQueue.main.asyncAfter(deadline: .now() + artworkFlipAnimationDuration + 0.15) { [weak self] in
             guard let self else { return }
 
-            if self.artworkFlipTrackKey == trackKey {
-                self.artworkFlipTrackKey = nil
-                self.artworkFlipStartedAt = nil
-            }
-
+            self.artworkFlipTrackKey = nil
+            self.artworkFlipStartedAt = nil
             self.artworkFlipCooldownActive = false
         }
     }
 
-    func shouldDelayArtworkPresentation(for trackKey: String?) -> Bool {
-        guard let trackKey else { return false }
-        return artworkFlipTrackKey == trackKey && artworkFlipStartedAt != nil
-    }
-
-    func scheduleArtworkPresentation(_ artworkData: Data, for trackKey: String?) {
+    func scheduleFlippedTrackPresentation(_ newSnapshot: NowPlayingSnapshot, emitEvent: Bool) {
         cancelPendingArtworkPresentation()
+        triggerArtworkFlip(for: newSnapshot.favoriteTrackKey)
 
         let elapsed = artworkFlipStartedAt.map { Date().timeIntervalSince($0) } ?? 0
         let delay = max(0, artworkSwapDelay - elapsed)
         let workItem = DispatchWorkItem { [weak self] in
             guard let self else { return }
-            guard self.snapshot?.favoriteTrackKey == trackKey else { return }
-            self.applyArtworkPresentation(artworkData)
+            self.applyPresentedSnapshot(newSnapshot, emitEvent: emitEvent)
         }
 
         artworkPresentationWorkItem = workItem

@@ -18,6 +18,7 @@ final class NetworkMonitor: NetworkMonitoring {
     private(set) var currentWiFiName: String?
     private(set) var currentVPNName: String?
     private(set) var isInternetAvailable = true
+    private(set) var currentWiFiSignalLevel: Double = 1
 
     deinit {
         stopMonitoring()
@@ -42,10 +43,12 @@ final class NetworkMonitor: NetworkMonitoring {
         }
 
         let wifiName = resolveWiFiName(isConnected: isWifi && !isHotspot)
+        let wifiSignalLevel = resolveWiFiSignalLevel(isConnected: isWifi && !isHotspot)
         let vpnName = resolveVPNName(isConnected: isVpn)
 
         DispatchQueue.main.async {
             self.currentWiFiName = wifiName
+            self.currentWiFiSignalLevel = wifiSignalLevel
             self.currentVPNName = vpnName
             self.isInternetAvailable = hasInternetConnection
             self.onStatusChange?(isWifi && !isHotspot, isHotspot, isVpn)
@@ -55,6 +58,22 @@ final class NetworkMonitor: NetworkMonitoring {
     func stopMonitoring() {
         monitor.pathUpdateHandler = nil
         monitor.cancel()
+    }
+
+    private func resolveWiFiSignalLevel(isConnected: Bool) -> Double {
+        guard isConnected,
+              let interface = CWWiFiClient.shared().interface()
+        else {
+            return 0
+        }
+
+        let rssi = interface.rssiValue()
+
+        guard rssi < 0 else {
+            return 1
+        }
+
+        return min(max((Double(rssi) + 90) / 60, 0.08), 1)
     }
 
     private func resolveWiFiName(isConnected: Bool) -> String? {
@@ -82,13 +101,6 @@ final class NetworkMonitor: NetworkMonitoring {
         }
 
         if let displayName = activeServices
-            .compactMap(serviceDisplayName(for:))
-            .first(where: { !$0.isEmpty }) {
-            return displayName
-        }
-
-        if let displayName = services
-            .filter(isLikelyVPNService(_:))
             .compactMap(serviceDisplayName(for:))
             .first(where: { !$0.isEmpty }) {
             return displayName

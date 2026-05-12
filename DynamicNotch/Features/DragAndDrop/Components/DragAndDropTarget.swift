@@ -1,8 +1,9 @@
 import SwiftUI
 
-enum DragAndDropTarget: String, Equatable, CaseIterable {
+enum DragAndDropTarget: String, Hashable, CaseIterable {
     case airDrop
     case tray
+    case fileConverter
 
     var title: LocalizedStringKey {
         switch self {
@@ -11,47 +12,108 @@ enum DragAndDropTarget: String, Equatable, CaseIterable {
             
         case .tray:
             return "Tray"
+
+        case .fileConverter:
+            return "Converter"
         }
     }
 
     var color: Color {
+        color(for: .original)
+    }
+
+    func color(for style: DragAndDropTargetColorStyle) -> Color {
+        switch style {
+        case .white:
+            return .white
+
+        case .original:
+            return originalColor
+
+        case .accent:
+            return .accentColor
+        }
+    }
+
+    func activityStrokeColor(for style: DragAndDropTargetColorStyle) -> Color {
+        switch style {
+        case .white:
+            return .white.opacity(0.2)
+
+        case .original, .accent:
+            return color(for: style).opacity(0.3)
+        }
+    }
+
+    private var originalColor: Color {
         switch self {
         case .airDrop:
-            return .accentColor
+            return .blue
             
         case .tray:
-            return .white.opacity(0.6)
+            return .white
+
+        case .fileConverter:
+            return .green
+        }
+    }
+
+    private func titleColor(for style: DragAndDropTargetColorStyle) -> Color {
+        switch style {
+        case .white, .original, .accent:
+            return color(for: style)
+        }
+    }
+
+    var acceptsDrop: Bool {
+        switch self {
+        case .airDrop, .tray, .fileConverter:
+            return true
         }
     }
     
     @ViewBuilder
-    var titleIcon: some View {
+    func titleIcon(colorStyle: DragAndDropTargetColorStyle = .original) -> some View {
         switch self {
         case .airDrop:
             Text(verbatim: "AirDrop")
                 .font(.system(size: 12))
-                .foregroundStyle(Color.accentColor)
+                .foregroundStyle(titleColor(for: colorStyle))
             
         case .tray:
-            Text("File Tray")
+            Text(verbatim: "Tray")
                 .font(.system(size: 12))
-                .foregroundStyle(Color.white.opacity(0.8))
+                .foregroundStyle(titleColor(for: colorStyle))
+
+        case .fileConverter:
+            Text(verbatim: "Converter")
+                .font(.system(size: 12))
+                .foregroundStyle(titleColor(for: colorStyle))
         }
     }
 
     @ViewBuilder
-    var icon: some View {
+    func icon(colorStyle: DragAndDropTargetColorStyle = .original) -> some View {
+        let color = color(for: colorStyle)
+
         switch self {
         case .airDrop:
             Image("airdrop.white")
                 .resizable()
                 .renderingMode(.template)
+                .foregroundStyle(color)
                 .frame(width: 28, height: 28)
             
         case .tray:
             Image(systemName: "tray.full.fill")
                 .font(.system(size: 22))
-                .foregroundStyle(.white)
+                .foregroundStyle(color)
+                .frame(width: 28, height: 28)
+
+        case .fileConverter:
+            Image(systemName: "arrow.trianglehead.2.clockwise.rotate.90.circle.fill")
+                .font(.system(size: 23, weight: .semibold))
+                .foregroundStyle(color)
                 .frame(width: 28, height: 28)
         }
     }

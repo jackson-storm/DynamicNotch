@@ -391,6 +391,16 @@ final class NotchViewModel: ObservableObject {
         guard settings.isNotchTapToExpandEnabled,
               canExpandActiveLiveActivity else { return }
 
+        performActiveLiveActivityExpansion()
+    }
+
+    func expandActiveLiveActivity() {
+        guard canExpandActiveLiveActivity else { return }
+
+        performActiveLiveActivityExpansion()
+    }
+
+    private func performActiveLiveActivityExpansion() {
         expansionTransitionTask?.cancel()
         isExpandingLiveActivityTransition = true
 

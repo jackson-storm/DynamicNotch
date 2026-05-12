@@ -19,12 +19,17 @@ enum AirDropDropZoneMetrics {
 struct DragAndDropDropZoneView: View {
     let target: DragAndDropTarget
     let isTargeted: Bool
+    var targetColorStyle: DragAndDropTargetColorStyle = .original
 
     var body: some View {
         VStack {
             Spacer()
 
-            DragAndDropDropZoneContent(target: target, isTargeted: isTargeted)
+            DragAndDropDropZoneContent(
+                target: target,
+                isTargeted: isTargeted,
+                targetColorStyle: targetColorStyle
+            )
                 .frame(maxWidth: .infinity, maxHeight: AirDropDropZoneMetrics.height)
         }
         .padding(.horizontal, AirDropDropZoneMetrics.horizontalPadding)
@@ -35,17 +40,26 @@ struct DragAndDropDropZoneView: View {
 struct DragAndDropDropZoneContent: View {
     let target: DragAndDropTarget
     let isTargeted: Bool
+    var targetColorStyle: DragAndDropTargetColorStyle = .original
+
+    private var targetColor: Color {
+        target.color(for: targetColorStyle)
+    }
+
+    private var strokeColor: Color {
+        targetColor.opacity(0.6)
+    }
 
     var body: some View {
         RoundedRectangle(cornerRadius: AirDropDropZoneMetrics.cornerRadius)
-            .fill(isTargeted ? target.color.opacity(0.2) : .clear.opacity(0))
-            .stroke(target.color, style: StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round, dash: [18, 10]))
+            .fill(isTargeted ? targetColor.opacity(0.2) : .clear.opacity(0))
+            .stroke(strokeColor, style: StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round, dash: [18, 10]))
             .overlay {
                 VStack(spacing: 4) {
-                    target.icon
-                    target.titleIcon
+                    target.icon(colorStyle: targetColorStyle)
+                    target.titleIcon(colorStyle: targetColorStyle)
                 }
-                .foregroundStyle(target.color)
+                .foregroundStyle(targetColor)
             }
     }
 }

@@ -59,7 +59,7 @@ struct LockScreenNowPlayingPanelView: View {
                 .transition(.opacity)
             }
             expandedContent
-                .offset(y: Self.panelCenterYOffset)
+                .offset(y: Self.panelCenterYOffset + activeMediaPanelVerticalOffset)
         }
         .opacity(animator.isPresented ? 1 : 0)
         .animation(.spring(response: 0.3), value: animator.isPresented)
@@ -96,6 +96,7 @@ struct LockScreenNowPlayingPanelView: View {
     private var playerPanel: some View {
         LockScreenNowPlayingView(
             nowPlayingViewModel: nowPlayingViewModel,
+            mediaSettings: settingsViewModel.mediaAndFiles,
             onTapArtwork: $onTapArtwork
         )
         .frame(
@@ -149,6 +150,14 @@ struct LockScreenNowPlayingPanelView: View {
 
     private var playerPanelOffset: CGFloat {
         onTapArtwork ? ((Self.expandedArtworkSize + Self.expandedArtworkSpacing) / 2) - Self.expandedStackLift : 0
+    }
+
+    private var mediaPanelVerticalOffset: CGFloat {
+        CGFloat(settingsViewModel.lockScreen.mediaPanelVerticalOffset)
+    }
+
+    private var activeMediaPanelVerticalOffset: CGFloat {
+        onTapArtwork ? 0 : mediaPanelVerticalOffset
     }
 
     private var mediaPanelBackgroundStyle: LockScreenMediaPanelBackgroundStyle {
@@ -249,6 +258,7 @@ private extension String {
 private struct LockScreenNowPlayingView: View {
     @Environment(\.notchScale) var scale
     @ObservedObject var nowPlayingViewModel: NowPlayingViewModel
+    @ObservedObject var mediaSettings: MediaAndFilesSettingsStore
     @Binding var onTapArtwork: Bool
     
     @State private var scrubProgress: CGFloat?
@@ -283,6 +293,7 @@ private struct LockScreenNowPlayingView: View {
         let displayedElapsedTime = snapshot.duration > 0 ?
         TimeInterval(displayedProgress) * snapshot.duration :
         elapsedTime
+        let appearance = mediaSettings.nowPlayingAppearanceOptions
         
         return VStack {
             HStack(spacing: 15) {
@@ -345,9 +356,9 @@ private struct LockScreenNowPlayingView: View {
                 displayedElapsedTime: displayedElapsedTime,
                 duration: snapshot.duration,
                 isInteractive: snapshot.duration > 0,
-                tintGradient: nil,
-                primaryColor: .secondary,
-                secondaryColor: .secondary,
+                tintGradient: appearance.usesArtworkTint ? nowPlayingViewModel.artworkPalette.equalizerGradient : nil,
+                primaryColor: progressTimeColor(isPrimary: true, appearance: appearance),
+                secondaryColor: progressTimeColor(isPrimary: false, appearance: appearance),
                 onScrubChanged: { newProgress in
                     scrubProgress = newProgress
                 },
@@ -390,21 +401,25 @@ private struct LockScreenNowPlayingView: View {
                 }
                 
                 HStack {
-                    FavoriteTrackButton(
-                        nowPlayingViewModel: nowPlayingViewModel,
-                        width: 42,
-                        height: 42,
-                        fontSize: 21
-                    )
+                    if appearance.showsFavoriteButton {
+                        FavoriteTrackButton(
+                            nowPlayingViewModel: nowPlayingViewModel,
+                            width: 42,
+                            height: 42,
+                            fontSize: 21
+                        )
+                    }
                     
                     Spacer()
                     
-                    AudioOutputRoutePickerButton(
-                        nowPlayingViewModel: nowPlayingViewModel,
-                        width: 42,
-                        height: 42,
-                        fontSize: 21
-                    )
+                    if appearance.showsOutputDeviceButton {
+                        AudioOutputRoutePickerButton(
+                            nowPlayingViewModel: nowPlayingViewModel,
+                            width: 42,
+                            height: 42,
+                            fontSize: 21
+                        )
+                    }
                 }
                 .padding(.horizontal, 5)
             }
@@ -443,6 +458,18 @@ private struct LockScreenNowPlayingView: View {
         }
         
         return String(format: "%02d:%02d", minutes, seconds)
+    }
+
+    private func progressTimeColor(isPrimary: Bool, appearance: NowPlayingAppearanceOptions) -> Color {
+        guard appearance.usesArtworkTint else {
+            return .secondary
+        }
+
+        let nsColor = isPrimary ?
+        nowPlayingViewModel.artworkPalette.equalizerHighlightColor :
+        nowPlayingViewModel.artworkPalette.equalizerBaseColor
+
+        return Color(nsColor: nsColor)
     }
     
     private func progressTick(for snapshot: NowPlayingSnapshot) -> TimeInterval {

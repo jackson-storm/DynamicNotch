@@ -1,20 +1,20 @@
 //
-//  TrayNotchView.swift
+//  FileConverterView.swift
 //  DynamicNotch
 //
-//  Created by Евгений Петрукович on 4/25/26.
+//  Created by Евгений Петрукович on 5/7/26.
 //
 
 import SwiftUI
 
-struct TrayNotchView: View {
+struct FileConverterNotchView: View {
     @ObservedObject var airDropViewModel: AirDropNotchViewModel
     let targetColorStyle: DragAndDropTargetColorStyle
 
     var body: some View {
         DragAndDropDropZoneView(
-            target: .tray,
-            isTargeted: airDropViewModel.targetedDropTarget == .tray,
+            target: .fileConverter,
+            isTargeted: airDropViewModel.targetedDropTarget == .fileConverter,
             targetColorStyle: targetColorStyle
         )
     }

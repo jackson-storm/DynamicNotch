@@ -1,6 +1,6 @@
 import Foundation
 
-enum NowPlayingRepeatMode: Int, CaseIterable, Equatable {
+enum NowPlayingRepeatMode: Int, CaseIterable, Equatable, Sendable {
     case off = 1
     case one = 2
     case all = 3
@@ -39,7 +39,7 @@ enum NowPlayingRepeatMode: Int, CaseIterable, Equatable {
     }
 }
 
-struct NowPlayingPlaybackSource: Equatable {
+struct NowPlayingPlaybackSource: Equatable, Sendable {
     let bundleIdentifier: String?
     let parentBundleIdentifier: String?
     let processIdentifier: Int?
@@ -81,7 +81,7 @@ struct NowPlayingPlaybackSource: Equatable {
     }
 }
 
-struct NowPlayingSnapshot: Equatable {
+struct NowPlayingSnapshot: Equatable, Sendable {
     let title: String
     let artist: String
     let album: String

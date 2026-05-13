@@ -94,18 +94,15 @@ struct LockScreenSettingsView: View {
     
     private var artworkAppearance: some View {
         SettingsCard(title: "Artwork appearance") {
-            CustomPicker(
-                selection: $settings.artworkPresentationStyle,
-                options: Array(LockScreenArtworkPresentationStyle.allCases),
-                title: { $0.title },
-                headerTitle: "Track artwork",
-                headerDescription: "Choose how the track cover opens on the lock screen.",
-                itemHeight: 156
-            ) { style, isSelected in
-                LockScreenArtworkPresentationPickerPreview(style: style)
-            }
-            .accessibilityIdentifier("settings.activities.lockScreen.artworkPresentation")
-            
+            SettingsToggleRow(
+                title: "Lock screen lyrics",
+                description: "Show synced lyrics next to the track cover when artwork is opened.",
+                systemImage: "text.quote",
+                color: .purple,
+                isOn: $settings.isLockScreenLyricsEnabled,
+                accessibilityIdentifier: "settings.activities.lockScreen.lyrics"
+            )
+
             Divider().opacity(0.6)
             
             SettingsMenuRow(
@@ -145,19 +142,6 @@ struct LockScreenSettingsView: View {
                 suffix: "px",
                 accessibilityIdentifier: "settings.activities.lockScreen.mediaPanelPosition",
                 value: $settings.mediaPanelVerticalOffset
-            )
-
-            Divider().opacity(0.6)
-
-            SettingsSliderRow(
-                title: "Clock position",
-                description: "Move the lock-screen clock up or down.",
-                range: LockScreenSettings.clockVerticalOffsetRange,
-                step: 5,
-                fractionLength: 0,
-                suffix: "px",
-                accessibilityIdentifier: "settings.activities.lockScreen.clockPosition",
-                value: $settings.clockVerticalOffset
             )
 
             Divider().opacity(0.6)
@@ -410,163 +394,6 @@ private extension LockScreenMediaPanelBackgroundStyle {
         case .black:
             "circle.fill"
         }
-    }
-}
-
-private struct LockScreenArtworkPresentationPickerPreview: View {
-    let style: LockScreenArtworkPresentationStyle
-
-    private let previewSize = CGSize(width: 0, height: 130)
-
-    var body: some View {
-        ZStack {
-            previewBlurredArtwork
-
-            switch style {
-            case .coverAndBackground:
-                coverAndBackgroundPreview
-            case .fullscreenCover:
-                fullscreenCoverPreview
-            }
-        }
-        .frame(height: previewSize.height)
-        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-        .allowsHitTesting(false)
-    }
-
-    private var coverAndBackgroundPreview: some View {
-        VStack(spacing: 8) {
-            HStack {
-                Capsule()
-                    .fill(.white.opacity(0.36))
-                    .frame(width: 16, height: 4)
-                Capsule()
-                    .fill(.white.opacity(0.26))
-                    .frame(width: 26, height: 4)
-            }
-
-            RoundedRectangle(cornerRadius: 12, style: .continuous)
-                .fill(artworkGradient)
-                .frame(width: 62, height: 62)
-                .shadow(color: .black.opacity(0.22), radius: 10, x: 0, y: 6)
-
-            RoundedRectangle(cornerRadius: 6, style: .continuous)
-                .fill(.black.opacity(0.55))
-                .frame(width: 62, height: 34)
-                .overlay {
-                    VStack(spacing: 6) {
-                        Capsule()
-                            .fill(.white.opacity(0.42))
-                            .frame(width: 20, height: 3)
-
-                        HStack(spacing: 4) {
-                            Capsule()
-                                .fill(.white.opacity(0.26))
-                                .frame(width: 3, height: 3)
-                            Capsule()
-                                .fill(.white.opacity(0.26))
-                                .frame(width: 34, height: 3)
-                            Capsule()
-                                .fill(.white.opacity(0.26))
-                                .frame(width: 3, height: 3)
-                        }
-
-                        HStack(spacing: 6) {
-                            Capsule()
-                                .fill(.white.opacity(0.46))
-                                .frame(width: 5, height: 5)
-                            Capsule()
-                                .fill(.white.opacity(0.46))
-                                .frame(width: 6, height: 6)
-                            Capsule()
-                                .fill(.white.opacity(0.46))
-                                .frame(width: 5, height: 5)
-                        }
-                    }
-                }
-        }
-    }
-
-    private var fullscreenCoverPreview: some View {
-        VStack {
-            HStack {
-                Capsule()
-                    .fill(.white.opacity(0.36))
-                    .frame(width: 16, height: 4)
-                Capsule()
-                    .fill(.white.opacity(0.26))
-                    .frame(width: 26, height: 4)
-            }
-
-            Spacer()
-
-            RoundedRectangle(cornerRadius: 6, style: .continuous)
-                .fill(.black.opacity(0.55))
-                .frame(width: 62, height: 34)
-                .overlay {
-                    VStack(spacing: 6) {
-                        Capsule()
-                            .fill(.white.opacity(0.42))
-                            .frame(width: 20, height: 3)
-
-                        HStack(spacing: 4) {
-                            Capsule()
-                                .fill(.white.opacity(0.26))
-                                .frame(width: 3, height: 3)
-                            Capsule()
-                                .fill(.white.opacity(0.26))
-                                .frame(width: 34, height: 3)
-                            Capsule()
-                                .fill(.white.opacity(0.26))
-                                .frame(width: 3, height: 3)
-                        }
-
-                        HStack(spacing: 6) {
-                            Capsule()
-                                .fill(.white.opacity(0.46))
-                                .frame(width: 5, height: 5)
-                            Capsule()
-                                .fill(.white.opacity(0.46))
-                                .frame(width: 6, height: 6)
-                            Capsule()
-                                .fill(.white.opacity(0.46))
-                                .frame(width: 5, height: 5)
-                        }
-                    }
-                }
-        }
-        .padding(.top, 12)
-        .padding(.bottom, 8)
-    }
-
-    private var previewBlurredArtwork: some View {
-        Rectangle()
-            .fill(artworkGradient)
-            .blur(radius: 18, opaque: true)
-            .scaleEffect(1.35)
-            .overlay {
-                LinearGradient(
-                    colors: [
-                        .black.opacity(0.28),
-                        .black.opacity(0.05),
-                        .black.opacity(0.34)
-                    ],
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-            }
-    }
-
-    private var artworkGradient: LinearGradient {
-        LinearGradient(
-            colors: [
-                Color(red: 0.96, green: 0.30, blue: 0.24),
-                Color(red: 0.98, green: 0.68, blue: 0.25),
-                Color(red: 0.20, green: 0.45, blue: 0.95)
-            ],
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing
-        )
     }
 }
 

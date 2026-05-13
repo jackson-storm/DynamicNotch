@@ -783,6 +783,34 @@
         }
       }
     },
+    "Animate artwork with a 3D flip when the track cover changes." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Animate artwork with a 3D flip when the track cover changes."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anima la carátula con un giro 3D cuando cambia la portada de la pista."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Анимировать обложку 3D-переворотом при смене обложки трека."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当曲目封面变化时，用 3D 翻转动画显示封面。"
+          }
+        }
+      }
+    },
     "Animated background" : {
       "localizations" : {
         "en" : {
@@ -891,34 +919,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "任何来源"
-          }
-        }
-      }
-    },
-    "Animate artwork with a 3D flip when the track cover changes." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Animate artwork with a 3D flip when the track cover changes."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Anima la carátula con un giro 3D cuando cambia la portada de la pista."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Анимировать обложку 3D-переворотом при смене обложки трека."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "当曲目封面变化时，用 3D 翻转动画显示封面。"
           }
         }
       }
@@ -2781,6 +2781,7 @@
       }
     },
     "Choose how the track cover opens on the lock screen." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3889,6 +3890,35 @@
         }
       }
     },
+    "Clock position" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clock position"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Posición del reloj"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Позиция часов"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "时钟位置"
+          }
+        }
+      }
+    },
     "Close delay" : {
       "localizations" : {
         "en" : {
@@ -4032,34 +4062,6 @@
     },
     "Combined Targets" : {
 
-    },
-    "Clock position" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Clock position"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Posición del reloj"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Позиция часов"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "时钟位置"
-          }
-        }
-      }
     },
     "common.cancel" : {
       "extractionState" : "stale",
@@ -4622,6 +4624,7 @@
       }
     },
     "Cover and background" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6077,6 +6080,7 @@
       }
     },
     "Fullscreen cover" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -7589,6 +7593,9 @@
         }
       }
     },
+    "Lock screen lyrics" : {
+
+    },
     "Lock screen media panel" : {
       "localizations" : {
         "en" : {
@@ -8185,6 +8192,7 @@
       }
     },
     "Move the lock-screen clock up or down." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -15730,6 +15738,9 @@
         }
       }
     },
+    "Show synced lyrics next to the track cover when artwork is opened." : {
+
+    },
     "Show temporary size hints while adjusting the notch width or height." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -17232,6 +17243,7 @@
       }
     },
     "Track artwork" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

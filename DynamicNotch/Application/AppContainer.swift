@@ -79,6 +79,9 @@ final class AppContainer {
             audioOutputRouting: isRunningUITests ?
                 InactiveAudioOutputRoutingService() :
                 SystemAudioOutputRoutingService(),
+            lyricsProvider: isRunningUITests ?
+                InactiveLyricsProvider() :
+                LRCLIBLyricsProvider(),
             sourceFilter: settingsViewModel.mediaAndFiles.nowPlayingSourceFilter
         )
         self.downloadViewModel = DownloadViewModel(

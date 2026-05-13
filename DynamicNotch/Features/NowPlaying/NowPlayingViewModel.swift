@@ -34,10 +34,12 @@ final class NowPlayingViewModel: ObservableObject {
     @Published private(set) var audioOutputRoutes: [AudioOutputRoute] = []
     @Published private(set) var currentAudioOutputRoute: AudioOutputRoute?
     @Published private(set) var isCurrentTrackFavorite = false
+    @Published private(set) var lyricsState: NowPlayingLyricsState = .idle
     @Published var event: NowPlayingEvent?
 
     private var service: any NowPlayingMonitoring
     private let audioOutputRouting: any AudioOutputRouting
+    private let lyricsProvider: any LyricsProviding
     private let favoritesStore: UserDefaults
     private let detailPollingService: (any NowPlayingDetailPollingConfigurable)?
     private let playbackSourceOpener: any PlaybackSourceOpening
@@ -50,9 +52,11 @@ final class NowPlayingViewModel: ObservableObject {
     private var artworkFlipCooldownActive = false
     private var artworkPresentationWorkItem: DispatchWorkItem?
     private var pendingSessionEndWorkItem: DispatchWorkItem?
+    private var lyricsLookupTask: Task<Void, Never>?
     private var artworkFlipTrackKey: String?
     private var artworkFlipStartedAt: Date?
     private var activeDetailedPresentationSources = Set<String>()
+    private var isLyricsPresentationActive = false
     #if DEBUG
     private var isShowingDebugPreviewSnapshot = false
     #endif
@@ -69,6 +73,7 @@ final class NowPlayingViewModel: ObservableObject {
         self.init(
             service: MediaRemoteNowPlayingService(),
             audioOutputRouting: SystemAudioOutputRoutingService(),
+            lyricsProvider: LRCLIBLyricsProvider(),
             favoritesStore: .standard,
             playbackSourceOpener: WorkspacePlaybackSourceOpener(),
             sourceFilter: .any
@@ -78,12 +83,14 @@ final class NowPlayingViewModel: ObservableObject {
     init(
         service: any NowPlayingMonitoring,
         audioOutputRouting: (any AudioOutputRouting)? = nil,
+        lyricsProvider: (any LyricsProviding)? = nil,
         favoritesStore: UserDefaults = .standard,
         playbackSourceOpener: (any PlaybackSourceOpening)? = nil,
         sourceFilter: NowPlayingSourceFilter = .any
     ) {
         self.service = service
         self.audioOutputRouting = audioOutputRouting ?? InactiveAudioOutputRoutingService()
+        self.lyricsProvider = lyricsProvider ?? LRCLIBLyricsProvider()
         self.favoritesStore = favoritesStore
         self.detailPollingService = service as? any NowPlayingDetailPollingConfigurable
         self.playbackSourceOpener = playbackSourceOpener ?? WorkspacePlaybackSourceOpener()
@@ -118,9 +125,11 @@ final class NowPlayingViewModel: ObservableObject {
         ignoresServiceSnapshots = true
         service.stopMonitoring()
         activeDetailedPresentationSources.removeAll()
+        setLyricsPresentationActive(false)
         updateDetailPollingState()
         cancelPendingSessionEnd()
         cancelPendingArtworkPresentation()
+        cancelLyricsLookup()
         latestServiceSnapshot = nil
         apply(snapshot: nil)
     }
@@ -276,8 +285,26 @@ final class NowPlayingViewModel: ObservableObject {
         updateDetailPollingState()
     }
 
+    func setLyricsPresentationActive(_ isActive: Bool) {
+        guard isLyricsPresentationActive != isActive else {
+            if isActive {
+                loadLyricsIfNeeded(for: snapshot)
+            }
+            return
+        }
+
+        isLyricsPresentationActive = isActive
+
+        if isActive {
+            loadLyricsIfNeeded(for: snapshot)
+        } else {
+            cancelLyricsLookup()
+        }
+    }
+
     func clearPresentationActivityState() {
         activeDetailedPresentationSources.removeAll()
+        setLyricsPresentationActive(false)
         updateDetailPollingState()
     }
 
@@ -371,10 +398,17 @@ private extension NowPlayingViewModel {
         let wasPlaying = snapshot?.isPlaying
         let previousTrackKey = snapshot?.favoriteTrackKey
         let newTrackKey = newSnapshot?.favoriteTrackKey
+        let previousLyricsKey = snapshot?.lyricsLookupKey
+        let newLyricsKey = newSnapshot?.lyricsLookupKey
         let previousArtworkData = snapshot?.artworkData
 
         if previousTrackKey != newTrackKey {
             cancelPendingArtworkPresentation()
+        }
+
+        if previousLyricsKey != newLyricsKey {
+            cancelLyricsLookup()
+            lyricsState = .idle
         }
 
         snapshot = newSnapshot
@@ -410,6 +444,10 @@ private extension NowPlayingViewModel {
             } else if let wasPlaying, let isPlaying, wasPlaying != isPlaying {
                 event = .playbackStateChanged(isPlaying: isPlaying)
             }
+        }
+
+        if isLyricsPresentationActive {
+            loadLyricsIfNeeded(for: newSnapshot)
         }
     }
 
@@ -449,6 +487,44 @@ private extension NowPlayingViewModel {
         detailPollingService?.setDetailPollingEnabled(
             hasStartedMonitoring && !activeDetailedPresentationSources.isEmpty
         )
+    }
+
+    func loadLyricsIfNeeded(for snapshot: NowPlayingSnapshot?) {
+        guard let snapshot, let trackKey = snapshot.lyricsLookupKey else {
+            cancelLyricsLookup()
+            lyricsState = .idle
+            return
+        }
+
+        guard lyricsState.trackKey != trackKey else { return }
+
+        cancelLyricsLookup()
+        lyricsState = .loading(trackKey: trackKey)
+
+        lyricsLookupTask = Task { [weak self, snapshot, trackKey] in
+            guard let self else { return }
+
+            do {
+                let lyrics = try await lyricsProvider.lyrics(for: snapshot)
+                guard Task.isCancelled == false else { return }
+
+                if let lyrics {
+                    lyricsState = .loaded(lyrics)
+                } else {
+                    lyricsState = .notFound(trackKey: trackKey)
+                }
+            } catch is CancellationError {
+                return
+            } catch {
+                guard Task.isCancelled == false else { return }
+                lyricsState = .failed(trackKey: trackKey)
+            }
+        }
+    }
+
+    func cancelLyricsLookup() {
+        lyricsLookupTask?.cancel()
+        lyricsLookupTask = nil
     }
 
     func scheduleSessionEnd() {

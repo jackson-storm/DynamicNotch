@@ -152,6 +152,10 @@ final class NotchMediaEventsHandler {
               let source = snapshot.playbackSource else {
             return
         }
+        guard settingsViewModel.mediaAndFiles.isCloseAtFocusLiveActivityEnabled else {
+            syncNowPlayingPlaybackState()
+            return
+        }
 
         var isSourceActive = false
         if let bundleId = source.preferredBundleIdentifier, bundleId == app?.bundleIdentifier {
@@ -172,18 +176,20 @@ final class NotchMediaEventsHandler {
     private func showNowPlayingLiveActivity() {
         guard nowPlayingViewModel.hasActiveSession else { return }
         
-        if let source = nowPlayingViewModel.snapshot?.playbackSource,
-           let app = NSWorkspace.shared.frontmostApplication {
-            
-            var isSourceActive = false
-            if let bundleId = source.preferredBundleIdentifier, bundleId == app.bundleIdentifier {
-                isSourceActive = true
-            } else if let pid = source.validProcessIdentifier, pid == app.processIdentifier {
-                isSourceActive = true
-            }
-            
-            if isSourceActive {
-                return
+        if settingsViewModel.mediaAndFiles.isCloseAtFocusLiveActivityEnabled {
+            if let source = nowPlayingViewModel.snapshot?.playbackSource,
+               let app = NSWorkspace.shared.frontmostApplication {
+                
+                var isSourceActive = false
+                if let bundleId = source.preferredBundleIdentifier, bundleId == app.bundleIdentifier {
+                    isSourceActive = true
+                } else if let pid = source.validProcessIdentifier, pid == app.processIdentifier {
+                    isSourceActive = true
+                }
+                
+                if isSourceActive {
+                    return
+                }
             }
         }
 

@@ -3919,6 +3919,34 @@
         }
       }
     },
+    "Close at focus" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close at focus"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerrar en foco"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Закрывать при фокусе"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "接近焦点"
+          }
+        }
+      }
+    },
     "Close delay" : {
       "localizations" : {
         "en" : {
@@ -3943,6 +3971,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "关闭延迟"
+          }
+        }
+      }
+    },
+    "Close the activity when the playback source is in focus." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close the activity when the playback source is in focus."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cierre la actividad cuando la fuente de reproducción esté enfocada."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Закрывать активность, когда источник воспроизведения окажется в фокусе."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当播放源处于焦点中时关闭活动。"
           }
         }
       }

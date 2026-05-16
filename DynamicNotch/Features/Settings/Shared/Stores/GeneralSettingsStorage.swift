@@ -41,6 +41,7 @@ enum GeneralSettingsStorage {
         static let focusLiveActivityEnabled = "settings.live.focus"
         static let focusAppearanceStyle = "settings.focus.appearanceStyle"
         static let nowPlayingLiveActivityEnabled = "settings.live.nowPlaying"
+        static let closeAtFocusLiveActivityEnabled = "settings.nowPlaying.closeAtFocus"
         static let nowPlayingFavoriteButtonVisible = "settings.nowPlaying.favoriteButtonVisible"
         static let nowPlayingOutputDeviceButtonVisible = "settings.nowPlaying.outputDeviceButtonVisible"
         static let nowPlayingArtwork3DEffectEnabled = "settings.nowPlaying.artwork3DEffectEnabled"
@@ -152,6 +153,7 @@ enum GeneralSettingsStorage {
         Keys.focusLiveActivityEnabled: true,
         Keys.focusAppearanceStyle: FocusAppearanceStyle.iconsOnly.rawValue,
         Keys.nowPlayingLiveActivityEnabled: true,
+        Keys.closeAtFocusLiveActivityEnabled: true,
         Keys.nowPlayingFavoriteButtonVisible: true,
         Keys.nowPlayingOutputDeviceButtonVisible: true,
         Keys.nowPlayingArtwork3DEffectEnabled: true,

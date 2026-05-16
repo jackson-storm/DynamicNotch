@@ -93,7 +93,7 @@ struct VpnConnectedNotchView: View {
                             textColor: .white.opacity(0.8),
                             backgroundColor: .clear,
                             minDuration: 0.5,
-                            frameWidth: 130.scaled(by: scale)
+                            frameWidth: 130
                         )
                     }
                 }

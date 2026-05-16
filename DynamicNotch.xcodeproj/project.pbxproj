@@ -58,6 +58,7 @@
 				Resources/LottieImage/telegram.json,
 				Resources/Sounds/DynamicNotch_lock.mp3,
 				Resources/Sounds/DynamicNotch_unlock.mp3,
+				Resources/Sounds/LowBatterySound.mp3,
 			);
 			target = F10000000000000000000006 /* DynamicNotchTests */;
 		};
@@ -69,6 +70,7 @@
 				Resources/LottieImage/telegram.json,
 				Resources/Sounds/DynamicNotch_lock.mp3,
 				Resources/Sounds/DynamicNotch_unlock.mp3,
+				Resources/Sounds/LowBatterySound.mp3,
 			);
 			target = F20000000000000000000006 /* DynamicNotchUITests */;
 		};

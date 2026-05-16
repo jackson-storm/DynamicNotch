@@ -143,6 +143,20 @@ struct BatterySettingsView: View {
             }
 
             Divider().opacity(0.6)
+            
+            SettingsToggleRow(
+                title: "Low battery sound",
+                description: "Play audio when the battery is low.",
+                systemImage: "speaker.wave.2.fill",
+                color: .pink,
+                isOn: $batterySettings.lowBatterySound,
+                accessibilityIdentifier: "settings.activities.lowBatterySound"
+            )
+            
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
 
             SettingsStrokeToggleRow(
                 title: "Default stroke",
@@ -191,6 +205,20 @@ struct BatterySettingsView: View {
             }
 
             Divider().opacity(0.6)
+            
+            SettingsToggleRow(
+                title: "Full battery sound",
+                description: "Play audio when the battery is fully charged.",
+                systemImage: "speaker.wave.2.fill",
+                color: .pink,
+                isOn: $batterySettings.fullBatterySound,
+                accessibilityIdentifier: "settings.activities.fullBatterySound"
+            )
+            
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
 
             SettingsStrokeToggleRow(
                 title: "Default stroke",

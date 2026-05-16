@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 struct NotchContentDescriptor: Equatable {
     let id: String
@@ -46,6 +47,7 @@ enum NotchContentPriority {
         case hotspot
         case download
         case trayActive
+        case fileConverterActive
         case nowPlaying
         case timer
         case screenRecording
@@ -62,6 +64,8 @@ enum NotchContentPriority {
                 NotchContentPriority.download
             case .trayActive:
                 NotchContentPriority.trayActive
+            case .fileConverterActive:
+                NotchContentPriority.fileConverterActive
             case .nowPlaying:
                 NotchContentPriority.nowPlaying
             case .timer:
@@ -70,7 +74,69 @@ enum NotchContentPriority {
                 NotchContentPriority.screenRecording
             }
         }
-
+        
+        var titleKey: LocalizedStringKey {
+            switch self {
+            case .focus:
+                "settings.notch.priorities.row.focus"
+            case .hotspot:
+                "settings.notch.priorities.row.hotspot"
+            case .download:
+                "settings.notch.priorities.row.downloads"
+            case .trayActive:
+                "settings.notch.priorities.row.trayActive"
+            case .nowPlaying:
+                "settings.notch.priorities.row.nowPlaying"
+            case .timer:
+                "settings.notch.priorities.row.timer"
+            case .screenRecording:
+                "settings.notch.priorities.row.screenRecording"
+            case .fileConverterActive:
+                "settings.notch.priorities.row.fileConverterActive"
+            }
+        }
+        
+        var image: String {
+            switch self {
+            case .focus:
+                return "moon.fill"
+            case .hotspot:
+                return "personalhotspot"
+            case .download:
+                return "arrow.down.document.fill"
+            case .trayActive:
+                return "tray.full.fill"
+            case .fileConverterActive:
+                return "arrow.trianglehead.2.counterclockwise.rotate.90"
+            case .nowPlaying:
+                return "music.note"
+            case .timer:
+                return "timer"
+            case .screenRecording:
+                return "record.circle"
+            }
+        }
+        
+        var color: Color {
+            switch self {
+            case .focus:
+                    .indigo
+            case .hotspot:
+                    .green
+            case .download:
+                    .purple
+            case .trayActive:
+                    .black
+            case .fileConverterActive:
+                    .green
+            case .nowPlaying:
+                    .pink
+            case .timer:
+                    .orange
+            case .screenRecording:
+                    .red
+            }
+        }
     }
 
     static let overrideStorageKey = "settings.notch.priorityOverrides"
@@ -80,6 +146,7 @@ enum NotchContentPriority {
         .hotspot,
         .download,
         .trayActive,
+        .fileConverterActive,
         .nowPlaying,
         .timer,
         .screenRecording
@@ -90,9 +157,10 @@ enum NotchContentPriority {
     static let hotspot = 2
     static let download = 3
     static let trayActive = 4
-    static let nowPlaying = 5
-    static let timer = 6
-    static let screenRecording = 7
+    static let fileConverterActive = 5
+    static let nowPlaying = 6
+    static let timer = 7
+    static let screenRecording = 8
 
     static let notchSizeWidth = 1000
     static let notchSizeHeight = 1001
@@ -223,7 +291,7 @@ enum NotchContentRegistry {
         )
         static let fileConverterActive = NotchContentDescriptor(
             id: "fileConverter.active",
-            priorityKey: .trayActive
+            priorityKey: .fileConverterActive
         )
         static let fileConverterConverted = NotchContentDescriptor(
             id: "fileConverter.converted"

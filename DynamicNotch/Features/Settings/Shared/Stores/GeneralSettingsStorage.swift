@@ -41,6 +41,7 @@ enum GeneralSettingsStorage {
         static let focusLiveActivityEnabled = "settings.live.focus"
         static let focusAppearanceStyle = "settings.focus.appearanceStyle"
         static let nowPlayingLiveActivityEnabled = "settings.live.nowPlaying"
+        static let closeAtFocusLiveActivityEnabled = "settings.nowPlaying.closeAtFocus"
         static let nowPlayingFavoriteButtonVisible = "settings.nowPlaying.favoriteButtonVisible"
         static let nowPlayingOutputDeviceButtonVisible = "settings.nowPlaying.outputDeviceButtonVisible"
         static let nowPlayingArtwork3DEffectEnabled = "settings.nowPlaying.artwork3DEffectEnabled"
@@ -108,6 +109,8 @@ enum GeneralSettingsStorage {
         static let hotspotDefaultStrokeEnabled = "settings.live.hotspot.defaultStroke"
         static let lowPowerDefaultStrokeEnabled = "settings.battery.lowPower.defaultStroke"
         static let fullPowerDefaultStrokeEnabled = "settings.battery.fullPower.defaultStroke"
+        static let lowBatterySound = "settings.battery.lowBatterySound"
+        static let fullBatterySound = "settings.battery.fullBatterySound"
     }
 
     static let defaultValues: [String: Any] = [
@@ -152,6 +155,7 @@ enum GeneralSettingsStorage {
         Keys.focusLiveActivityEnabled: true,
         Keys.focusAppearanceStyle: FocusAppearanceStyle.iconsOnly.rawValue,
         Keys.nowPlayingLiveActivityEnabled: true,
+        Keys.closeAtFocusLiveActivityEnabled: true,
         Keys.nowPlayingFavoriteButtonVisible: true,
         Keys.nowPlayingOutputDeviceButtonVisible: true,
         Keys.nowPlayingArtwork3DEffectEnabled: true,
@@ -230,6 +234,8 @@ enum GeneralSettingsStorage {
         Keys.focusDefaultStrokeEnabled: false,
         Keys.hotspotDefaultStrokeEnabled: false,
         Keys.lowPowerDefaultStrokeEnabled: false,
-        Keys.fullPowerDefaultStrokeEnabled: false
+        Keys.fullPowerDefaultStrokeEnabled: false,
+        Keys.lowBatterySound: true,
+        Keys.fullBatterySound: true
     ]
 }

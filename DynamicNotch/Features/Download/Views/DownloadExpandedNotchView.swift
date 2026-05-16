@@ -41,15 +41,14 @@ private struct DownloadExpandedNotchContentView: View {
         VStack(alignment: .leading, spacing: 16) {
             Spacer()
             header(for: download)
-            progressSection(for: download)
         }
-        .padding(.horizontal, 45)
-        .padding(.bottom, 25)
+        .padding(.horizontal, 40)
+        .padding(.bottom, 20)
     }
 
     @ViewBuilder
     private func header(for download: DownloadModel) -> some View {
-        HStack(alignment: .top, spacing: 2) {
+        HStack(alignment: .center, spacing: 2) {
             DownloadFileThumbnailView(url: download.url, size: 45)
 
             VStack(alignment: .leading, spacing: 4) {
@@ -85,56 +84,9 @@ private struct DownloadExpandedNotchContentView: View {
         }
     }
 
-    @ViewBuilder
-    private func progressSection(for download: DownloadModel) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
-            sizeLabels(for: download)
-
-            GeometryReader { proxy in
-                ZStack(alignment: .leading) {
-                    Capsule()
-                        .fill(Color.white.opacity(0.15))
-
-                    Capsule()
-                        .fill(
-                            LinearGradient(
-                                colors: [
-                                    Color.accentColor.opacity(0.45),
-                                    Color.accentColor
-                                ],
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            )
-                        )
-                        .frame(width: max(16, proxy.size.width * CGFloat(clampedProgress(download.progress))))
-                }
-            }
-            .frame(height: 8)
-        }
-    }
-
-    @ViewBuilder
-    private func sizeLabels(for download: DownloadModel) -> some View {
-        HStack(spacing: 8) {
-            Text(Self.byteCountFormatter.string(fromByteCount: download.byteCount))
-                .font(.system(size: 10, weight: .semibold, design: .rounded))
-                .foregroundStyle(.white.opacity(0.8))
-
-            Spacer(minLength: 8)
-
-            Text(totalSizeLabel(for: download))
-                .font(.system(size: 10, weight: .semibold, design: .rounded))
-                .foregroundStyle(.white.opacity(0.8))
-        }
-    }
-
     private func speedLabel(for download: DownloadModel) -> String {
         guard download.bytesPerSecond > 0 else { return "0 KB/s" }
         return "\(Self.byteCountFormatter.string(fromByteCount: download.bytesPerSecond))/s"
-    }
-
-    private func totalSizeLabel(for download: DownloadModel) -> String {
-        Self.byteCountFormatter.string(fromByteCount: download.estimatedTotalByteCount)
     }
     
     private func progressLabel(for progress: Double) -> String {

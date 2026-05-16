@@ -91,6 +91,18 @@ final class BatterySettingsStore: SettingsStoreBase {
         }
     }
 
+    @Published var fullBatterySound: Bool {
+        didSet {
+            persist(fullBatterySound, for: GeneralSettingsStorage.Keys.fullPowerNotificationStyle)
+        }
+    }
+    
+    @Published var lowBatterySound: Bool {
+        didSet {
+            persist(lowBatterySound, for: GeneralSettingsStorage.Keys.fullPowerNotificationStyle)
+        }
+    }
+    
     @Published var fullPowerStyle: BatteryNotificationStyle {
         didSet {
             persist(fullPowerStyle.rawValue, for: GeneralSettingsStorage.Keys.fullPowerNotificationStyle)
@@ -112,6 +124,8 @@ final class BatterySettingsStore: SettingsStoreBase {
     override init(defaults: UserDefaults) {
         defaults.register(defaults: GeneralSettingsStorage.defaultValues)
         Self.migrateLegacyDefaultStrokeIfNeeded(defaults: defaults)
+        self.lowBatterySound = defaults.bool(forKey: GeneralSettingsStorage.Keys.lowBatterySound)
+        self.fullBatterySound = defaults.bool(forKey: GeneralSettingsStorage.Keys.fullBatterySound)
         self.isChargerTemporaryActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.chargerTemporaryActivityEnabled)
         self.chargerTemporaryActivityDuration = Self.clampTemporaryActivityDuration(
             defaults.object(forKey: GeneralSettingsStorage.Keys.chargerTemporaryActivityDuration) as? Int ??
@@ -154,6 +168,8 @@ final class BatterySettingsStore: SettingsStoreBase {
 
     func reset() {
         isChargerTemporaryActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.chargerTemporaryActivityEnabled)
+        lowBatterySound = defaultBool(for: GeneralSettingsStorage.Keys.lowBatterySound)
+        fullBatterySound = defaultBool(for: GeneralSettingsStorage.Keys.fullBatterySound)
         chargerTemporaryActivityDuration = Self.clampTemporaryActivityDuration(
             defaultInt(for: GeneralSettingsStorage.Keys.chargerTemporaryActivityDuration)
         )

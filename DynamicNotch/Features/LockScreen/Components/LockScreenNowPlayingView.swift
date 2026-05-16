@@ -62,6 +62,7 @@ struct LockScreenNowPlayingView: View {
                             cornerRadius: 10,
                             usesFlipAnimation: false
                         )
+                        .contentShape(Rectangle())
                     }
                     .buttonStyle(PlaybackSourceButtonStyle())
                 }
@@ -93,6 +94,7 @@ struct LockScreenNowPlayingView: View {
                                 frameWidth: onTapArtwork ? 260.scaled(by: scale) : 180.scaled(by: scale)
                             )
                         }
+                        .contentShape(Rectangle())
                     }
                     .buttonStyle(PlaybackSourceButtonStyle())
 

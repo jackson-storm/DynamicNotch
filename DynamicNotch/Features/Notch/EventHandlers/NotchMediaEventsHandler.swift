@@ -1,4 +1,6 @@
 import SwiftUI
+internal import AppKit
+import Combine
 
 private enum DeferredNowPlayingHideReason {
     case stopped
@@ -13,6 +15,7 @@ final class NotchMediaEventsHandler {
     private var deferredNowPlayingHideWhileExpanded: DeferredNowPlayingHideReason?
     private var nowPlayingPauseHideWorkItem: DispatchWorkItem?
     private var isNowPlayingHiddenForPauseTimer = false
+    private var cancellables = Set<AnyCancellable>()
 
     init(
         notchViewModel: NotchViewModel,
@@ -22,6 +25,7 @@ final class NotchMediaEventsHandler {
         self.notchViewModel = notchViewModel
         self.settingsViewModel = settingsViewModel
         self.nowPlayingViewModel = nowPlayingViewModel
+        setupWorkspaceObservation()
     }
 
     func handleNowPlaying(_ event: NowPlayingEvent) {
@@ -132,9 +136,56 @@ final class NotchMediaEventsHandler {
         notchViewModel.notchModel.liveActivityContent?.id == NotchContentRegistry.Media.nowPlaying.id &&
         notchViewModel.notchModel.isLiveActivityExpanded
     }
+    
+    private func setupWorkspaceObservation() {
+        NSWorkspace.shared.publisher(for: \.frontmostApplication)
+            .sink { [weak self] app in
+                guard let self else { return }
+                self.handleFrontmostApplicationChange(app)
+            }
+            .store(in: &cancellables)
+    }
+
+    private func handleFrontmostApplicationChange(_ app: NSRunningApplication?) {
+        guard settingsViewModel.isLiveActivityEnabled(.nowPlaying),
+              let snapshot = nowPlayingViewModel.snapshot,
+              let source = snapshot.playbackSource else {
+            return
+        }
+
+        var isSourceActive = false
+        if let bundleId = source.preferredBundleIdentifier, bundleId == app?.bundleIdentifier {
+            isSourceActive = true
+        } else if let pid = source.validProcessIdentifier, pid == app?.processIdentifier ?? 0 {
+            isSourceActive = true
+        }
+
+        if isSourceActive {
+            deferredNowPlayingHideWhileExpanded = nil
+            cancelNowPlayingPauseHideTimer()
+            notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Media.nowPlaying.id))
+        } else {
+            syncNowPlayingPlaybackState()
+        }
+    }
 
     private func showNowPlayingLiveActivity() {
         guard nowPlayingViewModel.hasActiveSession else { return }
+        
+        if let source = nowPlayingViewModel.snapshot?.playbackSource,
+           let app = NSWorkspace.shared.frontmostApplication {
+            
+            var isSourceActive = false
+            if let bundleId = source.preferredBundleIdentifier, bundleId == app.bundleIdentifier {
+                isSourceActive = true
+            } else if let pid = source.validProcessIdentifier, pid == app.processIdentifier {
+                isSourceActive = true
+            }
+            
+            if isSourceActive {
+                return
+            }
+        }
 
         notchViewModel.send(
             .showLiveActivity(

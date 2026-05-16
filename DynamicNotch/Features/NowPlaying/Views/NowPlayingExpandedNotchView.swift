@@ -78,6 +78,7 @@ struct NowPlayingExpandedNotchView: View {
                         cornerRadius: 10,
                         usesFlipAnimation: appearance.usesArtwork3DEffect
                     )
+                    .contentShape(Rectangle())
                 }
                 .buttonStyle(PlaybackSourceButtonStyle())
                 .disabled(!nowPlayingViewModel.canOpenPlaybackSource)
@@ -94,7 +95,7 @@ struct NowPlayingExpandedNotchView: View {
                                 textColor: .white.opacity(0.8),
                                 backgroundColor: .clear,
                                 minDuration: 2.0,
-                                frameWidth: 170.scaled(by: scale)
+                                frameWidth: 170
                             )
 
                             MarqueeText(
@@ -104,9 +105,10 @@ struct NowPlayingExpandedNotchView: View {
                                 textColor: .white.opacity(0.5),
                                 backgroundColor: .clear,
                                 minDuration: 3.0,
-                                frameWidth: 170.scaled(by: scale)
+                                frameWidth: 170
                             )
                         }
+                        .contentShape(Rectangle())
                     }
                     .buttonStyle(PlaybackSourceButtonStyle())
                     .disabled(!nowPlayingViewModel.canOpenPlaybackSource)
@@ -266,8 +268,6 @@ struct NowPlayingExpandedNotchView: View {
 
     private func openPlaybackSource() {
         guard nowPlayingViewModel.canOpenPlaybackSource else { return }
-
         nowPlayingViewModel.openPlaybackSource()
-        onOpenPlaybackSource()
     }
 }

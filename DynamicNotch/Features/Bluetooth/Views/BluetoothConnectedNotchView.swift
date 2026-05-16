@@ -102,7 +102,7 @@ struct BluetoothConnectedNotchView: View {
                             textColor: .white.opacity(0.8),
                             backgroundColor: .clear,
                             minDuration: 0.5,
-                            frameWidth: 150.scaled(by: scale)
+                            frameWidth: 150
                         )
                     }
                 }

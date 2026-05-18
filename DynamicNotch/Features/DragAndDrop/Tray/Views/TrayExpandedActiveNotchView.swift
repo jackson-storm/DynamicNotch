@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import QuickLookUI
 internal import AppKit
 
 struct TrayExpandedActiveNotchView: View {
@@ -238,7 +239,7 @@ private struct TrayExpandedItemDragView: NSViewRepresentable {
     }
 }
 
-private final class TrayExpandedItemDragNSView: NSView, NSDraggingSource {
+private final class TrayExpandedItemDragNSView: NSView, NSDraggingSource, QLPreviewPanelDataSource, QLPreviewPanelDelegate {
     var draggedItems: () -> [FileTrayItem] = { [] }
     var showsRemoveButton = true
     var onMoveCompleted: ([FileTrayItem]) -> Void = { _ in }
@@ -248,6 +249,8 @@ private final class TrayExpandedItemDragNSView: NSView, NSDraggingSource {
     private var mouseDownEvent: NSEvent?
     private var didBeginDragging = false
     private var activeDragItems: [FileTrayItem] = []
+    
+    override var acceptsFirstResponder: Bool { true }
     
     override func acceptsFirstMouse(for event: NSEvent?) -> Bool {
         true
@@ -265,6 +268,10 @@ private final class TrayExpandedItemDragNSView: NSView, NSDraggingSource {
         mouseDownEvent = event
         didBeginDragging = false
         onPressedChange(true)
+        
+        if let window = self.window, window.firstResponder != self {
+            window.makeFirstResponder(self)
+        }
     }
     
     override func mouseDragged(with event: NSEvent) {
@@ -295,6 +302,56 @@ private final class TrayExpandedItemDragNSView: NSView, NSDraggingSource {
         
         mouseDownEvent = nil
         didBeginDragging = false
+    }
+    
+    override func keyDown(with event: NSEvent) {
+        if event.keyCode == 49 {
+            toggleQuickLook()
+        } else {
+            super.keyDown(with: event)
+        }
+    }
+    
+    private func toggleQuickLook() {
+        guard let panel = QLPreviewPanel.shared() else { return }
+        
+        if QLPreviewPanel.sharedPreviewPanelExists() && panel.isVisible {
+            panel.orderOut(nil)
+        } else {
+            panel.updateController()
+            panel.delegate = self
+            panel.dataSource = self
+            panel.makeKeyAndOrderFront(nil)
+        }
+    }
+    
+    func numberOfPreviewItems(in panel: QLPreviewPanel!) -> Int {
+        return draggedItems().count
+    }
+    
+    func previewPanel(_ panel: QLPreviewPanel!, previewItemAt index: Int) -> QLPreviewItem! {
+        let items = draggedItems()
+        guard index < items.count else { return nil }
+        return items[index].url as NSURL
+    }
+    
+    func previewPanel(_ panel: QLPreviewPanel!, sourceFrameOnScreenFor item: QLPreviewItem!) -> NSRect {
+        guard let window = self.window else { return .zero }
+        let rectInWindow = self.convert(self.bounds, to: nil)
+        return window.convertToScreen(rectInWindow)
+    }
+    
+    override func acceptsPreviewPanelControl(_ panel: QLPreviewPanel!) -> Bool {
+        return true
+    }
+    
+    override func beginPreviewPanelControl(_ panel: QLPreviewPanel!) {
+        panel.delegate = self
+        panel.dataSource = self
+    }
+    
+    override func endPreviewPanelControl(_ panel: QLPreviewPanel!) {
+        
     }
     
     func draggingSession(

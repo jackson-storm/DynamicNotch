@@ -243,7 +243,7 @@ struct NotchSettingsView: View {
                 title: "Swipe down to restore",
                 description: "Allow gestures to bring back the most recently dismissed activity.",
                 systemImage: "arrow.down.circle.fill",
-                color: .teal,
+                color: .red,
                 isOn: $applicationSettings.isNotchSwipeRestoreEnabled,
                 accessibilityIdentifier: "settings.notch.swipeRestore"
             )

@@ -80,7 +80,6 @@ final class CameraViewModel: ObservableObject {
             }
             
             self.session.commitConfiguration()
-            self.session.startRunning()
             
             DispatchQueue.main.async {
                 withAnimation {
@@ -129,7 +128,6 @@ final class CameraViewModel: ObservableObject {
             }
         }
         self.stopWorkItem = workItem
-        // Delay stopping by 1.5 seconds to prevent indicator flickering when swiping tabs
         sessionQueue.asyncAfter(deadline: .now() + 1.5, execute: workItem)
     }
 }

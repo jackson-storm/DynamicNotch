@@ -94,6 +94,7 @@ extension SettingsRootViewModel {
             soundPlayer: InactiveLockScreenSoundPlayer()
         )
         let resolvedHomePageViewModel = homePageViewModel ?? HomePageViewModel()
+        let resolvedLocalTimerViewModel = LocalTimerViewModel()
         let resolvedCoordinator = notchEventCoordinator ?? NotchEventCoordinator(
             notchViewModel: resolvedNotchViewModel,
             bluetoothViewModel: resolvedBluetoothViewModel,
@@ -107,7 +108,8 @@ extension SettingsRootViewModel {
             nowPlayingViewModel: resolvedNowPlayingViewModel,
             timerViewModel: resolvedTimerViewModel,
             lockScreenManager: resolvedLockScreenManager,
-            homePageViewModel: resolvedHomePageViewModel
+            homePageViewModel: resolvedHomePageViewModel,
+            localTimerViewModel: resolvedLocalTimerViewModel
         )
 
         return SettingsRootDebugDependencies(

@@ -10,10 +10,12 @@ import AVFoundation
 
 struct CameraNotchView: View {
     let notchViewModel: NotchViewModel
+    let localTimerViewModel: LocalTimerViewModel
     
     @StateObject private var cameraViewModel = CameraViewModel()
     @State private var isHovering: Bool = false
     @State private var previewID = UUID()
+    @AppStorage("isCameraStarted") private var isCameraStarted = false
     
     @AppStorage("isNotchLocked") private var isNotchLocked = false
     @AppStorage("isCameraMirrored") private var isCameraMirrored = false
@@ -21,24 +23,31 @@ struct CameraNotchView: View {
     
     var body: some View {
         ZStack {
-            switch cameraViewModel.cameraState {
-            case .ready:
-                cameraView
-                
-            case .unavailable:
-                cameraUnavailableView
-                
-            case .unknown:
-                progressView
+            if !isCameraStarted {
+                cameraStartView
+                    .transition(.blurAndFade.combined(with: .opacity).animation(.spring(response: 0.6)))
+            } else {
+                Group {
+                    switch cameraViewModel.cameraState {
+                    case .ready:
+                        cameraView
+                        
+                    case .unavailable:
+                        cameraUnavailableView
+                        
+                    case .unknown:
+                        progressView
+                    }
+                }
+                .transition(.blurAndFade.combined(with: .opacity).animation(.spring(response: 0.6)))
             }
         }
-        .padding(.horizontal, 3)
         .onAppear {
             previewID = UUID()
-            cameraViewModel.startSession()
         }
         .onDisappear {
             isNotchLocked = false
+            isCameraStarted = false
             cameraViewModel.stopSession()
         }
     }
@@ -54,7 +63,7 @@ struct CameraNotchView: View {
                     .scaleEffect(x: isCameraMirrored ? 1 : -1, y: 1)
                     .clipShape(RoundedRectangle(cornerRadius: 26))
                     .id(previewID)
-                    .transition(.blurAndFade.combined(with: .scale).animation(.spring(response: 0.6)))
+                    .transition(.blurAndFade.combined(with: .opacity).animation(.spring(response: 0.6)))
                 
                 HStack {
                     if isHovering {
@@ -77,7 +86,7 @@ struct CameraNotchView: View {
                             withAnimation {
                                 isCameraLarge.toggle()
                             }
-                            notchViewModel.send(.showLiveActivity(HomePageNotchContent(notchViewModel: notchViewModel, homePages: .camera)))
+                            notchViewModel.send(.showLiveActivity(HomePageNotchContent(notchViewModel: notchViewModel, homePages: .camera, localTimerViewModel: localTimerViewModel)))
                         }) {
                             ZStack {
                                 Image(systemName: isCameraLarge ? "arrow.down.right.and.arrow.up.left" : "arrow.up.left.and.arrow.down.right")
@@ -115,22 +124,74 @@ struct CameraNotchView: View {
     }
     
     @ViewBuilder
-    private var cameraUnavailableView: some View {
-        VStack(spacing: 10) {
-            Image(systemName: "video.slash")
-                .font(.system(size: 46))
-                .foregroundColor(.gray)
+    private var cameraStartView: some View {
+        VStack {
+            Spacer()
             
-            Text("Camera is unavailable")
-                .font(.headline)
-                .foregroundColor(.gray)
+            Button(action: {
+                withAnimation(.spring(response: 0.6)) {
+                    isCameraStarted = true
+                }
+                cameraViewModel.startSession()
+                notchViewModel.send(.showLiveActivity(HomePageNotchContent(notchViewModel: notchViewModel, homePages: .camera, localTimerViewModel: localTimerViewModel)))
+            }) {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 26)
+                        .fill(.gray.opacity(0.15))
+                        .frame(height: 110)
+                    
+                    VStack(spacing: 10) {
+                        Image(systemName: "web.camera.fill")
+                            .font(.system(size: 32))
+                            .foregroundStyle(.white)
+                        
+                        Text(verbatim: "Start Camera")
+                            .font(.headline)
+                            .foregroundStyle(.white)
+                    }
+                }
+            }
+            .buttonStyle(.plain)
+        }
+    }
+    
+    @ViewBuilder
+    private var cameraUnavailableView: some View {
+        VStack {
+            Spacer()
+            
+            ZStack {
+                RoundedRectangle(cornerRadius: 26)
+                    .fill(.gray.opacity(0.15))
+                    .frame(height: isCameraLarge ? 205 : 165)
+                
+                VStack(spacing: 10) {
+                    Image(systemName: "video.slash.fill")
+                        .font(.system(size: 46))
+                        .foregroundColor(.gray)
+                    
+                    Text("Camera is unavailable")
+                        .font(.headline)
+                        .foregroundColor(.gray)
+                }
+            }
         }
     }
     
     @ViewBuilder
     private var progressView: some View {
-        ProgressView()
-            .progressViewStyle(CircularProgressViewStyle(tint: .white))
+        VStack {
+            Spacer()
+            
+            ZStack {
+                RoundedRectangle(cornerRadius: 26)
+                    .fill(.gray.opacity(0.15))
+                    .frame(height: isCameraLarge ? 205 : 165)
+                
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
+            }
+        }
     }
 }
 

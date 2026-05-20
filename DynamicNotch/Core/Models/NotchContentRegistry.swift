@@ -59,6 +59,10 @@ enum NotchContentRegistry {
             id: "clock.timer",
             priorityKey: .timer
         )
+        static let localTimer = NotchContentDescriptor(
+            id: "clock.localTimer",
+            priorityKey: .timer
+        )
     }
     
     enum HomePage {

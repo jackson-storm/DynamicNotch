@@ -18,6 +18,8 @@ final class NotchEventCoordinator: ObservableObject {
     private let fileTrayViewModel: FileTrayViewModel
     private let fileConverterViewModel: FileConverterViewModel
     private let timerViewModel: TimerViewModel
+    private let localTimerViewModel: LocalTimerViewModel
+    private let homePageViewModel: HomePageViewModel
     private let lockScreenManager: LockScreenManager
     private let systemHandler: NotchSystemEventsHandler
     private let focusHandler: NotchFocusEventsHandler
@@ -29,6 +31,7 @@ final class NotchEventCoordinator: ObservableObject {
     private let dragAndDropHandler: NotchDragAndDropEventsHandler
     private let timerHandler: NotchTimerEventsHandler
     private let homePageHandler: NotchHomePageEventsHandler
+    private let localTimerHandler: NotchLocalTimerEventsHandler
     private var cancellables = Set<AnyCancellable>()
     private var fileConverterExpansionTask: Task<Void, Never>?
     
@@ -63,7 +66,8 @@ final class NotchEventCoordinator: ObservableObject {
         nowPlayingViewModel: NowPlayingViewModel,
         timerViewModel: TimerViewModel,
         lockScreenManager: LockScreenManager,
-        homePageViewModel: HomePageViewModel
+        homePageViewModel: HomePageViewModel,
+        localTimerViewModel: LocalTimerViewModel
     ) {
         self.notchViewModel = notchViewModel
         self.networkViewModel = networkViewModel
@@ -73,6 +77,8 @@ final class NotchEventCoordinator: ObservableObject {
         self.fileTrayViewModel = fileTrayViewModel
         self.fileConverterViewModel = fileConverterViewModel
         self.timerViewModel = timerViewModel
+        self.localTimerViewModel = localTimerViewModel
+        self.homePageViewModel = homePageViewModel
         self.lockScreenManager = lockScreenManager
         self.systemHandler = NotchSystemEventsHandler(
             notchViewModel: notchViewModel,
@@ -115,11 +121,18 @@ final class NotchEventCoordinator: ObservableObject {
         self.timerHandler = NotchTimerEventsHandler(
             notchViewModel: notchViewModel,
             timerViewModel: timerViewModel,
-            settingsViewModel: settingsViewModel
+            settingsViewModel: settingsViewModel,
+            localTimerViewModel: localTimerViewModel
         )
         self.homePageHandler = NotchHomePageEventsHandler(
             notchViewModel: notchViewModel,
-            settingsViewModel: settingsViewModel
+            settingsViewModel: settingsViewModel,
+            localTimerViewModel: localTimerViewModel
+        )
+        self.localTimerHandler = NotchLocalTimerEventsHandler(
+            notchViewModel: notchViewModel,
+            localTimerViewModel: localTimerViewModel,
+            timerViewModel: timerViewModel
         )
         self.fileTrayViewModel.onItemsChange = { [weak notchViewModel, weak settingsViewModel, weak fileTrayViewModel] items in
             guard let notchViewModel, let settingsViewModel, let fileTrayViewModel else {
@@ -695,15 +708,19 @@ final class NotchEventCoordinator: ObservableObject {
             .store(in: &cancellables)
 
         settingsViewModel.homePage.$isHomePageLiveActivityEnabled
-            .removeDuplicates()
             .sink { [weak self] isEnabled in
-                guard let self else { return }
-
                 if isEnabled {
-                    self.handleHomePageEvent(.homePageOn)
+                    self?.homePageHandler.handleHomePage(.homePageOn)
                 } else {
-                    self.handleHomePageEvent(.homePageOff)
+                    self?.homePageHandler.handleHomePage(.homePageOff)
                 }
+            }
+            .store(in: &cancellables)
+        
+        localTimerViewModel.$state
+            .dropFirst()
+            .sink { [weak self] state in
+                self?.localTimerHandler.handleLocalTimerStateChanged(state)
             }
             .store(in: &cancellables)
     }

@@ -144,7 +144,7 @@ final class NotchViewModel: ObservableObject {
         settings.isNotchSwipeDismissEnabled &&
         !isActivityPresentationHidden &&
         notchModel.content != nil &&
-        notchModel.content?.id != NotchContentRegistry.HomePage.active.id
+        (notchModel.content?.id != NotchContentRegistry.HomePage.active.id || notchModel.isLiveActivityExpanded)
     }
     
     var canRestoreWithMouseDrag: Bool {
@@ -158,7 +158,7 @@ final class NotchViewModel: ObservableObject {
         settings.isNotchSwipeDismissEnabled &&
         !isActivityPresentationHidden &&
         notchModel.content != nil &&
-        notchModel.content?.id != NotchContentRegistry.HomePage.active.id
+        (notchModel.content?.id != NotchContentRegistry.HomePage.active.id || notchModel.isLiveActivityExpanded)
     }
     
     var canRestoreWithTrackpadSwipe: Bool {
@@ -337,9 +337,12 @@ final class NotchViewModel: ObservableObject {
     }
     
     func dismissActiveContent() {
-        if notchModel.isLiveActivityExpanded,
-           notchModel.liveActivityContent?.id == NotchContentRegistry.Media.timer.id {
+        if notchModel.isLiveActivityExpanded {
             engine.handleOutsideClick()
+            return
+        }
+        
+        if notchModel.liveActivityContent?.id == NotchContentRegistry.HomePage.active.id {
             return
         }
         

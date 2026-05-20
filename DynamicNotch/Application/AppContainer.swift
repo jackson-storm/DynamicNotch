@@ -11,6 +11,7 @@ final class AppContainer {
     let settingsViewModel: SettingsViewModel
     let networkViewModel: NetworkViewModel
     let homePageViewModel = HomePageViewModel()
+    let localTimerViewModel = LocalTimerViewModel()
 
     let powerViewModel: PowerViewModel
     let downloadViewModel: DownloadViewModel
@@ -52,7 +53,8 @@ final class AppContainer {
         nowPlayingViewModel: nowPlayingViewModel,
         timerViewModel: timerViewModel,
         lockScreenManager: lockScreenManager,
-        homePageViewModel: homePageViewModel
+        homePageViewModel: homePageViewModel,
+        localTimerViewModel: localTimerViewModel
     )
 
     lazy var lockScreenPanelManager = LockScreenPanelManager(

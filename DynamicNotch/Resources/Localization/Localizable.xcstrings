@@ -58,6 +58,9 @@
         }
       }
     },
+    ":" : {
+
+    },
     "%@ is unavailable. Falling back to %@." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -120,6 +123,9 @@
           }
         }
       }
+    },
+    "00" : {
+
     },
     "00:10" : {
 
@@ -8730,9 +8736,6 @@
           }
         }
       }
-    },
-    "notes" : {
-
     },
     "Nothing Playing" : {
       "extractionState" : "stale",

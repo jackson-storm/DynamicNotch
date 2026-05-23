@@ -48,6 +48,7 @@ final class DoNotDisturbManager: ObservableObject {
         )
 
         focusLogStream.start()
+        checkInitialFocusStateViaLog()
         isMonitoring = true
     }
 
@@ -177,6 +178,72 @@ final class DoNotDisturbManager: ObservableObject {
                 isActive: nil,
                 source: "log-stream"
             )
+        }
+    }
+
+    private func checkInitialFocusStateViaLog() {
+        metadataExtractionQueue.async { [weak self] in
+            guard let self else { return }
+
+            for window in ["5m", "1h", "24h"] {
+                let task = Process()
+                task.executableURL = URL(fileURLWithPath: "/usr/bin/log")
+                task.arguments = [
+                    "show",
+                    "--last", window,
+                    "--debug",
+                    "--style", "compact",
+                    "--predicate", "process == \"duetexpertd\" OR process == \"donotdisturbd\""
+                ]
+                let pipe = Pipe()
+                task.standardOutput = pipe
+                task.standardError = Pipe()
+
+                guard (try? task.run()) != nil else { return }
+                task.waitUntilExit()
+
+                let output = String(data: pipe.fileHandleForReading.readDataToEndOfFile(), encoding: .utf8) ?? ""
+                let lines = output.components(separatedBy: "\n").filter {
+                    !$0.hasPrefix("Filtering") && ($0.contains("semanticModeIdentifier") || $0.contains("<DNDMode:"))
+                }
+
+                guard let lastLine = lines.last(where: { !$0.isEmpty }) else { continue }
+
+                // starting: 0 means focus ended — nothing to activate.
+                guard !lastLine.contains("starting: 0") && !lastLine.contains("active mode assertion: (null)") else { return }
+
+                var identifier: String?
+                var name: String?
+
+                if lastLine.contains("<DNDMode:") {
+                    func extractField(_ key: String) -> String? {
+                        guard let r = lastLine.range(of: key) else { return nil }
+                        let suffix = lastLine[r.upperBound...]
+                        guard let end = suffix.range(of: ";") else { return nil }
+                        let value = suffix[..<end.lowerBound].trimmingCharacters(in: .whitespacesAndNewlines)
+                        return value.isEmpty ? nil : value
+                    }
+                    if let v = extractField("modeIdentifier:") { identifier = v }
+                    if let v = extractField("name:") { name = v }
+                }
+
+                if identifier == nil {
+                    identifier = FocusMetadataDecoder.extractIdentifier(from: lastLine)
+                }
+                if name == nil {
+                    name = FocusMetadataDecoder.extractName(from: lastLine)
+                }
+
+                guard identifier != nil || name != nil else { return }
+
+                self.publishMetadata(
+                    identifier: identifier,
+                    name: name,
+                    isActive: true,
+                    source: "log-initial"
+                )
+                return
+            }
         }
     }
 }

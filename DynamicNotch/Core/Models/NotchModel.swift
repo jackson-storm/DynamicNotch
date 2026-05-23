@@ -70,8 +70,11 @@ struct NotchModel: Equatable {
     
     var strokeColor: Color { content?.strokeColor ?? .clear }
     
+    var updateToken = UUID()
+    
     static func == (lhs: NotchModel, rhs: NotchModel) -> Bool {
         lhs.content?.id == rhs.content?.id &&
-        lhs.isLiveActivityExpanded == rhs.isLiveActivityExpanded
+        lhs.isLiveActivityExpanded == rhs.isLiveActivityExpanded &&
+        lhs.updateToken == rhs.updateToken
     }
 }

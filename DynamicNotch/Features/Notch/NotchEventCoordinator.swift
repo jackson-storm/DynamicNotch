@@ -304,6 +304,7 @@ final class NotchEventCoordinator: ObservableObject {
         }
 
         connectivityHandler.handleNetwork(event)
+        networkViewModel.networkEvent = nil
     }
 
     @discardableResult

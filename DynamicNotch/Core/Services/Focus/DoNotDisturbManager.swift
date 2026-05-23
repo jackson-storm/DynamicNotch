@@ -48,6 +48,7 @@ final class DoNotDisturbManager: ObservableObject {
         )
 
         focusLogStream.start()
+        checkInitialFocusStateViaLog()
         isMonitoring = true
     }
 
@@ -102,9 +103,15 @@ final class DoNotDisturbManager: ObservableObject {
             let trimmedName = name?.trimmingCharacters(in: .whitespacesAndNewlines)
             let resolvedMode = FocusModeType.resolve(identifier: trimmedIdentifier, name: trimmedName)
 
+            let previousIdentifier = self.currentFocusModeIdentifier
+            let previousName = self.currentFocusModeName
+            let previousActive = self.isDoNotDisturbActive
+
             let finalIdentifier: String
             if let identifier = trimmedIdentifier, !identifier.isEmpty {
                 finalIdentifier = identifier
+            } else if !previousIdentifier.isEmpty {
+                finalIdentifier = previousIdentifier
             } else {
                 finalIdentifier = resolvedMode.rawValue
             }
@@ -112,6 +119,8 @@ final class DoNotDisturbManager: ObservableObject {
             let finalName: String
             if let name = trimmedName, !name.isEmpty {
                 finalName = name
+            } else if !previousName.isEmpty {
+                finalName = previousName
             } else if !resolvedMode.displayName.isEmpty {
                 finalName = resolvedMode.displayName
             } else if let identifier = trimmedIdentifier, !identifier.isEmpty {
@@ -120,9 +129,6 @@ final class DoNotDisturbManager: ObservableObject {
                 finalName = "Focus"
             }
 
-            let previousIdentifier = self.currentFocusModeIdentifier
-            let previousName = self.currentFocusModeName
-            let previousActive = self.isDoNotDisturbActive
 
             let identifierChanged = finalIdentifier != previousIdentifier
             let nameChanged = finalName != previousName
@@ -163,12 +169,83 @@ final class DoNotDisturbManager: ObservableObject {
 
             guard hasIdentifier || hasName else { return }
 
+            // If focus is not active, ignore background log updates so we don't overwrite the last known active mode during the turn-off animation
+            guard self.isDoNotDisturbActive else { return }
+
             self.publishMetadata(
                 identifier: trimmedIdentifier,
                 name: trimmedName,
                 isActive: nil,
                 source: "log-stream"
             )
+        }
+    }
+
+    private func checkInitialFocusStateViaLog() {
+        metadataExtractionQueue.async { [weak self] in
+            guard let self else { return }
+
+            for window in ["5m", "1h", "24h"] {
+                let task = Process()
+                task.executableURL = URL(fileURLWithPath: "/usr/bin/log")
+                task.arguments = [
+                    "show",
+                    "--last", window,
+                    "--debug",
+                    "--style", "compact",
+                    "--predicate", "process == \"duetexpertd\" OR process == \"donotdisturbd\""
+                ]
+                let pipe = Pipe()
+                task.standardOutput = pipe
+                task.standardError = Pipe()
+
+                guard (try? task.run()) != nil else { return }
+
+                let outputData = pipe.fileHandleForReading.readDataToEndOfFile()
+                task.waitUntilExit()
+
+                let output = String(data: outputData, encoding: .utf8) ?? ""
+                let lines = output.components(separatedBy: "\n").filter {
+                    !$0.hasPrefix("Filtering") && ($0.contains("semanticModeIdentifier") || $0.contains("<DNDMode:"))
+                }
+
+                guard let lastLine = lines.last(where: { !$0.isEmpty }) else { continue }
+
+                // starting: 0 means focus ended — nothing to activate.
+                guard !lastLine.contains("starting: 0") && !lastLine.contains("active mode assertion: (null)") else { return }
+
+                var identifier: String?
+                var name: String?
+
+                if lastLine.contains("<DNDMode:") {
+                    func extractField(_ key: String) -> String? {
+                        guard let r = lastLine.range(of: key) else { return nil }
+                        let suffix = lastLine[r.upperBound...]
+                        guard let end = suffix.range(of: ";") else { return nil }
+                        let value = suffix[..<end.lowerBound].trimmingCharacters(in: .whitespacesAndNewlines)
+                        return value.isEmpty ? nil : value
+                    }
+                    if let v = extractField("modeIdentifier:") { identifier = v }
+                    if let v = extractField("name:") { name = v }
+                }
+
+                if identifier == nil {
+                    identifier = FocusMetadataDecoder.extractIdentifier(from: lastLine)
+                }
+                if name == nil {
+                    name = FocusMetadataDecoder.extractName(from: lastLine)
+                }
+
+                guard identifier != nil || name != nil else { return }
+
+                self.publishMetadata(
+                    identifier: identifier,
+                    name: name,
+                    isActive: true,
+                    source: "log-initial"
+                )
+                return
+            }
         }
     }
 }

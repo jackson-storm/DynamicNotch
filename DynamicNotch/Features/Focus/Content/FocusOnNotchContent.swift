@@ -10,6 +10,7 @@ import SwiftUI
 struct FocusOnNotchContent: NotchContentProtocol {
     let id = NotchContentRegistry.Focus.active.id
     let settingsViewModel: SettingsViewModel
+    let focusModeType: FocusModeType
 
     private var appearanceStyle: FocusAppearanceStyle {
         settingsViewModel.connectivity.focusAppearanceStyle
@@ -19,7 +20,7 @@ struct FocusOnNotchContent: NotchContentProtocol {
     var strokeColor: Color {
         settingsViewModel.isDefaultActivityStrokeEnabled || settingsViewModel.connectivity.isFocusDefaultStrokeEnabled ?
         .white.opacity(0.2) :
-        .indigo.opacity(0.3)
+        focusModeType.tint.opacity(0.3)
     }
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
@@ -31,6 +32,6 @@ struct FocusOnNotchContent: NotchContentProtocol {
     
     @MainActor
     func makeView() -> AnyView {
-        AnyView(FocusOnNotchView(style: appearanceStyle))
+        AnyView(FocusOnNotchView(style: appearanceStyle, focusModeType: focusModeType))
     }
 }

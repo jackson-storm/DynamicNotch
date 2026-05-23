@@ -9,8 +9,8 @@ import Foundation
 import Combine
 
 enum FocusEvent: Equatable {
-    case FocusOn
-    case FocusOff
+    case FocusOn(FocusModeType)
+    case FocusOff(FocusModeType)
 }
 
 final class FocusViewModel: ObservableObject {

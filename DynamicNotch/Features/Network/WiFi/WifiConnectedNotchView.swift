@@ -37,7 +37,7 @@ private struct AnimatedWifiIcon: View {
         Image(systemName: "wifi", variableValue: signalLevel)
             .font(.system(size: 18, weight: .semibold))
             .symbolRenderingMode(.hierarchical)
-            .foregroundStyle(Color.white)
+            .foregroundStyle(Color.accentColor.gradient)
             .animation(.snappy(duration: 0.22, extraBounce: 0.08), value: signalLevel)
             .onAppear {
                 startAnimation()
@@ -48,7 +48,7 @@ private struct AnimatedWifiIcon: View {
             }
     }
 
-    private func startAnimation() {
+    private func startAnimation() { 
         animationTask?.cancel()
 
         animationTask = Task { @MainActor in

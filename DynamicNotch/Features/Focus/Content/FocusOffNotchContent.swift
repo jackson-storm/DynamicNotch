@@ -12,12 +12,13 @@ struct FocusOffNotchContent: NotchContentProtocol {
     var priority: Int { NotchContentRegistry.Focus.inactive.priority }
     
     let settingsViewModel: SettingsViewModel
+    let focusModeType: FocusModeType
     private var appearanceStyle: FocusAppearanceStyle { settingsViewModel.connectivity.focusAppearanceStyle}
     
     var strokeColor: Color {
         settingsViewModel.isDefaultActivityStrokeEnabled || settingsViewModel.connectivity.isFocusDefaultStrokeEnabled ?
         .white.opacity(0.2) :
-        .gray.opacity(0.3)
+        focusModeType.tint.opacity(0.3)
     }
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
@@ -29,6 +30,6 @@ struct FocusOffNotchContent: NotchContentProtocol {
     
     @MainActor
     func makeView() -> AnyView {
-        AnyView(FocusOffNotchView(style: appearanceStyle))
+        AnyView(FocusOffNotchView(style: appearanceStyle, focusModeType: focusModeType))
     }
 }

@@ -80,13 +80,15 @@ final class NetworkViewModel: ObservableObject {
             }
             
             if !self.isInitialCheck {
+                var pendingEvents: [NetworkEvent] = []
+                
                 if self.shouldEmitConnectionNotification(
                     isConnected: wifi && !hotspot,
                     wasConnected: self.wifiConnected,
                     currentIdentity: nextWiFiIdentity,
                     previousIdentity: self.lastConnectedWiFiIdentity
                 ) {
-                    self.networkEvent = .wifiConnected
+                    pendingEvents.append(.wifiConnected)
                 }
                 if self.shouldEmitConnectionNotification(
                     isConnected: vpn,
@@ -94,16 +96,25 @@ final class NetworkViewModel: ObservableObject {
                     currentIdentity: nextVPNIdentity,
                     previousIdentity: self.lastConnectedVPNIdentity
                 ) {
-                    self.networkEvent = .vpnConnected
+                    pendingEvents.append(.vpnConnected)
                 }
                 if hotspot && !self.hotspotActive {
-                    self.networkEvent = .hotspotActive
+                    pendingEvents.append(.hotspotActive)
                 }
                 if !hotspot && self.hotspotActive {
-                    self.networkEvent = .hotspotHide
+                    pendingEvents.insert(.hotspotHide, at: 0)
                 }
                 if !nextInternetAvailable && self.isInternetAvailable {
-                    self.networkEvent = .noInternetConnection
+                    pendingEvents.append(.noInternetConnection)
+                }
+                
+                if let first = pendingEvents.first {
+                    self.networkEvent = first
+                    for (index, event) in pendingEvents.dropFirst().enumerated() {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1 * Double(index + 1)) {
+                            self.networkEvent = event
+                        }
+                    }
                 }
             } else if hotspot {
                 self.networkEvent = .hotspotActive

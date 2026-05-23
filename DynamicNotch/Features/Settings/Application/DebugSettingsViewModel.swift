@@ -170,7 +170,7 @@ final class DebugSettingsViewModel: ObservableObject {
 
     func triggerFocusOffPreview() {
         isFocusLivePreviewEnabled = false
-        notchEventCoordinator.handleFocusEvent(.FocusOff)
+        notchEventCoordinator.handleFocusEvent(.FocusOff(.custom))
     }
 
     func triggerBrightnessHUDPreview() {
@@ -331,7 +331,7 @@ final class DebugSettingsViewModel: ObservableObject {
 
     private func updateFocusPreview() {
         if isFocusLivePreviewEnabled {
-            notchEventCoordinator.handleFocusEvent(.FocusOn)
+            notchEventCoordinator.handleFocusEvent(.FocusOn(.custom))
         } else {
             notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Focus.active.id))
         }
@@ -439,7 +439,7 @@ final class DebugSettingsViewModel: ObservableObject {
                     id: NotchContentRegistry.DebugSequence.onboarding
                 )
                 try await self.playLivePreview(
-                    FocusOnNotchContent(settingsViewModel: settingsViewModel),
+                    FocusOnNotchContent(settingsViewModel: settingsViewModel, focusModeType: .custom),
                     id: Self.sequenceFocusID
                 )
                 try await self.playLivePreview(
@@ -447,7 +447,7 @@ final class DebugSettingsViewModel: ObservableObject {
                     id: Self.sequenceScreenRecordingID
                 )
                 try await self.playTemporaryPreview(
-                    FocusOffNotchContent(settingsViewModel: settingsViewModel),
+                    FocusOffNotchContent(settingsViewModel: settingsViewModel, focusModeType: .custom),
                     id: NotchContentRegistry.DebugSequence.focusOff,
                     duration: 3
                 )

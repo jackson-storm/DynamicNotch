@@ -15,14 +15,14 @@ final class NotchFocusEventsHandler {
 
     func handleFocus(_ event: FocusEvent) {
         switch event {
-        case .FocusOn:
+        case .FocusOn(let modeType):
             guard settingsViewModel.isLiveActivityEnabled(.focus) else { return }
-            notchViewModel.send(.showLiveActivity(FocusOnNotchContent(settingsViewModel: settingsViewModel)))
+            notchViewModel.send(.showLiveActivity(FocusOnNotchContent(settingsViewModel: settingsViewModel, focusModeType: modeType)))
 
-        case .FocusOff:
+        case .FocusOff(let modeType):
             notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Focus.active.id))
             guard settingsViewModel.isTemporaryActivityEnabled(.focusOff) else { return }
-            notchViewModel.send(.showTemporaryNotification(FocusOffNotchContent(settingsViewModel: settingsViewModel), duration: settingsViewModel.temporaryActivityDuration(for: .focusOff))
+            notchViewModel.send(.showTemporaryNotification(FocusOffNotchContent(settingsViewModel: settingsViewModel, focusModeType: modeType), duration: settingsViewModel.temporaryActivityDuration(for: .focusOff))
             )
         }
     }

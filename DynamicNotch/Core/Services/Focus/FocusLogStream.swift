@@ -25,12 +25,13 @@ final class FocusLogStream {
             process.executableURL = URL(fileURLWithPath: "/usr/bin/log")
             process.arguments = [
                 "stream",
+                "--no-backtrace",
                 "--style",
                 "compact",
                 "--level",
                 "info",
                 "--predicate",
-                "subsystem == \"com.apple.focus\""
+                "process == \"duetexpertd\" OR process == \"donotdisturbd\""
             ]
 
             let pipe = Pipe()
@@ -140,13 +141,29 @@ final class FocusLogStream {
         var updatedIdentifier: String?
         var updatedName: String?
 
-        if let identifier = FocusMetadataDecoder.extractIdentifier(from: trimmed), !identifier.isEmpty {
+        // Special-case parsing for donotdisturbd logs which include a full DNDMode description.
+        // Example: <DNDMode: ... name: Lock In; modeIdentifier: com.apple.donotdisturb.mode.graduationcap.fill; ...>
+        if trimmed.contains("<DNDMode:") {
+            func extractField(_ key: String) -> String? {
+                guard let r = trimmed.range(of: key) else { return nil }
+                let suffix = trimmed[r.upperBound...]
+                guard let end = suffix.range(of: ";") else { return nil }
+                let value = suffix[..<end.lowerBound].trimmingCharacters(in: .whitespacesAndNewlines)
+                return value.isEmpty ? nil : value
+            }
+
+            if let v = extractField("modeIdentifier:") { updatedIdentifier = v }
+            if let v = extractField("name:") { updatedName = v }
+        }
+
+        if updatedIdentifier == nil, let identifier = FocusMetadataDecoder.extractIdentifier(from: trimmed), !identifier.isEmpty {
             updatedIdentifier = identifier
         }
 
-        if let name = FocusMetadataDecoder.extractName(from: trimmed), !name.isEmpty {
+        if updatedName == nil, let name = FocusMetadataDecoder.extractName(from: trimmed), !name.isEmpty {
             updatedName = name
         }
+
 
         guard updatedIdentifier != nil || updatedName != nil else { return }
 

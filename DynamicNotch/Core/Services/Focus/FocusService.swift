@@ -10,18 +10,28 @@ final class FocusService {
     func start() {
         manager.startMonitoring()
 
-        manager.$isDoNotDisturbActive
-            .dropFirst()
-            .receive(on: RunLoop.main)
-            .sink { [weak self] isActive in
-                guard let self else { return }
+        Publishers.CombineLatest3(
+            manager.$isDoNotDisturbActive,
+            manager.$currentFocusModeIdentifier,
+            manager.$currentFocusModeName
+        )
+        .dropFirst()
+        .debounce(for: .milliseconds(50), scheduler: RunLoop.main)
+        .receive(on: RunLoop.main)
+        .sink { [weak self] isActive, identifier, name in
+            guard let self else { return }
 
-                if isActive {
-                    self.onEvent?(.FocusOn)
-                } else {
-                    self.onEvent?(.FocusOff)
-                }
+            let modeType = FocusModeType.resolve(
+                identifier: identifier,
+                name: name
+            )
+
+            if isActive {
+                self.onEvent?(.FocusOn(modeType))
+            } else {
+                self.onEvent?(.FocusOff(modeType))
             }
-            .store(in: &cancellables)
+        }
+        .store(in: &cancellables)
     }
 }

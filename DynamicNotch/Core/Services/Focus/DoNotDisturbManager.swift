@@ -168,6 +168,9 @@ final class DoNotDisturbManager: ObservableObject {
 
             guard hasIdentifier || hasName else { return }
 
+            // If focus is not active, ignore background log updates so we don't overwrite the last known active mode during the turn-off animation
+            guard self.isDoNotDisturbActive else { return }
+
             self.publishMetadata(
                 identifier: trimmedIdentifier,
                 name: trimmedName,

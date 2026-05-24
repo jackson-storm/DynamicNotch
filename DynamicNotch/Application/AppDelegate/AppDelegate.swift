@@ -56,6 +56,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         observeHUDConfigurationChanges()
         observeFeatureMonitoringChanges()
         observeLockScreenWindowHandoff()
+        
+        SettingsWindowController.shared.setupDependencies(appDelegate: self)
 
         if !isRunningUITests {
             createNotchWindow()

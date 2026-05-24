@@ -14,26 +14,6 @@ struct NotchApp: App {
         MenuBarExtra("Dynamic Notch", systemImage: "rectangle.topthird.inset.filled", isInserted: $isMenuBarIconVisible) {
             MenuBarMenu()
         }
-        
-        WindowGroup(id: WindowsScene.settings) {
-            SettingsRootView(
-                powerService: appDelegate.powerService,
-                settingsViewModel: appDelegate.settingsViewModel,
-                notchViewModel: appDelegate.notchViewModel,
-                notchEventCoordinator: appDelegate.notchEventCoordinator,
-                bluetoothViewModel: appDelegate.bluetoothViewModel,
-                networkViewModel: appDelegate.networkViewModel,
-                downloadViewModel: appDelegate.downloadViewModel,
-                nowPlayingViewModel: appDelegate.nowPlayingViewModel,
-                timerViewModel: appDelegate.timerViewModel,
-                lockScreenManager: appDelegate.lockScreenManager
-            )
-            .background(.ultraThinMaterial)
-            .settingsWindowBridge()
-            .frame(width: SettingsWindowLayout.width, height: SettingsWindowLayout.height)
-        }
-        .defaultSize(width: SettingsWindowLayout.width, height: SettingsWindowLayout.height)
-        .windowResizability(.contentSize)
     }
 }
 
@@ -59,10 +39,7 @@ private struct MenuBarMenu: View {
             Divider()
             
             Button {
-                if !SettingsWindowCoordinator.activateExisting() {
-                    openWindow(id: WindowsScene.settings)
-                    SettingsWindowCoordinator.activate()
-                }
+                SettingsWindowController.shared.showWindow()
             } label: {
                 Image(systemName: "gearshape")
                 Text(verbatim: "Settings")

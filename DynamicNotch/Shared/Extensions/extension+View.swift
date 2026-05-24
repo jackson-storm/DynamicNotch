@@ -35,8 +35,4 @@ extension View {
             )
         )
     }
-    
-    func settingsWindowBridge() -> some View {
-        background(SettingsWindowBridge())
-    }
 }

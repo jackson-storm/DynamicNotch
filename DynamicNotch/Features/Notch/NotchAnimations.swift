@@ -60,12 +60,12 @@ struct NotchAnimations {
                 contentHide: .spring(response: 0.47, dampingFraction: 0.8),
                 contentShow: .spring(response: 0.47, dampingFraction: 0.7),
                 openContentTransition: .spring(response: 0.50, dampingFraction: 0.7),
-                expandLiveActivity: .spring(response: 0.40, dampingFraction: 0.8),
+                expandLiveActivity: .spring(response: 0.47, dampingFraction: 0.8),
                 expandLiveActivityContentTransition: .spring(response: 0.45, dampingFraction: 0.8),
                 stretchReset: .spring(response: 0.47),
                 strokeVisibility: .spring(response: 0.47),
                 notchVisibility: .spring(response: 0.47),
-                hideShowDelay: 0.35,
+                hideShowDelay: 0.3,
                 queuePacingDelay: 0.1
             )
 

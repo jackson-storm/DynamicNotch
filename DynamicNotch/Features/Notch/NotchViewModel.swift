@@ -449,18 +449,22 @@ final class NotchViewModel: ObservableObject {
 
     func contentTransition(notchWidth: CGFloat, notchHeight: CGFloat, baseHeight: CGFloat, isExpandedPresentation: Bool, isCompactRemovalForExpansion: Bool = false) -> AnyTransition {
 
-        let animation = isExpandedPresentation
-            ? animations.expandLiveActivityContentTransition
-            : animations.openContentTransition
-
-        return .dynamicIslandContent(
+        let baseTransition = AnyTransition.dynamicIslandContent(
             notchWidth: notchWidth,
             notchHeight: notchHeight,
             baseHeight: baseHeight,
             isExpandedPresentation: isExpandedPresentation,
             isCompactRemovalForExpansion: isCompactRemovalForExpansion
         )
-        .animation(animation)
+
+        if isExpandedPresentation {
+            return .asymmetric(
+                insertion: baseTransition.animation(animations.expandLiveActivityContentTransition),
+                removal: baseTransition.animation(animations.closeLiveActivityContentTransition)
+            )
+        } else {
+            return baseTransition.animation(animations.openContentTransition)
+        }
     }
     
     private func bindEngine() {

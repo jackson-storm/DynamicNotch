@@ -252,6 +252,8 @@ final class NotchViewModelIntegrationTests: XCTestCase {
             openContentTransition: .linear(duration: 0.01),
             expandLiveActivity: .linear(duration: 0.01),
             expandLiveActivityContentTransition: .linear(duration: 0.01),
+            closeLiveActivity: .linear(duration: 0.01),
+            closeLiveActivityContentTransition: .linear(duration: 0.01),
             stretchReset: .linear(duration: 0.01),
             strokeVisibility: .linear(duration: 0.01),
             notchVisibility: .linear(duration: 0.01),

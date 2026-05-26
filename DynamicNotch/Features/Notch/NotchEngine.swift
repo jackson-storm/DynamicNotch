@@ -245,7 +245,7 @@ final class NotchEngine: ObservableObject {
 
         transition(
             hide: {
-                withAnimation(self.animations.contentHide) {
+                withAnimation(self.animations.closeLiveActivity) {
                     self.notchModel.isLiveActivityExpanded = false
                     self.notchModel.liveActivityContent = nil
                 }
@@ -382,7 +382,7 @@ final class NotchEngine: ObservableObject {
         await withCheckedContinuation { continuation in
             transition(
                 hide: {
-                    withAnimation(self.animations.contentHide) {
+                    withAnimation(self.animations.closeLiveActivity) {
                         self.notchModel.isLiveActivityExpanded = false
                         self.notchModel.liveActivityContent = nil
                     }
@@ -403,7 +403,7 @@ final class NotchEngine: ObservableObject {
                 hide: {
                     self.cancelTemporary()
 
-                    withAnimation(self.animations.contentHide) {
+                    withAnimation(self.notchModel.isLiveActivityExpanded ? self.animations.closeLiveActivity : self.animations.contentHide) {
                         if self.notchModel.liveActivityContent != nil {
                             self.suspendedActivity = self.notchModel.liveActivityContent
                             self.notchModel.isLiveActivityExpanded = false
@@ -433,7 +433,7 @@ final class NotchEngine: ObservableObject {
         await withCheckedContinuation { continuation in
             transition(
                 hide: {
-                    withAnimation(self.animations.contentHide) {
+                    withAnimation(self.notchModel.isLiveActivityExpanded ? self.animations.closeLiveActivity : self.animations.contentHide) {
                         self.notchModel.isLiveActivityExpanded = false
                         self.notchModel.temporaryNotificationContent = nil
                         self.notchModel.liveActivityContent = nil

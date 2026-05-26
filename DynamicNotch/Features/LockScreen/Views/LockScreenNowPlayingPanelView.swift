@@ -20,6 +20,7 @@ struct LockScreenNowPlayingPanelView: View {
     private static let expandedLyricsSpacing: CGFloat = 90
     private static let panelCenterYOffset: CGFloat = (Self.panelSize.height / 2) + 80
     private static let backgroundScaleRange: ClosedRange<CGFloat> = 1...2
+    private static let rotationOverscanScale: CGFloat = 1.04
     
     let snapshot: NowPlayingSnapshot
     let artworkImage: NSImage?
@@ -244,19 +245,24 @@ struct LockScreenNowPlayingPanelView: View {
     }
 
     private var coverAndBackgroundPresentation: some View {
-        ZStack {
-            Color.black
+        GeometryReader { proxy in
+            let diagonal = hypot(proxy.size.width, proxy.size.height) * Self.rotationOverscanScale
+            ZStack {
+                Color.black
 
-            if mediaPanelBackgroundStyle != .black {
-                NowPlayingArtworkBackground(
-                    artworkImage: resolvedArtworkImage,
-                    blurRadius: 200,
-                    darkeningOpacity: 0.6,
-                    saturation: 1.45,
-                    scale: mediaPanelBackgroundScale
-                )
-                .rotationEffect(mediaPanelBackgroundRotation)
+                if mediaPanelBackgroundStyle != .black {
+                    NowPlayingArtworkBackground(
+                        artworkImage: resolvedArtworkImage,
+                        blurRadius: 200,
+                        darkeningOpacity: 0.6,
+                        saturation: 1.45,
+                        scale: mediaPanelBackgroundScale
+                    )
+                    .frame(width: diagonal, height: diagonal)
+                    .rotationEffect(mediaPanelBackgroundRotation)
+                }
             }
+            .frame(width: proxy.size.width, height: proxy.size.height)
         }
     }
 

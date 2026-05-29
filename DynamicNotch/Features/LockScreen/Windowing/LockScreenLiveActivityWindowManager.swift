@@ -403,6 +403,8 @@ private struct LockScreenLiveActivityOverlayView: View {
             style: settingsViewModel.application.notchBackgroundStyle,
             topCornerRadius: notchViewModel.interactiveCornerRadius.top,
             bottomCornerRadius: notchViewModel.interactiveCornerRadius.bottom,
+            isDynamicIsland: notchViewModel.topInset == 0,
+            dynamicIslandCornerRadius: notchViewModel.dynamicIslandCornerRadius,
             strokeColor: settingsViewModel.isShowNotchStrokeEnabled ? visibleStrokeColor : .clear,
             strokeWidth: settingsViewModel.notchStrokeWidth
         )

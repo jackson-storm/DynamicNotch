@@ -84,10 +84,10 @@ struct LockScreenLyricsView: View {
             }
             
         case .notFound:
-            unavailableContent(title: "Текст не найден")
+            unavailableContent(title: "The lyrics were not found")
             
         case .failed:
-            unavailableContent(title: "Ошибка загрузки")
+            unavailableContent(title: "The lyrics didn't load")
         }
     }
     
@@ -232,25 +232,32 @@ private struct LockScreenLyricsLoadingView: View {
     let width: CGFloat
     let height: CGFloat
     
-    @State private var isAnimating = false
+    @State private var shimmerPhase: CGFloat = -0.5
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            ForEach(0..<6, id: \.self) { index in
-                Capsule(style: .continuous)
-                    .fill(.white.opacity(index == 1 ? 0.26 : 0.14))
+        VStack(alignment: .leading, spacing: 22) {
+            ForEach(0..<5, id: \.self) { index in
+                let isActive = index == 2
+                
+                RoundedRectangle(cornerRadius: isActive ? 12 : 8, style: .continuous)
+                    .fill(.white.opacity(isActive ? 0.35 : 0.15))
                     .frame(
-                        width: width * CGFloat([0.72, 0.92, 0.62, 0.84, 0.58, 0.76][index]),
-                        height: index == 1 ? 26 : 18
+                        width: width * CGFloat([0.65, 0.85, 0.95, 0.75, 0.55][index]),
+                        height: isActive ? 36 : 24
                     )
-                    .shadow(color: .white.opacity(isAnimating ? 0.3 : 0.0), radius: isAnimating ? 6 : 0)
             }
         }
         .frame(width: width, height: height, alignment: .center)
-        .opacity(isAnimating ? 0.4 : 1.0)
+        .mask(
+            LinearGradient(
+                colors: [.black.opacity(0.3), .black, .black.opacity(0.3)],
+                startPoint: UnitPoint(x: shimmerPhase - 0.5, y: 0.5),
+                endPoint: UnitPoint(x: shimmerPhase + 0.5, y: 0.5)
+            )
+        )
         .onAppear {
-            withAnimation(.easeInOut(duration: 1.2).repeatForever(autoreverses: true)) {
-                isAnimating = true
+            withAnimation(.linear(duration: 1.5).repeatForever(autoreverses: false)) {
+                shimmerPhase = 1.5
             }
         }
     }

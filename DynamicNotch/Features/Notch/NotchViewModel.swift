@@ -39,6 +39,7 @@ final class NotchViewModel: ObservableObject {
     @Published private(set) var stagedNotchHeight: CGFloat = NotchModel().baseHeight
     @Published private(set) var isExpandingLiveActivityTransition = false
     @Published private(set) var isActivityPresentationHidden = false
+    @Published private(set) var topInset: CGFloat = 0
     
     @Published var isLocked = false
     @Published var isHoveringScrollableContent = false
@@ -233,6 +234,14 @@ final class NotchViewModel: ObservableObject {
         }
     }
     
+    var dynamicIslandCornerRadius: CGFloat {
+        if isDisplayingExpandedLiveActivity {
+            return presentedNotchSize.height * 0.2
+        } else {
+            return presentedNotchSize.height * 0.5
+        }
+    }
+    
     var contentResizeBlurRadius: CGFloat {
         let progress = easedSwipeStretchProgress
         
@@ -291,6 +300,8 @@ final class NotchViewModel: ObservableObject {
         guard let screenMetrics = screenMetricsProvider(settings) else {
             return
         }
+        
+        self.topInset = screenMetrics.topInset
         
         let screenWidth = screenMetrics.width
         let baseScreenWidth: CGFloat = 1440.0

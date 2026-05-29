@@ -96,13 +96,7 @@ private extension NotchView {
     var notchBody: some View {
         notchSurface
             .overlay {
-                contentOverlay
-                    .clipShape(
-                        NotchShape(
-                            topCornerRadius: notchViewModel.interactiveCornerRadius.top,
-                            bottomCornerRadius: notchViewModel.interactiveCornerRadius.bottom
-                        )
-                    )
+                contentOverlayWrapped
             }
             .shadow(
                 color: notchViewModel.isDisplayingExpandedLiveActivity ? .black.opacity(0.5) : .clear,
@@ -117,7 +111,7 @@ private extension NotchView {
                 isPressed: $notchViewModel.isPressed,
                 baseSize: notchViewModel.presentedNotchSize
             )
-            .offset(y: 1)
+            .offset(y: notchViewModel.topInset == 0 ? 3 : 1)
             .customNotchMouseSwipeable(
                 notchViewModel: notchViewModel,
                 isEnabled: shouldEnableNotchSwipeGestures
@@ -155,6 +149,8 @@ private extension NotchView {
             style: settingsViewModel.application.notchBackgroundStyle,
             topCornerRadius: notchViewModel.interactiveCornerRadius.top,
             bottomCornerRadius: notchViewModel.interactiveCornerRadius.bottom,
+            isDynamicIsland: notchViewModel.topInset == 0,
+            dynamicIslandCornerRadius: notchViewModel.dynamicIslandCornerRadius,
             strokeColor: shouldShowStroke ? visibleStrokeColor : .clear,
             strokeWidth: settingsViewModel.notchStrokeWidth
         )
@@ -182,6 +178,22 @@ private extension NotchView {
                         baseHeight: notchViewModel.notchModel.baseHeight,
                         isExpandedPresentation: notchViewModel.isDisplayingExpandedLiveActivity,
                         isCompactRemovalForExpansion: notchViewModel.isExpandingLiveActivityTransition
+                    )
+                )
+        }
+    }
+    
+    @ViewBuilder
+    var contentOverlayWrapped: some View {
+        if notchViewModel.topInset == 0 {
+            contentOverlay
+                .clipShape(DynamicIslandShape(cornerRadius: notchViewModel.dynamicIslandCornerRadius))
+        } else {
+            contentOverlay
+                .clipShape(
+                    NotchShape(
+                        topCornerRadius: notchViewModel.interactiveCornerRadius.top,
+                        bottomCornerRadius: notchViewModel.interactiveCornerRadius.bottom
                     )
                 )
         }

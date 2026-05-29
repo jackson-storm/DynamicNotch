@@ -17,6 +17,8 @@ struct SettingsNotchPreview<Overlay: View>: View {
     let topCornerRadius: CGFloat
     let bottomCornerRadius: CGFloat
     let backgroundStyle: NotchBackgroundStyle
+    let isDynamicIsland: Bool
+    let dynamicIslandCornerRadius: CGFloat
     let showsStroke: Bool
     let strokeColor: Color
     let strokeWidth: CGFloat
@@ -35,6 +37,8 @@ struct SettingsNotchPreview<Overlay: View>: View {
         topCornerRadius: CGFloat = 9,
         bottomCornerRadius: CGFloat = 13,
         backgroundStyle: NotchBackgroundStyle = .black,
+        isDynamicIsland: Bool = false,
+        dynamicIslandCornerRadius: CGFloat = 0,
         showsStroke: Bool = true,
         strokeColor: Color = .green.opacity(0.3),
         strokeWidth: CGFloat = 1.5,
@@ -51,6 +55,8 @@ struct SettingsNotchPreview<Overlay: View>: View {
         self.topCornerRadius = topCornerRadius
         self.bottomCornerRadius = bottomCornerRadius
         self.backgroundStyle = backgroundStyle
+        self.isDynamicIsland = isDynamicIsland
+        self.dynamicIslandCornerRadius = dynamicIslandCornerRadius
         self.showsStroke = showsStroke
         self.strokeColor = strokeColor
         self.strokeWidth = strokeWidth
@@ -116,6 +122,8 @@ struct SettingsNotchPreview<Overlay: View>: View {
             style: backgroundStyle,
             topCornerRadius: topCornerRadius,
             bottomCornerRadius: bottomCornerRadius,
+            isDynamicIsland: isDynamicIsland,
+            dynamicIslandCornerRadius: dynamicIslandCornerRadius,
             strokeColor: showsStroke ? strokeColor : .clear,
             strokeWidth: strokeWidth
         )

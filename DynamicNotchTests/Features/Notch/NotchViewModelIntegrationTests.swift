@@ -1203,4 +1203,75 @@ final class NotchViewModelIntegrationTests: XCTestCase {
         let isExpanded = await MainActor.run { viewModel.notchModel.isLiveActivityExpanded }
         XCTAssertFalse(isExpanded)
     }
+
+    @MainActor
+    func testUpdateDimensionsSetsTopInset() {
+        let settings = TestNotchSettings()
+        let viewModel = NotchViewModel(
+            settings: settings,
+            screenMetricsProvider: { _ in
+                (width: 1440, topInset: 42, notchSize: nil)
+            }
+        )
+        TestLifetime.retain(viewModel)
+
+        XCTAssertEqual(viewModel.topInset, 42, accuracy: 0.001)
+
+        let viewModelNoNotch = NotchViewModel(
+            settings: settings,
+            screenMetricsProvider: { _ in
+                (width: 1440, topInset: 0, notchSize: nil)
+            }
+        )
+        TestLifetime.retain(viewModelNoNotch)
+
+        XCTAssertEqual(viewModelNoNotch.topInset, 0, accuracy: 0.001)
+    }
+
+    @MainActor
+    func testDynamicIslandCornerRadiusCoefficients() async {
+        let settings = TestNotchSettings()
+        let viewModel = NotchViewModel(
+            settings: settings,
+            hideDelay: 0.05,
+            queueDelay: 0,
+            screenMetricsProvider: { _ in
+                (width: 1440, topInset: 0, notchSize: nil)
+            }
+        )
+        TestLifetime.retain(viewModel)
+
+        // 1. In collapsed state, should be height * 0.5
+        let collapsedRadius = viewModel.dynamicIslandCornerRadius
+        let collapsedHeight = viewModel.presentedNotchSize.height
+        XCTAssertEqual(collapsedRadius, collapsedHeight * 0.5, accuracy: 0.001)
+
+        // Send expandable content and expand it
+        viewModel.send(
+            .showLiveActivity(
+                TestNotchContent(
+                    id: "expandable",
+                    priority: 10,
+                    isExpandable: true,
+                    expandedWidthOffset: 140,
+                    expandedHeightOffset: 80
+                )
+            )
+        )
+
+        await assertEventually {
+            await MainActor.run { viewModel.notchModel.liveActivityContent?.id == "expandable" }
+        }
+
+        viewModel.handleActiveContentTap()
+
+        await assertEventually {
+            await MainActor.run { viewModel.isDisplayingExpandedLiveActivity }
+        }
+
+        // 2. In expanded state, should be height * 0.16
+        let expandedRadius = viewModel.dynamicIslandCornerRadius
+        let expandedHeight = viewModel.presentedNotchSize.height
+        XCTAssertEqual(expandedRadius, expandedHeight * 0.16, accuracy: 0.001)
+    }
 }

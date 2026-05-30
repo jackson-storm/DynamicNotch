@@ -17,6 +17,7 @@ struct NotchModel: Equatable {
     var baseWidth: CGFloat = 190
     var baseHeight: CGFloat = 38
     var scale: CGFloat = 1.0
+    var isDynamicIsland = false
     
     var isPresentingExpandedLiveActivity: Bool {
         temporaryNotificationContent == nil &&
@@ -36,14 +37,23 @@ struct NotchModel: Equatable {
 
     var size: CGSize {
         if let temporaryNotificationContent {
+            if isDynamicIsland, let customizable = temporaryNotificationContent as? DynamicIslandCustomizable {
+                return customizable.dynamicIslandSize(baseWidth: baseWidth, baseHeight: baseHeight)
+            }
             return temporaryNotificationContent.size(baseWidth: baseWidth, baseHeight: baseHeight)
         }
 
         if let liveActivityContent {
             if isPresentingExpandedLiveActivity {
+                if isDynamicIsland, let customizable = liveActivityContent as? DynamicIslandCustomizable {
+                    return customizable.expandedDynamicIslandSize(baseWidth: baseWidth, baseHeight: baseHeight)
+                }
                 return liveActivityContent.expandedSize(baseWidth: baseWidth, baseHeight: baseHeight)
             }
 
+            if isDynamicIsland, let customizable = liveActivityContent as? DynamicIslandCustomizable {
+                return customizable.dynamicIslandSize(baseWidth: baseWidth, baseHeight: baseHeight)
+            }
             return liveActivityContent.size(baseWidth: baseWidth, baseHeight: baseHeight)
         }
 

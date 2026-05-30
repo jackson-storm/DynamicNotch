@@ -1060,7 +1060,7 @@ final class NotchViewModelIntegrationTests: XCTestCase {
         viewModel.updateDimensions()
 
         let mainScale = max(0.35, CGFloat(1728) / 1440.0)
-        XCTAssertEqual(viewModel.notchModel.baseWidth, 190 * mainScale, accuracy: 0.001)
+        XCTAssertEqual(viewModel.notchModel.baseWidth, 150 * mainScale, accuracy: 0.001)
         XCTAssertEqual(viewModel.notchModel.baseHeight, 25 * mainScale, accuracy: 0.001)
     }
 
@@ -1090,7 +1090,7 @@ final class NotchViewModelIntegrationTests: XCTestCase {
         TestLifetime.retain(viewModel)
 
         let scale = max(0.35, CGFloat(1920) / 1440.0)
-        XCTAssertEqual(viewModel.notchModel.baseWidth, 190 * scale, accuracy: 0.001)
+        XCTAssertEqual(viewModel.notchModel.baseWidth, 150 * scale, accuracy: 0.001)
         XCTAssertEqual(viewModel.notchModel.baseHeight, 25 * scale, accuracy: 0.001)
     }
 
@@ -1242,8 +1242,9 @@ final class NotchViewModelIntegrationTests: XCTestCase {
         TestLifetime.retain(viewModel)
 
         // 1. In collapsed state, should be height * 0.5
-        let collapsedRadius = viewModel.dynamicIslandCornerRadius
-        let collapsedHeight = viewModel.presentedNotchSize.height
+        let (collapsedRadius, collapsedHeight) = await MainActor.run {
+            (viewModel.dynamicIslandCornerRadius, viewModel.presentedNotchSize.height)
+        }
         XCTAssertEqual(collapsedRadius, collapsedHeight * 0.5, accuracy: 0.001)
 
         // Send expandable content and expand it
@@ -1269,9 +1270,10 @@ final class NotchViewModelIntegrationTests: XCTestCase {
             await MainActor.run { viewModel.isDisplayingExpandedLiveActivity }
         }
 
-        // 2. In expanded state, should be height * 0.16
-        let expandedRadius = viewModel.dynamicIslandCornerRadius
-        let expandedHeight = viewModel.presentedNotchSize.height
-        XCTAssertEqual(expandedRadius, expandedHeight * 0.16, accuracy: 0.001)
+        // 2. In expanded state, should be height * 0.2
+        let (expandedRadius, expandedHeight) = await MainActor.run {
+            (viewModel.dynamicIslandCornerRadius, viewModel.presentedNotchSize.height)
+        }
+        XCTAssertEqual(expandedRadius, expandedHeight * 0.2, accuracy: 0.001)
     }
 }

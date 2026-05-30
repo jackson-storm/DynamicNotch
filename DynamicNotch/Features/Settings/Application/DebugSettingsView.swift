@@ -600,7 +600,7 @@ struct DebugActionRow: View {
 
 // Wraps preview content in a debug-only identity so the sequence does not evict
 // the app's real live activities that reuse the same content types.
-struct DebugSequenceNotchContent: NotchContentProtocol {
+struct DebugSequenceNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     let id: String
     let priority: Int
     let base: any NotchContentProtocol
@@ -617,6 +617,20 @@ struct DebugSequenceNotchContent: NotchContentProtocol {
     func expandedSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         base.expandedSize(baseWidth: baseWidth, baseHeight: baseHeight)
     }
+
+    func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
+        if let customizable = base as? DynamicIslandCustomizable {
+            return customizable.dynamicIslandSize(baseWidth: baseWidth, baseHeight: baseHeight)
+        }
+        return base.size(baseWidth: baseWidth, baseHeight: baseHeight)
+    }
+
+    func expandedDynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
+        if let customizable = base as? DynamicIslandCustomizable {
+            return customizable.expandedDynamicIslandSize(baseWidth: baseWidth, baseHeight: baseHeight)
+        }
+        return base.expandedSize(baseWidth: baseWidth, baseHeight: baseHeight)
+    }
     
     func cornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
         base.cornerRadius(baseRadius: baseRadius)
@@ -624,6 +638,20 @@ struct DebugSequenceNotchContent: NotchContentProtocol {
     
     func expandedCornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
         base.expandedCornerRadius(baseRadius: baseRadius)
+    }
+    
+    func dynamicIslandCornerRadius(baseHeight: CGFloat) -> CGFloat {
+        if let customizable = base as? DynamicIslandCustomizable {
+            return customizable.dynamicIslandCornerRadius(baseHeight: baseHeight)
+        }
+        return baseHeight * 0.5
+    }
+    
+    func expandedDynamicIslandCornerRadius(baseHeight: CGFloat) -> CGFloat {
+        if let customizable = base as? DynamicIslandCustomizable {
+            return customizable.expandedDynamicIslandCornerRadius(baseHeight: baseHeight)
+        }
+        return baseHeight * 0.2
     }
     
     @MainActor

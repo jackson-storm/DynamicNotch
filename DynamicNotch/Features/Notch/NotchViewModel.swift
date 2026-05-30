@@ -235,10 +235,17 @@ final class NotchViewModel: ObservableObject {
     }
     
     var dynamicIslandCornerRadius: CGFloat {
+        let height = presentedNotchSize.height
         if isDisplayingExpandedLiveActivity {
-            return presentedNotchSize.height * 0.2
+            if let customizable = displayedContent as? DynamicIslandCustomizable {
+                return customizable.expandedDynamicIslandCornerRadius(baseHeight: height)
+            }
+            return height * 0.2
         } else {
-            return presentedNotchSize.height * 0.5
+            if let customizable = displayedContent as? DynamicIslandCustomizable {
+                return customizable.dynamicIslandCornerRadius(baseHeight: height)
+            }
+            return height * 0.5
         }
     }
     
@@ -310,17 +317,27 @@ final class NotchViewModel: ObservableObject {
         let widthOffset = CGFloat(settings.notchWidth)
         let heightOffset = CGFloat(settings.notchHeight)
         
+        let isDynamicIsland = screenMetrics.topInset == 0
+        
         if let notchSize = screenMetrics.notchSize {
+            let baseWidth = notchSize.width + 14.scaled(by: scale) + widthOffset
+            let finalWidth = isDynamicIsland ? baseWidth * 0.85 : baseWidth
+            
             engine.updateBaseGeometry(
-                width: notchSize.width + 14.scaled(by: scale) + widthOffset,
+                width: finalWidth,
                 height: notchSize.height + heightOffset,
-                scale: scale
+                scale: scale,
+                isDynamicIsland: isDynamicIsland
             )
+            
         } else {
+            let baseWidthValue: CGFloat = isDynamicIsland ? 110 : 190
+            
             engine.updateBaseGeometry(
-                width: (190 * scale) + widthOffset,
+                width: (baseWidthValue * scale) + widthOffset,
                 height: (25 * scale) + heightOffset,
-                scale: scale
+                scale: scale,
+                isDynamicIsland: isDynamicIsland
             )
         }
     }

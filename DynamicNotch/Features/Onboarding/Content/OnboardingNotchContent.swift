@@ -11,7 +11,7 @@ enum OnboardingEvent: Equatable {
     case onboarding
 }
 
-struct OnboardingNotchContent : NotchContentProtocol {
+struct OnboardingNotchContent : NotchContentProtocol, DynamicIslandCustomizable {
     let id: String
     
     let stackID = OnboardingSteps.stackID

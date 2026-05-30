@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ScreenRecordingView: View {
     @Environment(\.notchScale) private var scale
+    @Environment(\.isDynamicIsland) private var isDynamicIsland
     @State private var isBlinking = false
 
     var body: some View {
@@ -20,8 +21,8 @@ struct ScreenRecordingView: View {
 
             Spacer()
         }
-        .padding(.vertical, 10)
-        .padding(.horizontal, 16.scaled(by: scale))
+        .padding(.vertical, isDynamicIsland ? 0 : 10)
+        .padding(.horizontal, isDynamicIsland ? 10.scaled(by: scale) : 16.scaled(by: scale))
         .onAppear {
             withAnimation(.easeInOut(duration: 1).repeatForever(autoreverses: true)) {
                 isBlinking = true

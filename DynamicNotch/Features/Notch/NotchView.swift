@@ -187,9 +187,11 @@ private extension NotchView {
     var contentOverlayWrapped: some View {
         if notchViewModel.topInset == 0 {
             contentOverlay
+                .environment(\.isDynamicIsland, true)
                 .clipShape(DynamicIslandShape(cornerRadius: notchViewModel.dynamicIslandCornerRadius))
         } else {
             contentOverlay
+                .environment(\.isDynamicIsland, false)
                 .clipShape(
                     NotchShape(
                         topCornerRadius: notchViewModel.interactiveCornerRadius.top,

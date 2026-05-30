@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct TimerCompactIndicatorView: View {
+    @Environment(\.isDynamicIsland) private var isDynamicIsland
     let snapshot: ClockTimerSnapshot
-
     private var lineWidth: CGFloat { 2.5 }
 
     var body: some View {
@@ -40,7 +40,7 @@ struct TimerCompactIndicatorView: View {
                     .offset(x: 3.5)
                     .rotationEffect(angle)
             }
-            .frame(width: 20, height: 20)
+            .frame(width: isDynamicIsland ? 18 : 20, height: isDynamicIsland ? 18 : 20)
         }
     }
 

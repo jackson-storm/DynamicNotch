@@ -7,12 +7,11 @@
 
 import SwiftUI
 
-struct HotspotActiveContent: NotchContentProtocol {
+struct HotspotActiveContent: NotchContentProtocol, DynamicIslandCustomizable {
     let id = NotchContentRegistry.Network.hotspot.id
-    
     let settingsViewModel: SettingsViewModel
-    private var appearanceStyle: HotspotAppearanceStyle { settingsViewModel.connectivity.hotspotAppearanceStyle}
     
+    var appearanceStyle: HotspotAppearanceStyle { settingsViewModel.connectivity.hotspotAppearanceStyle}
     var priority: Int { NotchContentRegistry.Network.hotspot.priority }
     var strokeColor: Color {
         settingsViewModel.isDefaultActivityStrokeEnabled || settingsViewModel.connectivity.isHotspotDefaultStrokeEnabled ?
@@ -21,8 +20,11 @@ struct HotspotActiveContent: NotchContentProtocol {
     }
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        let width = appearanceStyle == .minimal ? 80 : 80
-        return .init(width: baseWidth + CGFloat(width), height: baseHeight)
+        return .init(width: baseWidth + 80, height: baseHeight)
+    }
+    
+    func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
+        return .init(width: baseWidth + 60, height: baseHeight)
     }
     
     @MainActor

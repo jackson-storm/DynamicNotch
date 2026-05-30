@@ -378,6 +378,7 @@ private struct LockScreenLiveActivityOverlayView: View {
         notchSurface
             .overlay {
                 contentOverlay
+                    .environment(\.isDynamicIsland, notchViewModel.topInset == 0)
                     .clipShape(Rectangle())
             }
             .environment(\.colorScheme, .dark)

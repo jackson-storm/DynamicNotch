@@ -11,9 +11,18 @@ struct NotchScaleKey: EnvironmentKey {
     static let defaultValue: CGFloat = 1.0
 }
 
+struct IsDynamicIslandKey: EnvironmentKey {
+    static let defaultValue: Bool = false
+}
+
 extension EnvironmentValues {
     var notchScale: CGFloat {
         get { self[NotchScaleKey.self] }
         set { self[NotchScaleKey.self] = newValue }
+    }
+    
+    var isDynamicIsland: Bool {
+        get { self[IsDynamicIslandKey.self] }
+        set { self[IsDynamicIslandKey.self] = newValue }
     }
 }

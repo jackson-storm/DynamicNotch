@@ -10,6 +10,7 @@ import Combine
 
 struct VpnConnectedNotchView: View {
     @Environment(\.notchScale) private var scale
+    @Environment(\.isDynamicIsland) private var isDynamicIsland
     @ObservedObject var networkViewModel: NetworkViewModel
     @ObservedObject var settings: ConnectivitySettingsStore
     
@@ -50,9 +51,9 @@ struct VpnConnectedNotchView: View {
     private var compactView: some View {
         HStack {
             ZStack {
-                RoundedRectangle(cornerRadius: 6)
+                RoundedRectangle(cornerRadius: isDynamicIsland ? 30 : 6)
                     .fill(Color.accentColor.gradient)
-                    .frame(width: 24, height: 24)
+                    .frame(width: isDynamicIsland ? 40 : 24, height: isDynamicIsland ? 20 : 24)
                 
                 Image(systemName: "network.badge.shield.half.filled")
                     .font(.system(size: 14, weight: .semibold))
@@ -63,9 +64,9 @@ struct VpnConnectedNotchView: View {
             Text(verbatim: "Active")
                 .foregroundStyle(.white.opacity(0.8))
         }
-        .padding(.leading, 14.scaled(by: scale))
-        .padding(.trailing, 16.scaled(by: scale))
-        .padding(.vertical, 10)
+        .padding(.leading, isDynamicIsland ? 4.scaled(by: scale) : 14.scaled(by: scale))
+        .padding(.trailing, isDynamicIsland ? 8.scaled(by: scale) : 16.scaled(by: scale))
+        .padding(.vertical, isDynamicIsland ? 0 : 10)
     }
     
     @ViewBuilder
@@ -113,7 +114,7 @@ struct VpnConnectedNotchView: View {
                     }
             }
         }
-        .padding(.horizontal, 36)
+        .padding(.horizontal, isDynamicIsland ? 20 : 36)
         .padding(.vertical, 10)
     }
 }

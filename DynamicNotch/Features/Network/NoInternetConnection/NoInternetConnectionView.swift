@@ -26,8 +26,8 @@ struct NoInternetConnectionView: View {
 
             actionButton
         }
-        .padding(.horizontal, isDynamicIsland ? 15 : 35)
-        .padding(.bottom, isDynamicIsland ? 15 : 10)
+        .padding(.horizontal, isDynamicIsland ? 10 : 35)
+        .padding(.bottom, 10)
     }
 
     @ViewBuilder

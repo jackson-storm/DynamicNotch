@@ -9,6 +9,7 @@ import SwiftUI
 
 struct OnboardingNotchView: View {
     @Environment(\.openURL) private var openURL
+    @Environment(\.isDynamicIsland) private var isDynamicIsland
     
     let step: OnboardingSteps
     let onStepChange: (OnboardingSteps) -> Void
@@ -21,7 +22,7 @@ struct OnboardingNotchView: View {
             buttons
         }
         .animation(.spring(duration: 0.4), value: step)
-        .padding(.horizontal, 35)
+        .padding(.horizontal, isDynamicIsland ? 12 : 35)
         .padding(.bottom, 10)
     }
     

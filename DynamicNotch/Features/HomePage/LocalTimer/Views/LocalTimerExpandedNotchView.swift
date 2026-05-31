@@ -2,20 +2,22 @@ import SwiftUI
 
 struct LocalTimerExpandedNotchView: View {
     @ObservedObject var localTimerViewModel: LocalTimerViewModel
+    @Environment(\.isDynamicIsland) var isDynamicIsland
     
     var body: some View {
         VStack {
-            Spacer()
-            
+            if !isDynamicIsland {
+                Spacer()
+            }
             HStack {
                 leftContent
                 Spacer()
                 rightContent
             }
         }
-        .padding(.horizontal, 32)
+        .padding(.horizontal, isDynamicIsland ? 20 : 32)
         .padding(.trailing, 3)
-        .padding(.bottom, 12)
+        .padding(.bottom, isDynamicIsland ? 0 : 12)
     }
     
     private var leftContent: some View {

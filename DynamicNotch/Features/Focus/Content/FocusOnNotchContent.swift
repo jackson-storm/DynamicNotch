@@ -7,15 +7,14 @@
 
 import SwiftUI
 
-struct FocusOnNotchContent: NotchContentProtocol {
+struct FocusOnNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     let id = NotchContentRegistry.Focus.active.id
     let settingsViewModel: SettingsViewModel
     let focusModeType: FocusModeType
 
-    private var appearanceStyle: FocusAppearanceStyle {
+    var appearanceStyle: FocusAppearanceStyle {
         settingsViewModel.connectivity.focusAppearanceStyle
     }
-    
     var priority: Int { NotchContentRegistry.Focus.active.priority }
     var strokeColor: Color {
         settingsViewModel.isDefaultActivityStrokeEnabled || settingsViewModel.connectivity.isFocusDefaultStrokeEnabled ?
@@ -24,10 +23,11 @@ struct FocusOnNotchContent: NotchContentProtocol {
     }
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        return .init(
-            width: baseWidth + (appearanceStyle == .standard ? 65 : 65),
-            height: baseHeight
-        )
+        return .init(width: baseWidth + 65, height: baseHeight)
+    }
+    
+    func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
+        return .init(width: baseWidth + 50, height: baseHeight)
     }
     
     @MainActor

@@ -3,12 +3,13 @@ internal import EventKit
 
 struct CalendarMinimalNotchView: View {
     @Environment(\.notchScale) private var notchScale
+    @Environment(\.isDynamicIsland) private var isDynamicIsland
     @ObservedObject var calendarViewModel: CalendarViewModel
     
     var body: some View {
         HStack {
             Image(systemName: "calendar")
-                .font(.system(size: 20, weight: .bold))
+                .font(.system(size: isDynamicIsland ? 16 : 20, weight: .bold))
                 .foregroundColor(.white)
             
             Spacer()
@@ -20,6 +21,6 @@ struct CalendarMinimalNotchView: View {
                     .monospacedDigit()
             }
         }
-        .padding(.horizontal, 14.scaled(by: notchScale))
+        .padding(.horizontal, isDynamicIsland ? 8.scaled(by: notchScale) :14.scaled(by: notchScale))
     }
 }

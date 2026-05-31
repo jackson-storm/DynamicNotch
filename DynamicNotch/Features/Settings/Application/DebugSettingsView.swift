@@ -664,42 +664,4 @@ struct DebugSequenceNotchContent: NotchContentProtocol, DynamicIslandCustomizabl
         base.makeExpandedView()
     }
 }
-
-struct DebugOnboardingPreviewNotchContent: NotchContentProtocol {
-    let id: String
-    let stackID = NotchContentRegistry.Onboarding.debugStackID
-    let step: OnboardingSteps
-    let notchEventCoordinator: NotchEventCoordinator
-    
-    var priority: Int { NotchContentRegistry.Onboarding.priority }
-    
-    init(step: OnboardingSteps, notchEventCoordinator: NotchEventCoordinator) {
-        self.id = step.debugLiveActivityID
-        self.step = step
-        self.notchEventCoordinator = notchEventCoordinator
-    }
-    
-    func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        step.notchSize(baseWidth: baseWidth, baseHeight: baseHeight)
-    }
-    
-    func cornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
-        return (top: 24, bottom: 36)
-    }
-    
-    @MainActor
-    func makeView() -> AnyView {
-        AnyView(
-            OnboardingNotchView(
-                step: step,
-                onStepChange: { nextStep in
-                    notchEventCoordinator.showDebugOnboardingPreview(step: nextStep)
-                },
-                onFinish: {
-                    notchEventCoordinator.hideOnboarding()
-                }
-            )
-        )
-    }
-}
 #endif

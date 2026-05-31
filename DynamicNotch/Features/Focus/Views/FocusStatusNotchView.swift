@@ -27,6 +27,7 @@ struct FocusOffNotchView: View {
 
 private struct FocusStatusNotchView: View {
     @Environment(\.notchScale) var scale
+    @Environment(\.isDynamicIsland) var isDynamicIsland
 
     let title: String
     let tint: Color
@@ -35,19 +36,20 @@ private struct FocusStatusNotchView: View {
 
     var body: some View {
         Group {
-            if style == .iconsOnly {
+            switch style {
+            case .iconsOnly:
                 HStack {
                     Image(systemName: icon)
                         .font(.system(size: 16, weight: .bold))
 
-                    Spacer(minLength: 0)
+                    Spacer()
                 }
-            } else {
+            case .standard:
                 HStack {
                     Image(systemName: icon)
                         .font(.system(size: 16, weight: .bold))
 
-                    Spacer(minLength: 10)
+                    Spacer()
 
                     Text(verbatim: title)
                         .font(.system(size: 14))
@@ -56,6 +58,6 @@ private struct FocusStatusNotchView: View {
             }
         }
         .foregroundStyle(tint)
-        .padding(.horizontal, 14.scaled(by: scale))
+        .padding(.horizontal, isDynamicIsland ? 6.scaled(by: scale) : 14.scaled(by: scale))
     }
 }

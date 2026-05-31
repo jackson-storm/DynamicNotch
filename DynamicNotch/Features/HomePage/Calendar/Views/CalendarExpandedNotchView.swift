@@ -2,9 +2,10 @@ import SwiftUI
 internal import EventKit
 
 struct CalendarExpandedNotchView: View {
-    let notchViewModel: NotchViewModel
-    
     @ObservedObject var calendarViewModel: CalendarViewModel
+    @Environment(\.isDynamicIsland) private var isDynamicIsland
+    
+    let notchViewModel: NotchViewModel
     
     var body: some View {
         VStack {
@@ -22,9 +23,9 @@ struct CalendarExpandedNotchView: View {
                     .foregroundColor(.gray.opacity(0.6))
             }
         }
-        .padding(.leading, 48)
-        .padding(.trailing, 45)
-        .padding(.bottom, 18)
+        .padding(.leading, isDynamicIsland ? 30 : 48)
+        .padding(.trailing, isDynamicIsland ? 30 : 45)
+        .padding(.bottom, isDynamicIsland ? 20 : 18)
     }
     
     @ViewBuilder

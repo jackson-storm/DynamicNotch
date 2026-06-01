@@ -44,6 +44,8 @@ struct ArtworkView: View {
             if let artworkImage = nowPlayingViewModel.artworkImage {
                 Image(nsImage: artworkImage)
                     .resizable()
+                    .interpolation(.high)
+                    .antialiased(true)
                     .scaledToFill()
             } else {
                 RoundedRectangle(cornerRadius: cornerRadius)

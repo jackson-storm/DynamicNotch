@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AirDropNotchView: View {
     @ObservedObject var airDropViewModel: AirDropNotchViewModel
+    
     let targetColorStyle: DragAndDropTargetColorStyle
     
     var body: some View {

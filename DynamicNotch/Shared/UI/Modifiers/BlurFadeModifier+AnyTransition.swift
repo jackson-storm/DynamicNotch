@@ -88,24 +88,24 @@ extension AnyTransition {
         return .asymmetric(
             insertion: .modifier(
                 active: DynamicIslandTransitionModifier(
-                    blur: 40,
+                    blur: 20,
                     opacity: 0,
                     offsetX: horizontalOffset,
                     offsetY: verticalOffset,
-                    scaleX: 0.4,
-                    scaleY: 0.6,
+                    scaleX: 0.2,
+                    scaleY: 0.2,
                     anchor: .center
                 ),
                 identity: DynamicIslandTransitionModifier(anchor: .center)
             ),
             removal: .modifier(
                 active: DynamicIslandTransitionModifier(
-                    blur: 40,
+                    blur: 20,
                     opacity: 0,
                     offsetX: removalHorizontalOffset,
                     offsetY: verticalOffset,
-                    scaleX: 0.4,
-                    scaleY: 0.6,
+                    scaleX: 0.2,
+                    scaleY: 0.2,
                     anchor: .center
                 ),
                 identity: DynamicIslandTransitionModifier(anchor: .center)
@@ -130,7 +130,7 @@ extension AnyTransition {
                     offsetX: horizontalOffset,
                     offsetY: verticalOffset / 3,
                     scaleX: 0.4,
-                    scaleY: 0.6,
+                    scaleY: 0.2,
                     anchor: .top
                 ),
                 identity: DynamicIslandTransitionModifier(anchor: .top)
@@ -142,7 +142,7 @@ extension AnyTransition {
                     offsetX: horizontalOffset,
                     offsetY: verticalOffset / 3,
                     scaleX: 0.4,
-                    scaleY: 0.6,
+                    scaleY: 0.2,
                     anchor: .top
                 ),
                 identity: DynamicIslandTransitionModifier(anchor: .top)

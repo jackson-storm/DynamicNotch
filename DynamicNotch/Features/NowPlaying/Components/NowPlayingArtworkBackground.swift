@@ -28,6 +28,8 @@ struct NowPlayingArtworkBackground: View {
                 if let artworkImage {
                     Image(nsImage: artworkImage)
                         .resizable()
+                        .interpolation(.high)
+                        .antialiased(true)
                         .scaledToFill()
                         .frame(
                             width: proxy.size.width + blurRadius,

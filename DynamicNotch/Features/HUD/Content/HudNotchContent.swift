@@ -6,7 +6,7 @@ enum HudEvent: Equatable {
     case volume(Int)
 }
 
-struct HudNotchContent: NotchContentProtocol {
+struct HudNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     var id: String { kind.sharedContentID }
     var priority: Int { NotchContentPriority.default }
 
@@ -44,6 +44,10 @@ struct HudNotchContent: NotchContentProtocol {
 
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         .init(width: baseWidth + widthOffset, height: baseHeight)
+    }
+    
+    func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
+        .init(width: baseWidth + widthOffset - 30, height: baseHeight)
     }
 
     @MainActor

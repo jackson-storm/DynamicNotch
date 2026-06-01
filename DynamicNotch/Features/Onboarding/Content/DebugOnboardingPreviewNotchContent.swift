@@ -1,27 +1,23 @@
 //
-//  OnboardingView.swift
+//  DebugOnboardingPreviewNotchContent.swift
 //  DynamicNotch
 //
-//  Created by Евгений Петрукович on 2/20/26.
+//  Created by Евгений Петрукович on 5/31/26.
 //
 
 import SwiftUI
 
-enum OnboardingEvent: Equatable {
-    case onboarding
-}
-
-struct OnboardingNotchContent : NotchContentProtocol, DynamicIslandCustomizable {
+#if DEBUG
+struct DebugOnboardingPreviewNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     let id: String
-    
-    let stackID = OnboardingSteps.stackID
+    let stackID = NotchContentRegistry.Onboarding.debugStackID
     let step: OnboardingSteps
     let notchEventCoordinator: NotchEventCoordinator
     
     var priority: Int { NotchContentRegistry.Onboarding.priority }
     
     init(step: OnboardingSteps, notchEventCoordinator: NotchEventCoordinator) {
-        self.id = step.liveActivityID
+        self.id = step.debugLiveActivityID
         self.step = step
         self.notchEventCoordinator = notchEventCoordinator
     }
@@ -39,7 +35,7 @@ struct OnboardingNotchContent : NotchContentProtocol, DynamicIslandCustomizable 
     }
     
     func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        step.notchSize(baseWidth: baseWidth, baseHeight: baseHeight)
+        step.dynamicIslandSize(baseWidth: baseWidth, baseHeight: baseHeight)
     }
     
     @MainActor
@@ -48,12 +44,13 @@ struct OnboardingNotchContent : NotchContentProtocol, DynamicIslandCustomizable 
             OnboardingNotchView(
                 step: step,
                 onStepChange: { nextStep in
-                    notchEventCoordinator.showOnboarding(step: nextStep)
+                    notchEventCoordinator.showDebugOnboardingPreview(step: nextStep)
                 },
                 onFinish: {
-                    notchEventCoordinator.finishOnboarding()
+                    notchEventCoordinator.hideOnboarding()
                 }
             )
         )
     }
 }
+#endif

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct WifiConnectedNotchView: View {
     @Environment(\.notchScale) var scale
+    @Environment(\.isDynamicIsland) var isDynamicIsland
     @ObservedObject var networkViewModel: NetworkViewModel
     
     var body: some View {
@@ -22,8 +23,8 @@ struct WifiConnectedNotchView: View {
                 .foregroundStyle(.white.opacity(0.8))
         }
         .font(.system(size: 14))
-        .padding(.horizontal, 16.scaled(by: scale))
-        .padding(.vertical, 10)
+        .padding(.horizontal, isDynamicIsland ? 8.scaled(by: scale) : 16.scaled(by: scale))
+        .padding(.vertical, isDynamicIsland ? 0 : 10)
     }
 }
 
@@ -37,7 +38,7 @@ private struct AnimatedWifiIcon: View {
         Image(systemName: "wifi", variableValue: signalLevel)
             .font(.system(size: 18, weight: .semibold))
             .symbolRenderingMode(.hierarchical)
-            .foregroundStyle(Color.accentColor.gradient)
+            .foregroundStyle(Color.white)
             .animation(.snappy(duration: 0.22, extraBounce: 0.08), value: signalLevel)
             .onAppear {
                 startAnimation()

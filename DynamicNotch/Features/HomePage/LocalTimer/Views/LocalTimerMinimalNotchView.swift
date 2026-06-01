@@ -2,6 +2,7 @@ import SwiftUI
 
 struct LocalTimerMinimalNotchView: View {
     @Environment(\.notchScale) private var scale
+    @Environment(\.isDynamicIsland) private var isDynamicIsland
     @ObservedObject var viewModel: LocalTimerViewModel
 
     var body: some View {
@@ -12,6 +13,7 @@ struct LocalTimerMinimalNotchView: View {
                 .foregroundStyle(.orange)
         }
         .padding(.vertical, 10)
-        .padding(.horizontal, 14.scaled(by: scale))
+        .padding(.leading, isDynamicIsland ? 5.scaled(by: scale) : 14.scaled(by: scale))
+        .padding(.trailing, isDynamicIsland ? 8.scaled(by: scale) : 14.scaled(by: scale))
     }
 }

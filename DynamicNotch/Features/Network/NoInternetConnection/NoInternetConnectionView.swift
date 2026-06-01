@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct NoInternetConnectionView: View {
+    @Environment(\.isDynamicIsland) var isDynamicIsland
+    
     let onDismiss: @MainActor () -> Void
     let onOpenNetworkSettings: @MainActor () -> Void
 
@@ -24,7 +26,7 @@ struct NoInternetConnectionView: View {
 
             actionButton
         }
-        .padding(.horizontal, 35)
+        .padding(.horizontal, isDynamicIsland ? 10 : 35)
         .padding(.bottom, 10)
     }
 

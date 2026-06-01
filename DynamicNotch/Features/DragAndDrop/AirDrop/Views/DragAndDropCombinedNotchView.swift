@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct DragAndDropCombinedNotchView: View {
+    @Environment(\.isDynamicIsland) private var isDynamicIsland
     @ObservedObject var airDropViewModel: AirDropNotchViewModel
     
     let isMotionAnimationEnabled: Bool
@@ -24,7 +25,7 @@ struct DragAndDropCombinedNotchView: View {
     private var motionLayout: some View {
         GeometryReader { proxy in
             let spacing = AirDropDropZoneMetrics.combinedSpacing
-            let horizontalPadding = AirDropDropZoneMetrics.horizontalPadding
+            let horizontalPadding = isDynamicIsland ? 10 : AirDropDropZoneMetrics.horizontalPadding
             let targets = DragAndDropActivityMode.combined.targets
             let availableWidth = max(proxy.size.width - (horizontalPadding * 2) - (spacing * CGFloat(targets.count - 1)), 0)
             let targetedDropTarget = airDropViewModel.targetedDropTarget
@@ -54,7 +55,7 @@ struct DragAndDropCombinedNotchView: View {
                 }
             }
             .padding(.horizontal, horizontalPadding)
-            .padding(.vertical, AirDropDropZoneMetrics.verticalPadding)
+            .padding(.vertical, isDynamicIsland ? 10 : AirDropDropZoneMetrics.verticalPadding)
             .animation(.spring(response: 0.3, dampingFraction: 0.8), value: airDropViewModel.targetedDropTarget)
         }
     }
@@ -78,7 +79,7 @@ struct DragAndDropCombinedNotchView: View {
                 }
             }
         }
-        .padding(.horizontal, AirDropDropZoneMetrics.horizontalPadding)
-        .padding(.vertical, AirDropDropZoneMetrics.verticalPadding)
+        .padding(.horizontal, isDynamicIsland ? 10 : AirDropDropZoneMetrics.horizontalPadding)
+        .padding(.vertical, isDynamicIsland ? 10 : AirDropDropZoneMetrics.verticalPadding)
     }
 }

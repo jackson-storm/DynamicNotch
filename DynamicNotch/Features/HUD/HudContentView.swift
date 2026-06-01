@@ -2,6 +2,7 @@ import SwiftUI
 
 struct HudContentView: View {
     @Environment(\.notchScale) var scale
+    @Environment(\.isDynamicIsland) var isDynamicIsland
     
     let image: String
     let text: String
@@ -10,53 +11,7 @@ struct HudContentView: View {
     let indicatorStyle: HudIndicatorStyle
     let indicatorTintStyle: HudIndicatorTintStyle
     let showsIndicatorGlow: Bool
-    
-    private var barIndicatorWidth: CGFloat {
-        switch style {
-        case .standard:
-            return 50
-        case .compact:
-            return 50
-        case .minimal:
-            return 60
-        }
-    }
-    
-    private var barIndicatorHeight: CGFloat { 6 }
-    
-    private var circleIndicatorSize: CGFloat {
-        switch style {
-        case .standard:
-            return 19
-        case .compact:
-            return 19
-        case .minimal:
-            return 19
-        }
-    }
-
-    private var circleIndicatorLineWidth: CGFloat {
-        switch style {
-        case .standard, .compact:
-            return 3
-        case .minimal:
-            return 3.5
-        }
-    }
-
-    private var clampedLevel: Int { max(0, min(100, level)) }
-    
-    private var horizontalPadding: CGFloat {
-        switch style {
-        case .standard:
-            return 16
-        case .compact:
-            return 14
-        case .minimal:
-            return 14
-        }
-    }
-    
+        
     var body: some View {
         HStack(spacing: 12) {
             switch style {
@@ -77,18 +32,78 @@ struct HudContentView: View {
             case .minimal:
                 icon
                 Spacer()
-                AnimatedLevelText(level: clampedLevel, fontSize: 16)
-                
+                AnimatedLevelText(level: clampedLevel, fontSize: isDynamicIsland ? 14 : 16)
             }
         }
         .padding(.vertical, 10)
-        .padding(.horizontal, horizontalPadding.scaled(by: scale))
+        .padding(.horizontal, indicatorStyle == .circle ? horizontalCirclePadding.scaled(by: scale) : horizontalBarPadding.scaled(by: scale))
     }
     
     private var icon: some View {
         Image(systemName: image)
-            .font(.system(size: 18))
+            .font(.system(size: isDynamicIsland ? 16 : 18))
             .foregroundColor(.white)
+    }
+    
+    private var barIndicatorHeight: CGFloat {
+        6
+    }
+    
+    private var barIndicatorWidth: CGFloat {
+        switch style {
+        case .standard:
+            return 50
+        case .compact:
+            return 50
+        case .minimal:
+            return 60
+        }
+    }
+    
+    private var circleIndicatorSize: CGFloat {
+        switch style {
+        case .standard:
+            return isDynamicIsland ? 16 : 19
+        case .compact:
+            return isDynamicIsland ? 16 : 19
+        case .minimal:
+            return isDynamicIsland ? 16 : 19
+        }
+    }
+
+    private var circleIndicatorLineWidth: CGFloat {
+        switch style {
+        case .standard, .compact:
+            return 3
+        case .minimal:
+            return 3.5
+        }
+    }
+    
+    private var horizontalBarPadding: CGFloat {
+        switch style {
+        case .standard:
+            return isDynamicIsland ? 8 : 16
+        case .compact:
+            return isDynamicIsland ? 8 : 14
+        case .minimal:
+            return isDynamicIsland ? 8 : 14
+        }
+    }
+    
+    private var horizontalCirclePadding: CGFloat {
+        switch style {
+        case .standard:
+            return isDynamicIsland ? 6 : 16
+        case .compact:
+            return isDynamicIsland ? 6 : 14
+        case .minimal:
+            return isDynamicIsland ? 6 : 14
+        }
+    }
+    
+    private var clampedLevel: Int {
+        max(0, min(100, level))
     }
     
     @ViewBuilder

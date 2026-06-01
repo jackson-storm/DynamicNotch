@@ -6,12 +6,12 @@ enum PowerEvent: Equatable {
     case fullPower
 }
 
-struct ChargerNotchContent: NotchContentProtocol {
+struct ChargerNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     let id = NotchContentRegistry.Power.charger.id
-    var priority: Int { NotchContentRegistry.Power.charger.priority }
-    
     let powerService: PowerService
     let settingsViewModel: SettingsViewModel
+    
+    var priority: Int { NotchContentRegistry.Power.charger.priority }
     
     var strokeColor: Color {
         settingsViewModel.isDefaultActivityStrokeEnabled ?
@@ -20,6 +20,10 @@ struct ChargerNotchContent: NotchContentProtocol {
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         return .init(width: baseWidth + 180, height: baseHeight)
+    }
+    
+    func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
+        return .init(width: baseWidth + 150, height: baseHeight)
     }
     
     @MainActor

@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct TimerExpandedNotchView: View {
+    @Environment(\.isDynamicIsland) var isDynamicIsland
     @ObservedObject var timerViewModel: TimerViewModel
     @State private var isControlActionRunning = false
 
@@ -22,17 +23,18 @@ struct TimerExpandedNotchView: View {
 
     var body: some View {
         VStack {
-            Spacer()
-
+            if !isDynamicIsland {
+                Spacer()
+            }
             HStack {
                 leftContent
                 Spacer()
                 rightContent
             }
         }
-        .padding(.horizontal, 32)
+        .padding(.horizontal, isDynamicIsland ? 20 : 32)
         .padding(.trailing, 3)
-        .padding(.bottom, 12)
+        .padding(.bottom, isDynamicIsland ? 0 : 12)
     }
 
     private var leftContent: some View {

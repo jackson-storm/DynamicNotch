@@ -48,6 +48,8 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
 }
 
 struct HomePageNotchView: View {
+    @Environment(\.isDynamicIsland) var isDynamicIsland
+    
     let notchViewModel: NotchViewModel
     let settings: HomePageSettingsStore
     let localTimerViewModel: LocalTimerViewModel
@@ -95,9 +97,9 @@ struct HomePageNotchView: View {
                 )
             }
         }
-        .clipShape(RoundedRectangle(cornerRadius: 26))
-        .padding(.horizontal, horizontalPadding)
-        .padding(.bottom, bottomPadding)
+        .clipShape(RoundedRectangle(cornerRadius: isDynamicIsland ? 24 : 26))
+        .padding(.horizontal, isDynamicIsland ? 10 : 35)
+        .padding(.bottom, 10)
         .onDisappear {
             let activePages = settings.homePageOrder.filter { !settings.homePageDisabled.contains($0) }
             notchViewModel.send(
@@ -123,32 +125,6 @@ struct HomePageNotchView: View {
             LocalTimerSetupNotchView(localTimerViewModel: localTimerViewModel)
         case .calendar:
             CalendarNotchView(calendarViewModel: calendarViewModel, notchViewModel: notchViewModel)
-        }
-    }
-    
-    private var horizontalPadding: CGFloat {
-        switch currentPage {
-        case .camera:
-            35
-        case .localTimer:
-            35
-        case .calendar:
-            35
-        case .none:
-            0
-        }
-    }
-    
-    private var bottomPadding: CGFloat {
-        switch currentPage {
-        case .camera:
-            10
-        case .localTimer:
-            10
-        case .calendar:
-            10
-        case .none:
-            0
         }
     }
 }

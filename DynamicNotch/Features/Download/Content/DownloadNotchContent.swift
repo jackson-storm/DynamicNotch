@@ -7,7 +7,7 @@ enum DownloadEvent: Equatable {
     case stopped
 }
 
-struct DownloadNotchContent: NotchContentProtocol {
+struct DownloadNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     let id = NotchContentRegistry.Media.download.id
     
     let downloadViewModel: DownloadViewModel
@@ -49,6 +49,27 @@ struct DownloadNotchContent: NotchContentProtocol {
     
     func expandedCornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
         (top: 24, bottom: 34)
+    }
+    
+    func expandedDynamicIslandCornerRadius(baseHeight: CGFloat) -> CGFloat {
+        baseHeight * 0.5
+    }
+    
+    func expandedDynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
+        .init(width: baseWidth + 180, height: baseHeight + 65)
+    }
+    
+    func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
+        let width: CGFloat
+
+        switch appearanceStyle {
+        case .minimal:
+            width = indicatorStyle == .circle ? 50 : 70
+        case .detailed:
+            width = 150
+        }
+
+        return .init(width: baseWidth + width, height: baseHeight)
     }
     
     @MainActor

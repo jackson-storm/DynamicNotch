@@ -24,19 +24,6 @@ enum OnboardingSteps: String, Equatable, CaseIterable {
         return allCases.contains(where: { $0.liveActivityID == id })
     }
     
-    #if DEBUG
-    static let debugStackID = NotchContentRegistry.Onboarding.debugStackID
-    
-    var debugLiveActivityID: String {
-        NotchContentRegistry.Onboarding.debugID(forStep: rawValue)
-    }
-    
-    static func containsDebug(id: String?) -> Bool {
-        guard let id else { return false }
-        return allCases.contains(where: { $0.debugLiveActivityID == id })
-    }
-    #endif
-    
     func notchSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         switch self {
         case .first:
@@ -49,4 +36,30 @@ enum OnboardingSteps: String, Equatable, CaseIterable {
             .init(width: baseWidth + 160, height: baseHeight + 140)
         }
     }
+    
+    func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
+        switch self {
+        case .first:
+            .init(width: baseWidth + 100, height: baseHeight + 120)
+        case .second:
+            .init(width: baseWidth + 180, height: baseHeight + 140)
+        case .third:
+            .init(width: baseWidth + 180, height: baseHeight + 140)
+        case .fourth:
+            .init(width: baseWidth + 180, height: baseHeight + 140)
+        }
+    }
+    
+    #if DEBUG
+    static let debugStackID = NotchContentRegistry.Onboarding.debugStackID
+    
+    var debugLiveActivityID: String {
+        NotchContentRegistry.Onboarding.debugID(forStep: rawValue)
+    }
+    
+    static func containsDebug(id: String?) -> Bool {
+        guard let id else { return false }
+        return allCases.contains(where: { $0.debugLiveActivityID == id })
+    }
+    #endif
 }

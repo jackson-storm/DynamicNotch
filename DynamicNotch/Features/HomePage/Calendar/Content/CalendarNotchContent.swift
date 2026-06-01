@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct CalendarNotchContent: NotchContentProtocol {
+struct CalendarNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     let id = NotchContentRegistry.HomePage.calendar.id
     let calendarViewModel: CalendarViewModel
     let notchViewModel: NotchViewModel
@@ -26,6 +26,18 @@ struct CalendarNotchContent: NotchContentProtocol {
         (top: 24, bottom: 40)
     }
     
+    func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
+        .init(width: baseWidth + 90, height: baseHeight)
+    }
+    
+    func expandedDynamicIslandCornerRadius(baseHeight: CGFloat) -> CGFloat {
+        baseHeight * 0.3
+    }
+    
+    func expandedDynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
+        .init(width: baseWidth + 180, height: baseHeight + 85)
+    }
+    
     @MainActor
     func makeView() -> AnyView {
         AnyView(CalendarMinimalNotchView(calendarViewModel: calendarViewModel))
@@ -33,6 +45,6 @@ struct CalendarNotchContent: NotchContentProtocol {
     
     @MainActor
     func makeExpandedView() -> AnyView {
-        AnyView(CalendarExpandedNotchView(notchViewModel: notchViewModel, calendarViewModel: calendarViewModel))
+        AnyView(CalendarExpandedNotchView(calendarViewModel: calendarViewModel, notchViewModel: notchViewModel))
     }
 }

@@ -24,8 +24,6 @@ private enum SwipeFeedbackMetrics {
     static let restoreOpacityReduction: Double = 0.5
 }
 
-
-
 private enum ExpansionTransitionTiming {
     static let preparationDelay: UInt64 = 16_000_000
     static let resetDelay: UInt64 = 120_000_000
@@ -39,6 +37,7 @@ final class NotchViewModel: ObservableObject {
     @Published private(set) var stagedNotchHeight: CGFloat = NotchModel().baseHeight
     @Published private(set) var isExpandingLiveActivityTransition = false
     @Published private(set) var isActivityPresentationHidden = false
+    @Published private(set) var topInset: CGFloat = 0
     
     @Published var isLocked = false
     @Published var isHoveringScrollableContent = false
@@ -233,6 +232,21 @@ final class NotchViewModel: ObservableObject {
         }
     }
     
+    var dynamicIslandCornerRadius: CGFloat {
+        let height = presentedNotchSize.height
+        if isDisplayingExpandedLiveActivity {
+            if let customizable = displayedContent as? DynamicIslandCustomizable {
+                return customizable.expandedDynamicIslandCornerRadius(baseHeight: height)
+            }
+            return height * 0.2
+        } else {
+            if let customizable = displayedContent as? DynamicIslandCustomizable {
+                return customizable.dynamicIslandCornerRadius(baseHeight: height)
+            }
+            return height * 0.5
+        }
+    }
+    
     var contentResizeBlurRadius: CGFloat {
         let progress = easedSwipeStretchProgress
         
@@ -273,16 +287,21 @@ final class NotchViewModel: ObservableObject {
         screenMetricsProvider: (((any NotchSettingsProviding) -> NotchScreenMetrics?))? = nil
     ) {
         self.settings = settings
+        self.screenMetricsProvider = screenMetricsProvider ?? { settings in
+            NSScreen.metrics(for: settings)
+        }
         self.engine = engine ?? NotchEngine(
-            animations: {
-                animations ?? .preset(settings.notchAnimationPreset)
+            animations: { [weak settings] in
+                if let animations {
+                    return animations
+                }
+                guard let settings else { return .default }
+                let isDynamic = NSScreen.metrics(for: settings)?.topInset == 0
+                return .preset(settings.notchAnimationPreset, isDynamicIsland: isDynamic)
             },
             hideDelay: hideDelay,
             queueDelay: queueDelay
         )
-        self.screenMetricsProvider = screenMetricsProvider ?? { settings in
-            NSScreen.metrics(for: settings)
-        }
         updateDimensions()
         bindEngine()
     }
@@ -292,6 +311,8 @@ final class NotchViewModel: ObservableObject {
             return
         }
         
+        self.topInset = screenMetrics.topInset
+        
         let screenWidth = screenMetrics.width
         let baseScreenWidth: CGFloat = 1440.0
         let scale = max(0.35, screenWidth / baseScreenWidth)
@@ -299,17 +320,27 @@ final class NotchViewModel: ObservableObject {
         let widthOffset = CGFloat(settings.notchWidth)
         let heightOffset = CGFloat(settings.notchHeight)
         
+        let isDynamicIsland = screenMetrics.topInset == 0
+        
         if let notchSize = screenMetrics.notchSize {
+            let baseWidth = notchSize.width + 14.scaled(by: scale) + widthOffset
+            let finalWidth = isDynamicIsland ? baseWidth * 0.85 : baseWidth
+            
             engine.updateBaseGeometry(
-                width: notchSize.width + 14.scaled(by: scale) + widthOffset,
+                width: finalWidth,
                 height: notchSize.height + heightOffset,
-                scale: scale
+                scale: scale,
+                isDynamicIsland: isDynamicIsland
             )
+            
         } else {
+            let baseWidthValue: CGFloat = isDynamicIsland ? 110 : 190
+            
             engine.updateBaseGeometry(
-                width: (190 * scale) + widthOffset,
+                width: (baseWidthValue * scale) + widthOffset,
                 height: (25 * scale) + heightOffset,
-                scale: scale
+                scale: scale,
+                isDynamicIsland: isDynamicIsland
             )
         }
     }

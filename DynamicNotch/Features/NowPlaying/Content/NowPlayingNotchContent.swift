@@ -7,9 +7,8 @@ enum NowPlayingEvent: Equatable {
     case playbackStateChanged(isPlaying: Bool)
 }
 
-struct NowPlayingNotchContent: NotchContentProtocol {
+struct NowPlayingNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     let id = NotchContentRegistry.Media.nowPlaying.id
-    
     let nowPlayingViewModel: NowPlayingViewModel
     let settings: MediaAndFilesSettingsStore
     let applicationSettings: ApplicationSettingsStore
@@ -53,9 +52,21 @@ struct NowPlayingNotchContent: NotchContentProtocol {
     func expandedSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         .init(width: baseWidth + 200, height: baseHeight + 160)
     }
+
+    func expandedDynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
+        .init(width: baseWidth + 220, height: baseHeight + 160)
+    }
     
     func expandedCornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
         (top: 34, bottom: 44)
+    }
+
+    func dynamicIslandCornerRadius(baseHeight: CGFloat) -> CGFloat {
+        baseHeight * 0.5
+    }
+
+    func expandedDynamicIslandCornerRadius(baseHeight: CGFloat) -> CGFloat {
+        baseHeight * 0.2
     }
     
     @MainActor

@@ -4,13 +4,13 @@ enum BluetoothEvent: Equatable {
     case connected
 }
 
-struct BluetoothConnectedNotchContent: NotchContentProtocol {
+struct BluetoothConnectedNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     let id = NotchContentRegistry.Network.bluetooth.id
-    var priority: Int { NotchContentRegistry.Network.bluetooth.priority }
-    
     let bluetoothViewModel: BluetoothViewModel
     let settings: ConnectivitySettingsStore
     let applicationSettings: ApplicationSettingsStore
+    
+    var priority: Int { NotchContentRegistry.Network.bluetooth.priority }
     
     var strokeColor: Color {
         guard settings.bluetoothAppearanceStyle.supportsBatteryPresentation,
@@ -39,6 +39,18 @@ struct BluetoothConnectedNotchContent: NotchContentProtocol {
             width = settings.bluetoothBatteryIndicatorStyle == .circle ? 145 : 145
         }
         return .init(width: baseWidth + CGFloat(width), height: settings.bluetoothAppearanceStyle == .compact ? baseHeight : 95)
+    }
+    
+    func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
+        let width: CGFloat
+
+        switch settings.bluetoothAppearanceStyle {
+        case .compact:
+            width = settings.bluetoothBatteryIndicatorStyle == .circle ? 70 : 90
+        case .detailed:
+            width = settings.bluetoothBatteryIndicatorStyle == .circle ? 175 : 145
+        }
+        return .init(width: baseWidth + CGFloat(width), height: settings.bluetoothAppearanceStyle == .compact ? baseHeight : 75)
     }
     
     @MainActor

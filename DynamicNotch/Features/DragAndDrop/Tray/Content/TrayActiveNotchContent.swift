@@ -7,9 +7,8 @@
 
 import SwiftUI
 
-struct TrayActiveNotchContent: NotchContentProtocol {
+struct TrayActiveNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     let id = NotchContentRegistry.DragAndDrop.trayActive.id
-
     let fileTrayViewModel: FileTrayViewModel
     let mediaSettings: MediaAndFilesSettingsStore
     
@@ -26,6 +25,18 @@ struct TrayActiveNotchContent: NotchContentProtocol {
     
     func expandedCornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
         (top: 24, bottom: 34)
+    }
+    
+    func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
+        return .init(width: baseWidth + 55, height: baseHeight)
+    }
+    
+    func expandedDynamicIslandCornerRadius(baseHeight: CGFloat) -> CGFloat {
+        baseHeight * 0.2
+    }
+    
+    func expandedDynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
+        return .init(width: baseWidth + 238, height: baseHeight + 120)
     }
     
     @MainActor

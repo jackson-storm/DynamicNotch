@@ -9,12 +9,13 @@ import SwiftUI
 
 struct TrayActiveNotchView: View {
     @Environment(\.notchScale) private var scale
+    @Environment(\.isDynamicIsland) private var isDynamicIsland
     @ObservedObject var fileTrayViewModel: FileTrayViewModel
     
     var body: some View {
         HStack {
             Image(systemName: "tray.full.fill")
-                .font(.system(size: 18, weight: .semibold))
+                .font(.system(size: isDynamicIsland ? 16 : 18, weight: .semibold))
                 .foregroundStyle(.white)
             
             Spacer()
@@ -23,6 +24,6 @@ struct TrayActiveNotchView: View {
                 .font(.system(size: 16, design: .rounded))
                 .foregroundStyle(.white.gradient)
         }
-        .padding(.horizontal, 14.scaled(by: scale))
+        .padding(.horizontal, isDynamicIsland ? 8.scaled(by: scale) : 14.scaled(by: scale))
     }
 }

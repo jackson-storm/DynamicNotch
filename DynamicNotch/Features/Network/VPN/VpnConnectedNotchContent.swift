@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct VpnConnectedNotchContent : NotchContentProtocol {
+struct VpnConnectedNotchContent : NotchContentProtocol, DynamicIslandCustomizable {
     let id = NotchContentRegistry.Network.vpn.id
     var priority: Int { NotchContentRegistry.Network.vpn.priority }
     
@@ -25,6 +25,13 @@ struct VpnConnectedNotchContent : NotchContentProtocol {
         .init(
             width: settings.isVPNDetailVisible ? baseWidth + 145 : baseWidth + 110,
             height: settings.isVPNDetailVisible ? 95 : baseHeight
+        )
+    }
+    
+    func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
+        .init(
+            width: settings.isVPNDetailVisible ? baseWidth + 185 : baseWidth + 110,
+            height: settings.isVPNDetailVisible ? 85 : baseHeight
         )
     }
     

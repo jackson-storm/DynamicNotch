@@ -1,11 +1,11 @@
 import SwiftUI
 
-struct FullPowerNotchContent: NotchContentProtocol {
+struct FullPowerNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     let id = NotchContentRegistry.Power.fullPower.id
-    var priority: Int { NotchContentRegistry.Power.fullPower.priority }
-    
     let powerService: PowerService
     let settingsViewModel: SettingsViewModel
+    
+    var priority: Int { NotchContentRegistry.Power.fullPower.priority }
 
     private var style: BatteryNotificationStyle {
         settingsViewModel.battery.fullPowerStyle
@@ -21,7 +21,6 @@ struct FullPowerNotchContent: NotchContentProtocol {
         if style == .compact {
             return .init(width: baseWidth + 180, height: baseHeight)
         }
-
         return .init(width: baseWidth + 80, height: baseHeight + 70)
     }
 
@@ -29,8 +28,14 @@ struct FullPowerNotchContent: NotchContentProtocol {
         if style == .compact {
             return (top: baseRadius - 4, bottom: baseRadius)
         }
-
         return (top: 18, bottom: 36)
+    }
+    
+    func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
+        if style == .compact {
+            return .init(width: baseWidth + 150, height: baseHeight)
+        }
+        return .init(width: baseWidth + 130, height: baseHeight + 60)
     }
 
     @MainActor

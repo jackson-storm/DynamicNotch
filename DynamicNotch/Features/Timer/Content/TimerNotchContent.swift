@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct TimerNotchContent: NotchContentProtocol {
+struct TimerNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     static let activityID = NotchContentRegistry.Media.timer.id
 
     let id = Self.activityID
@@ -25,6 +25,18 @@ struct TimerNotchContent: NotchContentProtocol {
 
     func expandedCornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
         (top: 20, bottom: 38)
+    }
+    
+    func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
+        .init(width: baseWidth + 130, height: baseHeight)
+    }
+    
+    func expandedDynamicIslandCornerRadius(baseHeight: CGFloat) -> CGFloat {
+        baseHeight * 0.5
+    }
+    
+    func expandedDynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
+        .init(width: baseWidth + 225, height: baseHeight + 50)
     }
 
     @MainActor

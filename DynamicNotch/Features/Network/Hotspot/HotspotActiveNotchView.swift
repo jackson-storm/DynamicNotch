@@ -9,6 +9,8 @@ import SwiftUI
 
 struct HotspotActiveNotchView: View {
     @Environment(\.notchScale) var scale
+    @Environment(\.isDynamicIsland) var isDynamicIsland
+    
     let style: HotspotAppearanceStyle
     
     var body: some View {
@@ -32,6 +34,6 @@ struct HotspotActiveNotchView: View {
                     .foregroundStyle(.green.opacity(0.8))
             }
         }
-        .padding(.horizontal, 14.scaled(by: scale))
+        .padding(.horizontal, isDynamicIsland ? 7.scaled(by: scale) : 14.scaled(by: scale))
     }
 }

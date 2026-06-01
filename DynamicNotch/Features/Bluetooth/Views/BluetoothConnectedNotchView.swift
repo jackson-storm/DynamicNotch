@@ -9,6 +9,8 @@ import SwiftUI
 
 struct BluetoothConnectedNotchView: View {
     @Environment(\.notchScale) var scale
+    @Environment(\.isDynamicIsland) var isDynamicIsland
+    
     @ObservedObject var bluetoothViewModel: BluetoothViewModel
     @ObservedObject var settings: ConnectivitySettingsStore
     @ObservedObject var applicationSettings: ApplicationSettingsStore
@@ -74,7 +76,7 @@ struct BluetoothConnectedNotchView: View {
             }
         }
         .padding(.vertical, 10)
-        .padding(.horizontal, 14.scaled(by: scale))
+        .padding(.horizontal, isDynamicIsland ? 5.scaled(by: scale) : 14.scaled(by: scale))
     }
     
     @ViewBuilder
@@ -125,7 +127,7 @@ struct BluetoothConnectedNotchView: View {
                 .padding(.bottom, 10)
             }
         }
-        .padding(.horizontal, 38)
-        .padding(.bottom, 10)
+        .padding(.horizontal, isDynamicIsland ? 15 : 38)
+        .padding(.bottom, isDynamicIsland ? 5 : 10)
     }
 }

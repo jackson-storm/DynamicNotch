@@ -7,9 +7,8 @@
 
 import SwiftUI
 
-struct FileConverterActiveNotchContent: NotchContentProtocol {
+struct FileConverterActiveNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     let id = NotchContentRegistry.DragAndDrop.fileConverterActive.id
-
     let fileConverterViewModel: FileConverterViewModel
     let mediaSettings: MediaAndFilesSettingsStore
     let onRequestCollapse: @MainActor () -> Void
@@ -35,6 +34,18 @@ struct FileConverterActiveNotchContent: NotchContentProtocol {
 
     func expandedCornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
         return (top: 30, bottom: 40)
+    }
+    
+    func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
+        return .init(width: baseWidth + 55, height: baseHeight)
+    }
+    
+    func expandedDynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
+        return .init(width: baseWidth + 180, height: baseHeight + 165)
+    }
+    
+    func expandedDynamicIslandCornerRadius(baseHeight: CGFloat) -> CGFloat {
+        baseHeight * 0.2
     }
 
     @MainActor

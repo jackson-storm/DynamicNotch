@@ -24,11 +24,12 @@ struct PlayerProgressBar: View {
         HStack(spacing: 10) {
             Text(formattedTime(displayedElapsedTime))
                 .font(.system(size: 11, weight: .medium, design: .rounded))
+                .monospacedDigit()
                 .foregroundStyle(scaleEffect ? .white.opacity(0.8) : primaryColor)
             
             GeometryReader { proxy in
                 let resolvedProgress = min(max(progress, 0), 1)
-                let trackHeight: CGFloat = 7
+                let trackHeight: CGFloat = scaleEffect ? 11 : 7
                 let filledWidth = proxy.size.width * resolvedProgress
                 
                 ZStack(alignment: .leading) {
@@ -67,6 +68,7 @@ struct PlayerProgressBar: View {
             
             Text(duration > 0 ? formattedTime(duration) : "LIVE")
                 .font(.system(size: 11, weight: .medium, design: .rounded))
+                .monospacedDigit()
                 .foregroundStyle(scaleEffect ? .white : secondaryColor)
         }
         .animation(.spring(response: 0.3, dampingFraction: 0.6), value: scaleEffect)

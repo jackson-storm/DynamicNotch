@@ -24,20 +24,22 @@ struct NotchAnimations {
 
     static let `default` = preset(.balanced)
 
-    static func preset(_ preset: NotchAnimationPreset) -> Self {
+    static func preset(_ preset: NotchAnimationPreset, isDynamicIsland: Bool = false) -> Self {
+        let damping: Double = isDynamicIsland ? 0.75 : 0.8
+        
         switch preset {
         case .snappy:
             return Self(
                 contentUpdate: .spring(response: 0.41),
-                contentHide: .spring(response: 0.41, dampingFraction: 0.8),
-                contentShow: .spring(response: 0.41, dampingFraction: 0.8),
-                openContentTransition: .spring(response: 0.44, dampingFraction: 0.8),
+                contentHide: .spring(response: 0.41, dampingFraction: damping),
+                contentShow: .spring(response: 0.41, dampingFraction: damping),
+                openContentTransition: .spring(response: 0.44, dampingFraction: damping),
                 
-                expandLiveActivity: .spring(response: 0.39, dampingFraction: 0.8),
-                expandLiveActivityContentTransition: .spring(response: 0.39, dampingFraction: 0.8),
+                expandLiveActivity: .spring(response: 0.39, dampingFraction: damping),
+                expandLiveActivityContentTransition: .spring(response: 0.39, dampingFraction: damping),
                 
-                closeLiveActivity: .spring(response: 0.49, dampingFraction: 0.8),
-                closeLiveActivityContentTransition: .spring(response: 0.39, dampingFraction: 0.8),
+                closeLiveActivity: .spring(response: 0.49, dampingFraction: damping),
+                closeLiveActivityContentTransition: .spring(response: 0.39, dampingFraction: damping),
                 
                 stretchReset: .spring(response: 0.41),
                 strokeVisibility: .spring(response: 0.41),
@@ -50,15 +52,15 @@ struct NotchAnimations {
         case .fast:
             return Self(
                 contentUpdate: .spring(response: 0.44),
-                contentHide: .spring(response: 0.44, dampingFraction: 0.8),
-                contentShow: .spring(response: 0.44, dampingFraction: 0.8),
-                openContentTransition: .spring(response: 0.47, dampingFraction: 0.8),
+                contentHide: .spring(response: 0.44, dampingFraction: damping),
+                contentShow: .spring(response: 0.44, dampingFraction: damping),
+                openContentTransition: .spring(response: 0.47, dampingFraction: damping),
                 
-                expandLiveActivity: .spring(response: 0.42, dampingFraction: 0.8),
-                expandLiveActivityContentTransition: .spring(response: 0.42, dampingFraction: 0.8),
+                expandLiveActivity: .spring(response: 0.42, dampingFraction: damping),
+                expandLiveActivityContentTransition: .spring(response: 0.42, dampingFraction: damping),
                 
-                closeLiveActivity: .spring(response: 0.52, dampingFraction: 0.8),
-                closeLiveActivityContentTransition: .spring(response: 0.42, dampingFraction: 0.8),
+                closeLiveActivity: .spring(response: 0.52, dampingFraction: damping),
+                closeLiveActivityContentTransition: .spring(response: 0.42, dampingFraction: damping),
                 
                 stretchReset: .spring(response: 0.44),
                 strokeVisibility: .spring(response: 0.44),
@@ -71,15 +73,15 @@ struct NotchAnimations {
         case .balanced:
             return Self(
                 contentUpdate: .spring(response: 0.47),
-                contentHide: .spring(response: 0.47, dampingFraction: 0.8),
-                contentShow: .spring(response: 0.47, dampingFraction: 0.8),
-                openContentTransition: .spring(response: 0.50, dampingFraction: 0.8),
+                contentHide: .spring(response: 0.47, dampingFraction: damping),
+                contentShow: .spring(response: 0.47, dampingFraction: damping),
+                openContentTransition: .spring(response: 0.50, dampingFraction: damping),
                 
-                expandLiveActivity: .spring(response: 0.45, dampingFraction: 0.8),
-                expandLiveActivityContentTransition: .spring(response: 0.45, dampingFraction: 0.8),
+                expandLiveActivity: .spring(response: 0.45, dampingFraction: damping),
+                expandLiveActivityContentTransition: .spring(response: 0.45, dampingFraction: damping),
                 
-                closeLiveActivity: .spring(response: 0.55, dampingFraction: 0.8),
-                closeLiveActivityContentTransition: .spring(response: 0.45, dampingFraction: 0.8),
+                closeLiveActivity: .spring(response: 0.55, dampingFraction: damping),
+                closeLiveActivityContentTransition: .spring(response: 0.45, dampingFraction: damping),
                 
                 stretchReset: .spring(response: 0.47),
                 strokeVisibility: .spring(response: 0.47),
@@ -92,15 +94,15 @@ struct NotchAnimations {
         case .slow:
             return Self(
                 contentUpdate: .spring(response: 0.50),
-                contentHide: .spring(response: 0.50, dampingFraction: 0.8),
-                contentShow: .spring(response: 0.50, dampingFraction: 0.8),
-                openContentTransition: .spring(response: 0.53, dampingFraction: 0.8),
+                contentHide: .spring(response: 0.50, dampingFraction: damping),
+                contentShow: .spring(response: 0.50, dampingFraction: damping),
+                openContentTransition: .spring(response: 0.53, dampingFraction: damping),
                 
-                expandLiveActivity: .spring(response: 0.48, dampingFraction: 0.8),
-                expandLiveActivityContentTransition: .spring(response: 0.48, dampingFraction: 0.8),
+                expandLiveActivity: .spring(response: 0.48, dampingFraction: damping),
+                expandLiveActivityContentTransition: .spring(response: 0.48, dampingFraction: damping),
                 
-                closeLiveActivity: .spring(response: 0.58, dampingFraction: 0.8),
-                closeLiveActivityContentTransition: .spring(response: 0.48, dampingFraction: 0.8),
+                closeLiveActivity: .spring(response: 0.58, dampingFraction: damping),
+                closeLiveActivityContentTransition: .spring(response: 0.48, dampingFraction: damping),
                 
                 stretchReset: .spring(response: 0.50),
                 strokeVisibility: .spring(response: 0.50),
@@ -113,15 +115,15 @@ struct NotchAnimations {
         case .relaxed:
             return Self(
                 contentUpdate: .spring(response: 0.53),
-                contentHide: .spring(response: 0.53, dampingFraction: 0.8),
-                contentShow: .spring(response: 0.53, dampingFraction: 0.8),
-                openContentTransition: .spring(response: 0.56, dampingFraction: 0.8),
+                contentHide: .spring(response: 0.53, dampingFraction: damping),
+                contentShow: .spring(response: 0.53, dampingFraction: damping),
+                openContentTransition: .spring(response: 0.56, dampingFraction: damping),
                 
-                expandLiveActivity: .spring(response: 0.51, dampingFraction: 0.8),
-                expandLiveActivityContentTransition: .spring(response: 0.51, dampingFraction: 0.8),
+                expandLiveActivity: .spring(response: 0.51, dampingFraction: damping),
+                expandLiveActivityContentTransition: .spring(response: 0.51, dampingFraction: damping),
                 
-                closeLiveActivity: .spring(response: 0.61, dampingFraction: 0.8),
-                closeLiveActivityContentTransition: .spring(response: 0.51, dampingFraction: 0.8),
+                closeLiveActivity: .spring(response: 0.61, dampingFraction: damping),
+                closeLiveActivityContentTransition: .spring(response: 0.51, dampingFraction: damping),
                 
                 stretchReset: .spring(response: 0.53),
                 strokeVisibility: .spring(response: 0.53),

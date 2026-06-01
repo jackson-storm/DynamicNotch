@@ -9,6 +9,8 @@ import SwiftUI
 
 struct NowPlayingExpandedNotchView: View {
     @Environment(\.notchScale) var scale
+    @Environment(\.isDynamicIsland) var isDynamicIsland
+    
     @ObservedObject var nowPlayingViewModel: NowPlayingViewModel
     @ObservedObject var settings: MediaAndFilesSettingsStore
     @ObservedObject var applicationSettings: ApplicationSettingsStore
@@ -203,8 +205,8 @@ struct NowPlayingExpandedNotchView: View {
             }
             .frame(maxWidth: .infinity)
         }
-        .padding(.horizontal, 55)
-        .padding(.top, 25)
+        .padding(.horizontal, isDynamicIsland ? 25 : 55)
+        .padding(.top, isDynamicIsland ? 15 : 25)
         .padding(.bottom, 15)
     }
     

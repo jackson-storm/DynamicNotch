@@ -13,7 +13,7 @@ enum TrayEvent {
     case dropped
 }
 
-struct TrayNotchContent: NotchContentProtocol {
+struct TrayNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     let id = NotchContentRegistry.DragAndDrop.tray.id
 
     let airDropViewModel: AirDropNotchViewModel

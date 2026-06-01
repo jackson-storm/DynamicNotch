@@ -11,6 +11,7 @@ import UniformTypeIdentifiers
 struct DragAndDropDestinationView: NSViewRepresentable {
     @Binding var isTargeted: Bool
     @Binding var targetedDropTarget: DragAndDropTarget?
+    
     let mode: DragAndDropActivityMode
     let onDropPasteboard: (DragAndDropTarget, NSPasteboard) -> Bool
 

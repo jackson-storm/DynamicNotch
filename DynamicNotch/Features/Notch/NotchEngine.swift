@@ -70,10 +70,11 @@ final class NotchEngine: ObservableObject {
         notchModel.content?.windowLink != nil
     }
 
-    func updateBaseGeometry(width: CGFloat, height: CGFloat, scale: CGFloat) {
+    func updateBaseGeometry(width: CGFloat, height: CGFloat, scale: CGFloat, isDynamicIsland: Bool) {
         notchModel.baseWidth = width
         notchModel.baseHeight = height
         notchModel.scale = scale
+        notchModel.isDynamicIsland = isDynamicIsland
     }
 
     func send(_ notchState: NotchState) {

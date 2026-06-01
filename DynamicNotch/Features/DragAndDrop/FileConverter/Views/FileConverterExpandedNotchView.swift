@@ -9,6 +9,8 @@ import SwiftUI
 
 struct FileConverterExpandedActiveNotchView: View {
     @Environment(\.notchScale) private var scale
+    @Environment(\.isDynamicIsland) private var isDynamicIsland
+    
     @ObservedObject var fileConverterViewModel: FileConverterViewModel
     @ObservedObject var mediaSettings: MediaAndFilesSettingsStore
     
@@ -46,8 +48,8 @@ struct FileConverterExpandedActiveNotchView: View {
             conversionRow
             actionRow
         }
-        .padding(.horizontal, 43)
-        .padding(.bottom, 12)
+        .padding(.horizontal, isDynamicIsland ? 15 : 43)
+        .padding(.bottom, isDynamicIsland ? 15 : 12)
     }
     
     @ViewBuilder

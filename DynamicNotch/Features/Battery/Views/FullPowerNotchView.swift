@@ -8,26 +8,14 @@
 import SwiftUI
 
 struct FullPowerNotchView: View {
+    @Environment(\.isDynamicIsland) private var isDynamicIsland
     @ObservedObject var powerService: PowerService
-    let style: BatteryNotificationStyle
-
+    
     @State private var pulse = false
     @State private var showBatteryIndicator = false
     @State private var changeBatteryIndicator = false
-
-    private var batteryColor: Color {
-        powerService.isLowPowerMode ? .yellow : .green
-    }
-
-    private func startPulse() {
-        pulse = false
-        withAnimation(
-            .easeInOut(duration: 1)
-            .repeatForever(autoreverses: true)
-        ) {
-            pulse = true
-        }
-    }
+    
+    let style: BatteryNotificationStyle
 
     var body: some View {
         Group {
@@ -63,7 +51,7 @@ struct FullPowerNotchView: View {
                         }
                     }
                 }
-                .padding(.horizontal, 40)
+                .padding(.horizontal, isDynamicIsland ? 25 : 40)
                 .padding(.bottom, 20)
                 .onAppear {
                     showBatteryIndicator = true
@@ -191,6 +179,20 @@ struct FullPowerNotchView: View {
             Rectangle()
                 .fill(.white.opacity(0.4))
                 .frame(width: 3, height: 32)
+        }
+    }
+    
+    private var batteryColor: Color {
+        powerService.isLowPowerMode ? .yellow : .green
+    }
+
+    private func startPulse() {
+        pulse = false
+        withAnimation(
+            .easeInOut(duration: 1)
+            .repeatForever(autoreverses: true)
+        ) {
+            pulse = true
         }
     }
 }

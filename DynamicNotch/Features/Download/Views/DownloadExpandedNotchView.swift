@@ -25,6 +25,7 @@ struct DownloadExpandedNotchView: View {
 
 private struct DownloadExpandedNotchContentView: View {
     @Environment(\.notchScale) private var scale
+    @Environment(\.isDynamicIsland) private var isDynamicIsland
     
     let download: DownloadModel
 
@@ -42,8 +43,8 @@ private struct DownloadExpandedNotchContentView: View {
             Spacer()
             header(for: download)
         }
-        .padding(.horizontal, 40)
-        .padding(.bottom, 20)
+        .padding(.horizontal, isDynamicIsland ? 25 : 40)
+        .padding(.bottom, isDynamicIsland ? 15 : 20)
     }
 
     @ViewBuilder

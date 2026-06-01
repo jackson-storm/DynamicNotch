@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct BatteryCompactStatusView: View {
+    @Environment(\.isDynamicIsland) private var isDynamicIsland
     @Environment(\.notchScale) private var scale
 
     let title: String
@@ -44,6 +45,7 @@ struct BatteryCompactStatusView: View {
                 }
             }
         }
-        .padding(.horizontal, 16.scaled(by: scale))
+        .padding(.leading, isDynamicIsland ? 8.scaled(by: scale) : 16.scaled(by: scale))
+        .padding(.trailing, isDynamicIsland ? 6.scaled(by: scale) : 16.scaled(by: scale))
     }
 }

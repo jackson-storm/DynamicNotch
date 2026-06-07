@@ -35,7 +35,6 @@ class SettingsWindowController: NSWindowController {
         window.titlebarAppearsTransparent = false
         window.titleVisibility = .visible
         window.toolbarStyle = .unified
-        window.isMovableByWindowBackground = true
         window.level = .normal
         
         window.collectionBehavior = [.managed, .participatesInCycle]

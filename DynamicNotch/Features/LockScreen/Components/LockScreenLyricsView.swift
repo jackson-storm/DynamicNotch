@@ -15,62 +15,98 @@ struct LockScreenLyricsView: View {
     
     var body: some View {
         TimelineView(.periodic(from: .now, by: 0.35)) { context in
-            let lyricsContent = content(elapsedTime: nowPlayingViewModel.elapsedTime(at: context.date))
-                .frame(width: width, height: height, alignment: .leading)
-                .clipped()
-            
-            ZStack {
-                lyricsContent
-                    .mask {
-                        LinearGradient(
-                            stops: [
-                                .init(color: .clear, location: 0),
-                                .init(color: .clear, location: 0.10),
-                                .init(color: .black, location: 0.22),
-                                .init(color: .black, location: 0.78),
-                                .init(color: .clear, location: 0.90),
-                                .init(color: .clear, location: 1)
-                            ],
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
-                    }
-                lyricsContent
-                    .blur(radius: 3)
-                    .mask {
-                        LinearGradient(
-                            stops: [
-                                .init(color: .black, location: 0),
-                                .init(color: .black, location: 0.10),
-                                .init(color: .clear, location: 0.26),
-                                .init(color: .clear, location: 0.74),
-                                .init(color: .black, location: 0.90),
-                                .init(color: .black, location: 1)
-                            ],
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
-                    }
-            }
-            .mask {
-                LinearGradient(
-                    stops: [
-                        .init(color: .clear, location: 0),
-                        .init(color: .black, location: 0.18),
-                        .init(color: .black, location: 0.78),
-                        .init(color: .clear, location: 1)
-                    ],
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-            }
-            .shadow(color: .black.opacity(0.34), radius: 16, x: 0, y: 10)
+            LockScreenLyricsContentView(
+                state: nowPlayingViewModel.lyricsState,
+                activeIndex: activeIndex(at: context.date),
+                width: width,
+                height: height,
+                onSeek: { startTime in
+                    nowPlayingViewModel.seek(to: startTime)
+                }
+            )
+            .equatable()
         }
     }
     
+    private func activeIndex(at date: Date) -> Int {
+        let elapsedTime = nowPlayingViewModel.elapsedTime(at: date)
+        if case .loaded(let lyrics) = nowPlayingViewModel.lyricsState {
+            return lyrics.activeLineIndex(at: elapsedTime) ?? 0
+        }
+        return 0
+    }
+}
+
+private struct LockScreenLyricsContentView: View, Equatable {
+    let state: NowPlayingLyricsState
+    let activeIndex: Int
+    let width: CGFloat
+    let height: CGFloat
+    let onSeek: (TimeInterval) -> Void
+    
+    static func == (lhs: LockScreenLyricsContentView, rhs: LockScreenLyricsContentView) -> Bool {
+        lhs.state == rhs.state &&
+        lhs.activeIndex == rhs.activeIndex &&
+        lhs.width == rhs.width &&
+        lhs.height == rhs.height
+    }
+    
+    var body: some View {
+        let lyricsContent = content()
+            .frame(width: width, height: height, alignment: .leading)
+            .clipped()
+        
+        ZStack {
+            lyricsContent
+                .mask {
+                    LinearGradient(
+                        stops: [
+                            .init(color: .clear, location: 0),
+                            .init(color: .clear, location: 0.10),
+                            .init(color: .black, location: 0.22),
+                            .init(color: .black, location: 0.78),
+                            .init(color: .clear, location: 0.90),
+                            .init(color: .clear, location: 1)
+                        ],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                }
+            lyricsContent
+                .blur(radius: 3)
+                .mask {
+                    LinearGradient(
+                        stops: [
+                            .init(color: .black, location: 0),
+                            .init(color: .black, location: 0.10),
+                            .init(color: .clear, location: 0.26),
+                            .init(color: .clear, location: 0.74),
+                            .init(color: .black, location: 0.90),
+                            .init(color: .black, location: 1)
+                        ],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                }
+        }
+        .mask {
+            LinearGradient(
+                stops: [
+                    .init(color: .clear, location: 0),
+                    .init(color: .black, location: 0.18),
+                    .init(color: .black, location: 0.78),
+                    .init(color: .clear, location: 1)
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+        }
+        .shadow(color: .black.opacity(0.34), radius: 16, x: 0, y: 10)
+    }
+    
     @ViewBuilder
-    private func content(elapsedTime: TimeInterval) -> some View {
-        switch nowPlayingViewModel.lyricsState {
+    private func content() -> some View {
+        switch state {
         case .idle:
             EmptyView()
             
@@ -79,7 +115,7 @@ struct LockScreenLyricsView: View {
             
         case .loaded(let lyrics):
             if lyrics.isSynced {
-                syncedLyricsContent(lyrics, elapsedTime: elapsedTime)
+                syncedLyricsContent(lyrics)
             } else {
                 plainLyricsContent(lyrics)
             }
@@ -92,8 +128,7 @@ struct LockScreenLyricsView: View {
         }
     }
     
-    private func syncedLyricsContent(_ lyrics: TrackLyrics, elapsedTime: TimeInterval) -> some View {
-        let activeIndex = lyrics.activeLineIndex(at: elapsedTime) ?? 0
+    private func syncedLyricsContent(_ lyrics: TrackLyrics) -> some View {
         let visibleLines = visibleSyncedLines(lyrics.lines, activeIndex: activeIndex)
         
         return VStack(alignment: .leading, spacing: 20) {
@@ -103,16 +138,11 @@ struct LockScreenLyricsView: View {
                     distanceFromActive: line.id - activeIndex,
                     onTap: line.startTime.map { startTime in
                         {
-                            nowPlayingViewModel.seek(to: startTime)
+                            onSeek(startTime)
                         }
                     }
                 )
-                .transition(
-                    .asymmetric(
-                        insertion: .move(edge: .bottom).combined(with: .opacity),
-                        removal: .move(edge: .top).combined(with: .opacity)
-                    )
-                )
+                .transition(.opacity)
             }
         }
         .frame(width: width, height: height)
@@ -188,14 +218,6 @@ private struct LockScreenLyricLineView: View {
         isActive ? 0 : clampedDistance * 0.18
     }
     
-    private var rotationAngle: Angle {
-        .degrees(Double(distanceFromActive) * -7)
-    }
-    
-    private var rotationAnchor: UnitPoint {
-        distanceFromActive < 0 ? .center : .center
-    }
-    
     var body: some View {
         Text(line.text)
             .font(.system(size: 34, weight: .bold, design: .rounded))
@@ -205,12 +227,6 @@ private struct LockScreenLyricLineView: View {
             .fixedSize(horizontal: false, vertical: true)
             .blur(radius: blurRadius)
             .scaleEffect(lineScale, anchor: .leading)
-            .rotation3DEffect(
-                rotationAngle,
-                axis: (x: 0, y: 0, z: 0),
-                anchor: rotationAnchor,
-                perspective: 0.72
-            )
             .offset(x: isActive ? 0 : 10)
             .frame(maxWidth: .infinity, alignment: .leading)
             .contentTransition(.opacity)

@@ -15,6 +15,24 @@ final class ConnectivitySettingsStore: SettingsStoreBase {
         }
     }
 
+    @Published var isFocusOnAutoHideEnabled: Bool {
+        didSet {
+            persist(isFocusOnAutoHideEnabled, for: GeneralSettingsStorage.Keys.focusOnAutoHideEnabled)
+        }
+    }
+
+    @Published var focusOnTemporaryActivityDuration: Int {
+        didSet {
+            let clampedValue = Self.clampTemporaryActivityDuration(focusOnTemporaryActivityDuration)
+            if clampedValue != focusOnTemporaryActivityDuration {
+                focusOnTemporaryActivityDuration = clampedValue
+                return
+            }
+
+            persist(focusOnTemporaryActivityDuration, for: GeneralSettingsStorage.Keys.focusOnTemporaryActivityDuration)
+        }
+    }
+
     @Published var focusAppearanceStyle: FocusAppearanceStyle {
         didSet {
             persist(focusAppearanceStyle.rawValue, for: GeneralSettingsStorage.Keys.focusAppearanceStyle)
@@ -160,6 +178,11 @@ final class ConnectivitySettingsStore: SettingsStoreBase {
         defaults.register(defaults: GeneralSettingsStorage.defaultValues)
         self.isHotspotLiveActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.hotspotLiveActivityEnabled)
         self.isFocusLiveActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.focusLiveActivityEnabled)
+        self.isFocusOnAutoHideEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.focusOnAutoHideEnabled)
+        self.focusOnTemporaryActivityDuration = Self.clampTemporaryActivityDuration(
+            defaults.object(forKey: GeneralSettingsStorage.Keys.focusOnTemporaryActivityDuration) as? Int ??
+            Self.defaultTemporaryActivityDuration(for: GeneralSettingsStorage.Keys.focusOnTemporaryActivityDuration)
+        )
         self.focusAppearanceStyle = FocusAppearanceStyle.resolved(
             defaults.string(forKey: GeneralSettingsStorage.Keys.focusAppearanceStyle)
         )
@@ -243,6 +266,10 @@ final class ConnectivitySettingsStore: SettingsStoreBase {
 
     func resetFocus() {
         isFocusLiveActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.focusLiveActivityEnabled)
+        isFocusOnAutoHideEnabled = defaultBool(for: GeneralSettingsStorage.Keys.focusOnAutoHideEnabled)
+        focusOnTemporaryActivityDuration = Self.clampTemporaryActivityDuration(
+            defaultInt(for: GeneralSettingsStorage.Keys.focusOnTemporaryActivityDuration)
+        )
         focusAppearanceStyle = FocusAppearanceStyle.resolved(
             defaultString(for: GeneralSettingsStorage.Keys.focusAppearanceStyle)
         )

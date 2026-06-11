@@ -30,12 +30,28 @@ struct FocusSettingsView: View {
                 isOn: $connectivitySettings.isFocusLiveActivityEnabled,
                 accessibilityIdentifier: "settings.activities.live.focus"
             )
-            
+
             Divider()
                 .opacity(0.6)
                 .padding(.leading, 43)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
-            
+
+            SettingsToggleRow(
+                title: "Hide Focus activity automatically",
+                description: "Show the Focus activity briefly when Focus turns on instead of keeping it visible the whole time.",
+                systemImage: "moon.zzz.fill",
+                color: .indigo,
+                isOn: $connectivitySettings.isFocusOnAutoHideEnabled,
+                accessibilityIdentifier: "settings.activities.live.focus.autoHide"
+            )
+            .disabled(!connectivitySettings.isFocusLiveActivityEnabled)
+            .opacity(connectivitySettings.isFocusLiveActivityEnabled ? 1 : 0.5)
+
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+
             SettingsToggleRow(
                 title: "Focus off activity",
                 description: "Show a short notification when Focus mode turns off.",
@@ -49,6 +65,27 @@ struct FocusSettingsView: View {
     
     private var focusDuration: some View {
         SettingsCard(title: "Focus duration") {
+            SettingsSliderRow(
+                title: "Focus on duration",
+                description: "Choose how long the Focus on notification stays visible.",
+                range: temporaryActivityDurationRange,
+                step: 1,
+                fractionLength: 0,
+                suffix: "s",
+                accessibilityIdentifier: "settings.activities.temporary.focusOn.duration",
+                value: Binding(
+                    get: { Double(connectivitySettings.focusOnTemporaryActivityDuration) },
+                    set: { connectivitySettings.focusOnTemporaryActivityDuration = Int($0.rounded()) }
+                )
+            )
+            .disabled(!connectivitySettings.isFocusOnAutoHideEnabled || !connectivitySettings.isFocusLiveActivityEnabled)
+            .opacity(connectivitySettings.isFocusOnAutoHideEnabled && connectivitySettings.isFocusLiveActivityEnabled ? 1 : 0.5)
+
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+
             SettingsSliderRow(
                 title: "Focus off duration",
                 description: "Choose how long the Focus off notification stays visible.",

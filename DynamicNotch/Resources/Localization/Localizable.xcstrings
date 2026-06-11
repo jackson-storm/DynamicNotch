@@ -2522,6 +2522,34 @@
         }
       }
     },
+    "Choose how long the Focus on notification stays visible." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose how long the Focus on notification stays visible."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elija cuánto tiempo permanecerá visible la notificación de enfoque activado."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите, как долго показывается уведомление Focus On."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择焦点开启通知保持可见的时间。"
+          }
+        }
+      }
+    },
     "Choose how long the full battery notification stays visible." : {
       "localizations" : {
         "en" : {
@@ -6045,6 +6073,34 @@
         }
       }
     },
+    "Focus on duration" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Focus on duration"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duración del enfoque activado"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Длительность Focus On"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "焦点开启持续时间"
+          }
+        }
+      }
+    },
     "Focus style" : {
       "localizations" : {
         "en" : {
@@ -6468,6 +6524,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "隐藏收藏"
+          }
+        }
+      }
+    },
+    "Hide Focus activity automatically" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Focus activity automatically"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ocultar la actividad de enfoque automáticamente"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Автоматически скрывать активность Focus"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自动隐藏专注活动"
           }
         }
       }
@@ -17176,6 +17260,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "放下文件进行转换后显示 File Converter 实时活动。"
+          }
+        }
+      }
+    },
+    "Show the Focus activity briefly when Focus turns on instead of keeping it visible the whole time." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show the Focus activity briefly when Focus turns on instead of keeping it visible the whole time."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Muestra brevemente la actividad de enfoque al activarse, en lugar de mantenerla visible todo el tiempo."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Кратко показывать активность Focus при включении вместо постоянного отображения."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "专注模式开启时短暂显示活动，而不是一直保持可见。"
           }
         }
       }

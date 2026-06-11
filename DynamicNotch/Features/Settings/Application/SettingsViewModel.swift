@@ -41,6 +41,7 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
         case bluetooth
         case wifi
         case vpn
+        case focusOn
         case focusOff
         case notchSize
     }
@@ -366,6 +367,8 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
             return connectivity.isWifiTemporaryActivityEnabled
         case .vpn:
             return connectivity.isVpnTemporaryActivityEnabled
+        case .focusOn:
+            return connectivity.isFocusOnAutoHideEnabled
         case .focusOff:
             return connectivity.isFocusOffTemporaryActivityEnabled
         case .notchSize:
@@ -387,6 +390,8 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
             return scaledTemporaryActivityDuration(TimeInterval(connectivity.wifiTemporaryActivityDuration))
         case .vpn:
             return scaledTemporaryActivityDuration(TimeInterval(connectivity.vpnTemporaryActivityDuration))
+        case .focusOn:
+            return scaledTemporaryActivityDuration(TimeInterval(connectivity.focusOnTemporaryActivityDuration))
         case .focusOff:
             return scaledTemporaryActivityDuration(TimeInterval(connectivity.focusOffTemporaryActivityDuration))
         case .notchSize:

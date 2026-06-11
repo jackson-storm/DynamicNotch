@@ -39,6 +39,8 @@ enum GeneralSettingsStorage {
         static let hudColoredStrokeEnabled = "settings.hud.coloredStroke"
         static let hotspotLiveActivityEnabled = "settings.live.hotspot"
         static let focusLiveActivityEnabled = "settings.live.focus"
+        static let focusOnAutoHideEnabled = "settings.live.focus.autoHide"
+        static let focusOnTemporaryActivityDuration = "settings.temporary.focusOn.duration"
         static let focusAppearanceStyle = "settings.focus.appearanceStyle"
         static let nowPlayingLiveActivityEnabled = "settings.live.nowPlaying"
         static let closeAtFocusLiveActivityEnabled = "settings.nowPlaying.closeAtFocus"
@@ -160,6 +162,8 @@ enum GeneralSettingsStorage {
         Keys.hudColoredStrokeEnabled: false,
         Keys.hotspotLiveActivityEnabled: true,
         Keys.focusLiveActivityEnabled: true,
+        Keys.focusOnAutoHideEnabled: false,
+        Keys.focusOnTemporaryActivityDuration: 3,
         Keys.focusAppearanceStyle: FocusAppearanceStyle.iconsOnly.rawValue,
         Keys.nowPlayingLiveActivityEnabled: true,
         Keys.closeAtFocusLiveActivityEnabled: true,

@@ -8,11 +8,23 @@
 import SwiftUI
 
 struct FocusOnNotchView: View {
+    @ObservedObject private var manager = DoNotDisturbManager.shared
+    
     let style: FocusAppearanceStyle
     let focusModeType: FocusModeType
 
+    private var activeFocusModeType: FocusModeType {
+        if manager.isDoNotDisturbActive {
+            return FocusModeType.resolve(
+                identifier: manager.currentFocusModeIdentifier,
+                name: manager.currentFocusModeName
+            )
+        }
+        return focusModeType
+    }
+
     var body: some View {
-        FocusStatusNotchView(title: "On", tint: focusModeType.tint, style: style, icon: focusModeType.icon)
+        FocusStatusNotchView(title: "On", tint: activeFocusModeType.tint, style: style, icon: activeFocusModeType.icon)
     }
 }
 

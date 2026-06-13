@@ -16,7 +16,7 @@ struct NotchSizeHeightNotchView: View {
         HStack {
             Image(systemName: "chevron.up.chevron.down")
             Spacer()
-            AnimatedLevelText(level: settingsViewModel.notchHeight, fontSize: isDynamicIsland ? 16 : 18)
+            AnimatedLevelText(level: isDynamicIsland ? settingsViewModel.dynamicIslandHeight : settingsViewModel.notchHeight, fontSize: isDynamicIsland ? 16 : 18)
         }
         .font(.system(size: 18))
         .foregroundColor(.white)

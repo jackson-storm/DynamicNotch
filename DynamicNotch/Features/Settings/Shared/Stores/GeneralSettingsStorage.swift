@@ -6,6 +6,7 @@ enum GeneralSettingsStorage {
         static let notchBackgroundStyle = "settings.notch.backgroundStyle"
         static let notchWidth = "notchWidth"
         static let notchHeight = "notchHeight"
+        static let dynamicIslandHeight = "dynamicIslandHeight"
         static let menuBarIcon = "isMenuBarIconVisible"
         static let notchStrokeEnabled = "isShowNotchStrokeEnabled"
         static let defaultActivityStrokeEnabled = "settings.general.defaultActivityStroke"
@@ -129,6 +130,7 @@ enum GeneralSettingsStorage {
         Keys.notchBackgroundStyle: NotchBackgroundStyle.black.rawValue,
         Keys.notchWidth: 0,
         Keys.notchHeight: 0,
+        Keys.dynamicIslandHeight: 0,
         Keys.menuBarIcon: true,
         Keys.notchStrokeEnabled: true,
         Keys.defaultActivityStrokeEnabled: false,

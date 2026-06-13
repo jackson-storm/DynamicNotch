@@ -86,6 +86,9 @@ struct NotchView: View {
                 .onChange(of: settingsViewModel.notchHeight) {
                     notchViewModel.updateDimensions()
                 }
+                .onChange(of: settingsViewModel.dynamicIslandHeight) {
+                    notchViewModel.updateDimensions()
+                }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }

@@ -104,6 +104,11 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
         set { application.notchHeight = newValue }
     }
 
+    var dynamicIslandHeight: Int {
+        get { application.dynamicIslandHeight }
+        set { application.dynamicIslandHeight = newValue }
+    }
+
     var isMenuBarIconVisible: Bool {
         get { application.isMenuBarIconVisible }
         set { application.isMenuBarIconVisible = newValue }

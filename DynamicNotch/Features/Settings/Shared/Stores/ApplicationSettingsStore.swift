@@ -51,6 +51,14 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         }
     }
 
+    @Published var dynamicIslandHeight: Int {
+        didSet {
+            guard oldValue != dynamicIslandHeight else { return }
+            persist(dynamicIslandHeight, for: GeneralSettingsStorage.Keys.dynamicIslandHeight)
+            notchSizeEvent.send(.height)
+        }
+    }
+
     @Published var isMenuBarIconVisible: Bool {
         didSet {
             persist(isMenuBarIconVisible, for: GeneralSettingsStorage.Keys.menuBarIcon)
@@ -253,6 +261,7 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         )
         self.notchWidth = defaults.integer(forKey: GeneralSettingsStorage.Keys.notchWidth)
         self.notchHeight = defaults.integer(forKey: GeneralSettingsStorage.Keys.notchHeight)
+        self.dynamicIslandHeight = defaults.integer(forKey: GeneralSettingsStorage.Keys.dynamicIslandHeight)
         self.isMenuBarIconVisible = defaults.bool(forKey: GeneralSettingsStorage.Keys.menuBarIcon)
         self.isShowNotchStrokeEnabled = Self.resolvedBool(
             defaults: defaults,
@@ -373,6 +382,7 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         )
         notchWidth = defaultInt(for: GeneralSettingsStorage.Keys.notchWidth)
         notchHeight = defaultInt(for: GeneralSettingsStorage.Keys.notchHeight)
+        dynamicIslandHeight = defaultInt(for: GeneralSettingsStorage.Keys.dynamicIslandHeight)
     }
 
     func reset() {

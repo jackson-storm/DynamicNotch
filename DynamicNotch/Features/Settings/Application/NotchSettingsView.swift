@@ -139,6 +139,20 @@ struct NotchSettingsView: View {
                     set: { applicationSettings.notchHeight = Int($0.rounded()) }
                 )
             )
+            
+            SettingsSliderRow(
+                title: "Dynamic Island height",
+                description: "Fine-tune the Dynamic Island height to better match your preferences.",
+                range: -4...4,
+                step: 1,
+                fractionLength: 0,
+                suffix: "px",
+                accessibilityIdentifier: "settings.general.dynamicIslandHeight",
+                value: Binding(
+                    get: { Double(applicationSettings.dynamicIslandHeight) },
+                    set: { applicationSettings.dynamicIslandHeight = Int($0.rounded()) }
+                )
+            )
         }
     }
     

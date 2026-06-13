@@ -382,6 +382,7 @@ final class NotchEngine: ObservableObject {
 
         await withCheckedContinuation { continuation in
             transition(
+                customDelay: (notchModel.content == nil) ? 0.0 : nil,
                 hide: {
                     withAnimation(self.animations.closeLiveActivity) {
                         self.notchModel.isLiveActivityExpanded = false
@@ -401,6 +402,7 @@ final class NotchEngine: ObservableObject {
     private func showTemporaryTransition(_ content: NotchContentProtocol, duration: TimeInterval) async {
         await withCheckedContinuation { continuation in
             transition(
+                customDelay: (notchModel.content == nil) ? 0.0 : nil,
                 hide: {
                     self.cancelTemporary()
 

@@ -4,6 +4,7 @@ import SwiftUI
 
 final class TestNotchSettings: NotchSettingsProviding {
     var notchWidth: Int
+    var dynamicIslandWidth: Int
     var notchHeight: Int
     var dynamicIslandHeight: Int
     var displayLocation: NotchDisplayLocation {
@@ -24,9 +25,10 @@ final class TestNotchSettings: NotchSettingsProviding {
     var isNotchTrackpadSwipeGesturesEnabled: Bool
     var isNotchSwipeDismissEnabled: Bool
     var isNotchSwipeRestoreEnabled: Bool
-
+ 
     init(
         notchWidth: Int = 0,
+        dynamicIslandWidth: Int = 0,
         notchHeight: Int = 0,
         dynamicIslandHeight: Int = 0,
         displayLocation: NotchDisplayLocation = .main,
@@ -41,6 +43,7 @@ final class TestNotchSettings: NotchSettingsProviding {
         isNotchSwipeRestoreEnabled: Bool = true
     ) {
         self.notchWidth = notchWidth
+        self.dynamicIslandWidth = dynamicIslandWidth
         self.notchHeight = notchHeight
         self.dynamicIslandHeight = dynamicIslandHeight
         self.displayLocation = displayLocation

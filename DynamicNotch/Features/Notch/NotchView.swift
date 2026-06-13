@@ -83,6 +83,9 @@ struct NotchView: View {
                 .onChange(of: settingsViewModel.notchWidth) {
                     notchViewModel.updateDimensions()
                 }
+                .onChange(of: settingsViewModel.dynamicIslandWidth) {
+                    notchViewModel.updateDimensions()
+                }
                 .onChange(of: settingsViewModel.notchHeight) {
                     notchViewModel.updateDimensions()
                 }
@@ -143,25 +146,32 @@ private extension NotchView {
     }
     
     var visibleStrokeColor: Color {
-        notchViewModel.displayedContent?.strokeColor ?? notchViewModel.cachedStrokeColor
+        let isDynamicIsland = notchViewModel.topInset == 0
+        let isDefaultStroke = isDynamicIsland ? settingsViewModel.application.isDynamicIslandDefaultActivityStrokeEnabled : settingsViewModel.application.isDefaultActivityStrokeEnabled
+        if isDefaultStroke {
+            return .white.opacity(0.2)
+        }
+        return notchViewModel.displayedContent?.strokeColor ?? notchViewModel.cachedStrokeColor
     }
     
     @ViewBuilder
     var notchSurface: some View {
+        let isDynamicIsland = notchViewModel.topInset == 0
         NotchBackgroundSurface(
-            style: settingsViewModel.application.notchBackgroundStyle,
+            style: isDynamicIsland ? settingsViewModel.application.dynamicIslandBackgroundStyle : settingsViewModel.application.notchBackgroundStyle,
             topCornerRadius: notchViewModel.interactiveCornerRadius.top,
             bottomCornerRadius: notchViewModel.interactiveCornerRadius.bottom,
-            isDynamicIsland: notchViewModel.topInset == 0,
+            isDynamicIsland: isDynamicIsland,
             dynamicIslandCornerRadius: notchViewModel.dynamicIslandCornerRadius,
             strokeColor: shouldShowStroke ? visibleStrokeColor : .clear,
-            strokeWidth: settingsViewModel.notchStrokeWidth
+            strokeWidth: isDynamicIsland ? settingsViewModel.application.dynamicIslandStrokeWidth : settingsViewModel.notchStrokeWidth
         )
     }
     
     var shouldShowStroke: Bool {
-        settingsViewModel.isShowNotchStrokeEnabled &&
-        notchViewModel.shouldRenderStroke
+        let isDynamicIsland = notchViewModel.topInset == 0
+        let isStrokeEnabled = isDynamicIsland ? settingsViewModel.application.isShowDynamicIslandStrokeEnabled : settingsViewModel.application.isShowNotchStrokeEnabled
+        return isStrokeEnabled && notchViewModel.shouldRenderStroke
     }
     
     @ViewBuilder

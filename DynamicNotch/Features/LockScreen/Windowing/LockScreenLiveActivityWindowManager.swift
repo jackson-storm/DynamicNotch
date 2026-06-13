@@ -400,19 +400,26 @@ private struct LockScreenLiveActivityOverlayView: View {
     
     @ViewBuilder
     private var notchSurface: some View {
+        let isDynamicIsland = notchViewModel.topInset == 0
+        let shouldShowStroke = isDynamicIsland ? settingsViewModel.application.isShowDynamicIslandStrokeEnabled : settingsViewModel.application.isShowNotchStrokeEnabled
         NotchBackgroundSurface(
-            style: settingsViewModel.application.notchBackgroundStyle,
+            style: isDynamicIsland ? settingsViewModel.application.dynamicIslandBackgroundStyle : settingsViewModel.application.notchBackgroundStyle,
             topCornerRadius: notchViewModel.interactiveCornerRadius.top,
             bottomCornerRadius: notchViewModel.interactiveCornerRadius.bottom,
-            isDynamicIsland: notchViewModel.topInset == 0,
+            isDynamicIsland: isDynamicIsland,
             dynamicIslandCornerRadius: notchViewModel.dynamicIslandCornerRadius,
-            strokeColor: settingsViewModel.isShowNotchStrokeEnabled ? visibleStrokeColor : .clear,
-            strokeWidth: settingsViewModel.notchStrokeWidth
+            strokeColor: shouldShowStroke ? visibleStrokeColor : .clear,
+            strokeWidth: isDynamicIsland ? settingsViewModel.application.dynamicIslandStrokeWidth : settingsViewModel.notchStrokeWidth
         )
     }
     
     private var visibleStrokeColor: Color {
-        notchViewModel.notchModel.content?.strokeColor ?? notchViewModel.cachedStrokeColor
+        let isDynamicIsland = notchViewModel.topInset == 0
+        let isDefaultStroke = isDynamicIsland ? settingsViewModel.application.isDynamicIslandDefaultActivityStrokeEnabled : settingsViewModel.application.isDefaultActivityStrokeEnabled
+        if isDefaultStroke {
+            return .white.opacity(0.2)
+        }
+        return notchViewModel.notchModel.content?.strokeColor ?? notchViewModel.cachedStrokeColor
     }
     
     @ViewBuilder

@@ -8,6 +8,9 @@ struct NowPlayingArtworkBackground: View {
     let saturation: Double
     let scale: CGFloat
 
+    @State private var cachedResizedImage: NSImage?
+    @State private var lastSourceImage: NSImage?
+
     init(
         artworkImage: NSImage?,
         blurRadius: CGFloat = 34,
@@ -25,11 +28,11 @@ struct NowPlayingArtworkBackground: View {
     var body: some View {
         GeometryReader { proxy in
             ZStack {
-                if let artworkImage {
-                    Image(nsImage: artworkImage)
+                if let displayImage = cachedResizedImage ?? artworkImage {
+                    Image(nsImage: displayImage)
                         .resizable()
-                        .interpolation(.high)
-                        .antialiased(true)
+                        .interpolation(.low)
+                        .antialiased(false)
                         .scaledToFill()
                         .frame(
                             width: proxy.size.width + blurRadius,
@@ -53,7 +56,35 @@ struct NowPlayingArtworkBackground: View {
             }
             .frame(width: proxy.size.width, height: proxy.size.height)
             .clipped()
+            .onAppear {
+                updateCachedImage()
+            }
+            .onChange(of: artworkImage) {
+                updateCachedImage()
+            }
         }
         .allowsHitTesting(false)
+    }
+
+    private func updateCachedImage() {
+        guard let artworkImage else {
+            cachedResizedImage = nil
+            lastSourceImage = nil
+            return
+        }
+        guard artworkImage !== lastSourceImage else { return }
+        lastSourceImage = artworkImage
+        
+        let targetSize = NSSize(width: 60, height: 60)
+        let resized = NSImage(size: targetSize)
+        resized.lockFocus()
+        artworkImage.draw(
+            in: NSRect(origin: .zero, size: targetSize),
+            from: NSRect(origin: .zero, size: artworkImage.size),
+            operation: .copy,
+            fraction: 1.0
+        )
+        resized.unlockFocus()
+        cachedResizedImage = resized
     }
 }

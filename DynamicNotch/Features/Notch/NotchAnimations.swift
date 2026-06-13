@@ -45,7 +45,7 @@ struct NotchAnimations {
                 strokeVisibility: .spring(response: 0.41),
                 notchVisibility: .spring(response: 0.41),
                 
-                hideShowDelay: 0.29,
+                hideShowDelay: 0.26,
                 queuePacingDelay: 0.1
             )
 
@@ -66,7 +66,7 @@ struct NotchAnimations {
                 strokeVisibility: .spring(response: 0.44),
                 notchVisibility: .spring(response: 0.44),
                 
-                hideShowDelay: 0.32,
+                hideShowDelay: 0.29,
                 queuePacingDelay: 0.1
             )
 
@@ -87,7 +87,7 @@ struct NotchAnimations {
                 strokeVisibility: .spring(response: 0.47),
                 notchVisibility: .spring(response: 0.47),
                 
-                hideShowDelay: 0.35,
+                hideShowDelay: 0.32,
                 queuePacingDelay: 0.1
             )
 
@@ -108,7 +108,7 @@ struct NotchAnimations {
                 strokeVisibility: .spring(response: 0.50),
                 notchVisibility: .spring(response: 0.50),
                 
-                hideShowDelay: 0.38,
+                hideShowDelay: 0.35,
                 queuePacingDelay: 0.1
             )
 
@@ -129,7 +129,7 @@ struct NotchAnimations {
                 strokeVisibility: .spring(response: 0.53),
                 notchVisibility: .spring(response: 0.53),
                 
-                hideShowDelay: 0.41,
+                hideShowDelay: 0.38,
                 queuePacingDelay: 0.1
             )
         }

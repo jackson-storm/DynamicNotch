@@ -416,7 +416,7 @@ final class NowPlayingViewModelIntegrationTests: XCTestCase {
         XCTAssertTrue(restoredViewModel.isCurrentTrackFavorite)
     }
 
-    func testFavoriteStateResetsForDifferentTrack() {
+    func testFavoriteStateResetsForDifferentTrack() async {
         let service = FakeNowPlayingService()
         let favoritesStore = makeFavoriteStore(named: #function)
         let viewModel = NowPlayingViewModel(
@@ -442,6 +442,8 @@ final class NowPlayingViewModelIntegrationTests: XCTestCase {
                 album: "Preview Mode"
             )
         )
+
+        try? await Task.sleep(nanoseconds: 300_000_000)
 
         XCTAssertFalse(viewModel.isCurrentTrackFavorite)
     }

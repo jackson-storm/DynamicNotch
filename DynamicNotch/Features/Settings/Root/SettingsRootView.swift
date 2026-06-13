@@ -116,14 +116,17 @@ struct SettingsRootView: View {
             .navigationSplitViewColumnWidth(min: 170, ideal: 200, max: 200)
 
         } detail: {
-            Group {
-                if filteredSections.isEmpty {
-                    SettingsSearchEmptyState(query: searchText)
-                } else {
-                    detailView(for: resolvedSelection)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+            NavigationStack {
+                Group {
+                    if filteredSections.isEmpty {
+                        SettingsSearchEmptyState(query: searchText)
+                    } else {
+                        detailView(for: resolvedSelection)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                    }
                 }
             }
+            .toolbarBackground(.thinMaterial, for: .windowToolbar)
         }
         .navigationTitle(
             filteredSections.isEmpty

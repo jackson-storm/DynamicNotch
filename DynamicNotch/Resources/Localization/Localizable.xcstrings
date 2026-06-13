@@ -537,6 +537,9 @@
         }
       }
     },
+    "Adjust the thickness of the Dynamic Island outline." : {
+
+    },
     "Adjust the thickness of the notch outline." : {
       "localizations" : {
         "en" : {
@@ -2977,6 +2980,9 @@
         }
       }
     },
+    "Choose the background color used across the Dynamic Island." : {
+
+    },
     "Choose the background color used across the notch." : {
       "localizations" : {
         "en" : {
@@ -5408,6 +5414,15 @@
         }
       }
     },
+    "Dynamic Island appearance" : {
+
+    },
+    "Dynamic Island height" : {
+
+    },
+    "Dynamic Island width" : {
+
+    },
     "Dynamic Notch" : {
       "localizations" : {
         "en" : {
@@ -5760,6 +5775,12 @@
           }
         }
       }
+    },
+    "Fine-tune the Dynamic Island height to better match your preferences." : {
+
+    },
+    "Fine-tune the Dynamic Island width to better match your preferences." : {
+
     },
     "Fine-tune the notch frame and stroke so it better matches your hardware." : {
       "extractionState" : "stale",
@@ -16870,6 +16891,9 @@
           }
         }
       }
+    },
+    "Show Dynamic Island stroke" : {
+
     },
     "Show file drop targets when you drag files over the notch." : {
       "extractionState" : "stale",

@@ -34,18 +34,21 @@ struct LockScreenClockView: View {
         .shadow(color: .black.opacity(0.28), radius: 10, x: 0, y: 4)
     }
 
+    private static let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = .autoupdatingCurrent
+        formatter.calendar = .autoupdatingCurrent
+        formatter.dateFormat = "EEE d MMM"
+        return formatter
+    }()
+
     private var timeString: String {
         let components = Calendar.current.dateComponents([.hour, .minute], from: date)
         return String(format: "%02d:%02d", components.hour ?? 0, components.minute ?? 0)
     }
 
     private var dateString: String {
-        let formatter = DateFormatter()
-        formatter.locale = .autoupdatingCurrent
-        formatter.calendar = .autoupdatingCurrent
-        formatter.dateFormat = "EEE d MMM"
-
-        return formatter.string(from: date).localizedCapitalizedFirstLetter
+        Self.dateFormatter.string(from: date).localizedCapitalizedFirstLetter
     }
 }
 

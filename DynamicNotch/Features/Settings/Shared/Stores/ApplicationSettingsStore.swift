@@ -35,6 +35,12 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         }
     }
 
+    @Published var dynamicIslandBackgroundStyle: NotchBackgroundStyle {
+        didSet {
+            persist(dynamicIslandBackgroundStyle.rawValue, for: GeneralSettingsStorage.Keys.dynamicIslandBackgroundStyle)
+        }
+    }
+
     @Published var notchWidth: Int {
         didSet {
             guard oldValue != notchWidth else { return }
@@ -43,10 +49,26 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         }
     }
 
+    @Published var dynamicIslandWidth: Int {
+        didSet {
+            guard oldValue != dynamicIslandWidth else { return }
+            persist(dynamicIslandWidth, for: GeneralSettingsStorage.Keys.dynamicIslandWidth)
+            notchSizeEvent.send(.width)
+        }
+    }
+
     @Published var notchHeight: Int {
         didSet {
             guard oldValue != notchHeight else { return }
             persist(notchHeight, for: GeneralSettingsStorage.Keys.notchHeight)
+            notchSizeEvent.send(.height)
+        }
+    }
+
+    @Published var dynamicIslandHeight: Int {
+        didSet {
+            guard oldValue != dynamicIslandHeight else { return }
+            persist(dynamicIslandHeight, for: GeneralSettingsStorage.Keys.dynamicIslandHeight)
             notchSizeEvent.send(.height)
         }
     }
@@ -79,6 +101,31 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
             }
 
             persist(notchStrokeWidth, for: GeneralSettingsStorage.Keys.notchStrokeWidth)
+        }
+    }
+
+    @Published var isShowDynamicIslandStrokeEnabled: Bool {
+        didSet {
+            persist(isShowDynamicIslandStrokeEnabled, for: GeneralSettingsStorage.Keys.dynamicIslandStrokeEnabled)
+        }
+    }
+
+    @Published var isDynamicIslandDefaultActivityStrokeEnabled: Bool {
+        didSet {
+            persist(isDynamicIslandDefaultActivityStrokeEnabled, for: GeneralSettingsStorage.Keys.dynamicIslandDefaultActivityStrokeEnabled)
+        }
+    }
+
+    @Published var dynamicIslandStrokeWidth: Double {
+        didSet {
+            let clampedValue = Self.clampNotchStrokeWidth(dynamicIslandStrokeWidth)
+
+            if clampedValue != dynamicIslandStrokeWidth {
+                dynamicIslandStrokeWidth = clampedValue
+                return
+            }
+
+            persist(dynamicIslandStrokeWidth, for: GeneralSettingsStorage.Keys.dynamicIslandStrokeWidth)
         }
     }
 
@@ -251,15 +298,29 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         self.notchBackgroundStyle = NotchBackgroundStyle.resolved(
             defaults.string(forKey: GeneralSettingsStorage.Keys.notchBackgroundStyle)
         )
+        self.dynamicIslandBackgroundStyle = NotchBackgroundStyle.resolved(
+            defaults.string(forKey: GeneralSettingsStorage.Keys.dynamicIslandBackgroundStyle)
+        )
         self.notchWidth = defaults.integer(forKey: GeneralSettingsStorage.Keys.notchWidth)
+        self.dynamicIslandWidth = defaults.integer(forKey: GeneralSettingsStorage.Keys.dynamicIslandWidth)
         self.notchHeight = defaults.integer(forKey: GeneralSettingsStorage.Keys.notchHeight)
+        self.dynamicIslandHeight = defaults.integer(forKey: GeneralSettingsStorage.Keys.dynamicIslandHeight)
         self.isMenuBarIconVisible = defaults.bool(forKey: GeneralSettingsStorage.Keys.menuBarIcon)
         self.isShowNotchStrokeEnabled = Self.resolvedBool(
             defaults: defaults,
             key: GeneralSettingsStorage.Keys.notchStrokeEnabled
         )
+        self.isShowDynamicIslandStrokeEnabled = Self.resolvedBool(
+            defaults: defaults,
+            key: GeneralSettingsStorage.Keys.dynamicIslandStrokeEnabled
+        )
         self.isDefaultActivityStrokeEnabled = Self.resolvedDefaultActivityStrokeEnabled(defaults: defaults)
+        self.isDynamicIslandDefaultActivityStrokeEnabled = Self.resolvedBool(
+            defaults: defaults,
+            key: GeneralSettingsStorage.Keys.dynamicIslandDefaultActivityStrokeEnabled
+        )
         self.notchStrokeWidth = Self.resolvedNotchStrokeWidth(defaults: defaults)
+        self.dynamicIslandStrokeWidth = Self.resolvedDynamicIslandStrokeWidth(defaults: defaults)
         self.displayLocation = NotchDisplayLocation(
             rawValue: defaults.string(forKey: GeneralSettingsStorage.Keys.displayLocation) ?? NotchDisplayLocation.main.rawValue
         ) ?? .main
@@ -362,17 +423,25 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         isNotchSwipeRestoreEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchSwipeRestoreEnabled)
         resetNotchContentPriorities()
         isShowNotchStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchStrokeEnabled)
+        isShowDynamicIslandStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.dynamicIslandStrokeEnabled)
         isDefaultActivityStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.defaultActivityStrokeEnabled)
+        isDynamicIslandDefaultActivityStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.dynamicIslandDefaultActivityStrokeEnabled)
         isNotchSizeTemporaryActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchSizeTemporaryActivityEnabled)
         notchSizeTemporaryActivityDuration = Self.clampTemporaryActivityDuration(
             defaultInt(for: GeneralSettingsStorage.Keys.notchSizeTemporaryActivityDuration)
         )
         notchStrokeWidth = defaultDouble(for: GeneralSettingsStorage.Keys.notchStrokeWidth)
+        dynamicIslandStrokeWidth = defaultDouble(for: GeneralSettingsStorage.Keys.dynamicIslandStrokeWidth)
         notchBackgroundStyle = NotchBackgroundStyle.resolved(
             defaultString(for: GeneralSettingsStorage.Keys.notchBackgroundStyle)
         )
+        dynamicIslandBackgroundStyle = NotchBackgroundStyle.resolved(
+            defaultString(for: GeneralSettingsStorage.Keys.dynamicIslandBackgroundStyle)
+        )
         notchWidth = defaultInt(for: GeneralSettingsStorage.Keys.notchWidth)
+        dynamicIslandWidth = defaultInt(for: GeneralSettingsStorage.Keys.dynamicIslandWidth)
         notchHeight = defaultInt(for: GeneralSettingsStorage.Keys.notchHeight)
+        dynamicIslandHeight = defaultInt(for: GeneralSettingsStorage.Keys.dynamicIslandHeight)
     }
 
     func reset() {
@@ -429,6 +498,16 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
 
     private static func resolvedNotchStrokeWidth(defaults: UserDefaults) -> Double {
         let key = GeneralSettingsStorage.Keys.notchStrokeWidth
+
+        guard let currentValue = (defaults.object(forKey: key) as? NSNumber)?.doubleValue else {
+            return defaultDoubleValue(for: key)
+        }
+
+        return clampNotchStrokeWidth(currentValue)
+    }
+
+    private static func resolvedDynamicIslandStrokeWidth(defaults: UserDefaults) -> Double {
+        let key = GeneralSettingsStorage.Keys.dynamicIslandStrokeWidth
 
         guard let currentValue = (defaults.object(forKey: key) as? NSNumber)?.doubleValue else {
             return defaultDoubleValue(for: key)

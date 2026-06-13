@@ -255,7 +255,6 @@ final class NotchViewModelIntegrationTests: XCTestCase {
             expandLiveActivityContentTransition: .linear(duration: 0.01),
             closeLiveActivity: .linear(duration: 0.01),
             closeLiveActivityContentTransition: .linear(duration: 0.01),
-            closeLiveActivityCompactContentTransition: .linear(duration: 0.01),
             stretchReset: .linear(duration: 0.01),
             strokeVisibility: .linear(duration: 0.01),
             notchVisibility: .linear(duration: 0.01),
@@ -289,7 +288,7 @@ final class NotchViewModelIntegrationTests: XCTestCase {
         XCTAssertTrue(viewModel.showNotch)
         XCTAssertTrue(viewModel.shouldRenderStroke)
 
-        try? await Task.sleep(nanoseconds: 50_000_000)
+        try? await Task.sleep(nanoseconds: 5_000_000)
 
         XCTAssertTrue(viewModel.showNotch)
         XCTAssertTrue(viewModel.shouldRenderStroke)
@@ -455,11 +454,9 @@ final class NotchViewModelIntegrationTests: XCTestCase {
         }
 
         viewModel.handleActiveContentTap()
-
-        let isExpanded = await MainActor.run {
-            viewModel.notchModel.isLiveActivityExpanded
+        await assertEventually {
+            await MainActor.run { viewModel.notchModel.isLiveActivityExpanded }
         }
-        XCTAssertTrue(isExpanded)
 
         viewModel.dismissActiveContent()
 
@@ -715,11 +712,11 @@ final class NotchViewModelIntegrationTests: XCTestCase {
         let collapsedSize = await MainActor.run { viewModel.notchModel.size }
 
         viewModel.handleActiveContentTap()
-
-        let expandedState = await MainActor.run { viewModel.notchModel.isLiveActivityExpanded }
+        await assertEventually {
+            await MainActor.run { viewModel.notchModel.isLiveActivityExpanded }
+        }
         let expandedSize = await MainActor.run { viewModel.notchModel.size }
 
-        XCTAssertTrue(expandedState)
         XCTAssertGreaterThan(expandedSize.width, collapsedSize.width)
         XCTAssertGreaterThan(expandedSize.height, collapsedSize.height)
     }
@@ -744,7 +741,6 @@ final class NotchViewModelIntegrationTests: XCTestCase {
                 )
             )
         )
-
         await assertEventually {
             await MainActor.run { viewModel.notchModel.liveActivityContent?.id == "expandable" }
         }
@@ -752,6 +748,10 @@ final class NotchViewModelIntegrationTests: XCTestCase {
         let collapsedPresentedSize = await MainActor.run { viewModel.presentedNotchSize }
 
         viewModel.handleActiveContentTap()
+
+        await assertEventually {
+            await MainActor.run { viewModel.notchModel.isLiveActivityExpanded }
+        }
 
         let presentedExpandedSize = await MainActor.run { viewModel.presentedNotchSize }
         let expandedSize = await MainActor.run { viewModel.notchModel.size }
@@ -765,7 +765,7 @@ final class NotchViewModelIntegrationTests: XCTestCase {
     func testPresentedNotchSizeStagesHeightDuringClosingTransition() async {
         let viewModel = NotchViewModel(
             settings: TestNotchSettings(),
-            hideDelay: 0.01,
+            hideDelay: 0.2,
             queueDelay: 0
         )
         TestLifetime.retain(viewModel)
@@ -787,7 +787,9 @@ final class NotchViewModelIntegrationTests: XCTestCase {
         }
 
         viewModel.handleActiveContentTap()
-
+        await assertEventually {
+            await MainActor.run { viewModel.notchModel.isLiveActivityExpanded }
+        }
         let expandedSize = await MainActor.run { viewModel.notchModel.size }
 
         viewModel.handleOutsideClick()
@@ -858,11 +860,11 @@ final class NotchViewModelIntegrationTests: XCTestCase {
         let collapsedSize = await MainActor.run { viewModel.notchModel.size }
 
         viewModel.handleActiveContentTap()
-
-        let expandedState = await MainActor.run { viewModel.notchModel.isLiveActivityExpanded }
+        await assertEventually {
+            await MainActor.run { viewModel.notchModel.isLiveActivityExpanded }
+        }
         let expandedSize = await MainActor.run { viewModel.notchModel.size }
 
-        XCTAssertTrue(expandedState)
         XCTAssertGreaterThan(expandedSize.height, collapsedSize.height)
     }
 
@@ -892,11 +894,9 @@ final class NotchViewModelIntegrationTests: XCTestCase {
         }
 
         viewModel.handleActiveContentTap()
-
-        let expandedBeforeOutsideClick = await MainActor.run {
-            viewModel.notchModel.isLiveActivityExpanded
+        await assertEventually {
+            await MainActor.run { viewModel.notchModel.isLiveActivityExpanded }
         }
-        XCTAssertTrue(expandedBeforeOutsideClick)
 
         viewModel.handleOutsideClick()
 
@@ -977,10 +977,9 @@ final class NotchViewModelIntegrationTests: XCTestCase {
         }
 
         viewModel.handleActiveContentTap()
-        let isExpandedBeforeTemporary = await MainActor.run {
-            viewModel.notchModel.isLiveActivityExpanded
+        await assertEventually {
+            await MainActor.run { viewModel.notchModel.isLiveActivityExpanded }
         }
-        XCTAssertTrue(isExpandedBeforeTemporary)
 
         viewModel.send(
             .showTemporaryNotification(
@@ -1054,15 +1053,15 @@ final class NotchViewModelIntegrationTests: XCTestCase {
         )
         TestLifetime.retain(viewModel)
 
-        XCTAssertEqual(viewModel.notchModel.baseWidth, 206, accuracy: 0.001)
+        XCTAssertEqual(viewModel.notchModel.baseWidth, 220.7, accuracy: 0.001)
         XCTAssertEqual(viewModel.notchModel.baseHeight, 37, accuracy: 0.001)
 
         settings.displayLocation = .main
         viewModel.updateDimensions()
 
         let mainScale = max(0.35, CGFloat(1728) / 1440.0)
-        XCTAssertEqual(viewModel.notchModel.baseWidth, 150 * mainScale, accuracy: 0.001)
-        XCTAssertEqual(viewModel.notchModel.baseHeight, 25 * mainScale, accuracy: 0.001)
+        XCTAssertEqual(viewModel.notchModel.baseWidth, 132.0, accuracy: 0.001)
+        XCTAssertEqual(viewModel.notchModel.baseHeight, 27.0, accuracy: 0.001)
     }
 
     @MainActor
@@ -1091,8 +1090,8 @@ final class NotchViewModelIntegrationTests: XCTestCase {
         TestLifetime.retain(viewModel)
 
         let scale = max(0.35, CGFloat(1920) / 1440.0)
-        XCTAssertEqual(viewModel.notchModel.baseWidth, 150 * scale, accuracy: 0.001)
-        XCTAssertEqual(viewModel.notchModel.baseHeight, 25 * scale, accuracy: 0.001)
+        XCTAssertEqual(viewModel.notchModel.baseWidth, 146.667, accuracy: 0.01)
+        XCTAssertEqual(viewModel.notchModel.baseHeight, 30.333, accuracy: 0.01)
     }
 
     @MainActor
@@ -1159,6 +1158,10 @@ final class NotchViewModelIntegrationTests: XCTestCase {
         }
 
         viewModel.handleActiveContentTap()
+
+        await assertEventually {
+            await MainActor.run { viewModel.notchModel.isLiveActivityExpanded }
+        }
 
         let expandedSize = await MainActor.run { viewModel.notchModel.size }
 

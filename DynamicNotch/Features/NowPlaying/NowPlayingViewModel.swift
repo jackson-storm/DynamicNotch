@@ -429,7 +429,7 @@ private extension NowPlayingViewModel {
 
             applyArtworkPresentation(artworkData)
         case nil:
-            if newSnapshot == nil || previousArtworkData != nil {
+            if newSnapshot == nil || previousTrackKey != newTrackKey {
                 cancelPendingArtworkPresentation()
                 artworkImage = nil
                 artworkPalette = .fallback

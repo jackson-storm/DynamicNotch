@@ -4,12 +4,18 @@ enum GeneralSettingsStorage {
         static let dockIcon = "isDockIconVisible"
         static let appearanceMode = "settings.general.appearance.mode"
         static let notchBackgroundStyle = "settings.notch.backgroundStyle"
+        static let dynamicIslandBackgroundStyle = "settings.dynamicIsland.backgroundStyle"
         static let notchWidth = "notchWidth"
         static let notchHeight = "notchHeight"
+        static let dynamicIslandHeight = "dynamicIslandHeight"
         static let menuBarIcon = "isMenuBarIconVisible"
         static let notchStrokeEnabled = "isShowNotchStrokeEnabled"
+        static let dynamicIslandStrokeEnabled = "isShowDynamicIslandStrokeEnabled"
         static let defaultActivityStrokeEnabled = "settings.general.defaultActivityStroke"
+        static let dynamicIslandDefaultActivityStrokeEnabled = "settings.general.dynamicIslandDefaultActivityStroke"
         static let notchStrokeWidth = "notchStrokeWidth"
+        static let dynamicIslandStrokeWidth = "dynamicIslandStrokeWidth"
+        static let dynamicIslandWidth = "dynamicIslandWidth"
         static let displayLocation = "displayLocation"
         static let preferredDisplayUUID = "settings.general.display.preferred.uuid"
         static let preferredDisplayName = "settings.general.display.preferred.name"
@@ -127,12 +133,18 @@ enum GeneralSettingsStorage {
         Keys.dockIcon: false,
         Keys.appearanceMode: SettingsAppearanceMode.system.rawValue,
         Keys.notchBackgroundStyle: NotchBackgroundStyle.black.rawValue,
+        Keys.dynamicIslandBackgroundStyle: NotchBackgroundStyle.black.rawValue,
         Keys.notchWidth: 0,
         Keys.notchHeight: 0,
+        Keys.dynamicIslandHeight: 0,
         Keys.menuBarIcon: true,
         Keys.notchStrokeEnabled: true,
+        Keys.dynamicIslandStrokeEnabled: true,
         Keys.defaultActivityStrokeEnabled: false,
+        Keys.dynamicIslandDefaultActivityStrokeEnabled: false,
         Keys.notchStrokeWidth: 1.5,
+        Keys.dynamicIslandStrokeWidth: 1.5,
+        Keys.dynamicIslandWidth: 0,
         Keys.displayLocation: NotchDisplayLocation.main.rawValue,
         Keys.preferredDisplayUUID: "",
         Keys.preferredDisplayName: "",

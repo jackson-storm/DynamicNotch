@@ -1141,7 +1141,32 @@
       }
     },
     "Artwork appearance" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Artwork appearance"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apariencia de la carátula"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оформление обложки"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "封面外观"
+          }
+        }
+      }
     },
     "Artwork-tinted progress" : {
       "localizations" : {
@@ -2047,10 +2072,22 @@
             "value" : "Calendar"
           }
         },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calendario"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Календарь"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日历"
           }
         }
       }
@@ -2063,10 +2100,22 @@
             "value" : "Camera"
           }
         },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cámara"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Камера"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "相机"
           }
         }
       }
@@ -5232,10 +5281,22 @@
             "value" : "Drag to reorder pages. Disabled pages will be hidden."
           }
         },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrastra para reordenar las páginas. Las páginas desactivadas se ocultarán."
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Перетащите для изменения порядка. Отключенные страницы будут скрыты."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拖动以重新排序页面。禁用的页面将被隐藏。"
           }
         }
       }
@@ -7942,7 +8003,32 @@
       }
     },
     "Lock screen lyrics" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lock screen lyrics"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Letras en la pantalla de bloqueo"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Текст песен на экране блокировки"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "锁屏歌词"
+          }
+        }
+      }
     },
     "Lock screen media panel" : {
       "localizations" : {
@@ -9354,10 +9440,22 @@
             "value" : "Pages"
           }
         },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Páginas"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Страницы"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "页面"
           }
         }
       }
@@ -10104,10 +10202,22 @@
             "value" : "Quickly access the camera."
           }
         },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acceso rápido a la cámara."
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Быстрый доступ к камере."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "快速访问相机。"
           }
         }
       }
@@ -10672,10 +10782,22 @@
             "value" : "Set a quick timer."
           }
         },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configura un temporizador rápido."
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Установка быстрого таймера."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设置快速计时器。"
           }
         }
       }
@@ -11176,10 +11298,22 @@
             "value" : "Hide when Calendar is active"
           }
         },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ocultar cuando el Calendario está activo"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Скрывать, когда открыт Календарь"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当日历处于活动状态时隐藏"
           }
         }
       }
@@ -11192,10 +11326,22 @@
             "value" : "Automatically hide the live activity when the Calendar app is in focus."
           }
         },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oculta automáticamente la actividad en vivo cuando la aplicación Calendario está en primer plano."
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Автоматически скрывать виджет, когда приложение Календарь активно."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当日历应用处于焦点时，自动隐藏实时活动。"
           }
         }
       }
@@ -15692,25 +15838,25 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Home Page"
+            "value" : "Interactive home page, widgets layout, and custom pages."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Página principal"
+            "value" : "Página de inicio interactiva, diseño de widgets y páginas personalizadas."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Домашняя страница"
+            "value" : "Интерактивная домашняя страница, макет виджетов и настраиваемые страницы."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "主页"
+            "value" : "交互式主页、小组件布局和自定义页面。"
           }
         }
       }
@@ -17010,7 +17156,32 @@
       }
     },
     "Show synced lyrics next to the track cover when artwork is opened." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show synced lyrics next to the track cover when artwork is opened."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Muestra las letras sincronizadas junto a la portada de la pista cuando se abre la carátula."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показывать синхронизированный текст песен рядом с обложкой трека при открытии обложки."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "展开封面时，在曲目封面旁显示同步歌词。"
+          }
+        }
+      }
     },
     "Show temporary size hints while adjusting the notch width or height." : {
       "extractionState" : "stale",
@@ -19516,10 +19687,22 @@
             "value" : "View upcoming events."
           }
         },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ver próximos eventos."
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Просмотр предстоящих событий."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "查看即将举行的活动。"
           }
         }
       }

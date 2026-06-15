@@ -274,7 +274,7 @@ private enum SettingsSectionCatalog {
                 titleKey: "settings.section.homePage.title",
                 fallbackTitle: "Home Page",
                 subtitleKey: "settings.section.homePage.subtitle",
-                fallbackSubtitle: "Home Page ",
+                fallbackSubtitle: "Interactive home page, widgets layout, and custom pages.",
                 searchKeywords: [
                     "Home Page"
                 ],

@@ -169,7 +169,7 @@ final class NotchViewModel: ObservableObject {
         
         switch swipeInteraction {
         case .dismiss:
-            if model.isPresentingExpandedLiveActivity {
+            if model.isPresentingExpandedLiveActivity || baseSize.height > model.baseHeight + 1 {
                 let heightCompression = min(
                     max(baseSize.height * SwipeFeedbackMetrics.expandedDismissHeightFactor, SwipeFeedbackMetrics.expandedDismissMinimumHeight),
                     SwipeFeedbackMetrics.expandedDismissMaximumHeight
@@ -209,7 +209,7 @@ final class NotchViewModel: ObservableObject {
         
         switch swipeInteraction {
         case .dismiss:
-            if model.isPresentingExpandedLiveActivity {
+            if model.isPresentingExpandedLiveActivity || model.size.height > model.baseHeight + 1 {
                 return (
                     top: baseCornerRadius.top,
                     bottom: max(

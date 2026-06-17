@@ -113,12 +113,12 @@ extension HardwareHUDMonitor: SystemMediaKeyTapDelegate {
         modifiers: NSEvent.ModifierFlags
     ) {
         let level = audioService.adjust(direction: direction, granularity: granularity)
-        emit(.volume(level))
+        emit(.volume(level: level, deviceName: audioService.currentDeviceName))
     }
 
     func mediaKeyTapDidToggleMute(_ tap: SystemMediaKeyTap) {
         let level = audioService.toggleMute()
-        emit(.volume(level))
+        emit(.volume(level: level, deviceName: audioService.currentDeviceName))
     }
 
     func mediaKeyTap(

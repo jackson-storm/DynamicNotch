@@ -13263,6 +13263,34 @@
         }
       }
     },
+    "settings.hud.style.expandedCompact" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compact"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compacto"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Компактный"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "紧凑型"
+          }
+        }
+      }
+    },
     "settings.hud.style.expandedDetailed" : {
       "localizations" : {
         "en" : {
@@ -13343,34 +13371,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "标准型"
-          }
-        }
-      }
-    },
-    "settings.hud.style.expandedCompact" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Compact"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Compacto"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Компактный"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "紧凑型"
           }
         }
       }

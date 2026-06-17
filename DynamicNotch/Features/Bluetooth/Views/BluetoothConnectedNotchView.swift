@@ -115,7 +115,7 @@ struct BluetoothConnectedNotchView: View {
                     BluetoothBatteryIndicatorView(
                         batteryLevel: bluetoothViewModel.batteryLevel,
                         circleSize: 40,
-                        circleLineWidth: 4,
+                        circleLineWidth: 4.5,
                         usesTintedTrackStroke: isBatteryStrokeActive
                     )
                     if let clampedLevel {

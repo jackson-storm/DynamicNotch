@@ -33,8 +33,8 @@ struct HudMinimalContentView: View {
     
     private var horizontalPadding: CGFloat {
         let basePadding = indicatorStyle == .circle
-            ? (isDynamicIsland ? 6 : 14)
-            : (isDynamicIsland ? 8 : 14)
+            ? (isDynamicIsland ? 4 : 14)
+            : (isDynamicIsland ? 4 : 14)
         return basePadding.scaled(by: scale)
     }
     

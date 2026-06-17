@@ -11,22 +11,48 @@ struct HudExpandedDetailedContentView: View {
     let showsIndicatorGlow: Bool
     
     var body: some View {
-        VStack(spacing: 4) {
-            HStack(spacing: 6) {
-                iconView
-                Text(verbatim: text)
-                    .font(.system(size: isDynamicIsland ? 12 : 13, weight: .medium))
-                    .foregroundColor(.white.opacity(0.8))
+        VStack {
+            Spacer()
+            
+            VStack(spacing: 10) {
+                deviceName
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                
+                ZStack {
+                    indicatorView
+                    
+                    HStack {
+                        iconView
+                        
+                        Spacer()
+                        
+                        AnimatedLevelText(
+                            level: clampedLevel,
+                            fontSize: 14
+                        )
+                    }
+                }
             }
-            indicatorView
         }
-        .padding(.vertical, verticalPadding)
+        .padding(.bottom, bottomPadding)
         .padding(.horizontal, horizontalPadding)
+    }
+    
+    private var deviceName: some View {
+        MarqueeText(
+            .constant(text),
+            font: .system(size: 15, design: .rounded),
+            nsFont: .body,
+            textColor: .white.opacity(0.9),
+            backgroundColor: .clear,
+            minDuration: 1.5,
+            frameWidth: 175
+        )
     }
     
     private var iconView: some View {
         Image(systemName: image)
-            .font(.system(size: isDynamicIsland ? 16 : 18))
+            .font(.system(size:  16))
             .foregroundColor(.white)
     }
     
@@ -36,25 +62,17 @@ struct HudExpandedDetailedContentView: View {
             indicatorStyle: .bar,
             tintStyle: indicatorTintStyle,
             showsGlow: showsIndicatorGlow,
-            barWidth: barIndicatorWidth,
-            barHeight: barIndicatorHeight
+            barWidth: 90.scaled(by: scale),
+            barHeight: 8
         )
     }
     
-    private var verticalPadding: CGFloat {
-        isDynamicIsland ? 6 : 8
+    private var bottomPadding: CGFloat {
+        isDynamicIsland ? 14 : 14
     }
     
     private var horizontalPadding: CGFloat {
-        isDynamicIsland ? 12 : 16
-    }
-    
-    private var barIndicatorWidth: CGFloat {
-        80
-    }
-    
-    private var barIndicatorHeight: CGFloat {
-        6
+        isDynamicIsland ? 24 : 34
     }
     
     private var clampedLevel: Int {

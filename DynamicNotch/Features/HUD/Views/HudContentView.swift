@@ -13,7 +13,6 @@ struct HudContentView: View {
         switch style {
         case .standard:
             HudStandardContentView(
-                text: text,
                 level: level,
                 indicatorStyle: indicatorStyle,
                 indicatorTintStyle: indicatorTintStyle,

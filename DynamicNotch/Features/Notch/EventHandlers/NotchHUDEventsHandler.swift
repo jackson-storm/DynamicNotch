@@ -51,7 +51,7 @@ final class NotchHUDEventsHandler {
                 )
             )
 
-        case .volume(let level):
+        case .volume(let level, let deviceName):
             guard settingsViewModel.isHUDEnabled(.volume) else { return }
             notchViewModel.send(
                 .showTemporaryNotification(
@@ -63,6 +63,7 @@ final class NotchHUDEventsHandler {
                         indicatorTintStyle: settingsViewModel.hudIndicatorTintStyle,
                         showsIndicatorGlow: settingsViewModel.isHUDIndicatorGlowEnabled,
                         usesColoredLevelStroke: settingsViewModel.isHUDColoredLevelStrokeEnabled,
+                        deviceName: deviceName,
                         applicationSettings: settingsViewModel.application
                     ),
                     duration: settingsViewModel.temporaryActivityDuration(for: .volume)

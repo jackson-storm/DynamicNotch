@@ -3,7 +3,11 @@ import SwiftUI
 enum HudEvent: Equatable {
     case display(Int)
     case keyboard(Int)
-    case volume(Int)
+    case volume(level: Int, deviceName: String?)
+
+    static func volume(_ level: Int) -> HudEvent {
+        return .volume(level: level, deviceName: nil)
+    }
 }
 
 struct HudNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
@@ -16,6 +20,7 @@ struct HudNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     let applicationSettings: ApplicationSettingsStore?
     
     let level: Int
+    let deviceName: String?
     let indicatorTintStyle: HudIndicatorTintStyle
     let showsIndicatorGlow: Bool
     let usesColoredLevelStroke: Bool
@@ -30,6 +35,7 @@ struct HudNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
         indicatorTintStyle: HudIndicatorTintStyle = .levelColor,
         showsIndicatorGlow: Bool = true,
         usesColoredLevelStroke: Bool = false,
+        deviceName: String? = nil,
         applicationSettings: ApplicationSettingsStore? = nil
     ) {
         self.kind = kind
@@ -39,27 +45,32 @@ struct HudNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
         self.indicatorTintStyle = indicatorTintStyle
         self.showsIndicatorGlow = showsIndicatorGlow
         self.usesColoredLevelStroke = usesColoredLevelStroke
+        self.deviceName = deviceName
         self.applicationSettings = applicationSettings
     }
     
     func cornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
         if isStyleExpanded {
-            return (top: baseRadius + 3, bottom: baseRadius + 6)
+            return (top: baseRadius + 6, bottom: baseRadius + 10)
         } else {
             return (top: baseRadius - 4, bottom: baseRadius)
         }
     }
+    
+    func dynamicIslandCornerRadius(baseHeight: CGFloat) -> CGFloat {
+        return baseHeight * 0.5
+    }
 
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         let width = isStyleExpanded ? baseWidth + 20 : baseWidth + widthOffset
-        let height = isStyleExpanded ? (baseHeight + 35) : baseHeight
+        let height = isStyleExpanded ? baseHeight + heightOffset : baseHeight
         
         return .init(width: width, height: height)
     }
     
     func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        let width = isStyleExpanded ? baseWidth : baseWidth + widthOffset - 30
-        let height = isStyleExpanded ? (baseHeight + 40) : baseHeight
+        let width = isStyleExpanded ? baseWidth + widthOffset + 10 : baseWidth + widthOffset - 30
+        let height = isStyleExpanded ? (baseHeight + heightOffset - 5) : baseHeight
         
         return .init(width: width, height: height)
     }
@@ -69,7 +80,7 @@ struct HudNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
         AnyView(
             HudContentView(
                 image: kind.symbolName(for: level),
-                text: kind.title,
+                text: deviceName ?? kind.title,
                 level: level,
                 style: style,
                 indicatorStyle: indicatorStyle,
@@ -105,15 +116,25 @@ struct HudNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
             return 80
             
         case .expandedCompact:
-            switch indicatorStyle {
-            case .bar:
-                return 75
-            case .circle:
-                return 65
-            }
+            return 85
             
         case .expandedDetailed:
-            return 115
+            return 85
+        }
+    }
+    
+    private var heightOffset: CGFloat {
+        switch style {
+        case .standard:
+            return 0
+        case .compact:
+            return 0
+        case .minimal:
+            return 0
+        case .expandedCompact:
+            return 35
+        case .expandedDetailed:
+            return 65
         }
     }
 

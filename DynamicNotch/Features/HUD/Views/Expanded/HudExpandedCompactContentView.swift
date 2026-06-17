@@ -28,13 +28,13 @@ struct HudExpandedCompactContentView: View {
                 }
             }
         }
-        .padding(.bottom, 10)
+        .padding(.bottom, bottomPadding)
         .padding(.horizontal, horizontalPadding)
     }
 
     private var iconView: some View {
         Image(systemName: image)
-            .font(.system(size: isDynamicIsland ? 16 : 18))
+            .font(.system(size:  16))
             .foregroundColor(.white)
     }
     
@@ -44,13 +44,17 @@ struct HudExpandedCompactContentView: View {
             indicatorStyle: .bar,
             tintStyle: indicatorTintStyle,
             showsGlow: showsIndicatorGlow,
-            barWidth: 110,
+            barWidth: 100.scaled(by: scale),
             barHeight: 8
         )
     }
     
+    private var bottomPadding: CGFloat {
+        isDynamicIsland ? 12 : 12
+    }
+    
     private var horizontalPadding: CGFloat {
-        isDynamicIsland ? 12 : 26
+        isDynamicIsland ? 16 : 30
     }
     
     private var clampedLevel: Int {

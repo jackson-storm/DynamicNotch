@@ -49,7 +49,11 @@ struct ResizeAwareBlurModifier: AnimatableModifier {
         let transitionOpacity = max(0, 1 - (Double(normalizedProgress) * Metrics.maxOpacityReduction))
         let opacity = min(transitionOpacity, interactiveOpacity)
 
+        let xScale = targetWidth > 0 ? (animatedWidth / targetWidth) : 1.0
+        let yScale = targetHeight > 0 ? (animatedHeight / targetHeight) : 1.0
+
         return content
+            .scaleEffect(x: xScale, y: yScale, anchor: .center)
             .blur(radius: blurRadius)
             .opacity(opacity)
             .compositingGroup()

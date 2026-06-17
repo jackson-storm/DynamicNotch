@@ -84,6 +84,36 @@ final class SystemAudioVolumeService {
         isMuted ? 0 : currentVolume
     }
 
+    var currentDeviceName: String? {
+        let deviceID = defaultOutputDeviceID()
+        guard deviceID != 0 else { return nil }
+
+        var name: CFString = "" as CFString
+        var address = AudioObjectPropertyAddress(
+            mSelector: kAudioObjectPropertyName,
+            mScope: kAudioObjectPropertyScopeGlobal,
+            mElement: kAudioObjectPropertyElementMain
+        )
+        var size = UInt32(MemoryLayout<CFString>.size)
+
+        let status = withUnsafeMutablePointer(to: &name) { pointer in
+            AudioObjectGetPropertyData(
+                deviceID,
+                &address,
+                0,
+                nil,
+                &size,
+                pointer
+            )
+        }
+
+        guard status == noErr else {
+            return nil
+        }
+
+        return name as String
+    }
+
     var isMuted: Bool {
         let deviceID = defaultOutputDeviceID()
         let targetElements = muteElements(on: deviceID)

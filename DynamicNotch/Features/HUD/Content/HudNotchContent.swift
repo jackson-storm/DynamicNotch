@@ -79,6 +79,7 @@ struct HudNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     func makeView() -> AnyView {
         AnyView(
             HudContentView(
+                kind: kind,
                 image: kind.symbolName(for: level),
                 text: deviceName ?? kind.title,
                 level: level,

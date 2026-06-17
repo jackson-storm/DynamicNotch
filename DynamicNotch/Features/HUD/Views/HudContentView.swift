@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct HudContentView: View {
+    let kind: HudPresentationKind
     let image: String
     let text: String
     let level: Int
@@ -13,6 +14,7 @@ struct HudContentView: View {
         switch style {
         case .standard:
             HudStandardContentView(
+                kind: kind,
                 level: level,
                 indicatorStyle: indicatorStyle,
                 indicatorTintStyle: indicatorTintStyle,

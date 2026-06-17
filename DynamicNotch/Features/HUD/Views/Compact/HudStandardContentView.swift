@@ -4,6 +4,7 @@ struct HudStandardContentView: View {
     @Environment(\.notchScale) private var scale
     @Environment(\.isDynamicIsland) private var isDynamicIsland
     
+    let kind: HudPresentationKind
     let level: Int
     let indicatorStyle: HudIndicatorStyle
     let indicatorTintStyle: HudIndicatorTintStyle
@@ -11,7 +12,7 @@ struct HudStandardContentView: View {
     
     var body: some View {
         HStack(spacing: 12) {
-            Text(verbatim: "Volume")
+            Text(verbatim: kind.title)
                 .font(.system(size: 14))
                 .foregroundColor(.white.opacity(0.8))
             

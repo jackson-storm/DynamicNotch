@@ -762,5 +762,19 @@ final class NotchEventCoordinator: ObservableObject {
                 self?.localTimerHandler.handleLocalTimerStateChanged(state)
             }
             .store(in: &cancellables)
+
+        settingsViewModel.application.$appLanguage
+            .dropFirst()
+            .receive(on: RunLoop.main)
+            .sink { [weak self] language in
+                guard let self else { return }
+                self.showLanguageChangedNotification(for: language)
+            }
+            .store(in: &cancellables)
+    }
+
+    private func showLanguageChangedNotification(for language: DynamicNotchLanguage) {
+        let content = LanguageChangedNotchContent(language: language)
+        notchViewModel.send(.showTemporaryNotification(content, duration: 3.0))
     }
 }

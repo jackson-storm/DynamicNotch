@@ -436,6 +436,20 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
             await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id == NotchContentRegistry.Media.nowPlaying.id }
         }
     }
+
+    func testLanguageChangeShowsTemporaryNotification() async {
+        let context = makeContext()
+
+        await MainActor.run {
+            context.settingsViewModel.application.appLanguage = .russian
+        }
+
+        await assertEventually {
+            await MainActor.run {
+                context.notchViewModel.notchModel.temporaryNotificationContent?.id == NotchContentRegistry.Settings.language.id
+            }
+        }
+    }
 }
 
 private extension NotchEventCoordinatorIntegrationTests {

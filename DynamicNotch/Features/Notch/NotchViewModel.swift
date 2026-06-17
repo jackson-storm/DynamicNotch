@@ -48,6 +48,7 @@ final class NotchViewModel: ObservableObject {
     private let settings: NotchSettingsProviding
     private let engine: NotchEngine
     private let screenMetricsProvider: (any NotchSettingsProviding) -> NotchScreenMetrics?
+    
     private var cancellables = Set<AnyCancellable>()
     private var expansionTransitionTask: Task<Void, Never>?
     private var swipeStretchResetWorkItem: DispatchWorkItem?
@@ -276,7 +277,6 @@ final class NotchViewModel: ObservableObject {
             return 1
         }
     }
-    
     
     init(
         settings: NotchSettingsProviding,

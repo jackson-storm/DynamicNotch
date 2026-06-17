@@ -121,6 +121,13 @@ enum NotchContentRegistry {
         )
     }
 
+    enum Settings {
+        static let language = NotchContentDescriptor(
+            id: "settings.language"
+        )
+    }
+
+
     enum NotchSize {
         static let width = NotchContentDescriptor(
             id: "notchSize.width",

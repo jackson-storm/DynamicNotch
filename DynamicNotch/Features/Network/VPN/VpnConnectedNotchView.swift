@@ -60,7 +60,7 @@ struct VpnConnectedNotchView: View {
                 
             } else {
                 Image(systemName: "network.badge.shield.half.filled")
-                    .font(.system(size: 14, weight: .semibold))
+                    .font(.system(size: 16, weight: .semibold))
                     .foregroundStyle(Color.white.gradient)
             }
             Spacer()
@@ -84,9 +84,10 @@ struct VpnConnectedNotchView: View {
                         Image(nsImage: nsImage)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(width: 32, height: 32)
+                            .frame(width: 50, height: 50)
                             .cornerRadius(6)
-                            .padding(.bottom, 10)
+                            .padding(.bottom, isDynamicIsland ? 8 : 6)
+                        
                     } else {
                         Image(systemName: "network.badge.shield.half.filled")
                             .font(.system(size: 30))
@@ -114,7 +115,7 @@ struct VpnConnectedNotchView: View {
                 Spacer()
                 
                 Text(timeString)
-                    .padding(.bottom, 10)
+                    .padding(.bottom, isDynamicIsland ? 8 : 6)
                     .font(.system(size: 26, weight: .semibold, design: .rounded))
                     .monospacedDigit()
                     .foregroundStyle(Color.orange)

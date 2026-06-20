@@ -32,6 +32,9 @@
         }
       }
     },
+    "--:--" : {
+
+    },
     ", it is recommended to charge it." : {
       "extractionState" : "stale",
       "localizations" : {

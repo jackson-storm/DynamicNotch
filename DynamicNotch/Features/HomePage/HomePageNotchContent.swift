@@ -103,7 +103,7 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
             }
             
         case .vpn:
-            return .init(width: baseWidth + 140, height: baseHeight + 125)
+            return .init(width: baseWidth + 140, height: baseHeight + 110)
         }
     }
 

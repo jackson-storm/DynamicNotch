@@ -20,7 +20,6 @@ final class VpnPageViewModel: ObservableObject {
     
     func startMonitoring() {
         refresh()
-        // Refresh every 3 seconds to update statuses dynamically
         refreshTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { [weak self] _ in
             guard let self = self else { return }
             Task { @MainActor in

@@ -49,6 +49,12 @@ final class HomePageSettingsStore: SettingsStoreBase {
         var parsedOrder = savedOrder.compactMap { HomePages(rawValue: $0) }
         if parsedOrder.isEmpty {
             parsedOrder = HomePages.allCases
+        } else {
+            for page in HomePages.allCases {
+                if !parsedOrder.contains(page) {
+                    parsedOrder.append(page)
+                }
+            }
         }
         self.homePageOrder = parsedOrder
         

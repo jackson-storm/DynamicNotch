@@ -156,6 +156,12 @@ final class ConnectivitySettingsStore: SettingsStoreBase {
         }
     }
 
+    @Published var selectedVPNID: String {
+        didSet {
+            persist(selectedVPNID, for: GeneralSettingsStorage.Keys.selectedVPNID)
+        }
+    }
+
     @Published var isFocusOffTemporaryActivityEnabled: Bool {
         didSet {
             persist(isFocusOffTemporaryActivityEnabled, for: GeneralSettingsStorage.Keys.focusOffTemporaryActivityEnabled)
@@ -224,6 +230,8 @@ final class ConnectivitySettingsStore: SettingsStoreBase {
         (GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.networkShowVPNTimer] as? Bool ?? true)
         self.isOnlyNotifyOnNetworkChangeEnabled = defaults.object(forKey: GeneralSettingsStorage.Keys.networkOnlyNotifyOnChange) as? Bool ??
         (GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.networkOnlyNotifyOnChange] as? Bool ?? false)
+        self.selectedVPNID = defaults.string(forKey: GeneralSettingsStorage.Keys.selectedVPNID) ?? 
+        (GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.selectedVPNID] as? String ?? "")
         self.isFocusOffTemporaryActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.focusOffTemporaryActivityEnabled)
         self.focusOffTemporaryActivityDuration = Self.clampTemporaryActivityDuration(
             defaults.object(forKey: GeneralSettingsStorage.Keys.focusOffTemporaryActivityDuration) as? Int ??
@@ -262,6 +270,7 @@ final class ConnectivitySettingsStore: SettingsStoreBase {
         isHotspotDefaultStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.hotspotDefaultStrokeEnabled)
         isVPNTimerVisible = defaultBool(for: GeneralSettingsStorage.Keys.networkShowVPNTimer)
         isOnlyNotifyOnNetworkChangeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.networkOnlyNotifyOnChange)
+        selectedVPNID = defaultString(for: GeneralSettingsStorage.Keys.selectedVPNID)
     }
 
     func resetFocus() {

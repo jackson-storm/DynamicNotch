@@ -126,6 +126,7 @@ enum GeneralSettingsStorage {
         static let calendarDaysToShow = "settings.calendar.daysToShow"
         static let homePageOrder = "settings.homePage.order"
         static let homePageDisabled = "settings.homePage.disabled"
+        static let selectedVPNID = "settings.vpn.selectedID"
     }
 
     static let defaultValues: [String: Any] = [
@@ -261,8 +262,9 @@ enum GeneralSettingsStorage {
         Keys.lowBatterySound: true,
         Keys.fullBatterySound: true,
         Keys.homePageLiveActivity: true,
-        Keys.homePageOrder: ["camera", "localTimer", "calendar"],
+        Keys.homePageOrder: ["camera", "localTimer", "calendar", "vpn"],
         Keys.homePageDisabled: [String](),
+        Keys.selectedVPNID: "",
         Keys.calendarLiveActivity: true,
         Keys.calendarHideWhenFocused: true,
         Keys.calendarShowAllDay: true,

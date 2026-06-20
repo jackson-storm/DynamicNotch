@@ -69,6 +69,9 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
             } else {
                 return baseHeight * 0.2
             }
+            
+        case .vpn:
+            return baseHeight * 0.2
         }
     }
     
@@ -98,6 +101,9 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
             } else {
                 return .init(width: baseWidth + 130, height: baseHeight + 125)
             }
+            
+        case .vpn:
+            return .init(width: baseWidth + 140, height: baseHeight + 110)
         }
     }
 
@@ -130,6 +136,9 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
             } else {
                 return .init(width: baseWidth + 160, height: baseHeight + 125)
             }
+            
+        case .vpn:
+            return .init(width: baseWidth + 180, height: baseHeight + 125)
         }
     }
     

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E20216532FE47F9F003C4033 /* Glur in Frameworks */ = {isa = PBXBuildFile; productRef = E20216522FE47F9F003C4033 /* Glur */; };
 		E2A100022F90000000000001 /* DynamicNotch/Resources/MediaRemoteAdapter/MediaRemoteAdapter.framework in Embed MediaRemote Adapter */ = {isa = PBXBuildFile; fileRef = E2A100012F90000000000001 /* DynamicNotch/Resources/MediaRemoteAdapter/MediaRemoteAdapter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E2C135B72F59FA8100348421 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = E2C135B62F59FA8100348421 /* Lottie */; };
 /* End PBXBuildFile section */
@@ -113,6 +114,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2C135B72F59FA8100348421 /* Lottie in Frameworks */,
+				E20216532FE47F9F003C4033 /* Glur in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -185,6 +187,7 @@
 			name = DynamicNotch;
 			packageProductDependencies = (
 				E2C135B62F59FA8100348421 /* Lottie */,
+				E20216522FE47F9F003C4033 /* Glur */,
 			);
 			productName = DynamicNotch;
 			productReference = E2EF78512EDDB60E00F96D1E /* DynamicNotch.app */;
@@ -273,6 +276,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				E2C135B52F59FA8100348421 /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				E20216512FE47F9F003C4033 /* XCRemoteSwiftPackageReference "Glur" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = E2EF78522EDDB60E00F96D1E /* Products */;
@@ -758,6 +762,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		E20216512FE47F9F003C4033 /* XCRemoteSwiftPackageReference "Glur" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/joogps/Glur";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		E2C135B52F59FA8100348421 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
@@ -769,6 +781,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		E20216522FE47F9F003C4033 /* Glur */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E20216512FE47F9F003C4033 /* XCRemoteSwiftPackageReference "Glur" */;
+			productName = Glur;
+		};
 		E2C135B62F59FA8100348421 /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = E2C135B52F59FA8100348421 /* XCRemoteSwiftPackageReference "lottie-ios" */;

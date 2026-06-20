@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+internal import AppKit
 
 struct VpnConnectedNotchView: View {
     @Environment(\.notchScale) private var scale
@@ -50,13 +51,16 @@ struct VpnConnectedNotchView: View {
     @ViewBuilder
     private var compactView: some View {
         HStack {
-            ZStack {
-                RoundedRectangle(cornerRadius: isDynamicIsland ? 30 : 6)
-                    .fill(Color.accentColor.gradient)
-                    .frame(width: isDynamicIsland ? 40 : 24, height: isDynamicIsland ? 20 : 24)
+            if let bundleID = networkViewModel.vpnBundleID, let nsImage = getAppIcon(for: bundleID) {
+                Image(nsImage: nsImage)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: isDynamicIsland ? 20 : 30, height: isDynamicIsland ? 20 : 30)
+                    .cornerRadius(isDynamicIsland ? 10 : 6)
                 
+            } else {
                 Image(systemName: "network.badge.shield.half.filled")
-                    .font(.system(size: 14, weight: .semibold))
+                    .font(.system(size: 16, weight: .semibold))
                     .foregroundStyle(Color.white.gradient)
             }
             Spacer()
@@ -64,7 +68,7 @@ struct VpnConnectedNotchView: View {
             Text(verbatim: "Active")
                 .foregroundStyle(.white.opacity(0.8))
         }
-        .padding(.leading, isDynamicIsland ? 4.scaled(by: scale) : 14.scaled(by: scale))
+        .padding(.leading, isDynamicIsland ? 6.scaled(by: scale) : 11.scaled(by: scale))
         .padding(.trailing, isDynamicIsland ? 8.scaled(by: scale) : 16.scaled(by: scale))
         .padding(.vertical, isDynamicIsland ? 0 : 10)
     }
@@ -76,10 +80,20 @@ struct VpnConnectedNotchView: View {
             
             HStack {
                 HStack(spacing: 16) {
-                    Image(systemName: "network.badge.shield.half.filled")
-                        .font(.system(size: 30))
-                        .foregroundStyle(.white.opacity(0.8))
-                        .padding(.bottom, 10)
+                    if let bundleID = networkViewModel.vpnBundleID, let nsImage = getAppIcon(for: bundleID) {
+                        Image(nsImage: nsImage)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 50, height: 50)
+                            .cornerRadius(6)
+                            .padding(.bottom, isDynamicIsland ? 8 : 6)
+                        
+                    } else {
+                        Image(systemName: "network.badge.shield.half.filled")
+                            .font(.system(size: 30))
+                            .foregroundStyle(.white.opacity(0.8))
+                            .padding(.bottom, 10)
+                    }
                     
                     VStack(alignment: .leading, spacing: 3) {
                         Text(verbatim: "Connected")
@@ -101,7 +115,7 @@ struct VpnConnectedNotchView: View {
                 Spacer()
                 
                 Text(timeString)
-                    .padding(.bottom, 10)
+                    .padding(.bottom, isDynamicIsland ? 8 : 6)
                     .font(.system(size: 26, weight: .semibold, design: .rounded))
                     .monospacedDigit()
                     .foregroundStyle(Color.orange)
@@ -116,6 +130,13 @@ struct VpnConnectedNotchView: View {
         }
         .padding(.horizontal, isDynamicIsland ? 20 : 36)
         .padding(.vertical, 10)
+    }
+    
+    private func getAppIcon(for bundleID: String) -> NSImage? {
+        guard let appURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleID) else {
+            return nil
+        }
+        return NSWorkspace.shared.icon(forFile: appURL.path)
     }
 }
 

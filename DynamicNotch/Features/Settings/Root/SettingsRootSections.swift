@@ -56,6 +56,7 @@ extension SettingsRootViewModel {
         case bluetooth
         case focus
         case network
+        case vpn
         case battery
         case hud
         case lockScreen
@@ -452,6 +453,25 @@ private enum SettingsSectionCatalog {
                 imageName: nil,
                 tint: .blue,
                 resetGroup: .network
+            )
+
+        case .vpn:
+            return .init(
+                sidebarGroup: .homePage,
+                titleKey: "settings.section.vpn.title",
+                fallbackTitle: "VPN",
+                subtitleKey: "settings.section.vpn.subtitle",
+                fallbackSubtitle: "Select the preferred VPN connection and configure behavior.",
+                searchKeywords: [
+                    "vpn",
+                    "connection",
+                    "select",
+                    "preferred"
+                ],
+                systemImage: "network.badge.shield.half.filled",
+                imageName: nil,
+                tint: .purple,
+                resetGroup: nil
             )
 
         case .battery:

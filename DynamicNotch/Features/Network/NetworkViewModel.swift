@@ -26,6 +26,7 @@ final class NetworkViewModel: ObservableObject {
     @Published var wifiName: String = ""
     @Published var vpnName: String = ""
     @Published var vpnConnectedAt: Date?
+    @Published var vpnBundleID: String? = nil
     @Published var wifiSignalLevel: Double = 1
     @Published var networkEvent: NetworkEvent? = nil
     
@@ -74,9 +75,24 @@ final class NetworkViewModel: ObservableObject {
             if vpn {
                 if self.vpnConnected == false {
                     self.vpnConnectedAt = .now
+                    Task.detached(priority: .userInitiated) {
+                        let activeVPN = VPNStatusFetcher.fetchVPNs().first(where: { $0.isConnected })
+                        let actualTime = activeVPN.flatMap { VPNStatusFetcher.fetchVPNConnectedAt(uuid: $0.id) }
+                        let bundleID = activeVPN?.bundleID
+                        let finalTime = actualTime
+                        
+                        await MainActor.run { [weak self] in
+                            guard let self = self, self.vpnConnected else { return }
+                            if let finalTime {
+                                self.vpnConnectedAt = finalTime
+                            }
+                            self.vpnBundleID = bundleID
+                        }
+                    }
                 }
             } else {
                 self.vpnConnectedAt = nil
+                self.vpnBundleID = nil
             }
             
             if !self.isInitialCheck {

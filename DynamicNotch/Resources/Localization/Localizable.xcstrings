@@ -32,6 +32,9 @@
         }
       }
     },
+    "--:--" : {
+
+    },
     ", it is recommended to charge it." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -448,6 +451,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "为 HUD 级别指示器添加柔和光晕。"
+          }
+        }
+      }
+    },
+    "Add a VPN in macOS Settings -> VPN." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add a VPN in macOS Settings -> VPN."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавьте VPN в Системных настройках macOS -> VPN."
           }
         }
       }
@@ -4341,6 +4361,23 @@
         }
       }
     },
+    "Connect" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connect"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подключить"
+          }
+        }
+      }
+    },
     "Connect to Wi-Fi, Ethernet, or Personal Hotspot to continue." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -5067,6 +5104,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "设备"
+          }
+        }
+      }
+    },
+    "Disconnect" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disconnect"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отключить"
+          }
+        }
+      }
+    },
+    "Disconnected" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disconnected"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отключено"
           }
         }
       }
@@ -8404,6 +8475,22 @@
         }
       }
     },
+    "Manage VPN connections." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manage VPN connections."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Управление VPN-подключениями."
+          }
+        }
+      }
+    },
     "Material" : {
       "localizations" : {
         "en" : {
@@ -8889,6 +8976,56 @@
     "No upcoming events" : {
 
     },
+    "No VPN configurations found" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No VPN configurations found"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VPN-подключения не найдены"
+          }
+        }
+      }
+    },
+    "No VPN configurations found on this Mac. Please add a VPN connection in System Settings -> VPN first." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No VPN configurations found on this Mac. Please add a VPN connection in System Settings -> VPN first."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "На этом Mac не найдено настроенных VPN. Пожалуйста, добавьте VPN-подключение в Системных настройках -> VPN."
+          }
+        }
+      }
+    },
+    "No VPN Selected" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No VPN Selected"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VPN не выбран"
+          }
+        }
+      }
+    },
     "Notch appearance" : {
       "localizations" : {
         "en" : {
@@ -9318,6 +9455,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "仅当连接的网络实际发生变化时才显示 Wi-Fi 或 VPN 通知。"
+          }
+        }
+      }
+    },
+    "Open Settings" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Settings"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir configuración"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открыть настройки"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开设置"
           }
         }
       }
@@ -9996,6 +10162,39 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "请在 GitHub 上给它点个星，这会对推广很有帮助。"
+          }
+        }
+      }
+    },
+    "Please select your preferred VPN in Settings." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please select your preferred VPN in Settings."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пожалуйста, выберите предпочитаемый VPN в Настройках."
+          }
+        }
+      }
+    },
+    "Preferred VPN" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preferred VPN"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Предпочитаемый VPN"
           }
         }
       }
@@ -10739,6 +10938,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "滚动方向"
+          }
+        }
+      }
+    },
+    "Select the VPN connection that you want to control from the notch." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select the VPN connection that you want to control from the notch."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите VPN-подключение, которым хотите управлять из выреза."
           }
         }
       }
@@ -16758,6 +16973,40 @@
         }
       }
     },
+    "settings.section.vpn.subtitle" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select the preferred VPN connection and configure behavior."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выбор предпочитаемого VPN-подключения и настройка поведения."
+          }
+        }
+      }
+    },
+    "settings.section.vpn.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VPN"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VPN"
+          }
+        }
+      }
+    },
     "settings.title" : {
 
     },
@@ -20139,7 +20388,6 @@
       }
     },
     "VPN" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

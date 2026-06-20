@@ -209,15 +209,9 @@ struct NetworkSettingsView: View {
                             .stroke(vpnPreviewStrokeColor, lineWidth: 1)
                     }
                 HStack {
-                    ZStack {
-                        Capsule()
-                            .fill(Color.accentColor.gradient)
-                            .frame(width: 40, height: 20)
-                        
-                        Image(systemName: "network.badge.shield.half.filled")
-                            .font(.system(size: 12, weight: .semibold))
-                            .foregroundStyle(Color.white.gradient)
-                    }
+                    Image(systemName: "network.badge.shield.half.filled")
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundStyle(Color.white.gradient)
                     
                     Spacer()
                     
@@ -225,7 +219,7 @@ struct NetworkSettingsView: View {
                         .foregroundStyle(.white.opacity(0.8))
                         .lineLimit(1)
                 }
-                .padding(.leading, 5)
+                .padding(.leading, 6)
                 .padding(.trailing, 10)
             }
             .frame(width: 200, height: 30)

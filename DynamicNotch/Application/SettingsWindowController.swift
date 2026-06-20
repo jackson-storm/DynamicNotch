@@ -92,6 +92,11 @@ class SettingsWindowController: NSWindowController {
         }
     }
     
+    func showWindow(selecting section: SettingsRootViewModel.Section) {
+        showWindow()
+        NotificationCenter.default.post(name: NSNotification.Name("SelectSettingsSection"), object: section)
+    }
+    
     override func close() {
         super.close()
         relinquishFocus()

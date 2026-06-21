@@ -33,8 +33,6 @@ final class NetworkViewModel: ObservableObject {
     private let monitor: any NetworkMonitoring
     private let settings: ConnectivitySettingsStore
     private var isInitialCheck = true
-    private var lastConnectedWiFiIdentity: String?
-    private var lastConnectedVPNIdentity: String?
     
     init(
         monitor: any NetworkMonitoring,
@@ -66,8 +64,6 @@ final class NetworkViewModel: ObservableObject {
             let nextWiFiName = (wifi && !hotspot) ? (self.monitor.currentWiFiName ?? "") : ""
             let nextVPNName = vpn ? (self.monitor.currentVPNName ?? "") : ""
             let nextInternetAvailable = self.monitor.isInternetAvailable
-            let nextWiFiIdentity = wifi && !hotspot ? self.resolvedIdentity(for: nextWiFiName, fallback: "Wi-Fi") : nil
-            let nextVPNIdentity = vpn ? self.resolvedIdentity(for: nextVPNName, fallback: "VPN") : nil
 
             self.wifiName = nextWiFiName
             self.vpnName = nextVPNName
@@ -100,17 +96,13 @@ final class NetworkViewModel: ObservableObject {
                 
                 if self.shouldEmitConnectionNotification(
                     isConnected: wifi && !hotspot,
-                    wasConnected: self.wifiConnected,
-                    currentIdentity: nextWiFiIdentity,
-                    previousIdentity: self.lastConnectedWiFiIdentity
+                    wasConnected: self.wifiConnected
                 ) {
                     pendingEvents.append(.wifiConnected)
                 }
                 if self.shouldEmitConnectionNotification(
                     isConnected: vpn,
-                    wasConnected: self.vpnConnected,
-                    currentIdentity: nextVPNIdentity,
-                    previousIdentity: self.lastConnectedVPNIdentity
+                    wasConnected: self.vpnConnected
                 ) {
                     pendingEvents.append(.vpnConnected)
                 }
@@ -140,14 +132,6 @@ final class NetworkViewModel: ObservableObject {
             self.hotspotActive = hotspot
             self.vpnConnected = vpn
             self.isInternetAvailable = nextInternetAvailable
-
-            if let nextWiFiIdentity {
-                self.lastConnectedWiFiIdentity = nextWiFiIdentity
-            }
-
-            if let nextVPNIdentity {
-                self.lastConnectedVPNIdentity = nextVPNIdentity
-            }
             
             if self.isInitialCheck { self.isInitialCheck = false }
         }
@@ -156,22 +140,9 @@ final class NetworkViewModel: ObservableObject {
 
     private func shouldEmitConnectionNotification(
         isConnected: Bool,
-        wasConnected: Bool,
-        currentIdentity: String?,
-        previousIdentity: String?
+        wasConnected: Bool
     ) -> Bool {
-        guard isConnected else { return false }
-
-        if settings.isOnlyNotifyOnNetworkChangeEnabled {
-            return currentIdentity != previousIdentity
-        }
-
-        return !wasConnected
-    }
-
-    private func resolvedIdentity(for name: String, fallback: String) -> String {
-        let trimmedName = name.trimmingCharacters(in: .whitespacesAndNewlines)
-        return trimmedName.isEmpty ? fallback : trimmedName
+        isConnected && !wasConnected
     }
 }
 

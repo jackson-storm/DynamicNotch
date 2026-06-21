@@ -472,8 +472,8 @@ private enum SettingsSectionCatalog {
                 ],
                 systemImage: "network.badge.shield.half.filled",
                 imageName: nil,
-                tint: .purple,
-                resetGroup: nil
+                tint: .blue,
+                resetGroup: .vpn
             )
 
         case .battery:

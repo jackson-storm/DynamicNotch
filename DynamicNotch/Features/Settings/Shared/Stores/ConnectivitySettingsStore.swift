@@ -150,11 +150,6 @@ final class ConnectivitySettingsStore: SettingsStoreBase {
         }
     }
 
-    @Published var isOnlyNotifyOnNetworkChangeEnabled: Bool {
-        didSet {
-            persist(isOnlyNotifyOnNetworkChangeEnabled, for: GeneralSettingsStorage.Keys.networkOnlyNotifyOnChange)
-        }
-    }
 
     @Published var selectedVPNID: String {
         didSet {
@@ -228,8 +223,6 @@ final class ConnectivitySettingsStore: SettingsStoreBase {
         self.isHotspotDefaultStrokeEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.hotspotDefaultStrokeEnabled)
         self.isVPNTimerVisible = defaults.object(forKey: GeneralSettingsStorage.Keys.networkShowVPNTimer) as? Bool ??
         (GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.networkShowVPNTimer] as? Bool ?? true)
-        self.isOnlyNotifyOnNetworkChangeEnabled = defaults.object(forKey: GeneralSettingsStorage.Keys.networkOnlyNotifyOnChange) as? Bool ??
-        (GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.networkOnlyNotifyOnChange] as? Bool ?? false)
         self.selectedVPNID = defaults.string(forKey: GeneralSettingsStorage.Keys.selectedVPNID) ?? 
         (GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.selectedVPNID] as? String ?? "")
         self.isFocusOffTemporaryActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.focusOffTemporaryActivityEnabled)
@@ -260,16 +253,18 @@ final class ConnectivitySettingsStore: SettingsStoreBase {
         wifiTemporaryActivityDuration = Self.clampTemporaryActivityDuration(
             defaultInt(for: GeneralSettingsStorage.Keys.wifiTemporaryActivityDuration)
         )
+        isNoInternetTemporaryActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.noInternetTemporaryActivityEnabled)
+        hotspotAppearanceStyle = HotspotAppearanceStyle(rawValue: defaultString(for: GeneralSettingsStorage.Keys.hotspotAppearanceStyle)) ?? .minimal
+        isHotspotDefaultStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.hotspotDefaultStrokeEnabled)
+    }
+
+    func resetVpn() {
         isVpnTemporaryActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.vpnTemporaryActivityEnabled)
         vpnTemporaryActivityDuration = Self.clampTemporaryActivityDuration(
             defaultInt(for: GeneralSettingsStorage.Keys.vpnTemporaryActivityDuration)
         )
-        isNoInternetTemporaryActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.noInternetTemporaryActivityEnabled)
         isVPNDetailVisible = defaultBool(for: GeneralSettingsStorage.Keys.networkShowVPNDetail)
-        hotspotAppearanceStyle = HotspotAppearanceStyle(rawValue: defaultString(for: GeneralSettingsStorage.Keys.hotspotAppearanceStyle)) ?? .minimal
-        isHotspotDefaultStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.hotspotDefaultStrokeEnabled)
         isVPNTimerVisible = defaultBool(for: GeneralSettingsStorage.Keys.networkShowVPNTimer)
-        isOnlyNotifyOnNetworkChangeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.networkOnlyNotifyOnChange)
         selectedVPNID = defaultString(for: GeneralSettingsStorage.Keys.selectedVPNID)
     }
 

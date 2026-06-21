@@ -48,8 +48,8 @@ struct FileConverterExpandedActiveNotchView: View {
             conversionRow
             actionRow
         }
-        .padding(.horizontal, isDynamicIsland ? 15 : 43)
-        .padding(.bottom, isDynamicIsland ? 15 : 12)
+        .padding(.horizontal, isDynamicIsland ? 15 : 46)
+        .padding(.bottom, 15)
     }
     
     @ViewBuilder

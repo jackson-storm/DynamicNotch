@@ -40,9 +40,9 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
     
     var tint: Color {
         switch self {
-        case .camera: return .blue
+        case .camera: return .black
         case .localTimer: return .orange
-        case .vpn: return .purple
+        case .vpn: return .blue
         }
     }
 }

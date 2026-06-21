@@ -110,7 +110,7 @@ enum GeneralSettingsStorage {
         static let hotspotAppearanceStyle = "settings.network.hotspotAppearanceStyle"
         static let networkShowVPNDetail = "settings.network.showVPNDetail"
         static let networkShowVPNTimer = "settings.network.showVPNTimer"
-        static let networkOnlyNotifyOnChange = "settings.network.onlyNotifyOnChange"
+
         static let focusOffTemporaryActivityEnabled = "settings.temporary.focusOff"
         static let focusOffTemporaryActivityDuration = "settings.temporary.focusOff.duration"
         static let notchSizeTemporaryActivityEnabled = "settings.temporary.notchSize"
@@ -258,7 +258,7 @@ enum GeneralSettingsStorage {
         Keys.hotspotAppearanceStyle: HotspotAppearanceStyle.minimal.rawValue,
         Keys.networkShowVPNDetail: false,
         Keys.networkShowVPNTimer: true,
-        Keys.networkOnlyNotifyOnChange: false,
+
         Keys.focusOffTemporaryActivityEnabled: true,
         Keys.focusOffTemporaryActivityDuration: 3,
         Keys.notchSizeTemporaryActivityEnabled: true,

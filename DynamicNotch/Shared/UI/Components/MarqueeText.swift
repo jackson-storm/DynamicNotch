@@ -7,25 +7,9 @@
 
 import SwiftUI
 
-private struct SizePreferenceKey: PreferenceKey {
-    static var defaultValue: CGSize = .zero
-    static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
-        value = nextValue()
-    }
-}
-
-private struct MeasureSizeModifier: ViewModifier {
-    func body(content: Content) -> some View {
-        content.background(GeometryReader { geometry in
-            Color.clear.preference(key: SizePreferenceKey.self, value: geometry.size)
-        })
-    }
-}
-
 struct MarqueeText: View {
     private struct RestartKey: Equatable {
         let text: String
-        let textWidth: CGFloat
         let frameWidth: CGFloat
     }
 
@@ -67,7 +51,7 @@ struct MarqueeText: View {
     }
 
     private var restartKey: RestartKey {
-        RestartKey(text: text, textWidth: textSize.width, frameWidth: frameWidth)
+        RestartKey(text: text, frameWidth: frameWidth)
     }
 
     private var textOffset: CGFloat {
@@ -89,6 +73,7 @@ struct MarqueeText: View {
         ZStack(alignment: .leading) {
             HStack(spacing: 20) {
                 Text(text)
+                    .modifier(MeasureSizeModifier())
                 Text(text)
                     .opacity(needsScrolling ? 1 : 0)
             }
@@ -97,28 +82,77 @@ struct MarqueeText: View {
             .foregroundColor(textColor)
             .fixedSize(horizontal: true, vertical: false)
             .offset(x: textOffset)
-            .animation(
-                animate ?
-                    .linear(duration: Double(textSize.width / 30))
-                    .delay(minDuration)
-                    .repeatForever(autoreverses: false) : .none,
-                value: animate
-            )
             .background(backgroundColor)
-            .modifier(MeasureSizeModifier())
             .onPreferenceChange(SizePreferenceKey.self) { size in
-                textSize = CGSize(
-                    width: size.width / 2,
-                    height: NSFont.preferredFont(forTextStyle: nsFont).pointSize
-                )
+                textSize = size
             }
         }
         .frame(width: frameWidth, alignment: .leading)
         .clipped()
-        .mask(
+        .modifier(MarqueeMaskModifier(offset: textOffset, needsScrolling: needsScrolling))
+        .animation(
+            animate ?
+                .linear(duration: Double(textSize.width / 30))
+                .delay(minDuration)
+                .repeatForever(autoreverses: false) : .none,
+            value: animate
+        )
+        .task(id: restartKey) {
+            animate = false
+            offset = 0
+
+            guard !text.isEmpty else { return }
+
+            while textSize.width == 0 {
+                try? await Task.sleep(for: .milliseconds(50))
+                if Task.isCancelled { return }
+            }
+
+            guard needsScrolling else { return }
+
+            animate = true
+            offset = -(textSize.width + 20)
+        }
+        .frame(height: textSize.height * 1.3)
+    }
+}
+
+private struct SizePreferenceKey: PreferenceKey {
+    static var defaultValue: CGSize = .zero
+    static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
+        value = nextValue()
+    }
+}
+
+private struct MeasureSizeModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        content.background(GeometryReader { geometry in
+            Color.clear.preference(key: SizePreferenceKey.self, value: geometry.size)
+        })
+    }
+}
+
+private struct MarqueeMaskModifier: AnimatableModifier {
+    var offset: CGFloat
+    var needsScrolling: Bool
+    
+    var animatableData: CGFloat {
+        get { offset }
+        set { offset = newValue }
+    }
+    
+    func body(content: Content) -> some View {
+        let leftAlpha: Double = {
+            if !needsScrolling { return 1.0 }
+            if offset >= 0 { return 1.0 }
+            if offset <= -8 { return 0.0 }
+            return 1.0 + Double(offset) / 8.0
+        }()
+        
+        return content.mask(
             LinearGradient(
                 stops: [
-                    .init(color: (animate && offset < 0) ? .clear : .black, location: 0),
+                    .init(color: .black.opacity(leftAlpha), location: 0),
                     .init(color: .black, location: 0.05),
                     .init(color: .black, location: 0.9),
                     .init(color: needsScrolling ? .clear : .black, location: 1)
@@ -127,23 +161,5 @@ struct MarqueeText: View {
                 endPoint: .trailing
             )
         )
-        .animation(.easeInOut(duration: 0.5), value: animate)
-        .task(id: restartKey) {
-            animate = false
-            offset = 0
-
-            guard needsScrolling else { return }
-
-            try? await Task.sleep(for: .milliseconds(20))
-            guard !Task.isCancelled, needsScrolling else { return }
-
-            animate = true
-            offset = -(textSize.width + 20)
-        }
-        .onDisappear {
-            animate = false
-            offset = 0
-        }
-        .frame(height: textSize.height * 1.3)
     }
 }

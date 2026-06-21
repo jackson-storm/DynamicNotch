@@ -32,11 +32,7 @@ struct VpnPageNotchView: View {
             Spacer()
             
             if viewModel.vpns.isEmpty {
-                if viewModel.isLoading {
-                    progressView
-                } else {
-                    emptyStateView
-                }
+                emptyStateView
             } else if let preferredVPN = viewModel.vpns.first(where: { $0.id == selectedVPNID }) {
                 featuredVPNView(for: preferredVPN)
             } else if let firstActive = viewModel.vpns.first(where: { $0.isConnected }) {
@@ -51,6 +47,14 @@ struct VpnPageNotchView: View {
         }
         .onDisappear {
             viewModel.stopMonitoring()
+        }
+        .onChange(of: viewModel.vpns) { _, newVpns in
+            if newVpns.count == 1 {
+                let singleVpnID = newVpns[0].id
+                if selectedVPNID != singleVpnID {
+                    selectedVPNID = singleVpnID
+                }
+            }
         }
     }
     
@@ -156,10 +160,12 @@ struct VpnPageNotchView: View {
             Text(verbatim: "No VPN Selected")
                 .font(.system(size: 14, weight: .semibold))
                 .foregroundColor(.white)
+                .lineLimit(1)
             
             Text(verbatim: "Please select your preferred VPN in Settings.")
                 .font(.system(size: 11))
                 .foregroundColor(.gray.opacity(0.6))
+                .lineLimit(1)
                 .multilineTextAlignment(.center)
         }
         .padding(.bottom, 12)
@@ -175,26 +181,19 @@ struct VpnPageNotchView: View {
             
             Text(verbatim: "No VPN configurations found")
                 .font(.system(size: 14, weight: .semibold))
+                .lineLimit(1)
                 .foregroundColor(.white)
             
             Text(verbatim: "Add a VPN in macOS Settings -> VPN.")
                 .font(.system(size: 11))
+                .lineLimit(1)
                 .foregroundColor(.gray.opacity(0.6))
                 .multilineTextAlignment(.center)
         }
         .padding(.bottom, 12)
         .padding(.horizontal, 20)
     }
-    
-    @ViewBuilder
-    private var progressView: some View {
-        VStack {
-            ProgressView()
-                .progressViewStyle(CircularProgressViewStyle(tint: .white))
-        }
-        .frame(height: 115)
-    }
-    
+        
     private func getAppIcon(for bundleID: String) -> NSImage? {
         guard let appURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleID) else {
             return nil

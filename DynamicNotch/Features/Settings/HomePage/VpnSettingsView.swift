@@ -23,6 +23,14 @@ struct VpnSettingsView: View {
         .onDisappear {
             vpnViewModel.stopMonitoring()
         }
+        .onChange(of: vpnViewModel.vpns) { _, newVpns in
+            if newVpns.count == 1 {
+                let singleVpnID = newVpns[0].id
+                if connectivitySettings.selectedVPNID != singleVpnID {
+                    connectivitySettings.selectedVPNID = singleVpnID
+                }
+            }
+        }
     }
     
     @ViewBuilder
@@ -30,17 +38,10 @@ struct VpnSettingsView: View {
         SettingsCard(title: "Preferred VPN") {
             VStack(alignment: .leading, spacing: 12) {
                 if vpnViewModel.vpns.isEmpty {
-                    if vpnViewModel.isLoading {
-                        ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                            .frame(maxWidth: .infinity, alignment: .center)
-                            .padding()
-                    } else {
-                        Text("No VPN configurations found on this Mac. Please add a VPN connection in System Settings -> VPN first.")
-                            .font(.system(size: 13))
-                            .foregroundColor(.gray)
-                            .padding(.vertical, 8)
-                    }
+                    Text("No VPN configurations found on this Mac. Please add a VPN connection in System Settings -> VPN first.")
+                        .font(.system(size: 13))
+                        .foregroundColor(.gray)
+                
                 } else {
                     VStack(spacing: 8) {
                         ForEach(vpnViewModel.vpns) { vpn in

@@ -21,6 +21,7 @@ struct CalendarMinimalNotchView: View {
                     .monospacedDigit()
             }
         }
-        .padding(.horizontal, isDynamicIsland ? 8.scaled(by: notchScale) :14.scaled(by: notchScale))
+        .padding(.trailing, isDynamicIsland ? 6.scaled(by: notchScale) : 14.scaled(by: notchScale))
+        .padding(.leading, isDynamicIsland ? 8.scaled(by: notchScale) : 14.scaled(by: notchScale))
     }
 }

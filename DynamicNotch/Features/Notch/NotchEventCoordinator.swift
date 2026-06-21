@@ -131,8 +131,7 @@ final class NotchEventCoordinator: ObservableObject {
         self.homePageHandler = NotchHomePageEventsHandler(
             notchViewModel: notchViewModel,
             settingsViewModel: settingsViewModel,
-            localTimerViewModel: localTimerViewModel,
-            calendarViewModel: calendarViewModel
+            localTimerViewModel: localTimerViewModel
         )
         self.calendarHandler = NotchCalendarEventsHandler(
             notchViewModel: notchViewModel,

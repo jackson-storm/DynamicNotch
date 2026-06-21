@@ -14,7 +14,6 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     let settings: HomePageSettingsStore
     let homePages: HomePages
     let localTimerViewModel: LocalTimerViewModel
-    let calendarViewModel: CalendarViewModel
     
     var priority: Int { NotchContentRegistry.HomePage.active.priority }
     var isExpandable: Bool { true }
@@ -61,15 +60,6 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
         case .localTimer:
             return baseHeight * 0.2
             
-        case .calendar:
-            if calendarViewModel.authorizationStatus != .fullAccess {
-                return baseHeight * 0.3
-            } else if calendarViewModel.events.isEmpty {
-                return baseHeight * 0.2
-            } else {
-                return baseHeight * 0.2
-            }
-            
         case .vpn:
             return baseHeight * 0.2
         }
@@ -93,14 +83,6 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
             
         case .localTimer:
             return .init(width: baseWidth + 100, height: baseHeight + 125)
-            
-        case .calendar:
-            if calendarViewModel.authorizationStatus != .fullAccess {
-                return .init(width: baseWidth + 60, height: baseHeight + 125)
-                
-            } else {
-                return .init(width: baseWidth + 130, height: baseHeight + 125)
-            }
             
         case .vpn:
             return .init(width: baseWidth + 140, height: baseHeight + 110)
@@ -126,17 +108,6 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
         case .localTimer:
             return .init(width: baseWidth + 140, height: baseHeight + 125)
             
-        case .calendar:
-            if calendarViewModel.authorizationStatus != .fullAccess {
-                return .init(width: baseWidth + 60, height: baseHeight + 125)
-                
-            } else if calendarViewModel.events.isEmpty {
-                return .init(width: baseWidth + 60, height: baseHeight + 125)
-                
-            } else {
-                return .init(width: baseWidth + 160, height: baseHeight + 125)
-            }
-            
         case .vpn:
             return .init(width: baseWidth + 180, height: baseHeight + 125)
         }
@@ -149,7 +120,6 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
                 notchViewModel: notchViewModel,
                 settings: settings,
                 localTimerViewModel: localTimerViewModel,
-                calendarViewModel: calendarViewModel,
                 initialPage: homePages
             )
         )

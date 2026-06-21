@@ -17,18 +17,15 @@ final class NotchHomePageEventsHandler {
     private let notchViewModel: NotchViewModel
     private let settingsViewModel: SettingsViewModel
     private let localTimerViewModel: LocalTimerViewModel
-    private let calendarViewModel: CalendarViewModel
     
     init(
         notchViewModel: NotchViewModel,
         settingsViewModel: SettingsViewModel,
-        localTimerViewModel: LocalTimerViewModel,
-        calendarViewModel: CalendarViewModel
+        localTimerViewModel: LocalTimerViewModel
     ) {
         self.notchViewModel = notchViewModel
         self.settingsViewModel = settingsViewModel
         self.localTimerViewModel = localTimerViewModel
-        self.calendarViewModel = calendarViewModel
     }
     
     func handleHomePage(_ event: HomePageEvent) {
@@ -40,8 +37,7 @@ final class NotchHomePageEventsHandler {
                 notchViewModel: notchViewModel,
                 settings: settingsViewModel.homePage,
                 homePages: activePage,
-                localTimerViewModel: localTimerViewModel,
-                calendarViewModel: calendarViewModel
+                localTimerViewModel: localTimerViewModel
             )))
             
         case .homePageOff:

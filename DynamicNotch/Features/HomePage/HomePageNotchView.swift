@@ -10,7 +10,6 @@ import SwiftUI
 enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
     case camera
     case localTimer
-    case calendar
     case vpn
     
     var id: String { rawValue }
@@ -19,7 +18,6 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
         switch self {
         case .camera: return "Camera"
         case .localTimer: return "Timer"
-        case .calendar: return "Calendar"
         case .vpn: return "VPN"
         }
     }
@@ -28,7 +26,6 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
         switch self {
         case .camera: return "Quickly access the camera."
         case .localTimer: return "Set a quick timer."
-        case .calendar: return "View upcoming events."
         case .vpn: return "Manage VPN connections."
         }
     }
@@ -37,7 +34,6 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
         switch self {
         case .camera: return "camera.fill"
         case .localTimer: return "timer"
-        case .calendar: return "calendar"
         case .vpn: return "network.badge.shield.half.filled"
         }
     }
@@ -46,7 +42,6 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
         switch self {
         case .camera: return .blue
         case .localTimer: return .orange
-        case .calendar: return .red
         case .vpn: return .purple
         }
     }
@@ -58,15 +53,13 @@ struct HomePageNotchView: View {
     let notchViewModel: NotchViewModel
     let settings: HomePageSettingsStore
     let localTimerViewModel: LocalTimerViewModel
-    let calendarViewModel: CalendarViewModel
     
     @State private var currentPage: HomePages?
     
-    init(notchViewModel: NotchViewModel, settings: HomePageSettingsStore, localTimerViewModel: LocalTimerViewModel, calendarViewModel: CalendarViewModel, initialPage: HomePages) {
+    init(notchViewModel: NotchViewModel, settings: HomePageSettingsStore, localTimerViewModel: LocalTimerViewModel, initialPage: HomePages) {
         self.notchViewModel = notchViewModel
         self.settings = settings
         self.localTimerViewModel = localTimerViewModel
-        self.calendarViewModel = calendarViewModel
         self._currentPage = State(initialValue: initialPage)
     }
     
@@ -95,8 +88,7 @@ struct HomePageNotchView: View {
                             notchViewModel: notchViewModel,
                             settings: settings,
                             homePages: newPage,
-                            localTimerViewModel: localTimerViewModel,
-                            calendarViewModel: calendarViewModel
+                            localTimerViewModel: localTimerViewModel
                         )
                     )
                 )
@@ -113,8 +105,7 @@ struct HomePageNotchView: View {
                         notchViewModel: notchViewModel,
                         settings: settings,
                         homePages: activePages.first ?? .camera,
-                        localTimerViewModel: localTimerViewModel,
-                        calendarViewModel: calendarViewModel
+                        localTimerViewModel: localTimerViewModel
                     )
                 )
             )
@@ -125,11 +116,9 @@ struct HomePageNotchView: View {
     private func pageView(for page: HomePages) -> some View {
         switch page {
         case .camera:
-            CameraNotchView(notchViewModel: notchViewModel, settings: settings, localTimerViewModel: localTimerViewModel, calendarViewModel: calendarViewModel)
+            CameraNotchView(notchViewModel: notchViewModel, settings: settings, localTimerViewModel: localTimerViewModel)
         case .localTimer:
             LocalTimerSetupNotchView(localTimerViewModel: localTimerViewModel)
-        case .calendar:
-            CalendarNotchView(calendarViewModel: calendarViewModel, notchViewModel: notchViewModel)
         case .vpn:
             VpnPageNotchView(notchViewModel: notchViewModel)
         }

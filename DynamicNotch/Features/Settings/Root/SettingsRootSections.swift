@@ -131,6 +131,8 @@ extension SettingsRootViewModel {
                 return .battery
             case "hotspot", "wifi", "vpn":
                 return .network
+            case "calendar", "events":
+                return .calendar
             default:
                 return Self(rawValue: storedValue ?? "") ?? .general
             }
@@ -287,18 +289,18 @@ private enum SettingsSectionCatalog {
             
         case .calendar:
             return .init(
-                sidebarGroup: .homePage,
+                sidebarGroup: .system,
                 titleKey: "settings.section.calendar.title",
                 fallbackTitle: "Calendar",
                 subtitleKey: "settings.section.calendar.subtitle",
-                fallbackSubtitle: "Upcoming events",
+                fallbackSubtitle: "Configure upcoming calendar events settings.",
                 searchKeywords: [
                     "Calendar",
                     "Events"
                 ],
                 systemImage: "calendar",
                 imageName: nil,
-                tint: .red,
+                tint: .blue,
                 resetGroup: .calendar
             )
 

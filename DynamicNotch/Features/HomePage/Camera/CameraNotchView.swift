@@ -12,7 +12,6 @@ struct CameraNotchView: View {
     let notchViewModel: NotchViewModel
     let settings: HomePageSettingsStore
     let localTimerViewModel: LocalTimerViewModel
-    let calendarViewModel: CalendarViewModel
     
     @StateObject private var cameraViewModel = CameraViewModel()
     @State private var isHovering: Bool = false
@@ -93,8 +92,7 @@ struct CameraNotchView: View {
                                     notchViewModel: notchViewModel,
                                     settings: settings,
                                     homePages: .camera,
-                                    localTimerViewModel: localTimerViewModel,
-                                    calendarViewModel: calendarViewModel
+                                    localTimerViewModel: localTimerViewModel
                                 )
                             ))
                         }) {
@@ -148,8 +146,7 @@ struct CameraNotchView: View {
                         notchViewModel: notchViewModel,
                         settings: settings,
                         homePages: .camera,
-                        localTimerViewModel: localTimerViewModel,
-                        calendarViewModel: calendarViewModel
+                        localTimerViewModel: localTimerViewModel
                     )
                 ))
             }) {

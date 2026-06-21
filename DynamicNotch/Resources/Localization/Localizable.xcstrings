@@ -102,9 +102,6 @@
     "%lld" : {
 
     },
-    "%lld " : {
-
-    },
     "%lld%%" : {
       "localizations" : {
         "en" : {
@@ -132,9 +129,6 @@
           }
         }
       }
-    },
-    "•" : {
-
     },
     "00" : {
 
@@ -2115,6 +2109,7 @@
       }
     },
     "Calendar" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -5619,9 +5614,6 @@
     "Empty Title" : {
 
     },
-    "Enjoy your free time!" : {
-
-    },
     "Enlarged" : {
       "localizations" : {
         "en" : {
@@ -7510,9 +7502,6 @@
         }
       }
     },
-    "Join" : {
-
-    },
     "Join Meeting" : {
 
     },
@@ -8942,9 +8931,6 @@
           }
         }
       }
-    },
-    "No events today" : {
-
     },
     "No Internet Connection" : {
       "localizations" : {
@@ -11427,6 +11413,7 @@
       }
     },
     "settings.activities.calendar.allDay" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11455,6 +11442,7 @@
       }
     },
     "settings.activities.calendar.allDay.desc" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11483,6 +11471,7 @@
       }
     },
     "settings.activities.calendar.days" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11511,6 +11500,7 @@
       }
     },
     "settings.activities.calendar.daysToShow" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11539,6 +11529,7 @@
       }
     },
     "settings.activities.calendar.daysToShow.desc" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11708,6 +11699,7 @@
       }
     },
     "settings.activities.calendar.preferences" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -20333,6 +20325,7 @@
       }
     },
     "View upcoming events." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

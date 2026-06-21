@@ -9448,6 +9448,7 @@
       }
     },
     "Only notify on network change" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -9476,6 +9477,7 @@
       }
     },
     "Only show Wi-Fi or VPN notifications when the connected network actually changes." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -20465,6 +20467,9 @@
           }
         }
       }
+    },
+    "VPN activity" : {
+
     },
     "VPN appearance" : {
       "localizations" : {

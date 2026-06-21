@@ -14,6 +14,7 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
         case focus
         case bluetooth
         case network
+        case vpn
         case battery
         case hud
         case lockScreen
@@ -452,6 +453,8 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
             connectivity.resetBluetooth()
         case .network:
             connectivity.resetNetwork()
+        case .vpn:
+            connectivity.resetVpn()
         case .battery:
             battery.reset()
         case .hud:

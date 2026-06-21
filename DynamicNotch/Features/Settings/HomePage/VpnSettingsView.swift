@@ -13,9 +13,27 @@ struct VpnSettingsView: View {
     @ObservedObject var appearanceSettings: ApplicationSettingsStore
     @StateObject private var vpnViewModel = VpnPageViewModel()
     
+    private var temporaryActivityDurationRange: ClosedRange<Double> {
+        Double(SettingsStoreBase.temporaryActivityDurationRange.lowerBound)...Double(SettingsStoreBase.temporaryActivityDurationRange.upperBound)
+    }
+    
+    private var vpnAppearanceStyle: Binding<VPNAppearanceStyle> {
+        Binding(
+            get: { connectivitySettings.isVPNDetailVisible ? .detailed : .compact },
+            set: { connectivitySettings.isVPNDetailVisible = $0 == .detailed }
+        )
+    }
+    
+    private var vpnPreviewStrokeColor: Color {
+        appearanceSettings.isShowNotchStrokeEnabled ? .white.opacity(0.2) : .clear
+    }
+    
     var body: some View {
         SettingsPageScrollView {
+            vpnActivity
+            vpnDuration
             preferredVpnCard
+            vpnAppearance
         }
         .onAppear {
             vpnViewModel.startMonitoring()
@@ -30,6 +48,39 @@ struct VpnSettingsView: View {
                     connectivitySettings.selectedVPNID = singleVpnID
                 }
             }
+        }
+    }
+    
+    private var vpnActivity: some View {
+        SettingsCard(title: "VPN activity") {
+            SettingsToggleRow(
+                title: "VPN temporary activity",
+                description: "Show a short notification when a VPN connection becomes active.",
+                systemImage: "network",
+                color: .blue,
+                isOn: $connectivitySettings.isVpnTemporaryActivityEnabled,
+                accessibilityIdentifier: "settings.activities.temporary.vpn"
+            )
+        }
+    }
+    
+    private var vpnDuration: some View {
+        SettingsCard(title: "VPN duration") {
+            SettingsSliderRow(
+                title: "VPN duration",
+                description: "Choose how long the VPN connection notification stays visible.",
+                range: temporaryActivityDurationRange,
+                step: 1,
+                fractionLength: 0,
+                suffix: "s",
+                accessibilityIdentifier: "settings.activities.temporary.vpn.duration",
+                value: Binding(
+                    get: { Double(connectivitySettings.vpnTemporaryActivityDuration) },
+                    set: { connectivitySettings.vpnTemporaryActivityDuration = Int($0.rounded()) }
+                )
+            )
+            .disabled(!connectivitySettings.isVpnTemporaryActivityEnabled)
+            .opacity(connectivitySettings.isVpnTemporaryActivityEnabled ? 1 : 0.5)
         }
     }
     
@@ -105,5 +156,93 @@ struct VpnSettingsView: View {
             return nil
         }
         return NSWorkspace.shared.icon(forFile: appURL.path)
+    }
+    
+    private var vpnAppearance: some View {
+        SettingsCard(title: "VPN appearance") {
+            CustomPicker(
+                selection: vpnAppearanceStyle,
+                options: Array(VPNAppearanceStyle.allCases),
+                title: { $0.title },
+                headerTitle: "VPN style",
+                headerDescription: "Choose whether the VPN activity stays compact or shows tunnel details.",
+                itemHeight: 72,
+                lightBackgroundImage: Image("backgroundLight"),
+                darkBackgroundImage: Image("backgroundDark")
+            ) { style, isSelected in
+                vpnAppearancePickerContent(for: style, isSelected: isSelected, isTimerVisible: connectivitySettings.isVPNTimerVisible)
+            }
+            .accessibilityIdentifier("settings.activities.temporary.vpn.style")
+        }
+    }
+    
+    @ViewBuilder
+    private func vpnAppearancePickerContent(for style: VPNAppearanceStyle, isSelected: Bool, isTimerVisible: Bool) -> some View {
+        switch style {
+        case .compact:
+            ZStack {
+                Capsule()
+                    .fill(.black)
+                    .overlay {
+                        Capsule()
+                            .stroke(vpnPreviewStrokeColor, lineWidth: 1)
+                    }
+                HStack {
+                    Image(systemName: "network.badge.shield.half.filled")
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundStyle(Color.white.gradient)
+                    
+                    Spacer()
+                    
+                    Text(verbatim: "Active")
+                        .foregroundStyle(.white.opacity(0.8))
+                        .lineLimit(1)
+                }
+                .padding(.leading, 6)
+                .padding(.trailing, 10)
+            }
+            .frame(width: 200, height: 30)
+            .scaleEffect(isSelected ? 1 : 0.97)
+            
+        case .detailed:
+            ZStack {
+                Capsule()
+                    .fill(.black)
+                    .overlay {
+                        Capsule()
+                            .stroke(vpnPreviewStrokeColor, lineWidth: 1)
+                    }
+                HStack {
+                    HStack(spacing: 10) {
+                        Image(systemName: "network.badge.shield.half.filled")
+                            .font(.system(size: 20))
+                            .foregroundStyle(.white.opacity(0.8))
+                        
+                        VStack(alignment: .leading, spacing: 0) {
+                            Text(verbatim: "Connected")
+                                .lineLimit(1)
+                                .font(.system(size: 10))
+                                .foregroundStyle(.white.opacity(0.4))
+                            
+                            Text("WireGuard VPN")
+                                .lineLimit(1)
+                                .font(.system(size: 12))
+                                .foregroundStyle(.white.opacity(0.8))
+                        }
+                    }
+                    
+                    Spacer()
+                
+                    Text("00:10")
+                        .font(.system(size: 14, design: .rounded))
+                        .foregroundStyle(.orange)
+                        .monospacedDigit()
+                        .contentTransition(.numericText())
+                }
+                .padding(.horizontal, 12)
+            }
+            .frame(width: 210, height: 50)
+            .scaleEffect(isSelected ? 1 : 0.97)
+        }
     }
 }

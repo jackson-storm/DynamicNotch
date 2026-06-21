@@ -53,35 +53,76 @@ struct HomePageNotchView: View {
     let notchViewModel: NotchViewModel
     let settings: HomePageSettingsStore
     let localTimerViewModel: LocalTimerViewModel
+    let initialPage: HomePages
     
     @State private var currentPage: HomePages?
+    @State private var updateTask: Task<Void, Never>? = nil
+    @State private var isWaitingForSizeUpdate = false
     
     init(notchViewModel: NotchViewModel, settings: HomePageSettingsStore, localTimerViewModel: LocalTimerViewModel, initialPage: HomePages) {
         self.notchViewModel = notchViewModel
         self.settings = settings
         self.localTimerViewModel = localTimerViewModel
-        self._currentPage = State(initialValue: initialPage)
+        self.initialPage = initialPage
+        
+        let activePages = settings.homePageOrder.filter { !settings.homePageDisabled.contains($0) }
+        let pageToSelect = activePages.contains(initialPage) ? initialPage : (activePages.first ?? .camera)
+        self._currentPage = State(initialValue: pageToSelect)
     }
     
     var body: some View {
-        VStack {
+        let activePages = settings.homePageOrder.filter { !settings.homePageDisabled.contains($0) }
+        let isWaiting = isWaitingForSizeUpdate
+        
+        VStack(spacing: 8) {
             Spacer()
             
             ScrollView(.horizontal, showsIndicators: false) {
-                LazyHStack(spacing: 30) {
-                    let activePages = settings.homePageOrder.filter { !settings.homePageDisabled.contains($0) }
-                    ForEach(activePages, id: \.self) { page in
+                LazyHStack(spacing: 0) {
+                    ForEach(activePages) { page in
                         pageView(for: page)
-                            .clipped()
                             .containerRelativeFrame(.horizontal)
+                            .scrollTransition(.interactive) { content, phase in
+                                content
+                                    .blur(radius: (!phase.isIdentity || isWaiting) ? 20 : 0)
+                                    .opacity((!phase.isIdentity || isWaiting) ? 0.7 : 1.0)
+                            }
+                            .id(page)
                     }
                 }
                 .scrollTargetLayout()
             }
             .scrollTargetBehavior(.viewAligned)
             .scrollPosition(id: $currentPage)
-            .onChange(of: currentPage) { oldPage, newPage in
-                guard let newPage = newPage else { return }
+        }
+        .clipShape(RoundedRectangle(cornerRadius: isDynamicIsland ? 24 : 26))
+        .padding(.horizontal, isDynamicIsland ? 10 : 35)
+        .padding(.bottom, 10)
+        .contentShape(Rectangle())
+        .onChange(of: initialPage) { _, newPage in
+            if newPage != currentPage && activePages.contains(newPage) {
+                currentPage = newPage
+            }
+        }
+        .onChange(of: activePages) { _, newActivePages in
+            if let current = currentPage, !newActivePages.contains(current) {
+                if let first = newActivePages.first {
+                    currentPage = first
+                }
+            }
+        }
+        .onChange(of: currentPage) { oldPage, newPage in
+            guard let newPage = newPage, newPage != oldPage else { return }
+            
+            withAnimation(.easeInOut(duration: 0.15)) {
+                isWaitingForSizeUpdate = true
+            }
+            
+            updateTask?.cancel()
+            updateTask = Task {
+                try? await Task.sleep(nanoseconds: 300_000_000)
+                guard !Task.isCancelled else { return }
+                
                 notchViewModel.send(
                     .showLiveActivity(
                         HomePageNotchContent(
@@ -92,11 +133,12 @@ struct HomePageNotchView: View {
                         )
                     )
                 )
+                
+                withAnimation(.easeInOut(duration: 0.35)) {
+                    isWaitingForSizeUpdate = false
+                }
             }
         }
-        .clipShape(RoundedRectangle(cornerRadius: isDynamicIsland ? 24 : 26))
-        .padding(.horizontal, isDynamicIsland ? 10 : 35)
-        .padding(.bottom, 10)
         .onDisappear {
             let activePages = settings.homePageOrder.filter { !settings.homePageDisabled.contains($0) }
             notchViewModel.send(

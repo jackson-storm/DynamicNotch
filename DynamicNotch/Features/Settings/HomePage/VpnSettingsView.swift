@@ -29,10 +29,6 @@ struct VpnSettingsView: View {
     private var preferredVpnCard: some View {
         SettingsCard(title: "Preferred VPN") {
             VStack(alignment: .leading, spacing: 12) {
-                Text("Select the VPN connection that you want to control from the notch.")
-                    .font(.caption)
-                    .foregroundColor(.gray)
-                
                 if vpnViewModel.vpns.isEmpty {
                     if vpnViewModel.isLoading {
                         ProgressView()
@@ -48,66 +44,57 @@ struct VpnSettingsView: View {
                 } else {
                     VStack(spacing: 8) {
                         ForEach(vpnViewModel.vpns) { vpn in
-                            HStack(spacing: 12) {
-                                // Icon
-                                ZStack {
-                                    RoundedRectangle(cornerRadius: 8)
-                                        .fill(Color.gray.opacity(0.15))
-                                        .frame(width: 32, height: 32)
-                                    
-                                    if let bundleID = vpn.bundleID, let nsImage = getAppIcon(for: bundleID) {
-                                        Image(nsImage: nsImage)
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: 20, height: 20)
-                                            .cornerRadius(4)
-                                    } else {
-                                        Image(systemName: "shield")
-                                            .font(.system(size: 16, weight: .semibold))
-                                            .foregroundStyle(Color.gray)
-                                    }
+                            HStack(spacing: 10) {
+                                if let bundleID = vpn.bundleID, let nsImage = getAppIcon(for: bundleID) {
+                                    Image(nsImage: nsImage)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 36, height: 36)
+                                } else {
+                                    Image(systemName: "shield")
+                                        .font(.system(size: 26, weight: .semibold))
+                                        .foregroundStyle(Color.gray)
                                 }
-                                
                                 VStack(alignment: .leading, spacing: 2) {
                                     Text(vpn.name)
-                                        .font(.system(size: 13, weight: .medium))
-                                        .foregroundColor(.white)
-                                    
                                     Text(vpn.type)
-                                        .font(.system(size: 10))
-                                        .foregroundColor(.gray)
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
                                 }
                                 
                                 Spacer()
                                 
-                                // Selection Radio
                                 if connectivitySettings.selectedVPNID == vpn.id {
                                     Image(systemName: "checkmark.circle.fill")
                                         .foregroundColor(.blue)
-                                        .font(.system(size: 18))
+                                        .font(.system(size: 20))
                                 } else {
                                     Image(systemName: "circle")
                                         .foregroundColor(.gray)
-                                        .font(.system(size: 18))
+                                        .font(.system(size: 20))
                                 }
                             }
                             .contentShape(Rectangle())
-                            .padding(.horizontal, 10)
+                            .padding(.trailing, 10)
+                            .padding(.leading, 6)
                             .padding(.vertical, 6)
                             .background(
                                 RoundedRectangle(cornerRadius: 12)
-                                    .fill(connectivitySettings.selectedVPNID == vpn.id ? Color.blue.opacity(0.1) : Color.white.opacity(0.02))
+                                    .fill(connectivitySettings.selectedVPNID == vpn.id ? Color.blue.opacity(0.2) : Color.gray.opacity(0.1))
                             )
                             .onTapGesture {
                                 connectivitySettings.selectedVPNID = vpn.id
                             }
-                            
-                            if vpn.id != vpnViewModel.vpns.last?.id {
-                                Divider().opacity(0.4)
-                            }
                         }
                     }
+                    .animation(.spring(response: 0.3), value: connectivitySettings.selectedVPNID)
                 }
+                Divider()
+                    .opacity(0.6)
+                
+                Text("Select the VPN connection that you want to control from the notch.")
+                    .font(.caption)
+                    .foregroundColor(.gray)
             }
         }
     }

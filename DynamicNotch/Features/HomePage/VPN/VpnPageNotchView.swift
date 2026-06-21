@@ -57,56 +57,60 @@ struct VpnPageNotchView: View {
     @ViewBuilder
     private func featuredVPNView(for vpn: VPNConfiguration) -> some View {
         VStack(spacing: 8) {
-            HStack(spacing: 8) {
-                if let bundleID = vpn.bundleID, let nsImage = getAppIcon(for: bundleID) {
-                    Image(nsImage: nsImage)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 50, height: 50)
-                        .cornerRadius(6)
+            ZStack {
+                HStack(spacing: 8) {
+                    if let bundleID = vpn.bundleID, let nsImage = getAppIcon(for: bundleID) {
+                        Image(nsImage: nsImage)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 50, height: 50)
+                            .cornerRadius(6)
+                        
+                    } else {
+                        Image(systemName: vpn.isConnected ? "shield.fill" : "shield")
+                            .font(.system(size: 20, weight: .semibold))
+                            .foregroundStyle(vpn.isConnected ? Color.green : Color.gray)
+                    }
                     
-                } else {
-                    Image(systemName: vpn.isConnected ? "shield.fill" : "shield")
-                        .font(.system(size: 20, weight: .semibold))
-                        .foregroundStyle(vpn.isConnected ? Color.green : Color.gray)
+                    VStack(alignment: .leading, spacing: 3) {
+                        MarqueeText(
+                            .constant(vpn.name),
+                            font: .system(size: 16, weight: .medium),
+                            nsFont: .headline,
+                            textColor: .white.opacity(0.8),
+                            backgroundColor: .clear,
+                            minDuration: 2.0,
+                            frameWidth: 120
+                        )
+                        
+                        MarqueeText(
+                            .constant(vpn.type),
+                            font: .system(size: 11),
+                            nsFont: .body,
+                            textColor: .white.opacity(0.5),
+                            backgroundColor: .clear,
+                            minDuration: 3.0,
+                            frameWidth: 120
+                        )
+                    }
+                    Spacer()
                 }
-                
-                VStack(alignment: .leading, spacing: 3) {
-                    MarqueeText(
-                        .constant(vpn.name),
-                        font: .system(size: 16, weight: .medium),
-                        nsFont: .headline,
-                        textColor: .white.opacity(0.8),
-                        backgroundColor: .clear,
-                        minDuration: 2.0,
-                        frameWidth: 120
-                    )
-                    
-                    MarqueeText(
-                    .constant(vpn.type),
-                    font: .system(size: 11),
-                    nsFont: .body,
-                    textColor: .white.opacity(0.5),
-                    backgroundColor: .clear,
-                    minDuration: 3.0,
-                    frameWidth: 120
-                    )
-                }
-                
-                Spacer()
                 
                 if vpn.isConnected {
                     Text(timeString)
                         .font(.system(size: 24, weight: .semibold, design: .rounded))
                         .monospacedDigit()
                         .foregroundStyle(Color.orange)
+                        .frame(maxWidth: .infinity, alignment: .trailing)
                         .onReceive(timer) { _ in
                             updateTimer()
                         }
+                    
                 } else {
                     Text("--:--")
                         .font(.system(size: 20, weight: .medium))
                         .foregroundColor(.gray)
+                        .frame(maxWidth: .infinity, alignment: .trailing)
                 }
             }
             
@@ -125,9 +129,8 @@ struct VpnPageNotchView: View {
                 ))
                 
                 Button(action: {
-                    withAnimation(.spring(response: 0.3)) {
-                        viewModel.toggleVPN(vpn)
-                    }
+                    viewModel.toggleVPN(vpn)
+                    notchViewModel.dismissActiveContent()
                 }) {
                     Text(verbatim: vpn.isConnected ? "Disconnect" : "Connect VPN")
                         .font(.system(size: 14, weight: .medium))

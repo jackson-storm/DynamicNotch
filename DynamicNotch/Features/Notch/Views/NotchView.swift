@@ -185,7 +185,9 @@ private extension NotchView {
                 .resizeAwareBlur(
                     size: notchViewModel.interactiveNotchSize,
                     interactiveBlur: notchViewModel.contentResizeBlurRadius,
-                    interactiveOpacity: notchViewModel.contentResizeOpacity
+                    interactiveOpacity: notchViewModel.contentResizeOpacity,
+                    swipeProgress: notchViewModel.easedSwipeStretchProgress,
+                    swipeInteraction: notchViewModel.swipeInteraction
                 )
                 .id(notchViewModel.displayedPresentationID)
                 .transition(

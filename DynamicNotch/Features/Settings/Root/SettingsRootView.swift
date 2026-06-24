@@ -126,7 +126,6 @@ struct SettingsRootView: View {
                     }
                 }
             }
-            .toolbarBackground(.thinMaterial, for: .windowToolbar)
         }
         .navigationTitle(
             filteredSections.isEmpty
@@ -226,10 +225,7 @@ struct SettingsRootView: View {
         selectionHistory.canGoForward
     }
 
-    private func applySelection(
-        _ section: SettingsRootViewModel.Section,
-        origin: SelectionChangeOrigin
-    ) {
+    private func applySelection(_ section: SettingsRootViewModel.Section, origin: SelectionChangeOrigin) {
         switch origin {
         case .sidebar:
             guard selectedSection != section ||

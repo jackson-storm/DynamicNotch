@@ -8,7 +8,6 @@
 internal import AppKit
 
 enum AppRelauncher {
-    
     @MainActor
     static func restartApp() {
         let process = Process()

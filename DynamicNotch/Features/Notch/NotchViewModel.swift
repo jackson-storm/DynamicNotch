@@ -437,7 +437,7 @@ final class NotchViewModel: ObservableObject {
         engine.handleStrokeVisibility()
     }
     
-    private var easedSwipeStretchProgress: CGFloat {
+    var easedSwipeStretchProgress: CGFloat {
         (1.5 * swipeStretchProgress) / (0.5 + swipeStretchProgress)
     }
 

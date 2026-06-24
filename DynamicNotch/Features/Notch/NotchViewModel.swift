@@ -17,6 +17,7 @@ private enum SwipeFeedbackMetrics {
     static let expandedDismissMinimumHeight: CGFloat = 12
     static let expandedDismissMaximumHeight: CGFloat = 28
     static let restoreCornerRadiusExpansion: CGFloat = 4
+    static let restoreTopCornerRadiusExpansion: CGFloat = 12
     static let expandedDismissCornerRadiusReduction: CGFloat = 4
     static let dismissBlurRadius: CGFloat = 7
     static let restoreBlurRadius: CGFloat = 4
@@ -223,8 +224,13 @@ final class NotchViewModel: ObservableObject {
             return baseCornerRadius
             
         case .restore:
+            let isHeightGreater = model.size.height > model.baseHeight
+            let widthDiff = max(0, model.size.width - model.baseWidth)
+            let widthFactor = widthDiff / model.baseWidth
+            let topProgress = isHeightGreater ? (SwipeFeedbackMetrics.restoreTopCornerRadiusExpansion * progress * widthFactor) : 0
+            
             return (
-                top: baseCornerRadius.top,
+                top: baseCornerRadius.top + topProgress,
                 bottom: baseCornerRadius.bottom + (SwipeFeedbackMetrics.restoreCornerRadiusExpansion * progress)
             )
             

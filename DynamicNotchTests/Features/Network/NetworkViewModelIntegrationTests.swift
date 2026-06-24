@@ -118,7 +118,6 @@ private extension NetworkViewModelIntegrationTests {
         defaults.removePersistentDomain(forName: suiteName)
 
         let settings = ConnectivitySettingsStore(defaults: defaults)
-        settings.isOnlyNotifyOnNetworkChangeEnabled = false
 
         return NetworkViewModel(
             monitor: monitor,

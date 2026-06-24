@@ -24,7 +24,7 @@ enum SwipeFeedbackMetrics {
     static let restoreTopCornerRadiusExpansion: CGFloat = 12
     static let expandedDismissCornerRadiusReduction: CGFloat = 4
     static let dismissBlurRadius: CGFloat = 7
-    static let restoreBlurRadius: CGFloat = 4
-    static let dismissOpacityReduction: Double = 0.8
-    static let restoreOpacityReduction: Double = 0.5
+    static let restoreBlurRadius: CGFloat = 7
+    static let dismissOpacityReduction: Double = 0.4
+    static let restoreOpacityReduction: Double = 0.4
 }

@@ -14,6 +14,8 @@ struct ResizeAwareBlurModifier: AnimatableModifier {
     private let targetHeight: CGFloat
     private let interactiveBlur: CGFloat
     private let interactiveOpacity: Double
+    private var animatedProgress: CGFloat
+    private let swipeInteraction: SwipeInteraction?
 
     private enum Metrics {
         static let maxBlurRadius: CGFloat = 5
@@ -21,22 +23,25 @@ struct ResizeAwareBlurModifier: AnimatableModifier {
         static let maxOpacityReduction: Double = 0.28
     }
 
-    init(size: CGSize, interactiveBlur: CGFloat, interactiveOpacity: Double) {
+    init(size: CGSize, interactiveBlur: CGFloat, interactiveOpacity: Double, swipeProgress: CGFloat, swipeInteraction: SwipeInteraction?) {
         animatedWidth = size.width
         animatedHeight = size.height
         targetWidth = size.width
         targetHeight = size.height
         self.interactiveBlur = interactiveBlur
         self.interactiveOpacity = interactiveOpacity
+        self.animatedProgress = swipeProgress
+        self.swipeInteraction = swipeInteraction
     }
 
-    var animatableData: AnimatablePair<CGFloat, CGFloat> {
+    var animatableData: AnimatablePair<AnimatablePair<CGFloat, CGFloat>, CGFloat> {
         get {
-            .init(animatedWidth, animatedHeight)
+            .init(.init(animatedWidth, animatedHeight), animatedProgress)
         }
         set {
-            animatedWidth = newValue.first
-            animatedHeight = newValue.second
+            animatedWidth = newValue.first.first
+            animatedHeight = newValue.first.second
+            animatedProgress = newValue.second
         }
     }
 
@@ -49,8 +54,24 @@ struct ResizeAwareBlurModifier: AnimatableModifier {
         let transitionOpacity = max(0, 1 - (Double(normalizedProgress) * Metrics.maxOpacityReduction))
         let opacity = min(transitionOpacity, interactiveOpacity)
 
-        let xScale = targetWidth > 0 ? (animatedWidth / targetWidth) : 1.0
-        let yScale = targetHeight > 0 ? (animatedHeight / targetHeight) : 1.0
+        let xScale: CGFloat
+        let yScale: CGFloat
+
+        if animatedProgress > 0.001, let interaction = swipeInteraction {
+            switch interaction {
+            case .dismiss:
+                // Swipe up: expand width, squash height
+                xScale = 1.0 + animatedProgress * 0.05
+                yScale = max(0.8, 1.0 - animatedProgress * 0.05)
+            case .restore:
+                // Swipe down: expand height, squash width
+                yScale = 1.0 + animatedProgress * 0.05
+                xScale = max(0.8, 1.0 - animatedProgress * 0.05)
+            }
+        } else {
+            xScale = targetWidth > 0 ? (animatedWidth / targetWidth) : 1.0
+            yScale = targetHeight > 0 ? (animatedHeight / targetHeight) : 1.0
+        }
 
         return content
             .scaleEffect(x: xScale, y: yScale, anchor: .center)
@@ -66,12 +87,14 @@ struct ResizeAwareBlurModifier: AnimatableModifier {
 }
 
 extension View {
-    func resizeAwareBlur(size: CGSize, interactiveBlur: CGFloat, interactiveOpacity: Double) -> some View {
+    func resizeAwareBlur(size: CGSize, interactiveBlur: CGFloat, interactiveOpacity: Double, swipeProgress: CGFloat, swipeInteraction: SwipeInteraction?) -> some View {
         modifier(
             ResizeAwareBlurModifier(
                 size: size,
                 interactiveBlur: interactiveBlur,
-                interactiveOpacity: interactiveOpacity
+                interactiveOpacity: interactiveOpacity,
+                swipeProgress: swipeProgress,
+                swipeInteraction: swipeInteraction
             )
         )
     }

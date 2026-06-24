@@ -211,8 +211,18 @@ final class DoNotDisturbManager: ObservableObject {
 
                 guard let lastLine = lines.last(where: { !$0.isEmpty }) else { continue }
 
-                // starting: 0 means focus ended — nothing to activate.
-                guard !lastLine.contains("starting: 0") && !lastLine.contains("active mode assertion: (null)") else { return }
+                // Check for focus ended or inactive state indicators.
+                let isOffIndicator = lastLine.contains("starting: 0") ||
+                                     lastLine.contains("active mode assertion: (null)") ||
+                                     lastLine.contains("active activity: (null)") ||
+                                     lastLine.contains("activeModeIdentifier: (null)") ||
+                                     lastLine.contains("activeModeIdentifier = (null)") ||
+                                     lastLine.contains("activeModeConfiguration: (null)") ||
+                                     lastLine.contains("activeModeConfiguration = (null)") ||
+                                     lastLine.contains("mode end") ||
+                                     lastLine.contains("donated for mode end")
+
+                guard !isOffIndicator else { return }
 
                 var identifier: String?
                 var name: String?

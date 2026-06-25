@@ -12,6 +12,7 @@ struct ResizeAwareBlurModifier: AnimatableModifier {
     private var animatedHeight: CGFloat
     private let targetWidth: CGFloat
     private let targetHeight: CGFloat
+    private let baseHeight: CGFloat
     private let interactiveBlur: CGFloat
     private let interactiveOpacity: Double
     private var animatedProgress: CGFloat
@@ -23,11 +24,12 @@ struct ResizeAwareBlurModifier: AnimatableModifier {
         static let maxOpacityReduction: Double = 0.28
     }
 
-    init(size: CGSize, interactiveBlur: CGFloat, interactiveOpacity: Double, swipeProgress: CGFloat, swipeInteraction: SwipeInteraction?) {
+    init(size: CGSize, baseHeight: CGFloat = 38, interactiveBlur: CGFloat, interactiveOpacity: Double, swipeProgress: CGFloat, swipeInteraction: SwipeInteraction?) {
         animatedWidth = size.width
         animatedHeight = size.height
         targetWidth = size.width
         targetHeight = size.height
+        self.baseHeight = baseHeight
         self.interactiveBlur = interactiveBlur
         self.interactiveOpacity = interactiveOpacity
         self.animatedProgress = swipeProgress
@@ -54,19 +56,28 @@ struct ResizeAwareBlurModifier: AnimatableModifier {
         let transitionOpacity = max(0, 1 - (Double(normalizedProgress) * Metrics.maxOpacityReduction))
         let opacity = min(transitionOpacity, interactiveOpacity)
 
+        let isBaseHeight = targetHeight <= baseHeight + 1
         let xScale: CGFloat
         let yScale: CGFloat
 
         if animatedProgress > 0.001, let interaction = swipeInteraction {
             switch interaction {
             case .dismiss:
-                // Swipe up: expand width, squash height
-                xScale = 1.0 + animatedProgress * 0.07
-                yScale = max(0.8, 1.0 - animatedProgress * 0.07)
+                if isBaseHeight {
+                    yScale = 1.0 + animatedProgress * 0.2
+                    xScale = max(0.8, 1.0 - animatedProgress * 0.001)
+                } else {
+                    xScale = 1.0 + animatedProgress * 0.07
+                    yScale = max(0.8, 1.0 - animatedProgress * 0.07)
+                }
             case .restore:
-                // Swipe down: expand height, squash width
-                yScale = 1.0 + animatedProgress * 0.05
-                xScale = max(0.8, 1.0 - animatedProgress * 0.05)
+                if isBaseHeight {
+                    yScale = 1.0 + animatedProgress * 0.2
+                    xScale = max(0.8, 1.0 - animatedProgress * 0.001)
+                } else {
+                    yScale = 1.0 + animatedProgress * 0.05
+                    xScale = max(0.8, 1.0 - animatedProgress * 0.05)
+                }
             }
         } else {
             xScale = targetWidth > 0 ? (animatedWidth / targetWidth) : 1.0
@@ -87,10 +98,11 @@ struct ResizeAwareBlurModifier: AnimatableModifier {
 }
 
 extension View {
-    func resizeAwareBlur(size: CGSize, interactiveBlur: CGFloat, interactiveOpacity: Double, swipeProgress: CGFloat, swipeInteraction: SwipeInteraction?) -> some View {
+    func resizeAwareBlur(size: CGSize, baseHeight: CGFloat = 38, interactiveBlur: CGFloat, interactiveOpacity: Double, swipeProgress: CGFloat, swipeInteraction: SwipeInteraction?) -> some View {
         modifier(
             ResizeAwareBlurModifier(
                 size: size,
+                baseHeight: baseHeight,
                 interactiveBlur: interactiveBlur,
                 interactiveOpacity: interactiveOpacity,
                 swipeProgress: swipeProgress,

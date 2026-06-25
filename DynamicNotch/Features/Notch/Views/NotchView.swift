@@ -184,6 +184,7 @@ private extension NotchView {
             renderedContentView(for: content)
                 .resizeAwareBlur(
                     size: notchViewModel.interactiveNotchSize,
+                    baseHeight: notchViewModel.notchModel.baseHeight,
                     interactiveBlur: notchViewModel.contentResizeBlurRadius,
                     interactiveOpacity: notchViewModel.contentResizeOpacity,
                     swipeProgress: notchViewModel.easedSwipeStretchProgress,

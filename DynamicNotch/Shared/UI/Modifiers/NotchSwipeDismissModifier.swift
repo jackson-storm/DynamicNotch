@@ -71,7 +71,7 @@ private struct NotchSwipeDismissMonitorRepresentable: NSViewRepresentable {
 
 private final class NotchSwipeDismissMonitorView: NSView {
     private enum SwipeMetrics {
-        static let verticalThreshold: CGFloat = 42
+        static let verticalThreshold: CGFloat = 60
         static let directionDominanceMultiplier: CGFloat = 1.25
         static let lockThreshold: CGFloat = 2
     }

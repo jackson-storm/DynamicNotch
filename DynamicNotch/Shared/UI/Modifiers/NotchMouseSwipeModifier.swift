@@ -66,7 +66,7 @@ private struct NotchMouseSwipeMonitorRepresentable: NSViewRepresentable {
 
 private final class NotchMouseSwipeMonitorView: NSView {
     private enum SwipeMetrics {
-        static let verticalThreshold: CGFloat = 42
+        static let verticalThreshold: CGFloat = 60
         static let directionDominanceMultiplier: CGFloat = 1.15
     }
 

@@ -1167,12 +1167,15 @@ final class NotchViewModelIntegrationTests: XCTestCase {
 
         viewModel.updateSwipeStretch(for: .dismiss, progress: 1)
 
+        let baseCornerRadius = await MainActor.run { viewModel.notchModel.cornerRadius }
         let interactiveSize = await MainActor.run { viewModel.interactiveNotchSize }
+        let interactiveCornerRadius = await MainActor.run { viewModel.interactiveCornerRadius }
         let blurRadius = await MainActor.run { viewModel.contentResizeBlurRadius }
         let opacity = await MainActor.run { viewModel.contentResizeOpacity }
 
-        XCTAssertEqual(interactiveSize.width, expandedSize.width, accuracy: 0.001)
+        XCTAssertGreaterThan(interactiveSize.width, expandedSize.width)
         XCTAssertLessThan(interactiveSize.height, expandedSize.height)
+        XCTAssertLessThan(interactiveCornerRadius.top, baseCornerRadius.top)
         XCTAssertGreaterThan(blurRadius, 0)
         XCTAssertLessThan(opacity, 1)
     }
@@ -1317,8 +1320,8 @@ final class NotchViewModelIntegrationTests: XCTestCase {
 
         let expectedProgress: CGFloat = 1.0
         let widthFactor = (viewModel.notchModel.size.width - viewModel.notchModel.baseWidth) / viewModel.notchModel.baseWidth
-        let expectedRadiusTop = initialRadius.top + (12.0 * expectedProgress * widthFactor)
-        let expectedRadiusBottom = initialRadius.bottom + (4.0 * expectedProgress)
+        let expectedRadiusTop = initialRadius.top + (SwipeFeedbackMetrics.restoreTopCornerRadiusExpansion * expectedProgress * widthFactor)
+        let expectedRadiusBottom = initialRadius.bottom + (SwipeFeedbackMetrics.restoreCornerRadiusExpansion * expectedProgress)
 
         let newRadius = viewModel.interactiveCornerRadius
         XCTAssertEqual(newRadius.top, expectedRadiusTop, accuracy: 0.001)

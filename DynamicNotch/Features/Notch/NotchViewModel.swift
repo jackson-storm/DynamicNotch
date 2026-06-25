@@ -150,8 +150,10 @@ final class NotchViewModel: ObservableObject {
                     SwipeFeedbackMetrics.expandedDismissMaximumHeight
                 )
                 
+                let widthExpansion = baseSize.width * SwipeFeedbackMetrics.expandedDismissWidthExpansionFactor
+                
                 return CGSize(
-                    width: baseSize.width,
+                    width: baseSize.width + (widthExpansion * progress),
                     height: max(model.baseHeight, baseSize.height - (heightCompression * progress))
                 )
             }
@@ -185,8 +187,13 @@ final class NotchViewModel: ObservableObject {
         switch swipeInteraction {
         case .dismiss:
             if model.isPresentingExpandedLiveActivity || model.size.height > model.baseHeight + 1 {
+                let isHeightGreater = model.size.height > model.baseHeight
+                let widthDiff = max(0, model.size.width - model.baseWidth)
+                let widthFactor = widthDiff / model.baseWidth
+                let topProgress = isHeightGreater ? (SwipeFeedbackMetrics.dismissTopCornerRadiusReduction * progress * widthFactor) : 0
+                
                 return (
-                    top: baseCornerRadius.top,
+                    top: max(0, baseCornerRadius.top - topProgress),
                     bottom: max(
                         baseCornerRadius.top,
                         baseCornerRadius.bottom - (SwipeFeedbackMetrics.expandedDismissCornerRadiusReduction * progress)

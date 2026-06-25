@@ -61,8 +61,8 @@ struct ResizeAwareBlurModifier: AnimatableModifier {
             switch interaction {
             case .dismiss:
                 // Swipe up: expand width, squash height
-                xScale = 1.0 + animatedProgress * 0.05
-                yScale = max(0.8, 1.0 - animatedProgress * 0.05)
+                xScale = 1.0 + animatedProgress * 0.07
+                yScale = max(0.8, 1.0 - animatedProgress * 0.07)
             case .restore:
                 // Swipe down: expand height, squash width
                 yScale = 1.0 + animatedProgress * 0.05

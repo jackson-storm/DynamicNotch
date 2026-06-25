@@ -15,16 +15,13 @@
 
 <p align="center">
   <a href="https://t.me/Dynamic_Notch">
-    <img src="https://img.shields.io/badge/Telegram-Join%20Channel-26A5E4?style=for-the-badge&logo=telegram&logoColor=white" alt="Join the Telegram channel" />
-  </a>
-  <a href="https://dynamicnotch.evgeniy-petrukovich.workers.dev/download">
-    <img src="https://img.shields.io/badge/Website-Open%20Site-111111?style=for-the-badge&logo=safari&logoColor=white" alt="Open the DynamicNotch website" />
+    <img src="https://img.shields.io/badge/Telegram-Join%20Channel-26A5E4?style=for-the-badge&logo=telegram&logoColor=white&labelColor=26A5E4" alt="Join the Telegram channel" />
   </a>
   <a href="mailto:evgeniy.petrukovich@icloud.com?subject=A%20question%20about%20Dynamic%20Notch">
-    <img src="https://img.shields.io/badge/Email-Contact%20Me-0A84FF?style=for-the-badge&logo=icloud&logoColor=white" alt="Send an email about DynamicNotch" />
+    <img src="https://img.shields.io/badge/Email-Contact%20Me-0A84FF?style=for-the-badge&logo=icloud&logoColor=white&labelColor=0A84FF" alt="Send an email about DynamicNotch" />
   </a>
   <a href="https://t.me/id10101101">
-    <img src="https://img.shields.io/badge/Telegram-Contact%20Me-229ED9?style=for-the-badge&logo=telegram&logoColor=white" alt="Contact me on Telegram" />
+    <img src="https://img.shields.io/badge/Telegram-Contact%20Me-229ED9?style=for-the-badge&logo=telegram&logoColor=white&labelColor=229ED9" alt="Contact me on Telegram" />
   </a>
 </p>
 
@@ -32,11 +29,10 @@
   <a href="https://github.com/jackson-storm/DynamicNotch/releases">
     <img src="https://img.shields.io/github/downloads/jackson-storm/DynamicNotch/total?label=downloads" alt="GitHub downloads" />
   </a>
-  <a href="https://github.com/jackson-storm/DynamicNotch/releases/latest">
-    <img src="https://img.shields.io/github/v/release/jackson-storm/DynamicNotch?display_name=release&sort=semver" alt="Latest release" />
-  </a>
   <img src="https://img.shields.io/badge/macOS-14.6%2B-111111?logo=apple" alt="macOS 14.6 or later" />
-  <img src="https://img.shields.io/badge/UI-SwiftUI%20%2B%20AppKit-0A84FF" alt="SwiftUI and AppKit" />
+  <a href="https://github.com/jackson-storm/DynamicNotch/releases/latest">
+    <img src="https://img.shields.io/github/v/release/jackson-storm/DynamicNotch?label=&display_name=tag&sort=semver" alt="Latest release" />
+  </a>
   <img src="https://img.shields.io/badge/Swift-5-F05138?logo=swift&logoColor=white" alt="Swift 5" />
   <a href="LICENSE">
     <img src="https://img.shields.io/github/license/jackson-storm/DynamicNotch" alt="License" />
@@ -62,14 +58,14 @@ The main goal is to make the project as native as possible, both in terms of des
 
 ## 🚀 Highlights
 
-- 🎵 **Live Activities**: Now Playing (media control, album artwork, audio visualizer), Downloads progress, AirDrop, Timer, Screen Recording indicator, Focus mode, Personal Hotspot, and Lock Screen media/live activity surfaces.
-- 🏝️ **Dynamic Island (Floating Capsule)**: Automatic support for devices without a physical hardware notch (e.g. non-notched MacBooks, iMac, Mac mini, or external monitors). Transitions to a floating capsule shape (`DynamicIslandShape`) when `topInset == 0`, utilizing dynamic, smooth corner radius transitions.
-- ⚡ **Temporary Alerts**: Interactive HUD status for battery charging, low/full battery, Bluetooth connections, Wi-Fi, VPN, Focus-off toggling, and notch size modification settings feedback.
-- 🎚️ **Native HUD Replacements**: Beautiful, hardware-inspired HUD overlays for System Volume, Screen Brightness, and Keyboard Backlight.
-- 📜 **Chained Lyrics Provider**: A dual-provider API engine (`CompositeLyricsProvider`) combining synchronized LRCLIB karaoke lyrics and static Lyrics.ovh database query fallback.
-- 🖱️ **Gestures & Swipe Controls**: Native interactive gestures including mouse drag, trackpad swipes, vertical swipe-to-dismiss/restore, and horizontal trackpad/mouse scroll-to-dismiss.
-- 🎨 **Deep Customization**: Personalization options for base notch width/height, stroke options, background styling, animation presets, custom screen/display selection, and fullscreen spaces handling.
-- ⚙️ **Refined Animations**: Multi-preset transitions system with separate, dedicated transition tuning parameter `closeLiveActivityCompactContentTransition` to control the exact speed of content insertion when returning to compact mode.
+- **Live Activities**: Now Playing (media control, album artwork, audio visualizer, customizable progress bar tint style), Downloads progress, AirDrop, Timer, Screen Recording indicator, Focus mode, Personal Hotspot, and Lock Screen media/live activity surfaces.
+- **Dynamic Island (Floating Capsule)**: Automatic support for devices without a physical hardware notch (e.g. non-notched MacBooks, iMac, Mac mini, or external monitors). Transitions to a floating capsule shape (`DynamicIslandShape`) when `topInset == 0`, utilizing dynamic, smooth corner radius transitions.
+- **Temporary Alerts**: Interactive HUD status for battery charging, low/full battery, Bluetooth connections, Wi-Fi, VPN, Focus-off toggling, and notch size modification settings feedback.
+- **Native HUD Replacements**: Beautiful, hardware-inspired HUD overlays for System Volume, Screen Brightness, and Keyboard Backlight.
+- **Chained Lyrics Provider**: A dual-provider API engine (`CompositeLyricsProvider`) combining synchronized LRCLIB karaoke lyrics and static Lyrics.ovh database query fallback.
+- **Gestures & Swipe Controls**: Native interactive gestures including mouse drag, trackpad swipes, vertical swipe-to-dismiss/restore with adaptive corner radii and swipe-aware blur, and horizontal trackpad/mouse scroll-to-dismiss.
+- **Deep Customization**: Personalization options for base notch width/height, stroke options, background styling, animation presets, custom screen/display selection, and fullscreen spaces handling.
+- **Refined Animations**: Multi-preset transitions system with separate, dedicated transition tuning parameter `closeLiveActivityCompactContentTransition` to control the exact speed of content insertion when returning to compact mode.
 
 ## 🎬 Preview
 
@@ -123,18 +119,22 @@ DynamicNotch/
 ├── Features/
 │   ├── Battery/
 │   ├── Bluetooth/
+│   ├── Calendar/
+│   ├── Camera/
 │   ├── Download/
 │   ├── DragAndDrop/
 │   ├── Focus/
+│   ├── HomePage/
 │   ├── HUD/
 │   ├── LockScreen/
-│   ├── Network/
 │   ├── Notch/
 │   ├── NowPlaying/
 │   ├── Onboarding/
 │   ├── ScreenRecording/
 │   ├── Settings/
-│   └── Timer/
+│   ├── Timer/
+│   ├── VPN/
+│   └── WiFi/
 ├── Resources/          # Assets, localization, bundled media
 └── Shared/             # Shared UI, helpers, and extensions
 
@@ -155,7 +155,7 @@ DynamicNotchUITest/
 - `NotchViewModel` is the SwiftUI-facing layer for geometry, gestures, interactive resize, and engine-backed presentation state.
 - `NotchEventCoordinator` routes system events while feature-specific handlers translate them into notch content.
 - `SettingsViewModel` acts as a facade over dedicated settings stores for application, media/files, connectivity, battery, HUD, and lock-screen behavior.
-- Feature view models provide domain state for battery, Bluetooth, downloads, network, now playing, screen recording, timer, AirDrop, and lock screen.
+- Feature view models provide domain state for battery, Bluetooth, calendar, camera, downloads, WiFi, VPN, now playing, screen recording, timer, AirDrop, and lock screen.
 - Fullscreen hiding keeps the overlay window alive and hides notch activities until the user leaves fullscreen, so active features can restore cleanly.
 
 ## 🧰 Tech Stack
@@ -174,6 +174,15 @@ The project currently includes localized app content for:
 - Russian
 - Spanish
 - Simplified Chinese
+
+## 🤝 Acknowledgements
+
+Special thanks to the following open-source projects and services that make DynamicNotch possible:
+
+- [Lottie for iOS](https://github.com/airbnb/lottie-ios) — for rendering premium, smooth vector animations.
+- [LRCLIB](https://lrclib.net) — for providing the main engine for synchronized lyrics search.
+- [Lyrics.ovh](https://lyrics.ovh) — for serving as a fallback database for static song lyrics.
+- [mediaremote-adapter](https://github.com/ungive/mediaremote-adapter) — for MediaRemote API integration.
 
 ## 📄 License
 

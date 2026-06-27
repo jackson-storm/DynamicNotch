@@ -17,6 +17,8 @@ enum GeneralSettingsStorage {
         static let dynamicIslandDefaultActivityStrokeEnabled = "settings.general.dynamicIslandDefaultActivityStroke"
         static let notchStrokeWidth = "notchStrokeWidth"
         static let dynamicIslandStrokeWidth = "dynamicIslandStrokeWidth"
+        static let notchStrokeOpacity = "notchStrokeOpacity"
+        static let dynamicIslandStrokeOpacity = "dynamicIslandStrokeOpacity"
         static let dynamicIslandWidth = "dynamicIslandWidth"
         static let displayLocation = "displayLocation"
         static let preferredDisplayUUID = "settings.general.display.preferred.uuid"
@@ -153,6 +155,8 @@ enum GeneralSettingsStorage {
         Keys.dynamicIslandDefaultActivityStrokeEnabled: false,
         Keys.notchStrokeWidth: 1.5,
         Keys.dynamicIslandStrokeWidth: 1.5,
+        Keys.notchStrokeOpacity: 1.0,
+        Keys.dynamicIslandStrokeOpacity: 1.0,
         Keys.dynamicIslandWidth: 0,
         Keys.displayLocation: NotchDisplayLocation.main.rawValue,
         Keys.preferredDisplayUUID: "",

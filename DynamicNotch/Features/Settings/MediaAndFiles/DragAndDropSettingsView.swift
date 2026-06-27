@@ -325,10 +325,16 @@ struct DragAndDropSettingsView: View {
             return .clear
         }
 
+        let baseColor: Color
         if appearanceSettings.isDefaultActivityStrokeEnabled || mediaSettings.isDragAndDropDefaultStrokeEnabled {
-            return .white.opacity(0.2)
+            baseColor = .white.opacity(0.2)
+        } else {
+            baseColor = dragAndDropPreviewBaseStrokeColor
         }
+        return baseColor.opacity(appearanceSettings.notchStrokeOpacity)
+    }
 
+    private var dragAndDropPreviewBaseStrokeColor: Color {
         switch mediaSettings.dragAndDropTargetColorStyle {
         case .white:
             return .white.opacity(0.2)

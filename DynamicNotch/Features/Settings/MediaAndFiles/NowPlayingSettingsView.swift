@@ -201,7 +201,7 @@ private struct NowPlayingAppearancePreview: View {
             backgroundStyle: .black,
             showsStroke: showsNotchStroke,
             strokeColor: showsNotchStroke
-            ? (appearance.usesArtworkStrokeTint ? baseColor.opacity(0.3) : .white.opacity(0.2))
+            ? (appearance.usesArtworkStrokeTint ? baseColor.opacity(0.3) : .white.opacity(0.2)).opacity(applicationSettings.notchStrokeOpacity)
             : .clear,
             strokeWidth: 1.5,
             lightBackgroundImage: Image("backgroundLight"),

@@ -13,15 +13,6 @@
             continueAfterRunningActions = "No"
             symbolName = "*0x1920edd4c">
             <Locations>
-               <Location
-                  uuid = "AEFBC119-E5CB-4712-BFCB-7C770BAC2773 - 701661653bb45ab0"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "generic specialization &lt;__C.NSURLResourceKey, Any&gt; of Swift.Dictionary.subscript.setter : (&#x3c4;_0_0) -&gt; Swift.Optional&lt;&#x3c4;_0_1&gt;"
-                  moduleName = "Foundation"
-                  usesParentBreakpointCondition = "Yes">
-               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>

@@ -258,7 +258,7 @@ struct HUDSettingsView: View {
                     
                     pickerIndicator(for: .standard)
                 }
-                .foregroundStyle(.white.opacity(0.8))
+                .foregroundStyle(.white)
                 .padding(.horizontal, 8)
             }
 
@@ -280,7 +280,7 @@ struct HUDSettingsView: View {
                     
                     pickerIndicator(for: .compact)
                 }
-                .foregroundStyle(.white.opacity(0.8))
+                .foregroundStyle(.white)
                 .padding(.horizontal, 8)
             }
 
@@ -302,7 +302,7 @@ struct HUDSettingsView: View {
                     
                     Text(verbatim: "72")
                 }
-                .foregroundStyle(.white.opacity(0.8))
+                .foregroundStyle(.white)
                 .padding(.horizontal, 8)
             }
 
@@ -335,6 +335,7 @@ struct HUDSettingsView: View {
                 }
                 .padding(.bottom, 8)
             }
+            .foregroundStyle(.white)
             .frame(width: 150, height: 48)
 
         case .expandedDetailed:
@@ -352,7 +353,6 @@ struct HUDSettingsView: View {
                     VStack(alignment: .leading, spacing: 5) {
                         Text(verbatim: "Volume")
                             .font(.system(size: 12))
-                            .foregroundStyle(.white.opacity(0.9))
                             .padding(.horizontal, 10)
                         
                         ZStack {
@@ -374,6 +374,7 @@ struct HUDSettingsView: View {
                 }
                 .padding(.bottom, 8)
             }
+            .foregroundStyle(.white)
             .frame(width: 150, height: 48)
         }
     }

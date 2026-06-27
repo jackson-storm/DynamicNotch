@@ -137,6 +137,22 @@ struct NotchSettingsView: View {
                 value: $applicationSettings.notchStrokeWidth
             )
             
+            Divider().opacity(0.6)
+            
+            SettingsSliderRow(
+                title: "Stroke opacity",
+                description: "Adjust the transparency of the notch outline.",
+                range: 0...100,
+                step: 5,
+                fractionLength: 0,
+                suffix: "%",
+                accessibilityIdentifier: "settings.general.notchStrokeOpacity",
+                value: Binding(
+                    get: { applicationSettings.notchStrokeOpacity * 100 },
+                    set: { applicationSettings.notchStrokeOpacity = $0 / 100 }
+                )
+            )
+            
             SettingsSliderRow(
                 title: "Notch width",
                 description: "Fine-tune the notch width to better match your display cutout.",
@@ -236,6 +252,22 @@ struct NotchSettingsView: View {
                 suffix: "px",
                 accessibilityIdentifier: "settings.general.dynamicIslandStrokeWidth",
                 value: $applicationSettings.dynamicIslandStrokeWidth
+            )
+            
+            Divider().opacity(0.6)
+            
+            SettingsSliderRow(
+                title: "Stroke opacity",
+                description: "Adjust the transparency of the Dynamic Island outline.",
+                range: 0...100,
+                step: 5,
+                fractionLength: 0,
+                suffix: "%",
+                accessibilityIdentifier: "settings.general.dynamicIslandStrokeOpacity",
+                value: Binding(
+                    get: { applicationSettings.dynamicIslandStrokeOpacity * 100 },
+                    set: { applicationSettings.dynamicIslandStrokeOpacity = $0 / 100 }
+                )
             )
             
             SettingsSliderRow(
@@ -511,10 +543,12 @@ struct NotchSettingsView: View {
         }
         
         let isDefaultActivityStroke = isDynamicIsland ? applicationSettings.isDynamicIslandDefaultActivityStrokeEnabled : applicationSettings.isDefaultActivityStrokeEnabled
+        let strokeOpacity = isDynamicIsland ? applicationSettings.dynamicIslandStrokeOpacity : applicationSettings.notchStrokeOpacity
         
-        return isDefaultActivityStroke ?
+        let baseColor: Color = isDefaultActivityStroke ?
             .white.opacity(0.2) :
             .green.opacity(0.3)
+        return baseColor.opacity(strokeOpacity)
     }
     
     private func previewStrokeWidth(isDynamicIsland: Bool) -> CGFloat {

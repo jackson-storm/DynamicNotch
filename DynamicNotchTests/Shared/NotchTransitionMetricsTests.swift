@@ -1,28 +1,28 @@
 import XCTest
 @testable import DynamicNotch
 
-final class DynamicIslandTransitionMetricsTests: XCTestCase {
+final class NotchTransitionMetricsTests: XCTestCase {
     func testHorizontalCompensationOffsetMatchesCompactReferenceWidth() {
-        let offset = DynamicIslandTransitionMetrics.horizontalCompensationOffset(for: 260)
+        let offset = NotchTransitionMetrics.horizontalCompensationOffset(for: 260)
 
         XCTAssertEqual(offset, -60, accuracy: 0.001)
     }
 
     func testHorizontalCompensationOffsetMatchesExpandedReferenceWidth() {
-        let offset = DynamicIslandTransitionMetrics.horizontalCompensationOffset(for: 390)
+        let offset = NotchTransitionMetrics.horizontalCompensationOffset(for: 390)
 
         XCTAssertEqual(offset, -90, accuracy: 0.001)
     }
 
     func testHorizontalCompensationOffsetGrowsWithNotchWidth() {
-        let compactOffset = DynamicIslandTransitionMetrics.horizontalCompensationOffset(for: 260)
-        let expandedOffset = DynamicIslandTransitionMetrics.horizontalCompensationOffset(for: 390)
+        let compactOffset = NotchTransitionMetrics.horizontalCompensationOffset(for: 260)
+        let expandedOffset = NotchTransitionMetrics.horizontalCompensationOffset(for: 390)
 
         XCTAssertLessThan(expandedOffset, compactOffset)
     }
 
     func testVerticalCompensationOffsetIsZeroForBaseHeight() {
-        let offset = DynamicIslandTransitionMetrics.verticalCompensationOffset(
+        let offset = NotchTransitionMetrics.verticalCompensationOffset(
             for: 38,
             baseHeight: 38
         )
@@ -31,7 +31,7 @@ final class DynamicIslandTransitionMetricsTests: XCTestCase {
     }
 
     func testVerticalCompensationOffsetUsesHalfOfExtraHeight() {
-        let offset = DynamicIslandTransitionMetrics.verticalCompensationOffset(
+        let offset = NotchTransitionMetrics.verticalCompensationOffset(
             for: 148,
             baseHeight: 38
         )

@@ -7,92 +7,6 @@
 
 import SwiftUI
 
-struct NotchScreenSelectionPreferences: Equatable {
-    let displayLocation: NotchDisplayLocation
-    let preferredDisplayUUID: String?
-    let allowsAutomaticDisplaySwitching: Bool
-}
-
-struct NotchDisplayOption: Identifiable, Hashable {
-    let displayUUID: String
-    let displayID: CGDirectDisplayID?
-    let name: String
-    let isBuiltIn: Bool
-    let isMain: Bool
-    let isAvailable: Bool
-    fileprivate let frame: CGRect?
-
-    var id: String {
-        displayUUID
-    }
-
-    var symbolName: String {
-        if !isAvailable {
-            return "display.trianglebadge.exclamationmark"
-        }
-
-        if isBuiltIn {
-            return "macbook.gen2"
-        }
-
-        if isMain {
-            return "desktopcomputer.and.macbook"
-        }
-
-        return "display"
-    }
-
-    static func unavailable(displayUUID: String, name: String) -> NotchDisplayOption {
-        NotchDisplayOption(
-            displayUUID: displayUUID,
-            displayID: nil,
-            name: name,
-            isBuiltIn: false,
-            isMain: false,
-            isAvailable: false,
-            frame: nil
-        )
-    }
-}
-
-struct NotchScreenSelectionCandidate: Equatable {
-    let displayID: CGDirectDisplayID
-    let displayUUID: String
-    let isBuiltIn: Bool
-}
-
-enum NotchScreenSelection {
-    static func preferredDisplayID(for preferences: NotchScreenSelectionPreferences, candidates: [NotchScreenSelectionCandidate], primaryDisplayID: CGDirectDisplayID?) -> CGDirectDisplayID? {
-        switch preferences.displayLocation {
-        case .builtIn:
-            return candidates.first(where: \.isBuiltIn)?.displayID
-
-        case .main:
-            if let primaryDisplayID, candidates.contains(where: { $0.displayID == primaryDisplayID }) {
-                return primaryDisplayID
-            }
-
-            return candidates.first?.displayID
-
-        case .specific:
-            if let preferredDisplayUUID = preferences.preferredDisplayUUID?.uppercased(),
-               let selectedDisplay = candidates.first(where: { $0.displayUUID == preferredDisplayUUID }) {
-                return selectedDisplay.displayID
-            }
-
-            guard preferences.allowsAutomaticDisplaySwitching else {
-                return nil
-            }
-
-            if let primaryDisplayID, candidates.contains(where: { $0.displayID == primaryDisplayID }) {
-                return primaryDisplayID
-            }
-
-            return candidates.first?.displayID
-        }
-    }
-}
-
 extension NSScreen {
     static var screenWithMouse: NSScreen? {
         let mouseLocation = NSEvent.mouseLocation
@@ -124,9 +38,7 @@ extension NSScreen {
             .sorted(by: sortDisplayOptions)
     }
 
-    static func preferredNotchDisplay(
-        for preferences: NotchScreenSelectionPreferences
-    ) -> NotchDisplayOption? {
+    static func preferredNotchDisplay(for preferences: NotchScreenSelectionPreferences) -> NotchDisplayOption? {
         let availableDisplays = availableNotchDisplays()
         let selectedDisplayID = NotchScreenSelection.preferredDisplayID(
             for: preferences,

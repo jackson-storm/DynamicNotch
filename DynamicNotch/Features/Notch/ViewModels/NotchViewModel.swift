@@ -477,7 +477,7 @@ final class NotchViewModel: ObservableObject {
 
     func contentTransition(notchWidth: CGFloat, notchHeight: CGFloat, baseHeight: CGFloat, isExpandedPresentation: Bool, isCompactRemovalForExpansion: Bool = false) -> AnyTransition {
 
-        let baseTransition = AnyTransition.dynamicIslandContent(
+        let baseTransition = AnyTransition.notchContent(
             notchWidth: notchWidth,
             notchHeight: notchHeight,
             baseHeight: baseHeight,

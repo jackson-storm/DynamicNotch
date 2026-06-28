@@ -1,10 +1,6 @@
 import Cocoa
 import SwiftUI
 
-enum WindowsScene {
-    static let settings = "settings"
-}
-
 @main
 struct NotchApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate

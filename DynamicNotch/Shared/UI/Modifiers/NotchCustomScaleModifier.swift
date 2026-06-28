@@ -20,6 +20,8 @@ struct NotchCustomScaleModifier: ViewModifier {
     @State private var didCompleteExpandAction = false
     @State private var isHovering = false
     @State private var pressScale: CGFloat = 1
+    @State private var pendingCollapseToken: UUID?
+    @State private var lastExpansionTime: Date = .distantPast
     
     let baseSize: CGSize
     
@@ -115,6 +117,11 @@ private extension NotchCustomScaleModifier {
             .onChange(of: notchViewModel.isActivityPresentationHidden) {
                 if notchViewModel.isActivityPresentationHidden {
                     resetInteractionState(cancelScaleAnimation: true)
+                }
+            }
+            .onChange(of: notchViewModel.notchModel.isPresentingExpandedLiveActivity) {
+                if notchViewModel.notchModel.isPresentingExpandedLiveActivity {
+                    lastExpansionTime = Date()
                 }
             }
             .onDisappear {
@@ -221,11 +228,16 @@ private extension NotchCustomScaleModifier {
     private func handleHoverChange(isHovering: Bool) {
         self.isHovering = isHovering
 
+        if isHovering {
+            cancelPendingCollapse()
+        }
+
         guard notchViewModel.shouldExpandActiveContentOnHover,
               !notchViewModel.isActivityPresentationHidden,
               !notchViewModel.notchModel.isPresentingExpandedLiveActivity else {
             if !isHovering {
                 resetHoverState()
+                scheduleHoverCollapseIfNeeded()
             }
             return
         }
@@ -236,12 +248,14 @@ private extension NotchCustomScaleModifier {
             scheduleHoverExpansionIfNeeded()
         } else {
             resetHoverState()
+            scheduleHoverCollapseIfNeeded()
         }
     }
 
     private func resetHoverState() {
         pendingHoverExpansionToken = nil
         pressAnimationToken = nil
+        pendingCollapseToken = nil
 
         if pressScale != 1 {
             withAnimation(.easeOut(duration: 0.12)) {
@@ -253,6 +267,7 @@ private extension NotchCustomScaleModifier {
     private func resetInteractionState(cancelScaleAnimation: Bool) {
         pendingHoldExpansionToken = nil
         pendingHoverExpansionToken = nil
+        pendingCollapseToken = nil
         initialPressLocation = nil
         isPressValidForTap = false
 
@@ -268,6 +283,38 @@ private extension NotchCustomScaleModifier {
 
         if isPressed {
             isPressed = false
+        }
+    }
+
+    private func cancelPendingCollapse() {
+        pendingCollapseToken = nil
+    }
+
+    private func scheduleHoverCollapseIfNeeded() {
+        guard notchViewModel.shouldCollapseActiveContentOnHoverLeaves else { return }
+
+        pendingCollapseToken = nil
+
+        let token = UUID()
+        pendingCollapseToken = token
+
+        let timeSinceExpansion = Date().timeIntervalSince(lastExpansionTime)
+        let delay: TimeInterval
+        if timeSinceExpansion < 0.5 {
+            delay = 0.5 - timeSinceExpansion
+        } else {
+            delay = 0.05
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+            guard pendingCollapseToken == token,
+                  !isHovering,
+                  notchViewModel.shouldCollapseActiveContentOnHoverLeaves else {
+                return
+            }
+
+            pendingCollapseToken = nil
+            notchViewModel.handleOutsideClick()
         }
     }
 

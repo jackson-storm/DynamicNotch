@@ -232,6 +232,12 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         }
     }
 
+    @Published var notchCollapseInteraction: NotchCollapseInteraction {
+        didSet {
+            persist(notchCollapseInteraction.rawValue, for: GeneralSettingsStorage.Keys.notchCollapseInteraction)
+        }
+    }
+
     @Published var notchPressHoldDuration: TimeInterval {
         didSet {
             let clampedValue = Self.clampNotchPressHoldDuration(notchPressHoldDuration)
@@ -394,6 +400,9 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         self.notchExpandInteraction = NotchExpandInteraction.resolved(
             defaults.string(forKey: GeneralSettingsStorage.Keys.notchExpandInteraction)
         )
+        self.notchCollapseInteraction = NotchCollapseInteraction.resolved(
+            defaults.string(forKey: GeneralSettingsStorage.Keys.notchCollapseInteraction)
+        )
         self.notchPressHoldDuration = Self.clampNotchPressHoldDuration(
             defaults.object(forKey: GeneralSettingsStorage.Keys.notchPressHoldDuration) as? Double ??
             Self.defaultNotchPressHoldDuration
@@ -456,6 +465,9 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         isNotchTapToExpandEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchTapToExpandEnabled)
         notchExpandInteraction = NotchExpandInteraction.resolved(
             defaultString(for: GeneralSettingsStorage.Keys.notchExpandInteraction)
+        )
+        notchCollapseInteraction = NotchCollapseInteraction.resolved(
+            defaultString(for: GeneralSettingsStorage.Keys.notchCollapseInteraction)
         )
         notchPressHoldDuration = Self.clampNotchPressHoldDuration(
             defaultDouble(for: GeneralSettingsStorage.Keys.notchPressHoldDuration)

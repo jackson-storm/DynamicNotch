@@ -29,6 +29,7 @@ enum GeneralSettingsStorage {
         static let hideNotchInFullscreenEnabled = "settings.general.hideNotchInFullscreen"
         static let notchTapToExpandEnabled = "settings.notch.gestures.tapToExpand"
         static let notchExpandInteraction = "settings.notch.gestures.expandInteraction"
+        static let notchCollapseInteraction = "settings.notch.gestures.collapseInteraction"
         static let notchPressHoldDuration = "settings.notch.gestures.pressHoldDuration"
         static let notchMouseDragGesturesEnabled = "settings.notch.gestures.mouseDrag"
         static let notchTrackpadSwipeGesturesEnabled = "settings.notch.gestures.trackpadSwipe"
@@ -167,6 +168,7 @@ enum GeneralSettingsStorage {
         Keys.hideNotchInFullscreenEnabled: false,
         Keys.notchTapToExpandEnabled: true,
         Keys.notchExpandInteraction: NotchExpandInteraction.pressAndHold.rawValue,
+        Keys.notchCollapseInteraction: NotchCollapseInteraction.click.rawValue,
         Keys.notchPressHoldDuration: 0.25,
         Keys.notchMouseDragGesturesEnabled: true,
         Keys.notchTrackpadSwipeGesturesEnabled: true,

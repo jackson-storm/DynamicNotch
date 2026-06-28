@@ -169,6 +169,11 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
         set { application.notchExpandInteraction = newValue }
     }
 
+    var notchCollapseInteraction: NotchCollapseInteraction {
+        get { application.notchCollapseInteraction }
+        set { application.notchCollapseInteraction = newValue }
+    }
+
     var notchPressHoldDuration: TimeInterval {
         get { application.notchPressHoldDuration }
         set { application.notchPressHoldDuration = newValue }

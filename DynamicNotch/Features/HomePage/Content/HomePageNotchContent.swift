@@ -26,9 +26,16 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     }
     
     func expandedCornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
-        return (top: 24, bottom: 38)
+        switch homePages {
+        case .camera:
+            let isStarted = UserDefaults.standard.bool(forKey: "isCameraStarted")
+            return (top: isStarted ? 34 : 24, bottom: isStarted ? 48 : 38)
+            
+        case .localTimer, .vpn:
+            return (top: 24, bottom: 38)
+        }
     }
-
+    
     func dynamicIslandCornerRadius(baseHeight: CGFloat) -> CGFloat {
         baseHeight * 0.5
     }
@@ -36,7 +43,7 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         return .init(width: baseWidth, height: baseHeight)
     }
-
+    
     func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         return .init(width: baseWidth, height: baseHeight)
     }
@@ -88,7 +95,7 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
             return .init(width: baseWidth + 140, height: baseHeight + 110)
         }
     }
-
+    
     func expandedDynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         switch homePages {
         case .camera:

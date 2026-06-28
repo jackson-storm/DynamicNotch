@@ -42,7 +42,7 @@ struct CameraNotchView: View {
             }
         }
         .padding(.horizontal, 3)
-        .padding(.bottom, 1)
+        .padding(.bottom, 2)
         .onAppear {
             previewID = UUID()
         }
@@ -62,9 +62,10 @@ struct CameraNotchView: View {
                 CameraPreviewView(previewLayer: cameraViewModel.previewLayer)
                     .frame(height: isCameraLarge ? 205 : 165)
                     .scaleEffect(x: isCameraMirrored ? 1 : -1, y: 1)
-                    .clipShape(RoundedRectangle(cornerRadius: 26))
+                    .clipShape(RoundedRectangle(cornerRadius: 30))
                     .id(previewID)
                     .transition(.blurAndFade.combined(with: .opacity).animation(.spring(response: 0.6)))
+                    .padding(.horizontal, 12)
                 
                 HStack {
                     if isHovering {
@@ -123,7 +124,7 @@ struct CameraNotchView: View {
                     }
                 }
                 .font(.system(size: 14))
-                .padding(.bottom, 10)
+                .padding(.bottom, 12)
                 .buttonStyle(.plain)
             }
             .onHover { isHovering = $0 }
@@ -207,6 +208,7 @@ struct CameraNotchView: View {
                     .progressViewStyle(CircularProgressViewStyle(tint: .white))
             }
         }
+        .padding(.horizontal, 10)
     }
 }
 

@@ -10,6 +10,7 @@ protocol NotchSettingsProviding: AnyObject {
     var notchAnimationPreset: NotchAnimationPreset { get }
     var isNotchTapToExpandEnabled: Bool { get }
     var notchExpandInteraction: NotchExpandInteraction { get }
+    var notchCollapseInteraction: NotchCollapseInteraction { get }
     var notchPressHoldDuration: TimeInterval { get }
     var isNotchMouseDragGesturesEnabled: Bool { get }
     var isNotchTrackpadSwipeGesturesEnabled: Bool { get }

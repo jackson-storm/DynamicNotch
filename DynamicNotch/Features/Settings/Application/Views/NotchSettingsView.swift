@@ -339,6 +339,19 @@ struct NotchSettingsView: View {
             
             Divider()
                 .opacity(0.6)
+
+            SettingsMenuRow(
+                title: "Collapse gesture",
+                description: "Choose whether expanded content closes on click or when the cursor leaves the notch.",
+                options: Array(NotchCollapseInteraction.allCases),
+                optionTitle: { $0.title },
+                accessibilityIdentifier: "settings.notch.collapseInteraction",
+                selection: $applicationSettings.notchCollapseInteraction
+            )
+            .disabled(applicationSettings.notchExpandInteraction != .hover)
+            
+            Divider()
+                .opacity(0.6)
             
             SettingsSliderRow(
                 title: "Press and hold timing",

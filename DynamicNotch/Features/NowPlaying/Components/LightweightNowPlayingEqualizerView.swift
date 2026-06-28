@@ -49,8 +49,8 @@ final class LightweightNowPlayingEqualizerNSView: NSView {
         static let barSpacing: CGFloat = 2
         static let defaultHeight: CGFloat = 16
         static let minimumScale: CGFloat = 0.32
-        static let animationDuration: TimeInterval = 0.13
-        static let timerInterval: TimeInterval = 0.13
+        static let animationDuration: TimeInterval = 0.2
+        static let timerInterval: TimeInterval = 0.12
     }
 
     private let gradientLayer = CAGradientLayer()

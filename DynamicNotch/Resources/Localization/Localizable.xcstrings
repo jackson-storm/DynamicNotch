@@ -4,6 +4,90 @@
     "" : {
 
     },
+    "Collapse gesture" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Collapse gesture"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gesto de colapso"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Жест закрытия"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "折叠手势"
+          }
+        }
+      }
+    },
+    "Choose whether expanded content closes on click or when the cursor leaves the notch." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose whether expanded content closes on click or when the cursor leaves the notch."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elija si el contenido expandido se cierra al hacer clic o cuando el cursor sale de la muesca."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите, закрывать ли развернутое содержимое при нажатии или при уходе курсора с выреза."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择展开的内容是在点击时关闭，还是在光标离开刘海屏时关闭。"
+          }
+        }
+      }
+    },
+    "Cursor leaves" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cursor leaves"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El cursor sale"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Уход курсора"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "光标离开"
+          }
+        }
+      }
+    },
     "---" : {
       "localizations" : {
         "en" : {
@@ -607,6 +691,62 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "调整凹口轮廓的厚度。"
+          }
+        }
+      }
+    },
+    "Adjust the transparency of the Dynamic Island outline." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adjust the transparency of the Dynamic Island outline."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajusta la transparencia del contorno de Dynamic Island."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройка прозрачности обводки Dynamic Island."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "调整灵动岛轮廓的透明度。"
+          }
+        }
+      }
+    },
+    "Adjust the transparency of the notch outline." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adjust the transparency of the notch outline."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajusta la transparencia del contorno de la muesca."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройка прозрачности обводки выреза."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "调整刘海屏轮廓的透明度。"
           }
         }
       }
@@ -3615,6 +3755,9 @@
         }
       }
     },
+    "Choose whether expanded content closes on click or when the cursor leaves the notch." : {
+
+    },
     "Choose whether expanded content opens on click, after holding the notch, or after hovering over it." : {
       "localizations" : {
         "en" : {
@@ -4240,6 +4383,9 @@
           }
         }
       }
+    },
+    "Collapse gesture" : {
+
     },
     "Color the notch stroke using the current artwork palette." : {
       "localizations" : {
@@ -4991,6 +5137,9 @@
           }
         }
       }
+    },
+    "Cursor leaves" : {
+
     },
     "Debug Ensemble" : {
       "localizations" : {
@@ -19099,34 +19248,6 @@
         }
       }
     },
-    "Stroke width" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Stroke width"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ancho de trazo"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Толщина обводки"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "笔画宽度"
-          }
-        }
-      }
-    },
     "Stroke opacity" : {
       "localizations" : {
         "en" : {
@@ -19155,58 +19276,30 @@
         }
       }
     },
-    "Adjust the transparency of the notch outline." : {
+    "Stroke width" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Adjust the transparency of the notch outline."
+            "value" : "Stroke width"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ajusta la transparencia del contorno de la muesca."
+            "value" : "Ancho de trazo"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Настройка прозрачности обводки выреза."
+            "value" : "Толщина обводки"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "调整刘海屏轮廓的透明度。"
-          }
-        }
-      }
-    },
-    "Adjust the transparency of the Dynamic Island outline." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Adjust the transparency of the Dynamic Island outline."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ajusta la transparencia del contorno de Dynamic Island."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Настройка прозрачности обводки Dynamic Island."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "调整灵动岛轮廓的透明度。"
+            "value" : "笔画宽度"
           }
         }
       }

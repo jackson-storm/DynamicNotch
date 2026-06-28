@@ -20,6 +20,7 @@ final class TestNotchSettings: NotchSettingsProviding {
     var notchAnimationPreset: NotchAnimationPreset
     var isNotchTapToExpandEnabled: Bool
     var notchExpandInteraction: NotchExpandInteraction
+    var notchCollapseInteraction: NotchCollapseInteraction
     var notchPressHoldDuration: TimeInterval
     var isNotchMouseDragGesturesEnabled: Bool
     var isNotchTrackpadSwipeGesturesEnabled: Bool
@@ -36,6 +37,7 @@ final class TestNotchSettings: NotchSettingsProviding {
         notchAnimationPreset: NotchAnimationPreset = .balanced,
         isNotchTapToExpandEnabled: Bool = true,
         notchExpandInteraction: NotchExpandInteraction = .pressAndHold,
+        notchCollapseInteraction: NotchCollapseInteraction = .click,
         notchPressHoldDuration: TimeInterval = 0.25,
         isNotchMouseDragGesturesEnabled: Bool = true,
         isNotchTrackpadSwipeGesturesEnabled: Bool = true,
@@ -55,6 +57,7 @@ final class TestNotchSettings: NotchSettingsProviding {
         self.notchAnimationPreset = notchAnimationPreset
         self.isNotchTapToExpandEnabled = isNotchTapToExpandEnabled
         self.notchExpandInteraction = notchExpandInteraction
+        self.notchCollapseInteraction = notchCollapseInteraction
         self.notchPressHoldDuration = notchPressHoldDuration
         self.isNotchMouseDragGesturesEnabled = isNotchMouseDragGesturesEnabled
         self.isNotchTrackpadSwipeGesturesEnabled = isNotchTrackpadSwipeGesturesEnabled

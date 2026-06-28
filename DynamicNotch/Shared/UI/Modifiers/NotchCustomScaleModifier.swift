@@ -226,6 +226,9 @@ private extension NotchCustomScaleModifier {
               !notchViewModel.notchModel.isPresentingExpandedLiveActivity else {
             if !isHovering {
                 resetHoverState()
+                if notchViewModel.shouldCollapseActiveContentOnHoverLeaves {
+                    notchViewModel.handleOutsideClick()
+                }
             }
             return
         }
@@ -236,6 +239,9 @@ private extension NotchCustomScaleModifier {
             scheduleHoverExpansionIfNeeded()
         } else {
             resetHoverState()
+            if notchViewModel.shouldCollapseActiveContentOnHoverLeaves {
+                notchViewModel.handleOutsideClick()
+            }
         }
     }
 

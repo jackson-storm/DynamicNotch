@@ -63,18 +63,7 @@ struct VpnPageNotchView: View {
         VStack(spacing: 8) {
             ZStack {
                 HStack(spacing: 8) {
-                    if let bundleID = vpn.bundleID, let nsImage = getAppIcon(for: bundleID) {
-                        Image(nsImage: nsImage)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 50, height: 50)
-                            .cornerRadius(6)
-                        
-                    } else {
-                        Image(systemName: vpn.isConnected ? "shield.fill" : "shield")
-                            .font(.system(size: 20, weight: .semibold))
-                            .foregroundStyle(vpn.isConnected ? Color.green : Color.gray)
-                    }
+                    vpnLogo(for: vpn)
                     
                     VStack(alignment: .leading, spacing: 3) {
                         MarqueeText(
@@ -84,7 +73,7 @@ struct VpnPageNotchView: View {
                             textColor: .white.opacity(0.8),
                             backgroundColor: .clear,
                             minDuration: 2.0,
-                            frameWidth: 120
+                            frameWidth: vpn.isConnected ? 120 : 140
                         )
                         
                         MarqueeText(
@@ -94,60 +83,81 @@ struct VpnPageNotchView: View {
                             textColor: .white.opacity(0.5),
                             backgroundColor: .clear,
                             minDuration: 3.0,
-                            frameWidth: 120
+                            frameWidth: vpn.isConnected ? 120 : 140
                         )
                     }
                     Spacer()
                 }
+                .padding(.horizontal, 4)
                 
-                if vpn.isConnected {
-                    Text(timeString)
-                        .font(.system(size: 24, weight: .semibold, design: .rounded))
-                        .monospacedDigit()
-                        .foregroundStyle(Color.orange)
-                        .frame(maxWidth: .infinity, alignment: .trailing)
-                        .onReceive(timer) { _ in
-                            updateTimer()
-                        }
-                    
-                } else {
-                    Text("--:--")
-                        .font(.system(size: 20, weight: .medium))
-                        .foregroundColor(.gray)
-                        .frame(maxWidth: .infinity, alignment: .trailing)
-                }
+                timer(for: vpn)
             }
-            
-            HStack {
-                Button(action: {
-                    SettingsWindowController.shared.showWindow(selecting: .vpn)
-                    notchViewModel.dismissActiveContent()
-                }) {
-                    Text(verbatim: "Open Settings")
-                        .font(.system(size: 14, weight: .medium))
-                }
-                .buttonStyle(PrimaryButtonStyle(
-                    height: 35,
-                    backgroundColor: Color.gray.opacity(0.2),
-                    foregroundColor: .white
-                ))
-                
-                Button(action: {
-                    viewModel.toggleVPN(vpn)
-                    notchViewModel.dismissActiveContent()
-                }) {
-                    Text(verbatim: vpn.isConnected ? "Disconnect" : "Connect VPN")
-                        .font(.system(size: 14, weight: .medium))
-                }
-                .buttonStyle(PrimaryButtonStyle(
-                    height: 35,
-                    backgroundColor: vpn.isConnected ? Color.red.opacity(0.2) : Color.blue.opacity(0.2),
-                    foregroundColor: vpn.isConnected ? .red : .blue
-                ))
-            }
+            buttons(for: vpn)
         }
         .padding(.horizontal, 5)
-        .padding(.bottom, 5)
+        .padding(.bottom, 3)
+    }
+    
+    @ViewBuilder
+    private func vpnLogo(for vpn: VPNConfiguration) -> some View {
+        if let bundleID = vpn.bundleID, let nsImage = getAppIcon(for: bundleID) {
+            Image(nsImage: nsImage)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 50, height: 50)
+                .cornerRadius(6)
+            
+        } else {
+            Image(systemName: vpn.isConnected ? "shield.fill" : "shield")
+                .font(.system(size: 20, weight: .semibold))
+                .foregroundStyle(vpn.isConnected ? Color.green : Color.gray)
+        }
+    }
+    
+    @ViewBuilder
+    private func timer(for vpn: VPNConfiguration) -> some View {
+        if vpn.isConnected {
+            Text(timeString)
+                .font(.system(size: 24, weight: .semibold, design: .rounded))
+                .monospacedDigit()
+                .foregroundStyle(Color.orange)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+                .onReceive(timer) { _ in
+                    updateTimer()
+                }
+            
+        } else {
+            Text("--:--")
+                .font(.system(size: 20, weight: .medium))
+                .foregroundColor(.gray)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+                .padding(.trailing, vpn.isConnected ? 0 : 10)
+        }
+    }
+    
+    @ViewBuilder
+    private func buttons(for vpn: VPNConfiguration) -> some View {
+        HStack {
+            Button(action: {
+                SettingsWindowController.shared.showWindow(selecting: .vpn)
+                notchViewModel.dismissActiveContent()
+            }) {
+                Text(verbatim: "Open Settings")
+                    .fontWeight(.medium)
+                    .foregroundStyle(.white)
+            }
+            .buttonStyle(PrimaryButtonStyle(height: 35, backgroundColor: Color.gray.opacity(0.2)))
+            
+            Button(action: {
+                viewModel.toggleVPN(vpn)
+                notchViewModel.dismissActiveContent()
+            }) {
+                Text(verbatim: vpn.isConnected ? "Disconnect" : "Connect VPN")
+                    .fontWeight(.medium)
+                    .foregroundStyle(vpn.isConnected ? .red : .blue)
+            }
+            .buttonStyle(PrimaryButtonStyle(height: 35, backgroundColor: vpn.isConnected ? Color.red.opacity(0.2) : Color.blue.opacity(0.2)))
+        }
     }
     
     @ViewBuilder

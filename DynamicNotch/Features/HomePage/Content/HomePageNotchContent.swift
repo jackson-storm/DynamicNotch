@@ -26,7 +26,7 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     }
     
     func expandedCornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
-        return (top: 24, bottom: 44)
+        return (top: 24, bottom: 38)
     }
 
     func dynamicIslandCornerRadius(baseHeight: CGFloat) -> CGFloat {

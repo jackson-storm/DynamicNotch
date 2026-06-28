@@ -416,11 +416,16 @@ private struct LockScreenLiveActivityOverlayView: View {
     
     private var visibleStrokeColor: Color {
         let isDynamicIsland = notchViewModel.topInset == 0
+        let strokeOpacity = isDynamicIsland ? settingsViewModel.application.dynamicIslandStrokeOpacity : settingsViewModel.application.notchStrokeOpacity
         let isDefaultStroke = isDynamicIsland ? settingsViewModel.application.isDynamicIslandDefaultActivityStrokeEnabled : settingsViewModel.application.isDefaultActivityStrokeEnabled
+        
+        let baseColor: Color
         if isDefaultStroke {
-            return .white.opacity(0.2)
+            baseColor = .white.opacity(0.2)
+        } else {
+            baseColor = notchViewModel.notchModel.content?.strokeColor ?? notchViewModel.cachedStrokeColor
         }
-        return notchViewModel.notchModel.content?.strokeColor ?? notchViewModel.cachedStrokeColor
+        return baseColor.opacity(strokeOpacity)
     }
     
     @ViewBuilder

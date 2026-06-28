@@ -135,6 +135,11 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
         set { application.notchStrokeWidth = newValue }
     }
 
+    var notchStrokeOpacity: Double {
+        get { application.notchStrokeOpacity }
+        set { application.notchStrokeOpacity = newValue }
+    }
+
     var displayLocation: NotchDisplayLocation {
         get { application.displayLocation }
         set { application.displayLocation = newValue }

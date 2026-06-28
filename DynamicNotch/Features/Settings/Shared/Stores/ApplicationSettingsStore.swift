@@ -9,6 +9,7 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
     static let notchPressHoldDurationStep: Double = 0.01
     static let defaultNotchPressHoldDuration: TimeInterval = 0.25
     static let notchStrokeWidthRange: ClosedRange<Double> = 1.0...3.0
+    static let notchStrokeOpacityRange: ClosedRange<Double> = 0.0...1.0
 
     @Published var isLaunchAtLoginEnabled: Bool {
         didSet {
@@ -116,6 +117,19 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         }
     }
 
+    @Published var notchStrokeOpacity: Double {
+        didSet {
+            let clampedValue = Self.clampNotchStrokeOpacity(notchStrokeOpacity)
+
+            if clampedValue != notchStrokeOpacity {
+                notchStrokeOpacity = clampedValue
+                return
+            }
+
+            persist(notchStrokeOpacity, for: GeneralSettingsStorage.Keys.notchStrokeOpacity)
+        }
+    }
+
     @Published var isShowDynamicIslandStrokeEnabled: Bool {
         didSet {
             persist(isShowDynamicIslandStrokeEnabled, for: GeneralSettingsStorage.Keys.dynamicIslandStrokeEnabled)
@@ -138,6 +152,19 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
             }
 
             persist(dynamicIslandStrokeWidth, for: GeneralSettingsStorage.Keys.dynamicIslandStrokeWidth)
+        }
+    }
+
+    @Published var dynamicIslandStrokeOpacity: Double {
+        didSet {
+            let clampedValue = Self.clampNotchStrokeOpacity(dynamicIslandStrokeOpacity)
+
+            if clampedValue != dynamicIslandStrokeOpacity {
+                dynamicIslandStrokeOpacity = clampedValue
+                return
+            }
+
+            persist(dynamicIslandStrokeOpacity, for: GeneralSettingsStorage.Keys.dynamicIslandStrokeOpacity)
         }
     }
 
@@ -334,7 +361,9 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
             key: GeneralSettingsStorage.Keys.dynamicIslandDefaultActivityStrokeEnabled
         )
         self.notchStrokeWidth = Self.resolvedNotchStrokeWidth(defaults: defaults)
+        self.notchStrokeOpacity = Self.resolvedNotchStrokeOpacity(defaults: defaults)
         self.dynamicIslandStrokeWidth = Self.resolvedDynamicIslandStrokeWidth(defaults: defaults)
+        self.dynamicIslandStrokeOpacity = Self.resolvedDynamicIslandStrokeOpacity(defaults: defaults)
         self.displayLocation = NotchDisplayLocation(
             rawValue: defaults.string(forKey: GeneralSettingsStorage.Keys.displayLocation) ?? NotchDisplayLocation.main.rawValue
         ) ?? .main
@@ -445,7 +474,9 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
             defaultInt(for: GeneralSettingsStorage.Keys.notchSizeTemporaryActivityDuration)
         )
         notchStrokeWidth = defaultDouble(for: GeneralSettingsStorage.Keys.notchStrokeWidth)
+        notchStrokeOpacity = defaultDouble(for: GeneralSettingsStorage.Keys.notchStrokeOpacity)
         dynamicIslandStrokeWidth = defaultDouble(for: GeneralSettingsStorage.Keys.dynamicIslandStrokeWidth)
+        dynamicIslandStrokeOpacity = defaultDouble(for: GeneralSettingsStorage.Keys.dynamicIslandStrokeOpacity)
         notchBackgroundStyle = NotchBackgroundStyle.resolved(
             defaultString(for: GeneralSettingsStorage.Keys.notchBackgroundStyle)
         )
@@ -543,17 +574,57 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         )
     }
 
-    private func persistSanitizedNotchStrokeSettingsIfNeeded() {
-        let key = GeneralSettingsStorage.Keys.notchStrokeWidth
+    private static func clampNotchStrokeOpacity(_ value: Double) -> Double {
+        min(
+            max(value, notchStrokeOpacityRange.lowerBound),
+            notchStrokeOpacityRange.upperBound
+        )
+    }
 
-        guard let storedValue = (defaults.object(forKey: key) as? NSNumber)?.doubleValue else {
-            return
+    private static func resolvedNotchStrokeOpacity(defaults: UserDefaults) -> Double {
+        let key = GeneralSettingsStorage.Keys.notchStrokeOpacity
+
+        guard let currentValue = (defaults.object(forKey: key) as? NSNumber)?.doubleValue else {
+            return defaultDoubleValue(for: key)
         }
 
-        let clampedValue = Self.clampNotchStrokeWidth(storedValue)
-        guard clampedValue != storedValue else { return }
+        return clampNotchStrokeOpacity(currentValue)
+    }
 
-        persist(clampedValue, for: key)
+    private static func resolvedDynamicIslandStrokeOpacity(defaults: UserDefaults) -> Double {
+        let key = GeneralSettingsStorage.Keys.dynamicIslandStrokeOpacity
+
+        guard let currentValue = (defaults.object(forKey: key) as? NSNumber)?.doubleValue else {
+            return defaultDoubleValue(for: key)
+        }
+
+        return clampNotchStrokeOpacity(currentValue)
+    }
+
+    private func persistSanitizedNotchStrokeSettingsIfNeeded() {
+        let key = GeneralSettingsStorage.Keys.notchStrokeWidth
+        if let storedValue = (defaults.object(forKey: key) as? NSNumber)?.doubleValue {
+            let clampedValue = Self.clampNotchStrokeWidth(storedValue)
+            if clampedValue != storedValue {
+                persist(clampedValue, for: key)
+            }
+        }
+
+        let opacityKey = GeneralSettingsStorage.Keys.notchStrokeOpacity
+        if let storedOpacity = (defaults.object(forKey: opacityKey) as? NSNumber)?.doubleValue {
+            let clampedOpacity = Self.clampNotchStrokeOpacity(storedOpacity)
+            if clampedOpacity != storedOpacity {
+                persist(clampedOpacity, for: opacityKey)
+            }
+        }
+
+        let diOpacityKey = GeneralSettingsStorage.Keys.dynamicIslandStrokeOpacity
+        if let storedDiOpacity = (defaults.object(forKey: diOpacityKey) as? NSNumber)?.doubleValue {
+            let clampedDiOpacity = Self.clampNotchStrokeOpacity(storedDiOpacity)
+            if clampedDiOpacity != storedDiOpacity {
+                persist(clampedDiOpacity, for: diOpacityKey)
+            }
+        }
     }
 
     private static func clampNotchPressHoldDuration(_ value: TimeInterval) -> TimeInterval {

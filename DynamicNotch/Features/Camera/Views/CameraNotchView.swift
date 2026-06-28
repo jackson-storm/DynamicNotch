@@ -26,7 +26,6 @@ struct CameraNotchView: View {
         ZStack {
             if !isCameraStarted {
                 cameraStartView
-                    .transition(.blurAndFade.combined(with: .opacity).animation(.spring(response: 0.6)))
             } else {
                 Group {
                     switch cameraViewModel.cameraState {
@@ -40,9 +39,10 @@ struct CameraNotchView: View {
                         progressView
                     }
                 }
-                .transition(.blurAndFade.combined(with: .opacity).animation(.spring(response: 0.6)))
             }
         }
+        .padding(.horizontal, 3)
+        .padding(.bottom, 1)
         .onAppear {
             previewID = UUID()
         }

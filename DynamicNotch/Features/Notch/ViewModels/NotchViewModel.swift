@@ -92,8 +92,11 @@ final class NotchViewModel: ObservableObject {
         canExpandActiveLiveActivity
     }
 
+    var notchExpandInteraction: NotchExpandInteraction {
+        settings.notchExpandInteraction
+    }
+
     var shouldCollapseActiveContentOnHoverLeaves: Bool {
-        settings.notchExpandInteraction == .hover &&
         settings.notchCollapseInteraction == .hoverLeaves &&
         isDisplayingExpandedLiveActivity
     }

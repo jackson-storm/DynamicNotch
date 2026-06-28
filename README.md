@@ -39,15 +39,12 @@
   </a>
 </p>
 
-<p>
+<p align="center">
   <img src="assets/readme/Player.png" alt="DynamicNotch preview" width="100%" />
+  <img src="assets/readme/LockScreen.png" alt="DynamicNotch preview" width="100%" />
 </p>
 
-## ✨ Why DynamicNotch
-
-DynamicNotch treats the MacBook notch like a compact native surface instead of a static cutout.
-It stays close to the hardware shape until something important happens, then expands with queue-driven
-presentation, gesture support, and system-aware feature routing.
+## 🧐 Why DynamicNotch
 
 The app is built with SwiftUI and AppKit, so the notch window, settings UI, and event handling feel
 like part of macOS rather than a web-style overlay.
@@ -56,31 +53,19 @@ The difference between this project and others is that it is built on its own en
 
 The main goal is to make the project as native as possible, both in terms of design and interaction.
 
-## 🚀 Highlights
+## 🎯 Highlights
 
 - **Live Activities**: Now Playing (media control, album artwork, audio visualizer, customizable progress bar tint style), Downloads progress, AirDrop, Timer, Screen Recording indicator, Focus mode, Personal Hotspot, and Lock Screen media/live activity surfaces.
-- **Dynamic Island (Floating Capsule)**: Automatic support for devices without a physical hardware notch (e.g. non-notched MacBooks, iMac, Mac mini, or external monitors). Transitions to a floating capsule shape (`DynamicIslandShape`) when `topInset == 0`, utilizing dynamic, smooth corner radius transitions.
+
 - **Temporary Alerts**: Interactive HUD status for battery charging, low/full battery, Bluetooth connections, Wi-Fi, VPN, Focus-off toggling, and notch size modification settings feedback.
-- **Native HUD Replacements**: Beautiful, hardware-inspired HUD overlays for System Volume, Screen Brightness, and Keyboard Backlight.
-- **Chained Lyrics Provider**: A dual-provider API engine (`CompositeLyricsProvider`) combining synchronized LRCLIB karaoke lyrics and static Lyrics.ovh database query fallback.
+
 - **Gestures & Swipe Controls**: Native interactive gestures including mouse drag, trackpad swipes, vertical swipe-to-dismiss/restore with adaptive corner radii and swipe-aware blur, and horizontal trackpad/mouse scroll-to-dismiss.
+
+- **Fluid Physics Animations**: True-to-life replication of the iOS Dynamic Island's motion design, featuring responsive physics-based spring animations, jelly-like morphing transitions, and synchronized content interpolation that matches the stretch, squash, and elastic behavior of Apple's implementation.
+
+- **Dynamic Island (Floating Capsule)**: Automatic support for devices without a physical hardware notch (e.g. non-notched MacBooks, iMac, Mac mini, or external monitors). Transitions to a floating capsule shape (`DynamicIslandShape`) when `topInset == 0`, utilizing dynamic, smooth corner radius transitions.
+
 - **Deep Customization**: Personalization options for base notch width/height, stroke options, background styling, animation presets, custom screen/display selection, and fullscreen spaces handling.
-- **Refined Animations**: Multi-preset transitions system with separate, dedicated transition tuning parameter `closeLiveActivityCompactContentTransition` to control the exact speed of content insertion when returning to compact mode.
-
-## 🎬 Preview
-
-<table>
-  <tr>
-    <td>
-      <video src="https://github.com/user-attachments/assets/88040eb4-a41c-4699-98b7-3242570f4918" controls muted playsinline width="100%"></video>
-    </td>
-    <td>
-      <video src="https://github.com/user-attachments/assets/7ec1661d-ff3e-4dc6-9e76-92b00576094f" controls muted playsinline width="100%"></video>
-    </td>
-  </tr>
-</table>
-
-> The demos show how the notch behaves on light and dark backgrounds. The outline can be disabled in Settings.
 
 ## 📦 Installation
 
@@ -110,53 +95,32 @@ open DynamicNotch.xcodeproj
 
 Then run the `DynamicNotch` scheme from Xcode. Swift Package Manager dependencies are resolved by the project.
 
-## 🗂️ Repository Layout
+## 💻 Gallery
 
-```text
-DynamicNotch/
-├── Application/        # App entry point, app delegate, window setup, and settings shell
-├── Core/               # Shared models, protocols, services, and infrastructure
-├── Features/
-│   ├── Battery/
-│   ├── Bluetooth/
-│   ├── Calendar/
-│   ├── Camera/
-│   ├── Download/
-│   ├── DragAndDrop/
-│   ├── Focus/
-│   ├── HomePage/
-│   ├── HUD/
-│   ├── LockScreen/
-│   ├── Notch/
-│   ├── NowPlaying/
-│   ├── Onboarding/
-│   ├── ScreenRecording/
-│   ├── Settings/
-│   ├── Timer/
-│   ├── VPN/
-│   └── WiFi/
-├── Resources/          # Assets, localization, bundled media
-└── Shared/             # Shared UI, helpers, and extensions
+<table align="center">
+  <tr>
+    <td><img src="assets/readme/NoInternet.png" alt="Player" width="100%" /></td>
+    <td><img src="assets/readme/Tray.png" alt="Lock Screen" width="100%" /></td>
+    <td><img src="assets/readme/Timer.png" alt="Timer" width="100%" /></td>
+  </tr>
+  <tr>
+    <td><img src="assets/readme/Charging.png" alt="Charging" width="100%" /></td>
+    <td><img src="assets/readme/LowBattery.png" alt="Low Battery" width="100%" /></td>
+    <td><img src="assets/readme/FullBattery.png" alt="Full Battery" width="100%" /></td>
+  </tr>
+  <tr>
+    <td><img src="assets/readme/Bluetooth.png" alt="Bluetooth" width="100%" /></td>
+    <td><img src="assets/readme/VpnConnection.png" alt="VPN Connection" width="100%" /></td>
+    <td><img src="assets/readme/VolumeHud.png" alt="Volume HUD" width="100%" /></td>
+  </tr>
+  <tr>
+    <td><img src="assets/readme/Hotspot.png" alt="Bluetooth" width="100%" /></td>
+    <td><img src="assets/readme/Downloads.png" alt="VPN Connection" width="100%" /></td>
+    <td><img src="assets/readme/FocusMode.png" alt="Volume HUD" width="100%" /></td>
+  </tr>
+</table>
 
-DynamicNotchTests/
-├── Features/
-├── Shared/
-└── TestSupport/
-
-DynamicNotchUITest/
-└── DynamicNotchUITest.swift
-```
-
-## 🏗️ Architecture at a Glance
-
-- `AppContainer` composes services, monitors, feature view models, coordinators, and window managers.
-- `AppDelegate` manages app lifecycle, floating overlay window setup, workspace observers, and lock-screen handoff.
-- `NotchEngine` owns the queue-driven notch presentation state machine for live activities, temporary alerts, transitions, and restore flows.
-- `NotchViewModel` is the SwiftUI-facing layer for geometry, gestures, interactive resize, and engine-backed presentation state.
-- `NotchEventCoordinator` routes system events while feature-specific handlers translate them into notch content.
-- `SettingsViewModel` acts as a facade over dedicated settings stores for application, media/files, connectivity, battery, HUD, and lock-screen behavior.
-- Feature view models provide domain state for battery, Bluetooth, calendar, camera, downloads, WiFi, VPN, now playing, screen recording, timer, AirDrop, and lock screen.
-- Fullscreen hiding keeps the overlay window alive and hides notch activities until the user leaves fullscreen, so active features can restore cleanly.
+> **Note:** This gallery displays only a selection of the events, live activities, and temporary alerts supported by DynamicNotch. Many other states, animations, and system transitions are supported.
 
 ## 🧰 Tech Stack
 

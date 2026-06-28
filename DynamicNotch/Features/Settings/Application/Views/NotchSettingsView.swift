@@ -348,7 +348,6 @@ struct NotchSettingsView: View {
                 accessibilityIdentifier: "settings.notch.collapseInteraction",
                 selection: $applicationSettings.notchCollapseInteraction
             )
-            .disabled(applicationSettings.notchExpandInteraction != .hover)
             
             Divider()
                 .opacity(0.6)

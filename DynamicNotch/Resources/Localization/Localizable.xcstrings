@@ -4,90 +4,6 @@
     "" : {
 
     },
-    "Collapse gesture" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Collapse gesture"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gesto de colapso"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Жест закрытия"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "折叠手势"
-          }
-        }
-      }
-    },
-    "Choose whether expanded content closes on click or when the cursor leaves the notch." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choose whether expanded content closes on click or when the cursor leaves the notch."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Elija si el contenido expandido se cierra al hacer clic o cuando el cursor sale de la muesca."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Выберите, закрывать ли развернутое содержимое при нажатии или при уходе курсора с выреза."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "选择展开的内容是在点击时关闭，还是在光标离开刘海屏时关闭。"
-          }
-        }
-      }
-    },
-    "Cursor leaves" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cursor leaves"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "El cursor sale"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Уход курсора"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "光标离开"
-          }
-        }
-      }
-    },
     "---" : {
       "localizations" : {
         "en" : {
@@ -3756,7 +3672,32 @@
       }
     },
     "Choose whether expanded content closes on click or when the cursor leaves the notch." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose whether expanded content closes on click or when the cursor leaves the notch."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elija si el contenido expandido se cierra al hacer clic o cuando el cursor sale de la muesca."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите, закрывать ли развернутое содержимое при нажатии или при уходе курсора с выреза."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择展开的内容是在点击时关闭，还是在光标离开刘海屏时关闭。"
+          }
+        }
+      }
     },
     "Choose whether expanded content opens on click, after holding the notch, or after hovering over it." : {
       "localizations" : {
@@ -4385,7 +4326,32 @@
       }
     },
     "Collapse gesture" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Collapse gesture"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gesto de colapso"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Жест закрытия"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "折叠手势"
+          }
+        }
+      }
     },
     "Color the notch stroke using the current artwork palette." : {
       "localizations" : {
@@ -5139,7 +5105,32 @@
       }
     },
     "Cursor leaves" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cursor leaves"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El cursor sale"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Уход курсора"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "光标离开"
+          }
+        }
+      }
     },
     "Debug Ensemble" : {
       "localizations" : {

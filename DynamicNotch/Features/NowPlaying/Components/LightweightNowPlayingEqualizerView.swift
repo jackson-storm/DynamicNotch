@@ -3,13 +3,20 @@ internal import AppKit
 
 struct LightweightNowPlayingEqualizerView: NSViewRepresentable {
     let isPlaying: Bool
-    let color: NSColor
+    let colors: [NSColor]
     let barHeight: CGFloat
     let barWidth: CGFloat
 
+    init(isPlaying: Bool, colors: [NSColor], barHeight: CGFloat = 16, barWidth: CGFloat = 2) {
+        self.isPlaying = isPlaying
+        self.colors = colors
+        self.barHeight = barHeight
+        self.barWidth = barWidth
+    }
+
     init(isPlaying: Bool, color: NSColor, barHeight: CGFloat = 16, barWidth: CGFloat = 2) {
         self.isPlaying = isPlaying
-        self.color = color
+        self.colors = [color]
         self.barHeight = barHeight
         self.barWidth = barWidth
     }
@@ -18,7 +25,7 @@ struct LightweightNowPlayingEqualizerView: NSViewRepresentable {
         let view = LightweightNowPlayingEqualizerNSView()
         view.setBarHeight(barHeight)
         view.setBarWidth(barWidth)
-        view.setColor(color)
+        view.setColors(colors)
         view.setPlaying(isPlaying)
         return view
     }
@@ -26,7 +33,7 @@ struct LightweightNowPlayingEqualizerView: NSViewRepresentable {
     func updateNSView(_ nsView: LightweightNowPlayingEqualizerNSView, context: Context) {
         nsView.setBarHeight(barHeight)
         nsView.setBarWidth(barWidth)
-        nsView.setColor(color)
+        nsView.setColors(colors)
         nsView.setPlaying(isPlaying)
     }
 
@@ -42,15 +49,17 @@ final class LightweightNowPlayingEqualizerNSView: NSView {
         static let barSpacing: CGFloat = 2
         static let defaultHeight: CGFloat = 16
         static let minimumScale: CGFloat = 0.32
-        static let animationDuration: TimeInterval = 0.15
-        static let timerInterval: TimeInterval = 0.15
+        static let animationDuration: TimeInterval = 0.13
+        static let timerInterval: TimeInterval = 0.13
     }
 
+    private let gradientLayer = CAGradientLayer()
+    private let maskContainerLayer = CALayer()
     private var barLayers: [CALayer] = []
     private var barScales: [CGFloat] = []
     private var animationTimer: Timer?
     private var isPlaying = false
-    private var barColor = NSColor.white
+    private var barColors: [NSColor] = [.white]
     private var barHeight = Metrics.defaultHeight
     private var barWidth = Metrics.defaultBarWidth
     private var windowObservers: [NSObjectProtocol] = []
@@ -80,6 +89,13 @@ final class LightweightNowPlayingEqualizerNSView: NSView {
 
     override func layout() {
         super.layout()
+        
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        gradientLayer.frame = bounds
+        maskContainerLayer.frame = bounds
+        CATransaction.commit()
+        
         layoutBars()
     }
 
@@ -97,10 +113,26 @@ final class LightweightNowPlayingEqualizerNSView: NSView {
     }
 
     func setColor(_ color: NSColor) {
-        guard !barColor.isEqual(color) else { return }
+        setColors([color])
+    }
 
-        barColor = color
-        barLayers.forEach { $0.backgroundColor = color.cgColor }
+    func setColors(_ colors: [NSColor]) {
+        guard barColors.count != colors.count || zip(barColors, colors).contains(where: { !$0.0.isEqual($0.1) }) else { return }
+        barColors = colors
+
+        let cgColors: [CGColor]
+        if colors.isEmpty {
+            cgColors = [NSColor.white.cgColor, NSColor.white.cgColor]
+        } else if colors.count == 1 {
+            cgColors = [colors[0].cgColor, colors[0].cgColor]
+        } else {
+            cgColors = colors.map { $0.cgColor }
+        }
+
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        gradientLayer.colors = cgColors
+        CATransaction.commit()
     }
 
     func setBarHeight(_ height: CGFloat) {
@@ -141,6 +173,14 @@ private extension LightweightNowPlayingEqualizerNSView {
     func setup() {
         wantsLayer = true
         layer?.masksToBounds = false
+
+        gradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
+        gradientLayer.endPoint = CGPoint(x: 1, y: 0.5)
+        layer?.addSublayer(gradientLayer)
+
+        maskContainerLayer.frame = bounds
+        gradientLayer.mask = maskContainerLayer
+
         createBars()
     }
 
@@ -151,13 +191,13 @@ private extension LightweightNowPlayingEqualizerNSView {
 
         for _ in 0..<Metrics.barCount {
             let barLayer = CALayer()
-            barLayer.backgroundColor = barColor.cgColor
+            barLayer.backgroundColor = NSColor.white.cgColor
             barLayer.cornerRadius = barWidth / 2
             barLayer.masksToBounds = true
             barLayer.allowsGroupOpacity = false
             barLayer.anchorPoint = CGPoint(x: 0.5, y: 0.5)
             barLayer.transform = CATransform3DMakeScale(1, pausedScale, 1)
-            layer?.addSublayer(barLayer)
+            maskContainerLayer.addSublayer(barLayer)
             barLayers.append(barLayer)
         }
 

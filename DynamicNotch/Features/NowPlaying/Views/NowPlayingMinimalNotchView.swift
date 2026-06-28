@@ -46,7 +46,10 @@ struct NowPlayingMinimalNotchView: View {
             
             LightweightNowPlayingEqualizerView(
                 isPlaying: snapshot.isPlaying,
-                color: nowPlayingViewModel.artworkPalette.equalizerBaseColor
+                colors: [
+                    nowPlayingViewModel.artworkPalette.equalizerHighlightColor,
+                    nowPlayingViewModel.artworkPalette.equalizerBaseColor
+                ]
             )
             .frame(width: isDynamicIsland ? 14 : 18, height: isDynamicIsland ? 12 : 16)
         }

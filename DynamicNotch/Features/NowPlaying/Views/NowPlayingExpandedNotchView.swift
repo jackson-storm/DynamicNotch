@@ -119,7 +119,10 @@ struct NowPlayingExpandedNotchView: View {
 
                     LightweightNowPlayingEqualizerView(
                         isPlaying: snapshot.isPlaying,
-                        color: nowPlayingViewModel.artworkPalette.equalizerBaseColor,
+                        colors: [
+                            nowPlayingViewModel.artworkPalette.equalizerHighlightColor,
+                            nowPlayingViewModel.artworkPalette.equalizerBaseColor
+                        ],
                         barHeight: 23,
                         barWidth: 2.7
                     )

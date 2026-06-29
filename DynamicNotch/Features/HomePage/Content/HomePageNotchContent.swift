@@ -31,7 +31,7 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
             let isStarted = UserDefaults.standard.bool(forKey: "isCameraStarted")
             return (top: isStarted ? 34 : 24, bottom: isStarted ? 48 : 38)
             
-        case .localTimer, .vpn:
+        case .localTimer, .vpn, .systemStats:
             return (top: 24, bottom: 38)
         }
     }
@@ -64,10 +64,7 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
                 return baseHeight * 0.2
             }
             
-        case .localTimer:
-            return baseHeight * 0.2
-            
-        case .vpn:
+        case .localTimer, .vpn, .systemStats:
             return baseHeight * 0.2
         }
     }
@@ -93,6 +90,9 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
             
         case .vpn:
             return .init(width: baseWidth + 140, height: baseHeight + 110)
+            
+        case .systemStats:
+            return .init(width: baseWidth + 140, height: baseHeight + 110)
         }
     }
     
@@ -116,6 +116,9 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
             return .init(width: baseWidth + 140, height: baseHeight + 125)
             
         case .vpn:
+            return .init(width: baseWidth + 180, height: baseHeight + 125)
+            
+        case .systemStats:
             return .init(width: baseWidth + 180, height: baseHeight + 125)
         }
     }

@@ -240,6 +240,10 @@ final class SystemMediaKeyTap {
         CGEvent.tapEnable(tap: eventTap, enable: shouldEnableTap)
         isTapEnabled = shouldEnableTap
     }
+
+    deinit {
+        stop()
+    }
 }
 
 #if canImport(ApplicationServices)

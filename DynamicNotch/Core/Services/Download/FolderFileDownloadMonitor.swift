@@ -261,7 +261,9 @@ private extension FolderFileDownloadMonitor {
                 at: directory,
                 includingPropertiesForKeys: [
                     .isRegularFileKey,
-                    .fileSizeKey
+                    .isDirectoryKey,
+                    .fileSizeKey,
+                    .contentModificationDateKey
                 ],
                 options: [.skipsPackageDescendants]
             )
@@ -269,20 +271,31 @@ private extension FolderFileDownloadMonitor {
             return []
         }
 
+        let now = Date()
         return urls.compactMap { url in
+            let standardizedURL = url.standardizedFileURL
+            let fileName = standardizedURL.lastPathComponent
+            let isTemporaryFile = isTemporaryDownloadFile(named: fileName)
+
             guard
                 let resourceValues = try? url.resourceValues(forKeys: [
                     .isRegularFileKey,
                     .isDirectoryKey,
-                    .fileSizeKey
+                    .fileSizeKey,
+                    .contentModificationDateKey
                 ])
             else {
                 return nil
             }
 
-            let standardizedURL = url.standardizedFileURL
-            let fileName = standardizedURL.lastPathComponent
-            let isTemporaryFile = isTemporaryDownloadFile(named: fileName)
+            // Optimization: If a file is not a temporary download file and has not been modified
+            // in the last 10 seconds, we skip it. This avoids processing thousands of static files.
+            if !isTemporaryFile {
+                if let modificationDate = resourceValues.contentModificationDate,
+                   now.timeIntervalSince(modificationDate) > 10.0 {
+                    return nil
+                }
+            }
 
             if resourceValues.isRegularFile == true {
                 return ObservedFile(

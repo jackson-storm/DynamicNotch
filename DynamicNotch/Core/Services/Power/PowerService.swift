@@ -25,7 +25,7 @@ final class PowerService: ObservableObject {
     
     deinit {
         if let rls = runLoopSource {
-            CFRunLoopRemoveSource(CFRunLoopGetCurrent(), rls, .defaultMode)
+            CFRunLoopRemoveSource(CFRunLoopGetMain(), rls, .defaultMode)
         }
     }
     
@@ -79,7 +79,7 @@ final class PowerService: ObservableObject {
         }
         let context = Unmanaged.passUnretained(self).toOpaque()
         if let rls = IOPSNotificationCreateRunLoopSource(callback, context)?.takeRetainedValue() {
-            CFRunLoopAddSource(CFRunLoopGetCurrent(), rls, .defaultMode)
+            CFRunLoopAddSource(CFRunLoopGetMain(), rls, .defaultMode)
             self.runLoopSource = rls
         }
     }

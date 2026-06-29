@@ -14,8 +14,14 @@ struct CalendarNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
         }
     }
     
+    private var isAMPM: Bool {
+        let time = calendarViewModel.formattedNextEventTime.lowercased()
+        return time.contains("am") || time.contains("pm") || time.contains("a.m.") || time.contains("p.m.")
+    }
+    
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        .init(width: baseWidth + 110, height: baseHeight)
+        let extraWidth: CGFloat = isAMPM ? 145 : 110
+        return .init(width: baseWidth + extraWidth, height: baseHeight)
     }
     
     func expandedSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
@@ -27,7 +33,8 @@ struct CalendarNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     }
     
     func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        .init(width: baseWidth + 90, height: baseHeight)
+        let extraWidth: CGFloat = isAMPM ? 115 : 90
+        return .init(width: baseWidth + extraWidth, height: baseHeight)
     }
     
     func expandedDynamicIslandCornerRadius(baseHeight: CGFloat) -> CGFloat {

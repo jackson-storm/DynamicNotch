@@ -141,7 +141,7 @@ private extension SystemScreenRecordingMonitor {
         recordingDuration = 0
         durationTimer?.invalidate()
 
-        let timer = Timer(timeInterval: 0.1, repeats: true) { [weak self] _ in
+        let timer = Timer(timeInterval: 1.0, repeats: true) { [weak self] _ in
             Task { @MainActor [weak self] in
                 self?.updateDuration()
             }

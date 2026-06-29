@@ -13,7 +13,13 @@ struct CalendarExpandedNotchView: View {
             
             if let event = calendarViewModel.nextEvent {
                 HStack {
-                    title(event: event)
+                    VStack(alignment: .leading, spacing: 6) {
+                        title(event: event)
+                        clock(event: event)
+                        location(event: event)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    
                     Spacer()
                     buttons(event: event)
                 }
@@ -30,59 +36,62 @@ struct CalendarExpandedNotchView: View {
     
     @ViewBuilder
     private func title(event: EKEvent) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
-            if !event.title.isEmpty {
-                MarqueeText(
-                    .constant(event.title),
-                    font: .system(size: 20, weight: .bold),
-                    nsFont: .headline,
-                    textColor: .white,
-                    backgroundColor: .clear,
-                    minDuration: 2.0,
-                    frameWidth: 200
-                )
-            } else {
-                Text("Empty Title")
-                    .font(.system(size: 22, weight: .bold))
-                    .foregroundColor(.gray.opacity(0.6))
-                    .lineLimit(1)
-            }
+        if !event.title.isEmpty {
+            MarqueeText(
+                .constant(event.title),
+                font: .system(size: 18, weight: .bold),
+                nsFont: .headline,
+                textColor: .white,
+                backgroundColor: .clear,
+                minDuration: 2.0,
+                frameWidth: 200
+            )
+        } else {
+            Text("Empty Title")
+                .font(.system(size: 18, weight: .bold))
+                .foregroundColor(.gray.opacity(0.6))
+                .lineLimit(1)
+        }
+    }
+    
+    @ViewBuilder
+    private func clock(event: EKEvent) -> some View {
+        HStack {
+            Image(systemName: "calendar.badge.clock")
+                .font(.system(size: 16))
+                .foregroundColor(.gray)
             
-            HStack {
-                Image(systemName: "calendar.badge.clock")
-                    .font(.system(size: 18))
-                    .foregroundColor(.gray)
-                
-                if event.isAllDay {
-                    Text("All Day")
-                        .font(.system(size: 18, weight: .semibold))
-                        .foregroundColor(.red)
-                } else {
-                    Text(timeString(from: event.startDate) + " - " + timeString(from: event.endDate))
-                        .font(.system(size: 18, weight: .semibold))
-                        .foregroundColor(.red)
-                }
-            }
-            .padding(.top, 6)
-            
-            if let location = event.location, !location.isEmpty {
-                MarqueeText(
-                    .constant(location),
-                    font: .system(size: 12),
-                    nsFont: .headline,
-                    textColor: .gray.opacity(0.8),
-                    backgroundColor: .clear,
-                    minDuration: 4.0,
-                    frameWidth: 200
-                )
+            if event.isAllDay {
+                Text("All Day")
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundColor(.red)
             } else {
-                Text("Empty Location")
-                    .font(.system(size: 12))
+                Text(timeString(from: event.startDate) + " - " + timeString(from: event.endDate))
+                    .font(.system(size: 16, weight: .semibold))
                     .lineLimit(1)
-                    .foregroundColor(.gray.opacity(0.8))
+                    .foregroundColor(.red)
             }
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+    
+    @ViewBuilder
+    private func location(event: EKEvent) -> some View {
+        if let location = event.location, !location.isEmpty {
+            MarqueeText(
+                .constant(location),
+                font: .system(size: 12),
+                nsFont: .headline,
+                textColor: .gray.opacity(0.8),
+                backgroundColor: .clear,
+                minDuration: 4.0,
+                frameWidth: 200
+            )
+        } else {
+            Text("Empty Location")
+                .font(.system(size: 12))
+                .lineLimit(1)
+                .foregroundColor(.gray.opacity(0.8))
+        }
     }
     
     @ViewBuilder

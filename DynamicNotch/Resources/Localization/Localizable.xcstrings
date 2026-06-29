@@ -9077,6 +9077,9 @@
         }
       }
     },
+    "Monitor system resources." : {
+
+    },
     "Motion animation" : {
       "localizations" : {
         "en" : {
@@ -19210,6 +19213,9 @@
           }
         }
       }
+    },
+    "Stats" : {
+
     },
     "Stop" : {
       "localizations" : {

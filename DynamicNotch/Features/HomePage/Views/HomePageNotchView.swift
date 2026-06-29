@@ -11,6 +11,7 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
     case camera
     case localTimer
     case vpn
+    case systemStats
     
     var id: String { rawValue }
     
@@ -19,6 +20,7 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
         case .camera: return "Camera"
         case .localTimer: return "Timer"
         case .vpn: return "VPN"
+        case .systemStats: return "Stats"
         }
     }
     
@@ -27,6 +29,7 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
         case .camera: return "Quickly access the camera."
         case .localTimer: return "Set a quick timer."
         case .vpn: return "Manage VPN connections."
+        case .systemStats: return "Monitor system resources."
         }
     }
     
@@ -35,6 +38,7 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
         case .camera: return "camera.fill"
         case .localTimer: return "timer"
         case .vpn: return "network.badge.shield.half.filled"
+        case .systemStats: return "cpu"
         }
     }
     
@@ -43,6 +47,7 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
         case .camera: return .black
         case .localTimer: return .orange
         case .vpn: return .blue
+        case .systemStats: return .purple
         }
     }
 }
@@ -163,6 +168,8 @@ struct HomePageNotchView: View {
             LocalTimerSetupNotchView(localTimerViewModel: localTimerViewModel)
         case .vpn:
             VpnPageNotchView(notchViewModel: notchViewModel)
+        case .systemStats:
+            SystemStatsPageNotchView(notchViewModel: notchViewModel)
         }
     }
 }

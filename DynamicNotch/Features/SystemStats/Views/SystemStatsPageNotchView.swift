@@ -16,23 +16,10 @@ struct SystemStatsPageNotchView: View {
         VStack(spacing: 8) {
             Spacer()
             
-            HStack(spacing: 12) {
+            HStack(spacing: 8) {
                 cpuView
                 ramView
             }
-            .padding(.horizontal, 8)
-            
-//            HStack {
-//                Button(action: {
-//                    NSWorkspace.shared.launchApplication("Activity Monitor")
-//                    notchViewModel.dismissActiveContent()
-//                }) {
-//                    Text(verbatim: "Activity Monitor")
-//                        .fontWeight(.medium)
-//                        .foregroundStyle(.white)
-//                }
-//                .buttonStyle(PrimaryButtonStyle(height: 35, backgroundColor: Color.gray.opacity(0.2)))
-//            }
         }
         .padding(.horizontal, 5)
         .padding(.bottom, 3)
@@ -46,64 +33,87 @@ struct SystemStatsPageNotchView: View {
     
     @ViewBuilder
     private var cpuView: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack {
-                Image(systemName: "cpu")
-                    .font(.system(size: 13, weight: .semibold))
-                    .foregroundColor(.purple)
-                
-                Text(verbatim: "CPU")
-                    .font(.system(size: 11, weight: .bold))
-                    .foregroundStyle(.secondary)
+        Button(action: {
+            NSWorkspace.shared.launchApplication("Activity Monitor")
+            notchViewModel.dismissActiveContent()
+        }) {
+            VStack(alignment: .leading, spacing: 8) {
+                HStack {
+                    HStack(spacing: 4) {
+                        Image(systemName: "cpu")
+                            .font(.system(size: 16, weight: .semibold))
+                            .foregroundColor(.white)
+                        
+                        Text(verbatim: "CPU")
+                            .font(.system(size: 11, weight: .bold))
+                            .foregroundStyle(.secondary)
+                    }
+                    
+                    Spacer()
+                    
+                    Text(String(format: "%.1f%%", viewModel.cpuUsage))
+                        .font(.system(size: 12, weight: .semibold, design: .rounded))
+                        .monospacedDigit()
+                        .foregroundColor(.white)
+                }
+                Divider()
                 
                 Spacer()
                 
-                Text(String(format: "%.1f%%", viewModel.cpuUsage))
-                    .font(.system(size: 14, weight: .semibold, design: .rounded))
-                    .monospacedDigit()
-                    .foregroundColor(.white)
+                SleekMiniGraphView(history: viewModel.cpuHistory, color: .blue)
             }
-            
-            SleekMiniGraphView(history: viewModel.cpuHistory, color: .purple)
+            .frame(maxWidth: .infinity, maxHeight: 75)
+            .padding(.vertical, 10)
+            .padding(.horizontal, 12)
+            .background(RoundedRectangle(cornerRadius: 20).fill(Color.white.opacity(0.1)))
         }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 10)
-        .padding(.horizontal, 12)
-        .background(RoundedRectangle(cornerRadius: 16).fill(Color.white.opacity(0.1)))
+        .buttonStyle(.plain)
     }
     
     @ViewBuilder
     private var ramView: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack {
-                Image(systemName: "memorychip")
-                    .font(.system(size: 13, weight: .semibold))
-                    .foregroundColor(.blue)
-                
-                Text(verbatim: "RAM")
-                    .font(.system(size: 11, weight: .bold))
-                    .foregroundStyle(.secondary)
+        Button(action: {
+            NSWorkspace.shared.launchApplication("Activity Monitor")
+            notchViewModel.dismissActiveContent()
+        }) {
+            VStack(alignment: .leading, spacing: 8) {
+                HStack {
+                    HStack(spacing: 4) {
+                        Image(systemName: "memorychip")
+                            .font(.system(size: 16, weight: .semibold))
+                            .foregroundColor(.white)
+                        
+                        Text(verbatim: "RAM")
+                            .font(.system(size: 11, weight: .bold))
+                            .foregroundStyle(.secondary)
+                    }
+                    
+                    Spacer()
+                    
+                    VStack(alignment: .trailing, spacing: 1) {
+                        Text(String(format: "%.1f%%", viewModel.memoryUsagePercent))
+                            .font(.system(size: 10, weight: .semibold, design: .rounded))
+                            .monospacedDigit()
+                            .foregroundColor(.white)
+                        
+                        Text(String(format: "%.1f / %.1f GB", viewModel.memoryUsedGB, viewModel.memoryTotalGB))
+                            .font(.system(size: 8))
+                            .foregroundStyle(.secondary)
+                            .monospacedDigit()
+                    }
+                }
+                Divider()
                 
                 Spacer()
                 
-                Text(String(format: "%.1f%%", viewModel.memoryUsagePercent))
-                    .font(.system(size: 14, weight: .semibold, design: .rounded))
-                    .monospacedDigit()
-                    .foregroundColor(.white)
+                SleekMiniGraphView(history: viewModel.memoryHistory, color: .green)
             }
-            
-            SleekMiniGraphView(history: viewModel.memoryHistory, color: .blue)
-            
-            Text(String(format: "%.1f / %.1f GB", viewModel.memoryUsedGB, viewModel.memoryTotalGB))
-                .font(.system(size: 8))
-                .foregroundStyle(.secondary)
-                .monospacedDigit()
-                .frame(maxWidth: .infinity, alignment: .trailing)
+            .frame(maxWidth: .infinity, maxHeight: 75)
+            .padding(.vertical, 10)
+            .padding(.horizontal, 12)
+            .background(RoundedRectangle(cornerRadius: 20).fill(Color.white.opacity(0.1)))
         }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 10)
-        .padding(.horizontal, 12)
-        .background(RoundedRectangle(cornerRadius: 16).fill(Color.white.opacity(0.1)))
+        .buttonStyle(.plain)
     }
 }
 
@@ -116,7 +126,6 @@ struct SleekMiniGraphView: View {
             let points = normalizedPoints(in: geometry.size)
             
             ZStack {
-                // Gradient Fill
                 if points.count > 1 {
                     Path { path in
                         path.move(to: CGPoint(x: 0, y: geometry.size.height))
@@ -134,8 +143,6 @@ struct SleekMiniGraphView: View {
                         )
                     )
                 }
-                
-                // Line
                 if points.count > 1 {
                     Path { path in
                         path.move(to: points[0])
@@ -161,12 +168,12 @@ struct SleekMiniGraphView: View {
         guard history.count > 1 else { return [] }
         let stepX = size.width / CGFloat(history.count - 1)
         
-        let maxVal = max(history.max() ?? 0.0, 20.0) // Dynamic scale with minimum peak of 20%
+        let maxVal = max(history.max() ?? 0.0, 20.0)
         
         return history.enumerated().map { index, val in
             let x = CGFloat(index) * stepX
             let normalizedY = CGFloat(val / maxVal)
-            let y = size.height - (normalizedY * size.height * 0.8) - (size.height * 0.1) // Padding top and bottom
+            let y = size.height - (normalizedY * size.height * 0.8) - (size.height * 0.1)
             return CGPoint(x: x, y: y)
         }
     }

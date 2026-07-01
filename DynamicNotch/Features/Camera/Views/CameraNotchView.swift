@@ -69,58 +69,7 @@ struct CameraNotchView: View {
                 
                 HStack {
                     if isHovering {
-                        Button(action: {
-                            withAnimation {
-                                isNotchLocked.toggle()
-                            }
-                        }) {
-                            ZStack {
-                                Image(systemName: isNotchLocked ? "lock.fill" : "lock.open.fill")
-                                    .foregroundStyle(isNotchLocked ? Color.accentColor : .white)
-                                    .id(isNotchLocked)
-                                    .transition(.scale.animation(.spring(response: 0.3)))
-                            }
-                            .frame(width: 30, height: 30)
-                            .background(Circle().fill(isNotchLocked ? AnyShapeStyle(Color.white) : AnyShapeStyle(.ultraThinMaterial)))
-                        }
-                        
-                        Button(action: {
-                            withAnimation {
-                                isCameraLarge.toggle()
-                            }
-                            notchViewModel.send(.showLiveActivity(
-                                HomePageNotchContent(
-                                    notchViewModel: notchViewModel,
-                                    settings: settings,
-                                    homePages: .camera,
-                                    localTimerViewModel: localTimerViewModel
-                                )
-                            ))
-                        }) {
-                            ZStack {
-                                Image(systemName: isCameraLarge ? "arrow.down.right.and.arrow.up.left" : "arrow.up.left.and.arrow.down.right")
-                                    .foregroundStyle(isCameraLarge ? Color.accentColor : .white)
-                                    .id(isCameraLarge)
-                                    .transition(.scale.animation(.spring(response: 0.3)))
-                            }
-                            .frame(width: 30, height: 30)
-                            .background(Circle().fill(isCameraLarge ? AnyShapeStyle(Color.white) : AnyShapeStyle(.ultraThinMaterial)))
-                        }
-                        
-                        Button(action: {
-                            withAnimation {
-                                isCameraMirrored.toggle()
-                            }
-                        }) {
-                            ZStack {
-                                Image(systemName: "person.fill.and.arrow.left.and.arrow.right")
-                                    .foregroundStyle(isCameraMirrored ? Color.accentColor : .white)
-                                    .id(isCameraMirrored)
-                                    .transition(.scale.animation(.spring(response: 0.3)))
-                            }
-                            .frame(width: 30, height: 30)
-                            .background(Circle().fill(isCameraMirrored ? AnyShapeStyle(Color.white) : AnyShapeStyle(.ultraThinMaterial)))
-                        }
+                        cameraButton
                     }
                 }
                 .font(.system(size: 14))
@@ -129,6 +78,62 @@ struct CameraNotchView: View {
             }
             .onHover { isHovering = $0 }
             .animation(.spring(response: 0.4), value: isHovering)
+        }
+    }
+    
+    @ViewBuilder
+    private var cameraButton: some View {
+        Button(action: {
+            withAnimation {
+                isNotchLocked.toggle()
+            }
+        }) {
+            ZStack {
+                Image(systemName: isNotchLocked ? "lock.fill" : "lock.open.fill")
+                    .foregroundStyle(isNotchLocked ? Color.accentColor : .white)
+                    .id(isNotchLocked)
+                    .transition(.scale.animation(.spring(response: 0.3)))
+            }
+            .frame(width: 30, height: 30)
+            .background(Circle().fill(isNotchLocked ? AnyShapeStyle(Color.white) : AnyShapeStyle(.ultraThinMaterial)))
+        }
+        
+        Button(action: {
+            withAnimation {
+                isCameraLarge.toggle()
+            }
+            notchViewModel.send(.showLiveActivity(
+                HomePageNotchContent(
+                    notchViewModel: notchViewModel,
+                    settings: settings,
+                    homePages: .camera,
+                    localTimerViewModel: localTimerViewModel
+                )
+            ))
+        }) {
+            ZStack {
+                Image(systemName: isCameraLarge ? "arrow.down.right.and.arrow.up.left" : "arrow.up.left.and.arrow.down.right")
+                    .foregroundStyle(isCameraLarge ? Color.accentColor : .white)
+                    .id(isCameraLarge)
+                    .transition(.scale.animation(.spring(response: 0.3)))
+            }
+            .frame(width: 30, height: 30)
+            .background(Circle().fill(isCameraLarge ? AnyShapeStyle(Color.white) : AnyShapeStyle(.ultraThinMaterial)))
+        }
+        
+        Button(action: {
+            withAnimation {
+                isCameraMirrored.toggle()
+            }
+        }) {
+            ZStack {
+                Image(systemName: "person.fill.and.arrow.left.and.arrow.right")
+                    .foregroundStyle(isCameraMirrored ? Color.accentColor : .white)
+                    .id(isCameraMirrored)
+                    .transition(.scale.animation(.spring(response: 0.3)))
+            }
+            .frame(width: 30, height: 30)
+            .background(Circle().fill(isCameraMirrored ? AnyShapeStyle(Color.white) : AnyShapeStyle(.ultraThinMaterial)))
         }
     }
     

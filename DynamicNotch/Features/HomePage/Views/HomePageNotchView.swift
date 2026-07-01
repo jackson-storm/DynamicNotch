@@ -47,7 +47,7 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
         case .camera: return .black
         case .localTimer: return .orange
         case .vpn: return .blue
-        case .systemStats: return .purple
+        case .systemStats: return .green
         }
     }
 }

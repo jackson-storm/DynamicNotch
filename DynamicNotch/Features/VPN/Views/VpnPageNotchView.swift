@@ -10,6 +10,7 @@ import Combine
 internal import AppKit
 
 struct VpnPageNotchView: View {
+    @Environment(\.isDynamicIsland) private var isDynamicIsland
     @StateObject private var viewModel = VpnPageViewModel()
     @AppStorage("settings.vpn.selectedID") private var selectedVPNID: String = ""
     

@@ -101,8 +101,8 @@ struct HomePageNotchView: View {
             .scrollPosition(id: $currentPage)
         }
         .clipShape(RoundedRectangle(cornerRadius: isDynamicIsland ? 24 : 28))
-        .padding(.horizontal, isDynamicIsland ? 10 : 30)
-        .padding(.bottom, isDynamicIsland ? 10 : 7)
+        .padding(.horizontal, isDynamicIsland ? 6 : 30)
+        .padding(.bottom, isDynamicIsland ? 6 : 7)
         .contentShape(Rectangle())
         .onChange(of: initialPage) { _, newPage in
             if newPage != currentPage && activePages.contains(newPage) {

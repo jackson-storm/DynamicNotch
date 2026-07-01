@@ -13,12 +13,16 @@ struct NotchSettingsView: View {
     @ObservedObject var applicationSettings: ApplicationSettingsStore
     @ObservedObject var homePageSettings: HomePageSettingsStore
     
-    @State private var draggedPage: HomePages?
+    @State private var draggingItem: HomePages? = nil
+    @State private var dragOffset: CGFloat = 0
+    @State private var activeIndex: Int = 0
+    @State private var targetIndex: Int = 0
+    
+    private let stepHeight: CGFloat = 52.0
     
     var body: some View {
         SettingsPageScrollView {
             homePageCard
-            
             prioritiesCard
             appearanceCard
             dynamicIslandAppearanceCard
@@ -584,55 +588,103 @@ struct NotchSettingsView: View {
             
             VStack(spacing: 10) {
                 ForEach(homePageSettings.homePageOrder, id: \.self) { page in
-                    HStack(spacing: 12) {
-                        Image(systemName: "line.3.horizontal")
-                            .foregroundColor(.gray.opacity(0.5))
-                            .font(.system(size: 14))
-                            .frame(width: 16)
-                        
-                        HStack(alignment: .center, spacing: 12) {
-                            SettingsIconBadge(
-                                systemImage: page.icon,
-                                tint: page.tint,
-                                size: 30,
-                                iconSize: 14,
-                                cornerRadius: 9
-                            )
-                            
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(page.title)
-                                Text(page.subtitle)
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
-                                    .fixedSize(horizontal: false, vertical: true)
-                            }
-                            
-                            Spacer()
-                        }
-                        
-                        Spacer()
-                        
-                        Toggle("", isOn: Binding(
-                            get: { !homePageSettings.homePageDisabled.contains(page) },
-                            set: { isEnabled in
-                                if isEnabled {
-                                    homePageSettings.homePageDisabled.remove(page)
-                                } else {
-                                    homePageSettings.homePageDisabled.insert(page)
+                    let isDragging = draggingItem == page
+                    VStack(spacing: 10) {
+                        HStack(spacing: 12) {
+                            Image(systemName: "line.3.horizontal")
+                                .foregroundColor(.gray.opacity(0.5))
+                                .font(.system(size: 14))
+                                .frame(width: 16)
+                                .contentShape(Rectangle())
+                                .onHover { inside in
+                                    if inside {
+                                        NSCursor.openHand.push()
+                                    } else {
+                                        NSCursor.pop()
+                                    }
                                 }
+                                .gesture(
+                                    DragGesture(minimumDistance: 0)
+                                        .onChanged { value in
+                                            if draggingItem == nil {
+                                                draggingItem = page
+                                                if let idx = homePageSettings.homePageOrder.firstIndex(of: page) {
+                                                    activeIndex = idx
+                                                    targetIndex = idx
+                                                }
+                                                NSCursor.closedHand.push()
+                                            }
+                                            dragOffset = value.translation.height
+                                            
+                                            let offsetIndex = Int((dragOffset / stepHeight).rounded())
+                                            let newTargetIndex = max(0, min(homePageSettings.homePageOrder.count - 1, activeIndex + offsetIndex))
+                                            
+                                            if newTargetIndex != targetIndex {
+                                                withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
+                                                    targetIndex = newTargetIndex
+                                                }
+                                            }
+                                        }
+                                        .onEnded { _ in
+                                            NSCursor.pop()
+                                            withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
+                                                if targetIndex != activeIndex {
+                                                    var newOrder = homePageSettings.homePageOrder
+                                                    let element = newOrder.remove(at: activeIndex)
+                                                    newOrder.insert(element, at: targetIndex)
+                                                    homePageSettings.homePageOrder = newOrder
+                                                }
+                                                draggingItem = nil
+                                                dragOffset = 0
+                                                activeIndex = 0
+                                                targetIndex = 0
+                                            }
+                                        }
+                                )
+                            
+                            HStack(alignment: .center, spacing: 12) {
+                                SettingsIconBadge(
+                                    systemImage: page.icon,
+                                    tint: page.tint,
+                                    size: 30,
+                                    iconSize: 14,
+                                    cornerRadius: 9
+                                )
+                                
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(page.title)
+                                    Text(page.subtitle)
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                        .fixedSize(horizontal: false, vertical: true)
+                                }
+                                Spacer()
                             }
-                        ))
-                        .labelsHidden()
+                            Spacer()
+                            
+                            Toggle("", isOn: Binding(
+                                get: { !homePageSettings.homePageDisabled.contains(page) },
+                                set: { isEnabled in
+                                    if isEnabled {
+                                        homePageSettings.homePageDisabled.remove(page)
+                                    } else {
+                                        homePageSettings.homePageDisabled.insert(page)
+                                    }
+                                }
+                            ))
+                            .labelsHidden()
+                        }
+                        .contentShape(Rectangle())
+                        
+                        Divider().opacity(0.6)
                     }
-                    .contentShape(Rectangle())
-                    .opacity(draggedPage == page ? 0.01 : 1.0)
-                    .onDrag {
-                        self.draggedPage = page
-                        return NSItemProvider(object: page.rawValue as NSString)
+                    .offset(y: offset(for: page))
+                    .transaction { transaction in
+                        if isDragging {
+                            transaction.animation = nil
+                        }
                     }
-                    .onDrop(of: [.plainText], delegate: HomePageDragDelegate(item: page, items: $homePageSettings.homePageOrder, draggedItem: $draggedPage))
-                    
-                    Divider().opacity(0.6)
+                    .zIndex(isDragging ? 1 : 0)
                 }
             }
             Text(LocalizedStringKey("Drag to reorder pages. Disabled pages will be hidden."))
@@ -640,32 +692,30 @@ struct NotchSettingsView: View {
                 .foregroundColor(.gray)
         }
     }
-}
-
-struct HomePageDragDelegate: DropDelegate {
-    let item: HomePages
-    @Binding var items: [HomePages]
-    @Binding var draggedItem: HomePages?
-
-    func dropEntered(info: DropInfo) {
-        guard let draggedItem = draggedItem, draggedItem != item else { return }
+    
+    private func offset(for page: HomePages) -> CGFloat {
+        guard let draggingItem = draggingItem else {
+            return 0
+        }
         
-        let from = items.firstIndex(of: draggedItem)
-        let to = items.firstIndex(of: item)
+        if page == draggingItem {
+            return dragOffset
+        }
         
-        if let from = from, let to = to {
-            withAnimation(.default) {
-                items.move(fromOffsets: IndexSet(integer: from), toOffset: to > from ? to + 1 : to)
+        guard let itemIndex = homePageSettings.homePageOrder.firstIndex(of: page) else {
+            return 0
+        }
+        
+        if activeIndex < targetIndex {
+            if itemIndex > activeIndex && itemIndex <= targetIndex {
+                return -stepHeight
+            }
+        } else if activeIndex > targetIndex {
+            if itemIndex >= targetIndex && itemIndex < activeIndex {
+                return stepHeight
             }
         }
-    }
-
-    func performDrop(info: DropInfo) -> Bool {
-        draggedItem = nil
-        return true
-    }
-    
-    func dropUpdated(info: DropInfo) -> DropProposal? {
-        return DropProposal(operation: .move)
+        
+        return 0
     }
 }

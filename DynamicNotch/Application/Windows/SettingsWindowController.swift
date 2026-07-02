@@ -32,7 +32,7 @@ class SettingsWindowController: NSWindowController {
         guard let window = window else { return }
         
         window.title = NSLocalizedString("settings.title", comment: "")
-        window.titlebarAppearsTransparent = false
+        window.titlebarAppearsTransparent = true
         window.titleVisibility = .visible
         window.toolbarStyle = .unified
         window.level = .normal
@@ -64,7 +64,6 @@ class SettingsWindowController: NSWindowController {
             timerViewModel: appDelegate.timerViewModel,
             lockScreenManager: appDelegate.lockScreenManager
         )
-        .background(.ultraThinMaterial)
         .frame(width: SettingsWindowLayout.width, height: SettingsWindowLayout.height)
         
         let hostingView = NSHostingView(rootView: settingsView)

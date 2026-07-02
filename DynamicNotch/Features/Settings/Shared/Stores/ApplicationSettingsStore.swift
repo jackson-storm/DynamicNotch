@@ -30,6 +30,12 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         }
     }
 
+    @Published var isBlueNightMode: Bool {
+        didSet {
+            persist(isBlueNightMode, for: GeneralSettingsStorage.Keys.isBlueNightMode)
+        }
+    }
+
     @Published var notchBackgroundStyle: NotchBackgroundStyle {
         didSet {
             persist(notchBackgroundStyle.rawValue, for: GeneralSettingsStorage.Keys.notchBackgroundStyle)
@@ -337,6 +343,7 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
 
         self.isLaunchAtLoginEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.launchAtLogin)
         self.isDockIconVisible = defaults.bool(forKey: GeneralSettingsStorage.Keys.dockIcon)
+        self.isBlueNightMode = defaults.bool(forKey: GeneralSettingsStorage.Keys.isBlueNightMode)
         self.appearanceMode = SettingsAppearanceMode.resolved(
             defaults.string(forKey: GeneralSettingsStorage.Keys.appearanceMode)
         )
@@ -441,6 +448,7 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         appearanceMode = SettingsAppearanceMode.resolved(
             defaultString(for: GeneralSettingsStorage.Keys.appearanceMode)
         )
+        isBlueNightMode = defaultBool(for: GeneralSettingsStorage.Keys.isBlueNightMode)
         isMenuBarIconVisible = defaultBool(for: GeneralSettingsStorage.Keys.menuBarIcon)
         displayLocation = NotchDisplayLocation(
             rawValue: defaultString(for: GeneralSettingsStorage.Keys.displayLocation)

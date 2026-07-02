@@ -36,7 +36,7 @@ struct SettingsRootView: View {
     
     private var nsBackgroundColor: NSColor {
         if isBlueNightMode && colorScheme == .dark {
-            return NSColor(red: 0.055, green: 0.086, blue: 0.129, alpha: 1.0)
+            return NSColor(red: 0.07, green: 0.11, blue: 0.17, alpha: 1.0)
         } else if colorScheme == .dark {
             return NSColor.controlBackgroundColor
         } else {

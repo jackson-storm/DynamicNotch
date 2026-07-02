@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+internal import AppKit
 
 struct ArtworkView: View {
     @ObservedObject var nowPlayingViewModel: NowPlayingViewModel
@@ -14,6 +15,9 @@ struct ArtworkView: View {
     let height: CGFloat
     let cornerRadius: CGFloat
     let usesFlipAnimation: Bool
+
+    @State private var cachedResizedImage: NSImage?
+    @State private var lastSourceImage: NSImage?
 
     init(
         nowPlayingViewModel: NowPlayingViewModel,
@@ -29,20 +33,10 @@ struct ArtworkView: View {
         self.usesFlipAnimation = usesFlipAnimation
     }
 
-    private var artworkScale: CGFloat {
-        guard nowPlayingViewModel.snapshot != nil else { return 1 }
-        return nowPlayingViewModel.snapshot?.isPlaying == true ? 1 : 0.84
-    }
-    
-    private var artworkOpacity: Double {
-        guard nowPlayingViewModel.snapshot != nil else { return 1 }
-        return nowPlayingViewModel.snapshot?.isPlaying == true ? 1 : 0.3
-    }
-
     var body: some View {
         Group {
             if let artworkImage = nowPlayingViewModel.artworkImage {
-                Image(nsImage: artworkImage)
+                Image(nsImage: cachedResizedImage ?? artworkImage)
                     .resizable()
                     .interpolation(.high)
                     .antialiased(true)
@@ -58,12 +52,56 @@ struct ArtworkView: View {
             }
         }
         .frame(width: width, height: height)
-        .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
+        .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous), style: FillStyle(antialiased: true))
         .albumArtFlip(angle: nowPlayingViewModel.artworkFlipAngle, isEnabled: usesFlipAnimation)
         .opacity(artworkOpacity)
         .scaleEffect(artworkScale)
         .animation(.easeInOut(duration: 0.18), value: artworkOpacity)
         .animation(.spring(response: 0.24, dampingFraction: 0.82), value: artworkScale)
+        .onAppear {
+            updateCachedImage()
+        }
+        .onChange(of: nowPlayingViewModel.artworkImage) {
+            updateCachedImage()
+        }
+    }
+    
+    private var artworkScale: CGFloat {
+        guard nowPlayingViewModel.snapshot != nil else { return 1 }
+        return nowPlayingViewModel.snapshot?.isPlaying == true ? 1 : 0.84
+    }
+    
+    private var artworkOpacity: Double {
+        guard nowPlayingViewModel.snapshot != nil else { return 1 }
+        return nowPlayingViewModel.snapshot?.isPlaying == true ? 1 : 0.3
+    }
+
+    private func updateCachedImage() {
+        guard let artworkImage = nowPlayingViewModel.artworkImage else {
+            cachedResizedImage = nil
+            lastSourceImage = nil
+            return
+        }
+        guard artworkImage !== lastSourceImage else { return }
+        lastSourceImage = artworkImage
+        
+        let scale: CGFloat = NSScreen.main?.backingScaleFactor ?? 2.0
+        let targetSize = NSSize(width: width * scale, height: height * scale)
+        
+        let resized = NSImage(size: targetSize)
+        resized.lockFocus()
+        if let context = NSGraphicsContext.current {
+            context.imageInterpolation = .high
+            context.shouldAntialias = true
+        }
+        artworkImage.draw(
+            in: NSRect(origin: .zero, size: targetSize),
+            from: NSRect(origin: .zero, size: artworkImage.size),
+            operation: .sourceOver,
+            fraction: 1.0
+        )
+        resized.unlockFocus()
+        cachedResizedImage = resized
     }
 }
 

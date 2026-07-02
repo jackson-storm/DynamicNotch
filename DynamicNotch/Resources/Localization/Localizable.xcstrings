@@ -12494,6 +12494,62 @@
         }
       }
     },
+    "settings.general.blueNightMode.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apply a dark blue color scheme to the settings interface."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplicar un esquema de color azul oscuro a la interfaz de configuración."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Применить темно-синюю цветовую схему к интерфейсу настроек."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "将深蓝色配色方案应用于设置界面。"
+          }
+        }
+      }
+    },
+    "settings.general.blueNightMode.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Night Mode"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modo noche"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ночной режим"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "夜间模式"
+          }
+        }
+      }
+    },
     "settings.general.display.autoSwitch.description" : {
       "localizations" : {
         "en" : {

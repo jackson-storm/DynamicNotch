@@ -1,4 +1,5 @@
 import SwiftUI
+internal import AppKit
 
 enum SettingsWindowLayout {
     static let width: CGFloat = 760
@@ -29,12 +30,26 @@ struct SettingsRootView: View {
 
     private let aboutWebsiteURL = URL(string: "https://dynamicnotch.evgeniy-petrukovich.workers.dev/download")!
     private let viewModel: SettingsRootViewModel
+    
+    @AppStorage("settings.general.isBlueNightMode") private var isBlueNightMode = false
+    @Environment(\.colorScheme) private var colorScheme
+    
+    private var nsBackgroundColor: NSColor {
+        if isBlueNightMode && colorScheme == .dark {
+            return NSColor(red: 0.055, green: 0.086, blue: 0.129, alpha: 1.0)
+        } else if colorScheme == .dark {
+            return NSColor.controlBackgroundColor
+        } else {
+            return NSColor(red: 0.94, green: 0.94, blue: 0.95, alpha: 1.0)
+        }
+    }
+    
+    @StateObject private var permissionController = SettingsPermissionController()
     @State private var searchText = ""
     @State private var selectedSection: SettingsRootViewModel.Section
     @State private var selectionHistory: SettingsRootViewModel.SelectionHistory
     @State private var isShowingSearchSelection = false
     @State private var pendingResetSection: SettingsRootViewModel.Section?
-    @StateObject private var permissionController = SettingsPermissionController()
 
     init(
         powerService: PowerService,
@@ -108,23 +123,47 @@ struct SettingsRootView: View {
                     }
                 }
             }
+            .scrollContentBackground(isBlueNightMode && colorScheme == .dark ? .hidden : .visible)
+            .background {
+                if isBlueNightMode && colorScheme == .dark {
+                    Color(red: 0.090, green: 0.129, blue: 0.169)
+                }
+            }
             .searchable(
                 text: $searchText,
                 placement: .sidebar,
                 prompt: localized("settings.search.prompt")
             )
+            .background {
+                if isBlueNightMode && colorScheme == .dark {
+                    Color(red: 0.090, green: 0.129, blue: 0.169).ignoresSafeArea()
+                }
+            }
             .navigationSplitViewColumnWidth(min: 170, ideal: 200, max: 200)
 
         } detail: {
             NavigationStack {
-                Group {
-                    if filteredSections.isEmpty {
-                        SettingsSearchEmptyState(query: searchText)
-                    } else {
-                        detailView(for: resolvedSelection)
-                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                ZStack(alignment: .top) {
+                    Group {
+                        if filteredSections.isEmpty {
+                            SettingsSearchEmptyState(query: searchText)
+                        } else {
+                            detailView(for: resolvedSelection)
+                                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                        }
                     }
+                    
+                    Color.clear
+                        .frame(height: 52)
+                        .background(Color(nsColor: nsBackgroundColor))
+                        .overlay(alignment: .bottom) {
+                            Divider()
+                                .opacity(0.6)
+                        }
+                        .ignoresSafeArea(.container, edges: .top)
                 }
+                .scrollContentBackground(.hidden)
+                .background(Color(nsColor: nsBackgroundColor))
             }
         }
         .navigationTitle(
@@ -142,6 +181,16 @@ struct SettingsRootView: View {
         }
         .onAppear {
             applySelection(viewModel.initialSelection(), origin: .initial)
+            updateWindowStyle()
+        }
+        .onChange(of: isBlueNightMode) {
+            updateWindowStyle()
+        }
+        .onChange(of: colorScheme) {
+            updateWindowStyle()
+        }
+        .onChange(of: settingsViewModel.application.appearanceMode) {
+            updateWindowStyle()
         }
         .alert(item: $pendingResetSection) { section in
             Alert(
@@ -161,11 +210,32 @@ struct SettingsRootView: View {
         .accessibilityIdentifier("settings.root")
         .environment(\.locale, settingsViewModel.application.appLanguage.locale)
         .preferredColorScheme(settingsViewModel.application.appearanceMode.preferredColorScheme)
+        .background(Color(nsColor: nsBackgroundColor))
         .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("SelectSettingsSection"))) { notification in
             if let section = notification.object as? SettingsRootViewModel.Section {
                 applySelection(section, origin: .sidebar)
             }
         }
+    }
+
+    private func updateWindowStyle() {
+        guard let window = NSApp.windows.first(where: { $0.identifier?.rawValue == "DynamicNotchSettingsWindow" }) else {
+            return
+        }
+        
+        switch settingsViewModel.application.appearanceMode {
+        case .system:
+            window.appearance = nil
+        case .light:
+            window.appearance = NSAppearance(named: .aqua)
+        case .dark:
+            window.appearance = NSAppearance(named: .darkAqua)
+        }
+        
+        window.backgroundColor = nsBackgroundColor
+        window.isOpaque = true
+        window.titlebarAppearsTransparent = true
+        window.titleVisibility = .visible
     }
 
     private var selectionBinding: Binding<SettingsRootViewModel.Section> {

@@ -45,6 +45,7 @@ struct SettingsCard<Content: View>: View {
 
 private struct SettingsCardGroupBoxStyle: GroupBoxStyle {
     @Environment(\.colorScheme) private var colorScheme
+    @AppStorage("settings.general.isBlueNightMode") private var isBlueNightMode = false
 
     func makeBody(configuration: Configuration) -> some View {
         VStack(alignment: .leading, spacing: 4) {
@@ -55,7 +56,11 @@ private struct SettingsCardGroupBoxStyle: GroupBoxStyle {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .background(
                     RoundedRectangle(cornerRadius: 12, style: .continuous)
-                        .fill(colorScheme == .dark ? Color.gray.opacity(0.08) : .white)
+                        .fill(
+                            isBlueNightMode && colorScheme == .dark
+                            ? Color(red: 0.094, green: 0.145, blue: 0.200)
+                            : (colorScheme == .dark ? Color.gray.opacity(0.08) : .white)
+                        )
                 )
         }
         .frame(maxWidth: .infinity, alignment: .leading)

@@ -2,35 +2,13 @@ import SwiftUI
 internal import AppKit
 
 struct GeneralSettingsView: View {
+    @Environment(\.colorScheme) private var colorScheme
     @ObservedObject var applicationSettings: ApplicationSettingsStore
     @State private var availableDisplays: [NotchDisplayOption]
 
     init(applicationSettings: ApplicationSettingsStore) {
         self._applicationSettings = ObservedObject(wrappedValue: applicationSettings)
         self._availableDisplays = State(initialValue: NSScreen.availableNotchDisplays())
-    }
-    
-    private var unavailableDescriptionKey: LocalizedStringKey? {
-        guard applicationSettings.displayLocation == .specific,
-              let selectedSpecificDisplayUUID,
-              !availableDisplays.contains(where: { $0.displayUUID == selectedSpecificDisplayUUID }) else {
-            return nil
-        }
-
-        if applicationSettings.isDisplayAutoSwitchEnabled {
-            return "settings.general.display.unavailable.autoSwitchEnabled"
-        }
-
-        return "settings.general.display.unavailable.autoSwitchDisabled"
-    }
-    
-    private var selectedSpecificDisplayUUID: String? {
-        applicationSettings.preferredDisplayUUID.isEmpty ? nil : applicationSettings.preferredDisplayUUID
-    }
-    
-    private func refreshAvailableDisplays() {
-        availableDisplays = NSScreen.availableNotchDisplays()
-        applicationSettings.syncPreferredDisplayMetadata()
     }
     
     var body: some View {
@@ -116,6 +94,19 @@ struct GeneralSettingsView: View {
                 ThemeAppearancePickerContent(mode: mode, isSelected: isSelected)
             }
             .accessibilityIdentifier("settings.general.appearanceMode")
+
+            if isCurrentlyDark {
+                Divider().opacity(0.6)
+
+                SettingsToggleRow(
+                    title: "settings.general.blueNightMode.title",
+                    description: "settings.general.blueNightMode.description",
+                    systemImage: "moon.stars.fill",
+                    color: .black,
+                    isOn: $applicationSettings.isBlueNightMode,
+                    accessibilityIdentifier: "settings.general.blueNightMode"
+                )
+            }
         }
     }
 
@@ -223,6 +214,40 @@ struct GeneralSettingsView: View {
                 }
             }
         }
+    }
+    
+    private var isCurrentlyDark: Bool {
+        switch applicationSettings.appearanceMode {
+        case .dark:
+            return true
+        case .system:
+            return colorScheme == .dark
+        case .light:
+            return false
+        }
+    }
+    
+    private var unavailableDescriptionKey: LocalizedStringKey? {
+        guard applicationSettings.displayLocation == .specific,
+              let selectedSpecificDisplayUUID,
+              !availableDisplays.contains(where: { $0.displayUUID == selectedSpecificDisplayUUID }) else {
+            return nil
+        }
+
+        if applicationSettings.isDisplayAutoSwitchEnabled {
+            return "settings.general.display.unavailable.autoSwitchEnabled"
+        }
+
+        return "settings.general.display.unavailable.autoSwitchDisabled"
+    }
+    
+    private var selectedSpecificDisplayUUID: String? {
+        applicationSettings.preferredDisplayUUID.isEmpty ? nil : applicationSettings.preferredDisplayUUID
+    }
+    
+    private func refreshAvailableDisplays() {
+        availableDisplays = NSScreen.availableNotchDisplays()
+        applicationSettings.syncPreferredDisplayMetadata()
     }
 }
 

@@ -9,6 +9,7 @@ final class FocusLogStream {
     private var pipe: Pipe?
     private var buffer = Data()
     private var isRunning = false
+    private var didTerminate = false
 
     private let metadataLock = NSLock()
     private var lastIdentifier: String?
@@ -18,7 +19,7 @@ final class FocusLogStream {
 
     func start() {
         queue.async { [weak self] in
-            guard let self else { return }
+            guard let self = self else { return }
             guard !self.isRunning else { return }
 
             let process = Process()
@@ -31,7 +32,7 @@ final class FocusLogStream {
                 "--level",
                 "info",
                 "--predicate",
-                "process == \"duetexpertd\" OR process == \"donotdisturbd\""
+                "process == \"duetexpertd\" AND eventMessage CONTAINS \"semanticModeIdentifier\""
             ]
 
             let pipe = Pipe()
@@ -65,6 +66,7 @@ final class FocusLogStream {
                 self.process = process
                 self.pipe = pipe
                 self.isRunning = true
+                self.didTerminate = false
                 debugPrint("[FocusLogStream] Started unified log tail for com.apple.focus")
             } catch {
                 debugPrint("[FocusLogStream] Failed to start log stream: \(error)")
@@ -89,8 +91,8 @@ final class FocusLogStream {
         let name = lastName?.trimmingCharacters(in: .whitespacesAndNewlines)
         metadataLock.unlock()
 
-        let normalizedIdentifier = identifier?.isEmpty == false ? identifier : nil
-        let normalizedName = name?.isEmpty == false ? name : nil
+        let normalizedIdentifier = (identifier?.isEmpty == false) ? identifier : nil
+        let normalizedName = (name?.isEmpty == false) ? name : nil
 
         if normalizedIdentifier == nil && normalizedName == nil {
             return nil
@@ -132,8 +134,7 @@ final class FocusLogStream {
             return
         }
 
-        if trimmed.contains("active mode assertion: (null)") ||
-            trimmed.contains("active activity: (null)") {
+        if trimmed.contains("active mode assertion: (null)") || trimmed.contains("activeModeIdentifier: (null)") {
             clearMetadata()
             return
         }
@@ -141,8 +142,6 @@ final class FocusLogStream {
         var updatedIdentifier: String?
         var updatedName: String?
 
-        // Special-case parsing for donotdisturbd logs which include a full DNDMode description.
-        // Example: <DNDMode: ... name: Lock In; modeIdentifier: com.apple.donotdisturb.mode.graduationcap.fill; ...>
         if trimmed.contains("<DNDMode:") {
             func extractField(_ key: String) -> String? {
                 guard let r = trimmed.range(of: key) else { return nil }
@@ -163,7 +162,6 @@ final class FocusLogStream {
         if updatedName == nil, let name = FocusMetadataDecoder.extractName(from: trimmed), !name.isEmpty {
             updatedName = name
         }
-
 
         guard updatedIdentifier != nil || updatedName != nil else { return }
 
@@ -195,6 +193,8 @@ final class FocusLogStream {
     }
 
     private func handleTermination(terminateProcess: Bool = false) {
+        if didTerminate { return }
+        didTerminate = true
         if terminateProcess, let process, process.isRunning {
             process.terminate()
         }

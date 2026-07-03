@@ -15792,6 +15792,64 @@
         }
       }
     },
+    "settings.permissions.fullDiskAccess.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allow Full Disk Access to display real names and custom icons of Focus modes."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permite el acceso total al disco para mostrar nombres reales e iconos personalizados de los modos de enfoque."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Разрешите полный доступ к диску для отображения настоящих названий и кастомных иконок режимов фокусировки."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "允许完全磁盘访问权限以显示专注模式的真实名称和自定义图标。"
+          }
+        }
+      }
+    },
+    "settings.permissions.fullDiskAccess.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Full Disk Access"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acceso total al disco"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Полный доступ к диску"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完全磁盘访问权限"
+          }
+        }
+      }
+    },
     "settings.permissions.camera.description" : {
       "extractionState" : "manual",
       "localizations" : {

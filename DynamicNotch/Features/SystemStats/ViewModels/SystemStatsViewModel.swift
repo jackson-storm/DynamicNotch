@@ -30,8 +30,9 @@ final class SystemStatsViewModel: ObservableObject {
         memoryHistory = Array(repeating: memoryUsagePercent, count: 15)
         
         timer = Timer.scheduledTimer(withTimeInterval: 1.5, repeats: true) { [weak self] _ in
+            guard let self else { return }
             Task { @MainActor in
-                self?.updateStats()
+                self.updateStats()
             }
         }
     }

@@ -4,6 +4,7 @@ enum GeneralSettingsStorage {
         static let dockIcon = "isDockIconVisible"
         static let isBlueNightMode = "settings.general.isBlueNightMode"
         static let appearanceMode = "settings.general.appearance.mode"
+        static let windowStyle = "settings.general.window.style"
         static let notchBackgroundStyle = "settings.notch.backgroundStyle"
         static let dynamicIslandBackgroundStyle = "settings.dynamicIsland.backgroundStyle"
         static let notchLiquidGlassVariant = "settings.notch.liquidGlassVariant"
@@ -144,6 +145,7 @@ enum GeneralSettingsStorage {
         Keys.dockIcon: false,
         Keys.isBlueNightMode: false,
         Keys.appearanceMode: SettingsAppearanceMode.system.rawValue,
+        Keys.windowStyle: SettingsWindowStyle.regular.rawValue,
         Keys.notchBackgroundStyle: NotchBackgroundStyle.black.rawValue,
         Keys.dynamicIslandBackgroundStyle: NotchBackgroundStyle.black.rawValue,
         Keys.notchLiquidGlassVariant: 11,

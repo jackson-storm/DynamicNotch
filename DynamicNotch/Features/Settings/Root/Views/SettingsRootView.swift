@@ -123,9 +123,11 @@ struct SettingsRootView: View {
                     }
                 }
             }
-            .scrollContentBackground(isBlueNightMode && colorScheme == .dark ? .hidden : .visible)
+            .scrollContentBackground(settingsViewModel.application.windowStyle == .semiTranslucent || (isBlueNightMode && colorScheme == .dark) ? .hidden : .visible)
             .background {
-                if isBlueNightMode && colorScheme == .dark {
+                if settingsViewModel.application.windowStyle == .semiTranslucent {
+                    Color.clear
+                } else if isBlueNightMode && colorScheme == .dark {
                     Color(red: 0.090, green: 0.129, blue: 0.169)
                 }
             }
@@ -135,7 +137,9 @@ struct SettingsRootView: View {
                 prompt: localized("settings.search.prompt")
             )
             .background {
-                if isBlueNightMode && colorScheme == .dark {
+                if settingsViewModel.application.windowStyle == .semiTranslucent {
+                    Color.clear.ignoresSafeArea()
+                } else if isBlueNightMode && colorScheme == .dark {
                     Color(red: 0.090, green: 0.129, blue: 0.169).ignoresSafeArea()
                 }
             }
@@ -155,7 +159,13 @@ struct SettingsRootView: View {
                     
                     Color.clear
                         .frame(height: 52)
-                        .background(Color(nsColor: nsBackgroundColor))
+                        .background {
+                            if settingsViewModel.application.windowStyle == .semiTranslucent {
+                                Color.clear.background(.ultraThinMaterial)
+                            } else {
+                                Color(nsColor: nsBackgroundColor)
+                            }
+                        }
                         .overlay(alignment: .bottom) {
                             Divider()
                                 .opacity(0.6)
@@ -163,7 +173,13 @@ struct SettingsRootView: View {
                         .ignoresSafeArea(.container, edges: .top)
                 }
                 .scrollContentBackground(.hidden)
-                .background(Color(nsColor: nsBackgroundColor))
+                .background {
+                    if settingsViewModel.application.windowStyle == .semiTranslucent {
+                        Color.clear
+                    } else {
+                        Color(nsColor: nsBackgroundColor)
+                    }
+                }
             }
         }
         .navigationTitle(
@@ -192,6 +208,9 @@ struct SettingsRootView: View {
         .onChange(of: settingsViewModel.application.appearanceMode) {
             updateWindowStyle()
         }
+        .onChange(of: settingsViewModel.application.windowStyle) {
+            updateWindowStyle()
+        }
         .alert(item: $pendingResetSection) { section in
             Alert(
                 title: Text(
@@ -210,7 +229,17 @@ struct SettingsRootView: View {
         .accessibilityIdentifier("settings.root")
         .environment(\.locale, settingsViewModel.application.appLanguage.locale)
         .preferredColorScheme(settingsViewModel.application.appearanceMode.preferredColorScheme)
-        .background(Color(nsColor: nsBackgroundColor))
+        .background {
+            if settingsViewModel.application.windowStyle == .semiTranslucent {
+                if colorScheme == .dark {
+                    Color.clear.background(.ultraThinMaterial)
+                } else {
+                    Color.clear.background(.thickMaterial)
+                }
+            } else {
+                Color(nsColor: nsBackgroundColor)
+            }
+        }
         .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("SelectSettingsSection"))) { notification in
             if let section = notification.object as? SettingsRootViewModel.Section {
                 applySelection(section, origin: .sidebar)
@@ -232,8 +261,14 @@ struct SettingsRootView: View {
             window.appearance = NSAppearance(named: .darkAqua)
         }
         
-        window.backgroundColor = nsBackgroundColor
-        window.isOpaque = true
+        if settingsViewModel.application.windowStyle == .semiTranslucent {
+            window.backgroundColor = .clear
+            window.isOpaque = false
+        } else {
+            window.backgroundColor = nsBackgroundColor
+            window.isOpaque = true
+        }
+        
         window.titlebarAppearsTransparent = true
         window.titleVisibility = .visible
     }

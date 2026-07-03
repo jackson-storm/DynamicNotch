@@ -628,7 +628,6 @@ struct NotchSettingsView: View {
             .scrollContentBackground(.hidden)
             .scrollDisabled(true)
             .frame(height: CGFloat(homePageSettings.homePageOrder.count) * 52)
-            .clipShape(RoundedRectangle(cornerRadius: 8))
             .disabled(!homePageSettings.isHomePageLiveActivityEnabled)
             .opacity(homePageSettings.isHomePageLiveActivityEnabled ? 1.0 : 0.5)
             

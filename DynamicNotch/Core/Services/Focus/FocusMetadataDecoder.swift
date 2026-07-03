@@ -1,15 +1,16 @@
 import Foundation
 
-enum FocusNotificationParsing {
+private enum FocusNotificationParsing {
     static let identifierPattern: NSRegularExpression? = {
-        let pattern = "com\\.apple\\.(?:focus|donotdisturb)[A-Za-z0-9_.-]*"
+        let pattern = "com\\.apple\\.(?:focus|donotdisturb|sleep)[A-Za-z0-9_.-]*"
         return try? NSRegularExpression(pattern: pattern, options: [])
     }()
 
     static let identifierDetailPatterns: [NSRegularExpression] = {
         let patterns = [
             "modeIdentifier:\\s*'([^'\\s]+)'",
-            "activityIdentifier:\\s*([A-Za-z0-9._-]+)"
+            "activityIdentifier:\\s*([A-Za-z0-9._-]+)",
+            "semanticModeIdentifier:\\s*([A-Za-z0-9._-]+)"
         ]
         return patterns.compactMap { try? NSRegularExpression(pattern: $0, options: []) }
     }()
@@ -19,6 +20,7 @@ enum FocusNotificationParsing {
             "(?i)(?:focusModeName|focusMode|displayName|name)\\s*=\\s*\"([^\"]+)\"",
             "(?i)(?:focusModeName|focusMode|displayName|name)\\s*=\\s*([^;\\n]+)",
             "activityDisplayName:\\s*([^;>\\n]+)",
+            "semanticType:\\s*([A-Za-z][A-Za-z0-9 _-]+)",
             "modeIdentifier:\\s*'com\\.apple\\.focus\\.([A-Za-z0-9._-]+)'"
         ]
         return patterns.compactMap { try? NSRegularExpression(pattern: $0, options: []) }

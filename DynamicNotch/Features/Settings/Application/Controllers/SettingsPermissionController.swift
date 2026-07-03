@@ -16,6 +16,7 @@ enum Kind: String {
     case mediaControls
     case camera
     case calendar
+    case fullDiskAccess
 }
 
 struct PermissionItem: Identifiable {
@@ -42,6 +43,7 @@ final class SettingsPermissionController: NSObject, ObservableObject, CBCentralM
     @Published private(set) var canPostMediaKeyEvents: Bool
     @Published private(set) var cameraAuthorization: AVAuthorizationStatus
     @Published private(set) var calendarAuthorization: EKAuthorizationStatus
+    @Published private(set) var isFullDiskAccessGranted: Bool
 
     private var didPromptForAccessibility = false
     private var didPromptForPostEventAccess = false
@@ -62,6 +64,9 @@ final class SettingsPermissionController: NSObject, ObservableObject, CBCentralM
     private static let calendarPrivacySettingsURL = URL(
         string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Calendars"
     )
+    private static let fullDiskAccessPrivacySettingsURL = URL(
+        string: "x-apple.systempreferences:com.apple.preference.security?Privacy_AllFiles"
+    )
 
     init(notificationCenter: NotificationCenter = .default) {
         self.bluetoothAuthorization = Self.currentBluetoothAuthorizationStatus()
@@ -69,6 +74,7 @@ final class SettingsPermissionController: NSObject, ObservableObject, CBCentralM
         self.canPostMediaKeyEvents = Self.currentPostEventAccessState()
         self.cameraAuthorization = AVCaptureDevice.authorizationStatus(for: .video)
         self.calendarAuthorization = EKEventStore.authorizationStatus(for: .event)
+        self.isFullDiskAccessGranted = FullDiskAccessAuthorization.hasPermission()
 
         super.init()
 
@@ -86,6 +92,7 @@ final class SettingsPermissionController: NSObject, ObservableObject, CBCentralM
         canPostMediaKeyEvents = Self.currentPostEventAccessState()
         cameraAuthorization = AVCaptureDevice.authorizationStatus(for: .video)
         calendarAuthorization = EKEventStore.authorizationStatus(for: .event)
+        isFullDiskAccessGranted = FullDiskAccessAuthorization.hasPermission()
     }
 
     var permissionItems: [PermissionItem] {
@@ -171,6 +178,20 @@ final class SettingsPermissionController: NSObject, ObservableObject, CBCentralM
                 actionTitleKey: calendarActionTitleKey,
                 fallbackActionTitle: calendarFallbackActionTitle,
                 accessibilityIdentifier: "settings.permissions.calendar"
+            ),
+            PermissionItem(
+                kind: .fullDiskAccess,
+                titleKey: "settings.permissions.fullDiskAccess.title",
+                fallbackTitle: "Full Disk Access",
+                descriptionKey: "settings.permissions.fullDiskAccess.description",
+                fallbackDescription: "Allow Full Disk Access to display real names and custom icons of Focus modes.",
+                assetImageName: nil,
+                systemImage: "opticaldiscdrive.fill",
+                tintColor: .gray,
+                isGranted: isFullDiskAccessGranted,
+                actionTitleKey: isFullDiskAccessGranted ? nil : "settings.permissions.action.openPrivacySettings",
+                fallbackActionTitle: isFullDiskAccessGranted ? nil : "Open Privacy Settings",
+                accessibilityIdentifier: "settings.permissions.fullDiskAccess"
             )
         ]
     }
@@ -187,6 +208,8 @@ final class SettingsPermissionController: NSObject, ObservableObject, CBCentralM
             requestCameraAccess()
         case .calendar:
             requestCalendarAccess()
+        case .fullDiskAccess:
+            Self.openFullDiskAccessPrivacySettings()
         }
     }
 
@@ -392,6 +415,11 @@ final class SettingsPermissionController: NSObject, ObservableObject, CBCentralM
     private static func openCalendarPrivacySettings() {
         guard let calendarPrivacySettingsURL else { return }
         NSWorkspace.shared.open(calendarPrivacySettingsURL)
+    }
+
+    private static func openFullDiskAccessPrivacySettings() {
+        guard let fullDiskAccessPrivacySettingsURL else { return }
+        NSWorkspace.shared.open(fullDiskAccessPrivacySettingsURL)
     }
 
     private static func currentAccessibilityTrustState() -> Bool {

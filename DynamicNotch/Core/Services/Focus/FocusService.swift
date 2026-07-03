@@ -6,6 +6,9 @@ final class FocusService {
 
     private var cancellables = Set<AnyCancellable>()
     private let manager = DoNotDisturbManager.shared
+    
+    private var lastActiveState: Bool?
+    private var lastModeType: FocusModeType?
 
     func start() {
         manager.startMonitoring()
@@ -27,9 +30,17 @@ final class FocusService {
             )
 
             if isActive {
-                self.onEvent?(.FocusOn(modeType))
+                if self.lastActiveState != true || self.lastModeType != modeType {
+                    self.lastActiveState = true
+                    self.lastModeType = modeType
+                    self.onEvent?(.FocusOn(modeType))
+                }
             } else {
-                self.onEvent?(.FocusOff(modeType))
+                if self.lastActiveState == true {
+                    self.lastActiveState = false
+                    self.lastModeType = modeType
+                    self.onEvent?(.FocusOff(modeType))
+                }
             }
         }
         .store(in: &cancellables)

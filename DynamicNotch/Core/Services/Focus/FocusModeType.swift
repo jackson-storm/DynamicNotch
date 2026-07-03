@@ -144,6 +144,10 @@ extension FocusModeType {
             return FocusModeType(identifier: identifier)
         }
 
+        if let name, !name.isEmpty {
+            return .custom
+        }
+
         return .doNotDisturb
     }
 
@@ -156,7 +160,7 @@ extension FocusModeType {
     }
 }
 
-private final class FocusMetadataReader {
+internal final class FocusMetadataReader {
     private let pathToDatabase: URL = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("Library/DoNotDisturb/DB/ModeConfigurations.json")
 
     struct DNDConfigRoot: Codable {
@@ -209,6 +213,11 @@ private final class FocusMetadataReader {
         }
 
         return nil
+    }
+
+    func getDisplayName(for focus: String, identifier: String? = nil) -> String {
+        guard let mode = getModeConfig(for: focus, identifier: identifier) else { return "" }
+        return mode.name
     }
 
     func getIcon(for focus: String, identifier: String? = nil) -> String {

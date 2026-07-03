@@ -18,6 +18,8 @@ final class DoNotDisturbManager: ObservableObject {
     )
     let focusLogStream = FocusLogStream()
 
+    private var metadataClearTask: Task<Void, Never>?
+
     private init() {
         focusLogStream.onMetadataUpdate = { [weak self] identifier, name in
             self?.handleLogMetadataUpdate(identifier: identifier, name: name)
@@ -59,6 +61,8 @@ final class DoNotDisturbManager: ObservableObject {
         notificationCenter.removeObserver(self, name: .focusModeDisabled, object: nil)
 
         focusLogStream.stop()
+        metadataClearTask?.cancel()
+        metadataClearTask = nil
         isMonitoring = false
 
         DispatchQueue.main.async {
@@ -101,34 +105,74 @@ final class DoNotDisturbManager: ObservableObject {
 
             let trimmedIdentifier = identifier?.trimmingCharacters(in: .whitespacesAndNewlines)
             let trimmedName = name?.trimmingCharacters(in: .whitespacesAndNewlines)
-            let resolvedMode = FocusModeType.resolve(identifier: trimmedIdentifier, name: trimmedName)
+
+            let isGenericFocusIdentifier = (trimmedIdentifier?.lowercased() == "com.apple.focus")
+            let usableIdentifier = (trimmedIdentifier?.isEmpty == false && !isGenericFocusIdentifier) ? trimmedIdentifier : nil
+            let usableName = (trimmedName?.isEmpty == false) ? trimmedName : nil
 
             let previousIdentifier = self.currentFocusModeIdentifier
             let previousName = self.currentFocusModeName
             let previousActive = self.isDoNotDisturbActive
 
-            let finalIdentifier: String
-            if let identifier = trimmedIdentifier, !identifier.isEmpty {
-                finalIdentifier = identifier
-            } else if !previousIdentifier.isEmpty {
-                finalIdentifier = previousIdentifier
-            } else {
-                finalIdentifier = resolvedMode.rawValue
+            // When neither identifier nor name is available, only update the active
+            // state without overwriting existing mode metadata.
+            if usableIdentifier == nil && usableName == nil {
+                if let isActive = isActive, isActive != previousActive {
+                    withAnimation(.smooth(duration: 0.25)) {
+                        self.isDoNotDisturbActive = isActive
+                    }
+                    if isActive && previousIdentifier.isEmpty {
+                        self.currentFocusModeIdentifier = FocusModeType.doNotDisturb.rawValue
+                        self.currentFocusModeName = FocusModeType.doNotDisturb.displayName
+                    }
+                    debugPrint("[DoNotDisturbManager] Focus active-only update -> source: \(source) | isActive: \(isActive)")
+                }
+                return
             }
 
+            let resolvedMode = FocusModeType.resolve(identifier: usableIdentifier, name: usableName)
+            let finalIdentifier: String = usableIdentifier ?? resolvedMode.rawValue
+
+            // Compute display name
             let finalName: String
-            if let name = trimmedName, !name.isEmpty {
-                finalName = name
-            } else if !previousName.isEmpty {
-                finalName = previousName
+            if resolvedMode == .custom, !FullDiskAccessAuthorization.hasPermission() {
+                if let tn = trimmedName, !tn.isEmpty, !tn.contains(".") {
+                    finalName = tn
+                } else {
+                    finalName = "Focus"
+                }
+            } else if resolvedMode == .custom, FullDiskAccessAuthorization.hasPermission() {
+                let lookedUp = FocusMetadataReader.shared.getDisplayName(for: trimmedName ?? "", identifier: finalIdentifier)
+                if !lookedUp.isEmpty {
+                    finalName = lookedUp
+                } else if let tn = trimmedName, !tn.isEmpty, !tn.contains(".") {
+                    finalName = tn
+                } else {
+                    finalName = "Focus"
+                }
+            } else if let name = trimmedName, !name.isEmpty {
+                let lower = name.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+                switch lower {
+                case "work", "работа":
+                    finalName = "Work"
+                case "personal", "personal-time", "личное":
+                    finalName = "Personal"
+                case "reduce-interruptions", "reduce interruptions":
+                    finalName = "Reduce Interruptions"
+                case "sleep", "sleep-mode", "сон":
+                    finalName = "Sleep"
+                case "driving", "за рулем":
+                    finalName = "Driving"
+                case "default", "dnd", "do-not-disturb", "do not disturb", "donotdisturb", "не беспокоить":
+                    finalName = "Do Not Disturb"
+                default:
+                    finalName = name
+                }
             } else if !resolvedMode.displayName.isEmpty {
                 finalName = resolvedMode.displayName
-            } else if let identifier = trimmedIdentifier, !identifier.isEmpty {
-                finalName = identifier
             } else {
                 finalName = "Focus"
             }
-
 
             let identifierChanged = finalIdentifier != previousIdentifier
             let nameChanged = finalName != previousName
@@ -150,11 +194,30 @@ final class DoNotDisturbManager: ObservableObject {
                 )
             }
 
-            guard let isActive, shouldToggleActive else { return }
+            guard let isActive = isActive, shouldToggleActive else { return }
 
             withAnimation(.smooth(duration: 0.25)) {
                 self.isDoNotDisturbActive = isActive
             }
+
+            if isActive == false {
+                self.currentFocusModeIdentifier = previousIdentifier
+                self.currentFocusModeName = previousName
+                self.scheduleMetadataClear()
+            } else {
+                self.metadataClearTask?.cancel()
+                self.metadataClearTask = nil
+            }
+        }
+    }
+
+    private func scheduleMetadataClear() {
+        metadataClearTask?.cancel()
+        metadataClearTask = Task { @MainActor [weak self] in
+            try? await Task.sleep(for: .seconds(2))
+            guard let self, !self.isDoNotDisturbActive else { return }
+            self.currentFocusModeIdentifier = ""
+            self.currentFocusModeName = ""
         }
     }
 
@@ -168,9 +231,6 @@ final class DoNotDisturbManager: ObservableObject {
             let hasName = trimmedName?.isEmpty == false
 
             guard hasIdentifier || hasName else { return }
-
-            // If focus is not active, ignore background log updates so we don't overwrite the last known active mode during the turn-off animation
-            guard self.isDoNotDisturbActive else { return }
 
             self.publishMetadata(
                 identifier: trimmedIdentifier,
@@ -193,7 +253,7 @@ final class DoNotDisturbManager: ObservableObject {
                     "--last", window,
                     "--debug",
                     "--style", "compact",
-                    "--predicate", "process == \"duetexpertd\" OR process == \"donotdisturbd\""
+                    "--predicate", "process == \"duetexpertd\" AND eventMessage CONTAINS \"semanticModeIdentifier\""
                 ]
                 let pipe = Pipe()
                 task.standardOutput = pipe
@@ -206,45 +266,15 @@ final class DoNotDisturbManager: ObservableObject {
 
                 let output = String(data: outputData, encoding: .utf8) ?? ""
                 let lines = output.components(separatedBy: "\n").filter {
-                    !$0.hasPrefix("Filtering") && ($0.contains("semanticModeIdentifier") || $0.contains("<DNDMode:"))
+                    $0.contains("semanticModeIdentifier") && !$0.hasPrefix("Filtering")
                 }
 
                 guard let lastLine = lines.last(where: { !$0.isEmpty }) else { continue }
 
-                // Check for focus ended or inactive state indicators.
-                let isOffIndicator = lastLine.contains("starting: 0") ||
-                                     lastLine.contains("active mode assertion: (null)") ||
-                                     lastLine.contains("active activity: (null)") ||
-                                     lastLine.contains("activeModeIdentifier: (null)") ||
-                                     lastLine.contains("activeModeIdentifier = (null)") ||
-                                     lastLine.contains("activeModeConfiguration: (null)") ||
-                                     lastLine.contains("activeModeConfiguration = (null)") ||
-                                     lastLine.contains("mode end") ||
-                                     lastLine.contains("donated for mode end")
+                guard !lastLine.contains("starting: 0") else { return }
 
-                guard !isOffIndicator else { return }
-
-                var identifier: String?
-                var name: String?
-
-                if lastLine.contains("<DNDMode:") {
-                    func extractField(_ key: String) -> String? {
-                        guard let r = lastLine.range(of: key) else { return nil }
-                        let suffix = lastLine[r.upperBound...]
-                        guard let end = suffix.range(of: ";") else { return nil }
-                        let value = suffix[..<end.lowerBound].trimmingCharacters(in: .whitespacesAndNewlines)
-                        return value.isEmpty ? nil : value
-                    }
-                    if let v = extractField("modeIdentifier:") { identifier = v }
-                    if let v = extractField("name:") { name = v }
-                }
-
-                if identifier == nil {
-                    identifier = FocusMetadataDecoder.extractIdentifier(from: lastLine)
-                }
-                if name == nil {
-                    name = FocusMetadataDecoder.extractName(from: lastLine)
-                }
+                let identifier = FocusMetadataDecoder.extractIdentifier(from: lastLine)
+                let name = FocusMetadataDecoder.extractName(from: lastLine)
 
                 guard identifier != nil || name != nil else { return }
 
@@ -256,6 +286,347 @@ final class DoNotDisturbManager: ObservableObject {
                 )
                 return
             }
+        }
+    }
+
+    private func extractMetadata(from notification: Notification) -> (name: String?, identifier: String?) {
+        var identifier: String?
+        var name: String?
+
+        let identifierKeys = [
+            "FocusModeIdentifier",
+            "focusModeIdentifier",
+            "FocusModeUUID",
+            "focusModeUUID",
+            "UUID",
+            "uuid",
+            "identifier",
+            "Identifier"
+        ]
+
+        let nameKeys = [
+            "FocusModeName",
+            "focusModeName",
+            "FocusMode",
+            "focusMode",
+            "displayName",
+            "display_name",
+            "name",
+            "Name"
+        ]
+
+        var candidates: [Any] = []
+        if let userInfo = notification.userInfo {
+            candidates.append(userInfo)
+        }
+
+        if let object = notification.object {
+            candidates.append(object)
+        }
+
+        debugPrint("[DoNotDisturbManager] raw focus payload -> name: \(notification.name.rawValue), object: \(String(describing: notification.object)), userInfo: \(String(describing: notification.userInfo))")
+
+        for candidate in candidates {
+            if identifier == nil {
+                identifier = firstMatch(for: identifierKeys, in: candidate)
+            }
+
+            if name == nil {
+                name = firstMatch(for: nameKeys, in: candidate)
+            }
+
+            if identifier != nil && name != nil {
+                break
+            }
+        }
+
+        if identifier == nil || name == nil {
+            for candidate in candidates {
+                if let decoded = decodeFocusPayloadIfNeeded(candidate) {
+                    if identifier == nil {
+                        identifier = firstMatch(for: identifierKeys, in: decoded)
+                    }
+
+                    if name == nil {
+                        name = firstMatch(for: nameKeys, in: decoded)
+                    }
+
+                    if identifier != nil && name != nil {
+                        break
+                    }
+                }
+            }
+        }
+
+        if identifier == nil || name == nil {
+            for candidate in candidates {
+                if let object = candidate as? NSObject {
+                    if identifier == nil, let extractedIdentifier = extractIdentifier(fromFocusObject: object) {
+                        identifier = extractedIdentifier
+                    }
+
+                    if name == nil, let extractedName = extractDisplayName(fromFocusObject: object) {
+                        name = extractedName
+                    }
+
+                    if identifier != nil && name != nil {
+                        break
+                    }
+                }
+            }
+        }
+
+        if identifier == nil || name == nil {
+            var descriptionSources: [Any] = candidates
+
+            for candidate in candidates {
+                if let decoded = decodeFocusPayloadIfNeeded(candidate) {
+                    descriptionSources.append(decoded)
+                }
+            }
+
+            for candidate in descriptionSources {
+                let description = String(describing: candidate)
+
+                if identifier == nil, let inferredIdentifier = FocusMetadataDecoder.extractIdentifier(from: description) {
+                    identifier = inferredIdentifier
+                }
+
+                if name == nil, let inferredName = FocusMetadataDecoder.extractName(from: description) {
+                    name = inferredName
+                }
+
+                if identifier != nil && name != nil {
+                    break
+                }
+            }
+        }
+
+        if identifier == nil || name == nil {
+            if let logMetadata = focusLogStream.latestMetadata() {
+                if identifier == nil {
+                    identifier = logMetadata.identifier
+                }
+
+                if name == nil {
+                    name = logMetadata.name
+                }
+            }
+        }
+
+        return (name, identifier)
+    }
+
+    private func firstMatch(for keys: [String], in value: Any) -> String? {
+        if let dictionary = value as? [AnyHashable: Any] {
+            for key in keys {
+                if let candidate = dictionary[key], let string = normalizedString(from: candidate) {
+                    return string
+                }
+            }
+
+            for nestedValue in dictionary.values {
+                if let nestedMatch = firstMatch(for: keys, in: nestedValue) {
+                    return nestedMatch
+                }
+            }
+        } else if let array = value as? [Any] {
+            for element in array {
+                if let nestedMatch = firstMatch(for: keys, in: element) {
+                    return nestedMatch
+                }
+            }
+        }
+
+        return nil
+    }
+
+    private func normalizedString(from value: Any) -> String? {
+        switch value {
+        case let string as String:
+            let cleaned = FocusMetadataDecoder.cleanedString(string)
+            return cleaned.isEmpty ? nil : cleaned
+        case let number as NSNumber:
+            return FocusMetadataDecoder.cleanedString(number.stringValue)
+        case let uuid as UUID:
+            return uuid.uuidString
+        case let uuid as NSUUID:
+            return uuid.uuidString
+        case let data as Data:
+            if let decoded = decodeFocusPayload(from: data) {
+                if let nested = firstMatch(for: ["identifier", "Identifier", "uuid", "UUID"], in: decoded) {
+                    return nested
+                }
+                if let name = firstMatch(for: ["name", "Name", "displayName", "display_name"], in: decoded) {
+                    return name
+                }
+            }
+            if let string = String(data: data, encoding: .utf8) {
+                let cleaned = FocusMetadataDecoder.cleanedString(string)
+                return cleaned.isEmpty ? nil : cleaned
+            }
+            return nil
+        case let dict as [AnyHashable: Any]:
+            if let nested = firstMatch(for: ["identifier", "Identifier", "uuid", "UUID"], in: dict) {
+                return nested
+            }
+            if let name = firstMatch(for: ["name", "Name", "displayName", "display_name"], in: dict) {
+                return name
+            }
+            return nil
+        default:
+            return nil
+        }
+    }
+
+    private func decodeFocusPayloadIfNeeded(_ value: Any) -> Any? {
+        switch value {
+        case let data as Data:
+            return decodeFocusPayload(from: data)
+        case let data as NSData:
+            return decodeFocusPayload(from: data as Data)
+        default:
+            return nil
+        }
+    }
+
+    private func decodeFocusPayload(from data: Data) -> Any? {
+        guard !data.isEmpty else { return nil }
+
+        if let propertyList = try? PropertyListSerialization.propertyList(from: data, options: [], format: nil) {
+            return propertyList
+        }
+
+        if let jsonObject = try? JSONSerialization.jsonObject(with: data, options: [.fragmentsAllowed]) {
+            return jsonObject
+        }
+
+        if let string = String(data: data, encoding: .utf8) {
+            let trimmed = string.trimmingCharacters(in: .whitespacesAndNewlines)
+            return trimmed.isEmpty ? nil : trimmed
+        }
+
+        return nil
+    }
+
+    private func extractIdentifier(fromFocusObject object: NSObject) -> String? {
+        if let array = object as? [Any] {
+            for element in array {
+                if let nested = element as? NSObject, let identifier = extractIdentifier(fromFocusObject: nested) {
+                    return identifier
+                }
+            }
+            return nil
+        }
+
+        if let identifier = focusString(object, selector: "modeIdentifier") {
+            return identifier
+        }
+
+        if let identifier = focusString(object, selector: "identifier") {
+            return identifier
+        }
+
+        if let details = focusObject(object, selector: "details"), let identifier = extractIdentifier(fromFocusObject: details) {
+            return identifier
+        }
+
+        if let metadata = focusObject(object, selector: "activeModeAssertionMetadata"), let identifier = extractIdentifier(fromFocusObject: metadata) {
+            return identifier
+        }
+
+        if let configuration = focusObject(object, selector: "activeModeConfiguration"), let identifier = extractIdentifier(fromFocusObject: configuration) {
+            return identifier
+        }
+
+        if let modeConfiguration = focusObject(object, selector: "modeConfiguration"), let identifier = extractIdentifier(fromFocusObject: modeConfiguration) {
+            return identifier
+        }
+
+        if let mode = focusObject(object, selector: "mode") {
+            return extractIdentifier(fromFocusObject: mode)
+        }
+
+        if let identifiers = focusObject(object, selector: "activeModeIdentifiers") {
+            if let stringArray = identifiers as? [String] {
+                if let first = stringArray.compactMap({ FocusMetadataDecoder.cleanedString($0) }).first(where: { !$0.isEmpty }) {
+                    return first
+                }
+            } else if let array = identifiers as? NSArray {
+                for case let string as String in array {
+                    let trimmed = FocusMetadataDecoder.cleanedString(string)
+                    if !trimmed.isEmpty {
+                        return trimmed
+                    }
+                }
+            }
+        }
+
+        return nil
+    }
+
+    private func extractDisplayName(fromFocusObject object: NSObject) -> String? {
+        if let array = object as? [Any] {
+            for element in array {
+                if let nested = element as? NSObject, let name = extractDisplayName(fromFocusObject: nested) {
+                    return name
+                }
+            }
+            return nil
+        }
+
+        if let name = focusString(object, selector: "name") {
+            return name
+        }
+
+        if let name = focusString(object, selector: "displayName") {
+            return name
+        }
+
+        if let name = focusString(object, selector: "activityDisplayName") {
+            return name
+        }
+
+        if let descriptor = focusObject(object, selector: "symbolDescriptor"), let name = focusString(descriptor, selector: "name") {
+            return name
+        }
+
+        if let mode = focusObject(object, selector: "mode"), let name = extractDisplayName(fromFocusObject: mode) {
+            return name
+        }
+
+        if let details = focusObject(object, selector: "details"), let name = extractDisplayName(fromFocusObject: details) {
+            return name
+        }
+
+        if let configuration = focusObject(object, selector: "modeConfiguration"), let name = extractDisplayName(fromFocusObject: configuration) {
+            return name
+        }
+
+        return nil
+    }
+
+    private func focusObject(_ object: NSObject, selector selectorName: String) -> NSObject? {
+        let selector = NSSelectorFromString(selectorName)
+        guard object.responds(to: selector) else { return nil }
+        guard let value = object.perform(selector)?.takeUnretainedValue() else { return nil }
+        return value as? NSObject
+    }
+
+    private func focusString(_ object: NSObject, selector selectorName: String) -> String? {
+        let selector = NSSelectorFromString(selectorName)
+        guard object.responds(to: selector) else { return nil }
+        guard let value = object.perform(selector)?.takeUnretainedValue() else { return nil }
+
+        switch value {
+        case let string as String:
+            return FocusMetadataDecoder.cleanedString(string)
+        case let string as NSString:
+            return FocusMetadataDecoder.cleanedString(string as String)
+        case let number as NSNumber:
+            return FocusMetadataDecoder.cleanedString(number.stringValue)
+        default:
+            return nil
         }
     }
 }

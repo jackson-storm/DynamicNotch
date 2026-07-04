@@ -91,6 +91,17 @@ final class NotchConnectivityEventsHandler {
                     duration: settingsViewModel.temporaryActivityDuration(for: .vpn)
                 )
             )
+        case .vpnDisconnected:
+            guard settingsViewModel.isTemporaryActivityEnabled(.vpnDisconnected) else { return }
+            notchViewModel.send(
+                .showTemporaryNotification(
+                    VpnDisconnectedNotchContent(
+                        vpnViewModel: vpnViewModel,
+                        settings: settingsViewModel.connectivity
+                    ),
+                    duration: settingsViewModel.temporaryActivityDuration(for: .vpnDisconnected)
+                )
+            )
         }
     }
 }

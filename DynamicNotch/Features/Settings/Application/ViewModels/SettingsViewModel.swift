@@ -42,6 +42,7 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
         case bluetooth
         case wifi
         case vpn
+        case vpnDisconnected
         case focusOn
         case focusOff
         case notchSize
@@ -333,6 +334,11 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
         set { connectivity.isVpnTemporaryActivityEnabled = newValue }
     }
 
+    var isVpnDisconnectedTemporaryActivityEnabled: Bool {
+        get { connectivity.isVpnDisconnectedTemporaryActivityEnabled }
+        set { connectivity.isVpnDisconnectedTemporaryActivityEnabled = newValue }
+    }
+
     var isNoInternetTemporaryActivityEnabled: Bool {
         get { connectivity.isNoInternetTemporaryActivityEnabled }
         set { connectivity.isNoInternetTemporaryActivityEnabled = newValue }
@@ -393,6 +399,8 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
             return connectivity.isWifiTemporaryActivityEnabled
         case .vpn:
             return connectivity.isVpnTemporaryActivityEnabled
+        case .vpnDisconnected:
+            return connectivity.isVpnDisconnectedTemporaryActivityEnabled
         case .focusOn:
             return connectivity.isFocusOnAutoHideEnabled
         case .focusOff:
@@ -416,6 +424,8 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
             return scaledTemporaryActivityDuration(TimeInterval(connectivity.wifiTemporaryActivityDuration))
         case .vpn:
             return scaledTemporaryActivityDuration(TimeInterval(connectivity.vpnTemporaryActivityDuration))
+        case .vpnDisconnected:
+            return scaledTemporaryActivityDuration(TimeInterval(connectivity.vpnDisconnectedTemporaryActivityDuration))
         case .focusOn:
             return scaledTemporaryActivityDuration(TimeInterval(connectivity.focusOnTemporaryActivityDuration))
         case .focusOff:

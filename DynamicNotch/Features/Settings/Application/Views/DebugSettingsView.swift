@@ -339,6 +339,16 @@ struct DebugSettingsView: View {
             debugDivider
 
             DebugActionRow(
+                title: "VPN Disconnected",
+                description: "Show the VPN disconnected notification with sample tunnel data.",
+                systemImage: "network.badge.shield.half.filled",
+                color: .gray,
+                action: viewModel.triggerVPNDisconnectedPreview
+            )
+
+            debugDivider
+
+            DebugActionRow(
                 title: "Hotspot Hidden",
                 description: "Hide the hotspot live activity with the hotspot-hide event.",
                 systemImage: "personalhotspot",

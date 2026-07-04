@@ -62,6 +62,20 @@ struct VpnSettingsView: View {
                 isOn: $connectivitySettings.isVpnTemporaryActivityEnabled,
                 accessibilityIdentifier: "settings.activities.temporary.vpn"
             )
+
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+
+            SettingsToggleRow(
+                title: "VPN disconnected temporary activity",
+                description: "Show a short notification when a VPN connection becomes inactive.",
+                systemImage: "network.badge.shield.half.filled",
+                color: .blue,
+                isOn: $connectivitySettings.isVpnDisconnectedTemporaryActivityEnabled,
+                accessibilityIdentifier: "settings.activities.temporary.vpnDisconnected"
+            )
         }
     }
     
@@ -82,6 +96,25 @@ struct VpnSettingsView: View {
             )
             .disabled(!connectivitySettings.isVpnTemporaryActivityEnabled)
             .opacity(connectivitySettings.isVpnTemporaryActivityEnabled ? 1 : 0.5)
+
+            Divider()
+                .opacity(0.6)
+
+            SettingsSliderRow(
+                title: "VPN disconnected duration",
+                description: "Choose how long the VPN disconnection notification stays visible.",
+                range: temporaryActivityDurationRange,
+                step: 1,
+                fractionLength: 0,
+                suffix: "s",
+                accessibilityIdentifier: "settings.activities.temporary.vpnDisconnected.duration",
+                value: Binding(
+                    get: { Double(connectivitySettings.vpnDisconnectedTemporaryActivityDuration) },
+                    set: { connectivitySettings.vpnDisconnectedTemporaryActivityDuration = Int($0.rounded()) }
+                )
+            )
+            .disabled(!connectivitySettings.isVpnDisconnectedTemporaryActivityEnabled)
+            .opacity(connectivitySettings.isVpnDisconnectedTemporaryActivityEnabled ? 1 : 0.5)
         }
     }
     

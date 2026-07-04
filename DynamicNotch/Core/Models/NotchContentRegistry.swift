@@ -50,6 +50,7 @@ enum NotchContentRegistry {
     
     enum Vpn {
         static let vpn = NotchContentDescriptor(id: "vpn.connected")
+        static let disconnected = NotchContentDescriptor(id: "vpn.disconnected")
     }
 
     enum Media {
@@ -183,6 +184,7 @@ enum NotchContentRegistry {
         static let bluetooth = id(Bluetooth.bluetooth.id)
         static let wifi = id(Wifi.wifi.id)
         static let vpn = id(Vpn.vpn.id)
+        static let vpnDisconnected = id(Vpn.disconnected.id)
         static let noInternet = id(Wifi.noInternet.id)
         static let charging = id("charger")
         static let lowPower = id("lowPower")

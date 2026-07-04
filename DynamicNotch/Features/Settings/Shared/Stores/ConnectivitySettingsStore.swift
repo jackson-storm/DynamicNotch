@@ -120,6 +120,24 @@ final class ConnectivitySettingsStore: SettingsStoreBase {
         }
     }
 
+    @Published var isVpnDisconnectedTemporaryActivityEnabled: Bool {
+        didSet {
+            persist(isVpnDisconnectedTemporaryActivityEnabled, for: GeneralSettingsStorage.Keys.vpnDisconnectedTemporaryActivityEnabled)
+        }
+    }
+
+    @Published var vpnDisconnectedTemporaryActivityDuration: Int {
+        didSet {
+            let clampedValue = Self.clampTemporaryActivityDuration(vpnDisconnectedTemporaryActivityDuration)
+            if clampedValue != vpnDisconnectedTemporaryActivityDuration {
+                vpnDisconnectedTemporaryActivityDuration = clampedValue
+                return
+            }
+
+            persist(vpnDisconnectedTemporaryActivityDuration, for: GeneralSettingsStorage.Keys.vpnDisconnectedTemporaryActivityDuration)
+        }
+    }
+
     @Published var isNoInternetTemporaryActivityEnabled: Bool {
         didSet {
             persist(isNoInternetTemporaryActivityEnabled, for: GeneralSettingsStorage.Keys.noInternetTemporaryActivityEnabled)
@@ -212,6 +230,11 @@ final class ConnectivitySettingsStore: SettingsStoreBase {
             defaults.object(forKey: GeneralSettingsStorage.Keys.vpnTemporaryActivityDuration) as? Int ??
             Self.defaultTemporaryActivityDuration(for: GeneralSettingsStorage.Keys.vpnTemporaryActivityDuration)
         )
+        self.isVpnDisconnectedTemporaryActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.vpnDisconnectedTemporaryActivityEnabled)
+        self.vpnDisconnectedTemporaryActivityDuration = Self.clampTemporaryActivityDuration(
+            defaults.object(forKey: GeneralSettingsStorage.Keys.vpnDisconnectedTemporaryActivityDuration) as? Int ??
+            Self.defaultTemporaryActivityDuration(for: GeneralSettingsStorage.Keys.vpnDisconnectedTemporaryActivityDuration)
+        )
         self.isNoInternetTemporaryActivityEnabled = defaults.object(forKey: GeneralSettingsStorage.Keys.noInternetTemporaryActivityEnabled) as? Bool ??
         (GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.noInternetTemporaryActivityEnabled] as? Bool ?? true)
         self.isVPNDetailVisible = defaults.object(forKey: GeneralSettingsStorage.Keys.networkShowVPNDetail) as? Bool ??
@@ -262,6 +285,10 @@ final class ConnectivitySettingsStore: SettingsStoreBase {
         isVpnTemporaryActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.vpnTemporaryActivityEnabled)
         vpnTemporaryActivityDuration = Self.clampTemporaryActivityDuration(
             defaultInt(for: GeneralSettingsStorage.Keys.vpnTemporaryActivityDuration)
+        )
+        isVpnDisconnectedTemporaryActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.vpnDisconnectedTemporaryActivityEnabled)
+        vpnDisconnectedTemporaryActivityDuration = Self.clampTemporaryActivityDuration(
+            defaultInt(for: GeneralSettingsStorage.Keys.vpnDisconnectedTemporaryActivityDuration)
         )
         isVPNDetailVisible = defaultBool(for: GeneralSettingsStorage.Keys.networkShowVPNDetail)
         isVPNTimerVisible = defaultBool(for: GeneralSettingsStorage.Keys.networkShowVPNTimer)

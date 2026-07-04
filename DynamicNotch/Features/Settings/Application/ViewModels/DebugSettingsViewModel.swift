@@ -156,6 +156,11 @@ final class DebugSettingsViewModel: ObservableObject {
         notchEventCoordinator.handleVpnEvent(.vpnConnected)
     }
 
+    func triggerVPNDisconnectedPreview() {
+        applyVPNDisconnectedPreviewState()
+        notchEventCoordinator.handleVpnEvent(.vpnDisconnected)
+    }
+
     func triggerChargingPreview() {
         applyChargingPreviewState()
         notchEventCoordinator.handlePowerEvent(.charger)
@@ -1094,6 +1099,14 @@ final class DebugSettingsViewModel: ObservableObject {
         vpnViewModel.vpnConnected = true
         vpnViewModel.vpnName = "WireGuard Tunnel"
         vpnViewModel.vpnConnectedAt = .now.addingTimeInterval(-513)
+    }
+
+    private func applyVPNDisconnectedPreviewState() {
+        vpnViewModel.vpnConnected = false
+        vpnViewModel.vpnName = ""
+        vpnViewModel.vpnConnectedAt = nil
+        vpnViewModel.lastVpnName = "WireGuard Tunnel"
+        vpnViewModel.lastVpnBundleID = "com.wireguard.macos"
     }
 
     private func applyChargingPreviewState() {

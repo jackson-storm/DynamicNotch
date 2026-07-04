@@ -11,6 +11,7 @@ import SwiftUI
 
 enum VpnEvent: Equatable {
     case vpnConnected
+    case vpnDisconnected
 }
 
 @MainActor
@@ -20,6 +21,8 @@ final class VpnViewModel: ObservableObject {
     @Published var vpnConnectedAt: Date?
     @Published var vpnBundleID: String? = nil
     @Published var vpnEvent: VpnEvent? = nil
+    @Published var lastVpnName: String = ""
+    @Published var lastVpnBundleID: String? = nil
     
     private let monitor: any WifiMonitoring
     private let settings: ConnectivitySettingsStore
@@ -54,9 +57,9 @@ final class VpnViewModel: ObservableObject {
 
             let nextVPNName = vpn ? (self.monitor.currentVPNName ?? "") : ""
 
-            self.vpnName = nextVPNName
-
             if vpn {
+                self.vpnName = nextVPNName
+                self.lastVpnName = nextVPNName
                 if self.vpnConnected == false {
                     self.vpnConnectedAt = .now
                     Task.detached(priority: .userInitiated) {
@@ -71,10 +74,12 @@ final class VpnViewModel: ObservableObject {
                                 self.vpnConnectedAt = finalTime
                             }
                             self.vpnBundleID = bundleID
+                            self.lastVpnBundleID = bundleID
                         }
                     }
                 }
             } else {
+                self.vpnName = ""
                 self.vpnConnectedAt = nil
                 self.vpnBundleID = nil
             }
@@ -82,6 +87,8 @@ final class VpnViewModel: ObservableObject {
             if !self.isInitialCheck {
                 if vpn && !self.vpnConnected {
                     self.vpnEvent = .vpnConnected
+                } else if !vpn && self.vpnConnected {
+                    self.vpnEvent = .vpnDisconnected
                 }
             }
             

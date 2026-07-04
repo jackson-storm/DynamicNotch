@@ -1,15 +1,15 @@
 //
-//  VpnConnectView.swift
+//  VpnDisconnectedNotchContent.swift
 //  DynamicNotch
 //
-//  Created by Евгений Петрукович on 2/21/26.
+//  Created by Antigravity on 7/4/26.
 //
 
 import SwiftUI
 
-struct VpnConnectedNotchContent : NotchContentProtocol, DynamicIslandCustomizable {
-    let id = NotchContentRegistry.Vpn.vpn.id
-    var priority: Int { NotchContentRegistry.Vpn.vpn.priority }
+struct VpnDisconnectedNotchContent : NotchContentProtocol, DynamicIslandCustomizable {
+    let id = NotchContentRegistry.Vpn.disconnected.id
+    var priority: Int { NotchContentRegistry.Vpn.disconnected.priority }
     
     let vpnViewModel: VpnViewModel
     let settings: ConnectivitySettingsStore
@@ -38,7 +38,7 @@ struct VpnConnectedNotchContent : NotchContentProtocol, DynamicIslandCustomizabl
     @MainActor
     func makeView() -> AnyView {
         AnyView(
-            VpnConnectedNotchView(
+            VpnDisconnectedNotchView(
                 vpnViewModel: vpnViewModel,
                 settings: settings
             )

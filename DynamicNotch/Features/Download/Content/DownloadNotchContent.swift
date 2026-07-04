@@ -22,24 +22,12 @@ struct DownloadNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
         .accentColor.opacity(0.30)
     }
     
-    private var appearanceStyle: DownloadAppearanceStyle {
-        settingsViewModel.mediaAndFiles.downloadsAppearanceStyle
-    }
-
     private var indicatorStyle: DownloadProgressIndicatorStyle {
         settingsViewModel.mediaAndFiles.downloadsProgressIndicatorStyle
     }
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        let width: CGFloat
-
-        switch appearanceStyle {
-        case .minimal:
-            width = indicatorStyle == .circle ? 70 : 90
-        case .detailed:
-            width = 180
-        }
-
+        let width: CGFloat = indicatorStyle == .circle ? 70 : 90
         return .init(width: baseWidth + width, height: baseHeight)
     }
     
@@ -60,15 +48,7 @@ struct DownloadNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     }
     
     func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        let width: CGFloat
-
-        switch appearanceStyle {
-        case .minimal:
-            width = indicatorStyle == .circle ? 50 : 70
-        case .detailed:
-            width = 150
-        }
-
+        let width: CGFloat = indicatorStyle == .circle ? 50 : 70
         return .init(width: baseWidth + width, height: baseHeight)
     }
     

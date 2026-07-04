@@ -20,11 +20,11 @@ struct WifiConnectedNotchView: View {
             Spacer()
             
             Text(verbatim: "Active")
-                .foregroundStyle(.white.opacity(0.8))
+                .foregroundStyle(.white)
         }
         .font(.system(size: 14))
-        .padding(.horizontal, isDynamicIsland ? 8.scaled(by: scale) : 16.scaled(by: scale))
-        .padding(.vertical, isDynamicIsland ? 0 : 10)
+        .padding(.horizontal, isDynamicIsland ? 6.scaled(by: scale) : 14.scaled(by: scale))
+        .padding(.vertical, 10)
     }
 }
 

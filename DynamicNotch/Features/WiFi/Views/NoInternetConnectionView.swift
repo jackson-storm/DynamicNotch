@@ -48,7 +48,7 @@ struct NoInternetConnectionView: View {
                 .lineLimit(1)
 
             Text(verbatim: "Connect to Wi-Fi, Ethernet, or Personal Hotspot to continue.")
-                .foregroundColor(.white.opacity(0.56))
+                .foregroundColor(.white.opacity(0.55))
                 .font(.system(size: 11, weight: .medium))
                 .lineLimit(2)
         }

@@ -4,6 +4,7 @@ enum GeneralSettingsStorage {
         static let dockIcon = "isDockIconVisible"
         static let isBlueNightMode = "settings.general.isBlueNightMode"
         static let appearanceMode = "settings.general.appearance.mode"
+        static let windowStyle = "settings.general.window.style"
         static let notchBackgroundStyle = "settings.notch.backgroundStyle"
         static let dynamicIslandBackgroundStyle = "settings.dynamicIsland.backgroundStyle"
         static let notchLiquidGlassVariant = "settings.notch.liquidGlassVariant"
@@ -67,7 +68,6 @@ enum GeneralSettingsStorage {
         static let nowPlayingSourceFilter = "settings.nowPlaying.sourceFilter"
         static let downloadsLiveActivityEnabled = "settings.live.downloads"
         static let downloadsDefaultStrokeEnabled = "settings.live.downloads.defaultStroke"
-        static let downloadsAppearanceStyle = "settings.live.downloads.appearanceStyle"
         static let downloadsProgressIndicatorStyle = "settings.live.downloads.progressIndicatorStyle"
         static let airDropLiveActivityEnabled = "settings.live.airDrop"
         static let airDropDefaultStrokeEnabled = "settings.live.airDrop.defaultStroke"
@@ -111,6 +111,8 @@ enum GeneralSettingsStorage {
         static let wifiTemporaryActivityDuration = "settings.temporary.wifi.duration"
         static let vpnTemporaryActivityEnabled = "settings.temporary.vpn"
         static let vpnTemporaryActivityDuration = "settings.temporary.vpn.duration"
+        static let vpnDisconnectedTemporaryActivityEnabled = "settings.temporary.vpnDisconnected"
+        static let vpnDisconnectedTemporaryActivityDuration = "settings.temporary.vpnDisconnected.duration"
         static let noInternetTemporaryActivityEnabled = "settings.temporary.noInternet"
         static let hotspotAppearanceStyle = "settings.network.hotspotAppearanceStyle"
         static let networkShowVPNDetail = "settings.network.showVPNDetail"
@@ -144,6 +146,7 @@ enum GeneralSettingsStorage {
         Keys.dockIcon: false,
         Keys.isBlueNightMode: false,
         Keys.appearanceMode: SettingsAppearanceMode.system.rawValue,
+        Keys.windowStyle: SettingsWindowStyle.regular.rawValue,
         Keys.notchBackgroundStyle: NotchBackgroundStyle.black.rawValue,
         Keys.dynamicIslandBackgroundStyle: NotchBackgroundStyle.black.rawValue,
         Keys.notchLiquidGlassVariant: 11,
@@ -207,7 +210,6 @@ enum GeneralSettingsStorage {
         Keys.nowPlayingSourceFilter: NowPlayingSourceFilter.any.rawValue,
         Keys.downloadsLiveActivityEnabled: true,
         Keys.downloadsDefaultStrokeEnabled: false,
-        Keys.downloadsAppearanceStyle: DownloadAppearanceStyle.minimal.rawValue,
         Keys.downloadsProgressIndicatorStyle: DownloadProgressIndicatorStyle.percent.rawValue,
         Keys.airDropLiveActivityEnabled: true,
         Keys.airDropDefaultStrokeEnabled: false,
@@ -264,6 +266,8 @@ enum GeneralSettingsStorage {
         Keys.wifiTemporaryActivityDuration: 3,
         Keys.vpnTemporaryActivityEnabled: true,
         Keys.vpnTemporaryActivityDuration: 5,
+        Keys.vpnDisconnectedTemporaryActivityEnabled: true,
+        Keys.vpnDisconnectedTemporaryActivityDuration: 5,
         Keys.noInternetTemporaryActivityEnabled: true,
         Keys.hotspotAppearanceStyle: HotspotAppearanceStyle.minimal.rawValue,
         Keys.networkShowVPNDetail: false,

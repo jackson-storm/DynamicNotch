@@ -1,40 +1,32 @@
 //
-//  VpnConnectedNotchView.swift
+//  VpnDisconnectedNotchView.swift
 //  DynamicNotch
 //
-//  Created by Евгений Петрукович on 4/14/26.
+//  Created by Antigravity on 7/4/26.
 //
 
 import SwiftUI
 import Combine
 internal import AppKit
 
-struct VpnConnectedNotchView: View {
+struct VpnDisconnectedNotchView: View {
     @Environment(\.notchScale) private var scale
     @Environment(\.isDynamicIsland) private var isDynamicIsland
     @ObservedObject var vpnViewModel: VpnViewModel
     @ObservedObject var settings: ConnectivitySettingsStore
     
-    @State private var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    @State private var timeString: String = "00:00"
-    
     private var resolvedVPNName: String {
-        let trimmedText = vpnViewModel.vpnName.trimmingCharacters(in: .whitespacesAndNewlines)
+        let name = vpnViewModel.vpnName.isEmpty ? vpnViewModel.lastVpnName : vpnViewModel.vpnName
+        let trimmedText = name.trimmingCharacters(in: .whitespacesAndNewlines)
         return trimmedText.isEmpty ? "Secure Tunnel" : trimmedText
+    }
+    
+    private var resolvedBundleID: String? {
+        vpnViewModel.vpnBundleID ?? vpnViewModel.lastVpnBundleID
     }
     
     private var isShowingDetail: Bool {
         settings.isVPNDetailVisible
-    }
-    
-    private func updateTimer() {
-        guard let startDate = vpnViewModel.vpnConnectedAt else {
-            timeString = "00:00"
-            return
-        }
-        
-        let elapsed = Date().timeIntervalSince(startDate)
-        timeString = elapsed.formattedDuration
     }
     
     var body: some View {
@@ -51,7 +43,7 @@ struct VpnConnectedNotchView: View {
     @ViewBuilder
     private var compactView: some View {
         HStack {
-            if let bundleID = vpnViewModel.vpnBundleID, let nsImage = getAppIcon(for: bundleID) {
+            if let bundleID = resolvedBundleID, let nsImage = getAppIcon(for: bundleID) {
                 Image(nsImage: nsImage)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
@@ -65,8 +57,8 @@ struct VpnConnectedNotchView: View {
             }
             Spacer()
             
-            Text(verbatim: "Active")
-                .foregroundStyle(.white)
+            Text(verbatim: "Inactive")
+                .foregroundStyle(.red)
         }
         .padding(.leading, isDynamicIsland ? 6.scaled(by: scale) : 11.scaled(by: scale))
         .padding(.trailing, isDynamicIsland ? 6.scaled(by: scale) : 14.scaled(by: scale))
@@ -79,8 +71,8 @@ struct VpnConnectedNotchView: View {
             Spacer()
             
             HStack {
-                HStack(spacing: 16) {
-                    if let bundleID = vpnViewModel.vpnBundleID, let nsImage = getAppIcon(for: bundleID) {
+                HStack(spacing: 12) {
+                    if let bundleID = resolvedBundleID, let nsImage = getAppIcon(for: bundleID) {
                         Image(nsImage: nsImage)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
@@ -96,10 +88,10 @@ struct VpnConnectedNotchView: View {
                     }
                     
                     VStack(alignment: .leading, spacing: 3) {
-                        Text(verbatim: "Connected")
+                        Text(verbatim: "Disconnected")
                             .lineLimit(1)
                             .font(.system(size: 13))
-                            .foregroundStyle(.white.opacity(0.4))
+                            .foregroundStyle(.red)
                             .fixedSize(horizontal: true, vertical: false)
                         
                         MarqueeText(
@@ -115,18 +107,11 @@ struct VpnConnectedNotchView: View {
                 }
                 Spacer()
                 
-                Text(timeString)
+                Text("--:--")
                     .padding(.bottom, isDynamicIsland ? 8 : 6)
                     .font(.system(size: 26, weight: .semibold, design: .rounded))
                     .monospacedDigit()
-                    .foregroundStyle(Color.orange)
-                    .contentTransition(.numericText())
-                    .onReceive(timer) { _ in
-                        updateTimer()
-                    }
-                    .onAppear {
-                        updateTimer()
-                    }
+                    .foregroundStyle(Color.gray)
             }
         }
         .padding(.horizontal, isDynamicIsland ? 20 : 36)
@@ -140,4 +125,3 @@ struct VpnConnectedNotchView: View {
         return NSWorkspace.shared.icon(forFile: appURL.path)
     }
 }
-

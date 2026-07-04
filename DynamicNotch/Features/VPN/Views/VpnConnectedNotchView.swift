@@ -66,11 +66,11 @@ struct VpnConnectedNotchView: View {
             Spacer()
             
             Text(verbatim: "Active")
-                .foregroundStyle(.white.opacity(0.8))
+                .foregroundStyle(.white)
         }
         .padding(.leading, isDynamicIsland ? 6.scaled(by: scale) : 11.scaled(by: scale))
-        .padding(.trailing, isDynamicIsland ? 8.scaled(by: scale) : 16.scaled(by: scale))
-        .padding(.vertical, isDynamicIsland ? 0 : 10)
+        .padding(.trailing, isDynamicIsland ? 6.scaled(by: scale) : 14.scaled(by: scale))
+        .padding(.vertical, 10)
     }
     
     @ViewBuilder

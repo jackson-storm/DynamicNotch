@@ -68,7 +68,6 @@ enum GeneralSettingsStorage {
         static let nowPlayingSourceFilter = "settings.nowPlaying.sourceFilter"
         static let downloadsLiveActivityEnabled = "settings.live.downloads"
         static let downloadsDefaultStrokeEnabled = "settings.live.downloads.defaultStroke"
-        static let downloadsAppearanceStyle = "settings.live.downloads.appearanceStyle"
         static let downloadsProgressIndicatorStyle = "settings.live.downloads.progressIndicatorStyle"
         static let airDropLiveActivityEnabled = "settings.live.airDrop"
         static let airDropDefaultStrokeEnabled = "settings.live.airDrop.defaultStroke"
@@ -211,7 +210,6 @@ enum GeneralSettingsStorage {
         Keys.nowPlayingSourceFilter: NowPlayingSourceFilter.any.rawValue,
         Keys.downloadsLiveActivityEnabled: true,
         Keys.downloadsDefaultStrokeEnabled: false,
-        Keys.downloadsAppearanceStyle: DownloadAppearanceStyle.minimal.rawValue,
         Keys.downloadsProgressIndicatorStyle: DownloadProgressIndicatorStyle.percent.rawValue,
         Keys.airDropLiveActivityEnabled: true,
         Keys.airDropDefaultStrokeEnabled: false,

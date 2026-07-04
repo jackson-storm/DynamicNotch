@@ -2986,6 +2986,7 @@
       }
     },
     "Choose how much information the download activity shows at a glance." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -5538,6 +5539,7 @@
 
     },
     "Download style" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -7834,6 +7836,7 @@
       }
     },
     "Inactive" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

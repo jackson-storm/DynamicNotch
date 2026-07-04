@@ -51,13 +51,12 @@ struct LowPowerNotchView: View {
     private var title: some View {
         HStack {
             Text(verbatim: "Battery Low")
-                .font(.system(size: 13))
-                .foregroundColor(.white.opacity(0.8))
-                .fontWeight(.semibold)
+                .font(.system(size: 14, weight: .semibold))
+                .foregroundColor(.white)
                 .lineLimit(1)
 
             Text("\(powerService.batteryLevel)%")
-                .font(.system(size: 12))
+                .font(.system(size: 13))
                 .fontWeight(.semibold)
                 .foregroundStyle(batteryColor)
         }
@@ -68,15 +67,15 @@ struct LowPowerNotchView: View {
         if powerService.isLowPowerMode {
             Text(verbatim: "Low Power Mode enabled")
                 .foregroundColor(.yellow)
-                .font(.system(size: 10, weight: .medium))
+                .font(.system(size: 11, weight: .medium))
 
             + Text(verbatim: ", it is recommended to charge it.")
-                .foregroundColor(.gray.opacity(0.6))
-                .font(.system(size: 10, weight: .medium))
+                .foregroundColor(.gray.opacity(0.55))
+                .font(.system(size: 11, weight: .medium))
         } else {
             Text(verbatim: "Turn on Low Power Mode or it \nis recommended to charge it.")
-                .font(.system(size: 10, weight: .medium))
-                .foregroundStyle(.gray.opacity(0.6))
+                .font(.system(size: 11, weight: .medium))
+                .foregroundStyle(.gray.opacity(0.55))
                 .lineLimit(2)
         }
     }

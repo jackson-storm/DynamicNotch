@@ -57,12 +57,12 @@ struct VpnDisconnectedNotchView: View {
             }
             Spacer()
             
-            Text("Inactive")
-                .foregroundStyle(.white.opacity(0.6))
+            Text(verbatim: "Inactive")
+                .foregroundStyle(.red)
         }
         .padding(.leading, isDynamicIsland ? 6.scaled(by: scale) : 11.scaled(by: scale))
-        .padding(.trailing, isDynamicIsland ? 8.scaled(by: scale) : 16.scaled(by: scale))
-        .padding(.vertical, isDynamicIsland ? 0 : 10)
+        .padding(.trailing, isDynamicIsland ? 6.scaled(by: scale) : 14.scaled(by: scale))
+        .padding(.vertical, 10)
     }
     
     @ViewBuilder
@@ -91,7 +91,7 @@ struct VpnDisconnectedNotchView: View {
                         Text(verbatim: "Disconnected")
                             .lineLimit(1)
                             .font(.system(size: 13))
-                            .foregroundStyle(.red.opacity(0.9))
+                            .foregroundStyle(.red)
                             .fixedSize(horizontal: true, vertical: false)
                         
                         MarqueeText(

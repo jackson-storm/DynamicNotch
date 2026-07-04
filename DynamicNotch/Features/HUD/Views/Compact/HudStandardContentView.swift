@@ -14,9 +14,9 @@ struct HudStandardContentView: View {
         HStack(spacing: 12) {
             Text(verbatim: kind.title)
                 .font(.system(size: 14))
-                .foregroundColor(.white.opacity(0.8))
+                .foregroundColor(.white)
             
-            Spacer(minLength: 12)
+            Spacer()
             
             indicatorView
         }

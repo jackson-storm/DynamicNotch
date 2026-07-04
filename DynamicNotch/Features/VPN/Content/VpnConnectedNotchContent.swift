@@ -23,7 +23,7 @@ struct VpnConnectedNotchContent : NotchContentProtocol, DynamicIslandCustomizabl
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         .init(
-            width: settings.isVPNDetailVisible ? baseWidth + 155 : baseWidth + 110,
+            width: settings.isVPNDetailVisible ? baseWidth + 155 : baseWidth + 115,
             height: settings.isVPNDetailVisible ? 95 : baseHeight
         )
     }

@@ -12,7 +12,7 @@ struct BatteryCompactStatusView: View {
         HStack {
             Text(verbatim: title)
                 .font(.system(size: 14))
-                .foregroundColor(.white.opacity(0.8))
+                .foregroundColor(.white)
 
             Spacer()
 

@@ -84,12 +84,6 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         }
     }
 
-    @Published var downloadsAppearanceStyle: DownloadAppearanceStyle {
-        didSet {
-            persist(downloadsAppearanceStyle.rawValue, for: GeneralSettingsStorage.Keys.downloadsAppearanceStyle)
-        }
-    }
-
     @Published var downloadsProgressIndicatorStyle: DownloadProgressIndicatorStyle {
         didSet {
             persist(
@@ -273,9 +267,6 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
             (GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.downloadsLiveActivityEnabled] as? Bool ?? true)
         )
         self.isDownloadsDefaultStrokeEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.downloadsDefaultStrokeEnabled)
-        self.downloadsAppearanceStyle = DownloadAppearanceStyle.resolved(
-            defaults.string(forKey: GeneralSettingsStorage.Keys.downloadsAppearanceStyle)
-        )
         self.downloadsProgressIndicatorStyle = DownloadProgressIndicatorStyle.resolved(
             defaults.string(forKey: GeneralSettingsStorage.Keys.downloadsProgressIndicatorStyle)
         )
@@ -365,9 +356,6 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
     func resetDownloads() {
         isDownloadsLiveActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.downloadsLiveActivityEnabled)
         isDownloadsDefaultStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.downloadsDefaultStrokeEnabled)
-        downloadsAppearanceStyle = DownloadAppearanceStyle.resolved(
-            defaultString(for: GeneralSettingsStorage.Keys.downloadsAppearanceStyle)
-        )
         downloadsProgressIndicatorStyle = DownloadProgressIndicatorStyle.resolved(
             defaultString(for: GeneralSettingsStorage.Keys.downloadsProgressIndicatorStyle)
         )

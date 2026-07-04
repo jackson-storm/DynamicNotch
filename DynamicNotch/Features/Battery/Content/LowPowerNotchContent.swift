@@ -21,7 +21,7 @@ struct LowPowerNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
         if style == .compact {
             return .init(width: baseWidth + 180, height: baseHeight)
         }
-        return .init(width: baseWidth + 100, height: baseHeight + 75)
+        return .init(width: baseWidth + 120, height: baseHeight + 75)
     }
 
     func cornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
@@ -35,7 +35,7 @@ struct LowPowerNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
         if style == .compact {
             return .init(width: baseWidth + 150, height: baseHeight)
         }
-        return .init(width: baseWidth + 150, height: baseHeight + 65)
+        return .init(width: baseWidth + 170, height: baseHeight + 65)
     }
 
     @MainActor

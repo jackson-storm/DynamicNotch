@@ -18,14 +18,14 @@ struct LockScreenNotchView: View {
         HStack {
             Image(systemName: lockScreenManager.isShowingLockPresentation ? "lock.fill" : "lock.open.fill")
                 .font(.system(size: isDynamicIsland ? 14 : 16, weight: .semibold))
-                .foregroundStyle(.white.opacity(0.8))
+                .foregroundStyle(.white)
             
             Spacer()
 
             if style == .enlarged {
                 Text(verbatim: lockScreenManager.isShowingLockPresentation ? "Locked" : "Unlocked")
                     .font(.system(size: 14))
-                    .foregroundColor(.white.opacity(0.8))
+                    .foregroundColor(.white)
             }
         }
         .padding(.horizontal, isDynamicIsland ? 8.scaled(by: scale) : 14.scaled(by: scale))

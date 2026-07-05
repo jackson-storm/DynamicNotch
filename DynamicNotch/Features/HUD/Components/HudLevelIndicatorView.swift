@@ -92,22 +92,13 @@ struct HudLevelIndicatorView: View {
     }
 
     private var circleIndicator: some View {
-        ZStack {
-            Circle()
-                .fill(Color.white.opacity(0.04))
-
-            Circle()
-                .stroke(Color.white.opacity(0.16), lineWidth: circleLineWidth)
-
-            Circle()
-                .trim(from: 0, to: progress)
-                .stroke(
-                    circleFill,
-                    style: StrokeStyle(lineWidth: circleLineWidth, lineCap: .round)
-                )
-                .rotationEffect(.degrees(-90))
-                .shadow(color: glowColor, radius: glowRadius)
-        }
-        .frame(width: circleSize, height: circleSize)
+        CircleIndicatorView(
+            progress: progress,
+            size: circleSize,
+            lineWidth: circleLineWidth,
+            foregroundStyle: circleFill,
+            glowColor: glowColor,
+            glowRadius: glowRadius
+        )
     }
 }

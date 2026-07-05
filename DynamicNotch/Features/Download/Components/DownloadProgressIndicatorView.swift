@@ -29,30 +29,21 @@ struct DownloadProgressIndicatorView: View {
                     .foregroundStyle(Color.accentColor.gradient)
 
             case .circle:
-                ZStack {
-                    Circle()
-                        .stroke(Color.accentColor.opacity(0.3), lineWidth: circleLineWidth)
-                    
-                    Circle()
-                        .trim(from: 0, to: clampedProgress)
-                        .stroke(
-                            AngularGradient(
-                                colors: [
-                                    .accentColor.opacity(0.3),
-                                    .accentColor.opacity(0.9),
-                                    .accentColor
-                                ],
-                                center: .center
-                            ),
-                            style: StrokeStyle(
-                                lineWidth: circleLineWidth,
-                                lineCap: .round,
-                                lineJoin: .round
-                            )
-                        )
-                        .rotationEffect(.degrees(-90))
-                }
-                .frame(width: circleSize, height: circleSize)
+                CircleIndicatorView(
+                    progress: clampedProgress,
+                    size: circleSize,
+                    lineWidth: circleLineWidth,
+                    trackStrokeColor: Color.accentColor.opacity(0.3),
+                    fillBackground: .clear,
+                    foregroundStyle: AngularGradient(
+                        colors: [
+                            .accentColor.opacity(0.3),
+                            .accentColor.opacity(0.9),
+                            .accentColor
+                        ],
+                        center: .center
+                    )
+                )
             }
         }
         .animation(.easeInOut(duration: 0.3), value: clampedProgress)

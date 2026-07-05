@@ -9,6 +9,8 @@ struct NotchBackgroundSurface: View {
     let strokeColor: Color
     let strokeWidth: CGFloat
     let liquidGlassVariant: Int
+    var height: CGFloat? = nil
+    var baseHeight: CGFloat? = nil
     
     var body: some View {
         if isDynamicIsland {
@@ -40,9 +42,30 @@ struct NotchBackgroundSurface: View {
         case .liquidGlass:
             LiquidGlassBackground(
                 variant: LiquidGlassVariant.clamped(liquidGlassVariant),
-                cornerRadius: isDynamicIsland ? dynamicIslandCornerRadius : bottomCornerRadius
+                cornerRadius: isDynamicIsland ? dynamicIslandCornerRadius : 0
             ) {
-                Color.clear
+                if let height, let baseHeight, height > baseHeight {
+                    LinearGradient(
+                        stops: [
+                            .init(color: .black, location: 0.0),
+                            .init(color: .black, location: 0.5),
+                            .init(color: .clear, location: 1.0)
+                        ],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                } else {
+                    LinearGradient(
+                        stops: [
+                            .init(color: .clear, location: 0.0),
+                            .init(color: .black, location: 0.15),
+                            .init(color: .black, location: 0.85),
+                            .init(color: .clear, location: 1.0)
+                        ],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    )
+                }
             }
             .clipShape(shape)
         }

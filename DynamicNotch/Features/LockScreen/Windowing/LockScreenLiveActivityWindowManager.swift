@@ -410,7 +410,9 @@ private struct LockScreenLiveActivityOverlayView: View {
             dynamicIslandCornerRadius: notchViewModel.dynamicIslandCornerRadius,
             strokeColor: shouldShowStroke ? visibleStrokeColor : .clear,
             strokeWidth: isDynamicIsland ? settingsViewModel.application.dynamicIslandStrokeWidth : settingsViewModel.notchStrokeWidth,
-            liquidGlassVariant: 9
+            liquidGlassVariant: 9,
+            height: notchViewModel.interactiveNotchSize.height,
+            baseHeight: notchViewModel.notchModel.baseHeight
         )
     }
     

@@ -183,11 +183,12 @@ public struct LiquidGlassBackground<Content: View>: NSViewRepresentable {
             hosting.translatesAutoresizingMaskIntoConstraints = false
             glass.setValue(hosting, forKey: "contentView")
 
+            let topConstant: CGFloat = (cornerRadius == 0) ? -10 : 0
             container.addSubview(glass)
             NSLayoutConstraint.activate([
                 glass.leadingAnchor.constraint(equalTo: container.leadingAnchor),
                 glass.trailingAnchor.constraint(equalTo: container.trailingAnchor),
-                glass.topAnchor.constraint(equalTo: container.topAnchor),
+                glass.topAnchor.constraint(equalTo: container.topAnchor, constant: topConstant),
                 glass.bottomAnchor.constraint(equalTo: container.bottomAnchor)
             ])
 

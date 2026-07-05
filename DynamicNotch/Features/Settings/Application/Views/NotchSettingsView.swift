@@ -496,10 +496,21 @@ struct NotchSettingsView: View {
         case .liquidGlass:
             LiquidGlassBackground(
                 variant: LiquidGlassVariant.clamped(9),
-                cornerRadius: isDynamicIsland ? 15 : 6
+                cornerRadius: isDynamicIsland ? 15 : 0
             ) {
-                Color.clear
+                LinearGradient(
+                    stops: [
+                        .init(color: .clear, location: 0.0),
+                        .init(color: .black, location: 0.15),
+                        .init(color: .black, location: 0.85),
+                        .init(color: .clear, location: 1.0)
+                    ],
+                    startPoint: .leading,
+                    endPoint: .trailing
+                )
             }
+            .padding(.top, isDynamicIsland ? 0 : 10)
+            .offset(y: isDynamicIsland ? 0 : -10)
             .clipShape(shape)
             .overlay {
                 shape

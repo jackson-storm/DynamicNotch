@@ -148,9 +148,8 @@ private extension NotchView {
     }
     
     var visibleStrokeColor: Color {
-        let isDynamicIsland = notchViewModel.topInset == 0
-        let strokeOpacity = isDynamicIsland ? settingsViewModel.application.dynamicIslandStrokeOpacity : settingsViewModel.application.notchStrokeOpacity
-        let isDefaultStroke = isDynamicIsland ? settingsViewModel.application.isDynamicIslandDefaultActivityStrokeEnabled : settingsViewModel.application.isDefaultActivityStrokeEnabled
+        let strokeOpacity = settingsViewModel.application.notchStrokeOpacity
+        let isDefaultStroke = settingsViewModel.application.isDefaultActivityStrokeEnabled
         
         let baseColor: Color
         if isDefaultStroke {
@@ -165,13 +164,13 @@ private extension NotchView {
     var notchSurface: some View {
         let isDynamicIsland = notchViewModel.topInset == 0
         NotchBackgroundSurface(
-            style: isDynamicIsland ? settingsViewModel.application.dynamicIslandBackgroundStyle : settingsViewModel.application.notchBackgroundStyle,
+            style: settingsViewModel.application.notchBackgroundStyle,
             topCornerRadius: notchViewModel.interactiveCornerRadius.top,
             bottomCornerRadius: notchViewModel.interactiveCornerRadius.bottom,
             isDynamicIsland: isDynamicIsland,
             dynamicIslandCornerRadius: notchViewModel.dynamicIslandCornerRadius,
             strokeColor: shouldShowStroke ? visibleStrokeColor : .clear,
-            strokeWidth: isDynamicIsland ? settingsViewModel.application.dynamicIslandStrokeWidth : settingsViewModel.notchStrokeWidth,
+            strokeWidth: settingsViewModel.notchStrokeWidth,
             liquidGlassVariant: 9,
             height: notchViewModel.interactiveNotchSize.height,
             baseHeight: notchViewModel.notchModel.baseHeight
@@ -179,9 +178,7 @@ private extension NotchView {
     }
     
     var shouldShowStroke: Bool {
-        let isDynamicIsland = notchViewModel.topInset == 0
-        let isStrokeEnabled = isDynamicIsland ? settingsViewModel.application.isShowDynamicIslandStrokeEnabled : settingsViewModel.application.isShowNotchStrokeEnabled
-        
+        let isStrokeEnabled = settingsViewModel.application.isShowNotchStrokeEnabled
         return isStrokeEnabled && notchViewModel.shouldRenderStroke
     }
     

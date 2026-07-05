@@ -498,16 +498,27 @@ struct NotchSettingsView: View {
                 variant: LiquidGlassVariant.clamped(9),
                 cornerRadius: isDynamicIsland ? 15 : 0
             ) {
-                LinearGradient(
-                    stops: [
-                        .init(color: .clear, location: 0.0),
-                        .init(color: .black, location: 0.15),
-                        .init(color: .black, location: 0.85),
-                        .init(color: .clear, location: 1.0)
-                    ],
-                    startPoint: .leading,
-                    endPoint: .trailing
-                )
+                ZStack {
+                    LinearGradient(
+                        stops: [
+                            .init(color: .black, location: 0.0),
+                            .init(color: .black, location: 0.5),
+                            .init(color: .clear, location: 1.0)
+                        ],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                    LinearGradient(
+                        stops: [
+                            .init(color: .clear, location: 0.0),
+                            .init(color: .black, location: 0.20),
+                            .init(color: .black, location: 0.80),
+                            .init(color: .clear, location: 1.0)
+                        ],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    )
+                }
             }
             .padding(.top, isDynamicIsland ? 0 : 10)
             .offset(y: isDynamicIsland ? 0 : -10)

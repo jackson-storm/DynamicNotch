@@ -2,9 +2,26 @@ import SwiftUI
 internal import AppKit
 import ObjectiveC
 
+private final class LiquidGlassHostingView: NSHostingView<AnyView> {
+    override func acceptsFirstMouse(for event: NSEvent?) -> Bool {
+        true
+    }
+}
+
 private final class LiquidGlassContainerView: NSView {
     weak var glassView: NSView?
-    var hostingView: NSHostingView<AnyView>?
+    var hostingView: LiquidGlassHostingView?
+
+    override func acceptsFirstMouse(for event: NSEvent?) -> Bool {
+        true
+    }
+
+    override func hitTest(_ point: NSPoint) -> NSView? {
+        if let hitView = super.hitTest(point) {
+            return hostingView ?? hitView
+        }
+        return nil
+    }
 
     private var observedBackdropLayers: [CALayer] = []
     private var hasScheduledBackdropSetup = false
@@ -179,17 +196,22 @@ public struct LiquidGlassBackground<Content: View>: NSViewRepresentable {
             glass.setValue(cornerRadius, forKey: "cornerRadius")
             callPrivateVariantSetter(on: glass, value: variant.rawValue)
 
-            let hosting = NSHostingView(rootView: AnyView(content))
+            if let visualEffect = glass as? NSVisualEffectView {
+                visualEffect.state = .active
+            }
+
+            let hosting = LiquidGlassHostingView(rootView: AnyView(content))
             hosting.translatesAutoresizingMaskIntoConstraints = false
             glass.setValue(hosting, forKey: "contentView")
 
             let topConstant: CGFloat = (cornerRadius == 0) ? -10 : 0
+            let bottomConstant: CGFloat = (cornerRadius == 0) ? 10 : 0
             container.addSubview(glass)
             NSLayoutConstraint.activate([
                 glass.leadingAnchor.constraint(equalTo: container.leadingAnchor),
                 glass.trailingAnchor.constraint(equalTo: container.trailingAnchor),
                 glass.topAnchor.constraint(equalTo: container.topAnchor, constant: topConstant),
-                glass.bottomAnchor.constraint(equalTo: container.bottomAnchor)
+                glass.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: bottomConstant)
             ])
 
             container.glassView = glass
@@ -200,8 +222,9 @@ public struct LiquidGlassBackground<Content: View>: NSViewRepresentable {
 
         let fallback = NSVisualEffectView()
         fallback.material = .underWindowBackground
+        fallback.state = .active
 
-        let hosting = NSHostingView(rootView: content)
+        let hosting = LiquidGlassHostingView(rootView: AnyView(content))
         hosting.translatesAutoresizingMaskIntoConstraints = false
         fallback.addSubview(hosting)
         NSLayoutConstraint.activate([
@@ -223,8 +246,8 @@ public struct LiquidGlassBackground<Content: View>: NSViewRepresentable {
             return
         }
 
-        if let hosting = nsView.subviews.first as? NSHostingView<Content> {
-            hosting.rootView = content
+        if let hosting = nsView.subviews.first as? LiquidGlassHostingView {
+            hosting.rootView = AnyView(content)
         }
     }
 }

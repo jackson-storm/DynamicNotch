@@ -44,7 +44,7 @@ struct NotchBackgroundSurface: View {
                 variant: LiquidGlassVariant.clamped(liquidGlassVariant),
                 cornerRadius: isDynamicIsland ? dynamicIslandCornerRadius : 0
             ) {
-                if let height, let baseHeight, height > baseHeight {
+                ZStack {
                     LinearGradient(
                         stops: [
                             .init(color: .black, location: 0.0),
@@ -54,17 +54,21 @@ struct NotchBackgroundSurface: View {
                         startPoint: .top,
                         endPoint: .bottom
                     )
-                } else {
-                    LinearGradient(
-                        stops: [
-                            .init(color: .clear, location: 0.0),
-                            .init(color: .black, location: 0.15),
-                            .init(color: .black, location: 0.85),
-                            .init(color: .clear, location: 1.0)
-                        ],
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    )
+                    
+                    if let height, let baseHeight, height > baseHeight {
+                        // Only vertical gradient
+                    } else {
+                        LinearGradient(
+                            stops: [
+                                .init(color: .clear, location: 0.0),
+                                .init(color: .black, location: 0.25),
+                                .init(color: .black, location: 0.75),
+                                .init(color: .clear, location: 1.0)
+                            ],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    }
                 }
             }
             .clipShape(shape)

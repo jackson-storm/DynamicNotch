@@ -45,5 +45,6 @@ enum OverlayPanelFactory {
         window.animationBehavior = .none
         window.level = level
         window.collectionBehavior = collectionBehavior()
+        window.acceptsMouseMovedEvents = true
     }
 }

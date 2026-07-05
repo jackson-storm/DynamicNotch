@@ -401,15 +401,15 @@ private struct LockScreenLiveActivityOverlayView: View {
     @ViewBuilder
     private var notchSurface: some View {
         let isDynamicIsland = notchViewModel.topInset == 0
-        let shouldShowStroke = isDynamicIsland ? settingsViewModel.application.isShowDynamicIslandStrokeEnabled : settingsViewModel.application.isShowNotchStrokeEnabled
+        let shouldShowStroke = settingsViewModel.application.isShowNotchStrokeEnabled
         NotchBackgroundSurface(
-            style: isDynamicIsland ? settingsViewModel.application.dynamicIslandBackgroundStyle : settingsViewModel.application.notchBackgroundStyle,
+            style: settingsViewModel.application.notchBackgroundStyle,
             topCornerRadius: notchViewModel.interactiveCornerRadius.top,
             bottomCornerRadius: notchViewModel.interactiveCornerRadius.bottom,
             isDynamicIsland: isDynamicIsland,
             dynamicIslandCornerRadius: notchViewModel.dynamicIslandCornerRadius,
             strokeColor: shouldShowStroke ? visibleStrokeColor : .clear,
-            strokeWidth: isDynamicIsland ? settingsViewModel.application.dynamicIslandStrokeWidth : settingsViewModel.notchStrokeWidth,
+            strokeWidth: settingsViewModel.notchStrokeWidth,
             liquidGlassVariant: 9,
             height: notchViewModel.interactiveNotchSize.height,
             baseHeight: notchViewModel.notchModel.baseHeight
@@ -417,9 +417,8 @@ private struct LockScreenLiveActivityOverlayView: View {
     }
     
     private var visibleStrokeColor: Color {
-        let isDynamicIsland = notchViewModel.topInset == 0
-        let strokeOpacity = isDynamicIsland ? settingsViewModel.application.dynamicIslandStrokeOpacity : settingsViewModel.application.notchStrokeOpacity
-        let isDefaultStroke = isDynamicIsland ? settingsViewModel.application.isDynamicIslandDefaultActivityStrokeEnabled : settingsViewModel.application.isDefaultActivityStrokeEnabled
+        let strokeOpacity = settingsViewModel.application.notchStrokeOpacity
+        let isDefaultStroke = settingsViewModel.application.isDefaultActivityStrokeEnabled
         
         let baseColor: Color
         if isDefaultStroke {

@@ -609,10 +609,8 @@
         }
       }
     },
-    "Adjust the thickness of the Dynamic Island outline." : {
-
-    },
     "Adjust the thickness of the notch outline." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -640,7 +638,11 @@
         }
       }
     },
+    "Adjust the thickness of the outline." : {
+
+    },
     "Adjust the transparency of the Dynamic Island outline." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -669,6 +671,7 @@
       }
     },
     "Adjust the transparency of the notch outline." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -695,6 +698,9 @@
           }
         }
       }
+    },
+    "Adjust the transparency of the outline." : {
+
     },
     "AirDrop" : {
       "localizations" : {
@@ -3245,10 +3251,11 @@
         }
       }
     },
-    "Choose the background color used across the Dynamic Island." : {
+    "Choose the background color used across the notch and Dynamic Island." : {
 
     },
     "Choose the background color used across the notch." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -5829,6 +5836,7 @@
       }
     },
     "Dynamic Island appearance" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -18483,6 +18491,7 @@
       }
     },
     "Show Dynamic Island stroke" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -18597,6 +18606,7 @@
       }
     },
     "Show notch stroke" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -18623,6 +18633,9 @@
           }
         }
       }
+    },
+    "Show stroke" : {
+
     },
     "Show synced lyrics next to the track cover when artwork is opened." : {
       "localizations" : {

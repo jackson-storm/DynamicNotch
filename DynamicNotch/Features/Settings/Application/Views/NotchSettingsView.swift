@@ -18,7 +18,6 @@ struct NotchSettingsView: View {
             homePageCard
             prioritiesCard
             appearanceCard
-            dynamicIslandAppearanceCard
             animationCard
             gesturesCard
         }
@@ -64,24 +63,24 @@ struct NotchSettingsView: View {
     }
     
     private var appearanceCard: some View {
-        SettingsCard(title: "Notch appearance") {
+        SettingsCard(title: "Appearance") {
             CustomPicker(
                 selection: $applicationSettings.notchBackgroundStyle,
                 options: NotchBackgroundStyle.availableOptions,
                 title: { $0.title },
                 headerTitle: "Background",
-                headerDescription: "Choose the background color used across the notch.",
+                headerDescription: "Choose the background color used across the notch and Dynamic Island.",
                 lightBackgroundImage: Image("backgroundLight"),
                 darkBackgroundImage: Image("backgroundDark")
             ) { style, isSelected in
-                backgroundPickerContent(for: style, isSelected: isSelected, isDynamicIsland: false)
+                backgroundPickerContent(for: style, isSelected: isSelected, isDynamicIsland: true)
             }
             .accessibilityIdentifier("settings.notch.backgroundStyle")
             
             Divider().opacity(0.6)
             
             SettingsToggleRow(
-                title: "Show notch stroke",
+                title: "Show stroke",
                 description: "Show a subtle outline that adapts to the active content color.",
                 systemImage: "inset.filled.capsule",
                 color: .black,
@@ -107,7 +106,7 @@ struct NotchSettingsView: View {
             
             SettingsSliderRow(
                 title: "Stroke width",
-                description: "Adjust the thickness of the notch outline.",
+                description: "Adjust the thickness of the outline.",
                 range: 1...3,
                 step: 0.5,
                 fractionLength: 1,
@@ -120,7 +119,7 @@ struct NotchSettingsView: View {
             
             SettingsSliderRow(
                 title: "Stroke opacity",
-                description: "Adjust the transparency of the notch outline.",
+                description: "Adjust the transparency of the outline.",
                 range: 0...100,
                 step: 5,
                 fractionLength: 0,
@@ -131,6 +130,8 @@ struct NotchSettingsView: View {
                     set: { applicationSettings.notchStrokeOpacity = $0 / 100 }
                 )
             )
+            
+            Divider().opacity(0.6)
             
             SettingsSliderRow(
                 title: "Notch width",
@@ -146,6 +147,11 @@ struct NotchSettingsView: View {
                 )
             )
             
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+            
             SettingsSliderRow(
                 title: "Notch height",
                 description: "Fine-tune the notch height to better match your display cutout.",
@@ -159,77 +165,8 @@ struct NotchSettingsView: View {
                     set: { applicationSettings.notchHeight = Int($0.rounded()) }
                 )
             )
-        }
-    }
-    
-    private var dynamicIslandAppearanceCard: some View {
-        SettingsCard(title: "Dynamic Island appearance") {
-            CustomPicker(
-                selection: $applicationSettings.dynamicIslandBackgroundStyle,
-                options: NotchBackgroundStyle.availableOptions,
-                title: { $0.title },
-                headerTitle: "Background",
-                headerDescription: "Choose the background color used across the Dynamic Island.",
-                lightBackgroundImage: Image("backgroundLight"),
-                darkBackgroundImage: Image("backgroundDark")
-            ) { style, isSelected in
-                backgroundPickerContent(for: style, isSelected: isSelected, isDynamicIsland: true)
-            }
-            .accessibilityIdentifier("settings.dynamicIsland.backgroundStyle")
             
             Divider().opacity(0.6)
-            
-            SettingsToggleRow(
-                title: "Show Dynamic Island stroke",
-                description: "Show a subtle outline that adapts to the active content color.",
-                systemImage: "inset.filled.capsule",
-                color: .black,
-                isOn: $applicationSettings.isShowDynamicIslandStrokeEnabled,
-                accessibilityIdentifier: "settings.general.showDynamicIslandStroke"
-            )
-            
-            Divider()
-                .opacity(0.6)
-                .padding(.leading, 43)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
-            
-            SettingsToggleRow(
-                title: "Use default activity stroke color",
-                description: "Apply the standard white stroke to supported activities instead of feature accent colors.",
-                systemImage: "paintbrush.pointed.fill",
-                color: .purple,
-                isOn: $applicationSettings.isDynamicIslandDefaultActivityStrokeEnabled,
-                accessibilityIdentifier: "settings.general.dynamicIslandDefaultActivityStroke"
-            )
-            
-            Divider().opacity(0.6)
-            
-            SettingsSliderRow(
-                title: "Stroke width",
-                description: "Adjust the thickness of the Dynamic Island outline.",
-                range: 1...3,
-                step: 0.5,
-                fractionLength: 1,
-                suffix: "px",
-                accessibilityIdentifier: "settings.general.dynamicIslandStrokeWidth",
-                value: $applicationSettings.dynamicIslandStrokeWidth
-            )
-            
-            Divider().opacity(0.6)
-            
-            SettingsSliderRow(
-                title: "Stroke opacity",
-                description: "Adjust the transparency of the Dynamic Island outline.",
-                range: 0...100,
-                step: 5,
-                fractionLength: 0,
-                suffix: "%",
-                accessibilityIdentifier: "settings.general.dynamicIslandStrokeOpacity",
-                value: Binding(
-                    get: { applicationSettings.dynamicIslandStrokeOpacity * 100 },
-                    set: { applicationSettings.dynamicIslandStrokeOpacity = $0 / 100 }
-                )
-            )
             
             SettingsSliderRow(
                 title: "Dynamic Island width",
@@ -244,6 +181,11 @@ struct NotchSettingsView: View {
                     set: { applicationSettings.dynamicIslandWidth = Int($0.rounded()) }
                 )
             )
+            
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
             
             SettingsSliderRow(
                 title: "Dynamic Island height",
@@ -531,13 +473,13 @@ struct NotchSettingsView: View {
     }
     
     private func previewStrokeColor(isDynamicIsland: Bool) -> Color {
-        let isShowStroke = isDynamicIsland ? applicationSettings.isShowDynamicIslandStrokeEnabled : applicationSettings.isShowNotchStrokeEnabled
+        let isShowStroke = applicationSettings.isShowNotchStrokeEnabled
         guard isShowStroke else {
             return .clear
         }
         
-        let isDefaultActivityStroke = isDynamicIsland ? applicationSettings.isDynamicIslandDefaultActivityStrokeEnabled : applicationSettings.isDefaultActivityStrokeEnabled
-        let strokeOpacity = isDynamicIsland ? applicationSettings.dynamicIslandStrokeOpacity : applicationSettings.notchStrokeOpacity
+        let isDefaultActivityStroke = applicationSettings.isDefaultActivityStrokeEnabled
+        let strokeOpacity = applicationSettings.notchStrokeOpacity
         
         let baseColor: Color = isDefaultActivityStroke ?
             .white.opacity(0.2) :
@@ -546,8 +488,8 @@ struct NotchSettingsView: View {
     }
     
     private func previewStrokeWidth(isDynamicIsland: Bool) -> CGFloat {
-        let isShowStroke = isDynamicIsland ? applicationSettings.isShowDynamicIslandStrokeEnabled : applicationSettings.isShowNotchStrokeEnabled
-        let strokeWidth = isDynamicIsland ? applicationSettings.dynamicIslandStrokeWidth : applicationSettings.notchStrokeWidth
+        let isShowStroke = applicationSettings.isShowNotchStrokeEnabled
+        let strokeWidth = applicationSettings.notchStrokeWidth
         return isShowStroke ? CGFloat(strokeWidth) : 0
     }
     

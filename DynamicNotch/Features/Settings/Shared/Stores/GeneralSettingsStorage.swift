@@ -6,21 +6,15 @@ enum GeneralSettingsStorage {
         static let appearanceMode = "settings.general.appearance.mode"
         static let windowStyle = "settings.general.window.style"
         static let notchBackgroundStyle = "settings.notch.backgroundStyle"
-        static let dynamicIslandBackgroundStyle = "settings.dynamicIsland.backgroundStyle"
         static let notchLiquidGlassVariant = "settings.notch.liquidGlassVariant"
-        static let dynamicIslandLiquidGlassVariant = "settings.dynamicIsland.liquidGlassVariant"
         static let notchWidth = "notchWidth"
         static let notchHeight = "notchHeight"
         static let dynamicIslandHeight = "dynamicIslandHeight"
         static let menuBarIcon = "isMenuBarIconVisible"
         static let notchStrokeEnabled = "isShowNotchStrokeEnabled"
-        static let dynamicIslandStrokeEnabled = "isShowDynamicIslandStrokeEnabled"
         static let defaultActivityStrokeEnabled = "settings.general.defaultActivityStroke"
-        static let dynamicIslandDefaultActivityStrokeEnabled = "settings.general.dynamicIslandDefaultActivityStroke"
         static let notchStrokeWidth = "notchStrokeWidth"
-        static let dynamicIslandStrokeWidth = "dynamicIslandStrokeWidth"
         static let notchStrokeOpacity = "notchStrokeOpacity"
-        static let dynamicIslandStrokeOpacity = "dynamicIslandStrokeOpacity"
         static let dynamicIslandWidth = "dynamicIslandWidth"
         static let displayLocation = "displayLocation"
         static let preferredDisplayUUID = "settings.general.display.preferred.uuid"
@@ -139,7 +133,6 @@ enum GeneralSettingsStorage {
     }
 
     static let notchLiquidGlassVariantRange = 0...19
-    static let dynamicIslandLiquidGlassVariantRange = 0...19
 
     static let defaultValues: [String: Any] = [
         Keys.launchAtLogin: true,
@@ -148,21 +141,15 @@ enum GeneralSettingsStorage {
         Keys.appearanceMode: SettingsAppearanceMode.system.rawValue,
         Keys.windowStyle: SettingsWindowStyle.regular.rawValue,
         Keys.notchBackgroundStyle: NotchBackgroundStyle.black.rawValue,
-        Keys.dynamicIslandBackgroundStyle: NotchBackgroundStyle.black.rawValue,
         Keys.notchLiquidGlassVariant: 11,
-        Keys.dynamicIslandLiquidGlassVariant: 11,
         Keys.notchWidth: 0,
         Keys.notchHeight: 0,
         Keys.dynamicIslandHeight: 0,
         Keys.menuBarIcon: true,
         Keys.notchStrokeEnabled: true,
-        Keys.dynamicIslandStrokeEnabled: true,
         Keys.defaultActivityStrokeEnabled: false,
-        Keys.dynamicIslandDefaultActivityStrokeEnabled: false,
         Keys.notchStrokeWidth: 1.5,
-        Keys.dynamicIslandStrokeWidth: 1.5,
         Keys.notchStrokeOpacity: 1.0,
-        Keys.dynamicIslandStrokeOpacity: 1.0,
         Keys.dynamicIslandWidth: 0,
         Keys.displayLocation: NotchDisplayLocation.main.rawValue,
         Keys.preferredDisplayUUID: "",

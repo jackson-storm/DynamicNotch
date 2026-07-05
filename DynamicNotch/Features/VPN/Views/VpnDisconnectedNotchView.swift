@@ -71,7 +71,7 @@ struct VpnDisconnectedNotchView: View {
             Spacer()
             
             HStack {
-                HStack(spacing: 12) {
+                HStack(spacing: 14) {
                     if let bundleID = resolvedBundleID, let nsImage = getAppIcon(for: bundleID) {
                         Image(nsImage: nsImage)
                             .resizable()

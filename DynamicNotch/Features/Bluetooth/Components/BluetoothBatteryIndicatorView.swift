@@ -33,24 +33,17 @@ struct BluetoothBatteryIndicatorView: View {
     
     var body: some View {
         if let clampedLevel {
-            ZStack {
-                Circle()
-                    .fill(.clear)
-                
-                Circle()
-                    .stroke(trackStrokeColor(for: clampedLevel), lineWidth: circleLineWidth)
-                
-                Circle()
-                    .trim(from: 0, to: progress(for: clampedLevel))
-                    .stroke(
-                        tint(for: clampedLevel).gradient,
-                        style: StrokeStyle(lineWidth: circleLineWidth, lineCap: .round)
-                    )
-                    .rotationEffect(.degrees(-90))
-                    .shadow(color: tint(for: clampedLevel).opacity(0.35), radius: 5, y: 0)
-            }
-            .frame(width: circleSize, height: circleSize)
-            
+            CircleIndicatorView(
+                progress: progress(for: clampedLevel),
+                size: circleSize,
+                lineWidth: circleLineWidth,
+                trackStrokeColor: trackStrokeColor(for: clampedLevel),
+                fillBackground: .clear,
+                foregroundStyle: tint(for: clampedLevel).gradient,
+                glowColor: tint(for: clampedLevel).opacity(0.35),
+                glowRadius: 5,
+                glowY: 0
+            )
         } else {
             Text("---")
                 .foregroundStyle(.white.opacity(0.6))

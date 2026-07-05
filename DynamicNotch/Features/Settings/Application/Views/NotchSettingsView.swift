@@ -78,24 +78,6 @@ struct NotchSettingsView: View {
             }
             .accessibilityIdentifier("settings.notch.backgroundStyle")
             
-            if applicationSettings.notchBackgroundStyle == .liquidGlass {
-                Divider().opacity(0.6)
-                
-                SettingsSliderRow(
-                    title: "Liquid glass style",
-                    description: "Adjust the style variant of the liquid glass background.",
-                    range: Double(GeneralSettingsStorage.notchLiquidGlassVariantRange.lowerBound)...Double(GeneralSettingsStorage.notchLiquidGlassVariantRange.upperBound),
-                    step: 1,
-                    fractionLength: 0,
-                    suffix: "",
-                    accessibilityIdentifier: "settings.general.notchLiquidGlassVariant",
-                    value: Binding(
-                        get: { Double(applicationSettings.notchLiquidGlassVariant) },
-                        set: { applicationSettings.notchLiquidGlassVariant = Int($0) }
-                    )
-                )
-            }
-            
             Divider().opacity(0.6)
             
             SettingsToggleRow(
@@ -194,24 +176,6 @@ struct NotchSettingsView: View {
                 backgroundPickerContent(for: style, isSelected: isSelected, isDynamicIsland: true)
             }
             .accessibilityIdentifier("settings.dynamicIsland.backgroundStyle")
-            
-            if applicationSettings.dynamicIslandBackgroundStyle == .liquidGlass {
-                Divider().opacity(0.6)
-                
-                SettingsSliderRow(
-                    title: "Liquid glass style",
-                    description: "Adjust the style variant of the liquid glass background.",
-                    range: Double(GeneralSettingsStorage.dynamicIslandLiquidGlassVariantRange.lowerBound)...Double(GeneralSettingsStorage.dynamicIslandLiquidGlassVariantRange.upperBound),
-                    step: 1,
-                    fractionLength: 0,
-                    suffix: "",
-                    accessibilityIdentifier: "settings.general.dynamicIslandLiquidGlassVariant",
-                    value: Binding(
-                        get: { Double(applicationSettings.dynamicIslandLiquidGlassVariant) },
-                        set: { applicationSettings.dynamicIslandLiquidGlassVariant = Int($0) }
-                    )
-                )
-            }
             
             Divider().opacity(0.6)
             
@@ -530,13 +494,34 @@ struct NotchSettingsView: View {
             }
             
         case .liquidGlass:
-            let variant = isDynamicIsland ? applicationSettings.dynamicIslandLiquidGlassVariant : applicationSettings.notchLiquidGlassVariant
             LiquidGlassBackground(
-                variant: LiquidGlassVariant.clamped(variant),
-                cornerRadius: isDynamicIsland ? 15 : 6
+                variant: LiquidGlassVariant.clamped(9),
+                cornerRadius: isDynamicIsland ? 15 : 0
             ) {
-                Color.clear
+                ZStack {
+                    LinearGradient(
+                        stops: [
+                            .init(color: .black, location: 0.0),
+                            .init(color: .black, location: 0.5),
+                            .init(color: .clear, location: 1.0)
+                        ],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                    LinearGradient(
+                        stops: [
+                            .init(color: .clear, location: 0.0),
+                            .init(color: .black, location: 0.20),
+                            .init(color: .black, location: 0.80),
+                            .init(color: .clear, location: 1.0)
+                        ],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    )
+                }
             }
+            .padding(.top, isDynamicIsland ? 0 : 10)
+            .offset(y: isDynamicIsland ? 0 : -10)
             .clipShape(shape)
             .overlay {
                 shape

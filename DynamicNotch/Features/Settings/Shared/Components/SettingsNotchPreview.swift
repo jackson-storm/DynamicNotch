@@ -129,7 +129,9 @@ struct SettingsNotchPreview<Overlay: View>: View {
             dynamicIslandCornerRadius: dynamicIslandCornerRadius,
             strokeColor: showsStroke ? strokeColor : .clear,
             strokeWidth: strokeWidth,
-            liquidGlassVariant: liquidGlassVariant
+            liquidGlassVariant: liquidGlassVariant,
+            height: height,
+            baseHeight: height
         )
     }
 }

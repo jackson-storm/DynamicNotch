@@ -6,7 +6,6 @@ enum GeneralSettingsStorage {
         static let appearanceMode = "settings.general.appearance.mode"
         static let windowStyle = "settings.general.window.style"
         static let notchBackgroundStyle = "settings.notch.backgroundStyle"
-        static let notchLiquidGlassVariant = "settings.notch.liquidGlassVariant"
         static let notchWidth = "notchWidth"
         static let notchHeight = "notchHeight"
         static let dynamicIslandHeight = "dynamicIslandHeight"
@@ -132,8 +131,6 @@ enum GeneralSettingsStorage {
         static let selectedVPNID = "settings.vpn.selectedID"
     }
 
-    static let notchLiquidGlassVariantRange = 0...19
-
     static let defaultValues: [String: Any] = [
         Keys.launchAtLogin: true,
         Keys.dockIcon: false,
@@ -141,7 +138,6 @@ enum GeneralSettingsStorage {
         Keys.appearanceMode: SettingsAppearanceMode.system.rawValue,
         Keys.windowStyle: SettingsWindowStyle.regular.rawValue,
         Keys.notchBackgroundStyle: NotchBackgroundStyle.black.rawValue,
-        Keys.notchLiquidGlassVariant: 11,
         Keys.notchWidth: 0,
         Keys.notchHeight: 0,
         Keys.dynamicIslandHeight: 0,

@@ -75,8 +75,6 @@ struct NotchSettingsView: View {
             ) { style, isSelected in
                 backgroundPickerContent(for: style, isSelected: isSelected, isDynamicIsland: true)
             }
-            .accessibilityIdentifier("settings.notch.backgroundStyle")
-            
             Divider().opacity(0.6)
             
             SettingsToggleRow(
@@ -437,14 +435,14 @@ struct NotchSettingsView: View {
             
         case .liquidGlass:
             LiquidGlassBackground(
-                variant: LiquidGlassVariant.clamped(9),
+                variant: LiquidGlassVariant.clamped(7),
                 cornerRadius: isDynamicIsland ? 15 : 0
             ) {
                 ZStack {
                     LinearGradient(
                         stops: [
-                            .init(color: .black, location: 0.0),
-                            .init(color: .black, location: 0.5),
+                            .init(color: Color.black.opacity(0.65), location: 0.0),
+                            .init(color: Color.black.opacity(0.65), location: 0.5),
                             .init(color: .clear, location: 1.0)
                         ],
                         startPoint: .top,
@@ -453,8 +451,8 @@ struct NotchSettingsView: View {
                     LinearGradient(
                         stops: [
                             .init(color: .clear, location: 0.0),
-                            .init(color: .black, location: 0.20),
-                            .init(color: .black, location: 0.80),
+                            .init(color: Color.black.opacity(0.65), location: 0.20),
+                            .init(color: Color.black.opacity(0.65), location: 0.80),
                             .init(color: .clear, location: 1.0)
                         ],
                         startPoint: .leading,

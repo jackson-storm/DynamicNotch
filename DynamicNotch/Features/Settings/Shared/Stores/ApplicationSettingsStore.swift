@@ -48,11 +48,7 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         }
     }
 
-    @Published var notchLiquidGlassVariant: Int {
-        didSet {
-            persist(notchLiquidGlassVariant, for: GeneralSettingsStorage.Keys.notchLiquidGlassVariant)
-        }
-    }
+
 
     @Published var notchWidth: Int {
         didSet {
@@ -311,7 +307,7 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         self.notchBackgroundStyle = NotchBackgroundStyle.resolved(
             defaults.string(forKey: GeneralSettingsStorage.Keys.notchBackgroundStyle)
         )
-        self.notchLiquidGlassVariant = defaults.object(forKey: GeneralSettingsStorage.Keys.notchLiquidGlassVariant) as? Int ?? 11
+
         self.notchWidth = defaults.integer(forKey: GeneralSettingsStorage.Keys.notchWidth)
         self.dynamicIslandWidth = defaults.integer(forKey: GeneralSettingsStorage.Keys.dynamicIslandWidth)
         self.notchHeight = defaults.integer(forKey: GeneralSettingsStorage.Keys.notchHeight)
@@ -446,7 +442,7 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         notchBackgroundStyle = NotchBackgroundStyle.resolved(
             defaultString(for: GeneralSettingsStorage.Keys.notchBackgroundStyle)
         )
-        notchLiquidGlassVariant = defaultInt(for: GeneralSettingsStorage.Keys.notchLiquidGlassVariant)
+
         notchWidth = defaultInt(for: GeneralSettingsStorage.Keys.notchWidth)
         dynamicIslandWidth = defaultInt(for: GeneralSettingsStorage.Keys.dynamicIslandWidth)
         notchHeight = defaultInt(for: GeneralSettingsStorage.Keys.notchHeight)

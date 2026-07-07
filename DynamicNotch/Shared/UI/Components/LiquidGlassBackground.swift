@@ -79,6 +79,20 @@ private final class LiquidGlassContainerView: NSView {
         if NSStringFromClass(type(of: layer)).contains("CABackdropLayer") {
             layer.setValue(true, forKey: windowServerAwareKeyPath)
             layer.setValue(1.0, forKey: scaleKeyPath)
+            
+            if let filters = layer.filters {
+                for filter in filters {
+                    if let nsFilter = filter as? NSObject {
+                        let filterType = (nsFilter.value(forKey: "type") as? String) ?? ""
+                        let filterName = (nsFilter.value(forKey: "name") as? String) ?? ""
+                        if filterType == "gaussianBlur" || filterName == "gaussianBlur" {
+                            nsFilter.setValue(35.0, forKey: "inputRadius")
+                        } else if filterType == "colorSaturate" || filterName == "colorSaturate" {
+                            nsFilter.setValue(1.8, forKey: "inputAmount")
+                        }
+                    }
+                }
+            }
         }
         layer.sublayers?.forEach { setBackdropProperties(in: $0) }
     }

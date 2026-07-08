@@ -101,8 +101,8 @@ private extension NotchView {
                 contentOverlayWrapped
             }
             .shadow(
-                color: (notchViewModel.presentedNotchSize.height > notchViewModel.notchModel.baseHeight) ? .black.opacity(0.5) : .clear,
-                radius: 20
+                color: (notchViewModel.presentedNotchSize.height >= notchViewModel.notchModel.baseHeight + 30)
+                ? .black.opacity(0.5) : .clear, radius: 20
             )
             .frame(
                 width: notchViewModel.presentedNotchSize.width,
@@ -157,6 +157,9 @@ private extension NotchView {
     @ViewBuilder
     var notchSurface: some View {
         let isDynamicIsland = notchViewModel.topInset == 0
+        let isExpandedPresentation = notchViewModel.notchModel.isPresentingExpandedLiveActivity
+        let isPresentationHidden = notchViewModel.isActivityPresentationHidden
+        
         NotchBackgroundSurface(
             style: settingsViewModel.application.notchBackgroundStyle,
             topCornerRadius: notchViewModel.interactiveCornerRadius.top,
@@ -169,6 +172,11 @@ private extension NotchView {
             height: notchViewModel.interactiveNotchSize.height,
             baseHeight: notchViewModel.notchModel.baseHeight
         )
+        .scaleEffect(
+            x: !isExpandedPresentation && !isPresentationHidden ? notchViewModel.pressScale : 1,
+            y: !isExpandedPresentation && !isPresentationHidden ? notchViewModel.pressScale : 1,
+            anchor: .top
+        )
     }
     
     var shouldShowStroke: Bool {
@@ -178,8 +186,16 @@ private extension NotchView {
     
     @ViewBuilder
     var contentOverlay: some View {
+        let isExpandedPresentation = notchViewModel.notchModel.isPresentingExpandedLiveActivity
+        let isPresentationHidden = notchViewModel.isActivityPresentationHidden
+        
         if let content = notchViewModel.displayedContent {
             renderedContentView(for: content)
+                .scaleEffect(
+                    x: !isExpandedPresentation && !isPresentationHidden ? notchViewModel.pressScale : 1,
+                    y: !isExpandedPresentation && !isPresentationHidden ? notchViewModel.pressScale : 1,
+                    anchor: .top
+                )
                 .resizeAwareBlur(
                     size: notchViewModel.interactiveNotchSize,
                     baseHeight: notchViewModel.notchModel.baseHeight,
@@ -191,11 +207,9 @@ private extension NotchView {
                 .id(notchViewModel.displayedPresentationID)
                 .transition(
                     notchViewModel.contentTransition(
-                        notchWidth: notchViewModel.presentedNotchSize.width,
                         notchHeight: notchViewModel.presentedNotchSize.height,
                         baseHeight: notchViewModel.notchModel.baseHeight,
                         isExpandedPresentation: notchViewModel.isDisplayingExpandedLiveActivity,
-                        isCompactRemovalForExpansion: notchViewModel.isExpandingLiveActivityTransition
                     )
                 )
         }

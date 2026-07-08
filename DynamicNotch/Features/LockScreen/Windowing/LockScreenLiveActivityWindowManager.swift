@@ -436,7 +436,6 @@ private struct LockScreenLiveActivityOverlayView: View {
                 .id(notchViewModel.notchModel.presentationID)
                 .transition(
                     notchViewModel.contentTransition(
-                        notchWidth: notchViewModel.interactiveNotchSize.width,
                         notchHeight: notchViewModel.interactiveNotchSize.height,
                         baseHeight: notchViewModel.notchModel.baseHeight,
                         isExpandedPresentation: notchViewModel.notchModel.isPresentingExpandedLiveActivity

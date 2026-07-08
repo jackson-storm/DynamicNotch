@@ -132,8 +132,8 @@ struct NotchSettingsView: View {
             Divider().opacity(0.6)
             
             SettingsSliderRow(
-                title: "Notch width",
-                description: "Fine-tune the notch width to better match your display cutout.",
+                title: "Width",
+                description: "Fine-tune the width of the notch or Dynamic Island.",
                 range: -32...16,
                 step: 1,
                 fractionLength: 0,
@@ -145,14 +145,11 @@ struct NotchSettingsView: View {
                 )
             )
             
-            Divider()
-                .opacity(0.6)
-                .padding(.leading, 43)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+            Divider().opacity(0.6)
             
             SettingsSliderRow(
-                title: "Notch height",
-                description: "Fine-tune the notch height to better match your display cutout.",
+                title: "Height",
+                description: "Fine-tune the height of the notch or Dynamic Island.",
                 range: -4...4,
                 step: 1,
                 fractionLength: 0,
@@ -161,41 +158,6 @@ struct NotchSettingsView: View {
                 value: Binding(
                     get: { Double(applicationSettings.notchHeight) },
                     set: { applicationSettings.notchHeight = Int($0.rounded()) }
-                )
-            )
-            
-            Divider().opacity(0.6)
-            
-            SettingsSliderRow(
-                title: "Dynamic Island width",
-                description: "Fine-tune the Dynamic Island width to better match your preferences.",
-                range: -32...16,
-                step: 1,
-                fractionLength: 0,
-                suffix: "px",
-                accessibilityIdentifier: "settings.general.dynamicIslandWidth",
-                value: Binding(
-                    get: { Double(applicationSettings.dynamicIslandWidth) },
-                    set: { applicationSettings.dynamicIslandWidth = Int($0.rounded()) }
-                )
-            )
-            
-            Divider()
-                .opacity(0.6)
-                .padding(.leading, 43)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
-            
-            SettingsSliderRow(
-                title: "Dynamic Island height",
-                description: "Fine-tune the Dynamic Island height to better match your preferences.",
-                range: -4...4,
-                step: 1,
-                fractionLength: 0,
-                suffix: "px",
-                accessibilityIdentifier: "settings.general.dynamicIslandHeight",
-                value: Binding(
-                    get: { Double(applicationSettings.dynamicIslandHeight) },
-                    set: { applicationSettings.dynamicIslandHeight = Int($0.rounded()) }
                 )
             )
         }

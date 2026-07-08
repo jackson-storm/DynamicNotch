@@ -639,7 +639,32 @@
       }
     },
     "Adjust the thickness of the outline." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adjust the thickness of the outline."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajusta el grosor del contorno."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройте толщину обводки."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "调整轮廓的厚度。"
+          }
+        }
+      }
     },
     "Adjust the transparency of the Dynamic Island outline." : {
       "extractionState" : "stale",
@@ -700,7 +725,32 @@
       }
     },
     "Adjust the transparency of the outline." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adjust the transparency of the outline."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajusta la transparencia del contorno."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройте прозрачность обводки."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "调整轮廓的透明度。"
+          }
+        }
+      }
     },
     "AirDrop" : {
       "localizations" : {
@@ -5865,6 +5915,7 @@
       }
     },
     "Dynamic Island height" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -5893,6 +5944,7 @@
       }
     },
     "Dynamic Island width" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6271,6 +6323,7 @@
       }
     },
     "Fine-tune the Dynamic Island height to better match your preferences." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6299,6 +6352,7 @@
       }
     },
     "Fine-tune the Dynamic Island width to better match your preferences." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6322,6 +6376,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "微调灵动岛宽度以更好地符合您的喜好。"
+          }
+        }
+      }
+    },
+    "Fine-tune the height of the notch or Dynamic Island." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fine-tune the height of the notch or Dynamic Island."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajuste la altura de la muesca o Dynamic Island."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройте высоту выреза или Dynamic Island."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "微调刘海或灵动岛的高度。"
           }
         }
       }
@@ -6356,6 +6438,7 @@
       }
     },
     "Fine-tune the notch height to better match your display cutout." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6384,6 +6467,7 @@
       }
     },
     "Fine-tune the notch width to better match your display cutout." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6407,6 +6491,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "微调凹口宽度以更好地匹配您的显示器切口。"
+          }
+        }
+      }
+    },
+    "Fine-tune the width of the notch or Dynamic Island." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fine-tune the width of the notch or Dynamic Island."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajuste el ancho de la muesca o Dynamic Island."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройте ширину выреза или Dynamic Island."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "微调刘海或灵动岛的宽度。"
           }
         }
       }
@@ -7030,6 +7142,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "悬停时触觉反馈"
+          }
+        }
+      }
+    },
+    "Height" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Height"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Altura"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Высота"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "高度"
           }
         }
       }
@@ -9596,6 +9736,7 @@
       }
     },
     "Notch height" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -9652,6 +9793,7 @@
       }
     },
     "Notch width" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -21836,6 +21978,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "小部件外观"
+          }
+        }
+      }
+    },
+    "Width" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Width"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ancho"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ширина"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "宽度"
           }
         }
       }

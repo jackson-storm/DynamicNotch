@@ -19,7 +19,6 @@ struct NotchCustomScaleModifier: ViewModifier {
     @State private var isPressValidForTap = false
     @State private var didCompleteExpandAction = false
     @State private var isHovering = false
-    @State private var pressScale: CGFloat = 1
     @State private var pendingCollapseToken: UUID?
     @State private var lastExpansionTime: Date = .distantPast
     
@@ -36,15 +35,7 @@ struct NotchCustomScaleModifier: ViewModifier {
 private extension NotchCustomScaleModifier {
     func pressableContent(_ content: Content) -> some View {
         let hitBounds = CGRect(origin: .zero, size: baseSize)
-        let isExpandedPresentation = notchViewModel.notchModel.isPresentingExpandedLiveActivity
-        let isPresentationHidden = notchViewModel.isActivityPresentationHidden
-
         return content
-            .scaleEffect(
-                x: !isExpandedPresentation && !isPresentationHidden ? pressScale : 1,
-                y: !isExpandedPresentation && !isPresentationHidden ? pressScale : 1,
-                anchor: .top
-            )
             .simultaneousGesture(
                 DragGesture(minimumDistance: 0)
                     .onChanged { value in
@@ -142,10 +133,10 @@ private extension NotchCustomScaleModifier {
         let token = UUID()
         let pressPeakDuration = notchViewModel.notchPressHoldDuration
         pressAnimationToken = token
-        pressScale = 1
+        notchViewModel.pressScale = 1
 
         withAnimation(.easeOut(duration: pressPeakDuration)) {
-            pressScale = scaleFactor
+            notchViewModel.pressScale = scaleFactor
         }
 
         DispatchQueue.main.asyncAfter(deadline: .now() + pressPeakDuration) {
@@ -154,7 +145,7 @@ private extension NotchCustomScaleModifier {
             pressAnimationToken = nil
 
             withAnimation(.spring(response: 0.30, dampingFraction: 0.5)) {
-                pressScale = 1
+                notchViewModel.pressScale = 1
             }
         }
     }
@@ -163,7 +154,7 @@ private extension NotchCustomScaleModifier {
         pressAnimationToken = nil
 
         withAnimation(.easeOut(duration: min(0.18, notchViewModel.notchHoverExpandDelay))) {
-            pressScale = scaleFactor
+            notchViewModel.pressScale = scaleFactor
         }
     }
 
@@ -257,9 +248,9 @@ private extension NotchCustomScaleModifier {
         pressAnimationToken = nil
         pendingCollapseToken = nil
 
-        if pressScale != 1 {
+        if notchViewModel.pressScale != 1 {
             withAnimation(.easeOut(duration: 0.12)) {
-                pressScale = 1
+                notchViewModel.pressScale = 1
             }
         }
     }
@@ -274,9 +265,9 @@ private extension NotchCustomScaleModifier {
         if cancelScaleAnimation {
             pressAnimationToken = nil
 
-            if pressScale != 1 {
+            if notchViewModel.pressScale != 1 {
                 withAnimation(.easeOut(duration: 0.12)) {
-                    pressScale = 1
+                    notchViewModel.pressScale = 1
                 }
             }
         }

@@ -15,39 +15,26 @@ extension AnyTransition {
         )
     }
 
-    static func notchContent(
-        notchWidth: CGFloat,
-        notchHeight: CGFloat,
-        baseHeight: CGFloat,
-        isExpandedPresentation: Bool,
-        isCompactRemovalForExpansion: Bool = false) -> AnyTransition {
-            
+    static func notchContent(notchHeight: CGFloat, baseHeight: CGFloat, isExpandedPresentation: Bool) -> AnyTransition {
         if isExpandedPresentation {
             return notchExpanded(
-                notchWidth: notchWidth,
                 notchHeight: notchHeight,
                 baseHeight: baseHeight
             )
         }
         return notchCompact(
-            notchWidth: notchWidth,
             notchHeight: notchHeight,
             baseHeight: baseHeight,
-            isRemovalForExpansion: isCompactRemovalForExpansion
         )
     }
 
-    private static func notchCompact(notchWidth: CGFloat, notchHeight: CGFloat, baseHeight: CGFloat, isRemovalForExpansion: Bool = false) -> AnyTransition {
-        let horizontalOffset = NotchTransitionMetrics.horizontalCompensationOffset(for: notchWidth)
-        let removalHorizontalOffset = isRemovalForExpansion ? 0 : horizontalOffset
+    private static func notchCompact(notchHeight: CGFloat, baseHeight: CGFloat) -> AnyTransition {
         let verticalOffset = NotchTransitionMetrics.verticalCompensationOffset(for: notchHeight, baseHeight: baseHeight)
-
         return .asymmetric(
             insertion: .modifier(
                 active: NotchTransitionModifier(
                     blur: 20,
                     opacity: 0,
-                    offsetX: horizontalOffset,
                     offsetY: verticalOffset,
                     scaleX: 0.2,
                     scaleY: 0.2,
@@ -59,7 +46,6 @@ extension AnyTransition {
                 active: NotchTransitionModifier(
                     blur: 20,
                     opacity: 0,
-                    offsetX: removalHorizontalOffset,
                     offsetY: verticalOffset,
                     scaleX: 0.2,
                     scaleY: 0.2,
@@ -70,16 +56,13 @@ extension AnyTransition {
         )
     }
 
-    private static func notchExpanded(notchWidth: CGFloat, notchHeight: CGFloat, baseHeight: CGFloat) -> AnyTransition {
-        let horizontalOffset = NotchTransitionMetrics.horizontalCompensationOffset(for: notchWidth)
+    private static func notchExpanded(notchHeight: CGFloat, baseHeight: CGFloat) -> AnyTransition {
         let verticalOffset = NotchTransitionMetrics.verticalCompensationOffset(for: notchHeight, baseHeight: baseHeight)
-
         return .asymmetric(
             insertion: .modifier(
                 active: NotchTransitionModifier(
                     blur: 20,
                     opacity: 0,
-                    offsetX: horizontalOffset,
                     offsetY: verticalOffset / 3,
                     scaleX: 0.4,
                     scaleY: 0.2,
@@ -91,7 +74,6 @@ extension AnyTransition {
                 active: NotchTransitionModifier(
                     blur: 20,
                     opacity: 0,
-                    offsetX: horizontalOffset,
                     offsetY: verticalOffset / 3,
                     scaleX: 0.4,
                     scaleY: 0.2,

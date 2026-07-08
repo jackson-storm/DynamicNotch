@@ -18,6 +18,7 @@ final class NotchViewModel: ObservableObject {
     @Published var showNotch = false
     @Published var isPressed = false
     @Published var cachedStrokeColor: Color = .clear
+    @Published var pressScale: CGFloat = 1.0
 
     private let settings: NotchSettingsProviding
     private let engine: NotchEngine
@@ -484,14 +485,12 @@ final class NotchViewModel: ObservableObject {
         return model
     }
 
-    func contentTransition(notchWidth: CGFloat, notchHeight: CGFloat, baseHeight: CGFloat, isExpandedPresentation: Bool, isCompactRemovalForExpansion: Bool = false) -> AnyTransition {
+    func contentTransition(notchHeight: CGFloat, baseHeight: CGFloat, isExpandedPresentation: Bool) -> AnyTransition {
 
         let baseTransition = AnyTransition.notchContent(
-            notchWidth: notchWidth,
             notchHeight: notchHeight,
             baseHeight: baseHeight,
             isExpandedPresentation: isExpandedPresentation,
-            isCompactRemovalForExpansion: isCompactRemovalForExpansion
         )
 
         if isExpandedPresentation {

@@ -107,7 +107,7 @@ private extension NotchView {
                 contentOverlayWrapped
             }
             .shadow(
-                color: notchViewModel.isDisplayingExpandedLiveActivity ? .black.opacity(0.5) : .clear,
+                color: (notchViewModel.presentedNotchSize.height > notchViewModel.notchModel.baseHeight) ? .black.opacity(0.5) : .clear,
                 radius: 20
             )
             .frame(
@@ -171,7 +171,7 @@ private extension NotchView {
             dynamicIslandCornerRadius: notchViewModel.dynamicIslandCornerRadius,
             strokeColor: shouldShowStroke ? visibleStrokeColor : .clear,
             strokeWidth: settingsViewModel.notchStrokeWidth,
-            liquidGlassVariant: 7,
+            liquidGlassVariant: settingsViewModel.lockScreen.liquidGlassVariant,
             height: notchViewModel.interactiveNotchSize.height,
             baseHeight: notchViewModel.notchModel.baseHeight
         )

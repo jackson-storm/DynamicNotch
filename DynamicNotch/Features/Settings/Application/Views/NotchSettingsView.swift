@@ -436,7 +436,8 @@ struct NotchSettingsView: View {
         case .liquidGlass:
             LiquidGlassBackground(
                 variant: LiquidGlassVariant.clamped(7),
-                cornerRadius: isDynamicIsland ? 15 : 0
+                cornerRadius: isDynamicIsland ? 15 : 12,
+                hideTopBorder: !isDynamicIsland
             ) {
                 ZStack {
                     LinearGradient(

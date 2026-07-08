@@ -157,15 +157,18 @@ public struct LiquidGlassBackground<Content: View>: NSViewRepresentable {
     private let content: Content
     private let cornerRadius: CGFloat
     private let variant: LiquidGlassVariant
+    private let hideTopBorder: Bool
 
     public init(
         variant: LiquidGlassVariant = .defaultVariant,
         cornerRadius: CGFloat = 10,
+        hideTopBorder: Bool = false,
         @ViewBuilder content: () -> Content
     ) {
-        self.variant      = variant
+        self.content = content()
         self.cornerRadius = cornerRadius
-        self.content      = content()
+        self.variant = variant
+        self.hideTopBorder = hideTopBorder
     }
 
     @inline(__always)
@@ -218,8 +221,9 @@ public struct LiquidGlassBackground<Content: View>: NSViewRepresentable {
             hosting.translatesAutoresizingMaskIntoConstraints = false
             glass.setValue(hosting, forKey: "contentView")
 
-            let topConstant: CGFloat = (cornerRadius == 0) ? -10 : 0
-            let bottomConstant: CGFloat = (cornerRadius == 0) ? 10 : 0
+            let topConstant: CGFloat = hideTopBorder ? -10 : 0
+            let bottomConstant: CGFloat = hideTopBorder ? 10 : 0
+            
             container.addSubview(glass)
             NSLayoutConstraint.activate([
                 glass.leadingAnchor.constraint(equalTo: container.leadingAnchor),

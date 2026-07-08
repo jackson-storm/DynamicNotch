@@ -10,7 +10,7 @@ import SwiftUI
 extension AnyTransition {
     static var blurAndFade: AnyTransition {
         .modifier(
-            active: BlurFadeModifier(blur: 10, opacity: 0),
+            active: BlurFadeModifier(blur: 20, opacity: 0),
             identity: BlurFadeModifier(blur: 0, opacity: 1)
         )
     }
@@ -36,7 +36,7 @@ extension AnyTransition {
                     blur: 20,
                     opacity: 0,
                     offsetY: verticalOffset,
-                    scaleX: 0.2,
+                    scaleX: 0.6,
                     scaleY: 0.2,
                     anchor: .center
                 ),
@@ -47,7 +47,7 @@ extension AnyTransition {
                     blur: 20,
                     opacity: 0,
                     offsetY: verticalOffset,
-                    scaleX: 0.2,
+                    scaleX: 0.6,
                     scaleY: 0.2,
                     anchor: .center
                 ),

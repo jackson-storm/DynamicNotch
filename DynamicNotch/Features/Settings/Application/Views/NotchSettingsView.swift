@@ -75,8 +75,6 @@ struct NotchSettingsView: View {
             ) { style, isSelected in
                 backgroundPickerContent(for: style, isSelected: isSelected, isDynamicIsland: true)
             }
-            .accessibilityIdentifier("settings.notch.backgroundStyle")
-            
             Divider().opacity(0.6)
             
             SettingsToggleRow(
@@ -134,8 +132,8 @@ struct NotchSettingsView: View {
             Divider().opacity(0.6)
             
             SettingsSliderRow(
-                title: "Notch width",
-                description: "Fine-tune the notch width to better match your display cutout.",
+                title: "Width",
+                description: "Fine-tune the width of the notch or Dynamic Island.",
                 range: -32...16,
                 step: 1,
                 fractionLength: 0,
@@ -147,14 +145,11 @@ struct NotchSettingsView: View {
                 )
             )
             
-            Divider()
-                .opacity(0.6)
-                .padding(.leading, 43)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+            Divider().opacity(0.6)
             
             SettingsSliderRow(
-                title: "Notch height",
-                description: "Fine-tune the notch height to better match your display cutout.",
+                title: "Height",
+                description: "Fine-tune the height of the notch or Dynamic Island.",
                 range: -4...4,
                 step: 1,
                 fractionLength: 0,
@@ -163,41 +158,6 @@ struct NotchSettingsView: View {
                 value: Binding(
                     get: { Double(applicationSettings.notchHeight) },
                     set: { applicationSettings.notchHeight = Int($0.rounded()) }
-                )
-            )
-            
-            Divider().opacity(0.6)
-            
-            SettingsSliderRow(
-                title: "Dynamic Island width",
-                description: "Fine-tune the Dynamic Island width to better match your preferences.",
-                range: -32...16,
-                step: 1,
-                fractionLength: 0,
-                suffix: "px",
-                accessibilityIdentifier: "settings.general.dynamicIslandWidth",
-                value: Binding(
-                    get: { Double(applicationSettings.dynamicIslandWidth) },
-                    set: { applicationSettings.dynamicIslandWidth = Int($0.rounded()) }
-                )
-            )
-            
-            Divider()
-                .opacity(0.6)
-                .padding(.leading, 43)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
-            
-            SettingsSliderRow(
-                title: "Dynamic Island height",
-                description: "Fine-tune the Dynamic Island height to better match your preferences.",
-                range: -4...4,
-                step: 1,
-                fractionLength: 0,
-                suffix: "px",
-                accessibilityIdentifier: "settings.general.dynamicIslandHeight",
-                value: Binding(
-                    get: { Double(applicationSettings.dynamicIslandHeight) },
-                    set: { applicationSettings.dynamicIslandHeight = Int($0.rounded()) }
                 )
             )
         }
@@ -437,14 +397,15 @@ struct NotchSettingsView: View {
             
         case .liquidGlass:
             LiquidGlassBackground(
-                variant: LiquidGlassVariant.clamped(9),
-                cornerRadius: isDynamicIsland ? 15 : 0
+                variant: LiquidGlassVariant.clamped(7),
+                cornerRadius: isDynamicIsland ? 15 : 12,
+                hideTopBorder: !isDynamicIsland
             ) {
                 ZStack {
                     LinearGradient(
                         stops: [
-                            .init(color: .black, location: 0.0),
-                            .init(color: .black, location: 0.5),
+                            .init(color: Color.black.opacity(0.65), location: 0.0),
+                            .init(color: Color.black.opacity(0.65), location: 0.5),
                             .init(color: .clear, location: 1.0)
                         ],
                         startPoint: .top,
@@ -453,8 +414,8 @@ struct NotchSettingsView: View {
                     LinearGradient(
                         stops: [
                             .init(color: .clear, location: 0.0),
-                            .init(color: .black, location: 0.20),
-                            .init(color: .black, location: 0.80),
+                            .init(color: Color.black.opacity(0.65), location: 0.20),
+                            .init(color: Color.black.opacity(0.65), location: 0.80),
                             .init(color: .clear, location: 1.0)
                         ],
                         startPoint: .leading,

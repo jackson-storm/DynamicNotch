@@ -85,13 +85,7 @@ struct NotchView: View {
                 .onChange(of: settingsViewModel.notchWidth) {
                     notchViewModel.updateDimensions()
                 }
-                .onChange(of: settingsViewModel.dynamicIslandWidth) {
-                    notchViewModel.updateDimensions()
-                }
                 .onChange(of: settingsViewModel.notchHeight) {
-                    notchViewModel.updateDimensions()
-                }
-                .onChange(of: settingsViewModel.dynamicIslandHeight) {
                     notchViewModel.updateDimensions()
                 }
         }
@@ -107,7 +101,7 @@ private extension NotchView {
                 contentOverlayWrapped
             }
             .shadow(
-                color: notchViewModel.isDisplayingExpandedLiveActivity ? .black.opacity(0.5) : .clear,
+                color: (notchViewModel.presentedNotchSize.height > notchViewModel.notchModel.baseHeight) ? .black.opacity(0.5) : .clear,
                 radius: 20
             )
             .frame(
@@ -171,7 +165,7 @@ private extension NotchView {
             dynamicIslandCornerRadius: notchViewModel.dynamicIslandCornerRadius,
             strokeColor: shouldShowStroke ? visibleStrokeColor : .clear,
             strokeWidth: settingsViewModel.notchStrokeWidth,
-            liquidGlassVariant: 9,
+            liquidGlassVariant: settingsViewModel.lockScreen.liquidGlassVariant,
             height: notchViewModel.interactiveNotchSize.height,
             baseHeight: notchViewModel.notchModel.baseHeight
         )

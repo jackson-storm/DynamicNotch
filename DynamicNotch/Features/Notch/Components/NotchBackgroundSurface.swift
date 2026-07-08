@@ -42,14 +42,17 @@ struct NotchBackgroundSurface: View {
         case .liquidGlass:
             LiquidGlassBackground(
                 variant: LiquidGlassVariant.clamped(liquidGlassVariant),
-                cornerRadius: isDynamicIsland ? dynamicIslandCornerRadius : 0
+                cornerRadius: isDynamicIsland ? dynamicIslandCornerRadius : 12,
+                hideTopBorder: !isDynamicIsland
             ) {
                 ZStack {
                     LinearGradient(
                         stops: [
                             .init(color: .black, location: 0.0),
-                            .init(color: .black, location: 0.5),
-                            .init(color: .clear, location: 1.0)
+                            .init(color: .black, location: 0.25),
+                            .init(color: .black.opacity(0.8), location: 0.55),
+                            .init(color: .black.opacity(0.6), location: 0.75),
+                            .init(color: .black.opacity(0.4), location: 1.0)
                         ],
                         startPoint: .top,
                         endPoint: .bottom
@@ -61,8 +64,8 @@ struct NotchBackgroundSurface: View {
                         LinearGradient(
                             stops: [
                                 .init(color: .clear, location: 0.0),
-                                .init(color: .black, location: 0.25),
-                                .init(color: .black, location: 0.75),
+                                .init(color: .black, location: 0.20),
+                                .init(color: .black, location: 0.80),
                                 .init(color: .clear, location: 1.0)
                             ],
                             startPoint: .leading,

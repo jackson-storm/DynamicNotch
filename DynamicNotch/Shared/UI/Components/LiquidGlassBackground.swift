@@ -79,6 +79,20 @@ private final class LiquidGlassContainerView: NSView {
         if NSStringFromClass(type(of: layer)).contains("CABackdropLayer") {
             layer.setValue(true, forKey: windowServerAwareKeyPath)
             layer.setValue(1.0, forKey: scaleKeyPath)
+            
+            if let filters = layer.filters {
+                for filter in filters {
+                    if let nsFilter = filter as? NSObject {
+                        let filterType = (nsFilter.value(forKey: "type") as? String) ?? ""
+                        let filterName = (nsFilter.value(forKey: "name") as? String) ?? ""
+                        if filterType == "gaussianBlur" || filterName == "gaussianBlur" {
+                            nsFilter.setValue(35.0, forKey: "inputRadius")
+                        } else if filterType == "colorSaturate" || filterName == "colorSaturate" {
+                            nsFilter.setValue(1.8, forKey: "inputAmount")
+                        }
+                    }
+                }
+            }
         }
         layer.sublayers?.forEach { setBackdropProperties(in: $0) }
     }
@@ -143,15 +157,18 @@ public struct LiquidGlassBackground<Content: View>: NSViewRepresentable {
     private let content: Content
     private let cornerRadius: CGFloat
     private let variant: LiquidGlassVariant
+    private let hideTopBorder: Bool
 
     public init(
         variant: LiquidGlassVariant = .defaultVariant,
         cornerRadius: CGFloat = 10,
+        hideTopBorder: Bool = false,
         @ViewBuilder content: () -> Content
     ) {
-        self.variant      = variant
+        self.content = content()
         self.cornerRadius = cornerRadius
-        self.content      = content()
+        self.variant = variant
+        self.hideTopBorder = hideTopBorder
     }
 
     @inline(__always)
@@ -204,8 +221,9 @@ public struct LiquidGlassBackground<Content: View>: NSViewRepresentable {
             hosting.translatesAutoresizingMaskIntoConstraints = false
             glass.setValue(hosting, forKey: "contentView")
 
-            let topConstant: CGFloat = (cornerRadius == 0) ? -10 : 0
-            let bottomConstant: CGFloat = (cornerRadius == 0) ? 10 : 0
+            let topConstant: CGFloat = hideTopBorder ? -10 : 0
+            let bottomConstant: CGFloat = hideTopBorder ? 10 : 0
+            
             container.addSubview(glass)
             NSLayoutConstraint.activate([
                 glass.leadingAnchor.constraint(equalTo: container.leadingAnchor),

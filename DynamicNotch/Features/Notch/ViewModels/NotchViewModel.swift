@@ -313,8 +313,8 @@ final class NotchViewModel: ObservableObject {
         let scale = max(0.35, screenWidth / baseScreenWidth)
         
         let isDynamicIsland = screenMetrics.topInset == 0
-        let widthOffset = CGFloat(isDynamicIsland ? settings.dynamicIslandWidth : settings.notchWidth)
-        let heightOffset = CGFloat(isDynamicIsland ? settings.dynamicIslandHeight : settings.notchHeight)
+        let widthOffset = CGFloat(settings.notchWidth)
+        let heightOffset = CGFloat(settings.notchHeight)
         let baseHeightAdjustment: CGFloat = isDynamicIsland ? -3 : 0
         
         if let notchSize = screenMetrics.notchSize {

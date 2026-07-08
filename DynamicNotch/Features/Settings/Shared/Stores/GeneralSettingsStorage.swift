@@ -6,16 +6,13 @@ enum GeneralSettingsStorage {
         static let appearanceMode = "settings.general.appearance.mode"
         static let windowStyle = "settings.general.window.style"
         static let notchBackgroundStyle = "settings.notch.backgroundStyle"
-        static let notchLiquidGlassVariant = "settings.notch.liquidGlassVariant"
         static let notchWidth = "notchWidth"
         static let notchHeight = "notchHeight"
-        static let dynamicIslandHeight = "dynamicIslandHeight"
         static let menuBarIcon = "isMenuBarIconVisible"
         static let notchStrokeEnabled = "isShowNotchStrokeEnabled"
         static let defaultActivityStrokeEnabled = "settings.general.defaultActivityStroke"
         static let notchStrokeWidth = "notchStrokeWidth"
         static let notchStrokeOpacity = "notchStrokeOpacity"
-        static let dynamicIslandWidth = "dynamicIslandWidth"
         static let displayLocation = "displayLocation"
         static let preferredDisplayUUID = "settings.general.display.preferred.uuid"
         static let preferredDisplayName = "settings.general.display.preferred.name"
@@ -132,8 +129,6 @@ enum GeneralSettingsStorage {
         static let selectedVPNID = "settings.vpn.selectedID"
     }
 
-    static let notchLiquidGlassVariantRange = 0...19
-
     static let defaultValues: [String: Any] = [
         Keys.launchAtLogin: true,
         Keys.dockIcon: false,
@@ -141,16 +136,13 @@ enum GeneralSettingsStorage {
         Keys.appearanceMode: SettingsAppearanceMode.system.rawValue,
         Keys.windowStyle: SettingsWindowStyle.regular.rawValue,
         Keys.notchBackgroundStyle: NotchBackgroundStyle.black.rawValue,
-        Keys.notchLiquidGlassVariant: 11,
         Keys.notchWidth: 0,
         Keys.notchHeight: 0,
-        Keys.dynamicIslandHeight: 0,
         Keys.menuBarIcon: true,
         Keys.notchStrokeEnabled: true,
         Keys.defaultActivityStrokeEnabled: false,
         Keys.notchStrokeWidth: 1.5,
         Keys.notchStrokeOpacity: 1.0,
-        Keys.dynamicIslandWidth: 0,
         Keys.displayLocation: NotchDisplayLocation.main.rawValue,
         Keys.preferredDisplayUUID: "",
         Keys.preferredDisplayName: "",

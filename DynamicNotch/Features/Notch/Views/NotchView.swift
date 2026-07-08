@@ -88,6 +88,8 @@ struct NotchView: View {
                 .onChange(of: settingsViewModel.notchHeight) {
                     notchViewModel.updateDimensions()
                 }
+            
+            homePageIndicator
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
@@ -123,35 +125,12 @@ private extension NotchView {
                 isEnabled: shouldEnableNotchSwipeGestures
             )
             .contextMenu {
-                contextMenuItem
+                appContextMenu
             }
             .environment(\.colorScheme, .dark)
             .animation(notchViewModel.animations.strokeVisibility, value: notchViewModel.shouldRenderStroke)
             .animation(notchViewModel.animations.strokeVisibility, value: settingsViewModel.isShowNotchStrokeEnabled)
             .animation(notchViewModel.animations.notchVisibility, value: notchViewModel.showNotch)
-    }
-    
-    var shouldEnableNotchSwipeGestures: Bool {
-        guard !notchViewModel.isLocked else { return false }
-        guard !notchViewModel.isActivityPresentationHidden else { return false }
-        
-        return !(
-            notchViewModel.notchModel.isPresentingExpandedLiveActivity &&
-            notchViewModel.notchModel.content?.id == NotchContentRegistry.DragAndDrop.trayActive.id
-        )
-    }
-    
-    var visibleStrokeColor: Color {
-        let strokeOpacity = settingsViewModel.application.notchStrokeOpacity
-        let isDefaultStroke = settingsViewModel.application.isDefaultActivityStrokeEnabled
-        
-        let baseColor: Color
-        if isDefaultStroke {
-            baseColor = .white.opacity(0.2)
-        } else {
-            baseColor = notchViewModel.displayedContent?.strokeColor ?? notchViewModel.cachedStrokeColor
-        }
-        return baseColor.opacity(strokeOpacity)
     }
     
     @ViewBuilder
@@ -177,11 +156,6 @@ private extension NotchView {
             y: !isExpandedPresentation && !isPresentationHidden ? notchViewModel.pressScale : 1,
             anchor: .top
         )
-    }
-    
-    var shouldShowStroke: Bool {
-        let isStrokeEnabled = settingsViewModel.application.isShowNotchStrokeEnabled
-        return isStrokeEnabled && notchViewModel.shouldRenderStroke
     }
     
     @ViewBuilder
@@ -244,7 +218,23 @@ private extension NotchView {
     }
     
     @ViewBuilder
-    var contextMenuItem: some View {
+    var homePageIndicator: some View {
+        HomePagePageIndicatorView(
+            notchViewModel: notchViewModel,
+            settingsViewModel: settingsViewModel
+        )
+        .offset(y: notchViewModel.presentedNotchSize.height + 6)
+        .transition(
+            notchViewModel.contentTransition(
+                notchHeight: notchViewModel.presentedNotchSize.height,
+                baseHeight: notchViewModel.notchModel.baseHeight,
+                isExpandedPresentation: notchViewModel.isDisplayingExpandedLiveActivity,
+            )
+        )
+    }
+    
+    @ViewBuilder
+    var appContextMenu: some View {
         Button {
             SettingsWindowController.shared.showWindow()
         } label: {
@@ -263,5 +253,33 @@ private extension NotchView {
             Image(systemName: "rectangle.portrait.and.arrow.right")
             Text(verbatim: "Quit")
         }
+    }
+    
+    private var shouldEnableNotchSwipeGestures: Bool {
+        guard !notchViewModel.isLocked else { return false }
+        guard !notchViewModel.isActivityPresentationHidden else { return false }
+        
+        return !(
+            notchViewModel.notchModel.isPresentingExpandedLiveActivity &&
+            notchViewModel.notchModel.content?.id == NotchContentRegistry.DragAndDrop.trayActive.id
+        )
+    }
+    
+    private var visibleStrokeColor: Color {
+        let strokeOpacity = settingsViewModel.application.notchStrokeOpacity
+        let isDefaultStroke = settingsViewModel.application.isDefaultActivityStrokeEnabled
+        
+        let baseColor: Color
+        if isDefaultStroke {
+            baseColor = .white.opacity(0.2)
+        } else {
+            baseColor = notchViewModel.displayedContent?.strokeColor ?? notchViewModel.cachedStrokeColor
+        }
+        return baseColor.opacity(strokeOpacity)
+    }
+    
+    private var shouldShowStroke: Bool {
+        let isStrokeEnabled = settingsViewModel.application.isShowNotchStrokeEnabled
+        return isStrokeEnabled && notchViewModel.shouldRenderStroke
     }
 }

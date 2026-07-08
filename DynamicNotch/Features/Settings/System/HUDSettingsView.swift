@@ -1,19 +1,5 @@
 import SwiftUI
 
-enum HudLayoutType: String, CaseIterable {
-    case compact
-    case expanded
-    
-    var title: LocalizedStringKey {
-        switch self {
-        case .compact:
-            return "settings.general.hud.layoutType.compact"
-        case .expanded:
-            return "settings.general.hud.layoutType.expanded"
-        }
-    }
-}
-
 struct HUDSettingsView: View {
     @ObservedObject var settings: HUDSettingsStore
     @ObservedObject var applicationSettings: ApplicationSettingsStore

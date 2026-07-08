@@ -77,16 +77,11 @@ struct LockScreenSettingsView: View {
                 accessibilityIdentifier: "settings.activities.lockScreen.sound"
             )
 
-            Divider()
-                .opacity(0.6)
-                .padding(.leading, 43)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+            Divider().opacity(0.6)
 
             customSoundRow(for: .lock)
 
-            Divider()
-                .opacity(0.6)
-                .padding(.leading, 42)
+            Divider().opacity(0.6)
 
             customSoundRow(for: .unlock)
         }
@@ -222,14 +217,6 @@ struct LockScreenSettingsView: View {
     @ViewBuilder
     private func customSoundRow(for kind: LockScreenCustomSoundKind) -> some View {
         HStack(alignment: .center, spacing: 12) {
-            SettingsIconBadge(
-                systemImage: kind.systemImage,
-                tint: kind.color,
-                size: 30,
-                iconSize: 14,
-                cornerRadius: 9
-            )
-
             VStack(alignment: .leading, spacing: 4) {
                 Text(localized(kind.titleKey))
 
@@ -252,7 +239,7 @@ struct LockScreenSettingsView: View {
                 }
             }
 
-            Spacer(minLength: 12)
+            Spacer()
 
             HStack(spacing: 8) {
                 if hasCustomSound(for: kind) {

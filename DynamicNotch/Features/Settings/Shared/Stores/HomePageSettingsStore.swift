@@ -7,12 +7,25 @@
 
 import Foundation
 import Combine
+import SwiftUI
 
 @MainActor
 final class HomePageSettingsStore: SettingsStoreBase {
     @Published var isHomePageLiveActivityEnabled: Bool {
         didSet {
             persist(isHomePageLiveActivityEnabled, for: GeneralSettingsStorage.Keys.homePageLiveActivity)
+        }
+    }
+    
+    @Published var isHomePagePageIndicatorEnabled: Bool {
+        didSet {
+            persist(isHomePagePageIndicatorEnabled, for: GeneralSettingsStorage.Keys.homePagePageIndicator)
+        }
+    }
+    
+    @Published var homePageIndicatorSize: HomePageIndicatorSize {
+        didSet {
+            persist(homePageIndicatorSize.rawValue, for: GeneralSettingsStorage.Keys.homePageIndicatorSize)
         }
     }
     
@@ -34,7 +47,11 @@ final class HomePageSettingsStore: SettingsStoreBase {
     }
     
     func resetHomePage() {
-        
+        isHomePageLiveActivityEnabled = (GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.homePageLiveActivity] as? Bool) ?? true
+        homePageOrder = HomePages.allCases
+        homePageDisabled = Set<HomePages>()
+        isHomePagePageIndicatorEnabled = (GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.homePagePageIndicator] as? Bool) ?? true
+        homePageIndicatorSize = .medium
     }
     
     override init(defaults: UserDefaults) {
@@ -43,6 +60,13 @@ final class HomePageSettingsStore: SettingsStoreBase {
             defaults: defaults,
             key: GeneralSettingsStorage.Keys.homePageLiveActivity
         )
+        self.isHomePagePageIndicatorEnabled = Self.resolvedBool(
+            defaults: defaults,
+            key: GeneralSettingsStorage.Keys.homePagePageIndicator
+        )
+        
+        let savedSize = defaults.string(forKey: GeneralSettingsStorage.Keys.homePageIndicatorSize) ?? ""
+        self.homePageIndicatorSize = HomePageIndicatorSize(rawValue: savedSize) ?? .medium
         
         let savedOrder = (defaults.array(forKey: GeneralSettingsStorage.Keys.homePageOrder) as? [String]) ?? 
             ((GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.homePageOrder] as? [String]) ?? [])

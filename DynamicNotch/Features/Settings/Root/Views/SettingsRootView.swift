@@ -418,8 +418,7 @@ struct SettingsRootView: View {
             detailContainer(for: section) {
                 NotchSettingsView(
                     powerService: powerService,
-                    applicationSettings: settingsViewModel.application,
-                    homePageSettings: settingsViewModel.homePage
+                    applicationSettings: settingsViewModel.application
                 )
             }
 
@@ -428,6 +427,13 @@ struct SettingsRootView: View {
                 NowPlayingSettingsView(
                     settings: settingsViewModel.mediaAndFiles,
                     applicationSettings: settingsViewModel.application
+                )
+            }
+
+        case .homePage:
+            detailContainer(for: section) {
+                HomePageSettingsView(
+                    homePageSettings: settingsViewModel.homePage
                 )
             }
             

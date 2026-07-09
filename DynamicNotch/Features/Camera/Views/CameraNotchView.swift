@@ -13,6 +13,7 @@ struct CameraNotchView: View {
     let settings: HomePageSettingsStore
     let localTimerViewModel: LocalTimerViewModel
     
+    @Environment(\.isDynamicIsland) private var isDynamicIsland
     @StateObject private var cameraViewModel = CameraViewModel()
     @State private var isHovering: Bool = false
     @State private var previewID = UUID()
@@ -65,7 +66,7 @@ struct CameraNotchView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 30))
                     .id(previewID)
                     .transition(.blurAndFade.combined(with: .opacity).animation(.spring(response: 0.6)))
-                    .padding(.horizontal, 12)
+                    .padding(.horizontal, isDynamicIsland ? 0 : 12)
                 
                 HStack {
                     if isHovering {
@@ -213,7 +214,7 @@ struct CameraNotchView: View {
                     .progressViewStyle(CircularProgressViewStyle(tint: .white))
             }
         }
-        .padding(.horizontal, 10)
+        .padding(.horizontal, isDynamicIsland ? 0 : 12)
     }
 }
 

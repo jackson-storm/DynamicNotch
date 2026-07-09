@@ -79,27 +79,77 @@ struct HomePageNotchView: View {
         let activePages = settings.homePageOrder.filter { !settings.homePageDisabled.contains($0) }
         let isWaiting = isWaitingForSizeUpdate
         
-        VStack(spacing: 8) {
-            Spacer()
+        VStack() {
+            if settings.homePageScrollAxis != .vertical {
+                Spacer()
+            }
             
-            ScrollView(.horizontal, showsIndicators: false) {
-                LazyHStack(spacing: 0) {
-                    ForEach(activePages) { page in
-                        pageView(for: page)
-                            .containerRelativeFrame(.horizontal)
-                            .scrollTransition(.interactive) { content, phase in
-                                content
-                                    .blur(radius: isWaiting ? 20 : CGFloat(abs(phase.value)) * 20)
-                                    .opacity(isWaiting ? 0.7 : 1.0 - (abs(phase.value) * 0.3))
-                                    .scaleEffect(CGFloat(1.0 - (abs(phase.value) * 0.30)))
-                            }
-                            .id(page)
+            ScrollView(settings.homePageScrollAxis == .vertical ? .vertical : .horizontal, showsIndicators: false) {
+                if settings.homePageScrollAxis == .vertical {
+                    LazyVStack(spacing: 0) {
+                        ForEach(activePages) { page in
+                            pageView(for: page)
+                                .containerRelativeFrame(.vertical)
+                                .scrollTransition(.interactive) { content, phase in
+                                    content
+                                        .blur(radius: isWaiting ? 20 : CGFloat(abs(phase.value)) * 20)
+                                        .opacity(isWaiting ? 0.7 : 1.0 - (abs(phase.value) * 0.3))
+                                        .scaleEffect(CGFloat(1.0 - (abs(phase.value) * 0.30)))
+                                }
+                                .id(page)
+                        }
                     }
+                    .scrollTargetLayout()
+                    
+                } else {
+                    LazyHStack(spacing: 0) {
+                        ForEach(activePages) { page in
+                            pageView(for: page)
+                                .containerRelativeFrame(.horizontal)
+                                .scrollTransition(.interactive) { content, phase in
+                                    content
+                                        .blur(radius: isWaiting ? 20 : CGFloat(abs(phase.value)) * 20)
+                                        .opacity(isWaiting ? 0.7 : 1.0 - (abs(phase.value) * 0.3))
+                                        .scaleEffect(CGFloat(1.0 - (abs(phase.value) * 0.30)))
+                                }
+                                .id(page)
+                        }
+                    }
+                    .scrollTargetLayout()
                 }
-                .scrollTargetLayout()
             }
             .scrollTargetBehavior(.viewAligned)
             .scrollPosition(id: $currentPage)
+            .mask {
+                if settings.homePageScrollAxis == .vertical {
+                    let totalHeight = notchViewModel.presentedNotchSize.height
+                    let baseHeight = notchViewModel.notchModel.baseHeight
+                    let cornerRadius: CGFloat = isDynamicIsland ? 24 : 28
+                    
+                    if totalHeight > 0 {
+                        let fadeStart = baseHeight / totalHeight
+                        let fadeEnd = min(1.0, (baseHeight + 8) / totalHeight)
+                        
+                        RoundedRectangle(cornerRadius: cornerRadius)
+                            .mask(
+                                LinearGradient(
+                                    stops: [
+                                        .init(color: .clear, location: 0),
+                                        .init(color: .clear, location: fadeStart),
+                                        .init(color: .black, location: fadeEnd),
+                                        .init(color: .black, location: 1)
+                                    ],
+                                    startPoint: .top,
+                                    endPoint: .bottom
+                                )
+                            )
+                    } else {
+                        RoundedRectangle(cornerRadius: cornerRadius)
+                    }
+                } else {
+                    Color.black
+                }
+            }
         }
         .clipShape(RoundedRectangle(cornerRadius: isDynamicIsland ? 24 : 28))
         .padding(.horizontal, isDynamicIsland ? 6 : 30)

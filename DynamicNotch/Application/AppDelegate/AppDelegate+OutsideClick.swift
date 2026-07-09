@@ -89,17 +89,27 @@ extension AppDelegate {
         let notchSize = notchViewModel.notchModel.size
         guard notchSize.width > 0, notchSize.height > 0 else { return nil }
 
+        let isVertical = settingsViewModel.homePage.homePageScrollAxis == .vertical
+        
         var height = notchSize.height
+        var width = notchSize.width
+        let originX = floor(window.frame.midX - notchSize.width / 2)
+
         if shouldShowPageIndicator {
-            height += 6 + pageIndicatorSize.height + 35
+            if isVertical {
+                width = notchSize.width + pageIndicatorSize.width + 16
+                height = max(notchSize.height, notchSize.height / 2 + pageIndicatorSize.height / 2 + 12)
+            } else {
+                height += 6 + pageIndicatorSize.height + 35
+            }
         }
 
         let origin = CGPoint(
-            x: floor(window.frame.midX - notchSize.width / 2),
+            x: originX,
             y: window.frame.maxY - height
         )
 
-        return CGRect(origin: origin, size: CGSize(width: notchSize.width, height: height)).insetBy(dx: -12, dy: -8)
+        return CGRect(origin: origin, size: CGSize(width: width, height: height)).insetBy(dx: -12, dy: -8)
     }
 
     @MainActor
@@ -123,8 +133,15 @@ extension AppDelegate {
         let size = settingsViewModel.homePage.homePageIndicatorSize
         let count = CGFloat(active.count)
         if count == 0 { return .zero }
-        let width = count * (size.dotSize + size.spacing) + 2 * size.padding
-        let height = size.dotSize + 2 * size.padding
-        return CGSize(width: width, height: height)
+        
+        if settingsViewModel.homePage.homePageScrollAxis == .vertical {
+            let width = size.dotSize + 2 * size.padding
+            let height = count * (size.dotSize + size.spacing) + 2 * size.padding
+            return CGSize(width: width, height: height)
+        } else {
+            let width = count * (size.dotSize + size.spacing) + 2 * size.padding
+            let height = size.dotSize + 2 * size.padding
+            return CGSize(width: width, height: height)
+        }
     }
 }

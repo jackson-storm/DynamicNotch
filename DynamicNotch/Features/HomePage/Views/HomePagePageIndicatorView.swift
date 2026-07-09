@@ -2,6 +2,7 @@ import SwiftUI
 internal import AppKit
 
 struct HomePagePageIndicatorView: View {
+    @Environment(\.isDynamicIsland) private var isDynamicIsland
     @ObservedObject var notchViewModel: NotchViewModel
     @ObservedObject var settingsViewModel: SettingsViewModel
     
@@ -14,19 +15,39 @@ struct HomePagePageIndicatorView: View {
         Group {
             if shouldShowPageIndicator && isIndicatorVisible, let currentPage {
                 let size = settingsViewModel.homePage.homePageIndicatorSize
+                let isVertical = settingsViewModel.homePage.homePageScrollAxis == .vertical
                 
-                HStack(spacing: size.spacing) {
-                    ForEach(activePages, id: \.self) { page in
-                        Circle()
-                            .fill(dotColor(for: page, currentPage: currentPage))
-                            .frame(width: size.dotSize, height: size.dotSize)
-                            .scaleEffect(hoveredPage == page ? 1.25 : 1.0)
-                            .contentShape(Rectangle())
-                            .onHover { isHovering in
-                                withAnimation(.spring(response: 0.2, dampingFraction: 0.6)) {
-                                    hoveredPage = isHovering ? page : nil
-                                }
+                Group {
+                    if isVertical {
+                        VStack(spacing: size.spacing) {
+                            ForEach(activePages, id: \.self) { page in
+                                Circle()
+                                    .fill(dotColor(for: page, currentPage: currentPage))
+                                    .frame(width: size.dotSize, height: size.dotSize)
+                                    .scaleEffect(hoveredPage == page ? 1.25 : 1.0)
+                                    .contentShape(Rectangle())
+                                    .onHover { isHovering in
+                                        withAnimation(.spring(response: 0.2, dampingFraction: 0.6)) {
+                                            hoveredPage = isHovering ? page : nil
+                                        }
+                                    }
                             }
+                        }
+                    } else {
+                        HStack(spacing: size.spacing) {
+                            ForEach(activePages, id: \.self) { page in
+                                Circle()
+                                    .fill(dotColor(for: page, currentPage: currentPage))
+                                    .frame(width: size.dotSize, height: size.dotSize)
+                                    .scaleEffect(hoveredPage == page ? 1.25 : 1.0)
+                                    .contentShape(Rectangle())
+                                    .onHover { isHovering in
+                                        withAnimation(.spring(response: 0.2, dampingFraction: 0.6)) {
+                                            hoveredPage = isHovering ? page : nil
+                                        }
+                                    }
+                            }
+                        }
                     }
                 }
                 .padding(size.padding)
@@ -42,14 +63,14 @@ struct HomePagePageIndicatorView: View {
                     DragGesture(minimumDistance: 0)
                         .onChanged { value in
                             isPressed = true
-                            let itemWidth = size.dotSize + size.spacing
-                            let relativeX = value.location.x - size.padding
-                            let index = Int(relativeX / itemWidth)
+                            let itemSize = size.dotSize + size.spacing
+                            let relativePos = isVertical ? value.location.y - size.padding : value.location.x - size.padding
+                            let index = Int(relativePos / itemSize)
                             let clampedIndex = max(0, min(activePages.count - 1, index))
                             let page = activePages[clampedIndex]
                             
                             if page != currentPage {
-                                let isDragging = abs(value.translation.width) > 4
+                                let isDragging = isVertical ? abs(value.translation.height) > 4 : abs(value.translation.width) > 4
                                 switchToPage(page, playHaptic: isDragging)
                             }
                             withAnimation(.spring(response: 0.2, dampingFraction: 0.6)) {
@@ -68,6 +89,10 @@ struct HomePagePageIndicatorView: View {
                         isHovering = hovering
                     }
                 }
+                .offset(
+                    x: isVertical ? (notchViewModel.presentedNotchSize.width / 2 + indicatorWidth / 2 + (notchViewModel.notchModel.isDynamicIsland ? 8 : -14)) : 0,
+                    y: isVertical ? (notchViewModel.presentedNotchSize.height / 2 - indicatorHeight / 2) : (notchViewModel.presentedNotchSize.height + 8)
+                )
             }
         }
         .onChange(of: shouldShowPageIndicator) {
@@ -104,6 +129,30 @@ struct HomePagePageIndicatorView: View {
         guard let homePageContent = homePageContent else { return [] }
         return homePageContent.settings.homePageOrder.filter { 
             !homePageContent.settings.homePageDisabled.contains($0) 
+        }
+    }
+
+    private var indicatorWidth: CGFloat {
+        let size = settingsViewModel.homePage.homePageIndicatorSize
+        let count = CGFloat(activePages.count)
+        guard count > 0 else { return 0 }
+        
+        if settingsViewModel.homePage.homePageScrollAxis == .vertical {
+            return size.dotSize + size.padding * 2
+        } else {
+            return size.dotSize * count + size.spacing * (count - 1) + size.padding * 2
+        }
+    }
+    
+    private var indicatorHeight: CGFloat {
+        let size = settingsViewModel.homePage.homePageIndicatorSize
+        let count = CGFloat(activePages.count)
+        guard count > 0 else { return 0 }
+        
+        if settingsViewModel.homePage.homePageScrollAxis == .vertical {
+            return size.dotSize * count + size.spacing * (count - 1) + size.padding * 2
+        } else {
+            return size.dotSize + size.padding * 2
         }
     }
     

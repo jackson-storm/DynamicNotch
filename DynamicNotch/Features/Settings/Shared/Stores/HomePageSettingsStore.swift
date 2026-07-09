@@ -29,6 +29,12 @@ final class HomePageSettingsStore: SettingsStoreBase {
         }
     }
     
+    @Published var homePageScrollAxis: HomePageScrollAxis {
+        didSet {
+            persist(homePageScrollAxis.rawValue, for: GeneralSettingsStorage.Keys.homePageScrollAxis)
+        }
+    }
+    
     @Published var homePageOrder: [HomePages] {
         didSet {
             persist(homePageOrder.map { $0.rawValue }, for: GeneralSettingsStorage.Keys.homePageOrder)
@@ -52,6 +58,7 @@ final class HomePageSettingsStore: SettingsStoreBase {
         homePageDisabled = Set<HomePages>()
         isHomePagePageIndicatorEnabled = (GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.homePagePageIndicator] as? Bool) ?? true
         homePageIndicatorSize = .medium
+        homePageScrollAxis = .horizontal
     }
     
     override init(defaults: UserDefaults) {
@@ -67,6 +74,9 @@ final class HomePageSettingsStore: SettingsStoreBase {
         
         let savedSize = defaults.string(forKey: GeneralSettingsStorage.Keys.homePageIndicatorSize) ?? ""
         self.homePageIndicatorSize = HomePageIndicatorSize(rawValue: savedSize) ?? .medium
+        
+        let savedAxis = defaults.string(forKey: GeneralSettingsStorage.Keys.homePageScrollAxis) ?? ""
+        self.homePageScrollAxis = HomePageScrollAxis(rawValue: savedAxis) ?? .horizontal
         
         let savedOrder = (defaults.array(forKey: GeneralSettingsStorage.Keys.homePageOrder) as? [String]) ?? 
             ((GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.homePageOrder] as? [String]) ?? [])

@@ -128,6 +128,7 @@ enum GeneralSettingsStorage {
         static let homePageDisabled = "settings.homePage.disabled"
         static let homePagePageIndicator = "settings.homePage.pageIndicator"
         static let homePageIndicatorSize = "settings.homePage.indicatorSize"
+        static let homePageScrollAxis = "settings.homePage.scrollAxis"
         static let selectedVPNID = "settings.vpn.selectedID"
     }
 
@@ -269,6 +270,7 @@ enum GeneralSettingsStorage {
         Keys.homePageDisabled: [String](),
         Keys.homePagePageIndicator: true,
         Keys.homePageIndicatorSize: "medium",
+        Keys.homePageScrollAxis: HomePageScrollAxis.horizontal.rawValue,
         Keys.selectedVPNID: "",
         Keys.calendarLiveActivity: true,
         Keys.calendarHideWhenFocused: true,

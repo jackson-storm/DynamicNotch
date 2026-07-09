@@ -36,7 +36,7 @@ extension AnyTransition {
                     blur: 20,
                     opacity: 0,
                     offsetY: verticalOffset,
-                    scaleX: 0.6,
+                    scaleX: 0.4,
                     scaleY: 0.2,
                     anchor: .center
                 ),
@@ -47,7 +47,7 @@ extension AnyTransition {
                     blur: 20,
                     opacity: 0,
                     offsetY: verticalOffset,
-                    scaleX: 0.6,
+                    scaleX: 0.4,
                     scaleY: 0.2,
                     anchor: .center
                 ),

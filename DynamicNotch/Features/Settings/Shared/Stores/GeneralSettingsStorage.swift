@@ -126,6 +126,8 @@ enum GeneralSettingsStorage {
         static let calendarDaysToShow = "settings.calendar.daysToShow"
         static let homePageOrder = "settings.homePage.order"
         static let homePageDisabled = "settings.homePage.disabled"
+        static let homePagePageIndicator = "settings.homePage.pageIndicator"
+        static let homePageIndicatorSize = "settings.homePage.indicatorSize"
         static let selectedVPNID = "settings.vpn.selectedID"
     }
 
@@ -265,6 +267,8 @@ enum GeneralSettingsStorage {
         Keys.homePageLiveActivity: true,
         Keys.homePageOrder: ["camera", "localTimer", "vpn", "systemStats"],
         Keys.homePageDisabled: [String](),
+        Keys.homePagePageIndicator: true,
+        Keys.homePageIndicatorSize: "medium",
         Keys.selectedVPNID: "",
         Keys.calendarLiveActivity: true,
         Keys.calendarHideWhenFocused: true,

@@ -297,11 +297,18 @@ private extension NotchCustomScaleModifier {
             delay = 0.05
         }
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) { @MainActor in
             guard pendingCollapseToken == token,
                   !isHovering,
                   notchViewModel.shouldCollapseActiveContentOnHoverLeaves else {
                 return
+            }
+
+            if let appDelegate = NSApp.delegate as? AppDelegate {
+                let mouseLocation = NSEvent.mouseLocation
+                if let notchRect = appDelegate.activeNotchScreenRect, notchRect.contains(mouseLocation) {
+                    return
+                }
             }
 
             pendingCollapseToken = nil

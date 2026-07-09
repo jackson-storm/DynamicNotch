@@ -89,8 +89,9 @@ struct HomePageNotchView: View {
                             .containerRelativeFrame(.horizontal)
                             .scrollTransition(.interactive) { content, phase in
                                 content
-                                    .blur(radius: (!phase.isIdentity || isWaiting) ? 20 : 0)
-                                    .opacity((!phase.isIdentity || isWaiting) ? 0.7 : 1.0)
+                                    .blur(radius: isWaiting ? 20 : CGFloat(abs(phase.value)) * 20)
+                                    .opacity(isWaiting ? 0.7 : 1.0 - (abs(phase.value) * 0.3))
+                                    .scaleEffect(CGFloat(1.0 - (abs(phase.value) * 0.30)))
                             }
                             .id(page)
                     }

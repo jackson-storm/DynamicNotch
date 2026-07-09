@@ -223,7 +223,6 @@ private extension NotchView {
             settingsViewModel: settingsViewModel
         )
         .offset(y: notchViewModel.presentedNotchSize.height + 8)
-        .shadow(color: .black.opacity(0.5), radius: 20)
         .transition(
             notchViewModel.contentTransition(
                 notchHeight: notchViewModel.presentedNotchSize.height,

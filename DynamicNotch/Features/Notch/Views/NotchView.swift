@@ -24,7 +24,6 @@ struct NotchView: View {
     
     var body: some View {
         ZStack(alignment: .top) {
-            homePageIndicator
             notchBody
                 .environment(\.notchScale, notchViewModel.notchModel.scale)
                 .background(
@@ -89,6 +88,9 @@ struct NotchView: View {
                 .onChange(of: settingsViewModel.notchHeight) {
                     notchViewModel.updateDimensions()
                 }
+            
+            homePageIndicator
+                .zIndex(settingsViewModel.homePage.homePageScrollAxis == .vertical ? 1.0 : -1.0)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
@@ -222,7 +224,6 @@ private extension NotchView {
             notchViewModel: notchViewModel,
             settingsViewModel: settingsViewModel
         )
-        .offset(y: notchViewModel.presentedNotchSize.height + 8)
         .transition(
             notchViewModel.contentTransition(
                 notchHeight: notchViewModel.presentedNotchSize.height,
@@ -260,7 +261,8 @@ private extension NotchView {
         
         return !(
             notchViewModel.notchModel.isPresentingExpandedLiveActivity &&
-            notchViewModel.notchModel.content?.id == NotchContentRegistry.DragAndDrop.trayActive.id
+            (notchViewModel.notchModel.content?.id == NotchContentRegistry.DragAndDrop.trayActive.id ||
+             (notchViewModel.notchModel.content?.id == NotchContentRegistry.HomePage.active.id && settingsViewModel.homePage.homePageScrollAxis == .vertical))
         )
     }
     

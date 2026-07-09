@@ -51,7 +51,6 @@ struct HomePageSettingsView: View {
                 homePageSettings: homePageSettings,
                 applicationSettings: applicationSettings
             )
-            .padding(.bottom, 10)
 
             Divider().opacity(0.6)
 
@@ -104,7 +103,7 @@ private struct HomePageAppearancePreview: View {
                     ZStack {
                         RoundedRectangle(cornerRadius: 28)
                             .fill(.white.opacity(0.12))
-                            .frame(height: 110)
+                            .frame(height: 107)
                         
                         VStack(spacing: 8) {
                             Image(systemName: "web.camera.fill")
@@ -119,7 +118,7 @@ private struct HomePageAppearancePreview: View {
                     }
                     .frame(height: 140)
                 }
-                .padding(.horizontal, 30)
+                .padding(.horizontal, 32)
                 
                 if homePageSettings.isHomePagePageIndicatorEnabled {
                     let size = homePageSettings.homePageIndicatorSize

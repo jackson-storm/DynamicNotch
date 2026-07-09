@@ -1,4 +1,5 @@
 import SwiftUI
+internal import AppKit
 
 struct HomePagePageIndicatorView: View {
     @ObservedObject var notchViewModel: NotchViewModel
@@ -7,63 +8,79 @@ struct HomePagePageIndicatorView: View {
     @State private var isHovering = false
     @State private var hoveredPage: HomePages? = nil
     @State private var isPressed = false
+    @State private var isIndicatorVisible = false
 
     var body: some View {
-        if shouldShowPageIndicator, let currentPage {
-            let size = settingsViewModel.homePage.homePageIndicatorSize
-            
-            HStack(spacing: size.spacing) {
-                ForEach(activePages, id: \.self) { page in
-                    Circle()
-                        .fill(dotColor(for: page, currentPage: currentPage))
-                        .frame(width: size.dotSize, height: size.dotSize)
-                        .scaleEffect(hoveredPage == page ? 1.25 : 1.0)
-                        .contentShape(Rectangle())
-                        .onHover { isHovering in
+        Group {
+            if shouldShowPageIndicator && isIndicatorVisible, let currentPage {
+                let size = settingsViewModel.homePage.homePageIndicatorSize
+                
+                HStack(spacing: size.spacing) {
+                    ForEach(activePages, id: \.self) { page in
+                        Circle()
+                            .fill(dotColor(for: page, currentPage: currentPage))
+                            .frame(width: size.dotSize, height: size.dotSize)
+                            .scaleEffect(hoveredPage == page ? 1.25 : 1.0)
+                            .contentShape(Rectangle())
+                            .onHover { isHovering in
+                                withAnimation(.spring(response: 0.2, dampingFraction: 0.6)) {
+                                    hoveredPage = isHovering ? page : nil
+                                }
+                            }
+                    }
+                }
+                .padding(size.padding)
+                .background(Color.black)
+                .clipShape(Capsule())
+                .overlay {
+                    Capsule()
+                        .stroke(shouldShowStroke ? visibleStrokeColor : .clear, lineWidth: 1)
+                }
+                .scaleEffect(isPressed ? 1.1 : 1.0)
+                .animation(.spring(response: 0.2, dampingFraction: 0.6), value: isPressed)
+                .gesture(
+                    DragGesture(minimumDistance: 0)
+                        .onChanged { value in
+                            isPressed = true
+                            let itemWidth = size.dotSize + size.spacing
+                            let relativeX = value.location.x - size.padding
+                            let index = Int(relativeX / itemWidth)
+                            let clampedIndex = max(0, min(activePages.count - 1, index))
+                            let page = activePages[clampedIndex]
+                            
+                            if page != currentPage {
+                                let isDragging = abs(value.translation.width) > 4
+                                switchToPage(page, playHaptic: isDragging)
+                            }
                             withAnimation(.spring(response: 0.2, dampingFraction: 0.6)) {
-                                hoveredPage = isHovering ? page : nil
+                                hoveredPage = page
                             }
                         }
+                        .onEnded { _ in
+                            isPressed = false
+                            withAnimation(.spring(response: 0.2, dampingFraction: 0.6)) {
+                                hoveredPage = nil
+                            }
+                        }
+                )
+                .onHover { hovering in
+                    withAnimation(.spring(response: 0.25, dampingFraction: 0.7)) {
+                        isHovering = hovering
+                    }
                 }
             }
-            .padding(size.padding)
-            .background(Color.black)
-            .clipShape(Capsule())
-            .overlay {
-                Capsule()
-                    .stroke(shouldShowStroke ? visibleStrokeColor : .clear, lineWidth: 1)
-            }
-            .shadow(color: .black.opacity(0.15), radius: 2, y: 1)
-            .scaleEffect(isPressed ? 0.95 : 1.0)
-            .scaleEffect(isHovering ? 1.2 : 1.0)
-            .animation(.spring(response: 0.2, dampingFraction: 0.6), value: isPressed)
-            .gesture(
-                DragGesture(minimumDistance: 0)
-                    .onChanged { value in
-                        isPressed = true
-                        let itemWidth = size.dotSize + size.spacing
-                        let relativeX = value.location.x - size.padding
-                        let index = Int(relativeX / itemWidth)
-                        let clampedIndex = max(0, min(activePages.count - 1, index))
-                        let page = activePages[clampedIndex]
-                        
-                        if page != currentPage {
-                            switchToPage(page)
-                        }
-                        withAnimation(.spring(response: 0.2, dampingFraction: 0.6)) {
-                            hoveredPage = page
-                        }
+        }
+        .onChange(of: shouldShowPageIndicator) {
+            if shouldShowPageIndicator {
+                Task {
+                    try? await Task.sleep(nanoseconds: 50_000_000)
+                    withAnimation(.spring(response: 0.5, dampingFraction: 0.5)) {
+                        isIndicatorVisible = true
                     }
-                    .onEnded { _ in
-                        isPressed = false
-                        withAnimation(.spring(response: 0.2, dampingFraction: 0.6)) {
-                            hoveredPage = nil
-                        }
-                    }
-            )
-            .onHover { hovering in
-                withAnimation(.spring(response: 0.25, dampingFraction: 0.7)) {
-                    isHovering = hovering
+                }
+            } else {
+                withAnimation(.easeInOut(duration: 0.15)) {
+                    isIndicatorVisible = false
                 }
             }
         }
@@ -122,8 +139,13 @@ struct HomePagePageIndicatorView: View {
         }
     }
     
-    private func switchToPage(_ page: HomePages) {
+    private func switchToPage(_ page: HomePages, playHaptic: Bool) {
         guard let homePageContent = homePageContent else { return }
+        
+        if playHaptic {
+            NSHapticFeedbackManager.defaultPerformer.perform(.generic, performanceTime: .now)
+        }
+
         notchViewModel.send(
             .showLiveActivity(
                 HomePageNotchContent(

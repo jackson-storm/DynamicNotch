@@ -24,6 +24,7 @@ struct NotchView: View {
     
     var body: some View {
         ZStack(alignment: .top) {
+            homePageIndicator
             notchBody
                 .environment(\.notchScale, notchViewModel.notchModel.scale)
                 .background(
@@ -88,8 +89,6 @@ struct NotchView: View {
                 .onChange(of: settingsViewModel.notchHeight) {
                     notchViewModel.updateDimensions()
                 }
-            
-            homePageIndicator
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
@@ -223,7 +222,8 @@ private extension NotchView {
             notchViewModel: notchViewModel,
             settingsViewModel: settingsViewModel
         )
-        .offset(y: notchViewModel.presentedNotchSize.height + 6)
+        .offset(y: notchViewModel.presentedNotchSize.height + 8)
+        .shadow(color: .black.opacity(0.5), radius: 20)
         .transition(
             notchViewModel.contentTransition(
                 notchHeight: notchViewModel.presentedNotchSize.height,

@@ -2,15 +2,17 @@ import SwiftUI
 
 struct HomePageSettingsView: View {
     @ObservedObject var homePageSettings: HomePageSettingsStore
+    @ObservedObject var applicationSettings: ApplicationSettingsStore
 
     var body: some View {
         SettingsPageScrollView {
-            homePageCard
+            homePageActivity
+            homePagePages
+            homePageAppearance
         }
     }
-
-    private var homePageCard: some View {
-        SettingsCard(title: "Home Page") {
+    private var homePageActivity: some View {
+        SettingsCard(title: "Home Page activity") {
             SettingsToggleRow(
                 title: "Home Page live activity",
                 description: "Show the Home Page in the notch.",
@@ -19,14 +21,45 @@ struct HomePageSettingsView: View {
                 isOn: $homePageSettings.isHomePageLiveActivityEnabled,
                 accessibilityIdentifier: "settings.activities.live.homePage"
             )
+        }
+    }
+
+    private var homePagePages: some View {
+        SettingsCard(title: "Pages") {
+            SettingsOrderListView(
+                items: $homePageSettings.homePageOrder,
+                disabledItems: $homePageSettings.homePageDisabled,
+                icon: { $0.icon },
+                tint: { $0.tint },
+                title: { $0.title },
+                subtitle: { $0.subtitle },
+                isListEnabled: homePageSettings.isHomePageLiveActivityEnabled
+            )
 
             Divider().opacity(0.6)
-            
+
+            Text(LocalizedStringKey("Drag to reorder pages. Disabled pages will be hidden."))
+                .font(.caption)
+                .foregroundColor(.gray)
+                .opacity(homePageSettings.isHomePageLiveActivityEnabled ? 1.0 : 0.5)
+        }
+    }
+    
+    private var homePageAppearance: some View {
+        SettingsCard(title: "Home Page appearance") {
+            HomePageAppearancePreview(
+                homePageSettings: homePageSettings,
+                applicationSettings: applicationSettings
+            )
+            .padding(.bottom, 10)
+
+            Divider().opacity(0.6)
+
             SettingsToggleRow(
                 title: "settings.homePage.pageIndicator.title",
                 description: "settings.homePage.pageIndicator.description",
-                systemImage: "ellipsis.circle",
-                color: .purple,
+                systemImage: "ellipsis.rectangle.fill",
+                color: .black,
                 isOn: $homePageSettings.isHomePagePageIndicatorEnabled,
                 accessibilityIdentifier: "settings.homePage.pageIndicator"
             )
@@ -43,67 +76,72 @@ struct HomePageSettingsView: View {
             )
             .disabled(!homePageSettings.isHomePagePageIndicatorEnabled)
             .opacity(homePageSettings.isHomePagePageIndicatorEnabled ? 1.0 : 0.5)
+        }
+    }
+}
 
-            Divider().opacity(0.6)
-
-            List {
-                ForEach(homePageSettings.homePageOrder, id: \.self) { page in
-                    HStack(spacing: 12) {
-                        Image(systemName: "line.3.horizontal")
-                            .foregroundColor(.gray.opacity(0.5))
-                            .font(.system(size: 14))
-
-                        SettingsIconBadge(
-                            systemImage: page.icon,
-                            tint: page.tint,
-                            size: 30,
-                            iconSize: 14,
-                            cornerRadius: 9
-                        )
-
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(page.title)
-                            Text(page.subtitle)
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                                .fixedSize(horizontal: false, vertical: true)
+private struct HomePageAppearancePreview: View {
+    @ObservedObject var homePageSettings: HomePageSettingsStore
+    @ObservedObject var applicationSettings: ApplicationSettingsStore
+    
+    var body: some View {
+        SettingsNotchPreview(
+            width: 260,
+            height: 130,
+            previewHeight: 180,
+            topCornerRadius: 24,
+            bottomCornerRadius: 38,
+            showsStroke: applicationSettings.isShowNotchStrokeEnabled,
+            strokeColor: .white.opacity(0.2).opacity(applicationSettings.notchStrokeOpacity),
+            strokeWidth: 1.5,
+            lightBackgroundImage: Image("backgroundLight"),
+            darkBackgroundImage: Image("backgroundDark")
+        ) {
+            ZStack(alignment: .top) {
+                VStack() {
+                    Spacer()
+                    
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 28)
+                            .fill(.white.opacity(0.12))
+                            .frame(height: 110)
+                        
+                        VStack(spacing: 8) {
+                            Image(systemName: "web.camera.fill")
+                                .font(.system(size: 26))
+                                .foregroundStyle(.white)
+                            
+                            Text("Start Camera")
+                                .font(.subheadline)
+                                .fontWeight(.medium)
+                                .foregroundStyle(.white)
                         }
-
-                        Spacer()
-
-                        Toggle("", isOn: Binding(
-                            get: { !homePageSettings.homePageDisabled.contains(page) },
-                            set: { isEnabled in
-                                if isEnabled {
-                                    homePageSettings.homePageDisabled.remove(page)
-                                } else {
-                                    homePageSettings.homePageDisabled.insert(page)
-                                }
-                            }
-                        ))
-                        .labelsHidden()
                     }
-                    .padding(.vertical, 6)
-                    .listRowBackground(Color.clear)
-                    .listRowSeparatorTint(.gray.opacity(0.15))
+                    .frame(height: 140)
                 }
-                .onMove { from, to in
-                    homePageSettings.homePageOrder.move(fromOffsets: from, toOffset: to)
+                .padding(.horizontal, 30)
+                
+                if homePageSettings.isHomePagePageIndicatorEnabled {
+                    let size = homePageSettings.homePageIndicatorSize
+                    HStack(spacing: size.spacing) {
+                        ForEach(0..<4, id: \.self) { index in
+                            Circle()
+                                .fill(index == 0 ? Color.white : Color.white.opacity(0.4))
+                                .frame(width: size.dotSize, height: size.dotSize)
+                        }
+                    }
+                    .padding(size.padding)
+                    .background(Color.black)
+                    .clipShape(Capsule())
+                    .overlay {
+                        Capsule()
+                            .stroke(applicationSettings.isShowNotchStrokeEnabled
+                                    ? .white.opacity(0.2).opacity(applicationSettings.notchStrokeOpacity)
+                                    : .clear, lineWidth: 1)
+                    }
+                    .offset(y: 148)
                 }
             }
-            .listStyle(.plain)
-            .scrollContentBackground(.hidden)
-            .scrollDisabled(true)
-            .frame(height: CGFloat(homePageSettings.homePageOrder.count) * 52)
-            .disabled(!homePageSettings.isHomePageLiveActivityEnabled)
-            .opacity(homePageSettings.isHomePageLiveActivityEnabled ? 1.0 : 0.5)
-
-            Divider().opacity(0.6)
-
-            Text(LocalizedStringKey("Drag to reorder pages. Disabled pages will be hidden."))
-                .font(.caption)
-                .foregroundColor(.gray)
-                .opacity(homePageSettings.isHomePageLiveActivityEnabled ? 1.0 : 0.5)
         }
     }
 }

@@ -2367,6 +2367,7 @@
       }
     },
     "Change" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2479,6 +2480,7 @@
       }
     },
     "Choose" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -7471,6 +7473,7 @@
       }
     },
     "Home Page" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -7523,6 +7526,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "主页活动"
+          }
+        }
+      }
+    },
+    "Home Page appearance" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Home Page appearance"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apariencia de la página de inicio"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Внешний вид домашней страницы"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "主页外观"
           }
         }
       }
@@ -10287,7 +10319,6 @@
       }
     },
     "Pages" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -14527,6 +14558,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "浏览主页时在 notch 下方显示页面指示点。"
+          }
+        }
+      }
+    },
+    "settings.homePage.pageIndicator.preview" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preview"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vista previa"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Предпросмотр"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "预览"
+          }
+        }
+      }
+    },
+    "settings.homePage.pageIndicator.preview.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Real-time preview of the dots size."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vista previa en tiempo real del tamaño de los puntos."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Индикатор в реальном времени с выбранным размером."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "圆点大小的实时预览。"
           }
         }
       }
@@ -19906,6 +19995,9 @@
           }
         }
       }
+    },
+    "Start Camera" : {
+
     },
     "Static background" : {
       "localizations" : {

@@ -216,50 +216,17 @@ struct LockScreenSettingsView: View {
 
     @ViewBuilder
     private func customSoundRow(for kind: LockScreenCustomSoundKind) -> some View {
-        HStack(alignment: .center, spacing: 12) {
-            VStack(alignment: .leading, spacing: 4) {
-                Text(localized(kind.titleKey))
-
-                Text(localized(kind.descriptionKey))
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
-
-                Text(customSoundStatusText(for: kind))
-                    .font(.caption)
-                    .foregroundStyle(customSoundStatusColor(for: kind))
-                    .lineLimit(1)
-                    .truncationMode(.middle)
-
-                if let error = customSoundSelectionError(for: kind) {
-                    Text(error)
-                        .font(.caption)
-                        .foregroundStyle(.red)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-            }
-
-            Spacer()
-
-            HStack(spacing: 8) {
-                if hasCustomSound(for: kind) {
-                    Button("Reset") {
-                        resetCustomSoundSelection(for: kind)
-                    }
-                    .buttonStyle(.bordered)
-                    .controlSize(.small)
-                    .accessibilityIdentifier("\(kind.accessibilityIdentifier).reset")
-                }
-
-                Button(hasCustomSound(for: kind) ? "Change" : "Choose") {
-                    selectCustomSound(for: kind)
-                }
-                .buttonStyle(.borderedProminent)
-                .controlSize(.small)
-                .accessibilityIdentifier("\(kind.accessibilityIdentifier).choose")
-            }
-        }
-        .modifier(SettingsAccessibilityModifier(identifier: kind.accessibilityIdentifier))
+        SettingsChoiceRow(
+            title: localized(kind.titleKey),
+            description: localized(kind.descriptionKey),
+            statusText: customSoundStatusText(for: kind),
+            statusColor: customSoundStatusColor(for: kind),
+            errorText: customSoundSelectionError(for: kind),
+            chooseButtonTitle: hasCustomSound(for: kind) ? "Change" : "Choose",
+            onChoose: { selectCustomSound(for: kind) },
+            onReset: hasCustomSound(for: kind) ? { resetCustomSoundSelection(for: kind) } : nil,
+            accessibilityIdentifier: kind.accessibilityIdentifier
+        )
     }
 
     private func customSoundStatusText(for kind: LockScreenCustomSoundKind) -> String {

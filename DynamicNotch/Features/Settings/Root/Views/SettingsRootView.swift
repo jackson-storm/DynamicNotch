@@ -432,9 +432,10 @@ struct SettingsRootView: View {
 
         case .homePage:
             detailContainer(for: section) {
-                HomePageSettingsView(
-                    homePageSettings: settingsViewModel.homePage
-                )
+                 HomePageSettingsView(
+                     homePageSettings: settingsViewModel.homePage,
+                     applicationSettings: settingsViewModel.application
+                 )
             }
             
         case .calendar:

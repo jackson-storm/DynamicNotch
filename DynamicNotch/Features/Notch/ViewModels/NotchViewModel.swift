@@ -292,8 +292,7 @@ final class NotchViewModel: ObservableObject {
                     return animations
                 }
                 guard let settings else { return .default }
-                let isDynamic = NSScreen.metrics(for: settings)?.topInset == 0
-                return .preset(settings.notchAnimationPreset, isDynamicIsland: isDynamic)
+                return .preset(settings.notchAnimationPreset)
             },
             hideDelay: hideDelay,
             queueDelay: queueDelay

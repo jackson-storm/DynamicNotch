@@ -24,6 +24,7 @@ final class TestNotchSettings: NotchSettingsProviding {
     var isNotchTrackpadSwipeGesturesEnabled: Bool
     var isNotchSwipeDismissEnabled: Bool
     var isNotchSwipeRestoreEnabled: Bool
+    var isNotchHoverHapticEnabled: Bool
  
     init(
         notchWidth: Int = 0,
@@ -38,7 +39,8 @@ final class TestNotchSettings: NotchSettingsProviding {
         isNotchMouseDragGesturesEnabled: Bool = true,
         isNotchTrackpadSwipeGesturesEnabled: Bool = true,
         isNotchSwipeDismissEnabled: Bool = true,
-        isNotchSwipeRestoreEnabled: Bool = true
+        isNotchSwipeRestoreEnabled: Bool = true,
+        isNotchHoverHapticEnabled: Bool = false
     ) {
         self.notchWidth = notchWidth
         self.notchHeight = notchHeight
@@ -57,6 +59,7 @@ final class TestNotchSettings: NotchSettingsProviding {
         self.isNotchTrackpadSwipeGesturesEnabled = isNotchTrackpadSwipeGesturesEnabled
         self.isNotchSwipeDismissEnabled = isNotchSwipeDismissEnabled
         self.isNotchSwipeRestoreEnabled = isNotchSwipeRestoreEnabled
+        self.isNotchHoverHapticEnabled = isNotchHoverHapticEnabled
     }
 }
 

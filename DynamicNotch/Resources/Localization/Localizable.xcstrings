@@ -20966,6 +20966,62 @@
         }
       }
     },
+    "Hover haptic feedback" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hover haptic feedback"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Respuesta háptica al pasar el cursor"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тактильный отклик при наведении"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "悬停触觉反馈"
+          }
+        }
+      }
+    },
+    "Produce a soft haptic tick when the cursor enters the collapsed notch." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Produce a soft haptic tick when the cursor enters the collapsed notch."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Produce un suave clic háptico cuando el cursor entra en el notch contraído."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Воспроизводить легкий тактильный щелчок при наведении курсора на свернутый Notch."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当光标进入折叠的缺口时产生轻微的触觉反馈。"
+          }
+        }
+      }
+    },
     "Tray" : {
       "localizations" : {
         "en" : {

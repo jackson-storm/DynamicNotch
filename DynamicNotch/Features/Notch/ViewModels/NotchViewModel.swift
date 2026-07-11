@@ -154,6 +154,10 @@ final class NotchViewModel: ObservableObject {
         canRestoreDismissedContent
     }
     
+    var isNotchHoverHapticEnabled: Bool {
+        settings.isNotchHoverHapticEnabled
+    }
+    
     var interactiveNotchSize: CGSize {
         let model = displayedNotchModel
         let baseSize = model.size

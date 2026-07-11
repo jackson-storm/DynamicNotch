@@ -28,6 +28,7 @@ enum GeneralSettingsStorage {
         static let notchTrackpadSwipeGesturesEnabled = "settings.notch.gestures.trackpadSwipe"
         static let notchSwipeDismissEnabled = "settings.notch.gestures.dismiss"
         static let notchSwipeRestoreEnabled = "settings.notch.gestures.restore"
+        static let notchHoverHapticEnabled = "settings.notch.gestures.hoverHaptic"
         static let notchContentPriorityOverrides = NotchContentPriority.overrideStorageKey
         static let brightnessHUDEnabled = "settings.hud.brightness"
         static let keyboardHUDEnabled = "settings.hud.keyboard"
@@ -162,6 +163,7 @@ enum GeneralSettingsStorage {
         Keys.notchTrackpadSwipeGesturesEnabled: true,
         Keys.notchSwipeDismissEnabled: true,
         Keys.notchSwipeRestoreEnabled: true,
+        Keys.notchHoverHapticEnabled: false,
         Keys.notchContentPriorityOverrides: [:],
         Keys.brightnessHUDEnabled: true,
         Keys.keyboardHUDEnabled: true,

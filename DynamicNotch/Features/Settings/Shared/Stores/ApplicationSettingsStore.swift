@@ -224,6 +224,12 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         }
     }
 
+    @Published var isNotchHoverHapticEnabled: Bool {
+        didSet {
+            persist(isNotchHoverHapticEnabled, for: GeneralSettingsStorage.Keys.notchHoverHapticEnabled)
+        }
+    }
+
     @Published var notchContentPriorityOverrides: [String: Int] {
         didSet {
             let sanitizedOverrides = NotchContentPriority.sanitizedOverrides(notchContentPriorityOverrides)
@@ -354,6 +360,10 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
             defaults: defaults,
             key: GeneralSettingsStorage.Keys.notchSwipeRestoreEnabled
         )
+        self.isNotchHoverHapticEnabled = Self.resolvedBool(
+            defaults: defaults,
+            key: GeneralSettingsStorage.Keys.notchHoverHapticEnabled
+        )
         self.notchContentPriorityOverrides = NotchContentPriority.overrideValues(defaults: defaults)
         self.isNotchSizeTemporaryActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.notchSizeTemporaryActivityEnabled)
         self.notchSizeTemporaryActivityDuration = Self.clampTemporaryActivityDuration(
@@ -411,6 +421,7 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         isNotchTrackpadSwipeGesturesEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchTrackpadSwipeGesturesEnabled)
         isNotchSwipeDismissEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchSwipeDismissEnabled)
         isNotchSwipeRestoreEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchSwipeRestoreEnabled)
+        isNotchHoverHapticEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchHoverHapticEnabled)
         resetNotchContentPriorities()
         isShowNotchStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchStrokeEnabled)
         isDefaultActivityStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.defaultActivityStrokeEnabled)

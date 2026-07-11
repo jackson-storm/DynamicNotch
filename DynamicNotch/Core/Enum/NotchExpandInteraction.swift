@@ -4,6 +4,7 @@ enum NotchExpandInteraction: String, CaseIterable {
     case click
     case pressAndHold
     case hover
+    case swipeDown
 
     var title: LocalizedStringKey {
         switch self {
@@ -13,6 +14,8 @@ enum NotchExpandInteraction: String, CaseIterable {
             return "Press and hold"
         case .hover:
             return "Hover"
+        case .swipeDown:
+            return "Swipe down"
         }
     }
 

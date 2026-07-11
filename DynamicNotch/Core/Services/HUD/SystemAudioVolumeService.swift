@@ -11,6 +11,18 @@ final class SystemAudioVolumeService {
     private let muteThreshold: Float = 0.001
     private var lastAudibleVolume: Float = 0.5
 
+    /// Timestamp of the most recent volume/mute change this service performed
+    /// itself (e.g. from a media key). A CoreAudio property listener cannot tell
+    /// who moved the volume, so it uses this to skip echoes of our own writes and
+    /// only surface changes that originated elsewhere (headphones, Control Center…).
+    private(set) var lastProgrammaticChangeAt: Date = .distantPast
+
+    /// The current default output device, exposed so an external observer can
+    /// register CoreAudio listeners against the same device this service drives.
+    var currentOutputDeviceID: AudioDeviceID {
+        defaultOutputDeviceID()
+    }
+
     func adjust(direction: MediaKeyDirection, granularity: MediaKeyGranularity) -> Int {
         let delta = stepSize(for: granularity) * (direction == .increase ? 1 : -1)
         return setVolume(currentEffectiveVolume + delta)
@@ -33,6 +45,7 @@ final class SystemAudioVolumeService {
 
     @discardableResult
     func setVolume(_ value: Float) -> Int {
+        lastProgrammaticChangeAt = Date()
         let clampedValue = max(0, min(1, value))
         let deviceID = defaultOutputDeviceID()
 
@@ -220,6 +233,7 @@ final class SystemAudioVolumeService {
     }
 
     private func setMuted(_ isMuted: Bool) {
+        lastProgrammaticChangeAt = Date()
         let deviceID = defaultOutputDeviceID()
         let targetElements = muteElements(on: deviceID)
         guard !targetElements.isEmpty else {

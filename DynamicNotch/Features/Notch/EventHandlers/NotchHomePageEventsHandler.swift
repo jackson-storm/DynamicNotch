@@ -17,15 +17,18 @@ final class NotchHomePageEventsHandler {
     private let notchViewModel: NotchViewModel
     private let settingsViewModel: SettingsViewModel
     private let localTimerViewModel: LocalTimerViewModel
-    
+    private let nowPlayingViewModel: NowPlayingViewModel
+
     init(
         notchViewModel: NotchViewModel,
         settingsViewModel: SettingsViewModel,
-        localTimerViewModel: LocalTimerViewModel
+        localTimerViewModel: LocalTimerViewModel,
+        nowPlayingViewModel: NowPlayingViewModel
     ) {
         self.notchViewModel = notchViewModel
         self.settingsViewModel = settingsViewModel
         self.localTimerViewModel = localTimerViewModel
+        self.nowPlayingViewModel = nowPlayingViewModel
     }
     
     func handleHomePage(_ event: HomePageEvent) {
@@ -37,7 +40,10 @@ final class NotchHomePageEventsHandler {
                 notchViewModel: notchViewModel,
                 settings: settingsViewModel.homePage,
                 homePages: activePage,
-                localTimerViewModel: localTimerViewModel
+                localTimerViewModel: localTimerViewModel,
+                nowPlayingViewModel: nowPlayingViewModel,
+                mediaAndFilesSettings: settingsViewModel.mediaAndFiles,
+                applicationSettings: settingsViewModel.application
             )))
             
         case .homePageOff:

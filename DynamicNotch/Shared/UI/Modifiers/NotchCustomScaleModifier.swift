@@ -162,6 +162,10 @@ private extension NotchCustomScaleModifier {
         NSHapticFeedbackManager.defaultPerformer.perform(.alignment, performanceTime: .now)
     }
 
+    private func performHoverHaptic() {
+        NSHapticFeedbackManager.defaultPerformer.perform(.levelChange, performanceTime: .now)
+    }
+
     private func schedulePressHoldExpansionIfNeeded() {
         guard pendingHoldExpansionToken == nil,
               notchViewModel.shouldExpandActiveContentOnPressAndHold else {
@@ -217,10 +221,20 @@ private extension NotchCustomScaleModifier {
     }
 
     private func handleHoverChange(isHovering: Bool) {
+        let wasHovering = self.isHovering
         self.isHovering = isHovering
 
         if isHovering {
             cancelPendingCollapse()
+
+            // Light haptic tick the moment the cursor lands on a collapsed notch
+            // that can be opened, so the notch feels responsive before any
+            // expand gesture (click / hold / swipe) is performed.
+            if !wasHovering,
+               notchViewModel.canExpandActiveLiveActivity,
+               !notchViewModel.notchModel.isPresentingExpandedLiveActivity {
+                performHoverHaptic()
+            }
         }
 
         guard notchViewModel.shouldExpandActiveContentOnHover,

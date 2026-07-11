@@ -11,12 +11,16 @@ struct NotchSwipeDismissModifier: ViewModifier {
             NotchSwipeDismissMonitorRepresentable(
                 canSwipeUp: isEnabled && notchViewModel.canDismissWithTrackpadSwipe,
                 canSwipeDown: isEnabled && notchViewModel.canRestoreWithTrackpadSwipe,
+                canExpandDown: notchViewModel.shouldExpandActiveContentOnSwipeDown,
                 isHoveringScrollableContent: notchViewModel.isHoveringScrollableContent,
                 onSwipeUp: {
                     notchViewModel.dismissActiveContent()
                 },
                 onSwipeDown: {
                     notchViewModel.restoreDismissedContent()
+                },
+                onExpandDown: {
+                    notchViewModel.handleActiveContentTap()
                 },
                 onSwipeStretchChanged: { interaction, progress in
                     notchViewModel.updateSwipeStretch(for: interaction, progress: progress)
@@ -32,9 +36,11 @@ struct NotchSwipeDismissModifier: ViewModifier {
 private struct NotchSwipeDismissMonitorRepresentable: NSViewRepresentable {
     let canSwipeUp: Bool
     let canSwipeDown: Bool
+    let canExpandDown: Bool
     let isHoveringScrollableContent: Bool
     let onSwipeUp: () -> Void
     let onSwipeDown: () -> Void
+    let onExpandDown: () -> Void
     let onSwipeStretchChanged: (SwipeInteraction, CGFloat) -> Void
     let onSwipeStretchReset: () -> Void
 
@@ -43,9 +49,11 @@ private struct NotchSwipeDismissMonitorRepresentable: NSViewRepresentable {
         view.update(
             canSwipeUp: canSwipeUp,
             canSwipeDown: canSwipeDown,
+            canExpandDown: canExpandDown,
             isHoveringScrollableContent: isHoveringScrollableContent,
             onSwipeUp: onSwipeUp,
             onSwipeDown: onSwipeDown,
+            onExpandDown: onExpandDown,
             onSwipeStretchChanged: onSwipeStretchChanged,
             onSwipeStretchReset: onSwipeStretchReset
         )
@@ -56,9 +64,11 @@ private struct NotchSwipeDismissMonitorRepresentable: NSViewRepresentable {
         nsView.update(
             canSwipeUp: canSwipeUp,
             canSwipeDown: canSwipeDown,
+            canExpandDown: canExpandDown,
             isHoveringScrollableContent: isHoveringScrollableContent,
             onSwipeUp: onSwipeUp,
             onSwipeDown: onSwipeDown,
+            onExpandDown: onExpandDown,
             onSwipeStretchChanged: onSwipeStretchChanged,
             onSwipeStretchReset: onSwipeStretchReset
         )
@@ -87,9 +97,11 @@ private final class NotchSwipeDismissMonitorView: NSView {
 
     private var canSwipeUp = false
     private var canSwipeDown = false
+    private var canExpandDown = false
     private var isHoveringScrollableContent = false
     private var onSwipeUp: (() -> Void)?
     private var onSwipeDown: (() -> Void)?
+    private var onExpandDown: (() -> Void)?
     private var onSwipeStretchChanged: ((SwipeInteraction, CGFloat) -> Void)?
     private var onSwipeStretchReset: (() -> Void)?
 
@@ -122,21 +134,25 @@ private final class NotchSwipeDismissMonitorView: NSView {
     func update(
         canSwipeUp: Bool,
         canSwipeDown: Bool,
+        canExpandDown: Bool,
         isHoveringScrollableContent: Bool,
         onSwipeUp: @escaping () -> Void,
         onSwipeDown: @escaping () -> Void,
+        onExpandDown: @escaping () -> Void,
         onSwipeStretchChanged: @escaping (SwipeInteraction, CGFloat) -> Void,
         onSwipeStretchReset: @escaping () -> Void
     ) {
         self.canSwipeUp = canSwipeUp
         self.canSwipeDown = canSwipeDown
+        self.canExpandDown = canExpandDown
         self.isHoveringScrollableContent = isHoveringScrollableContent
         self.onSwipeUp = onSwipeUp
         self.onSwipeDown = onSwipeDown
+        self.onExpandDown = onExpandDown
         self.onSwipeStretchChanged = onSwipeStretchChanged
         self.onSwipeStretchReset = onSwipeStretchReset
 
-        if !canSwipeUp && !canSwipeDown {
+        if !canSwipeUp && !canSwipeDown && !canExpandDown {
             resetSwipeTracking()
         }
     }
@@ -289,12 +305,27 @@ private extension NotchSwipeDismissMonitorView {
                 resetSwipeTracking()
                 return
             }
+
+            // Swipe-down-to-expand. Only reachable when the user selected the
+            // swipe-down expand gesture and there is no dismissed content to
+            // restore, so it never competes with the restore gesture above.
+            if canExpandDown,
+               accumulatedDownwardSwipe > dominanceThreshold,
+               accumulatedDownwardSwipe >= SwipeMetrics.verticalThreshold {
+                didTriggerSwipe = true
+                isGestureActionLocked = true
+                DispatchQueue.main.async { [weak self] in
+                    self?.onExpandDown?()
+                }
+                resetSwipeTracking()
+                return
+            }
         }
     }
 
     func shouldTrackSwipe(for event: NSEvent) -> Bool {
         guard !isHoveringScrollableContent else { return false }
-        guard canSwipeUp || canSwipeDown else { return false }
+        guard canSwipeUp || canSwipeDown || canExpandDown else { return false }
         guard window != nil else { return false }
         guard event.hasPreciseScrollingDeltas else { return false }
         guard !event.phase.isEmpty else { return false }

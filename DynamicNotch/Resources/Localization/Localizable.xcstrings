@@ -4951,6 +4951,34 @@
         }
       }
     },
+    "Control playback, even after a long pause." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Control playback, even after a long pause."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controla la reproducción, incluso tras una pausa larga."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Управление воспроизведением даже после долгой паузы."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "控制播放，即使在长时间暂停后。"
+          }
+        }
+      }
+    },
     "Control the lock-screen live activity, sound, and detached media panel." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -10822,6 +10850,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "当您的 Mac 解锁时播放。"
+          }
+        }
+      }
+    },
+    "Player" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Player"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reproductor"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Плеер"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "播放器"
           }
         }
       }
@@ -20276,6 +20332,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "支持此应用"
+          }
+        }
+      }
+    },
+    "Swipe down" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Swipe down"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deslizar hacia abajo"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Свайп вниз"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "向下滑动"
           }
         }
       }

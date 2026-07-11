@@ -6,15 +6,28 @@ import IOKit.graphics
 final class SystemDisplayBrightnessService {
     private let displayServicesBridge: DisplayServicesBridge
 
+    /// Logical target of the most recent set — what the HUD shows and what the
+    /// next key step accumulates from. The smooth private setter reports success
+    /// but does not actually reach the requested value on Apple Silicon built-in
+    /// displays, so reading brightness back gave a stale base and steps could not
+    /// accumulate. Tracking the target ourselves fixes that.
+    private var cachedBrightness: Float?
+
     init(displayServicesBridge: DisplayServicesBridge = .shared) {
         self.displayServicesBridge = displayServicesBridge
     }
 
     func adjust(direction: MediaKeyDirection, granularity: MediaKeyGranularity) -> Int {
+        let base = cachedBrightness ?? currentBrightness
         let delta = stepSize(for: granularity) * (direction == .increase ? 1 : -1)
-        return setBrightness(currentBrightness + delta)
+        return setBrightness(base + delta)
     }
 
+    /// Sets brightness in one discrete step. The brightness key is consumed to
+    /// hide the system OSD, so we must set the value ourselves. The only reliable
+    /// private setter is the immediate one — the smooth variant reports success
+    /// but doesn't reach the target on Apple Silicon built-in panels — so steps
+    /// are discrete rather than a hardware-smooth ramp.
     @discardableResult
     func setBrightness(_ value: Float) -> Int {
         let clampedValue = max(0, min(1, value))
@@ -22,11 +35,18 @@ final class SystemDisplayBrightnessService {
 
         if let result = displayServicesBridge.setBrightness(displayID: displayID, value: clampedValue),
            result == kIOReturnSuccess {
+            cachedBrightness = clampedValue
+            return percentValue(for: clampedValue)
+        }
+
+        if let result = displayServicesBridge.setBrightnessSmooth(displayID: displayID, value: clampedValue),
+           result == kIOReturnSuccess {
+            cachedBrightness = clampedValue
             return percentValue(for: clampedValue)
         }
 
         guard let service = matchingDisplayService(for: displayID) else {
-            return percentValue(for: currentBrightness)
+            return percentValue(for: cachedBrightness ?? currentBrightness)
         }
 
         let status = IODisplaySetFloatParameter(
@@ -39,9 +59,11 @@ final class SystemDisplayBrightnessService {
 
         if status != kIOReturnSuccess {
             NSLog("Failed to set display brightness: \(status)")
+            return percentValue(for: cachedBrightness ?? currentBrightness)
         }
 
-        return percentValue(for: currentBrightness)
+        cachedBrightness = clampedValue
+        return percentValue(for: clampedValue)
     }
 
     var currentBrightness: Float {
@@ -131,7 +153,9 @@ final class SystemDisplayBrightnessService {
     private func stepSize(for granularity: MediaKeyGranularity) -> Float {
         switch granularity {
         case .standard:
-            return 1.0 / 16.0
+            // Smaller than the stock 1/16 step so a single press changes the panel
+            // less abruptly (the trade-off is more presses to cross the full range).
+            return 1.0 / 32.0
         case .fine:
             return 1.0 / 64.0
         }

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+internal import AppKit
 
 struct FocusOnNotchView: View {
     @ObservedObject private var manager = DoNotDisturbManager.shared
@@ -46,19 +47,30 @@ private struct FocusStatusNotchView: View {
     let style: FocusAppearanceStyle
     let icon: String
 
+    // A custom Focus mode can reference a symbol that isn't a valid SF Symbol on
+    // this system (or the name may be missing when Full Disk Access is denied and
+    // the mode's metadata can't be read). `Image(systemName:)` renders those as an
+    // empty square, so fall back to a focus glyph when the name doesn't resolve.
+    private var resolvedIcon: String {
+        if NSImage(systemSymbolName: icon, accessibilityDescription: nil) != nil {
+            return icon
+        }
+        return "moon.fill"
+    }
+
     var body: some View {
         Group {
             switch style {
             case .iconsOnly:
                 HStack {
-                    Image(systemName: icon)
+                    Image(systemName: resolvedIcon)
                         .font(.system(size: 16, weight: .bold))
 
                     Spacer()
                 }
             case .standard:
                 HStack {
-                    Image(systemName: icon)
+                    Image(systemName: resolvedIcon)
                         .font(.system(size: 16, weight: .bold))
 
                     Spacer()

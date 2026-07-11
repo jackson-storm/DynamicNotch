@@ -24,15 +24,17 @@ final class AppContainer {
     let clockTimerController: any ClockTimerControlling
 
     lazy var hardwareHUDMonitor: HardwareHUDMonitor = {
-        let monitor = HardwareHUDMonitor()
-        monitor.onEvent = { [weak self] event in
-            self?.notchEventCoordinator.handleHudEvent(event)
+        MainActor.assumeIsolated {
+            let monitor = HardwareHUDMonitor()
+            monitor.onEvent = { [weak self] event in
+                self?.notchEventCoordinator.handleHudEvent(event)
+            }
+            monitor.updateConfiguration(
+                interceptVolume: settingsViewModel.hud.isVolumeHUDEnabled,
+                interceptBrightness: settingsViewModel.hud.isBrightnessHUDEnabled
+            )
+            return monitor
         }
-        monitor.updateConfiguration(
-            interceptVolume: settingsViewModel.hud.isVolumeHUDEnabled,
-            interceptBrightness: settingsViewModel.hud.isBrightnessHUDEnabled
-        )
-        return monitor
     }()
 
     lazy var notchViewModel = NotchViewModel(settings: settingsViewModel.application)

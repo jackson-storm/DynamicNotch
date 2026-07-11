@@ -58,8 +58,6 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
 }
 
 struct HomePageNotchView: View {
-    @Environment(\.isDynamicIsland) var isDynamicIsland
-    
     let notchViewModel: NotchViewModel
     let settings: HomePageSettingsStore
     let localTimerViewModel: LocalTimerViewModel
@@ -68,9 +66,16 @@ struct HomePageNotchView: View {
     let applicationSettings: ApplicationSettingsStore
     let initialPage: HomePages
 
+    @Environment(\.isDynamicIsland) private var isDynamicIsland
     @State private var currentPage: HomePages?
-    @State private var updateTask: Task<Void, Never>? = nil
-    @State private var isWaitingForSizeUpdate = false
+    
+    @State private var lastSettledPage: HomePages
+    @State private var lastTargetPageFrom: HomePages? = nil
+    @State private var lastTargetPageTo: HomePages? = nil
+    @State private var lastProgress: CGFloat = -1.0
+    @State private var programmaticTransitionProgress: CGFloat = 0.0
+    @State private var isProgrammaticSwitching = false
+    @State private var isPageTransitioning = false
 
     init(notchViewModel: NotchViewModel, settings: HomePageSettingsStore, localTimerViewModel: LocalTimerViewModel, nowPlayingViewModel: NowPlayingViewModel, mediaAndFilesSettings: MediaAndFilesSettingsStore, applicationSettings: ApplicationSettingsStore, initialPage: HomePages) {
         self.notchViewModel = notchViewModel
@@ -84,14 +89,14 @@ struct HomePageNotchView: View {
         let activePages = settings.homePageOrder.filter { !settings.homePageDisabled.contains($0) }
         let pageToSelect = activePages.contains(initialPage) ? initialPage : (activePages.first ?? .camera)
         self._currentPage = State(initialValue: pageToSelect)
+        self._lastSettledPage = State(initialValue: pageToSelect)
     }
     
     var body: some View {
         let activePages = settings.homePageOrder.filter { !settings.homePageDisabled.contains($0) }
-        let isWaiting = isWaitingForSizeUpdate
         
         VStack() {
-            if settings.homePageScrollAxis != .vertical && currentPage != .mediaPlayer {
+            if settings.homePageScrollAxis != .vertical {
                 Spacer()
             }
 
@@ -101,11 +106,19 @@ struct HomePageNotchView: View {
                         ForEach(activePages) { page in
                             pageView(for: page)
                                 .containerRelativeFrame(.vertical)
+                                .background(
+                                    GeometryReader { geo in
+                                        Color.clear
+                                            .preference(
+                                                key: HomePageScrollOffsetPreferenceKey.self,
+                                                value: [page: geo.frame(in: .named("homePageScroll"))]
+                                            )
+                                    }
+                                )
                                 .scrollTransition(.interactive) { content, phase in
                                     content
-                                        .blur(radius: isWaiting ? 20 : CGFloat(abs(phase.value)) * 20)
-                                        .opacity(isWaiting ? 0.7 : 1.0 - (abs(phase.value) * 0.3))
-                                        .scaleEffect(CGFloat(1.0 - (abs(phase.value) * 0.30)))
+                                        .blur(radius: blurRadius(for: page, phaseValue: phase.value, isPageTransitioning: isPageTransitioning, lastSettledPage: lastSettledPage))
+                                        .opacity(1.0 - (abs(phase.value) * 0.4))
                                 }
                                 .id(page)
                         }
@@ -117,11 +130,19 @@ struct HomePageNotchView: View {
                         ForEach(activePages) { page in
                             pageView(for: page)
                                 .containerRelativeFrame(.horizontal)
+                                .background(
+                                    GeometryReader { geo in
+                                        Color.clear
+                                            .preference(
+                                                key: HomePageScrollOffsetPreferenceKey.self,
+                                                value: [page: geo.frame(in: .named("homePageScroll"))]
+                                            )
+                                    }
+                                )
                                 .scrollTransition(.interactive) { content, phase in
                                     content
-                                        .blur(radius: isWaiting ? 20 : CGFloat(abs(phase.value)) * 20)
-                                        .opacity(isWaiting ? 0.7 : 1.0 - (abs(phase.value) * 0.3))
-                                        .scaleEffect(CGFloat(1.0 - (abs(phase.value) * 0.30)))
+                                        .blur(radius: blurRadius(for: page, phaseValue: phase.value, isPageTransitioning: isPageTransitioning, lastSettledPage: lastSettledPage))
+                                        .opacity(1.0 - (abs(phase.value) * 0.4))
                                 }
                                 .id(page)
                         }
@@ -131,6 +152,9 @@ struct HomePageNotchView: View {
             }
             .scrollTargetBehavior(.viewAligned)
             .scrollPosition(id: $currentPage)
+            .coordinateSpace(name: "homePageScroll")
+            .blur(radius: isProgrammaticSwitching ? (1.0 - abs(programmaticTransitionProgress - 0.5) * 2) * 20 : 0)
+            .opacity(isProgrammaticSwitching ? Double(abs(programmaticTransitionProgress - 0.5) * 2) : 1.0)
             .mask {
                 if settings.homePageScrollAxis == .vertical {
                     let totalHeight = notchViewModel.presentedNotchSize.height
@@ -163,11 +187,12 @@ struct HomePageNotchView: View {
             }
         }
         .clipShape(RoundedRectangle(cornerRadius: isDynamicIsland ? 24 : 28))
-        // The media player page reuses the standalone player, which brings its own
-        // insets — drop the container's so it lands exactly like the auto player.
-        .padding(.horizontal, currentPage == .mediaPlayer ? 0 : (isDynamicIsland ? 6 : 30))
-        .padding(.bottom, currentPage == .mediaPlayer ? 0 : (isDynamicIsland ? 6 : 7))
+        .padding(.horizontal, initialPage == .mediaPlayer ? 0 : (isDynamicIsland ? 6 : 30))
+        .padding(.bottom, initialPage == .mediaPlayer ? 0 : (isDynamicIsland ? 6 : 7))
         .contentShape(Rectangle())
+        .onPreferenceChange(HomePageScrollOffsetPreferenceKey.self) { frames in
+            handleScrollFrames(frames, activePages: activePages)
+        }
         .onChange(of: initialPage) { _, newPage in
             if newPage != currentPage && activePages.contains(newPage) {
                 currentPage = newPage
@@ -177,37 +202,6 @@ struct HomePageNotchView: View {
             if let current = currentPage, !newActivePages.contains(current) {
                 if let first = newActivePages.first {
                     currentPage = first
-                }
-            }
-        }
-        .onChange(of: currentPage) { oldPage, newPage in
-            guard let newPage = newPage, newPage != oldPage else { return }
-            
-            withAnimation(.easeInOut(duration: 0.15)) {
-                isWaitingForSizeUpdate = true
-            }
-            
-            updateTask?.cancel()
-            updateTask = Task {
-                try? await Task.sleep(nanoseconds: 300_000_000)
-                guard !Task.isCancelled else { return }
-                
-                notchViewModel.send(
-                    .showLiveActivity(
-                        HomePageNotchContent(
-                            notchViewModel: notchViewModel,
-                            settings: settings,
-                            homePages: newPage,
-                            localTimerViewModel: localTimerViewModel,
-                            nowPlayingViewModel: nowPlayingViewModel,
-                            mediaAndFilesSettings: mediaAndFilesSettings,
-                            applicationSettings: applicationSettings
-                        )
-                    )
-                )
-
-                withAnimation(.easeInOut(duration: 0.35)) {
-                    isWaitingForSizeUpdate = false
                 }
             }
         }
@@ -235,8 +229,6 @@ struct HomePageNotchView: View {
         case .camera:
             CameraNotchView(notchViewModel: notchViewModel, settings: settings, localTimerViewModel: localTimerViewModel, nowPlayingViewModel: nowPlayingViewModel, mediaAndFilesSettings: mediaAndFilesSettings, applicationSettings: applicationSettings)
         case .mediaPlayer:
-            // Reuse the exact auto Now Playing expanded player so the page is
-            // visually identical to the transient live activity.
             NowPlayingExpandedNotchView(
                 nowPlayingViewModel: nowPlayingViewModel,
                 settings: mediaAndFilesSettings,
@@ -252,5 +244,93 @@ struct HomePageNotchView: View {
         case .systemStats:
             SystemStatsPageNotchView(notchViewModel: notchViewModel)
         }
+    }
+    
+    private func handleScrollFrames(_ frames: [HomePages: CGRect], activePages: [HomePages]) {
+        guard !frames.isEmpty else { return }
+        
+        for (page, frame) in frames {
+            let offset = settings.homePageScrollAxis == .vertical ? frame.minY : frame.minX
+            if abs(offset) < 2.0 {
+                lastSettledPage = page
+                if isPageTransitioning {
+                    withAnimation(.easeInOut(duration: 0.25)) {
+                        isPageTransitioning = false
+                    }
+                }
+                break
+            }
+        }
+        var transitionTargetPage = lastSettledPage
+        var transitionProgress: CGFloat = 0.0
+        
+        if let currentFrame = frames[lastSettledPage] {
+            let offset = settings.homePageScrollAxis == .vertical ? currentFrame.minY : currentFrame.minX
+            let size = settings.homePageScrollAxis == .vertical ? currentFrame.height : currentFrame.width
+            
+            if size > 0 {
+                let progress = min(max(abs(offset) / size, 0.0), 1.0)
+                
+                if abs(offset) >= 2.0 {
+                    if !isPageTransitioning {
+                        withAnimation(.easeInOut(duration: 0.15)) {
+                            isPageTransitioning = true
+                        }
+                    }
+                }
+                
+                if offset < -1.0 {
+                    if let index = activePages.firstIndex(of: lastSettledPage), index + 1 < activePages.count {
+                        transitionTargetPage = activePages[index + 1]
+                        transitionProgress = progress
+                    }
+                } else if offset > 1.0 {
+                    if let index = activePages.firstIndex(of: lastSettledPage), index - 1 >= 0 {
+                        transitionTargetPage = activePages[index - 1]
+                        transitionProgress = progress
+                    }
+                }
+            }
+        }
+        
+        let hasPageChanged = lastTargetPageFrom != lastSettledPage || lastTargetPageTo != transitionTargetPage
+        let hasProgressChanged = abs(lastProgress - transitionProgress) > 0.005
+        
+        if hasPageChanged || hasProgressChanged {
+            lastTargetPageFrom = lastSettledPage
+            lastTargetPageTo = transitionTargetPage
+            lastProgress = transitionProgress
+            
+            notchViewModel.send(
+                .showLiveActivity(
+                    HomePageNotchContent(
+                        notchViewModel: notchViewModel,
+                        settings: settings,
+                        homePages: lastSettledPage,
+                        targetPage: transitionTargetPage,
+                        transitionProgress: transitionProgress,
+                        localTimerViewModel: localTimerViewModel,
+                        nowPlayingViewModel: nowPlayingViewModel,
+                        mediaAndFilesSettings: mediaAndFilesSettings,
+                        applicationSettings: applicationSettings
+                    )
+                )
+            )
+        }
+    }
+
+    nonisolated private func blurRadius(for page: HomePages, phaseValue: Double, isPageTransitioning: Bool, lastSettledPage: HomePages) -> CGFloat {
+        let baseBlur = CGFloat(abs(phaseValue)) * 30
+        if isPageTransitioning && page != lastSettledPage {
+            return max(15, baseBlur)
+        }
+        return baseBlur
+    }
+}
+
+struct HomePageScrollOffsetPreferenceKey: PreferenceKey {
+    static var defaultValue: [HomePages: CGRect] = [:]
+    static func reduce(value: inout [HomePages: CGRect], nextValue: () -> [HomePages: CGRect]) {
+        value.merge(nextValue(), uniquingKeysWith: { $1 })
     }
 }

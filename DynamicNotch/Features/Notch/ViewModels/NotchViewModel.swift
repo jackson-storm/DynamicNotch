@@ -34,7 +34,14 @@ final class NotchViewModel: ObservableObject {
     }
 
     var surfaceSizeAnimation: Animation? {
-        isSwipeInteractionActive ? nil : animations.contentUpdate
+        if isSwipeInteractionActive {
+            return nil
+        }
+        if let homePageContent = displayedContent as? HomePageNotchContent,
+           homePageContent.isTransitioning {
+            return nil
+        }
+        return animations.contentUpdate
     }
 
     var displayedContent: NotchContentProtocol? {

@@ -75,7 +75,7 @@ enum NotchContentPriority {
             case .hotspot:
                 return "personalhotspot"
             case .download:
-                return "arrow.down.document.fill"
+                return "arrow.down.circle.fill"
             case .trayActive:
                 return "tray.full.fill"
             case .fileConverterActive:
@@ -100,7 +100,7 @@ enum NotchContentPriority {
             case .hotspot:
                     .green
             case .download:
-                    .purple
+                    .blue
             case .trayActive:
                     .black
             case .fileConverterActive:

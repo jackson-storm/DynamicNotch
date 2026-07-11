@@ -195,6 +195,11 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
         set { application.isNotchSwipeRestoreEnabled = newValue }
     }
 
+    var isNotchHoverHapticEnabled: Bool {
+        get { application.isNotchHoverHapticEnabled }
+        set { application.isNotchHoverHapticEnabled = newValue }
+    }
+
     var isNotchSizeTemporaryActivityEnabled: Bool {
         get { application.isNotchSizeTemporaryActivityEnabled }
         set { application.isNotchSizeTemporaryActivityEnabled = newValue }

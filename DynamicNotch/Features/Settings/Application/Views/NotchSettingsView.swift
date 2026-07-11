@@ -229,6 +229,20 @@ struct NotchSettingsView: View {
                 .opacity(0.6)
             
             SettingsToggleRow(
+                title: "Hover haptic feedback",
+                description: "Produce a soft haptic tick when the cursor enters the collapsed notch.",
+                systemImage: "waveform",
+                color: .red,
+                isOn: $applicationSettings.isNotchHoverHapticEnabled,
+                accessibilityIdentifier: "settings.notch.hoverHaptic"
+            )
+            
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+            
+            SettingsToggleRow(
                 title: "Mouse drag gestures",
                 description: "Use click-and-drag over the notch to preview dismiss and restore interactions.",
                 systemImage: "cursorarrow.motionlines",

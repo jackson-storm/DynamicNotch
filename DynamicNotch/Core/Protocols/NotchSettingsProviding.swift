@@ -14,4 +14,5 @@ protocol NotchSettingsProviding: AnyObject {
     var isNotchTrackpadSwipeGesturesEnabled: Bool { get }
     var isNotchSwipeDismissEnabled: Bool { get }
     var isNotchSwipeRestoreEnabled: Bool { get }
+    var isNotchHoverHapticEnabled: Bool { get }
 }

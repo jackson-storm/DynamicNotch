@@ -73,6 +73,21 @@ struct HUDSettingsView: View {
                 isOn: $settings.isVolumeHUDEnabled,
                 accessibilityIdentifier: "settings.general.hud.volume"
             )
+            
+            Divider()
+                .opacity(0.6)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+            
+            SettingsToggleRow(
+                title: "Play volume sound feedback",
+                description: "Play the tick sound when changing volume.",
+                systemImage: "speaker.wave.1.fill",
+                color: .red,
+                isOn: $settings.isVolumeFeedbackSoundEnabled,
+                accessibilityIdentifier: "settings.general.hud.volumeFeedbackSound"
+            )
+            .disabled(!settings.isVolumeHUDEnabled)
+            .opacity(settings.isVolumeHUDEnabled ? 1 : 0.5)
         }
     }
 

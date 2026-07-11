@@ -231,6 +231,7 @@ private extension NotchCustomScaleModifier {
             // that can be opened, so the notch feels responsive before any
             // expand gesture (click / hold / swipe) is performed.
             if !wasHovering,
+               notchViewModel.isNotchHoverHapticEnabled,
                notchViewModel.canExpandActiveLiveActivity,
                !notchViewModel.notchModel.isPresentingExpandedLiveActivity {
                 performHoverHaptic()

@@ -23,12 +23,12 @@ final class HardwareHUDMonitor {
         mediaKeyTap: SystemMediaKeyTap,
         audioService: SystemAudioVolumeService,
         brightnessService: SystemDisplayBrightnessService,
-        volumeFeedbackPlayer: VolumeFeedbackSoundPlayer = VolumeFeedbackSoundPlayer()
+        volumeFeedbackPlayer: VolumeFeedbackSoundPlayer? = nil
     ) {
         self.mediaKeyTap = mediaKeyTap
         self.audioService = audioService
         self.brightnessService = brightnessService
-        self.volumeFeedbackPlayer = volumeFeedbackPlayer
+        self.volumeFeedbackPlayer = volumeFeedbackPlayer ?? VolumeFeedbackSoundPlayer()
         self.audioChangeObserver = SystemAudioChangeObserver(audioService: audioService)
 
         configureAudioChangeObserver()

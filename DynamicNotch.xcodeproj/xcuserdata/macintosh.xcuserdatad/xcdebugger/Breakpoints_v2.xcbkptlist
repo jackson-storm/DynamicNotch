@@ -13,6 +13,15 @@
             continueAfterRunningActions = "No"
             symbolName = "*0x1920edd4c">
             <Locations>
+               <Location
+                  uuid = "AEFBC119-E5CB-4712-BFCB-7C770BAC2773 - 6e456d6f65071843"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "type_layout_string So11NSDimensionCRbzl10Foundation26MeasurementFormatUnitUsageVyxG"
+                  moduleName = "Foundation"
+                  usesParentBreakpointCondition = "Yes">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>

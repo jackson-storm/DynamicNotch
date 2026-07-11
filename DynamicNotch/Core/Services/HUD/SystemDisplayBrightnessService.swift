@@ -153,9 +153,7 @@ final class SystemDisplayBrightnessService {
     private func stepSize(for granularity: MediaKeyGranularity) -> Float {
         switch granularity {
         case .standard:
-            // Smaller than the stock 1/16 step so a single press changes the panel
-            // less abruptly (the trade-off is more presses to cross the full range).
-            return 1.0 / 32.0
+            return 1.0 / 16.0
         case .fine:
             return 1.0 / 64.0
         }

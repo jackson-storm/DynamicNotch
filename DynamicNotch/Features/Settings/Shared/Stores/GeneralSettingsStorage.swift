@@ -32,6 +32,7 @@ enum GeneralSettingsStorage {
         static let brightnessHUDEnabled = "settings.hud.brightness"
         static let keyboardHUDEnabled = "settings.hud.keyboard"
         static let volumeHUDEnabled = "settings.hud.volume"
+        static let volumeFeedbackSoundEnabled = "settings.hud.volumeFeedbackSound"
         static let brightnessHUDDuration = "settings.hud.brightness.duration"
         static let keyboardHUDDuration = "settings.hud.keyboard.duration"
         static let volumeHUDDuration = "settings.hud.volume.duration"
@@ -165,6 +166,7 @@ enum GeneralSettingsStorage {
         Keys.brightnessHUDEnabled: true,
         Keys.keyboardHUDEnabled: true,
         Keys.volumeHUDEnabled: true,
+        Keys.volumeFeedbackSoundEnabled: true,
         Keys.brightnessHUDDuration: 2,
         Keys.keyboardHUDDuration: 2,
         Keys.volumeHUDDuration: 2,

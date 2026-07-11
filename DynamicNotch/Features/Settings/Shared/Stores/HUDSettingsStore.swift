@@ -45,6 +45,12 @@ final class HUDSettingsStore: SettingsStoreBase {
         }
     }
 
+    @Published var isVolumeFeedbackSoundEnabled: Bool {
+        didSet {
+            persist(isVolumeFeedbackSoundEnabled, for: GeneralSettingsStorage.Keys.volumeFeedbackSoundEnabled)
+        }
+    }
+
     @Published var volumeHUDDuration: Int {
         didSet {
             let clampedValue = Self.clampTemporaryActivityDuration(volumeHUDDuration)
@@ -105,6 +111,7 @@ final class HUDSettingsStore: SettingsStoreBase {
             Self.defaultTemporaryActivityDuration(for: GeneralSettingsStorage.Keys.keyboardHUDDuration)
         )
         self.isVolumeHUDEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.volumeHUDEnabled)
+        self.isVolumeFeedbackSoundEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.volumeFeedbackSoundEnabled)
         self.volumeHUDDuration = Self.clampTemporaryActivityDuration(
             defaults.object(forKey: GeneralSettingsStorage.Keys.volumeHUDDuration) as? Int ??
             Self.defaultTemporaryActivityDuration(for: GeneralSettingsStorage.Keys.volumeHUDDuration)
@@ -134,6 +141,7 @@ final class HUDSettingsStore: SettingsStoreBase {
             defaultInt(for: GeneralSettingsStorage.Keys.keyboardHUDDuration)
         )
         isVolumeHUDEnabled = defaultBool(for: GeneralSettingsStorage.Keys.volumeHUDEnabled)
+        isVolumeFeedbackSoundEnabled = defaultBool(for: GeneralSettingsStorage.Keys.volumeFeedbackSoundEnabled)
         volumeHUDDuration = Self.clampTemporaryActivityDuration(
             defaultInt(for: GeneralSettingsStorage.Keys.volumeHUDDuration)
         )

@@ -20,6 +20,12 @@ final class DoNotDisturbManager: ObservableObject {
 
     private var metadataClearTask: Task<Void, Never>?
 
+    // Authoritative Focus state from ~/Library/DoNotDisturb/DB/Assertions.json
+    // (requires Full Disk Access). Watched via a directory vnode source plus a
+    // slow poll fallback, since notifications/log are unreliable on macOS 26.
+    private var assertionsSource: DispatchSourceFileSystemObject?
+    private var assertionsPollTimer: Timer?
+
     private init() {
         focusLogStream.onMetadataUpdate = { [weak self] identifier, name in
             self?.handleLogMetadataUpdate(identifier: identifier, name: name)
@@ -51,6 +57,7 @@ final class DoNotDisturbManager: ObservableObject {
 
         focusLogStream.start()
         checkInitialFocusStateViaLog()
+        startAssertionMonitoring()
         isMonitoring = true
     }
 
@@ -61,6 +68,7 @@ final class DoNotDisturbManager: ObservableObject {
         notificationCenter.removeObserver(self, name: .focusModeDisabled, object: nil)
 
         focusLogStream.stop()
+        stopAssertionMonitoring()
         metadataClearTask?.cancel()
         metadataClearTask = nil
         isMonitoring = false
@@ -115,15 +123,16 @@ final class DoNotDisturbManager: ObservableObject {
             let previousActive = self.isDoNotDisturbActive
 
             // When neither identifier nor name is available, only update the active
-            // state without overwriting existing mode metadata.
+            // state without overwriting existing mode metadata. We deliberately avoid
+            // eagerly assigning the generic Do Not Disturb identity here: the specific
+            // mode metadata (e.g. Work) usually arrives a moment later via the log
+            // stream, and stamping DND first makes the notch briefly flash the crescent
+            // moon icon before the real mode is resolved. The consumer (FocusService)
+            // holds a short grace period so genuine DND still falls back correctly.
             if usableIdentifier == nil && usableName == nil {
                 if let isActive = isActive, isActive != previousActive {
                     withAnimation(.smooth(duration: 0.25)) {
                         self.isDoNotDisturbActive = isActive
-                    }
-                    if isActive && previousIdentifier.isEmpty {
-                        self.currentFocusModeIdentifier = FocusModeType.doNotDisturb.rawValue
-                        self.currentFocusModeName = FocusModeType.doNotDisturb.displayName
                     }
                     debugPrint("[DoNotDisturbManager] Focus active-only update -> source: \(source) | isActive: \(isActive)")
                 }
@@ -211,6 +220,61 @@ final class DoNotDisturbManager: ObservableObject {
         }
     }
 
+    // MARK: - Assertions.json (authoritative Focus state)
+
+    private func startAssertionMonitoring() {
+        metadataExtractionQueue.async { [weak self] in
+            self?.refreshFromAssertions()
+        }
+
+        let directory = FocusAssertionsReader.shared.fileURL.deletingLastPathComponent()
+        let descriptor = open(directory.path, O_EVTONLY)
+        if descriptor >= 0 {
+            let source = DispatchSource.makeFileSystemObjectSource(
+                fileDescriptor: descriptor,
+                eventMask: [.write, .rename, .delete, .attrib],
+                queue: metadataExtractionQueue
+            )
+            source.setEventHandler { [weak self] in
+                self?.refreshFromAssertions()
+            }
+            source.setCancelHandler {
+                close(descriptor)
+            }
+            assertionsSource = source
+            source.resume()
+        }
+
+        // Fallback poll in case the vnode source misses an atomic replace or the
+        // directory couldn't be opened for events.
+        let timer = Timer(timeInterval: 2.0, repeats: true) { [weak self] _ in
+            self?.metadataExtractionQueue.async { [weak self] in
+                self?.refreshFromAssertions()
+            }
+        }
+        RunLoop.main.add(timer, forMode: .common)
+        assertionsPollTimer = timer
+    }
+
+    private func stopAssertionMonitoring() {
+        assertionsSource?.cancel()
+        assertionsSource = nil
+        assertionsPollTimer?.invalidate()
+        assertionsPollTimer = nil
+    }
+
+    private func refreshFromAssertions() {
+        switch FocusAssertionsReader.shared.readState() {
+        case .unreadable:
+            // No Full Disk Access — leave the legacy notification/log paths in charge.
+            return
+        case .off:
+            publishMetadata(identifier: nil, name: nil, isActive: false, source: "assertions-off")
+        case .on(let identifier):
+            publishMetadata(identifier: identifier, name: nil, isActive: true, source: "assertions-on")
+        }
+    }
+
     private func scheduleMetadataClear() {
         metadataClearTask?.cancel()
         metadataClearTask = Task { @MainActor [weak self] in
@@ -230,7 +294,21 @@ final class DoNotDisturbManager: ObservableObject {
             let hasIdentifier = trimmedIdentifier?.isEmpty == false
             let hasName = trimmedName?.isEmpty == false
 
-            guard hasIdentifier || hasName else { return }
+            guard hasIdentifier || hasName else {
+                // The log stream reports the active mode assertion was cleared
+                // (`active mode assertion: (null)`), i.e. Focus was switched off.
+                // The `_NSDoNotDisturbDisabledNotification` distributed notification
+                // is unreliable on recent macOS, so use this as an additional
+                // off signal. publishMetadata only reacts on a real active->inactive
+                // transition, so a stale clear is a no-op.
+                self.publishMetadata(
+                    identifier: nil,
+                    name: nil,
+                    isActive: false,
+                    source: "log-stream-off"
+                )
+                return
+            }
 
             self.publishMetadata(
                 identifier: trimmedIdentifier,

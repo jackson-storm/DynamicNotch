@@ -9,42 +9,47 @@ import SwiftUI
 
 enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
     case camera
+    case mediaPlayer
     case localTimer
     case vpn
     case systemStats
-    
+
     var id: String { rawValue }
-    
+
     var title: LocalizedStringKey {
         switch self {
         case .camera: return "Camera"
+        case .mediaPlayer: return "Player"
         case .localTimer: return "Timer"
         case .vpn: return "VPN"
         case .systemStats: return "Stats"
         }
     }
-    
+
     var subtitle: LocalizedStringKey {
         switch self {
         case .camera: return "Quickly access the camera."
+        case .mediaPlayer: return "Control playback, even after a long pause."
         case .localTimer: return "Set a quick timer."
         case .vpn: return "Manage VPN connections."
         case .systemStats: return "Monitor system resources."
         }
     }
-    
+
     var icon: String {
         switch self {
         case .camera: return "camera.fill"
+        case .mediaPlayer: return "music.note"
         case .localTimer: return "timer"
         case .vpn: return "network.badge.shield.half.filled"
         case .systemStats: return "cpu"
         }
     }
-    
+
     var tint: Color {
         switch self {
         case .camera: return .black
+        case .mediaPlayer: return .pink
         case .localTimer: return .orange
         case .vpn: return .blue
         case .systemStats: return .green
@@ -58,16 +63,22 @@ struct HomePageNotchView: View {
     let notchViewModel: NotchViewModel
     let settings: HomePageSettingsStore
     let localTimerViewModel: LocalTimerViewModel
+    let nowPlayingViewModel: NowPlayingViewModel
+    let mediaAndFilesSettings: MediaAndFilesSettingsStore
+    let applicationSettings: ApplicationSettingsStore
     let initialPage: HomePages
-    
+
     @State private var currentPage: HomePages?
     @State private var updateTask: Task<Void, Never>? = nil
     @State private var isWaitingForSizeUpdate = false
-    
-    init(notchViewModel: NotchViewModel, settings: HomePageSettingsStore, localTimerViewModel: LocalTimerViewModel, initialPage: HomePages) {
+
+    init(notchViewModel: NotchViewModel, settings: HomePageSettingsStore, localTimerViewModel: LocalTimerViewModel, nowPlayingViewModel: NowPlayingViewModel, mediaAndFilesSettings: MediaAndFilesSettingsStore, applicationSettings: ApplicationSettingsStore, initialPage: HomePages) {
         self.notchViewModel = notchViewModel
         self.settings = settings
         self.localTimerViewModel = localTimerViewModel
+        self.nowPlayingViewModel = nowPlayingViewModel
+        self.mediaAndFilesSettings = mediaAndFilesSettings
+        self.applicationSettings = applicationSettings
         self.initialPage = initialPage
         
         let activePages = settings.homePageOrder.filter { !settings.homePageDisabled.contains($0) }
@@ -80,10 +91,10 @@ struct HomePageNotchView: View {
         let isWaiting = isWaitingForSizeUpdate
         
         VStack() {
-            if settings.homePageScrollAxis != .vertical {
+            if settings.homePageScrollAxis != .vertical && currentPage != .mediaPlayer {
                 Spacer()
             }
-            
+
             ScrollView(settings.homePageScrollAxis == .vertical ? .vertical : .horizontal, showsIndicators: false) {
                 if settings.homePageScrollAxis == .vertical {
                     LazyVStack(spacing: 0) {
@@ -152,8 +163,10 @@ struct HomePageNotchView: View {
             }
         }
         .clipShape(RoundedRectangle(cornerRadius: isDynamicIsland ? 24 : 28))
-        .padding(.horizontal, isDynamicIsland ? 6 : 30)
-        .padding(.bottom, isDynamicIsland ? 6 : 7)
+        // The media player page reuses the standalone player, which brings its own
+        // insets — drop the container's so it lands exactly like the auto player.
+        .padding(.horizontal, currentPage == .mediaPlayer ? 0 : (isDynamicIsland ? 6 : 30))
+        .padding(.bottom, currentPage == .mediaPlayer ? 0 : (isDynamicIsland ? 6 : 7))
         .contentShape(Rectangle())
         .onChange(of: initialPage) { _, newPage in
             if newPage != currentPage && activePages.contains(newPage) {
@@ -185,11 +198,14 @@ struct HomePageNotchView: View {
                             notchViewModel: notchViewModel,
                             settings: settings,
                             homePages: newPage,
-                            localTimerViewModel: localTimerViewModel
+                            localTimerViewModel: localTimerViewModel,
+                            nowPlayingViewModel: nowPlayingViewModel,
+                            mediaAndFilesSettings: mediaAndFilesSettings,
+                            applicationSettings: applicationSettings
                         )
                     )
                 )
-                
+
                 withAnimation(.easeInOut(duration: 0.35)) {
                     isWaitingForSizeUpdate = false
                 }
@@ -203,7 +219,10 @@ struct HomePageNotchView: View {
                         notchViewModel: notchViewModel,
                         settings: settings,
                         homePages: activePages.first ?? .camera,
-                        localTimerViewModel: localTimerViewModel
+                        localTimerViewModel: localTimerViewModel,
+                        nowPlayingViewModel: nowPlayingViewModel,
+                        mediaAndFilesSettings: mediaAndFilesSettings,
+                        applicationSettings: applicationSettings
                     )
                 )
             )
@@ -214,7 +233,18 @@ struct HomePageNotchView: View {
     private func pageView(for page: HomePages) -> some View {
         switch page {
         case .camera:
-            CameraNotchView(notchViewModel: notchViewModel, settings: settings, localTimerViewModel: localTimerViewModel)
+            CameraNotchView(notchViewModel: notchViewModel, settings: settings, localTimerViewModel: localTimerViewModel, nowPlayingViewModel: nowPlayingViewModel, mediaAndFilesSettings: mediaAndFilesSettings, applicationSettings: applicationSettings)
+        case .mediaPlayer:
+            // Reuse the exact auto Now Playing expanded player so the page is
+            // visually identical to the transient live activity.
+            NowPlayingExpandedNotchView(
+                nowPlayingViewModel: nowPlayingViewModel,
+                settings: mediaAndFilesSettings,
+                applicationSettings: applicationSettings,
+                onOpenPlaybackSource: { [notchViewModel] in
+                    notchViewModel.handleOutsideClick()
+                }
+            )
         case .localTimer:
             LocalTimerSetupNotchView(localTimerViewModel: localTimerViewModel)
         case .vpn:

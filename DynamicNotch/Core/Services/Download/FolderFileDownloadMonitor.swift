@@ -1,3 +1,4 @@
+import Darwin
 import Foundation
 import Dispatch
 
@@ -10,6 +11,9 @@ final class FolderFileDownloadMonitor: DownloadMonitoring {
         let directoryName: String
         let byteCount: Int64
         let isTemporaryFile: Bool
+        // Exact fraction (0...1) reported by the downloading app via the
+        // `com.apple.progress.fractionCompleted` extended attribute, when available.
+        let authoritativeProgress: Double?
     }
 
     private struct TrackedFile {
@@ -119,11 +123,10 @@ private extension FolderFileDownloadMonitor {
     private func primeBaseline() {
         let now = Date()
         trackedFiles = observedFiles().reduce(into: [:]) { result, observed in
-            let progress = estimatedProgress(
-                currentByteCount: observed.byteCount,
+            let progress = resolveProgress(
+                for: observed,
                 growthDelta: observed.byteCount,
-                previousProgress: nil,
-                isTemporaryFile: observed.isTemporaryFile
+                previousProgress: nil
             )
 
             result[observed.url.standardizedFileURL.path] = TrackedFile(
@@ -168,15 +171,15 @@ private extension FolderFileDownloadMonitor {
                 tracked.displayName = observed.displayName
                 tracked.directoryName = observed.directoryName
                 tracked.byteCount = observed.byteCount
-                tracked.progress = estimatedProgress(
-                    currentByteCount: observed.byteCount,
+                tracked.progress = resolveProgress(
+                    for: observed,
                     growthDelta: growthDelta,
-                    previousProgress: tracked.progress,
-                    isTemporaryFile: observed.isTemporaryFile
+                    previousProgress: tracked.progress
                 )
-                tracked.estimatedTotalByteCount = max(
-                    tracked.estimatedTotalByteCount,
-                    tracked.byteCount
+                tracked.estimatedTotalByteCount = totalByteCount(
+                    for: observed,
+                    progress: tracked.progress,
+                    previousEstimate: tracked.estimatedTotalByteCount
                 )
                 tracked.bytesPerSecond = estimatedBytesPerSecond(
                     growthDelta: growthDelta,
@@ -189,11 +192,10 @@ private extension FolderFileDownloadMonitor {
                 tracked.lastSeenAt = now
                 trackedFiles[path] = tracked
             } else {
-                let progress = estimatedProgress(
-                    currentByteCount: observed.byteCount,
+                let progress = resolveProgress(
+                    for: observed,
                     growthDelta: observed.byteCount,
-                    previousProgress: nil,
-                    isTemporaryFile: observed.isTemporaryFile
+                    previousProgress: nil
                 )
 
                 trackedFiles[path] = TrackedFile(
@@ -303,7 +305,8 @@ private extension FolderFileDownloadMonitor {
                     displayName: displayName(for: fileName),
                     directoryName: directory.lastPathComponent,
                     byteCount: Int64(resourceValues.fileSize ?? 0),
-                    isTemporaryFile: isTemporaryFile
+                    isTemporaryFile: isTemporaryFile,
+                    authoritativeProgress: downloadProgressAttribute(for: standardizedURL)
                 )
             }
 
@@ -316,7 +319,8 @@ private extension FolderFileDownloadMonitor {
                 displayName: displayName(for: fileName),
                 directoryName: directory.lastPathComponent,
                 byteCount: recursiveByteCount(in: standardizedURL),
-                isTemporaryFile: true
+                isTemporaryFile: true,
+                authoritativeProgress: downloadProgressAttribute(for: standardizedURL)
             )
         }
     }
@@ -335,6 +339,69 @@ private extension FolderFileDownloadMonitor {
         }
 
         return now.timeIntervalSince(lastGrowthAt) <= Metrics.activityTimeout
+    }
+
+    /// Uses the exact progress reported by the downloading app when available,
+    /// otherwise falls back to the size-growth heuristic.
+    private func resolveProgress(
+        for observed: ObservedFile,
+        growthDelta: Int64,
+        previousProgress: Double?
+    ) -> Double {
+        if let authoritative = observed.authoritativeProgress {
+            return min(max(authoritative, 0), 1)
+        }
+
+        return estimatedProgress(
+            currentByteCount: observed.byteCount,
+            growthDelta: growthDelta,
+            previousProgress: previousProgress,
+            isTemporaryFile: observed.isTemporaryFile
+        )
+    }
+
+    /// Derives the total transfer size from the exact reported progress when
+    /// available; otherwise preserves the original monotonic heuristic estimate.
+    private func totalByteCount(
+        for observed: ObservedFile,
+        progress: Double,
+        previousEstimate: Int64
+    ) -> Int64 {
+        if observed.authoritativeProgress != nil {
+            return estimatedTotalByteCount(
+                currentByteCount: observed.byteCount,
+                progress: progress
+            )
+        }
+
+        return max(previousEstimate, observed.byteCount)
+    }
+
+    /// Reads the `com.apple.progress.fractionCompleted` extended attribute that
+    /// browsers (Safari/WebKit and others) write onto in-flight downloads. The
+    /// value is stored as a string whose decimal separator follows the current
+    /// locale, so both "." and "," are accepted.
+    private func downloadProgressAttribute(for url: URL) -> Double? {
+        let attributeName = "com.apple.progress.fractionCompleted"
+
+        return url.withUnsafeFileSystemRepresentation { pathPointer -> Double? in
+            guard let pathPointer else { return nil }
+
+            let length = getxattr(pathPointer, attributeName, nil, 0, 0, 0)
+            guard length > 0 else { return nil }
+
+            var buffer = [UInt8](repeating: 0, count: length)
+            let read = getxattr(pathPointer, attributeName, &buffer, length, 0, 0)
+            guard read > 0 else { return nil }
+
+            let rawString = String(decoding: buffer[0..<read], as: UTF8.self)
+            let normalized = rawString
+                .trimmingCharacters(in: .whitespacesAndNewlines)
+                .replacingOccurrences(of: ",", with: ".")
+
+            guard let value = Double(normalized), value.isFinite else { return nil }
+            return min(max(value, 0), 1)
+        }
     }
 
     private func estimatedProgress(

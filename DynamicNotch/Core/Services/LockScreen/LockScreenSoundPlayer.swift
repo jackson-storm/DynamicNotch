@@ -17,7 +17,7 @@ final class LockScreenSoundPlayer: LockScreenSoundPlaying {
         case unlock = "DynamicNotch_unlock"
 
         var fileName: String {
-            rawValue + ".mp3"
+            rawValue + ".caf"
         }
     }
 
@@ -126,7 +126,7 @@ private extension LockScreenSoundPlayer {
         for subdirectory in subdirectories {
             if let url = bundle.url(
                 forResource: asset.rawValue,
-                withExtension: "mp3",
+                withExtension: "caf",
                 subdirectory: subdirectory
             ) {
                 return url

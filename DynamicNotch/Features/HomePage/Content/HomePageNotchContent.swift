@@ -14,7 +14,10 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     let settings: HomePageSettingsStore
     let homePages: HomePages
     let localTimerViewModel: LocalTimerViewModel
-    
+    let nowPlayingViewModel: NowPlayingViewModel
+    let mediaAndFilesSettings: MediaAndFilesSettingsStore
+    let applicationSettings: ApplicationSettingsStore
+
     var priority: Int { NotchContentRegistry.HomePage.active.priority }
     var isExpandable: Bool { true }
     
@@ -31,6 +34,10 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
             let isStarted = UserDefaults.standard.bool(forKey: "isCameraStarted")
             return (top: isStarted ? 34 : 24, bottom: isStarted ? 48 : 38)
             
+        case .mediaPlayer:
+            // Match the auto Now Playing expanded player exactly.
+            return (top: 34, bottom: 44)
+
         case .localTimer, .vpn, .systemStats:
             return (top: 24, bottom: 38)
         }
@@ -64,11 +71,11 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
                 return baseHeight * 0.2
             }
             
-        case .localTimer, .vpn, .systemStats:
+        case .mediaPlayer, .localTimer, .vpn, .systemStats:
             return baseHeight * 0.2
         }
     }
-    
+
     func expandedSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         switch homePages {
         case .camera:
@@ -85,17 +92,20 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
                 return .init(width: baseWidth + 180, height: baseHeight + 180)
             }
             
+        case .mediaPlayer:
+            return .init(width: baseWidth + 200, height: baseHeight + 160)
+
         case .localTimer:
             return .init(width: baseWidth + 100, height: baseHeight + 125)
-            
+
         case .vpn:
             return .init(width: baseWidth + 140, height: baseHeight + 110)
-            
+
         case .systemStats:
             return .init(width: baseWidth + 140, height: baseHeight + 110)
         }
     }
-    
+
     func expandedDynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         switch homePages {
         case .camera:
@@ -112,12 +122,15 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
                 return .init(width: baseWidth + 210, height: baseHeight + 180)
             }
             
+        case .mediaPlayer:
+            return .init(width: baseWidth + 220, height: baseHeight + 160)
+
         case .localTimer:
             return .init(width: baseWidth + 140, height: baseHeight + 125)
-            
+
         case .vpn:
             return .init(width: baseWidth + 180, height: baseHeight + 125)
-            
+
         case .systemStats:
             return .init(width: baseWidth + 180, height: baseHeight + 125)
         }
@@ -130,6 +143,9 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
                 notchViewModel: notchViewModel,
                 settings: settings,
                 localTimerViewModel: localTimerViewModel,
+                nowPlayingViewModel: nowPlayingViewModel,
+                mediaAndFilesSettings: mediaAndFilesSettings,
+                applicationSettings: applicationSettings,
                 initialPage: homePages
             )
         )

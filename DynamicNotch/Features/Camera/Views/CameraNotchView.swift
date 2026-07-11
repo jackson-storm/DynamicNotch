@@ -12,6 +12,9 @@ struct CameraNotchView: View {
     let notchViewModel: NotchViewModel
     let settings: HomePageSettingsStore
     let localTimerViewModel: LocalTimerViewModel
+    let nowPlayingViewModel: NowPlayingViewModel
+    let mediaAndFilesSettings: MediaAndFilesSettingsStore
+    let applicationSettings: ApplicationSettingsStore
     
     @Environment(\.isDynamicIsland) private var isDynamicIsland
     @StateObject private var cameraViewModel = CameraViewModel()
@@ -108,7 +111,10 @@ struct CameraNotchView: View {
                     notchViewModel: notchViewModel,
                     settings: settings,
                     homePages: .camera,
-                    localTimerViewModel: localTimerViewModel
+                    localTimerViewModel: localTimerViewModel,
+                    nowPlayingViewModel: nowPlayingViewModel,
+                    mediaAndFilesSettings: mediaAndFilesSettings,
+                    applicationSettings: applicationSettings
                 )
             ))
         }) {
@@ -153,7 +159,10 @@ struct CameraNotchView: View {
                         notchViewModel: notchViewModel,
                         settings: settings,
                         homePages: .camera,
-                        localTimerViewModel: localTimerViewModel
+                        localTimerViewModel: localTimerViewModel,
+                        nowPlayingViewModel: nowPlayingViewModel,
+                        mediaAndFilesSettings: mediaAndFilesSettings,
+                        applicationSettings: applicationSettings
                     )
                 ))
             }) {

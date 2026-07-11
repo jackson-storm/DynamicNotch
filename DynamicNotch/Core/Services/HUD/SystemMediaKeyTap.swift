@@ -193,6 +193,11 @@ final class SystemMediaKeyTap {
             guard configuration.interceptBrightness else {
                 return Unmanaged.passUnretained(event)
             }
+            // Consume the brightness key. On macOS 26 the only way to hide the
+            // system OSD (drawn by MenuBarAgent, unkillable) is to swallow the key
+            // so the OS never shows it — the same way volume keys are handled. The
+            // trade-off is discrete steps, since the smooth hardware ramp is only
+            // available when the key isn't consumed.
             delegate?.mediaKeyTap(self, didReceiveBrightnessCommand: .increase, granularity: granularity, modifiers: nsEvent.modifierFlags)
             return nil
 

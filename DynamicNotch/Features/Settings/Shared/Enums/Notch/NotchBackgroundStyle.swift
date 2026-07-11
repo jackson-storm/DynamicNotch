@@ -2,7 +2,6 @@ import SwiftUI
 
 enum NotchBackgroundStyle: String, CaseIterable {
     case black
-    case ultraThickMaterial
     case liquidGlass
 
     static var availableOptions: [Self] {
@@ -13,8 +12,6 @@ enum NotchBackgroundStyle: String, CaseIterable {
         switch self {
         case .black:
             return "Black"
-        case .ultraThickMaterial:
-            return "Material"
         case .liquidGlass:
             return "Liquid Glass"
         }
@@ -24,8 +21,6 @@ enum NotchBackgroundStyle: String, CaseIterable {
         switch self {
         case .black:
             return "circle.fill"
-        case .ultraThickMaterial:
-            return "square.stack.3d.up.fill"
         case .liquidGlass:
             return "sparkles"
         }

@@ -11,9 +11,9 @@ struct AboutAppSettingsView: View {
     @Environment(\.openURL) private var openURL
     @Environment(\.colorScheme) private var colorScheme
     @ObservedObject var applicationSettings: ApplicationSettingsStore
-
+    
     let onRequestInternetAccess: () -> Bool
-
+    
     private let heroCardHeight: CGFloat = 300
     
     private var appVersionText: String {
@@ -28,22 +28,15 @@ struct AboutAppSettingsView: View {
     }
     
     var body: some View {
-        ZStack {
-            AnimatedGradientBackground()
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+        VStack(spacing: 0) {
+            heroCard
             
-            VStack(spacing: 0) {
-                heroCard
-                
-                Divider().opacity(0.8)
-                
-                ScrollView(showsIndicators: false) {
-                    highlightsCard
-                    Spacer(minLength: 0)
-                }
-                .background(.ultraThickMaterial)
+            Divider().opacity(0.8)
+            
+            ScrollView(showsIndicators: false) {
+                highlightsCard
+                Spacer(minLength: 0)
             }
-            .background(.ultraThinMaterial)
         }
         .edgesIgnoringSafeArea(.top)
         .accessibilityIdentifier("settings.about.root")
@@ -172,94 +165,10 @@ struct AboutAppSettingsView: View {
         guard let url = URL(string: value) else { return }
         openInternetURL(url)
     }
-
+    
     private func openInternetURL(_ url: URL) {
         guard onRequestInternetAccess() else { return }
         openURL(url)
-    }
-}
-
-private struct AnimatedGradientBackground: View {
-    @Environment(\.colorScheme) private var colorScheme
-    @State private var rotation: Double = 0
-    @State private var drift: CGFloat = -0.5
-
-    private var colors: [Color] {
-        if colorScheme == .dark {
-            return [
-                Color(hue: 0.72, saturation: 0.60, brightness: 0.50), // purple
-                Color(hue: 0.63, saturation: 0.60, brightness: 0.52), // indigo
-                Color(hue: 0.55, saturation: 0.65, brightness: 0.52), // blue
-                Color(hue: 0.48, saturation: 0.65, brightness: 0.52)  // teal
-            ]
-        } else {
-            return [
-                Color(hue: 0.55, saturation: 0.20, brightness: 1.00), // light blue
-                Color(hue: 0.42, saturation: 0.22, brightness: 1.00), // light green
-                Color(hue: 0.85, saturation: 0.25, brightness: 1.00), // light pink
-                Color(hue: 0.72, saturation: 0.22, brightness: 1.00)  // light purple
-            ]
-        }
-    }
-
-    var body: some View {
-        ZStack {
-            AngularGradient(gradient: Gradient(colors: colors), center: .center)
-                .rotationEffect(.degrees(rotation))
-                .animation(.linear(duration: 10).repeatForever(autoreverses: false), value: rotation)
-
-            LinearGradient(gradient: Gradient(colors: Array(colors.reversed())), startPoint: .topLeading, endPoint: .bottomTrailing)
-                .opacity(0.25)
-                .scaleEffect(1.2)
-                .offset(x: drift * 80, y: drift * -60)
-                .animation(.easeInOut(duration: 6).repeatForever(autoreverses: true), value: drift)
-        }
-        .onAppear {
-            rotation = 360
-            drift = 0.5
-        }
-    }
-}
-
-private struct AboutHeroBackground: View {
-    @Environment(\.colorScheme) private var colorScheme
-
-    private var baseGradient: LinearGradient {
-        LinearGradient(
-            colors: colorScheme == .dark
-            ? [
-                Color(red: 0.03, green: 0.05, blue: 0.11),
-                Color(red: 0.06, green: 0.16, blue: 0.21),
-                Color(red: 0.03, green: 0.05, blue: 0.11)
-            ]
-            : [
-                Color(red: 0.93, green: 0.97, blue: 1.00),
-                Color(red: 0.86, green: 0.96, blue: 0.93),
-                Color(red: 0.93, green: 0.97, blue: 1.00)
-            ],
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing
-        )
-    }
-
-    var body: some View {
-        GeometryReader { proxy in
-            ZStack {
-                Rectangle()
-                    .fill(baseGradient)
-
-                LinearGradient(
-                    colors: [
-                        Color.black.opacity(colorScheme == .dark ? 0.16 : 0.03),
-                        .clear,
-                        Color.black.opacity(colorScheme == .dark ? 0.28 : 0.08)
-                    ],
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-            }
-            .clipShape(Rectangle())
-        }
     }
 }
 

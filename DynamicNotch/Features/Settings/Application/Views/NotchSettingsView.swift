@@ -367,32 +367,6 @@ struct NotchSettingsView: View {
                         .stroke(strokeColor, lineWidth: strokeWidth)
                 }
             
-        case .ultraThickMaterial:
-            ZStack {
-                shape
-                    .fill(Color.white.opacity(0.05))
-                
-                shape
-                    .fill(.ultraThinMaterial)
-                    .overlay {
-                        shape
-                            .fill(
-                                LinearGradient(
-                                    colors: [
-                                        Color.white.opacity(0.10),
-                                        Color.white.opacity(0.02)
-                                    ],
-                                    startPoint: .top,
-                                    endPoint: .bottom
-                                )
-                            )
-                    }
-                    .overlay {
-                        shape
-                            .stroke(strokeColor, lineWidth: strokeWidth)
-                    }
-            }
-            
         case .liquidGlass:
             LiquidGlassBackground(
                 variant: LiquidGlassVariant.clamped(7),

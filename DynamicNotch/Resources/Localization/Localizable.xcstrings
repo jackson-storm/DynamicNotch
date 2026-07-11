@@ -9178,6 +9178,7 @@
       }
     },
     "Material" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

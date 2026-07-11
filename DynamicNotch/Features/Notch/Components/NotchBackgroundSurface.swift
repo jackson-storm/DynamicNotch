@@ -36,9 +36,6 @@ struct NotchBackgroundSurface: View {
         case .black:
             shape.fill(.black)
             
-        case .ultraThickMaterial:
-            shape.fill(.ultraThinMaterial)
-            
         case .liquidGlass:
             LiquidGlassBackground(
                 variant: LiquidGlassVariant.clamped(liquidGlassVariant),

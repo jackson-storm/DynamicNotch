@@ -20452,6 +20452,7 @@
       }
     },
     "Swipe down" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

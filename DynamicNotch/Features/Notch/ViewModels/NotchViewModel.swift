@@ -93,13 +93,6 @@ final class NotchViewModel: ObservableObject {
         canExpandActiveLiveActivity
     }
 
-    var shouldExpandActiveContentOnSwipeDown: Bool {
-        settings.isNotchTapToExpandEnabled &&
-        settings.notchExpandInteraction == .swipeDown &&
-        canExpandActiveLiveActivity &&
-        !isDisplayingExpandedLiveActivity
-    }
-
     var notchExpandInteraction: NotchExpandInteraction {
         settings.notchExpandInteraction
     }

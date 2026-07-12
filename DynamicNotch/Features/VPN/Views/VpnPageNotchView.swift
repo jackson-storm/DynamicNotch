@@ -95,8 +95,7 @@ struct VpnPageNotchView: View {
             }
             buttons(for: vpn)
         }
-        .padding(.horizontal, 5)
-        .padding(.bottom, 3)
+        .padding(.horizontal, 2)
     }
     
     @ViewBuilder

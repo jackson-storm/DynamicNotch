@@ -4952,6 +4952,7 @@
       }
     },
     "Control playback, even after a long pause." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -7727,6 +7728,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "悬停"
+          }
+        }
+      }
+    },
+    "Hover haptic feedback" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hover haptic feedback"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Respuesta háptica al pasar el cursor"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тактильный отклик при наведении"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "悬停触觉反馈"
           }
         }
       }
@@ -10741,6 +10770,62 @@
         }
       }
     },
+    "Play the tick sound when changing volume." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Play the tick sound when changing volume."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reproduce el sonido de clic al cambiar el volumen."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Воспроизводить щелчок при изменении громкости."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在更改音量时播放滴答声。"
+          }
+        }
+      }
+    },
+    "Play volume sound feedback" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Play volume sound feedback"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reproducir sonido al cambiar el volumen"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Звуковой щелчок при изменении громкости"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "播放音量反馈声音"
+          }
+        }
+      }
+    },
     "Playback activity" : {
       "localizations" : {
         "en" : {
@@ -10856,6 +10941,7 @@
       }
     },
     "Player" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11121,6 +11207,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "预览持续的屏幕录制指示器。"
+          }
+        }
+      }
+    },
+    "Produce a soft haptic tick when the cursor enters the collapsed notch." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Produce a soft haptic tick when the cursor enters the collapsed notch."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Produce un suave clic háptico cuando el cursor entra en el notch contraído."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Воспроизводить легкий тактильный щелчок при наведении курсора на свернутый Notch."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当光标进入折叠的缺口时产生轻微的触觉反馈。"
           }
         }
       }
@@ -20966,62 +21080,6 @@
         }
       }
     },
-    "Hover haptic feedback" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hover haptic feedback"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Respuesta háptica al pasar el cursor"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Тактильный отклик при наведении"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "悬停触觉反馈"
-          }
-        }
-      }
-    },
-    "Produce a soft haptic tick when the cursor enters the collapsed notch." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Produce a soft haptic tick when the cursor enters the collapsed notch."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Produce un suave clic háptico cuando el cursor entra en el notch contraído."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Воспроизводить легкий тактильный щелчок при наведении курсора на свернутый Notch."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "当光标进入折叠的缺口时产生轻微的触觉反馈。"
-          }
-        }
-      }
-    },
     "Tray" : {
       "localizations" : {
         "en" : {
@@ -22013,62 +22071,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "音量平视显示器"
-          }
-        }
-      }
-    },
-    "Play volume sound feedback" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Play volume sound feedback"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reproducir sonido al cambiar el volumen"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Звуковой щелчок при изменении громкости"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "播放音量反馈声音"
-          }
-        }
-      }
-    },
-    "Play the tick sound when changing volume." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Play the tick sound when changing volume."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reproduce el sonido de clic al cambiar el volumen."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Воспроизводить щелчок при изменении громкости."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在更改音量时播放滴答声。"
           }
         }
       }

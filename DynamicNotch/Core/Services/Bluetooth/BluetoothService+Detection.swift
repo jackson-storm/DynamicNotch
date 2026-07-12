@@ -5,6 +5,13 @@ extension BluetoothService {
     // MARK: - Device Detection Helpers
 
     func isAudioDevice(_ device: IOBluetoothDevice) -> Bool {
+        if let name = device.name?.lowercased() {
+            let audioKeywords = ["airpods", "beats", "bose", "sony", "headphones", "headset", "earbuds", "buds", "speaker", "soundbar", "audio"]
+            if audioKeywords.contains(where: { name.contains($0) }) {
+                return true
+            }
+        }
+
         let audioServiceUUID = IOBluetoothSDPUUID(uuid16: 0x110B)
         let headsetServiceUUID = IOBluetoothSDPUUID(uuid16: 0x1108)
         let handsfreeServiceUUID = IOBluetoothSDPUUID(uuid16: 0x111E)

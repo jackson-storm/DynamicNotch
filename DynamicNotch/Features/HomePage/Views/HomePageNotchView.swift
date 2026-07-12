@@ -9,47 +9,42 @@ import SwiftUI
 
 enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
     case camera
-    case mediaPlayer
     case localTimer
     case vpn
     case systemStats
-
+    
     var id: String { rawValue }
-
+    
     var title: LocalizedStringKey {
         switch self {
         case .camera: return "Camera"
-        case .mediaPlayer: return "Player"
         case .localTimer: return "Timer"
         case .vpn: return "VPN"
         case .systemStats: return "Stats"
         }
     }
-
+    
     var subtitle: LocalizedStringKey {
         switch self {
         case .camera: return "Quickly access the camera."
-        case .mediaPlayer: return "Control playback, even after a long pause."
         case .localTimer: return "Set a quick timer."
         case .vpn: return "Manage VPN connections."
         case .systemStats: return "Monitor system resources."
         }
     }
-
+    
     var icon: String {
         switch self {
         case .camera: return "camera.fill"
-        case .mediaPlayer: return "music.note"
         case .localTimer: return "timer"
         case .vpn: return "network.badge.shield.half.filled"
         case .systemStats: return "cpu"
         }
     }
-
+    
     var tint: Color {
         switch self {
         case .camera: return .black
-        case .mediaPlayer: return .pink
         case .localTimer: return .orange
         case .vpn: return .blue
         case .systemStats: return .green
@@ -67,11 +62,13 @@ struct HomePageNotchView: View {
     let mediaAndFilesSettings: MediaAndFilesSettingsStore
     let applicationSettings: ApplicationSettingsStore
     let initialPage: HomePages
-
+    
     @State private var currentPage: HomePages?
     @State private var updateTask: Task<Void, Never>? = nil
     @State private var isWaitingForSizeUpdate = false
-
+    @State private var isPageSettled = true
+    @State private var settleTask: Task<Void, Never>? = nil
+    
     init(notchViewModel: NotchViewModel, settings: HomePageSettingsStore, localTimerViewModel: LocalTimerViewModel, nowPlayingViewModel: NowPlayingViewModel, mediaAndFilesSettings: MediaAndFilesSettingsStore, applicationSettings: ApplicationSettingsStore, initialPage: HomePages) {
         self.notchViewModel = notchViewModel
         self.settings = settings
@@ -88,7 +85,7 @@ struct HomePageNotchView: View {
     
     var body: some View {
         let activePages = settings.homePageOrder.filter { !settings.homePageDisabled.contains($0) }
-        let isWaiting = isWaitingForSizeUpdate
+        let settled = isPageSettled
         
         VStack() {
             if settings.homePageScrollAxis != .vertical {
@@ -103,8 +100,8 @@ struct HomePageNotchView: View {
                                 .containerRelativeFrame(.vertical)
                                 .scrollTransition(.interactive) { content, phase in
                                     content
-                                        .blur(radius: min(30, CGFloat(abs(phase.value)) * 30))
-                                        .opacity(max(0.5, 1.0 - (abs(phase.value) * 0.7)))
+                                        .blur(radius: settled ? min(20, CGFloat(abs(phase.value)) * 150) : 20)
+                                        .opacity(settled ? max(0.7, 1.0 - (abs(phase.value) * 2.0)) : 0.7)
                                 }
                                 .id(page)
                         }
@@ -118,8 +115,8 @@ struct HomePageNotchView: View {
                                 .containerRelativeFrame(.horizontal)
                                 .scrollTransition(.interactive) { content, phase in
                                     content
-                                        .blur(radius: min(30, CGFloat(abs(phase.value)) * 30))
-                                        .opacity(max(0.5, 1.0 - (abs(phase.value) * 0.7)))
+                                        .blur(radius: settled ? min(20, CGFloat(abs(phase.value)) * 150) : 20)
+                                        .opacity(settled ? max(0.7, 1.0 - (abs(phase.value) * 2.0)) : 0.7)
                                 }
                                 .id(page)
                         }
@@ -133,11 +130,11 @@ struct HomePageNotchView: View {
                 if settings.homePageScrollAxis == .vertical {
                     let totalHeight = notchViewModel.presentedNotchSize.height
                     let baseHeight = notchViewModel.notchModel.baseHeight
-                    let cornerRadius: CGFloat = isDynamicIsland ? 20 : 20
+                    let cornerRadius: CGFloat = 20
                     
                     if totalHeight > 0 {
                         let fadeStart = baseHeight / totalHeight
-                        let fadeEnd = min(1.0, (baseHeight + 8) / totalHeight)
+                        let fadeEnd = min(1.0, (baseHeight + 4) / totalHeight)
                         
                         RoundedRectangle(cornerRadius: cornerRadius)
                             .mask(
@@ -160,7 +157,7 @@ struct HomePageNotchView: View {
                 }
             }
         }
-        .clipShape(RoundedRectangle(cornerRadius: isDynamicIsland ? 20 : 20))
+        .clipShape(RoundedRectangle(cornerRadius: 20))
         .padding(.horizontal, isDynamicIsland ? 8 : 33)
         .padding(.bottom, isDynamicIsland ? 9 : 10)
         .contentShape(Rectangle())
@@ -181,6 +178,16 @@ struct HomePageNotchView: View {
             
             withAnimation(.easeInOut(duration: 0.15)) {
                 isWaitingForSizeUpdate = true
+            }
+            
+            isPageSettled = false
+            settleTask?.cancel()
+            settleTask = Task {
+                try? await Task.sleep(nanoseconds: 500_000_000)
+                guard !Task.isCancelled else { return }
+                withAnimation(.spring(response: 0.5)) {
+                    isPageSettled = true
+                }
             }
             
             updateTask?.cancel()
@@ -222,6 +229,8 @@ struct HomePageNotchView: View {
                     )
                 )
             )
+            settleTask?.cancel()
+            updateTask?.cancel()
         }
     }
     
@@ -230,16 +239,6 @@ struct HomePageNotchView: View {
         switch page {
         case .camera:
             CameraNotchView(notchViewModel: notchViewModel, settings: settings, localTimerViewModel: localTimerViewModel, nowPlayingViewModel: nowPlayingViewModel, mediaAndFilesSettings: mediaAndFilesSettings, applicationSettings: applicationSettings)
-        case .mediaPlayer:
-            NowPlayingExpandedNotchView(
-                nowPlayingViewModel: nowPlayingViewModel,
-                settings: mediaAndFilesSettings,
-                applicationSettings: applicationSettings,
-                onOpenPlaybackSource: { [notchViewModel] in
-                    notchViewModel.handleOutsideClick()
-                },
-                isHostedInHomePage: true
-            )
         case .localTimer:
             LocalTimerSetupNotchView(localTimerViewModel: localTimerViewModel)
         case .vpn:

@@ -33,10 +33,6 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
         case .camera:
             let isStarted = UserDefaults.standard.bool(forKey: "isCameraStarted")
             return (top: isStarted ? 34 : 24, bottom: isStarted ? 48 : 38)
-            
-        case .mediaPlayer:
-            // Match the auto Now Playing expanded player exactly.
-            return (top: 34, bottom: 44)
 
         case .localTimer, .vpn, .systemStats:
             return (top: 24, bottom: 38)
@@ -71,7 +67,7 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
                 return baseHeight * 0.2
             }
             
-        case .mediaPlayer, .localTimer, .vpn, .systemStats:
+        case .localTimer, .vpn, .systemStats:
             return baseHeight * 0.2
         }
     }
@@ -91,9 +87,6 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
             } else {
                 return .init(width: baseWidth + 180, height: baseHeight + 180)
             }
-            
-        case .mediaPlayer:
-            return .init(width: baseWidth + 200, height: baseHeight + 160)
 
         case .localTimer:
             return .init(width: baseWidth + 100, height: baseHeight + 125)
@@ -121,9 +114,6 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
             } else {
                 return .init(width: baseWidth + 210, height: baseHeight + 180)
             }
-            
-        case .mediaPlayer:
-            return .init(width: baseWidth + 220, height: baseHeight + 160)
 
         case .localTimer:
             return .init(width: baseWidth + 140, height: baseHeight + 125)

@@ -16,7 +16,6 @@ struct NowPlayingExpandedNotchView: View {
     @ObservedObject var applicationSettings: ApplicationSettingsStore
     
     let onOpenPlaybackSource: @MainActor () -> Void
-    var isHostedInHomePage: Bool = false
     
     @State private var scrubProgress: CGFloat?
     private let detailedPresentationSource = "nowPlaying.notch.expanded"
@@ -70,66 +69,8 @@ struct NowPlayingExpandedNotchView: View {
         return VStack {
             Spacer()
 
-            HStack(spacing: 15) {
-                Button(action: {
-                    openPlaybackSource()
-                }) {
-                    ArtworkView(
-                        nowPlayingViewModel: nowPlayingViewModel,
-                        width: 60,
-                        height: 60,
-                        cornerRadius: 10,
-                        usesFlipAnimation: appearance.usesArtwork3DEffect
-                    )
-                    .contentShape(Rectangle())
-                }
-                .buttonStyle(PlaybackSourceButtonStyle())
-                .disabled(!nowPlayingViewModel.canOpenPlaybackSource)
-
-                HStack(alignment: .top, spacing: 10) {
-                    Button(action: {
-                        openPlaybackSource()
-                    }) {
-                        VStack(alignment: .leading, spacing: 2) {
-                            MarqueeText(
-                                .constant(displayTitle(for: snapshot)),
-                                font: .system(size: 16, weight: .medium),
-                                nsFont: .headline,
-                                textColor: .white.opacity(0.8),
-                                backgroundColor: .clear,
-                                minDuration: 2.0,
-                                frameWidth: 170
-                            )
-
-                            MarqueeText(
-                                .constant(displayArtist(for: snapshot)),
-                                font: .system(size: 14),
-                                nsFont: .headline,
-                                textColor: .white.opacity(0.5),
-                                backgroundColor: .clear,
-                                minDuration: 3.0,
-                                frameWidth: 170
-                            )
-                        }
-                        .contentShape(Rectangle())
-                    }
-                    .buttonStyle(PlaybackSourceButtonStyle())
-                    .disabled(!nowPlayingViewModel.canOpenPlaybackSource)
-
-                    Spacer(minLength: 0)
-
-                    LightweightNowPlayingEqualizerView(
-                        isPlaying: snapshot.isPlaying,
-                        colors: [
-                            nowPlayingViewModel.artworkPalette.equalizerHighlightColor,
-                            nowPlayingViewModel.artworkPalette.equalizerBaseColor
-                        ],
-                        barHeight: 23,
-                        barWidth: 2.7
-                    )
-                    .frame(width: 23, height: 18)
-                }
-            }
+            headerSection(snapshot: snapshot, appearance: appearance)
+            
             Spacer()
 
             PlayerProgressBar(
@@ -164,67 +105,135 @@ struct NowPlayingExpandedNotchView: View {
 
             Spacer()
 
-            ZStack {
-                HStack(spacing: 25) {
-                    PlayerControlButton(
-                        systemImage: "backward.fill",
-                        fontSize: 22,
-                        width: 42,
-                        height: 42,
-                        feedbackStyle: .backward
-                    ) {
-                        nowPlayingViewModel.previousTrack()
-                    }
-
-                    PlayerControlButton(
-                        systemImage: snapshot.isPlaying ? "pause.fill" : "play.fill",
-                        fontSize: 32,
-                        width: 42,
-                        height: 42,
-                        feedbackStyle: .playPause
-                    ) {
-                        nowPlayingViewModel.togglePlayPause()
-                    }
-
-                    PlayerControlButton(
-                        systemImage: "forward.fill",
-                        fontSize: 22,
-                        width: 42,
-                        height: 42,
-                        feedbackStyle: .forward
-                    ) {
-                        nowPlayingViewModel.nextTrack()
-                    }
-                }
-
-                HStack {
-                    if appearance.showsFavoriteButton {
-                        FavoriteTrackButton(
-                            nowPlayingViewModel: nowPlayingViewModel,
-                            width: 42,
-                            height: 42,
-                            fontSize: 21
-                        )
-                    }
-
-                    Spacer()
-
-                    if appearance.showsOutputDeviceButton {
-                        AudioOutputRoutePickerButton(
-                            nowPlayingViewModel: nowPlayingViewModel,
-                            width: 42,
-                            height: 42,
-                            fontSize: 21
-                        )
-                    }
-                }
-                .padding(.horizontal, 5)
-            }
-            .frame(maxWidth: .infinity)
+            controlsSection(snapshot: snapshot, appearance: appearance)
         }
-        .padding(.horizontal, isHostedInHomePage ? (isDynamicIsland ? 19 : 25) : (isDynamicIsland ? 25 : 55))
+        .padding(.horizontal, isDynamicIsland ? 25 : 55)
         .padding(.top, isDynamicIsland ? 15 : 25)
-        .padding(.bottom, isHostedInHomePage ? 8 : 15)
+        .padding(.bottom, 15)
+    }
+
+    @ViewBuilder
+    private func headerSection(snapshot: NowPlayingSnapshot, appearance: NowPlayingAppearanceOptions) -> some View {
+        HStack(spacing: 15) {
+            Button(action: {
+                openPlaybackSource()
+            }) {
+                ArtworkView(
+                    nowPlayingViewModel: nowPlayingViewModel,
+                    width: 60,
+                    height: 60,
+                    cornerRadius: 10,
+                    usesFlipAnimation: appearance.usesArtwork3DEffect
+                )
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(PlaybackSourceButtonStyle())
+            .disabled(!nowPlayingViewModel.canOpenPlaybackSource)
+
+            HStack(alignment: .top, spacing: 10) {
+                Button(action: {
+                    openPlaybackSource()
+                }) {
+                    VStack(alignment: .leading, spacing: 2) {
+                        MarqueeText(
+                            .constant(displayTitle(for: snapshot)),
+                            font: .system(size: 16, weight: .medium),
+                            nsFont: .headline,
+                            textColor: .white.opacity(0.8),
+                            backgroundColor: .clear,
+                            minDuration: 2.0,
+                            frameWidth: 170
+                        )
+
+                        MarqueeText(
+                            .constant(displayArtist(for: snapshot)),
+                            font: .system(size: 14),
+                            nsFont: .headline,
+                            textColor: .white.opacity(0.5),
+                            backgroundColor: .clear,
+                            minDuration: 3.0,
+                            frameWidth: 170
+                        )
+                    }
+                    .contentShape(Rectangle())
+                }
+                .buttonStyle(PlaybackSourceButtonStyle())
+                .disabled(!nowPlayingViewModel.canOpenPlaybackSource)
+
+                Spacer()
+
+                LightweightNowPlayingEqualizerView(
+                    isPlaying: snapshot.isPlaying,
+                    colors: [
+                        nowPlayingViewModel.artworkPalette.equalizerHighlightColor,
+                        nowPlayingViewModel.artworkPalette.equalizerBaseColor
+                    ],
+                    barHeight: 23,
+                    barWidth: 2.7
+                )
+                .frame(width: 23, height: 18)
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func controlsSection(snapshot: NowPlayingSnapshot, appearance: NowPlayingAppearanceOptions) -> some View {
+        ZStack {
+            HStack(spacing: 25) {
+                PlayerControlButton(
+                    systemImage: "backward.fill",
+                    fontSize: 22,
+                    width: 42,
+                    height: 42,
+                    feedbackStyle: .backward
+                ) {
+                    nowPlayingViewModel.previousTrack()
+                }
+
+                PlayerControlButton(
+                    systemImage: snapshot.isPlaying ? "pause.fill" : "play.fill",
+                    fontSize: 32,
+                    width: 42,
+                    height: 42,
+                    feedbackStyle: .playPause
+                ) {
+                    nowPlayingViewModel.togglePlayPause()
+                }
+
+                PlayerControlButton(
+                    systemImage: "forward.fill",
+                    fontSize: 22,
+                    width: 42,
+                    height: 42,
+                    feedbackStyle: .forward
+                ) {
+                    nowPlayingViewModel.nextTrack()
+                }
+            }
+
+            HStack {
+                if appearance.showsFavoriteButton {
+                    FavoriteTrackButton(
+                        nowPlayingViewModel: nowPlayingViewModel,
+                        width: 42,
+                        height: 42,
+                        fontSize: 21
+                    )
+                }
+
+                Spacer()
+
+                if appearance.showsOutputDeviceButton {
+                    AudioOutputRoutePickerButton(
+                        nowPlayingViewModel: nowPlayingViewModel,
+                        width: 42,
+                        height: 42,
+                        fontSize: 21
+                    )
+                }
+            }
+            .padding(.horizontal, 5)
+        }
     }
     
     private func displayTitle(for snapshot: NowPlayingSnapshot) -> String {

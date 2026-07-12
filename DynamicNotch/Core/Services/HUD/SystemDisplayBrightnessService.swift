@@ -3,6 +3,7 @@ import Foundation
 import IOKit
 import IOKit.graphics
 
+@MainActor
 final class SystemDisplayBrightnessService {
     private let displayServicesBridge: DisplayServicesBridge
 
@@ -24,6 +25,10 @@ final class SystemDisplayBrightnessService {
 
     init(displayServicesBridge: DisplayServicesBridge = .shared) {
         self.displayServicesBridge = displayServicesBridge
+    }
+
+    deinit {
+        rampTimer?.invalidate()
     }
 
     func adjust(direction: MediaKeyDirection, granularity: MediaKeyGranularity) -> Int {
@@ -64,7 +69,9 @@ final class SystemDisplayBrightnessService {
     private func startRampIfNeeded() {
         guard rampTimer == nil else { return }
         let timer = Timer(timeInterval: rampTickInterval, repeats: true) { [weak self] _ in
-            self?.rampTick()
+            Task { @MainActor [weak self] in
+                self?.rampTick()
+            }
         }
         RunLoop.main.add(timer, forMode: .common)
         rampTimer = timer
@@ -83,7 +90,7 @@ final class SystemDisplayBrightnessService {
 
         var delta = remaining * rampEaseFactor
         if abs(delta) < rampMinStep {
-            delta = remaining > 0 ? rampMinStep : -rampMinStep
+            delta = remaining > 0 ? min(remaining, rampMinStep) : max(remaining, -rampMinStep)
         }
 
         rampCurrent += delta

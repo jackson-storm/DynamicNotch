@@ -6,47 +6,103 @@ import IOKit.graphics
 final class SystemDisplayBrightnessService {
     private let displayServicesBridge: DisplayServicesBridge
 
-    /// Logical target of the most recent set — what the HUD shows and what the
-    /// next key step accumulates from. The smooth private setter reports success
-    /// but does not actually reach the requested value on Apple Silicon built-in
-    /// displays, so reading brightness back gave a stale base and steps could not
-    /// accumulate. Tracking the target ourselves fixes that.
-    private var cachedBrightness: Float?
+    // MARK: - Smooth ramp state (main thread only)
+
+    /// Same recipe the polished notch apps (Alcove/Atoll) use: consume the
+    /// brightness key so macOS draws no OSD, then animate to the target ourselves
+    /// with a short software ramp of *immediate* writes. We never call the smooth
+    /// private setter — on Apple-Silicon built-ins it doesn't reach the target and
+    /// also corrupts `DisplayServicesGetBrightness` (it starts returning 1.0).
+    private var rampTimer: Timer?
+    private var rampCurrent: Float = 0.5
+    private var rampTarget: Float = 0.5
+
+    private let rampTickInterval: TimeInterval = 1.0 / 60.0
+    private let rampEaseFactor: Float = 0.34
+    private let rampMinStep: Float = 0.006
+    private let rampSnapEpsilon: Float = 0.002
 
     init(displayServicesBridge: DisplayServicesBridge = .shared) {
         self.displayServicesBridge = displayServicesBridge
     }
 
     func adjust(direction: MediaKeyDirection, granularity: MediaKeyGranularity) -> Int {
-        let base = cachedBrightness ?? currentBrightness
         let delta = stepSize(for: granularity) * (direction == .increase ? 1 : -1)
-        return setBrightness(base + delta)
+
+        let base: Float
+        if rampTimer != nil {
+            // Mid-ramp (key held / repeated): accumulate onto the moving target.
+            base = rampTarget
+        } else {
+            // Fresh gesture: seed from the panel's real brightness so we pick up
+            // anything the system changed on its own (auto-brightness, unlock,
+            // opening the lid) and never jump from a stale value.
+            rampCurrent = currentBrightness
+            base = rampCurrent
+        }
+
+        let target = max(0, min(1, base + delta))
+        rampTarget = target
+        startRampIfNeeded()
+        return percentValue(for: target)
     }
 
-    /// Sets brightness in one discrete step. The brightness key is consumed to
-    /// hide the system OSD, so we must set the value ourselves. The only reliable
-    /// private setter is the immediate one — the smooth variant reports success
-    /// but doesn't reach the target on Apple Silicon built-in panels — so steps
-    /// are discrete rather than a hardware-smooth ramp.
+    /// Immediately jumps to `value` (no ramp). Kept for programmatic callers.
     @discardableResult
     func setBrightness(_ value: Float) -> Int {
+        let clampedValue = max(0, min(1, value))
+        rampTimer?.invalidate()
+        rampTimer = nil
+        rampCurrent = clampedValue
+        rampTarget = clampedValue
+        applyBrightness(clampedValue)
+        return percentValue(for: clampedValue)
+    }
+
+    // MARK: - Ramp driving
+
+    private func startRampIfNeeded() {
+        guard rampTimer == nil else { return }
+        let timer = Timer(timeInterval: rampTickInterval, repeats: true) { [weak self] _ in
+            self?.rampTick()
+        }
+        RunLoop.main.add(timer, forMode: .common)
+        rampTimer = timer
+    }
+
+    private func rampTick() {
+        let remaining = rampTarget - rampCurrent
+
+        if abs(remaining) <= rampSnapEpsilon {
+            rampCurrent = rampTarget
+            applyBrightness(rampTarget)
+            rampTimer?.invalidate()
+            rampTimer = nil
+            return
+        }
+
+        var delta = remaining * rampEaseFactor
+        if abs(delta) < rampMinStep {
+            delta = remaining > 0 ? rampMinStep : -rampMinStep
+        }
+
+        rampCurrent += delta
+        applyBrightness(rampCurrent)
+    }
+
+    /// One immediate write to the panel. Never uses the smooth setter (see above);
+    /// falls back to IOKit for non-DisplayServices displays.
+    private func applyBrightness(_ value: Float) {
         let clampedValue = max(0, min(1, value))
         let displayID = targetDisplayID()
 
         if let result = displayServicesBridge.setBrightness(displayID: displayID, value: clampedValue),
            result == kIOReturnSuccess {
-            cachedBrightness = clampedValue
-            return percentValue(for: clampedValue)
-        }
-
-        if let result = displayServicesBridge.setBrightnessSmooth(displayID: displayID, value: clampedValue),
-           result == kIOReturnSuccess {
-            cachedBrightness = clampedValue
-            return percentValue(for: clampedValue)
+            return
         }
 
         guard let service = matchingDisplayService(for: displayID) else {
-            return percentValue(for: cachedBrightness ?? currentBrightness)
+            return
         }
 
         let status = IODisplaySetFloatParameter(
@@ -59,11 +115,7 @@ final class SystemDisplayBrightnessService {
 
         if status != kIOReturnSuccess {
             NSLog("Failed to set display brightness: \(status)")
-            return percentValue(for: cachedBrightness ?? currentBrightness)
         }
-
-        cachedBrightness = clampedValue
-        return percentValue(for: clampedValue)
     }
 
     var currentBrightness: Float {
@@ -153,8 +205,10 @@ final class SystemDisplayBrightnessService {
     private func stepSize(for granularity: MediaKeyGranularity) -> Float {
         switch granularity {
         case .standard:
+            // Match the system: 16 brightness notches across the range.
             return 1.0 / 16.0
         case .fine:
+            // Match the system's Option+Shift quarter step.
             return 1.0 / 64.0
         }
     }

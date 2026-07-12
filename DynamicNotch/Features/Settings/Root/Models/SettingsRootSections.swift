@@ -514,7 +514,7 @@ private enum SettingsSectionCatalog {
                 ],
                 systemImage: "slider.horizontal.below.sun.max",
                 imageName: nil,
-                tint: .cyan,
+                tint: .teal.opacity(0.9),
                 resetGroup: .hud
             )
 

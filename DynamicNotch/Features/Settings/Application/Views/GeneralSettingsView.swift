@@ -154,7 +154,7 @@ struct GeneralSettingsView: View {
                     title: "settings.general.display.autoSwitch.title",
                     description: "settings.general.display.autoSwitch.description",
                     systemImage: "arrow.triangle.branch",
-                    color: .teal,
+                    color: .blue,
                     isOn: $applicationSettings.isDisplayAutoSwitchEnabled,
                     accessibilityIdentifier: "settings.general.displayAutoSwitch"
                 )
@@ -180,7 +180,7 @@ struct GeneralSettingsView: View {
                 title: "Hide live activity in full-screen mode",
                 description: "Automatically hide live activity while the selected display is showing a full-screen space.",
                 systemImage: "arrow.up.left.and.arrow.down.right",
-                color: .purple,
+                color: .blue,
                 isOn: $applicationSettings.isNotchHiddenInFullscreenEnabled,
                 accessibilityIdentifier: "settings.general.hideNotchInFullscreen"
             )

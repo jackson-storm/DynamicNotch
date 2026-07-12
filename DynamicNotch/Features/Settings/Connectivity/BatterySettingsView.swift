@@ -32,7 +32,7 @@ struct BatterySettingsView: View {
                 title: "Charging",
                 description: "Show a temporary activity when your Mac starts charging.",
                 systemImage: "bolt.fill",
-                color: .green,
+                color: .blue,
                 isOn: $batterySettings.isChargerTemporaryActivityEnabled,
                 accessibilityIdentifier: "settings.activities.temporary.charger"
             )
@@ -45,7 +45,7 @@ struct BatterySettingsView: View {
                 title: "Low Power",
                 description: "Show a warning when Low Power Mode is enabled or the battery is critically low.",
                 systemImage: "battery.25",
-                color: .green,
+                color: .red,
                 isOn: $batterySettings.isLowPowerTemporaryActivityEnabled,
                 accessibilityIdentifier: "settings.activities.temporary.lowPower"
             )

@@ -23,8 +23,8 @@ final class SystemDisplayBrightnessService {
     private let rampMinStep: Float = 0.006
     private let rampSnapEpsilon: Float = 0.002
 
-    init(displayServicesBridge: DisplayServicesBridge = .shared) {
-        self.displayServicesBridge = displayServicesBridge
+    init(displayServicesBridge: DisplayServicesBridge? = nil) {
+        self.displayServicesBridge = displayServicesBridge ?? .shared
     }
 
     deinit {

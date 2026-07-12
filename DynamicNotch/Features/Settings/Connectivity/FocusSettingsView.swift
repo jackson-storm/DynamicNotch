@@ -37,22 +37,6 @@ struct FocusSettingsView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
 
             SettingsToggleRow(
-                title: "Hide Focus activity automatically",
-                description: "Show the Focus activity briefly when Focus turns on instead of keeping it visible the whole time.",
-                systemImage: "moon.zzz.fill",
-                color: .indigo,
-                isOn: $connectivitySettings.isFocusOnAutoHideEnabled,
-                accessibilityIdentifier: "settings.activities.live.focus.autoHide"
-            )
-            .disabled(!connectivitySettings.isFocusLiveActivityEnabled)
-            .opacity(connectivitySettings.isFocusLiveActivityEnabled ? 1 : 0.5)
-
-            Divider()
-                .opacity(0.6)
-                .padding(.leading, 43)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
-
-            SettingsToggleRow(
                 title: "Focus off activity",
                 description: "Show a short notification when Focus mode turns off.",
                 systemImage: "moon.stars.fill",
@@ -60,6 +44,22 @@ struct FocusSettingsView: View {
                 isOn: $connectivitySettings.isFocusOffTemporaryActivityEnabled,
                 accessibilityIdentifier: "settings.activities.temporary.focusOff"
             )
+            
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+
+            SettingsToggleRow(
+                title: "Hide Focus activity automatically",
+                description: "Show the Focus activity briefly when Focus turns on instead of keeping it visible the whole time.",
+                systemImage: "moon.zzz.fill",
+                color: .red,
+                isOn: $connectivitySettings.isFocusOnAutoHideEnabled,
+                accessibilityIdentifier: "settings.activities.live.focus.autoHide"
+            )
+            .disabled(!connectivitySettings.isFocusLiveActivityEnabled)
+            .opacity(connectivitySettings.isFocusLiveActivityEnabled ? 1 : 0.5)
         }
     }
     

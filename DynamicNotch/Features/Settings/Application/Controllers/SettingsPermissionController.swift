@@ -139,7 +139,7 @@ final class SettingsPermissionController: NSObject, ObservableObject, CBCentralM
                 fallbackDescription: "Allow media control event access so play, pause, and track buttons work from Now Playing.",
                 assetImageName: nil,
                 systemImage: "music.note",
-                tintColor: .pink,
+                tintColor: .red,
                 isGranted: canPostMediaKeyEvents,
                 actionTitleKey: canPostMediaKeyEvents ? nil : (
                     didPromptForPostEventAccess ?
@@ -159,7 +159,7 @@ final class SettingsPermissionController: NSObject, ObservableObject, CBCentralM
                 fallbackDescription: "Allow Camera access to display a camera preview in the notch.",
                 assetImageName: nil,
                 systemImage: "camera.fill",
-                tintColor: .green,
+                tintColor: .black,
                 isGranted: cameraAuthorization == .authorized,
                 actionTitleKey: cameraActionTitleKey,
                 fallbackActionTitle: cameraFallbackActionTitle,
@@ -173,7 +173,7 @@ final class SettingsPermissionController: NSObject, ObservableObject, CBCentralM
                 fallbackDescription: "Allow Calendar access to display your upcoming events.",
                 assetImageName: nil,
                 systemImage: "calendar",
-                tintColor: .red,
+                tintColor: .blue,
                 isGranted: calendarAuthorization == .fullAccess,
                 actionTitleKey: calendarActionTitleKey,
                 fallbackActionTitle: calendarFallbackActionTitle,

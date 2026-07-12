@@ -71,8 +71,8 @@ struct VpnSettingsView: View {
             SettingsToggleRow(
                 title: "VPN disconnected temporary activity",
                 description: "Show a short notification when a VPN connection becomes inactive.",
-                systemImage: "network.badge.shield.half.filled",
-                color: .blue,
+                systemImage: "network.slash",
+                color: .red,
                 isOn: $connectivitySettings.isVpnDisconnectedTemporaryActivityEnabled,
                 accessibilityIdentifier: "settings.activities.temporary.vpnDisconnected"
             )

@@ -16,6 +16,7 @@ struct NowPlayingExpandedNotchView: View {
     @ObservedObject var applicationSettings: ApplicationSettingsStore
     
     let onOpenPlaybackSource: @MainActor () -> Void
+    var isHostedInHomePage: Bool = false
     
     @State private var scrubProgress: CGFloat?
     private let detailedPresentationSource = "nowPlaying.notch.expanded"
@@ -221,9 +222,9 @@ struct NowPlayingExpandedNotchView: View {
             }
             .frame(maxWidth: .infinity)
         }
-        .padding(.horizontal, isDynamicIsland ? 25 : 55)
+        .padding(.horizontal, isHostedInHomePage ? (isDynamicIsland ? 19 : 25) : (isDynamicIsland ? 25 : 55))
         .padding(.top, isDynamicIsland ? 15 : 25)
-        .padding(.bottom, 15)
+        .padding(.bottom, isHostedInHomePage ? 8 : 15)
     }
     
     private func displayTitle(for snapshot: NowPlayingSnapshot) -> String {

@@ -22,8 +22,6 @@ struct SystemStatsPageNotchView: View {
                 ramView
             }
         }
-        .padding(.horizontal, 5)
-        .padding(.bottom, 3)
         .onAppear {
             viewModel.startMonitoring()
         }
@@ -68,7 +66,7 @@ struct SystemStatsPageNotchView: View {
             .frame(maxWidth: .infinity, maxHeight: 75)
             .padding(.vertical, 10)
             .padding(.horizontal, 12)
-            .background(RoundedRectangle(cornerRadius: 20).fill(Color.white.opacity(0.1)))
+            .background(RoundedRectangle(cornerRadius: 24).fill(Color.white.opacity(0.1)))
         }
         .buttonStyle(.plain)
     }
@@ -116,7 +114,7 @@ struct SystemStatsPageNotchView: View {
             .frame(maxWidth: .infinity, maxHeight: 75)
             .padding(.vertical, 10)
             .padding(.horizontal, 12)
-            .background(RoundedRectangle(cornerRadius: 20).fill(Color.white.opacity(0.1)))
+            .background(RoundedRectangle(cornerRadius: 24).fill(Color.white.opacity(0.1)))
         }
         .buttonStyle(.plain)
     }

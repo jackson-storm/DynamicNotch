@@ -22,8 +22,7 @@ struct LocalTimerSetupNotchView: View {
                 button
             }
         }
-        .padding(.horizontal, 5)
-        .padding(.bottom, 3)
+        .padding(.horizontal, 2)
     }
     
     @ViewBuilder

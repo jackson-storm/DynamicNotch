@@ -53,7 +53,7 @@ final class BluetoothService: ObservableObject {
     var isPmsetRefreshInFlight = false
     var lastPmsetRefreshDate: Date?
     let pmsetRefreshCooldown: TimeInterval = 5
-    let pollingInterval: TimeInterval = 30.0
+    let pollingInterval: TimeInterval = 3.0
     let pollingTolerance: TimeInterval = 5.0
     var hudBatteryWaitTasks: [UUID: Task<Void, Never>] = [:]
     var postConnectionBatteryRetryTasks: [UUID: Task<Void, Never>] = [:]

@@ -63,14 +63,11 @@ struct HomePagePageIndicatorView: View {
                     DragGesture(minimumDistance: 0)
                         .onChanged { value in
                             isPressed = true
-                            let pages = activePages
-                            guard !pages.isEmpty else { return }
-                            
                             let itemSize = size.dotSize + size.spacing
                             let relativePos = isVertical ? value.location.y - size.padding : value.location.x - size.padding
                             let index = Int(relativePos / itemSize)
-                            let clampedIndex = max(0, min(pages.count - 1, index))
-                            let page = pages[clampedIndex]
+                            let clampedIndex = max(0, min(activePages.count - 1, index))
+                            let page = activePages[clampedIndex]
                             
                             if page != currentPage {
                                 let isDragging = isVertical ? abs(value.translation.height) > 4 : abs(value.translation.width) > 4

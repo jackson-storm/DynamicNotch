@@ -93,12 +93,6 @@ final class HardwareHUDMonitor {
                 self?.handleExternalVolumeChange(level: level, deviceName: deviceName)
             }
         }
-
-        audioChangeObserver.onOutputDeviceChange = { [weak self] level, deviceName in
-            MainActor.assumeIsolated {
-                self?.handleOutputDeviceChange(level: level, deviceName: deviceName)
-            }
-        }
     }
 
     private func updateAudioChangeObservation() {
@@ -129,9 +123,6 @@ final class HardwareHUDMonitor {
         emit(.volume(level: level, deviceName: deviceName))
     }
 
-    private func handleOutputDeviceChange(level: Int, deviceName: String?) {
-        emit(.volume(level: level, deviceName: deviceName))
-    }
 
     private func scheduleAccessibilityRetry() {
         guard accessibilityRetryTimer == nil else {

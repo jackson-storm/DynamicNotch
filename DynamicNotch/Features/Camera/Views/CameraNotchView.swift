@@ -45,8 +45,6 @@ struct CameraNotchView: View {
                 }
             }
         }
-        .padding(.horizontal, 3)
-        .padding(.bottom, 2)
         .onAppear {
             previewID = UUID()
         }
@@ -167,7 +165,7 @@ struct CameraNotchView: View {
                 ))
             }) {
                 ZStack {
-                    RoundedRectangle(cornerRadius: 26)
+                    RoundedRectangle(cornerRadius: 24)
                         .fill(.gray.opacity(0.15))
                         .frame(height: 110)
                     
@@ -215,7 +213,7 @@ struct CameraNotchView: View {
             Spacer()
             
             ZStack {
-                RoundedRectangle(cornerRadius: 26)
+                RoundedRectangle(cornerRadius: 28)
                     .fill(.gray.opacity(0.15))
                     .frame(height: isCameraLarge ? 205 : 165)
                 

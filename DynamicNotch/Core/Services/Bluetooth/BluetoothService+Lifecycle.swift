@@ -4,8 +4,6 @@ internal import AppKit
 import IOBluetooth
 
 extension BluetoothService {
-    // MARK: - Setup Methods
-
     func setupBluetoothObservers() {
         print("🎧 [BluetoothAudioManager] Setting up Bluetooth observers...")
 
@@ -104,18 +102,20 @@ extension BluetoothService {
         }
     }
 
-    // MARK: - Device Event Handlers
-
     @objc
     func handleDeviceConnectedNotification(_ notification: Notification) {
-        print("🎧 [BluetoothAudioManager] 📡 Device connection notification received")
-        checkForNewlyConnectedDevices()
+        print("🎧 [BluetoothAudioManager] 📡 Device connection notification received - checking in 0.5s")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+            self?.checkForNewlyConnectedDevices()
+        }
     }
 
     @objc
     func handleDeviceDisconnectedNotification(_ notification: Notification) {
-        print("🎧 [BluetoothAudioManager] 📡 Device disconnection notification received")
-        updateConnectedDevices()
+        print("🎧 [BluetoothAudioManager] 📡 Device disconnection notification received - updating in 0.5s")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+            self?.updateConnectedDevices()
+        }
     }
 
     func checkForNewlyConnectedDevices() {
@@ -234,8 +234,6 @@ extension BluetoothService {
         }
         isBluetoothAudioConnected = !connectedDevices.isEmpty
     }
-
-    // MARK: - Cleanup
 
     func cleanup() {
         print("🎧 [BluetoothAudioManager] Cleaning up observers...")

@@ -14,10 +14,6 @@ final class SystemAudioChangeObserver {
     /// external source. `level` is 0…100.
     var onVolumeChange: ((_ level: Int, _ deviceName: String?) -> Void)?
 
-    /// Emitted when the default output device itself changes (e.g. headphones
-    /// connected or removed). Carries the new device's current level and name.
-    var onOutputDeviceChange: ((_ level: Int, _ deviceName: String?) -> Void)?
-
     private let audioService: SystemAudioVolumeService
 
     /// Elements we register volume/mute listeners on. Mirrors the candidates the
@@ -31,10 +27,12 @@ final class SystemAudioChangeObserver {
     private var isObserving = false
     private var observedDeviceID: AudioDeviceID = 0
     private var lastReportedLevel: Int = -1
+    private var lastDefaultDeviceChangeAt: Date = .distantPast
 
     /// Changes within this window of one of our own writes are treated as echoes
     /// of the media-key path and ignored, so we don't show the HUD twice.
     private let programmaticEchoWindow: TimeInterval = 0.3
+    private let deviceChangeIgnoreWindow: TimeInterval = 1.0
 
     private lazy var listenerBlock: AudioObjectPropertyListenerBlock = { [weak self] _, _ in
         // CoreAudio may deliver on an arbitrary queue; the block itself is bound
@@ -141,20 +139,24 @@ final class SystemAudioChangeObserver {
     private func handleDefaultDeviceChange() {
         guard isObserving else { return }
 
+        lastDefaultDeviceChangeAt = Date()
+
         unregisterDeviceListeners()
         let newDeviceID = audioService.currentOutputDeviceID
         registerDeviceListeners(for: newDeviceID)
 
         let level = currentLevel()
         lastReportedLevel = level
-
-        // Swapping devices is inherently a user action (plugging in / removing a
-        // headset), so it is never an echo of our own writes.
-        onOutputDeviceChange?(level, audioService.currentDeviceName)
     }
 
     private func handleDeviceLevelChange() {
         guard isObserving else { return }
+
+        if Date().timeIntervalSince(lastDefaultDeviceChangeAt) < deviceChangeIgnoreWindow {
+            // Ignore volume changes immediately after switching output devices
+            lastReportedLevel = currentLevel()
+            return
+        }
 
         if Date().timeIntervalSince(audioService.lastProgrammaticChangeAt) < programmaticEchoWindow {
             // We just wrote this value from the media-key path; the HUD is already

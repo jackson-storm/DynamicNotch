@@ -19,6 +19,8 @@ final class NotchViewModel: ObservableObject {
     @Published var isPressed = false
     @Published var cachedStrokeColor: Color = .clear
     @Published var pressScale: CGFloat = 1.0
+    
+    @Published var focusCloseStretchWidth: CGFloat = 0.0
     @Published var focusCloseStretchHeight: CGFloat = 0.0
 
     private let settings: NotchSettingsProviding
@@ -196,7 +198,7 @@ final class NotchViewModel: ObservableObject {
         }
 
         return CGSize(
-            width: calculatedSize.width,
+            width: calculatedSize.width + focusCloseStretchWidth,
             height: calculatedSize.height + focusCloseStretchHeight
         )
     }
@@ -412,18 +414,22 @@ final class NotchViewModel: ObservableObject {
             completion()
             return
         }
-        
         isFocusCloseAnimating = true
         
+        let currentWidth = presentedNotchSize.width
         let currentHeight = presentedNotchSize.height
-        let stretchHeight = max(30, currentHeight * 0.3)
+        
+        let compressWidth = -max(20, currentWidth * 0.2)
+        let stretchHeight = max(40, currentHeight * 0.2)
         
         withAnimation(animations.focusCloseStretch) {
+            self.focusCloseStretchWidth = compressWidth
             self.focusCloseStretchHeight = stretchHeight
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             withAnimation(self.animations.focusCloseStretch) {
+                self.focusCloseStretchWidth = 0
                 self.focusCloseStretchHeight = 0
             }
             completion()

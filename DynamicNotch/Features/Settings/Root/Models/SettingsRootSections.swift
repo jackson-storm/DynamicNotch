@@ -44,8 +44,6 @@ extension SettingsRootViewModel {
         case general
         case homePage
         case notch
-        case permissions
-        case about
         #if DEBUG
         case debug
         #endif
@@ -121,7 +119,7 @@ extension SettingsRootViewModel {
             case "language":
                 return .general
             case "permissions":
-                return .permissions
+                return .general
             case "homePage", "homeScreen":
                 return .homePage
             case "activities", "liveActivity":
@@ -196,26 +194,6 @@ private enum SettingsSectionCatalog {
                 resetGroup: .general
             )
 
-        case .permissions:
-            return .init(
-                sidebarGroup: .application,
-                titleKey: "settings.section.permissions.title",
-                fallbackTitle: "Permissions",
-                subtitleKey: "settings.section.permissions.subtitle",
-                fallbackSubtitle: "Accessibility, Bluetooth, and media control access required by app features.",
-                searchKeywords: [
-                    "permissions",
-                    "accessibility",
-                    "bluetooth",
-                    "media controls",
-                    "grant access",
-                    "privacy settings"
-                ],
-                systemImage: "checkmark.seal.fill",
-                imageName: nil,
-                tint: .green.opacity(0.8),
-                resetGroup: nil
-            )
 
         case .notch:
             return .init(
@@ -560,23 +538,6 @@ private enum SettingsSectionCatalog {
             )
         #endif
 
-        case .about:
-            return .init(
-                sidebarGroup: .application,
-                titleKey: "settings.section.about.title",
-                fallbackTitle: "About",
-                subtitleKey: "settings.section.about.subtitle",
-                fallbackSubtitle: "Project details, links, and release information.",
-                searchKeywords: [
-                    "version",
-                    "website",
-                    "about"
-                ],
-                systemImage: "info.circle",
-                imageName: nil,
-                tint: .secondary,
-                resetGroup: nil
-            )
         }
     }
 }

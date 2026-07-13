@@ -2451,7 +2451,36 @@
         }
       }
     },
+    "Check for updates and manage update preferences." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check for updates and manage update preferences."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscar actualizaciones y administrar preferencias de actualización."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Проверяйте наличие обновлений и управляйте параметрами обновлений."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "检查更新并管理更新首选项。"
+          }
+        }
+      }
+    },
     "Check update" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4645,6 +4674,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "袖珍的"
+          }
+        }
+      }
+    },
+    "Configure the display where the notch will be shown." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configure the display where the notch will be shown."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configure la pantalla donde se mostrará la muesca."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройка экрана, на котором будет отображаться вырез."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "配置显示切口的屏幕。"
           }
         }
       }
@@ -10272,6 +10329,7 @@
       }
     },
     "Open the DynamicNotch website" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12858,7 +12916,6 @@
       }
     },
     "settings.general.appearance.subtitle" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12915,7 +12972,6 @@
       }
     },
     "settings.general.appearance.title" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -13308,7 +13364,6 @@
       }
     },
     "settings.general.display.title" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -17134,7 +17189,6 @@
       }
     },
     "settings.reset.action" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -17250,7 +17304,6 @@
       }
     },
     "settings.reset.message" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -17279,7 +17332,6 @@
       }
     },
     "settings.reset.title" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -17366,7 +17418,6 @@
       }
     },
     "settings.section.about.subtitle" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -17395,7 +17446,6 @@
       }
     },
     "settings.section.about.title" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -18062,7 +18112,6 @@
       }
     },
     "settings.section.language.subtitle" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -18091,7 +18140,6 @@
       }
     },
     "settings.section.language.title" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -18294,36 +18342,34 @@
       }
     },
     "settings.section.permissions.subtitle" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Accessibility, Bluetooth, and media control access required by app features."
+            "value" : "Manage system permissions and access settings."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Acceso de accesibilidad, Bluetooth y control multimedia requerido por las funciones de la app."
+            "value" : "Administrar permisos del sistema y configuraciones de acceso."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Доступ к универсальному доступу, Bluetooth и управлению медиа, необходимый для функций приложения."
+            "value" : "Управление разрешениями и системным доступом."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "应用功能所需的辅助功能、蓝牙和媒体控制访问权限。"
+            "value" : "管理系统权限和访问设置。"
           }
         }
       }
     },
     "settings.section.permissions.title" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -20148,6 +20194,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "柔软的"
+          }
+        }
+      }
+    },
+    "Software Update" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Software Update"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actualización de software"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Обновление ПО"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "软件更新"
           }
         }
       }

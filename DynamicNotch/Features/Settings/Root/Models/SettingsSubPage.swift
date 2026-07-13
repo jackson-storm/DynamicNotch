@@ -1,0 +1,64 @@
+import SwiftUI
+
+enum SettingsSubPage: Hashable, Identifiable {
+    case appearance
+    case display
+    case language
+    case permissions
+    case softwareUpdate
+    case about
+    
+    var id: Self { self }
+    var titleKey: String {
+        switch self {
+        case .appearance: return "settings.general.appearance.title"
+        case .display: return "settings.general.display.title"
+        case .language: return "settings.section.language.title"
+        case .permissions: return "settings.section.permissions.title"
+        case .softwareUpdate: return "Software Update"
+        case .about: return "settings.section.about.title"
+        }
+    }
+    
+    var fallbackTitle: String {
+        switch self {
+        case .appearance: return "Appearance"
+        case .display: return "Display"
+        case .language: return "Language"
+        case .permissions: return "Permissions"
+        case .softwareUpdate: return "Software Update"
+        case .about: return "About"
+        }
+    }
+    
+    var subtitleKey: String {
+        switch self {
+        case .appearance: return "settings.general.appearance.subtitle"
+        case .display: return "Configure the display where the notch will be shown."
+        case .language: return "settings.section.language.subtitle"
+        case .permissions: return "settings.section.permissions.subtitle"
+        case .softwareUpdate: return "Check for updates and manage update preferences."
+        case .about: return "settings.section.about.subtitle"
+        }
+    }
+    
+    var fallbackSubtitle: String {
+        switch self {
+        case .appearance: return "Choose the interface appearance used by the app."
+        case .display: return "Configure the display where the notch will be shown."
+        case .language: return "Choose the application interface language."
+        case .permissions: return "Manage system permissions and access settings."
+        case .softwareUpdate: return "Check for updates and manage update preferences."
+        case .about: return "Project details, links, and release information."
+        }
+    }
+    
+    var canReset: Bool {
+        switch self {
+        case .appearance, .display, .language:
+            return true
+        default:
+            return false
+        }
+    }
+}

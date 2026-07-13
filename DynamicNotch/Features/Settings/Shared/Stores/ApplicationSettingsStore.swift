@@ -402,6 +402,33 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         )
     }
 
+    func resetAppearance() {
+        appearanceMode = SettingsAppearanceMode.resolved(
+            defaultString(for: GeneralSettingsStorage.Keys.appearanceMode)
+        )
+        isBlueNightMode = defaultBool(for: GeneralSettingsStorage.Keys.isBlueNightMode)
+    }
+
+    func resetDisplay() {
+        displayLocation = NotchDisplayLocation(
+            rawValue: defaultString(for: GeneralSettingsStorage.Keys.displayLocation)
+        ) ?? .main
+        preferredDisplayUUID = defaultString(for: GeneralSettingsStorage.Keys.preferredDisplayUUID)
+        preferredDisplayName = defaultString(for: GeneralSettingsStorage.Keys.preferredDisplayName)
+        isDisplayAutoSwitchEnabled = defaultBool(
+            for: GeneralSettingsStorage.Keys.displayAutoSwitchEnabled
+        )
+        isNotchHiddenInFullscreenEnabled = defaultBool(
+            for: GeneralSettingsStorage.Keys.hideNotchInFullscreenEnabled
+        )
+    }
+
+    func resetLanguage() {
+        appLanguage = DynamicNotchLanguage.resolved(
+            defaultString(for: GeneralSettingsStorage.Keys.appLanguage)
+        )
+    }
+
     func resetNotch() {
         notchAnimationPreset = NotchAnimationPreset(
             rawValue: defaultString(for: GeneralSettingsStorage.Keys.notchAnimationPreset)

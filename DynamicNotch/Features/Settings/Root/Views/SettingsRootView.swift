@@ -28,7 +28,6 @@ struct SettingsRootView: View {
     let timerViewModel: TimerViewModel
     let lockScreenManager: LockScreenManager
 
-    private let aboutWebsiteURL = URL(string: "https://dynamicnotch.evgeniy-petrukovich.workers.dev/download")!
     private let viewModel: SettingsRootViewModel
     
     @AppStorage("settings.general.isBlueNightMode") private var isBlueNightMode = false
@@ -49,7 +48,9 @@ struct SettingsRootView: View {
     @State private var selectedSection: SettingsRootViewModel.Section
     @State private var selectionHistory: SettingsRootViewModel.SelectionHistory
     @State private var isShowingSearchSelection = false
-    @State private var pendingResetSection: SettingsRootViewModel.Section?
+    @State private var pendingResetSubPage: SettingsSubPage?
+    @State private var navigationPath: [SettingsSubPage] = []
+    @State private var availableDisplays = NSScreen.availableNotchDisplays()
 
     init(
         powerService: PowerService,
@@ -142,7 +143,7 @@ struct SettingsRootView: View {
             .navigationSplitViewColumnWidth(min: 170, ideal: 200, max: 200)
 
         } detail: {
-            NavigationStack {
+            NavigationStack(path: $navigationPath) {
                 ZStack(alignment: .top) {
                     Group {
                         if filteredSections.isEmpty {
@@ -168,18 +169,15 @@ struct SettingsRootView: View {
                 .background {
                     Color(nsColor: nsBackgroundColor)
                 }
+                .navigationDestination(for: SettingsSubPage.self) { subPage in
+                    subPageView(for: subPage)
+                        .navigationBarBackButtonHidden(true)
+                        .toolbar { toolbarContent(for: resolvedSelection) }
+                }
             }
         }
-        .navigationTitle(
-            filteredSections.isEmpty
-            ? localized("settings.search.title")
-            : localized(resolvedSelection.titleKey, fallback: resolvedSelection.fallbackTitle)
-        )
-        .navigationSubtitle(
-            filteredSections.isEmpty
-            ? ""
-            : localized(resolvedSelection.subtitleKey, fallback: resolvedSelection.fallbackSubtitle)
-        )
+        .navigationTitle(currentTitle)
+        .navigationSubtitle(currentSubtitle)
         .onChange(of: searchText) { _, newValue in
             syncSelectionWithSearch(query: newValue)
         }
@@ -195,18 +193,12 @@ struct SettingsRootView: View {
         }
         .onChange(of: settingsViewModel.application.appearanceMode) {
             updateWindowStyle()
-        }
-        .alert(item: $pendingResetSection) { section in
+        }        .alert(item: $pendingResetSubPage) { subPage in
             Alert(
-                title: Text(
-                    String(
-                        format: localized("settings.reset.title"),
-                        localized(section.titleKey, fallback: section.fallbackTitle)
-                    )
-                ),
+                title: Text(localized("settings.reset.title")),
                 message: Text(localized("settings.reset.message")),
                 primaryButton: .destructive(Text(localized("settings.reset.action"))) {
-                    viewModel.reset(section)
+                    reset(subPage)
                 },
                 secondaryButton: .cancel(Text(localized("common.cancel")))
             )
@@ -295,14 +287,15 @@ struct SettingsRootView: View {
     }
 
     private var canNavigateBack: Bool {
-        selectionHistory.canGoBack
+        !navigationPath.isEmpty || selectionHistory.canGoBack
     }
 
     private var canNavigateForward: Bool {
-        selectionHistory.canGoForward
+        navigationPath.isEmpty && selectionHistory.canGoForward
     }
 
     private func applySelection(_ section: SettingsRootViewModel.Section, origin: SelectionChangeOrigin) {
+        navigationPath.removeAll()
         switch origin {
         case .sidebar:
             guard selectedSection != section ||
@@ -351,12 +344,17 @@ struct SettingsRootView: View {
     }
 
     private func navigateBack() {
+        if !navigationPath.isEmpty {
+            navigationPath.removeLast()
+            return
+        }
         guard let previousSection = selectionHistory.goBack() else { return }
         revealSectionIfNeeded(previousSection)
         applySelection(previousSection, origin: .history)
     }
 
     private func navigateForward() {
+        guard navigationPath.isEmpty else { return }
         guard let nextSection = selectionHistory.goForward() else { return }
         revealSectionIfNeeded(nextSection)
         applySelection(nextSection, origin: .history)
@@ -374,15 +372,8 @@ struct SettingsRootView: View {
         case .general:
             detailContainer(for: section) {
                 GeneralSettingsView(
-                    applicationSettings: settingsViewModel.application
-                )
-            }
-
-        case .permissions:
-            detailContainer(for: section) {
-                PermissionsSettingsView(
-                    permissionController: permissionController,
-                    applicationSettings: settingsViewModel.application
+                    applicationSettings: settingsViewModel.application,
+                    permissionController: permissionController
                 )
             }
 
@@ -511,15 +502,6 @@ struct SettingsRootView: View {
             }
 #endif
 
-        case .about:
-            detailContainer(for: section) {
-                AboutAppSettingsView(
-                    applicationSettings: settingsViewModel.application,
-                    onRequestInternetAccess: {
-                        notchEventCoordinator.requestInternetAccess()
-                    }
-                )
-            }
         }
     }
 
@@ -555,32 +537,20 @@ struct SettingsRootView: View {
             .accessibilityIdentifier("settings.toolbar.forward")
         }
 
-        if section == .about {
-            ToolbarItem(placement: .primaryAction) {
-                Button {
-                    openInternetURL(aboutWebsiteURL)
-                } label: {
-                    Text("Check update")
-                }
-                .help("Open the DynamicNotch website")
-                .accessibilityIdentifier("settings.toolbar.aboutWebsite")
-            }
-        }
-
-        if viewModel.canReset(section) {
+        if let subPage = navigationPath.last, subPage.canReset {
             ToolbarItem(placement: .confirmationAction) {
                 Button {
-                    pendingResetSection = section
+                    pendingResetSubPage = subPage
                 } label: {
                     Text("Reset")
                 }
                 .help(
-                    viewModel.resetHelpText(
-                        for: section,
-                        locale: settingsViewModel.application.appLanguage.locale
+                    String(
+                        format: localized("settings.reset.help.available", fallback: "Reset current tab to defaults"),
+                        localized(subPage.titleKey, fallback: subPage.fallbackTitle)
                     )
                 )
-                .accessibilityIdentifier("settings.toolbar.resetCurrentTab")
+                .accessibilityIdentifier("settings.toolbar.resetCurrentSubPage")
             }
         }
     }
@@ -588,5 +558,61 @@ struct SettingsRootView: View {
     private func openInternetURL(_ url: URL) {
         guard notchEventCoordinator.requestInternetAccess() else { return }
         openURL(url)
+    }
+
+    @ViewBuilder
+    private func subPageView(for subPage: SettingsSubPage) -> some View {
+        switch subPage {
+        case .appearance:
+            AppearanceSettingsView(applicationSettings: settingsViewModel.application)
+        case .display:
+            DisplaySettingsView(applicationSettings: settingsViewModel.application, availableDisplays: $availableDisplays)
+        case .language:
+            LanguageSettingsView(applicationSettings: settingsViewModel.application)
+        case .permissions:
+            PermissionsSettingsView(permissionController: permissionController, applicationSettings: settingsViewModel.application)
+        case .softwareUpdate:
+            SoftwareUpdateSettingsView()
+        case .about:
+            AboutAppSettingsView(
+                applicationSettings: settingsViewModel.application,
+                onRequestInternetAccess: {
+                    notchEventCoordinator.requestInternetAccess()
+                }
+            )
+        }
+    }
+
+    private var currentTitle: String {
+        if filteredSections.isEmpty {
+            return localized("settings.search.title")
+        }
+        if let subPage = navigationPath.last {
+            return localized(subPage.titleKey, fallback: subPage.fallbackTitle)
+        }
+        return localized(resolvedSelection.titleKey, fallback: resolvedSelection.fallbackTitle)
+    }
+
+    private var currentSubtitle: String {
+        if filteredSections.isEmpty {
+            return ""
+        }
+        if let subPage = navigationPath.last {
+            return localized(subPage.subtitleKey, fallback: subPage.fallbackSubtitle)
+        }
+        return localized(resolvedSelection.subtitleKey, fallback: resolvedSelection.fallbackSubtitle)
+    }
+
+    private func reset(_ subPage: SettingsSubPage) {
+        switch subPage {
+        case .appearance:
+            settingsViewModel.application.resetAppearance()
+        case .display:
+            settingsViewModel.application.resetDisplay()
+        case .language:
+            settingsViewModel.application.resetLanguage()
+        default:
+            break
+        }
     }
 }

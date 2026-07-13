@@ -38,19 +38,7 @@ struct NowPlayingSettingsView: View {
                 accessibilityIdentifier: "settings.activities.live.nowPlaying"
             )
             
-            Divider()
-                .opacity(0.6)
-                .padding(.leading, 43)
-                .frame(maxWidth: .infinity, alignment: .trailing)
-            
-            SettingsToggleRow(
-                title: "Close at focus",
-                description: "Close the activity when the playback source is in focus.",
-                systemImage: "macwindow.and.cursorarrow",
-                color: .blue,
-                isOn: $settings.isCloseAtFocusLiveActivityEnabled,
-                accessibilityIdentifier: "settings.nowPlaying.closeAtFocus"
-            )
+
 
             Divider().opacity(0.6)
 

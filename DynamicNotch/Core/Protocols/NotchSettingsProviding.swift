@@ -15,4 +15,5 @@ protocol NotchSettingsProviding: AnyObject {
     var isNotchSwipeDismissEnabled: Bool { get }
     var isNotchSwipeRestoreEnabled: Bool { get }
     var isNotchHoverHapticEnabled: Bool { get }
+    var isCloseAtFocusLiveActivityEnabled: Bool { get }
 }

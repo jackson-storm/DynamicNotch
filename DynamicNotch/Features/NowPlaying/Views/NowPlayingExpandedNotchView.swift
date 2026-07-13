@@ -299,7 +299,7 @@ struct NowPlayingExpandedNotchView: View {
     private func openPlaybackSource() {
         guard nowPlayingViewModel.canOpenPlaybackSource else { return }
         nowPlayingViewModel.openPlaybackSource()
-        if !settings.isCloseAtFocusLiveActivityEnabled {
+        if !applicationSettings.isCloseAtFocusLiveActivityEnabled {
             onOpenPlaybackSource()
         }
     }

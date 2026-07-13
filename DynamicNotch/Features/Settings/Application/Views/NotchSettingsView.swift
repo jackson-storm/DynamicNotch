@@ -292,6 +292,20 @@ struct NotchSettingsView: View {
                 isOn: $applicationSettings.isNotchSwipeRestoreEnabled,
                 accessibilityIdentifier: "settings.notch.swipeRestore"
             )
+            
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+            
+            SettingsToggleRow(
+                title: "Close notch on window focus",
+                description: "Hides the active content with a balloon animation when the target application becomes active.",
+                systemImage: "xmark.circle.fill",
+                color: .red,
+                isOn: $applicationSettings.isCloseAtFocusLiveActivityEnabled,
+                accessibilityIdentifier: "settings.notch.closeAtFocus"
+            )
         }
     }
     

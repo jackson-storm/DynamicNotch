@@ -200,6 +200,11 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
         set { application.isNotchHoverHapticEnabled = newValue }
     }
 
+    var isCloseAtFocusLiveActivityEnabled: Bool {
+        get { application.isCloseAtFocusLiveActivityEnabled }
+        set { application.isCloseAtFocusLiveActivityEnabled = newValue }
+    }
+
     var isNotchSizeTemporaryActivityEnabled: Bool {
         get { application.isNotchSizeTemporaryActivityEnabled }
         set { application.isNotchSizeTemporaryActivityEnabled = newValue }

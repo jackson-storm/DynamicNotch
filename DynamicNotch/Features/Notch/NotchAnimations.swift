@@ -19,6 +19,7 @@ struct NotchAnimations {
     let stretchReset: Animation
     let strokeVisibility: Animation
     let notchVisibility: Animation
+    let focusCloseStretch: Animation
     let hideShowDelay: TimeInterval
     let queuePacingDelay: TimeInterval
 
@@ -44,6 +45,7 @@ struct NotchAnimations {
                 stretchReset: .spring(response: 0.41),
                 strokeVisibility: .spring(response: 0.41),
                 notchVisibility: .spring(response: 0.41),
+                focusCloseStretch: .spring(response: 0.41, dampingFraction: damping),
                 
                 hideShowDelay: 0.28,
                 queuePacingDelay: 0.1
@@ -65,6 +67,7 @@ struct NotchAnimations {
                 stretchReset: .spring(response: 0.44),
                 strokeVisibility: .spring(response: 0.44),
                 notchVisibility: .spring(response: 0.44),
+                focusCloseStretch: .spring(response: 0.44, dampingFraction: damping),
                 
                 hideShowDelay: 0.31,
                 queuePacingDelay: 0.1
@@ -86,6 +89,7 @@ struct NotchAnimations {
                 stretchReset: .spring(response: 0.47),
                 strokeVisibility: .spring(response: 0.47),
                 notchVisibility: .spring(response: 0.47),
+                focusCloseStretch: .spring(response: 0.47, dampingFraction: damping),
                 
                 hideShowDelay: 0.34,
                 queuePacingDelay: 0.1
@@ -107,6 +111,7 @@ struct NotchAnimations {
                 stretchReset: .spring(response: 0.50),
                 strokeVisibility: .spring(response: 0.50),
                 notchVisibility: .spring(response: 0.50),
+                focusCloseStretch: .spring(response: 0.50, dampingFraction: damping),
                 
                 hideShowDelay: 0.37,
                 queuePacingDelay: 0.1
@@ -128,6 +133,7 @@ struct NotchAnimations {
                 stretchReset: .spring(response: 0.53),
                 strokeVisibility: .spring(response: 0.53),
                 notchVisibility: .spring(response: 0.53),
+                focusCloseStretch: .spring(response: 0.53, dampingFraction: damping),
                 
                 hideShowDelay: 0.40,
                 queuePacingDelay: 0.1

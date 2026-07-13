@@ -524,7 +524,7 @@ final class NotchEventCoordinator: ObservableObject {
             }
             .store(in: &cancellables)
 
-        settingsViewModel.calendar.$isCalendarHideWhenFocusedEnabled
+        settingsViewModel.application.$isCloseAtFocusLiveActivityEnabled
             .removeDuplicates()
             .sink { [weak self] _ in
                 guard let self else { return }

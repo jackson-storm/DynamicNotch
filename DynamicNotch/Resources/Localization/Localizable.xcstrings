@@ -4359,6 +4359,7 @@
       }
     },
     "Close at focus" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4414,7 +4415,11 @@
         }
       }
     },
+    "Close notch on window focus" : {
+
+    },
     "Close the activity when the playback source is in focus." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -7472,6 +7477,9 @@
           }
         }
       }
+    },
+    "Hides the active content with a balloon animation when the target application becomes active." : {
+
     },
     "High" : {
       "localizations" : {
@@ -12483,6 +12491,7 @@
       }
     },
     "settings.activities.calendar.hideWhenFocused.desc" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

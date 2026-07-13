@@ -35,10 +35,16 @@ final class NotchCalendarEventsHandler {
             return
         }
 
-        if settingsViewModel.calendar.isCalendarHideWhenFocusedEnabled {
+        if settingsViewModel.application.isCloseAtFocusLiveActivityEnabled {
             if let app = NSWorkspace.shared.frontmostApplication,
                app.bundleIdentifier == "com.apple.iCal" {
-                notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.HomePage.calendar.id))
+                if notchViewModel.displayedContent?.id == NotchContentRegistry.HomePage.calendar.id {
+                    notchViewModel.triggerFocusCloseAnimation(for: NotchContentRegistry.HomePage.calendar.id) { [weak self] in
+                        self?.notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.HomePage.calendar.id))
+                    }
+                } else {
+                    notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.HomePage.calendar.id))
+                }
                 return
             }
         }

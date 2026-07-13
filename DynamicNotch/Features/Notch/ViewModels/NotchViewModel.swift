@@ -19,6 +19,7 @@ final class NotchViewModel: ObservableObject {
     @Published var isPressed = false
     @Published var cachedStrokeColor: Color = .clear
     @Published var pressScale: CGFloat = 1.0
+    @Published var focusCloseStretchHeight: CGFloat = 0.0
 
     private let settings: NotchSettingsProviding
     private let engine: NotchEngine
@@ -28,6 +29,7 @@ final class NotchViewModel: ObservableObject {
     private var expansionTransitionTask: Task<Void, Never>?
     private var swipeStretchResetWorkItem: DispatchWorkItem?
     private var isClosingHeightStaged = false
+    private var isFocusCloseAnimating = false
 
     var animations: NotchAnimations {
         engine.animations
@@ -155,6 +157,7 @@ final class NotchViewModel: ObservableObject {
         let model = displayedNotchModel
         let baseSize = model.size
         let progress = easedSwipeStretchProgress
+        let calculatedSize: CGSize
         
         switch swipeInteraction {
         case .dismiss:
@@ -189,14 +192,20 @@ final class NotchViewModel: ObservableObject {
             )
             
         case nil:
-            return baseSize
+            calculatedSize = baseSize
         }
+
+        return CGSize(
+            width: calculatedSize.width,
+            height: calculatedSize.height + focusCloseStretchHeight
+        )
     }
     
     var interactiveCornerRadius: (top: CGFloat, bottom: CGFloat) {
         let model = displayedNotchModel
         let baseCornerRadius = model.cornerRadius
         let progress = easedSwipeStretchProgress
+        let radiusOffset = focusCloseStretchHeight * 0.3
         
         switch swipeInteraction {
         case .dismiss:
@@ -229,7 +238,10 @@ final class NotchViewModel: ObservableObject {
             )
             
         case nil:
-            return baseCornerRadius
+            return (
+                top: baseCornerRadius.top + radiusOffset,
+                bottom: baseCornerRadius.bottom + radiusOffset
+            )
         }
     }
     
@@ -380,7 +392,46 @@ final class NotchViewModel: ObservableObject {
     }
 
     func openActiveWindowLink() {
-        engine.openActiveWindowLink()
+        guard let content = notchModel.content, content.windowLink != nil else {
+            engine.openActiveWindowLink()
+            return
+        }
+        
+        if settings.isCloseAtFocusLiveActivityEnabled {
+            triggerFocusCloseAnimation(for: content.id) { [weak self] in
+                self?.engine.openActiveWindowLink()
+                self?.send(.hideLiveActivity(id: content.id))
+            }
+        } else {
+            engine.openActiveWindowLink()
+        }
+    }
+
+    func triggerFocusCloseAnimation(for id: String, completion: @escaping () -> Void) {
+        guard !isFocusCloseAnimating else {
+            completion()
+            return
+        }
+        
+        isFocusCloseAnimating = true
+        
+        let currentHeight = presentedNotchSize.height
+        let stretchHeight = max(30, currentHeight * 0.3)
+        
+        withAnimation(animations.focusCloseStretch) {
+            self.focusCloseStretchHeight = stretchHeight
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            withAnimation(self.animations.focusCloseStretch) {
+                self.focusCloseStretchHeight = 0
+            }
+            completion()
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                self.isFocusCloseAnimating = false
+            }
+        }
     }
     
     func updateSwipeStretch(for interaction: SwipeInteraction, progress: CGFloat) {

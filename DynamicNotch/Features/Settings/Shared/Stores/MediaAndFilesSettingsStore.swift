@@ -8,12 +8,7 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
             persist(isNowPlayingLiveActivityEnabled, for: GeneralSettingsStorage.Keys.nowPlayingLiveActivityEnabled)
         }
     }
-    
-    @Published var isCloseAtFocusLiveActivityEnabled: Bool {
-        didSet {
-            persist(isCloseAtFocusLiveActivityEnabled, for: GeneralSettingsStorage.Keys.closeAtFocusLiveActivityEnabled)
-        }
-    }
+
 
     @Published var isNowPlayingFavoriteButtonVisible: Bool {
         didSet {
@@ -234,7 +229,6 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
     override init(defaults: UserDefaults) {
         defaults.register(defaults: GeneralSettingsStorage.defaultValues)
         self.isNowPlayingLiveActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.nowPlayingLiveActivityEnabled)
-        self.isCloseAtFocusLiveActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.closeAtFocusLiveActivityEnabled)
         self.isNowPlayingFavoriteButtonVisible = defaults.bool(forKey: GeneralSettingsStorage.Keys.nowPlayingFavoriteButtonVisible)
         self.isNowPlayingOutputDeviceButtonVisible = defaults.bool(forKey: GeneralSettingsStorage.Keys.nowPlayingOutputDeviceButtonVisible)
         self.isNowPlayingArtwork3DEffectEnabled = Self.resolvedBool(
@@ -332,7 +326,6 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
 
     func resetNowPlaying() {
         isNowPlayingLiveActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.nowPlayingLiveActivityEnabled)
-        isCloseAtFocusLiveActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.closeAtFocusLiveActivityEnabled)
         isNowPlayingFavoriteButtonVisible = defaultBool(for: GeneralSettingsStorage.Keys.nowPlayingFavoriteButtonVisible)
         isNowPlayingOutputDeviceButtonVisible = defaultBool(for: GeneralSettingsStorage.Keys.nowPlayingOutputDeviceButtonVisible)
         isNowPlayingArtwork3DEffectEnabled = defaultBool(

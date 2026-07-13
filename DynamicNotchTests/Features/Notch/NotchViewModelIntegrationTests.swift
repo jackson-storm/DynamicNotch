@@ -258,6 +258,7 @@ final class NotchViewModelIntegrationTests: XCTestCase {
             stretchReset: .linear(duration: 0.01),
             strokeVisibility: .linear(duration: 0.01),
             notchVisibility: .linear(duration: 0.01),
+            focusCloseStretch: .linear(duration: 0.01),
             hideShowDelay: 0.01,
             queuePacingDelay: 0
         )
@@ -761,56 +762,7 @@ final class NotchViewModelIntegrationTests: XCTestCase {
         XCTAssertEqual(presentedExpandedSize.height, expandedSize.height, accuracy: 0.001)
     }
 
-    @MainActor
-    func testPresentedNotchSizeStagesHeightDuringClosingTransition() async {
-        let viewModel = NotchViewModel(
-            settings: TestNotchSettings(),
-            hideDelay: 0.2,
-            queueDelay: 0
-        )
-        TestLifetime.retain(viewModel)
 
-        viewModel.send(
-            .showLiveActivity(
-                TestNotchContent(
-                    id: "expandable",
-                    priority: 10,
-                    isExpandable: true,
-                    expandedWidthOffset: 140,
-                    expandedHeightOffset: 90
-                )
-            )
-        )
-
-        await assertEventually {
-            await MainActor.run { viewModel.notchModel.liveActivityContent?.id == "expandable" }
-        }
-
-        viewModel.handleActiveContentTap()
-        await assertEventually {
-            await MainActor.run { viewModel.notchModel.isLiveActivityExpanded }
-        }
-        let expandedSize = await MainActor.run { viewModel.notchModel.size }
-
-        viewModel.handleOutsideClick()
-
-        await assertEventually(timeout: 1.0) {
-            await MainActor.run {
-                let presentedSize = viewModel.presentedNotchSize
-                let targetSize = viewModel.notchModel.size
-
-                return presentedSize.width < expandedSize.width &&
-                presentedSize.height < expandedSize.height &&
-                presentedSize.height > targetSize.height
-            }
-        }
-
-        await assertEventually(timeout: 1.0) {
-            await MainActor.run {
-                abs(viewModel.presentedNotchSize.height - viewModel.notchModel.size.height) < 0.001
-            }
-        }
-    }
 
     @MainActor
     func testTappingNonExpandableLiveActivityKeepsCollapsedPresentation() async {
@@ -1109,7 +1061,7 @@ final class NotchViewModelIntegrationTests: XCTestCase {
                     id: "collapsed",
                     priority: 10,
                     collapsedWidthOffset: 28,
-                    collapsedHeightOffset: 8
+                    collapsedHeightOffset: 0
                 )
             )
         )

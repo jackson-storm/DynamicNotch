@@ -152,7 +152,7 @@ final class NotchMediaEventsHandler {
               let source = snapshot.playbackSource else {
             return
         }
-        guard settingsViewModel.mediaAndFiles.isCloseAtFocusLiveActivityEnabled else {
+        guard settingsViewModel.application.isCloseAtFocusLiveActivityEnabled else {
             syncNowPlayingPlaybackState()
             return
         }
@@ -167,7 +167,13 @@ final class NotchMediaEventsHandler {
         if isSourceActive {
             deferredNowPlayingHideWhileExpanded = nil
             cancelNowPlayingPauseHideTimer()
-            notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Media.nowPlaying.id))
+            if notchViewModel.displayedContent?.id == NotchContentRegistry.Media.nowPlaying.id {
+                notchViewModel.triggerFocusCloseAnimation(for: NotchContentRegistry.Media.nowPlaying.id) { [weak self] in
+                    self?.notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Media.nowPlaying.id))
+                }
+            } else {
+                notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Media.nowPlaying.id))
+            }
         } else {
             syncNowPlayingPlaybackState()
         }
@@ -176,7 +182,7 @@ final class NotchMediaEventsHandler {
     private func showNowPlayingLiveActivity() {
         guard nowPlayingViewModel.hasActiveSession else { return }
         
-        if settingsViewModel.mediaAndFiles.isCloseAtFocusLiveActivityEnabled {
+        if settingsViewModel.application.isCloseAtFocusLiveActivityEnabled {
             if let source = nowPlayingViewModel.snapshot?.playbackSource,
                let app = NSWorkspace.shared.frontmostApplication {
                 

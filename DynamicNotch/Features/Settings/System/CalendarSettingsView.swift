@@ -21,16 +21,7 @@ struct CalendarSettingsView: View {
                 accessibilityIdentifier: "settings.activities.live.calendar"
             )
 
-            Divider().opacity(0.6)
 
-            SettingsToggleRow(
-                title: "Close at focus",
-                description: "settings.activities.calendar.hideWhenFocused.desc",
-                systemImage: "macwindow.and.cursorarrow",
-                color: .blue,
-                isOn: $settings.isCalendarHideWhenFocusedEnabled,
-                accessibilityIdentifier: "settings.activities.live.calendar.hideWhenFocused"
-            )
         }
     }
 }

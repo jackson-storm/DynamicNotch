@@ -8,12 +8,7 @@ final class CalendarSettingsStore: SettingsStoreBase {
             persist(isCalendarLiveActivityEnabled, for: GeneralSettingsStorage.Keys.calendarLiveActivity)
         }
     }
-    
-    @Published var isCalendarHideWhenFocusedEnabled: Bool {
-        didSet {
-            persist(isCalendarHideWhenFocusedEnabled, for: GeneralSettingsStorage.Keys.calendarHideWhenFocused)
-        }
-    }
+
     
     @Published var showAllDayEvents: Bool {
         didSet {
@@ -29,7 +24,7 @@ final class CalendarSettingsStore: SettingsStoreBase {
     
     func resetCalendar() {
         isCalendarLiveActivityEnabled = GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.calendarLiveActivity] as? Bool ?? true
-        isCalendarHideWhenFocusedEnabled = GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.calendarHideWhenFocused] as? Bool ?? true
+
         showAllDayEvents = GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.calendarShowAllDay] as? Bool ?? true
         daysToShow = GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.calendarDaysToShow] as? Int ?? 7
     }
@@ -42,10 +37,7 @@ final class CalendarSettingsStore: SettingsStoreBase {
             key: GeneralSettingsStorage.Keys.calendarLiveActivity
         )
         
-        self.isCalendarHideWhenFocusedEnabled = Self.resolvedBool(
-            defaults: defaults,
-            key: GeneralSettingsStorage.Keys.calendarHideWhenFocused
-        )
+
         
         self.showAllDayEvents = Self.resolvedBool(
             defaults: defaults,

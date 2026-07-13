@@ -123,11 +123,9 @@ struct SettingsRootView: View {
                     }
                 }
             }
-            .scrollContentBackground(settingsViewModel.application.windowStyle == .semiTranslucent || (isBlueNightMode && colorScheme == .dark) ? .hidden : .visible)
+            .scrollContentBackground((isBlueNightMode && colorScheme == .dark) ? .hidden : .visible)
             .background {
-                if settingsViewModel.application.windowStyle == .semiTranslucent {
-                    Color.clear
-                } else if isBlueNightMode && colorScheme == .dark {
+                if isBlueNightMode && colorScheme == .dark {
                     Color(red: 0.090, green: 0.129, blue: 0.169)
                 }
             }
@@ -137,9 +135,7 @@ struct SettingsRootView: View {
                 prompt: localized("settings.search.prompt")
             )
             .background {
-                if settingsViewModel.application.windowStyle == .semiTranslucent {
-                    Color.clear.ignoresSafeArea()
-                } else if isBlueNightMode && colorScheme == .dark {
+                if isBlueNightMode && colorScheme == .dark {
                     Color(red: 0.090, green: 0.129, blue: 0.169).ignoresSafeArea()
                 }
             }
@@ -160,11 +156,7 @@ struct SettingsRootView: View {
                     Color.clear
                         .frame(height: 52)
                         .background {
-                            if settingsViewModel.application.windowStyle == .semiTranslucent {
-                                Color.clear.background(.ultraThinMaterial)
-                            } else {
-                                Color(nsColor: nsBackgroundColor)
-                            }
+                            Color(nsColor: nsBackgroundColor)
                         }
                         .overlay(alignment: .bottom) {
                             Divider()
@@ -174,11 +166,7 @@ struct SettingsRootView: View {
                 }
                 .scrollContentBackground(.hidden)
                 .background {
-                    if settingsViewModel.application.windowStyle == .semiTranslucent {
-                        Color.clear
-                    } else {
-                        Color(nsColor: nsBackgroundColor)
-                    }
+                    Color(nsColor: nsBackgroundColor)
                 }
             }
         }
@@ -208,9 +196,6 @@ struct SettingsRootView: View {
         .onChange(of: settingsViewModel.application.appearanceMode) {
             updateWindowStyle()
         }
-        .onChange(of: settingsViewModel.application.windowStyle) {
-            updateWindowStyle()
-        }
         .alert(item: $pendingResetSection) { section in
             Alert(
                 title: Text(
@@ -230,15 +215,7 @@ struct SettingsRootView: View {
         .environment(\.locale, settingsViewModel.application.appLanguage.locale)
         .preferredColorScheme(settingsViewModel.application.appearanceMode.preferredColorScheme)
         .background {
-            if settingsViewModel.application.windowStyle == .semiTranslucent {
-                if colorScheme == .dark {
-                    Color.clear.background(.ultraThinMaterial)
-                } else {
-                    Color.clear.background(.thickMaterial)
-                }
-            } else {
-                Color(nsColor: nsBackgroundColor)
-            }
+            Color(nsColor: nsBackgroundColor)
         }
         .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("SelectSettingsSection"))) { notification in
             if let section = notification.object as? SettingsRootViewModel.Section {
@@ -261,13 +238,8 @@ struct SettingsRootView: View {
             window.appearance = NSAppearance(named: .darkAqua)
         }
         
-        if settingsViewModel.application.windowStyle == .semiTranslucent {
-            window.backgroundColor = .clear
-            window.isOpaque = false
-        } else {
-            window.backgroundColor = nsBackgroundColor
-            window.isOpaque = true
-        }
+        window.backgroundColor = nsBackgroundColor
+        window.isOpaque = true
         
         window.titlebarAppearsTransparent = true
         window.titleVisibility = .visible

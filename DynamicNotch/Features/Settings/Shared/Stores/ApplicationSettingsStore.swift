@@ -30,11 +30,7 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         }
     }
 
-    @Published var windowStyle: SettingsWindowStyle {
-        didSet {
-            persist(windowStyle.rawValue, for: GeneralSettingsStorage.Keys.windowStyle)
-        }
-    }
+
 
     @Published var isBlueNightMode: Bool {
         didSet {
@@ -296,9 +292,7 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         self.appearanceMode = SettingsAppearanceMode.resolved(
             defaults.string(forKey: GeneralSettingsStorage.Keys.appearanceMode)
         )
-        self.windowStyle = SettingsWindowStyle.resolved(
-            defaults.string(forKey: GeneralSettingsStorage.Keys.windowStyle)
-        )
+
         self.notchBackgroundStyle = NotchBackgroundStyle.resolved(
             defaults.string(forKey: GeneralSettingsStorage.Keys.notchBackgroundStyle)
         )
@@ -389,9 +383,7 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         appearanceMode = SettingsAppearanceMode.resolved(
             defaultString(for: GeneralSettingsStorage.Keys.appearanceMode)
         )
-        windowStyle = SettingsWindowStyle.resolved(
-            defaultString(for: GeneralSettingsStorage.Keys.windowStyle)
-        )
+
         isBlueNightMode = defaultBool(for: GeneralSettingsStorage.Keys.isBlueNightMode)
         isMenuBarIconVisible = defaultBool(for: GeneralSettingsStorage.Keys.menuBarIcon)
         displayLocation = NotchDisplayLocation(

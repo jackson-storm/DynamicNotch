@@ -14289,6 +14289,7 @@
       }
     },
     "settings.general.windowStyle.description" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -14317,6 +14318,7 @@
       }
     },
     "settings.general.windowStyle.regular" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -14345,6 +14347,7 @@
       }
     },
     "settings.general.windowStyle.semiTranslucent" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -14373,6 +14376,7 @@
       }
     },
     "settings.general.windowStyle.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

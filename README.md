@@ -98,8 +98,8 @@ Then run the `DynamicNotch` scheme from Xcode. Swift Package Manager dependencie
 
 <table align="center">
   <tr>
-    <td><img src="assets/readme/NoInternet.png" alt="Player" width="100%" /></td>
-    <td><img src="assets/readme/Tray.png" alt="Lock Screen" width="100%" /></td>
+    <td><img src="assets/readme/NoInternet.png" alt="No Internet" width="100%" /></td>
+    <td><img src="assets/readme/Tray.png" alt="Tray" width="100%" /></td>
     <td><img src="assets/readme/Timer.png" alt="Timer" width="100%" /></td>
   </tr>
   <tr>
@@ -113,9 +113,9 @@ Then run the `DynamicNotch` scheme from Xcode. Swift Package Manager dependencie
     <td><img src="assets/readme/VolumeHud.png" alt="Volume HUD" width="100%" /></td>
   </tr>
   <tr>
-    <td><img src="assets/readme/Hotspot.png" alt="Bluetooth" width="100%" /></td>
-    <td><img src="assets/readme/Downloads.png" alt="VPN Connection" width="100%" /></td>
-    <td><img src="assets/readme/FocusMode.png" alt="Volume HUD" width="100%" /></td>
+    <td><img src="assets/readme/Hotspot.png" alt="Hotspot" width="100%" /></td>
+    <td><img src="assets/readme/Downloads.png" alt="Downloads" width="100%" /></td>
+    <td><img src="assets/readme/FocusMode.png" alt="Focus Mode" width="100%" /></td>
   </tr>
 </table>
 

@@ -6,6 +6,7 @@ enum SettingsSubPage: Hashable, Identifiable {
     case language
     case permissions
     case softwareUpdate
+    case support
     case about
     
     var id: Self { self }
@@ -16,6 +17,7 @@ enum SettingsSubPage: Hashable, Identifiable {
         case .language: return "settings.section.language.title"
         case .permissions: return "settings.section.permissions.title"
         case .softwareUpdate: return "Software Update"
+        case .support: return "settings.general.support.title"
         case .about: return "settings.section.about.title"
         }
     }
@@ -27,6 +29,7 @@ enum SettingsSubPage: Hashable, Identifiable {
         case .language: return "Language"
         case .permissions: return "Permissions"
         case .softwareUpdate: return "Software Update"
+        case .support: return "Support"
         case .about: return "About"
         }
     }
@@ -38,6 +41,7 @@ enum SettingsSubPage: Hashable, Identifiable {
         case .language: return "settings.section.language.subtitle"
         case .permissions: return "settings.section.permissions.subtitle"
         case .softwareUpdate: return "Check for updates and manage update preferences."
+        case .support: return "settings.general.support.subtitle"
         case .about: return "settings.section.about.subtitle"
         }
     }
@@ -49,6 +53,7 @@ enum SettingsSubPage: Hashable, Identifiable {
         case .language: return "Choose the application interface language."
         case .permissions: return "Manage system permissions and access settings."
         case .softwareUpdate: return "Check for updates and manage update preferences."
+        case .support: return "Support the project development and donations."
         case .about: return "Project details, links, and release information."
         }
     }

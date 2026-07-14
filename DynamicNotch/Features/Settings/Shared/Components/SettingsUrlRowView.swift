@@ -1,28 +1,24 @@
 //
-//  SettingsNavigationViewRow.swift
+//  SettingsUrlRowView.swift
 //  DynamicNotch
 //
-//  Created by Евгений Петрукович on 7/13/26.
+//  Created by Евгений Петрукович on 7/14/26.
 //
 
 import SwiftUI
 
-enum RowPosition {
-    case first
-    case middle
-    case last
-    case single
-}
-
-struct SettingsNavigationRowView<Value: Hashable>: View {
+struct SettingsUrlRowView: View {
     let title: LocalizedStringKey
     let description: LocalizedStringKey?
     let systemImage: String?
     let imageName: String?
     let color: Color
-    let value: Value
+    let url: String
     let accessibilityIdentifier: String?
     let position: RowPosition
+    let onRequestInternetAccess: () -> Bool
+    
+    @Environment(\.openURL) private var openURL
     
     init(
         title: LocalizedStringKey,
@@ -31,16 +27,18 @@ struct SettingsNavigationRowView<Value: Hashable>: View {
         color: Color = .blue,
         accessibilityIdentifier: String? = nil,
         position: RowPosition = .single,
-        value: Value
+        url: String,
+        onRequestInternetAccess: @escaping () -> Bool
     ) {
         self.title = title
         self.description = description
         self.systemImage = systemImage
         self.imageName = nil
         self.color = color
-        self.value = value
+        self.url = url
         self.accessibilityIdentifier = accessibilityIdentifier
         self.position = position
+        self.onRequestInternetAccess = onRequestInternetAccess
     }
 
     init(
@@ -50,16 +48,18 @@ struct SettingsNavigationRowView<Value: Hashable>: View {
         color: Color = .blue,
         accessibilityIdentifier: String? = nil,
         position: RowPosition = .single,
-        value: Value
+        url: String,
+        onRequestInternetAccess: @escaping () -> Bool
     ) {
         self.title = title
         self.description = description
         self.systemImage = nil
         self.imageName = imageName
         self.color = color
-        self.value = value
+        self.url = url
         self.accessibilityIdentifier = accessibilityIdentifier
         self.position = position
+        self.onRequestInternetAccess = onRequestInternetAccess
     }
 
     var body: some View {
@@ -71,7 +71,13 @@ struct SettingsNavigationRowView<Value: Hashable>: View {
                     .padding(.trailing, 12)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
             }
-            NavigationLink(value: value) {
+            Button(action: {
+                if let targetUrl = URL(string: url) {
+                    if onRequestInternetAccess() {
+                        openURL(targetUrl)
+                    }
+                }
+            }) {
                 HStack(alignment: .center, spacing: 12) {
                     if let systemImage {
                         SettingsIconBadge(
@@ -104,7 +110,7 @@ struct SettingsNavigationRowView<Value: Hashable>: View {
                     }
                     Spacer()
                     
-                    Image(systemName: "chevron.right")
+                    Image(systemName: "arrow.up.right")
                         .font(.system(size: 14, weight: .semibold))
                         .foregroundStyle(.tertiary)
                 }

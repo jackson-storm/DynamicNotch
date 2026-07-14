@@ -37,7 +37,7 @@ struct SettingsRootView: View {
         if isBlueNightMode && colorScheme == .dark {
             return NSColor(red: 0.07, green: 0.11, blue: 0.17, alpha: 1.0)
         } else if colorScheme == .dark {
-            return NSColor.controlBackgroundColor
+            return NSColor(red: 0.11, green: 0.11, blue: 0.12, alpha: 1.0)
         } else {
             return NSColor(red: 0.94, green: 0.94, blue: 0.95, alpha: 1.0)
         }
@@ -124,10 +124,14 @@ struct SettingsRootView: View {
                     }
                 }
             }
-            .scrollContentBackground((isBlueNightMode && colorScheme == .dark) ? .hidden : .visible)
+            .scrollContentBackground(colorScheme == .dark ? .hidden : .visible)
             .background {
-                if isBlueNightMode && colorScheme == .dark {
-                    Color(red: 0.090, green: 0.129, blue: 0.169)
+                if colorScheme == .dark {
+                    if isBlueNightMode {
+                        Color(red: 0.090, green: 0.129, blue: 0.169)
+                    } else {
+                        Color(red: 0.14, green: 0.14, blue: 0.15)
+                    }
                 }
             }
             .searchable(
@@ -136,8 +140,12 @@ struct SettingsRootView: View {
                 prompt: localized("settings.search.prompt")
             )
             .background {
-                if isBlueNightMode && colorScheme == .dark {
-                    Color(red: 0.090, green: 0.129, blue: 0.169).ignoresSafeArea()
+                if colorScheme == .dark {
+                    if isBlueNightMode {
+                        Color(red: 0.090, green: 0.129, blue: 0.169).ignoresSafeArea()
+                    } else {
+                        Color(red: 0.14, green: 0.14, blue: 0.15).ignoresSafeArea()
+                    }
                 }
             }
             .navigationSplitViewColumnWidth(min: 170, ideal: 200, max: 200)
@@ -170,9 +178,22 @@ struct SettingsRootView: View {
                     Color(nsColor: nsBackgroundColor)
                 }
                 .navigationDestination(for: SettingsSubPage.self) { subPage in
-                    subPageView(for: subPage)
-                        .navigationBarBackButtonHidden(true)
-                        .toolbar { toolbarContent(for: resolvedSelection) }
+                    ZStack(alignment: .top) {
+                        subPageView(for: subPage)
+                        
+                        Color.clear
+                            .frame(height: 52)
+                            .background {
+                                Color(nsColor: nsBackgroundColor)
+                            }
+                            .overlay(alignment: .bottom) {
+                                Divider()
+                                    .opacity(0.6)
+                            }
+                            .ignoresSafeArea(.container, edges: .top)
+                    }
+                    .navigationBarBackButtonHidden(true)
+                    .toolbar { toolbarContent(for: resolvedSelection) }
                 }
             }
         }
@@ -573,6 +594,12 @@ struct SettingsRootView: View {
             PermissionsSettingsView(permissionController: permissionController, applicationSettings: settingsViewModel.application)
         case .softwareUpdate:
             SoftwareUpdateSettingsView()
+        case .support:
+            SupportSettingsView(
+                onRequestInternetAccess: {
+                    notchEventCoordinator.requestInternetAccess()
+                }
+            )
         case .about:
             AboutAppSettingsView(
                 applicationSettings: settingsViewModel.application,

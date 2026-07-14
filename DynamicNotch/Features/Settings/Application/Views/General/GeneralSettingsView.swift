@@ -12,9 +12,9 @@ struct GeneralSettingsView: View {
     
     var body: some View {
         SettingsPageScrollView {
-            systemCard
             firstCard
             secondCard
+            thirdCard
         }
         .accessibilityIdentifier("settings.general.root")
     }
@@ -130,12 +130,26 @@ struct GeneralSettingsView: View {
             )
             
             SettingsNavigationRowView(
+                title: "settings.general.support.title",
+                description: "settings.general.support.subtitle",
+                systemImage: "heart.fill",
+                color: .red,
+                accessibilityIdentifier: "settings.general.support",
+                position: .last,
+                value: SettingsSubPage.support
+            )
+        }
+    }
+    
+    private var thirdCard: some View {
+        SettingsCard(spacing: 0, padding: 0) {
+            SettingsNavigationRowView(
                 title: "settings.section.about.title",
                 description: "settings.section.about.subtitle",
                 systemImage: "info.circle.fill",
                 color: .gray,
                 accessibilityIdentifier: "settings.general.about",
-                position: .last,
+                position: .single,
                 value: SettingsSubPage.about
             )
         }

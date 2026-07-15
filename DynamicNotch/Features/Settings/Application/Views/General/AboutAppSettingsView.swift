@@ -31,7 +31,6 @@ struct AboutAppSettingsView: View {
             socialLinksCard
             contactMeCard
         }
-        .edgesIgnoringSafeArea(.top)
         .accessibilityIdentifier("settings.about.root")
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
@@ -47,9 +46,20 @@ struct AboutAppSettingsView: View {
         VStack(spacing: 16) {
             Image("logo")
                 .resizable()
-                .frame(width: 80, height: 80)
-                .shadow(color: .purple, radius: 30)
-                .padding(.top, 80)
+                .frame(width: 90, height: 90)
+                .scaleEffect(0.9)
+                .background {
+                    Circle()
+                        .fill(
+                            LinearGradient(
+                                colors: [.yellow, .indigo, .purple],
+                                startPoint: .bottomLeading,
+                                endPoint: .topTrailing
+                            )
+                        )
+                        .blur(radius: 30)
+                }
+                .padding(.top, 20)
             
             VStack(spacing: 8) {
                 Text("DynamicNotch")

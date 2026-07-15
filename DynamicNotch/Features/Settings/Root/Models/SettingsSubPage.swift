@@ -9,6 +9,9 @@ enum SettingsSubPage: Hashable, Identifiable {
     case softwareUpdate
     case support
     case about
+    #if DEBUG
+    case debug
+    #endif
     
     var id: Self { self }
     var titleKey: String {
@@ -21,6 +24,9 @@ enum SettingsSubPage: Hashable, Identifiable {
         case .softwareUpdate: return "Software Update"
         case .support: return "settings.general.support.title"
         case .about: return "settings.section.about.title"
+        #if DEBUG
+        case .debug: return "settings.section.debug.title"
+        #endif
         }
     }
     
@@ -34,6 +40,9 @@ enum SettingsSubPage: Hashable, Identifiable {
         case .softwareUpdate: return "Software Update"
         case .support: return "Support"
         case .about: return "About"
+        #if DEBUG
+        case .debug: return "Debug"
+        #endif
         }
     }
     
@@ -47,6 +56,9 @@ enum SettingsSubPage: Hashable, Identifiable {
         case .softwareUpdate: return "Check for updates and manage update preferences."
         case .support: return "settings.general.support.subtitle"
         case .about: return "settings.section.about.subtitle"
+        #if DEBUG
+        case .debug: return "settings.section.debug.subtitle"
+        #endif
         }
     }
     
@@ -60,6 +72,9 @@ enum SettingsSubPage: Hashable, Identifiable {
         case .softwareUpdate: return "Check for updates and manage update preferences."
         case .support: return "Support the project development and donations."
         case .about: return "Project details, links, and release information."
+        #if DEBUG
+        case .debug: return "Manual previews and event triggers for testing."
+        #endif
         }
     }
     

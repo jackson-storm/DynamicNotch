@@ -28,7 +28,7 @@ struct SupportSettingsView: View {
     private var headerCard: some View {
         VStack(spacing: 16) {
             AnimateImage(name: "money")
-                .frame(width: 100, height: 100)
+                .frame(width: 90, height: 90)
                 .scaleEffect(1.1)
                 .shadow(color: .yellow, radius: 30)
                 .id(imageAppear)

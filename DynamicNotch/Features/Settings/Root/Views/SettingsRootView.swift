@@ -514,14 +514,7 @@ struct SettingsRootView: View {
                 LockScreenSettingsView(settings: settingsViewModel.lockScreen, applicationSettings: settingsViewModel.application)
             }
 
-#if DEBUG
-        case .debug:
-            detailContainer(for: section) {
-                DebugSettingsView(
-                    viewModel: viewModel.debugViewModel
-                )
-            }
-#endif
+
 
         }
     }
@@ -609,6 +602,10 @@ struct SettingsRootView: View {
                     notchEventCoordinator.requestInternetAccess()
                 }
             )
+        #if DEBUG
+        case .debug:
+            DebugSettingsView(viewModel: viewModel.debugViewModel)
+        #endif
         }
     }
 

@@ -12247,6 +12247,34 @@
         }
       }
     },
+    "settings.about.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn your MacBook notch into a live interactive surface. Control media, track downloads, manage timers, and monitor system events with fluid animations."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Convierta la muesca de su MacBook en una superficie interactiva en vivo. Controle la reproducción de medios, realice el seguimiento de las descargas, gestione temporizadores y supervise los eventos del sistema con animaciones fluidas."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Превратите вырез вашего MacBook в живой интерактивный элемент. Управляйте медиа, отслеживайте загрузки, таймеры и системные события с плавными анимациями."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "将您的 MacBook 齐刘海转变为实时交互界面。通过流畅的动画控制媒体、跟踪下载、管理计时器并监控系统事件。"
+          }
+        }
+      }
+    },
     "settings.about.email.subject" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -18038,7 +18066,6 @@
       }
     },
     "settings.section.debug.subtitle" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -18067,7 +18094,6 @@
       }
     },
     "settings.section.debug.title" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -21958,34 +21984,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "打开低功耗模式或者它 \n建议充电。"
-          }
-        }
-      }
-    },
-    "settings.about.description" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Turn your MacBook notch into a live interactive surface. Control media, track downloads, manage timers, and monitor system events with fluid animations."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Convierta la muesca de su MacBook en una superficie interactiva en vivo. Controle la reproducción de medios, realice el seguimiento de las descargas, gestione temporizadores y supervise los eventos del sistema con animaciones fluidas."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Превратите вырез вашего MacBook в живой интерактивный элемент. Управляйте медиа, отслеживайте загрузки, таймеры и системные события с плавными анимациями."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "将您的 MacBook 齐刘海转变为实时交互界面。通过流畅的动画控制媒体、跟踪下载、管理计时器并监控系统事件。"
           }
         }
       }

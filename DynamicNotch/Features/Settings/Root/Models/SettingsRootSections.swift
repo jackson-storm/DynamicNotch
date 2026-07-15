@@ -44,9 +44,6 @@ extension SettingsRootViewModel {
         case general
         case homePage
         case notch
-        #if DEBUG
-        case debug
-        #endif
     
         case wifi
         case bluetooth
@@ -518,25 +515,6 @@ private enum SettingsSectionCatalog {
                 resetGroup: .lockScreen
             )
 
-        #if DEBUG
-        case .debug:
-            return .init(
-                sidebarGroup: .application,
-                titleKey: "settings.section.debug.title",
-                fallbackTitle: "Debug",
-                subtitleKey: "settings.section.debug.subtitle",
-                fallbackSubtitle: "Manual previews and event triggers for testing.",
-                searchKeywords: [
-                    "preview",
-                    "trigger",
-                    "debug"
-                ],
-                systemImage: "ladybug",
-                imageName: nil,
-                tint: .red,
-                resetGroup: nil
-            )
-        #endif
 
         }
     }

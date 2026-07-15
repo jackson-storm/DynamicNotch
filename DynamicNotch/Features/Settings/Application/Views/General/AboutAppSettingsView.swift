@@ -29,6 +29,7 @@ struct AboutAppSettingsView: View {
         SettingsPageScrollView {
             headerCard
             socialLinksCard
+            contactMeCard
         }
         .edgesIgnoringSafeArea(.top)
         .accessibilityIdentifier("settings.about.root")
@@ -54,8 +55,8 @@ struct AboutAppSettingsView: View {
                 Text("DynamicNotch")
                     .font(.system(size: 20, weight: .bold))
                 
-                Text("settings.permissions.page.subtitle")
-                    .font(.system(size: 13))
+                Text("settings.about.description")
+                    .font(.system(size: 14))
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 50)
@@ -92,6 +93,30 @@ struct AboutAppSettingsView: View {
                 color: .clear,
                 position: .last,
                 url: "https://dynamicnotch.evgeniy-petrukovich.workers.dev",
+                onRequestInternetAccess: onRequestInternetAccess
+            )
+        }
+    }
+    
+    private var contactMeCard: some View {
+        SettingsCard(title: "Contact Me", spacing: 0, padding: 0) {
+            SettingsUrlRowView(
+                title: "Telegram Account",
+                description: "Send a direct message on Telegram",
+                imageName: "telegram",
+                color: .clear,
+                position: .first,
+                url: "https://t.me/id10101101",
+                onRequestInternetAccess: onRequestInternetAccess
+            )
+            
+            SettingsUrlRowView(
+                title: "Email Address",
+                description: "Send an email",
+                imageName: "email",
+                color: .clear,
+                position: .last,
+                url: "mailto:evgeniy.petrukovich@icloud.com?subject=A%20question%20about%20DynamicNotch",
                 onRequestInternetAccess: onRequestInternetAccess
             )
         }

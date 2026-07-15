@@ -4817,6 +4817,34 @@
         }
       }
     },
+    "Contact Me" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contact Me"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contactar conmigo"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Связаться со мной"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "联系我"
+          }
+        }
+      }
+    },
     "Control charging, low battery, and full battery notifications." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -6102,6 +6130,34 @@
     },
     "DynamicNotch" : {
 
+    },
+    "Email Address" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Email Address"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dirección de correo electrónico"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Электронная почта"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "电子邮件地址"
+          }
+        }
+      }
     },
     "Empty Location" : {
 
@@ -12040,6 +12096,62 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "选择您想要从刘海屏控制的 VPN 连接。"
+          }
+        }
+      }
+    },
+    "Send a direct message on Telegram" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Send a direct message on Telegram"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enviar un mensaje directo en Telegram"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Написать личное сообщение в Telegram"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在 Telegram 上发送私信"
+          }
+        }
+      }
+    },
+    "Send an email" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Send an email"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enviar un correo electrónico"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отправить электронное письмо"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "发送电子邮件"
           }
         }
       }
@@ -21131,6 +21243,34 @@
         }
       }
     },
+    "Telegram Account" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Telegram Account"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuenta de Telegram"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Аккаунт Telegram"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Telegram 账号"
+          }
+        }
+      }
+    },
     "Telegram Channel" : {
       "localizations" : {
         "en" : {
@@ -21818,6 +21958,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "打开低功耗模式或者它 \n建议充电。"
+          }
+        }
+      }
+    },
+    "settings.about.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn your MacBook notch into a live interactive surface. Control media, track downloads, manage timers, and monitor system events with fluid animations."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Convierta la muesca de su MacBook en una superficie interactiva en vivo. Controle la reproducción de medios, realice el seguimiento de las descargas, gestione temporizadores y supervise los eventos del sistema con animaciones fluidas."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Превратите вырез вашего MacBook в живой интерактивный элемент. Управляйте медиа, отслеживайте загрузки, таймеры и системные события с плавными анимациями."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "将您的 MacBook 齐刘海转变为实时交互界面。通过流畅的动画控制媒体、跟踪下载、管理计时器并监控系统事件。"
           }
         }
       }

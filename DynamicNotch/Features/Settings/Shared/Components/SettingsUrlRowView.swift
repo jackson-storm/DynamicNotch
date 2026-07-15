@@ -92,8 +92,8 @@ struct SettingsUrlRowView: View {
                             imageName: imageName,
                             tint: color,
                             size: 30,
-                            iconSize: 14,
-                            cornerRadius: 9
+                            iconSize: 30,
+                            cornerRadius: 30
                         )
                     }
                     

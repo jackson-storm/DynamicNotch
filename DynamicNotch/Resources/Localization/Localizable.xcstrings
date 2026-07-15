@@ -2345,6 +2345,7 @@
 
     },
     "Carry notch context and media playback into the lock screen transition for a more cohesive experience." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6099,6 +6100,9 @@
         }
       }
     },
+    "DynamicNotch" : {
+
+    },
     "Empty Location" : {
 
     },
@@ -7154,6 +7158,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "手势"
+          }
+        }
+      }
+    },
+    "GitHub Repository" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GitHub Repository"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Repositorio de GitHub"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Репозиторий GitHub"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GitHub 仓库"
           }
         }
       }
@@ -8260,6 +8292,34 @@
     "Join Meeting" : {
 
     },
+    "Join our Telegram channel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Join our Telegram channel"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Únete a nuestro canal de Telegram"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Присоединяйтесь к нашему Telegram-каналу"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加入我们的 Telegram 频道"
+          }
+        }
+      }
+    },
     "Keep Now Playing visible in the notch while playback is paused." : {
       "localizations" : {
         "en" : {
@@ -8654,6 +8714,7 @@
       }
     },
     "Live Activity" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -8682,6 +8743,7 @@
       }
     },
     "Localization" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -8738,6 +8800,7 @@
       }
     },
     "Location" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -9250,6 +9313,7 @@
       }
     },
     "Make the cutout area more useful." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -10163,6 +10227,7 @@
       }
     },
     "On" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -10335,7 +10400,6 @@
       }
     },
     "Open the DynamicNotch website" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -10595,6 +10659,7 @@
       }
     },
     "Persistent notch content stays visible for as long as the source event is active, then fades away when it ends." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -16911,6 +16976,7 @@
       }
     },
     "settings.permissions.card.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -17050,6 +17116,62 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "媒体控制"
+          }
+        }
+      }
+    },
+    "settings.permissions.page.subtitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Provide access to accessibility, Bluetooth, media playback, camera, calendar, and disk files to enable all features."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Proporcione acceso a accesibilidad, Bluetooth, reproducción de medios, cámara, calendario y archivos de disco para habilitar todas las funciones."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Предоставьте доступ к универсальному доступу, Bluetooth, управлению воспроизведением, камере, календарю и дисковым файлам для работы всех функций."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "允许访问辅助功能、蓝牙、媒体播放、相机、日历以及磁盘文件，以启用所有功能。"
+          }
+        }
+      }
+    },
+    "settings.permissions.page.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confirm Permissions"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confirmar permisos"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подтвердить разрешения"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "确认权限"
           }
         }
       }
@@ -18439,34 +18561,6 @@
         }
       }
     },
-    "settings.permissions.page.subtitle" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Provide access to accessibility, Bluetooth, media playback, camera, calendar, and disk files to enable all features."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Proporcione acceso a accesibilidad, Bluetooth, reproducción de medios, cámara, calendario y archivos de disco para habilitar todas las funciones."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Предоставьте доступ к универсальному доступу, Bluetooth, управлению воспроизведением, камере, календарю и дисковым файлам для работы всех функций."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "允许访问辅助功能、蓝牙、媒体播放、相机、日历以及磁盘文件，以启用所有功能。"
-          }
-        }
-      }
-    },
     "settings.section.permissions.subtitle" : {
       "localizations" : {
         "en" : {
@@ -18760,6 +18854,7 @@
       }
     },
     "settings.support.options" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -18792,7 +18887,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Support Dynamic Notch"
+            "value" : "Support DynamicNotch"
           }
         },
         "es" : {
@@ -18819,6 +18914,7 @@
 
     },
     "Short-lived overlays appear above live activities so quick system events still feel prominent." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -20548,6 +20644,34 @@
         }
       }
     },
+    "Star the project on GitHub" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Star the project on GitHub"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dale una estrella al proyecto en GitHub"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поставьте звезду проекту на GitHub"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在 GitHub 上为项目点星"
+          }
+        }
+      }
+    },
     "Start" : {
       "localizations" : {
         "en" : {
@@ -21007,6 +21131,34 @@
         }
       }
     },
+    "Telegram Channel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Telegram Channel"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Canal de Telegram"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Telegram-канал"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Telegram 频道"
+          }
+        }
+      }
+    },
     "Temporary activities" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -21037,6 +21189,7 @@
       }
     },
     "Temporary Activity" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -22658,7 +22811,6 @@
       }
     },
     "Website" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

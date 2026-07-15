@@ -13,7 +13,6 @@ struct PermissionsSettingsView: View {
         SettingsPageScrollView {
             headerCard
             permissionsCard
-                .padding(.top, 20)
         }
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
@@ -33,7 +32,7 @@ struct PermissionsSettingsView: View {
                 .padding(.top, 20)
             
             VStack(spacing: 8) {
-                Text("settings.section.permissions.title")
+                Text("settings.permissions.page.title")
                     .font(.system(size: 20, weight: .bold))
                 
                 Text("settings.permissions.page.subtitle")
@@ -46,7 +45,7 @@ struct PermissionsSettingsView: View {
     }
 
     private var permissionsCard: some View {
-        SettingsCard(title: "settings.permissions.card.title") {
+        SettingsCard() {
             ForEach(Array(permissionController.permissionItems.enumerated()), id: \.element.id) { index, item in
                 permissionRow(for: item)
 

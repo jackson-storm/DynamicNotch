@@ -17,7 +17,7 @@ struct LanguageSettingsView: View {
     }
     
     private var languageCard: some View {
-        SettingsCard(title: "Localization") {
+        SettingsCard() {
             VStack(alignment: .leading, spacing: 12) {
                 AdaptiveCustomPicker(
                     selection: $applicationSettings.appLanguage,

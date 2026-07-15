@@ -22,7 +22,7 @@ struct DisplaySettingsView: View {
     }
     
     private var displayCard: some View {
-        SettingsCard(title: "Location") {
+        SettingsCard() {
             CustomPicker(
                 selection: $applicationSettings.displayLocation,
                 options: Array(NotchDisplayLocation.allCases),

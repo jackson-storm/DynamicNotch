@@ -17,7 +17,6 @@ struct SupportSettingsView: View {
         SettingsPageScrollView {
             headerCard
             supportCard
-                .padding(.top, 20)
         }
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
@@ -49,7 +48,7 @@ struct SupportSettingsView: View {
     }
     
     private var supportCard: some View {
-        SettingsCard(title: "settings.support.options", spacing: 0, padding: 0) {
+        SettingsCard(spacing: 0, padding: 0) {
             SettingsUrlRowView(
                 title: "Buy Me a Coffee",
                 description: "Support with a one-time coffee donation.",

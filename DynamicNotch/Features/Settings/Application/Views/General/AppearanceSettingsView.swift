@@ -18,7 +18,7 @@ struct AppearanceSettingsView: View {
     }
     
     private var themeCard: some View {
-        SettingsCard(title: "Appearance") {
+        SettingsCard() {
             CustomPicker(
                 selection: $applicationSettings.appearanceMode,
                 options: Array(SettingsAppearanceMode.allCases),

@@ -12,8 +12,8 @@ struct SettingsIconBadge: View {
         case system(String)
         case asset(String)
     }
-
     private let iconSource: IconSource
+    
     let tint: Color
     let size: CGFloat
     let iconSize: CGFloat
@@ -54,6 +54,7 @@ struct SettingsIconBadge: View {
             .overlay {
                 iconView
             }
+            .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
             .overlay {
                 RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
                     .stroke(Color.white.opacity(0.18), lineWidth: 0.8)
@@ -71,8 +72,6 @@ struct SettingsIconBadge: View {
         case .asset(let imageName):
             Image(imageName)
                 .resizable()
-                .renderingMode(.template)
-                .foregroundStyle(.white)
                 .scaledToFit()
                 .frame(width: iconSize + 4, height: iconSize + 4)
         }

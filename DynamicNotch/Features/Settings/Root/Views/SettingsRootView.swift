@@ -590,6 +590,8 @@ struct SettingsRootView: View {
             DisplaySettingsView(applicationSettings: settingsViewModel.application, availableDisplays: $availableDisplays)
         case .language:
             LanguageSettingsView(applicationSettings: settingsViewModel.application)
+        case .system:
+            SystemSettingsView(applicationSettings: settingsViewModel.application)
         case .permissions:
             PermissionsSettingsView(permissionController: permissionController, applicationSettings: settingsViewModel.application)
         case .softwareUpdate:

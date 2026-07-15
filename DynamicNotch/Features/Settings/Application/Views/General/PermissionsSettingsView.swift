@@ -3,6 +3,7 @@ import SwiftUI
 struct PermissionsSettingsView: View {
     @ObservedObject var permissionController: SettingsPermissionController
     @ObservedObject var applicationSettings: ApplicationSettingsStore
+    @State private var imageAppear = false
 
     private func localized(_ key: String, fallback: String) -> String {
         applicationSettings.appLanguage.locale.dn(key, fallback: fallback)
@@ -10,10 +11,37 @@ struct PermissionsSettingsView: View {
 
     var body: some View {
         SettingsPageScrollView {
+            headerCard
             permissionsCard
+                .padding(.top, 20)
         }
         .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                imageAppear = true
+            }
             permissionController.refresh()
+        }
+    }
+    
+    private var headerCard: some View {
+        VStack(spacing: 16) {
+            AnimateImage(name: "confirm")
+                .frame(width: 90, height: 90)
+                .scaleEffect(1.5)
+                .shadow(color: .green, radius: 30)
+                .id(imageAppear)
+                .padding(.top, 20)
+            
+            VStack(spacing: 8) {
+                Text("settings.section.permissions.title")
+                    .font(.system(size: 20, weight: .bold))
+                
+                Text("settings.permissions.page.subtitle")
+                    .font(.system(size: 13))
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 50)
+            }
         }
     }
 

@@ -15,65 +15,26 @@ struct GeneralSettingsView: View {
             firstCard
             secondCard
             thirdCard
+            fourthCard
         }
         .accessibilityIdentifier("settings.general.root")
     }
     
-    private var systemCard: some View {
-        SettingsCard(title: "System") {
-            SettingsToggleRow(
-                title: "Launch at login",
-                description: "Launch Dynamic Notch automatically when you sign in.",
-                systemImage: "power",
-                color: .red,
-                isOn: $applicationSettings.isLaunchAtLoginEnabled,
-                accessibilityIdentifier: "settings.general.launchAtLogin"
+    private var firstCard: some View {
+        SettingsCard(spacing: 0, padding: 0) {
+            SettingsNavigationRowView(
+                title: "settings.general.system.title",
+                description: "settings.general.system.subtitle",
+                systemImage: "macbook.gen2",
+                color: .gray,
+                accessibilityIdentifier: "settings.general.system",
+                position: .single,
+                value: SettingsSubPage.system
             )
-            
-            Divider()
-                .opacity(0.6)
-                .padding(.leading, 43)
-                .frame(maxWidth: .infinity, alignment: .trailing)
-            
-            SettingsToggleRow(
-                title: "Show Dock icon",
-                description: "Keep the app visible in the Dock for faster switching and window access.",
-                systemImage: "dock.rectangle",
-                color: .orange,
-                isOn: $applicationSettings.isDockIconVisible,
-                accessibilityIdentifier: "settings.general.dockIcon"
-            )
-            
-            Divider()
-                .opacity(0.6)
-                .padding(.leading, 43)
-                .frame(maxWidth: .infinity, alignment: .trailing)
-            
-            VStack(alignment: .leading, spacing: 14) {
-                SettingsToggleRow(
-                    title: "Show menu bar icon",
-                    description: "Show a menu bar shortcut for quick access to Settings and Quit.",
-                    systemImage: "menubar.rectangle",
-                    color: .blue,
-                    isOn: $applicationSettings.isMenuBarIconVisible,
-                    accessibilityIdentifier: "settings.general.menuBarIcon"
-                )
-                if !applicationSettings.isMenuBarIconVisible {
-                    HStack {
-                        Image(systemName: "exclamationmark.triangle.fill")
-                            .font(.system(size: 14, weight: .semibold))
-                            .foregroundStyle(Color.yellow)
-                        
-                        Text("You can access the menu by right-clicking on the notch area.")
-                            .font(.system(size: 10))
-                            .foregroundStyle(Color.secondary)
-                    }
-                }
-            }
         }
     }
     
-    private var firstCard: some View {
+    private var secondCard: some View {
         SettingsCard(spacing: 0, padding: 0) {
             SettingsNavigationRowView(
                 title: "settings.general.appearance.title",
@@ -107,7 +68,7 @@ struct GeneralSettingsView: View {
         }
     }
     
-    private var secondCard: some View {
+    private var thirdCard: some View {
         SettingsCard(spacing: 0, padding: 0) {
             SettingsNavigationRowView(
                 title: "Software Update",
@@ -141,7 +102,7 @@ struct GeneralSettingsView: View {
         }
     }
     
-    private var thirdCard: some View {
+    private var fourthCard: some View {
         SettingsCard(spacing: 0, padding: 0) {
             SettingsNavigationRowView(
                 title: "settings.section.about.title",

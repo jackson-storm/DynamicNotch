@@ -43,7 +43,6 @@ extension SettingsRootViewModel {
     enum Section: String, CaseIterable, Identifiable {
         case general
         case homePage
-        case notch
     
         case wifi
         case bluetooth
@@ -191,29 +190,6 @@ private enum SettingsSectionCatalog {
                 resetGroup: .general
             )
 
-
-        case .notch:
-            return .init(
-                sidebarGroup: .application,
-                titleKey: "settings.section.notch.title",
-                fallbackTitle: "Notch",
-                subtitleKey: "settings.section.notch.subtitle",
-                fallbackSubtitle: "Appearance, animation, and resize feedback.",
-                searchKeywords: [
-                    "background",
-                    "stroke",
-                    "liquid glass",
-                    "animation",
-                    "speed",
-                    "resize",
-                    "width",
-                    "height"
-                ],
-                systemImage: "rectangle.topthird.inset.filled",
-                imageName: nil,
-                tint: .black,
-                resetGroup: .notch
-            )
 
         case .nowPlaying:
             return .init(

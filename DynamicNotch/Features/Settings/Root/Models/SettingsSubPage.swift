@@ -2,7 +2,7 @@ import SwiftUI
 
 enum SettingsSubPage: Hashable, Identifiable {
     case appearance
-    case display
+    case notch
     case language
     case system
     case permissions
@@ -17,7 +17,7 @@ enum SettingsSubPage: Hashable, Identifiable {
     var titleKey: String {
         switch self {
         case .appearance: return "settings.general.appearance.title"
-        case .display: return "settings.general.display.title"
+        case .notch: return "settings.section.notch.title"
         case .language: return "settings.section.language.title"
         case .system: return "settings.general.system.title"
         case .permissions: return "settings.section.permissions.title"
@@ -33,7 +33,7 @@ enum SettingsSubPage: Hashable, Identifiable {
     var fallbackTitle: String {
         switch self {
         case .appearance: return "Appearance"
-        case .display: return "Display"
+        case .notch: return "Notch"
         case .language: return "Language"
         case .system: return "System"
         case .permissions: return "Permissions"
@@ -49,7 +49,7 @@ enum SettingsSubPage: Hashable, Identifiable {
     var subtitleKey: String {
         switch self {
         case .appearance: return "settings.general.appearance.subtitle"
-        case .display: return "Configure the display where the notch will be shown."
+        case .notch: return "settings.section.notch.subtitle"
         case .language: return "settings.section.language.subtitle"
         case .system: return "settings.general.system.subtitle"
         case .permissions: return "settings.section.permissions.subtitle"
@@ -65,7 +65,7 @@ enum SettingsSubPage: Hashable, Identifiable {
     var fallbackSubtitle: String {
         switch self {
         case .appearance: return "Choose the interface appearance used by the app."
-        case .display: return "Configure the display where the notch will be shown."
+        case .notch: return "Appearance, animation, and resize feedback."
         case .language: return "Choose the application interface language."
         case .system: return "Manage launch options, Dock, and menu bar icon visibility."
         case .permissions: return "Manage system permissions and access settings."
@@ -80,7 +80,7 @@ enum SettingsSubPage: Hashable, Identifiable {
     
     var canReset: Bool {
         switch self {
-        case .appearance, .display, .language:
+        case .appearance, .notch, .language:
             return true
         default:
             return false

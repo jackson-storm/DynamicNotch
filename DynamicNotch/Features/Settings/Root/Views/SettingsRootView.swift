@@ -398,13 +398,6 @@ struct SettingsRootView: View {
                 )
             }
 
-        case .notch:
-            detailContainer(for: section) {
-                NotchSettingsView(
-                    powerService: powerService,
-                    applicationSettings: settingsViewModel.application
-                )
-            }
 
         case .nowPlaying:
             detailContainer(for: section) {
@@ -579,8 +572,12 @@ struct SettingsRootView: View {
         switch subPage {
         case .appearance:
             AppearanceSettingsView(applicationSettings: settingsViewModel.application)
-        case .display:
-            DisplaySettingsView(applicationSettings: settingsViewModel.application, availableDisplays: $availableDisplays)
+        case .notch:
+            NotchSettingsView(
+                powerService: powerService,
+                applicationSettings: settingsViewModel.application,
+                availableDisplays: $availableDisplays
+            )
         case .language:
             LanguageSettingsView(applicationSettings: settingsViewModel.application)
         case .system:
@@ -633,7 +630,8 @@ struct SettingsRootView: View {
         switch subPage {
         case .appearance:
             settingsViewModel.application.resetAppearance()
-        case .display:
+        case .notch:
+            settingsViewModel.application.resetNotch()
             settingsViewModel.application.resetDisplay()
         case .language:
             settingsViewModel.application.resetLanguage()

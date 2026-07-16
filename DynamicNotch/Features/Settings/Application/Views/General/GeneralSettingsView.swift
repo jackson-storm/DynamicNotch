@@ -37,6 +37,17 @@ struct GeneralSettingsView: View {
     private var secondCard: some View {
         SettingsCard(spacing: 0, padding: 0) {
             SettingsNavigationRowView(
+                title: "settings.section.notch.title",
+                description: "settings.section.notch.subtitle",
+                systemImage: "rectangle.topthird.inset.filled",
+                color: .black,
+                stroke: true,
+                accessibilityIdentifier: "settings.general.notch",
+                position: .middle,
+                value: SettingsSubPage.notch
+            )
+            
+            SettingsNavigationRowView(
                 title: "settings.general.appearance.title",
                 description: "settings.general.appearance.subtitle",
                 systemImage: "paintbrush.fill",
@@ -44,16 +55,6 @@ struct GeneralSettingsView: View {
                 accessibilityIdentifier: "settings.general.appearance",
                 position: .first,
                 value: SettingsSubPage.appearance
-            )
-            
-            SettingsNavigationRowView(
-                title: "settings.general.display.title",
-                description: "Configure the display where the notch will be shown.",
-                systemImage: "display.2",
-                color: .black,
-                accessibilityIdentifier: "settings.general.display",
-                position: .middle,
-                value: SettingsSubPage.display
             )
             
             SettingsNavigationRowView(
@@ -71,22 +72,12 @@ struct GeneralSettingsView: View {
     private var thirdCard: some View {
         SettingsCard(spacing: 0, padding: 0) {
             SettingsNavigationRowView(
-                title: "Software Update",
-                description: "Check for updates and manage update preferences.",
-                systemImage: "gear.badge",
-                color: .gray,
-                accessibilityIdentifier: "settings.general.softwareUpdate",
-                position: .first,
-                value: SettingsSubPage.softwareUpdate
-            )
-            
-            SettingsNavigationRowView(
                 title: "settings.section.permissions.title",
                 description: "settings.section.permissions.subtitle",
                 systemImage: "checkmark.seal.fill",
                 color: .green.opacity(0.9),
                 accessibilityIdentifier: "settings.general.permissions",
-                position: .middle,
+                position: .first,
                 value: SettingsSubPage.permissions
             )
             
@@ -104,17 +95,26 @@ struct GeneralSettingsView: View {
     
     private var fourthCard: some View {
         SettingsCard(spacing: 0, padding: 0) {
-            #if DEBUG
+            SettingsNavigationRowView(
+                title: "Software Update",
+                description: "Check for updates and manage update preferences.",
+                systemImage: "gear.badge",
+                color: .gray,
+                accessibilityIdentifier: "settings.general.softwareUpdate",
+                position: .first,
+                value: SettingsSubPage.softwareUpdate
+            )
+            
             SettingsNavigationRowView(
                 title: "settings.section.about.title",
                 description: "settings.section.about.subtitle",
                 systemImage: "info.circle.fill",
                 color: .gray,
                 accessibilityIdentifier: "settings.general.about",
-                position: .first,
+                position: .middle,
                 value: SettingsSubPage.about
             )
-            
+            #if DEBUG
             SettingsNavigationRowView(
                 title: "settings.section.debug.title",
                 description: "settings.section.debug.subtitle",
@@ -123,16 +123,6 @@ struct GeneralSettingsView: View {
                 accessibilityIdentifier: "settings.general.debug",
                 position: .last,
                 value: SettingsSubPage.debug
-            )
-            #else
-            SettingsNavigationRowView(
-                title: "settings.section.about.title",
-                description: "settings.section.about.subtitle",
-                systemImage: "info.circle.fill",
-                color: .gray,
-                accessibilityIdentifier: "settings.general.about",
-                position: .single,
-                value: SettingsSubPage.about
             )
             #endif
         }

@@ -19,9 +19,9 @@ final class SettingsSelectionHistoryTests: XCTestCase {
 
         XCTAssertEqual(history.goBack(), .wifi)
 
-        history.record(.notch)
+        history.record(.homePage)
 
-        XCTAssertEqual(history.currentSelection, .notch)
+        XCTAssertEqual(history.currentSelection, .homePage)
         XCTAssertNil(history.goForward())
     }
 

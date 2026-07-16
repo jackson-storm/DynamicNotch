@@ -4739,6 +4739,7 @@
       }
     },
     "Configure the display where the notch will be shown." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -13715,6 +13716,7 @@
       }
     },
     "settings.general.display.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -18715,7 +18717,6 @@
       }
     },
     "settings.section.notch.subtitle" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -18744,7 +18745,6 @@
       }
     },
     "settings.section.notch.title" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

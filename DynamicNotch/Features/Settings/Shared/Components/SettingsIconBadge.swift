@@ -16,6 +16,7 @@ struct SettingsIconBadge: View {
     
     let tint: AnyShapeStyle
     let size: CGFloat
+    let iconColor: Color
     let iconSize: CGFloat
     let cornerRadius: CGFloat
     let stroke: Bool 
@@ -24,6 +25,7 @@ struct SettingsIconBadge: View {
         systemImage: String,
         tint: Color,
         size: CGFloat,
+        iconColor: Color = .white,
         iconSize: CGFloat,
         cornerRadius: CGFloat,
         stroke: Bool = false
@@ -31,6 +33,7 @@ struct SettingsIconBadge: View {
         self.iconSource = .system(systemImage)
         self.tint = AnyShapeStyle(tint.gradient)
         self.size = size
+        self.iconColor = iconColor
         self.iconSize = iconSize
         self.cornerRadius = cornerRadius
         self.stroke = stroke
@@ -40,6 +43,7 @@ struct SettingsIconBadge: View {
         imageName: String,
         tint: Color,
         size: CGFloat,
+        iconColor: Color = .white,
         iconSize: CGFloat,
         cornerRadius: CGFloat,
         stroke: Bool = false
@@ -47,6 +51,7 @@ struct SettingsIconBadge: View {
         self.iconSource = .asset(imageName)
         self.tint = AnyShapeStyle(tint.gradient)
         self.size = size
+        self.iconColor = iconColor
         self.iconSize = iconSize
         self.cornerRadius = cornerRadius
         self.stroke = stroke
@@ -56,6 +61,7 @@ struct SettingsIconBadge: View {
         systemImage: String,
         tint: AnyShapeStyle,
         size: CGFloat,
+        iconColor: Color = .white,
         iconSize: CGFloat,
         cornerRadius: CGFloat,
         stroke: Bool = false
@@ -63,6 +69,7 @@ struct SettingsIconBadge: View {
         self.iconSource = .system(systemImage)
         self.tint = tint
         self.size = size
+        self.iconColor = iconColor
         self.iconSize = iconSize
         self.cornerRadius = cornerRadius
         self.stroke = stroke
@@ -72,6 +79,7 @@ struct SettingsIconBadge: View {
         imageName: String,
         tint: AnyShapeStyle,
         size: CGFloat,
+        iconColor: Color = .white,
         iconSize: CGFloat,
         cornerRadius: CGFloat,
         stroke: Bool = false
@@ -79,6 +87,7 @@ struct SettingsIconBadge: View {
         self.iconSource = .asset(imageName)
         self.tint = tint
         self.size = size
+        self.iconColor = iconColor
         self.iconSize = iconSize
         self.cornerRadius = cornerRadius
         self.stroke = stroke
@@ -104,7 +113,7 @@ struct SettingsIconBadge: View {
         case .system(let systemImage):
             Image(systemName: systemImage)
                 .font(.system(size: iconSize, weight: .semibold))
-                .foregroundStyle(.white)
+                .foregroundStyle(iconColor)
 
         case .asset(let imageName):
             Image(imageName)

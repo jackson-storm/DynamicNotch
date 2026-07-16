@@ -19,7 +19,9 @@ struct SettingsNavigationRowView<Value: Hashable>: View {
     let description: LocalizedStringKey?
     let systemImage: String?
     let imageName: String?
+    let iconColor: Color
     let color: AnyShapeStyle
+    let stroke: Bool
     let value: Value
     let accessibilityIdentifier: String?
     let position: RowPosition
@@ -28,7 +30,9 @@ struct SettingsNavigationRowView<Value: Hashable>: View {
         title: LocalizedStringKey,
         description: LocalizedStringKey? = nil,
         systemImage: String? = nil,
+        iconColor: Color = .white,
         color: Color = .blue,
+        stroke: Bool = false,
         accessibilityIdentifier: String? = nil,
         position: RowPosition = .single,
         value: Value
@@ -37,7 +41,9 @@ struct SettingsNavigationRowView<Value: Hashable>: View {
         self.description = description
         self.systemImage = systemImage
         self.imageName = nil
+        self.iconColor = iconColor
         self.color = AnyShapeStyle(color.gradient)
+        self.stroke = stroke
         self.value = value
         self.accessibilityIdentifier = accessibilityIdentifier
         self.position = position
@@ -47,7 +53,9 @@ struct SettingsNavigationRowView<Value: Hashable>: View {
         title: LocalizedStringKey,
         description: LocalizedStringKey? = nil,
         imageName: String? = nil,
+        iconColor: Color = .white,
         color: Color = .blue,
+        stroke: Bool = false,
         accessibilityIdentifier: String? = nil,
         position: RowPosition = .single,
         value: Value
@@ -56,7 +64,9 @@ struct SettingsNavigationRowView<Value: Hashable>: View {
         self.description = description
         self.systemImage = nil
         self.imageName = imageName
+        self.iconColor = iconColor
         self.color = AnyShapeStyle(color.gradient)
+        self.stroke = stroke
         self.value = value
         self.accessibilityIdentifier = accessibilityIdentifier
         self.position = position
@@ -66,7 +76,9 @@ struct SettingsNavigationRowView<Value: Hashable>: View {
         title: LocalizedStringKey,
         description: LocalizedStringKey? = nil,
         systemImage: String? = nil,
+        iconColor: Color = .white,
         color: LinearGradient,
+        stroke: Bool = false,
         accessibilityIdentifier: String? = nil,
         position: RowPosition = .single,
         value: Value
@@ -75,7 +87,9 @@ struct SettingsNavigationRowView<Value: Hashable>: View {
         self.description = description
         self.systemImage = systemImage
         self.imageName = nil
+        self.iconColor = iconColor
         self.color = AnyShapeStyle(color)
+        self.stroke = stroke
         self.value = value
         self.accessibilityIdentifier = accessibilityIdentifier
         self.position = position
@@ -85,7 +99,9 @@ struct SettingsNavigationRowView<Value: Hashable>: View {
         title: LocalizedStringKey,
         description: LocalizedStringKey? = nil,
         imageName: String? = nil,
+        iconColor: Color = .white,
         color: LinearGradient,
+        stroke: Bool = false,
         accessibilityIdentifier: String? = nil,
         position: RowPosition = .single,
         value: Value
@@ -94,7 +110,9 @@ struct SettingsNavigationRowView<Value: Hashable>: View {
         self.description = description
         self.systemImage = nil
         self.imageName = imageName
+        self.iconColor = iconColor
         self.color = AnyShapeStyle(color)
+        self.stroke = stroke
         self.value = value
         self.accessibilityIdentifier = accessibilityIdentifier
         self.position = position
@@ -116,8 +134,10 @@ struct SettingsNavigationRowView<Value: Hashable>: View {
                             systemImage: systemImage,
                             tint: color,
                             size: 30,
+                            iconColor: iconColor,
                             iconSize: 14,
-                            cornerRadius: 9
+                            cornerRadius: 9,
+                            stroke: stroke
                         )
                     } else if let imageName {
                         SettingsIconBadge(
@@ -125,7 +145,8 @@ struct SettingsNavigationRowView<Value: Hashable>: View {
                             tint: color,
                             size: 30,
                             iconSize: 14,
-                            cornerRadius: 9
+                            cornerRadius: 9,
+                            stroke: stroke
                         )
                     }
                     

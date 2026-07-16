@@ -12,7 +12,7 @@ struct SettingsToggleRow: View {
     let description: LocalizedStringKey
     let systemImage: String?
     let imageName: String?
-    let color: Color
+    let color: AnyShapeStyle
     let accessibilityIdentifier: String?
     
     @Binding var isOn: Bool
@@ -29,7 +29,7 @@ struct SettingsToggleRow: View {
         self.description = description
         self.systemImage = systemImage
         self.imageName = nil
-        self.color = color
+        self.color = AnyShapeStyle(color.gradient)
         self._isOn = isOn
         self.accessibilityIdentifier = accessibilityIdentifier
     }
@@ -46,7 +46,41 @@ struct SettingsToggleRow: View {
         self.description = description
         self.systemImage = nil
         self.imageName = imageName
-        self.color = color
+        self.color = AnyShapeStyle(color.gradient)
+        self._isOn = isOn
+        self.accessibilityIdentifier = accessibilityIdentifier
+    }
+
+    init(
+        title: LocalizedStringKey,
+        description: LocalizedStringKey,
+        systemImage: String,
+        color: LinearGradient,
+        isOn: Binding<Bool>,
+        accessibilityIdentifier: String? = nil
+    ) {
+        self.title = title
+        self.description = description
+        self.systemImage = systemImage
+        self.imageName = nil
+        self.color = AnyShapeStyle(color)
+        self._isOn = isOn
+        self.accessibilityIdentifier = accessibilityIdentifier
+    }
+
+    init(
+        title: LocalizedStringKey,
+        description: LocalizedStringKey,
+        imageName: String,
+        color: LinearGradient,
+        isOn: Binding<Bool>,
+        accessibilityIdentifier: String? = nil
+    ) {
+        self.title = title
+        self.description = description
+        self.systemImage = nil
+        self.imageName = imageName
+        self.color = AnyShapeStyle(color)
         self._isOn = isOn
         self.accessibilityIdentifier = accessibilityIdentifier
     }

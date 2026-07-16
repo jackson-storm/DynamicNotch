@@ -71,6 +71,7 @@ struct AboutAppSettingsView: View {
                 description: "Join our Telegram channel",
                 imageName: "telegram",
                 color: .clear,
+                cornerRadius: 30,
                 position: .first,
                 url: "https://t.me/Dynamic_Notch",
                 onRequestInternetAccess: onRequestInternetAccess
@@ -81,6 +82,7 @@ struct AboutAppSettingsView: View {
                 description: "Star the project on GitHub",
                 imageName: "gitHub",
                 color: .clear,
+                cornerRadius: 30,
                 position: .middle,
                 url: "https://github.com/jackson-storm/DynamicNotch",
                 onRequestInternetAccess: onRequestInternetAccess
@@ -91,6 +93,7 @@ struct AboutAppSettingsView: View {
                 description: "Open the DynamicNotch website",
                 imageName: "simplifiedLogo",
                 color: .clear,
+                cornerRadius: 30,
                 position: .last,
                 url: "https://dynamicnotch.evgeniy-petrukovich.workers.dev",
                 onRequestInternetAccess: onRequestInternetAccess
@@ -105,6 +108,7 @@ struct AboutAppSettingsView: View {
                 description: "Send a direct message on Telegram",
                 imageName: "telegram",
                 color: .clear,
+                cornerRadius: 30,
                 position: .first,
                 url: "https://t.me/id10101101",
                 onRequestInternetAccess: onRequestInternetAccess
@@ -115,6 +119,7 @@ struct AboutAppSettingsView: View {
                 description: "Send an email",
                 imageName: "email",
                 color: .clear,
+                cornerRadius: 30,
                 position: .last,
                 url: "mailto:evgeniy.petrukovich@icloud.com?subject=A%20question%20about%20DynamicNotch",
                 onRequestInternetAccess: onRequestInternetAccess

@@ -16,7 +16,8 @@ struct SupportSettingsView: View {
     var body: some View {
         SettingsPageScrollView {
             headerCard
-            supportCard
+            supportServicesCard
+            cryptoDonationCard
         }
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
@@ -47,36 +48,61 @@ struct SupportSettingsView: View {
         }
     }
     
-    private var supportCard: some View {
-        SettingsCard(spacing: 0, padding: 0) {
+    private var supportServicesCard: some View {
+        SettingsCard(title: "Services", spacing: 0, padding: 0) {
             SettingsUrlRowView(
-                title: "Buy Me a Coffee",
-                description: "Support with a one-time coffee donation.",
-                systemImage: "cup.and.saucer.fill",
-                color: .orange,
+                title: "Boosty.to",
+                description: "Support development or subscribe",
+                imageName: "boosty",
+                imageSize: 16,
+                color: .white,
+                stroke: true,
                 position: .first,
-                url: "https://buymeacoffee.com",
+                url: "https://boosty.to/jacksonstormdev",
                 onRequestInternetAccess: onRequestInternetAccess
             )
             
             SettingsUrlRowView(
-                title: "Patreon",
-                description: "Become a monthly sponsor and get exclusive updates.",
-                systemImage: "person.2.fill",
-                color: .red,
-                position: .middle,
-                url: "https://patreon.com",
-                onRequestInternetAccess: onRequestInternetAccess
-            )
-            
-            SettingsUrlRowView(
-                title: "PayPal",
-                description: "Quick and secure one-time donations.",
-                systemImage: "creditcard.fill",
-                color: .blue,
+                title: "Donation Alerts",
+                description: "One-time donation via cards or crypto",
+                imageName: "donationAlerts",
+                imageSize: 16,
+                color: .orange,
                 position: .last,
-                url: "https://paypal.me",
+                url: "https://www.donationalerts.com/r/jacksonstormdev",
                 onRequestInternetAccess: onRequestInternetAccess
+            )
+        }
+    }
+    
+    private var cryptoDonationCard: some View {
+        SettingsCard(title: "Cryptocurrency", spacing: 0, padding: 0) {
+            SettingsCopyRowView(
+                title: "USDT (TRC-20)",
+                description: "Address: \("TWYo42HQNuXSA5gmVoVV1973ScPqCtduvA")",
+                imageName: "trc-20",
+                color: .clear,
+                position: .first,
+                textToCopy: "TWYo42HQNuXSA5gmVoVV1973ScPqCtduvA"
+            )
+            
+            SettingsCopyRowView(
+                title: "USDT (ERC-20)",
+                description: "Address: \("0xd3261630d7EC2484A3fcf5315f194B58834ab891")",
+                imageName: "erc-20",
+                color: .clear,
+                stroke: true,
+                position: .middle,
+                textToCopy: "0xd3261630d7EC2484A3fcf5315f194B58834ab891"
+            )
+            
+            SettingsCopyRowView(
+                title: "Bitcoin (BTC)",
+                description: "Address: \("bc1qw29074zwlp600rhvjat2v7ks53h835tthfj7dx")",
+                imageName: "btc",
+                color: .clear,
+                position: .last,
+                textToCopy: "bc1qw29074zwlp600rhvjat2v7ks53h835tthfj7dx"
             )
         }
     }

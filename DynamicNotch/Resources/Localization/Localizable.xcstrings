@@ -524,6 +524,34 @@
         }
       }
     },
+    "Address: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Address: %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dirección: %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Адрес: %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "地址：%@"
+          }
+        }
+      }
+    },
     "Adjust how quickly press-and-hold and hover expansion trigger." : {
       "localizations" : {
         "en" : {
@@ -1796,7 +1824,7 @@
         }
       }
     },
-    "Become a monthly sponsor and get exclusive updates." : {
+    "Bitcoin (BTC)" : {
 
     },
     "Black" : {
@@ -2110,6 +2138,34 @@
         }
       }
     },
+    "Boosty.to" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Boosty.to"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Boosty.to"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Boosty.to"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Boosty.to"
+          }
+        }
+      }
+    },
     "Brighten or darken the widget background without changing the selected material style." : {
       "localizations" : {
         "en" : {
@@ -2280,9 +2336,6 @@
           }
         }
       }
-    },
-    "Buy Me a Coffee" : {
-
     },
     "Calendar" : {
       "extractionState" : "stale",
@@ -5347,6 +5400,34 @@
         }
       }
     },
+    "Cryptocurrency" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cryptocurrency"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Criptomoneda"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Криптовалюта"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加密货币"
+          }
+        }
+      }
+    },
     "Cursor leaves" : {
       "localizations" : {
         "en" : {
@@ -5660,6 +5741,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "显示"
+          }
+        }
+      }
+    },
+    "Donation Alerts" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Donation Alerts"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Donation Alerts"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Donation Alerts"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Donation Alerts"
           }
         }
       }
@@ -10368,6 +10477,34 @@
         }
       }
     },
+    "One-time donation via cards or crypto" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "One-time donation via cards or crypto"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Donación única con tarjetas o criptomonedas"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Разовое пожертвование картой или криптовалютой"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通过银行卡或加密货币进行一次性捐赠"
+          }
+        }
+      }
+    },
     "Only notify on network change" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -10624,9 +10761,6 @@
         }
       }
     },
-    "Patreon" : {
-
-    },
     "Paused playback" : {
       "localizations" : {
         "en" : {
@@ -10654,9 +10788,6 @@
           }
         }
       }
-    },
-    "PayPal" : {
-
     },
     "Percent" : {
       "localizations" : {
@@ -11523,9 +11654,6 @@
         }
       }
     },
-    "Quick and secure one-time donations." : {
-
-    },
     "Quickly access the camera." : {
       "localizations" : {
         "en" : {
@@ -12160,6 +12288,9 @@
 
     },
     "Send the Now Playing playback-state changed event for play." : {
+
+    },
+    "Services" : {
 
     },
     "Set a global motion parameter that controls the speed of the animation." : {
@@ -20981,6 +21112,34 @@
         }
       }
     },
+    "Support development or subscribe" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Support development or subscribe"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apoya el desarrollo o suscríbete"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поддержать разработку или подписаться"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "支持开发或订阅"
+          }
+        }
+      }
+    },
     "Support this app" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -21009,9 +21168,6 @@
           }
         }
       }
-    },
-    "Support with a one-time coffee donation." : {
-
     },
     "Swipe down" : {
       "extractionState" : "stale",
@@ -22016,6 +22172,12 @@
           }
         }
       }
+    },
+    "USDT (ERC-20)" : {
+
+    },
+    "USDT (TRC-20)" : {
+
     },
     "Use click-and-drag over the notch to preview dismiss and restore interactions." : {
       "localizations" : {

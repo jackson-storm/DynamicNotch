@@ -39,8 +39,8 @@ struct AppearanceSettingsView: View {
                 SettingsToggleRow(
                     title: "settings.general.blueNightMode.title",
                     description: "settings.general.blueNightMode.description",
-                    systemImage: "moon.stars.fill",
-                    color: .black,
+                    systemImage: "powersleep",
+                    color: LinearGradient.blueGradient,
                     isOn: $applicationSettings.isBlueNightMode,
                     accessibilityIdentifier: "settings.general.blueNightMode"
                 )

@@ -18,19 +18,22 @@ struct SettingsIconBadge: View {
     let size: CGFloat
     let iconSize: CGFloat
     let cornerRadius: CGFloat
+    let stroke: Bool 
 
     init(
         systemImage: String,
         tint: Color,
         size: CGFloat,
         iconSize: CGFloat,
-        cornerRadius: CGFloat
+        cornerRadius: CGFloat,
+        stroke: Bool = false
     ) {
         self.iconSource = .system(systemImage)
         self.tint = AnyShapeStyle(tint.gradient)
         self.size = size
         self.iconSize = iconSize
         self.cornerRadius = cornerRadius
+        self.stroke = stroke
     }
 
     init(
@@ -38,13 +41,15 @@ struct SettingsIconBadge: View {
         tint: Color,
         size: CGFloat,
         iconSize: CGFloat,
-        cornerRadius: CGFloat
+        cornerRadius: CGFloat,
+        stroke: Bool = false
     ) {
         self.iconSource = .asset(imageName)
         self.tint = AnyShapeStyle(tint.gradient)
         self.size = size
         self.iconSize = iconSize
         self.cornerRadius = cornerRadius
+        self.stroke = stroke
     }
 
     init(
@@ -52,13 +57,15 @@ struct SettingsIconBadge: View {
         tint: AnyShapeStyle,
         size: CGFloat,
         iconSize: CGFloat,
-        cornerRadius: CGFloat
+        cornerRadius: CGFloat,
+        stroke: Bool = false
     ) {
         self.iconSource = .system(systemImage)
         self.tint = tint
         self.size = size
         self.iconSize = iconSize
         self.cornerRadius = cornerRadius
+        self.stroke = stroke
     }
 
     init(
@@ -66,13 +73,15 @@ struct SettingsIconBadge: View {
         tint: AnyShapeStyle,
         size: CGFloat,
         iconSize: CGFloat,
-        cornerRadius: CGFloat
+        cornerRadius: CGFloat,
+        stroke: Bool = false
     ) {
         self.iconSource = .asset(imageName)
         self.tint = tint
         self.size = size
         self.iconSize = iconSize
         self.cornerRadius = cornerRadius
+        self.stroke = stroke
     }
     
     var body: some View {
@@ -85,7 +94,7 @@ struct SettingsIconBadge: View {
             .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
             .overlay {
                 RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-                    .stroke(Color.white.opacity(0.18), lineWidth: 0.8)
+                    .stroke(stroke == false ? Color.clear : Color.gray.opacity(0.25), lineWidth: 1)
             }
     }
 

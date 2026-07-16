@@ -19,7 +19,7 @@ struct SettingsNavigationRowView<Value: Hashable>: View {
     let description: LocalizedStringKey?
     let systemImage: String?
     let imageName: String?
-    let color: Color
+    let color: AnyShapeStyle
     let value: Value
     let accessibilityIdentifier: String?
     let position: RowPosition
@@ -37,7 +37,7 @@ struct SettingsNavigationRowView<Value: Hashable>: View {
         self.description = description
         self.systemImage = systemImage
         self.imageName = nil
-        self.color = color
+        self.color = AnyShapeStyle(color.gradient)
         self.value = value
         self.accessibilityIdentifier = accessibilityIdentifier
         self.position = position
@@ -56,7 +56,45 @@ struct SettingsNavigationRowView<Value: Hashable>: View {
         self.description = description
         self.systemImage = nil
         self.imageName = imageName
-        self.color = color
+        self.color = AnyShapeStyle(color.gradient)
+        self.value = value
+        self.accessibilityIdentifier = accessibilityIdentifier
+        self.position = position
+    }
+
+    init(
+        title: LocalizedStringKey,
+        description: LocalizedStringKey? = nil,
+        systemImage: String? = nil,
+        color: LinearGradient,
+        accessibilityIdentifier: String? = nil,
+        position: RowPosition = .single,
+        value: Value
+    ) {
+        self.title = title
+        self.description = description
+        self.systemImage = systemImage
+        self.imageName = nil
+        self.color = AnyShapeStyle(color)
+        self.value = value
+        self.accessibilityIdentifier = accessibilityIdentifier
+        self.position = position
+    }
+
+    init(
+        title: LocalizedStringKey,
+        description: LocalizedStringKey? = nil,
+        imageName: String? = nil,
+        color: LinearGradient,
+        accessibilityIdentifier: String? = nil,
+        position: RowPosition = .single,
+        value: Value
+    ) {
+        self.title = title
+        self.description = description
+        self.systemImage = nil
+        self.imageName = imageName
+        self.color = AnyShapeStyle(color)
         self.value = value
         self.accessibilityIdentifier = accessibilityIdentifier
         self.position = position

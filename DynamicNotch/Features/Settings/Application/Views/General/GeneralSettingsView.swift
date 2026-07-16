@@ -40,7 +40,7 @@ struct GeneralSettingsView: View {
                 title: "settings.general.appearance.title",
                 description: "settings.general.appearance.subtitle",
                 systemImage: "paintbrush.fill",
-                color: .teal.opacity(0.9),
+                color: LinearGradient.greenGradient,
                 accessibilityIdentifier: "settings.general.appearance",
                 position: .first,
                 value: SettingsSubPage.appearance
@@ -93,8 +93,8 @@ struct GeneralSettingsView: View {
             SettingsNavigationRowView(
                 title: "settings.general.support.title",
                 description: "settings.general.support.subtitle",
-                systemImage: "heart.fill",
-                color: .red,
+                systemImage: "dollarsign",
+                color: LinearGradient.yellowGradient,
                 accessibilityIdentifier: "settings.general.support",
                 position: .last,
                 value: SettingsSubPage.support

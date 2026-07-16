@@ -14,7 +14,7 @@ struct SettingsIconBadge: View {
     }
     private let iconSource: IconSource
     
-    let tint: Color
+    let tint: AnyShapeStyle
     let size: CGFloat
     let iconSize: CGFloat
     let cornerRadius: CGFloat
@@ -27,7 +27,7 @@ struct SettingsIconBadge: View {
         cornerRadius: CGFloat
     ) {
         self.iconSource = .system(systemImage)
-        self.tint = tint
+        self.tint = AnyShapeStyle(tint.gradient)
         self.size = size
         self.iconSize = iconSize
         self.cornerRadius = cornerRadius
@@ -41,6 +41,34 @@ struct SettingsIconBadge: View {
         cornerRadius: CGFloat
     ) {
         self.iconSource = .asset(imageName)
+        self.tint = AnyShapeStyle(tint.gradient)
+        self.size = size
+        self.iconSize = iconSize
+        self.cornerRadius = cornerRadius
+    }
+
+    init(
+        systemImage: String,
+        tint: AnyShapeStyle,
+        size: CGFloat,
+        iconSize: CGFloat,
+        cornerRadius: CGFloat
+    ) {
+        self.iconSource = .system(systemImage)
+        self.tint = tint
+        self.size = size
+        self.iconSize = iconSize
+        self.cornerRadius = cornerRadius
+    }
+
+    init(
+        imageName: String,
+        tint: AnyShapeStyle,
+        size: CGFloat,
+        iconSize: CGFloat,
+        cornerRadius: CGFloat
+    ) {
+        self.iconSource = .asset(imageName)
         self.tint = tint
         self.size = size
         self.iconSize = iconSize
@@ -49,7 +77,7 @@ struct SettingsIconBadge: View {
     
     var body: some View {
         RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-            .fill(tint.gradient)
+            .fill(tint)
             .frame(width: size, height: size)
             .overlay {
                 iconView

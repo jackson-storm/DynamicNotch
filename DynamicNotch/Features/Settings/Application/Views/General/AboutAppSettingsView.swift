@@ -48,17 +48,7 @@ struct AboutAppSettingsView: View {
                 .resizable()
                 .frame(width: 90, height: 90)
                 .scaleEffect(0.9)
-                .background {
-                    Circle()
-                        .fill(
-                            LinearGradient(
-                                colors: [.yellow, .indigo, .purple],
-                                startPoint: .bottomLeading,
-                                endPoint: .topTrailing
-                            )
-                        )
-                        .blur(radius: 30)
-                }
+                .background(LinearGradient.logoGradient.blur(radius: 20))
                 .padding(.top, 20)
             
             VStack(spacing: 8) {

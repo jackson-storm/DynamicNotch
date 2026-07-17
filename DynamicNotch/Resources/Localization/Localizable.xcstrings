@@ -933,6 +933,7 @@
 
     },
     "Allow gestures to bring back the most recently dismissed activity." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -961,6 +962,7 @@
       }
     },
     "Allow gestures to hide the currently visible live or temporary activity." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4504,9 +4506,6 @@
         }
       }
     },
-    "Close notch on window focus" : {
-
-    },
     "Close the activity when the playback source is in focus." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -7738,9 +7737,6 @@
           }
         }
       }
-    },
-    "Hides the active content with a balloon animation when the target application becomes active." : {
-
     },
     "High" : {
       "localizations" : {
@@ -13603,6 +13599,62 @@
         }
       }
     },
+    "settings.general.display.closeAtFocus.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hides the live activity display when the target application becomes active."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oculta la visualización de la actividad en vivo cuando la aplicación de destino se vuelve activa."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скрывает отображение live activity, когда целевое приложение становится активным."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当目标应用程序处于活动状态时隐藏实时活动显示。"
+          }
+        }
+      }
+    },
+    "settings.general.display.closeAtFocus.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close display on window focus"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerrar visualización al enfocar ventana"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скрывать отображение при фокусе окна"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "窗口获得焦点时关闭显示"
+          }
+        }
+      }
+    },
     "settings.general.display.main" : {
       "localizations" : {
         "en" : {
@@ -15923,6 +15975,34 @@
         }
       }
     },
+    "settings.notch.animation.subtitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Set motion parameters and animation speed."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajusta los parámetros de movimiento y la velocidad de animación."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройте параметры движения и скорость анимации."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设置运动参数和动画速度。"
+          }
+        }
+      }
+    },
     "settings.notch.animation.title" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -16151,6 +16231,146 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "使用默认活动描边颜色"
+          }
+        }
+      }
+    },
+    "settings.notch.display.subtitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configure where and how the notch is displayed."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configura dónde y cómo se muestra la muesca."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройте то, где и как отображается вырез."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "配置刘海显示的位置和方式。"
+          }
+        }
+      }
+    },
+    "settings.notch.display.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Display"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Visualización"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отображение"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示"
+          }
+        }
+      }
+    },
+    "settings.notch.gestures.subtitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configure click, hover, and scroll gestures."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configura los gestos de clic, deslizamiento y desplazamiento."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройте жесты нажатия, наведения и прокрутки."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "配置点击、悬停和滚动手势。"
+          }
+        }
+      }
+    },
+    "settings.notch.gestures.swipeDismissAndRestore.subtitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allow vertical swipe gestures over the notch to hide the active activity or restore the recently dismissed one."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permite gestos de deslizamiento vertical sobre la muesca para ocultar la actividad activa o restaurar la recientemente cerrada."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Разрешить вертикальные свайпы по вырезу для скрытия активной панели или восстановления недавно закрытой."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "允许在刘海上进行垂直滑动以隐藏活动内容或恢复最近关闭的内容。"
+          }
+        }
+      }
+    },
+    "settings.notch.gestures.swipeDismissAndRestore.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Swipe up to hide / down to restore"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desliza hacia arriba para ocultar / abajo para restaurar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Свайп вверх для скрытия / вниз для возврата"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上滑以隐藏 / 下滑以恢复"
           }
         }
       }
@@ -16631,6 +16851,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "托盘"
+          }
+        }
+      }
+    },
+    "settings.notch.priorities.subtitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configure priority level for each activity."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configura el nivel de prioridad para cada actividad."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройка уровней приоритета для каждой активности."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "配置每个活动的优先级。"
           }
         }
       }
@@ -21199,6 +21447,7 @@
       }
     },
     "Swipe down to restore" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -21227,6 +21476,7 @@
       }
     },
     "Swipe up to dismiss" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

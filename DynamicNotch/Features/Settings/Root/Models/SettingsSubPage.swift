@@ -12,6 +12,10 @@ enum SettingsSubPage: Hashable, Identifiable {
     #if DEBUG
     case debug
     #endif
+    case activityPriorities
+    case notchDisplay
+    case notchAnimation
+    case gestures
     
     var id: Self { self }
     var titleKey: String {
@@ -27,6 +31,10 @@ enum SettingsSubPage: Hashable, Identifiable {
         #if DEBUG
         case .debug: return "settings.section.debug.title"
         #endif
+        case .activityPriorities: return "settings.notch.priorities.title"
+        case .notchDisplay: return "settings.notch.display.title"
+        case .notchAnimation: return "Animation"
+        case .gestures: return "Gestures"
         }
     }
     
@@ -43,6 +51,10 @@ enum SettingsSubPage: Hashable, Identifiable {
         #if DEBUG
         case .debug: return "Debug"
         #endif
+        case .activityPriorities: return "Activity priorities"
+        case .notchDisplay: return "Display"
+        case .notchAnimation: return "Animation"
+        case .gestures: return "Gestures"
         }
     }
     
@@ -59,6 +71,10 @@ enum SettingsSubPage: Hashable, Identifiable {
         #if DEBUG
         case .debug: return "settings.section.debug.subtitle"
         #endif
+        case .activityPriorities: return "settings.notch.priorities.subtitle"
+        case .notchDisplay: return "settings.notch.display.subtitle"
+        case .notchAnimation: return "settings.notch.animation.subtitle"
+        case .gestures: return "settings.notch.gestures.subtitle"
         }
     }
     
@@ -75,12 +91,16 @@ enum SettingsSubPage: Hashable, Identifiable {
         #if DEBUG
         case .debug: return "Manual previews and event triggers for testing."
         #endif
+        case .activityPriorities: return "Configure priority level for each activity."
+        case .notchDisplay: return "Configure where and how the notch is displayed."
+        case .notchAnimation: return "Set motion parameters and animation speed."
+        case .gestures: return "Configure click, hover, and scroll gestures."
         }
     }
     
     var canReset: Bool {
         switch self {
-        case .appearance, .notch, .language:
+        case .appearance, .notch, .language, .activityPriorities, .notchDisplay, .notchAnimation, .gestures:
             return true
         default:
             return false

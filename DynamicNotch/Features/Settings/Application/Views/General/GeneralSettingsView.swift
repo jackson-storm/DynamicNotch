@@ -43,7 +43,7 @@ struct GeneralSettingsView: View {
                 color: .black,
                 stroke: true,
                 accessibilityIdentifier: "settings.general.notch",
-                position: .middle,
+                position: .first,
                 value: SettingsSubPage.notch
             )
             
@@ -53,7 +53,7 @@ struct GeneralSettingsView: View {
                 systemImage: "paintbrush.fill",
                 color: LinearGradient.greenGradient,
                 accessibilityIdentifier: "settings.general.appearance",
-                position: .first,
+                position: .middle,
                 value: SettingsSubPage.appearance
             )
             

@@ -24,9 +24,41 @@ extension LinearGradient {
         )
     }
     
-    static var blueGradient: LinearGradient {
+    static var darkBlueGradient: LinearGradient {
         LinearGradient(
             colors: [.blue, .black],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+    }
+    
+    static var blueGradient: LinearGradient {
+        LinearGradient(
+            colors: [.blue, .cyan, .blue],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+    }
+    
+    static var cyanGradient: LinearGradient {
+        LinearGradient(
+            colors: [.blue, .mint, .blue],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+    }
+    
+    static var orangeGradient: LinearGradient {
+        LinearGradient(
+            colors: [.orange, .yellow, .orange],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+    }
+    
+    static var purpleGradient: LinearGradient {
+        LinearGradient(
+            colors: [.purple, .indigo, .purple],
             startPoint: .topLeading,
             endPoint: .bottomTrailing
         )

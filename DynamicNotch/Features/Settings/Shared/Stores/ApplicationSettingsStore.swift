@@ -429,10 +429,13 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         )
     }
 
-    func resetNotch() {
+    func resetAnimation() {
         notchAnimationPreset = NotchAnimationPreset(
             rawValue: defaultString(for: GeneralSettingsStorage.Keys.notchAnimationPreset)
         ) ?? .balanced
+    }
+
+    func resetGestures() {
         isNotchTapToExpandEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchTapToExpandEnabled)
         notchExpandInteraction = NotchExpandInteraction.resolved(
             defaultString(for: GeneralSettingsStorage.Keys.notchExpandInteraction)
@@ -449,6 +452,11 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         isNotchSwipeRestoreEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchSwipeRestoreEnabled)
         isNotchHoverHapticEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchHoverHapticEnabled)
         isCloseAtFocusLiveActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.closeAtFocusLiveActivityEnabled)
+    }
+
+    func resetNotch() {
+        resetAnimation()
+        resetGestures()
         resetNotchContentPriorities()
         isShowNotchStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchStrokeEnabled)
         isDefaultActivityStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.defaultActivityStrokeEnabled)

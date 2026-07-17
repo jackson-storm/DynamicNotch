@@ -3,7 +3,7 @@ internal import AppKit
 
 enum SettingsWindowLayout {
     static let width: CGFloat = 760
-    static let height: CGFloat = 610
+    static let height: CGFloat = 590
 }
 
 struct SettingsRootView: View {
@@ -603,6 +603,14 @@ struct SettingsRootView: View {
         case .debug:
             DebugSettingsView(viewModel: viewModel.debugViewModel)
         #endif
+        case .activityPriorities:
+            ActivityPrioritiesSettingsView(applicationSettings: settingsViewModel.application)
+        case .notchDisplay:
+            DisplaySettingsView(applicationSettings: settingsViewModel.application, availableDisplays: $availableDisplays)
+        case .notchAnimation:
+            AnimationSettingsView(applicationSettings: settingsViewModel.application)
+        case .gestures:
+            GesturesSettingsView(applicationSettings: settingsViewModel.application)
         }
     }
 
@@ -635,6 +643,14 @@ struct SettingsRootView: View {
             settingsViewModel.application.resetDisplay()
         case .language:
             settingsViewModel.application.resetLanguage()
+        case .activityPriorities:
+            settingsViewModel.application.resetNotchContentPriorities()
+        case .notchDisplay:
+            settingsViewModel.application.resetDisplay()
+        case .notchAnimation:
+            settingsViewModel.application.resetAnimation()
+        case .gestures:
+            settingsViewModel.application.resetGestures()
         default:
             break
         }

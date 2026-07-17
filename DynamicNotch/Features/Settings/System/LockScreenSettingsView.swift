@@ -33,6 +33,7 @@ struct LockScreenSettingsView: View {
                 description: "Show the lock-screen live activity during lock and unlock transitions.",
                 systemImage: "lock.fill",
                 color: .black,
+                stroke: true,
                 isOn: $settings.isLockScreenLiveActivityEnabled,
                 accessibilityIdentifier: "settings.activities.lockScreen.liveActivity"
             )

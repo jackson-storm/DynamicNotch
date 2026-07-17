@@ -25,6 +25,7 @@ struct DragAndDropSettingsView: View {
                 description: "Show AirDrop, Tray, and File Converter targets when you drag files over the notch.",
                 systemImage: "tray.and.arrow.down.fill",
                 color: .black,
+                stroke: true,
                 isOn: $mediaSettings.isDragAndDropLiveActivityEnabled,
                 accessibilityIdentifier: "settings.activities.live.drop"
             )

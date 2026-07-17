@@ -32,24 +32,10 @@ struct ActivityPrioritiesSettingsView: View {
             
             Divider().opacity(0.6)
             
-            HStack {
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("settings.notch.priorities.customOrder.title")
-                    Text("settings.notch.priorities.customOrder.description")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-                Spacer(minLength: 12)
-                
-                Button {
-                    applicationSettings.resetNotchContentPriorities()
-                } label: {
-                    Text("settings.notch.priorities.reset")
-                }
-                .disabled(applicationSettings.notchContentPriorityOverrides.isEmpty)
-            }
-            .modifier(SettingsAccessibilityModifier(identifier: "settings.notch.priorities.reset"))
+            Text("settings.notch.priorities.customOrder.description")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
         }
     }
 

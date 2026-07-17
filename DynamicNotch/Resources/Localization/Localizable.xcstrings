@@ -16462,6 +16462,7 @@
       }
     },
     "settings.notch.priorities.customOrder.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -16519,6 +16520,7 @@
       }
     },
     "settings.notch.priorities.reset" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

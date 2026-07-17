@@ -43,6 +43,7 @@ struct NotchSettingsView: View {
                 description: "Show a subtle outline that adapts to the active content color.",
                 systemImage: "inset.filled.capsule",
                 color: .black,
+                stroke: true,
                 isOn: $applicationSettings.isShowNotchStrokeEnabled,
                 accessibilityIdentifier: "settings.general.showNotchStroke"
             )

@@ -11,6 +11,7 @@ struct GesturesSettingsView: View {
     var body: some View {
         SettingsPageScrollView {
             gesturesCard
+            gestureToggleCard
         }
         .accessibilityIdentifier("settings.notch.gestures.root")
     }
@@ -64,10 +65,11 @@ struct GesturesSettingsView: View {
                 value: $applicationSettings.notchPressHoldDuration
             )
             .disabled(applicationSettings.notchExpandInteraction == .click)
-            
-            Divider()
-                .opacity(0.6)
-            
+        }
+    }
+    
+    private var gestureToggleCard: some View {
+        SettingsCard {
             SettingsToggleRow(
                 title: "Hover haptic feedback",
                 description: "Produce a soft haptic tick when the cursor enters the collapsed notch.",

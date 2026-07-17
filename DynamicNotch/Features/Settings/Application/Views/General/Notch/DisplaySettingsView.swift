@@ -50,7 +50,7 @@ struct DisplaySettingsView: View {
                     title: "settings.general.display.autoSwitch.title",
                     description: "settings.general.display.autoSwitch.description",
                     systemImage: "arrow.triangle.branch",
-                    color: .blue,
+                    color: LinearGradient.orangeGradient,
                     isOn: $applicationSettings.isDisplayAutoSwitchEnabled,
                     accessibilityIdentifier: "settings.general.displayAutoSwitch"
                 )
@@ -77,7 +77,7 @@ struct DisplaySettingsView: View {
                 title: "Hide live activity in full-screen mode",
                 description: "Automatically hide live activity while the selected display is showing a full-screen space.",
                 systemImage: "arrow.up.left.and.arrow.down.right",
-                color: .blue,
+                color: LinearGradient.blueGradient,
                 isOn: $applicationSettings.isNotchHiddenInFullscreenEnabled,
                 accessibilityIdentifier: "settings.general.hideNotchInFullscreen"
             )
@@ -90,8 +90,8 @@ struct DisplaySettingsView: View {
             SettingsToggleRow(
                 title: "settings.general.display.closeAtFocus.title",
                 description: "settings.general.display.closeAtFocus.description",
-                systemImage: "xmark.circle.fill",
-                color: .red,
+                systemImage: "macwindow.and.pointer.arrow",
+                color: LinearGradient.blueGradient,
                 isOn: $applicationSettings.isCloseAtFocusLiveActivityEnabled,
                 accessibilityIdentifier: "settings.notch.closeAtFocus"
             )

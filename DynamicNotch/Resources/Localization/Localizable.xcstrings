@@ -1551,6 +1551,12 @@
         }
       }
     },
+    "Automatically check for updates" : {
+
+    },
+    "Automatically download updates" : {
+
+    },
     "Automatically hide Dynamic Notch while the selected display is showing a full-screen space." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -2540,6 +2546,9 @@
           }
         }
       }
+    },
+    "Check now" : {
+
     },
     "Check update" : {
       "extractionState" : "stale",
@@ -5861,6 +5870,9 @@
         }
       }
     },
+    "Download updates in the background and notify you when ready." : {
+
+    },
     "Downloads" : {
       "localizations" : {
         "en" : {
@@ -8735,6 +8747,9 @@
         }
       }
     },
+    "Let Dynamic Notch check for new versions automatically." : {
+
+    },
     "Level color" : {
       "localizations" : {
         "en" : {
@@ -11537,6 +11552,9 @@
           }
         }
       }
+    },
+    "Preview the software update available live activity." : {
+
     },
     "Produce a soft haptic tick when the cursor enters the collapsed notch." : {
       "localizations" : {
@@ -22425,6 +22443,9 @@
         }
       }
     },
+    "Update Available" : {
+
+    },
     "USDT (ERC-20)" : {
 
     },
@@ -22910,6 +22931,12 @@
           }
         }
       }
+    },
+    "Version %@" : {
+
+    },
+    "Version 1.6.0" : {
+
     },
     "Version: %@" : {
       "extractionState" : "stale",

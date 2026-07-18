@@ -25,6 +25,7 @@ struct SettingsNavigationRowView<Value: Hashable>: View {
     let value: Value
     let accessibilityIdentifier: String?
     let position: RowPosition
+    let showBadge: Bool
     
     init(
         title: LocalizedStringKey,
@@ -35,6 +36,7 @@ struct SettingsNavigationRowView<Value: Hashable>: View {
         stroke: Bool = false,
         accessibilityIdentifier: String? = nil,
         position: RowPosition = .single,
+        showBadge: Bool = false,
         value: Value
     ) {
         self.title = title
@@ -47,6 +49,7 @@ struct SettingsNavigationRowView<Value: Hashable>: View {
         self.value = value
         self.accessibilityIdentifier = accessibilityIdentifier
         self.position = position
+        self.showBadge = showBadge
     }
 
     init(
@@ -58,6 +61,7 @@ struct SettingsNavigationRowView<Value: Hashable>: View {
         stroke: Bool = false,
         accessibilityIdentifier: String? = nil,
         position: RowPosition = .single,
+        showBadge: Bool = false,
         value: Value
     ) {
         self.title = title
@@ -70,6 +74,7 @@ struct SettingsNavigationRowView<Value: Hashable>: View {
         self.value = value
         self.accessibilityIdentifier = accessibilityIdentifier
         self.position = position
+        self.showBadge = showBadge
     }
 
     init(
@@ -81,6 +86,7 @@ struct SettingsNavigationRowView<Value: Hashable>: View {
         stroke: Bool = false,
         accessibilityIdentifier: String? = nil,
         position: RowPosition = .single,
+        showBadge: Bool = false,
         value: Value
     ) {
         self.title = title
@@ -93,6 +99,7 @@ struct SettingsNavigationRowView<Value: Hashable>: View {
         self.value = value
         self.accessibilityIdentifier = accessibilityIdentifier
         self.position = position
+        self.showBadge = showBadge
     }
 
     init(
@@ -104,6 +111,7 @@ struct SettingsNavigationRowView<Value: Hashable>: View {
         stroke: Bool = false,
         accessibilityIdentifier: String? = nil,
         position: RowPosition = .single,
+        showBadge: Bool = false,
         value: Value
     ) {
         self.title = title
@@ -116,6 +124,7 @@ struct SettingsNavigationRowView<Value: Hashable>: View {
         self.value = value
         self.accessibilityIdentifier = accessibilityIdentifier
         self.position = position
+        self.showBadge = showBadge
     }
 
     var body: some View {
@@ -162,6 +171,13 @@ struct SettingsNavigationRowView<Value: Hashable>: View {
                         }
                     }
                     Spacer()
+                    
+                    if showBadge {
+                        Circle()
+                            .fill(Color.red)
+                            .frame(width: 7, height: 7)
+                            .shadow(color: .red.opacity(0.4), radius: 3)
+                    }
                     
                     Image(systemName: "chevron.right")
                         .font(.system(size: 14, weight: .semibold))

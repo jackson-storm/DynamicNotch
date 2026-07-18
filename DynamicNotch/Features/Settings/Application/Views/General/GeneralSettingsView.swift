@@ -4,6 +4,7 @@ internal import AppKit
 struct GeneralSettingsView: View {
     @ObservedObject var applicationSettings: ApplicationSettingsStore
     @ObservedObject var permissionController: SettingsPermissionController
+    @ObservedObject private var updater = SparkleUpdater.shared
     
     init(applicationSettings: ApplicationSettingsStore, permissionController: SettingsPermissionController) {
         self._applicationSettings = ObservedObject(wrappedValue: applicationSettings)
@@ -102,6 +103,7 @@ struct GeneralSettingsView: View {
                 color: .gray,
                 accessibilityIdentifier: "settings.general.softwareUpdate",
                 position: .first,
+                showBadge: updater.isUpdateAvailable,
                 value: SettingsSubPage.softwareUpdate
             )
             

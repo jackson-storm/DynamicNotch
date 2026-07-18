@@ -51,6 +51,10 @@ final class DebugSettingsViewModel: ObservableObject {
         didSet { guard isReady else { return }; updateLockScreenPreview() }
     }
 
+    @Published var isSoftwareUpdatePreviewEnabled = false {
+        didSet { guard isReady else { return }; updateSoftwareUpdatePreview() }
+    }
+
     @Published private(set) var isPreviewSequenceRunning = false
 
     private static let sequenceContentPrefix = NotchContentRegistry.DebugSequence.prefix
@@ -67,6 +71,7 @@ final class DebugSettingsViewModel: ObservableObject {
     private static let sequenceTrayActiveID = NotchContentRegistry.DebugSequence.trayActive
     private static let sequenceFileConverterActiveID = NotchContentRegistry.DebugSequence.fileConverterActive
     private static let sequenceLockScreenID = NotchContentRegistry.DebugSequence.lockScreen
+    private static let sequenceSoftwareUpdateID = NotchContentRegistry.DebugSequence.softwareUpdate
     private static let livePreviewDuration: TimeInterval = 4
     private static let previewGapDuration: TimeInterval = 1
     private static let transitionBufferDuration: TimeInterval = 0.35
@@ -84,7 +89,8 @@ final class DebugSettingsViewModel: ObservableObject {
         sequenceCombinedDropID,
         sequenceTrayActiveID,
         sequenceFileConverterActiveID,
-        sequenceLockScreenID
+        sequenceLockScreenID,
+        sequenceSoftwareUpdateID
     ]
 
     private let notchViewModel: NotchViewModel
@@ -423,6 +429,15 @@ final class DebugSettingsViewModel: ObservableObject {
         )
     }
 
+    private func updateSoftwareUpdatePreview() {
+        if isSoftwareUpdatePreviewEnabled {
+            SparkleUpdater.shared.latestVersionString = "1.2.0 (Debug)"
+            SparkleUpdater.shared.isUpdateAvailable = true
+        } else {
+            SparkleUpdater.shared.isUpdateAvailable = false
+        }
+    }
+
     private func startPreviewSequence() {
         stopPreviewSequence()
 
@@ -543,6 +558,7 @@ final class DebugSettingsViewModel: ObservableObject {
                     duration: 3
                 )
                 try await self.playLockScreenPreview()
+                try await self.playSoftwareUpdatePreview()
             } catch is CancellationError {
             } catch {
             }
@@ -911,6 +927,14 @@ final class DebugSettingsViewModel: ObservableObject {
         lockScreenManager.setDebugLockState(false)
     }
 
+    private func playSoftwareUpdatePreview() async throws {
+        SparkleUpdater.shared.latestVersionString = "1.2.0 (Debug)"
+        try await playLivePreview(
+            SoftwareUpdateNotchContent(settingsViewModel: settingsViewModel),
+            id: Self.sequenceSoftwareUpdateID
+        )
+    }
+
     private func playTemporaryPreview(
         _ content: any NotchContentProtocol,
         id: String,
@@ -1014,6 +1038,10 @@ final class DebugSettingsViewModel: ObservableObject {
 
         if isLockScreenPreviewEnabled {
             updateLockScreenPreview()
+        }
+
+        if isSoftwareUpdatePreviewEnabled {
+            updateSoftwareUpdatePreview()
         }
     }
 

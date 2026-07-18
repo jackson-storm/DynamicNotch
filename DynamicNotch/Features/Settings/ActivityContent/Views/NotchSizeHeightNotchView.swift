@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct NotchSizeHeightNotchView: View {
-    @Environment(\.notchScale) var scale
-    @Environment(\.isDynamicIsland) var isDynamicIsland
     @ObservedObject var settingsViewModel: SettingsViewModel
+    @Environment(\.notchScale) private var scale
+    @Environment(\.isDynamicIsland) private var isDynamicIsland
     
     var body: some View {
         HStack {

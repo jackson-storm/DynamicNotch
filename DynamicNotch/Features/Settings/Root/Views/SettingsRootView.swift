@@ -51,6 +51,7 @@ struct SettingsRootView: View {
     @State private var pendingResetSubPage: SettingsSubPage?
     @State private var navigationPath: [SettingsSubPage] = []
     @State private var availableDisplays = NSScreen.availableNotchDisplays()
+    @ObservedObject private var updater = SparkleUpdater.shared
 
     init(
         powerService: PowerService,
@@ -110,13 +111,15 @@ struct SettingsRootView: View {
                                     SettingsSidebarRow(
                                         title: localized(section.titleKey, fallback: section.fallbackTitle),
                                         imageName: imageName,
-                                        tint: section.tint
+                                        tint: section.tint,
+                                        showBadge: section == .general && updater.isUpdateAvailable
                                     )
                                 } else {
                                     SettingsSidebarRow(
                                         title: localized(section.titleKey, fallback: section.fallbackTitle),
                                         systemImage: section.systemImage,
-                                        tint: section.tint
+                                        tint: section.tint,
+                                        showBadge: section == .general && updater.isUpdateAvailable
                                     )
                                 }
                             }
@@ -233,6 +236,12 @@ struct SettingsRootView: View {
         .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("SelectSettingsSection"))) { notification in
             if let section = notification.object as? SettingsRootViewModel.Section {
                 applySelection(section, origin: .sidebar)
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("SelectSettingsSubPage"))) { notification in
+            if let subPage = notification.object as? SettingsSubPage {
+                applySelection(.general, origin: .sidebar)
+                navigationPath = [subPage]
             }
         }
     }

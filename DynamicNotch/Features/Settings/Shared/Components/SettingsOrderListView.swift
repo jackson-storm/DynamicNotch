@@ -58,7 +58,7 @@ struct SettingsOrderListView<Item: Hashable>: View {
                 }
                 .padding(.vertical, 6)
                 .listRowBackground(Color.clear)
-                .listRowSeparatorTint(.gray.opacity(0.15))
+                .listRowSeparatorTint(.gray.opacity(0.1))
             }
             .onMove { from, to in
                 items.move(fromOffsets: from, toOffset: to)

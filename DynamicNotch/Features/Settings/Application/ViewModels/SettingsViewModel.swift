@@ -96,10 +96,7 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
         set { application.appearanceMode = newValue }
     }
 
-    var windowStyle: SettingsWindowStyle {
-        get { application.windowStyle }
-        set { application.windowStyle = newValue }
-    }
+
 
     var notchWidth: Int {
         get { application.notchWidth }

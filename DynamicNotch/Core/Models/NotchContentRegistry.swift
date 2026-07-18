@@ -132,6 +132,10 @@ enum NotchContentRegistry {
         static let language = NotchContentDescriptor(
             id: "settings.language"
         )
+        static let softwareUpdate = NotchContentDescriptor(
+            id: "settings.softwareUpdate",
+            priority: NotchContentPriority.softwareUpdate
+        )
     }
 
 
@@ -195,6 +199,7 @@ enum NotchContentRegistry {
         static let notchSizeWidth = id(NotchSize.width.id)
         static let notchSizeHeight = id(NotchSize.height.id)
         static let lockScreen = id(LockScreen.activity.id)
+        static let softwareUpdate = id(Settings.softwareUpdate.id)
 
         static func id(_ suffix: String) -> String {
             "\(prefix)\(suffix)"

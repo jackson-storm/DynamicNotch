@@ -64,7 +64,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             createNotchWindow()
             observeOutsideClickDismissal()
             _ = lockScreenPanelManager
-            // _ = lockScreenLiveActivityWindowManager
             hardwareHUDMonitor.startMonitoring()
 
             NotificationCenter.default.addObserver(
@@ -86,6 +85,20 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         if !isRunningUITests {
             notchEventCoordinator.checkFirstLaunch()
+            
+            // Наблюдаем за появлением обновлений ПО для показа Live Activity
+            SparkleUpdater.shared.$isUpdateAvailable
+                .receive(on: RunLoop.main)
+                .sink { [weak self] isAvailable in
+                    guard let self else { return }
+                    if isAvailable {
+                        let content = SoftwareUpdateNotchContent(settingsViewModel: self.settingsViewModel)
+                        self.notchViewModel.send(.showLiveActivity(content))
+                    } else {
+                        self.notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Settings.softwareUpdate.id))
+                    }
+                }
+                .store(in: &cancellables)
         }
 
         lockScreenManager.startMonitoring()
@@ -102,7 +115,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         hardwareHUDMonitor.stopMonitoring()
         if !isRunningUITests {
             lockScreenPanelManager.invalidate()
-            // lockScreenLiveActivityWindowManager.invalidate()
         }
         stopOutsideClickMonitoring()
     }

@@ -524,6 +524,34 @@
         }
       }
     },
+    "Address: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Address: %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dirección: %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Адрес: %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "地址：%@"
+          }
+        }
+      }
+    },
     "Adjust how quickly press-and-hold and hover expansion trigger." : {
       "localizations" : {
         "en" : {
@@ -905,6 +933,7 @@
 
     },
     "Allow gestures to bring back the most recently dismissed activity." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -933,6 +962,7 @@
       }
     },
     "Allow gestures to hide the currently visible live or temporary activity." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1521,6 +1551,62 @@
         }
       }
     },
+    "Automatically check for updates" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatically check for updates"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscar actualizaciones automáticamente"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Автоматически проверять обновления"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自动检查更新"
+          }
+        }
+      }
+    },
+    "Automatically download updates" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatically download updates"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descargar actualizaciones automáticamente"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Автоматически загружать обновления"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自动下载更新"
+          }
+        }
+      }
+    },
     "Automatically hide Dynamic Notch while the selected display is showing a full-screen space." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1795,6 +1881,9 @@
           }
         }
       }
+    },
+    "Bitcoin (BTC)" : {
+
     },
     "Black" : {
       "localizations" : {
@@ -2107,6 +2196,34 @@
         }
       }
     },
+    "Boosty.to" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Boosty.to"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Boosty.to"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Boosty.to"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Boosty.to"
+          }
+        }
+      }
+    },
     "Brighten or darken the widget background without changing the selected material style." : {
       "localizations" : {
         "en" : {
@@ -2339,6 +2456,7 @@
 
     },
     "Carry notch context and media playback into the lock screen transition for a more cohesive experience." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2451,7 +2569,64 @@
         }
       }
     },
+    "Check for updates and manage update preferences." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check for updates and manage update preferences."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscar actualizaciones y administrar preferencias de actualización."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Проверяйте наличие обновлений и управляйте параметрами обновлений."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "检查更新并管理更新首选项。"
+          }
+        }
+      }
+    },
+    "Check now" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check now"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscar ahora"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Проверить сейчас"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "立即检查"
+          }
+        }
+      }
+    },
     "Check update" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4415,9 +4590,6 @@
         }
       }
     },
-    "Close notch on window focus" : {
-
-    },
     "Close the activity when the playback source is in focus." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -4649,6 +4821,35 @@
         }
       }
     },
+    "Configure the display where the notch will be shown." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configure the display where the notch will be shown."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configure la pantalla donde se mostrará la muesca."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройка экрана, на котором будет отображаться вырез."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "配置显示切口的屏幕。"
+          }
+        }
+      }
+    },
     "Confirm all permissions" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -4749,6 +4950,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已连接"
+          }
+        }
+      }
+    },
+    "Contact Me" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contact Me"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contactar conmigo"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Связаться со мной"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "联系我"
           }
         }
       }
@@ -5255,6 +5484,34 @@
         }
       }
     },
+    "Cryptocurrency" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cryptocurrency"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Criptomoneda"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Криптовалюта"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加密货币"
+          }
+        }
+      }
+    },
     "Cursor leaves" : {
       "localizations" : {
         "en" : {
@@ -5572,6 +5829,34 @@
         }
       }
     },
+    "Donation Alerts" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Donation Alerts"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Donation Alerts"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Donation Alerts"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Donation Alerts"
+          }
+        }
+      }
+    },
     "Download activity" : {
       "localizations" : {
         "en" : {
@@ -5656,6 +5941,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "下载样式"
+          }
+        }
+      }
+    },
+    "Download updates in the background and notify you when ready." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Download updates in the background and notify you when ready."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descarga actualizaciones en segundo plano y te notifica cuando están listas."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скачивать обновления в фоновом режиме и уведомлять, когда они будут готовы."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在后台下载更新，并在准备就绪时通知您。"
           }
         }
       }
@@ -6032,6 +6345,37 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "动态陷波"
+          }
+        }
+      }
+    },
+    "DynamicNotch" : {
+
+    },
+    "Email Address" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Email Address"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dirección de correo electrónico"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Электронная почта"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "电子邮件地址"
           }
         }
       }
@@ -7095,6 +7439,34 @@
         }
       }
     },
+    "GitHub Repository" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GitHub Repository"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Repositorio de GitHub"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Репозиторий GitHub"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GitHub 仓库"
+          }
+        }
+      }
+    },
     "Graphite" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -7477,9 +7849,6 @@
           }
         }
       }
-    },
-    "Hides the active content with a balloon animation when the target application becomes active." : {
-
     },
     "High" : {
       "localizations" : {
@@ -8197,6 +8566,34 @@
     "Join Meeting" : {
 
     },
+    "Join our Telegram channel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Join our Telegram channel"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Únete a nuestro canal de Telegram"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Присоединяйтесь к нашему Telegram-каналу"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加入我们的 Telegram 频道"
+          }
+        }
+      }
+    },
     "Keep Now Playing visible in the notch while playback is paused." : {
       "localizations" : {
         "en" : {
@@ -8450,6 +8847,34 @@
         }
       }
     },
+    "Let Dynamic Notch check for new versions automatically." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Let Dynamic Notch check for new versions automatically."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permite que Dynamic Notch busque nuevas versiones automáticamente."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Разрешить Dynamic Notch автоматически искать новые версии."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "让 Dynamic Notch 自动检查新版本。"
+          }
+        }
+      }
+    },
     "Level color" : {
       "localizations" : {
         "en" : {
@@ -8591,6 +9016,7 @@
       }
     },
     "Live Activity" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -8619,6 +9045,7 @@
       }
     },
     "Localization" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -8675,6 +9102,7 @@
       }
     },
     "Location" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -9187,6 +9615,7 @@
       }
     },
     "Make the cutout area more useful." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -10100,6 +10529,7 @@
       }
     },
     "On" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -10180,6 +10610,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "入职预览"
+          }
+        }
+      }
+    },
+    "One-time donation via cards or crypto" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "One-time donation via cards or crypto"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Donación única con tarjetas o criptomonedas"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Разовое пожертвование картой или криптовалютой"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通过银行卡或加密货币进行一次性捐赠"
           }
         }
       }
@@ -10525,6 +10983,7 @@
       }
     },
     "Persistent notch content stays visible for as long as the source event is active, then fades away when it ends." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11219,6 +11678,9 @@
         }
       }
     },
+    "Preview the software update available live activity." : {
+
+    },
     "Produce a soft haptic tick when the cursor enters the collapsed notch." : {
       "localizations" : {
         "en" : {
@@ -11906,6 +12368,62 @@
         }
       }
     },
+    "Send a direct message on Telegram" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Send a direct message on Telegram"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enviar un mensaje directo en Telegram"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Написать личное сообщение в Telegram"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在 Telegram 上发送私信"
+          }
+        }
+      }
+    },
+    "Send an email" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Send an email"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enviar un correo electrónico"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отправить электронное письмо"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "发送电子邮件"
+          }
+        }
+      }
+    },
     "Send the Now Playing playback-state changed event for pause." : {
 
     },
@@ -11993,6 +12511,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "设置"
+          }
+        }
+      }
+    },
+    "settings.about.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn your MacBook notch into a live interactive surface. Control media, track downloads, manage timers, and monitor system events with fluid animations."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Convierta la muesca de su MacBook en una superficie interactiva en vivo. Controle la reproducción de medios, realice el seguimiento de las descargas, gestione temporizadores y supervise los eventos del sistema con animaciones fluidas."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Превратите вырез вашего MacBook в живой интерактивный элемент. Управляйте медиа, отслеживайте загрузки, таймеры и системные события с плавными анимациями."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "将您的 MacBook 齐刘海转变为实时交互界面。通过流畅的动画控制媒体、跟踪下载、管理计时器并监控系统事件。"
           }
         }
       }
@@ -12858,7 +13404,6 @@
       }
     },
     "settings.general.appearance.subtitle" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12915,7 +13460,6 @@
       }
     },
     "settings.general.appearance.title" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -13191,6 +13735,62 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在内置显示屏上显示"
+          }
+        }
+      }
+    },
+    "settings.general.display.closeAtFocus.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hides the live activity display when the target application becomes active."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oculta la visualización de la actividad en vivo cuando la aplicación de destino se vuelve activa."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скрывает отображение live activity, когда целевое приложение становится активным."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当目标应用程序处于活动状态时隐藏实时活动显示。"
+          }
+        }
+      }
+    },
+    "settings.general.display.closeAtFocus.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close display on window focus"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerrar visualización al enfocar ventana"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скрывать отображение при фокусе окна"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "窗口获得焦点时关闭显示"
           }
         }
       }
@@ -13853,8 +14453,91 @@
         }
       }
     },
+    "settings.general.support.subtitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Support the project development and donations."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apoya el desarrollo del proyecto y las donaciones."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поддержка проекта донатом."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "支持项目开发与捐赠。"
+          }
+        }
+      }
+    },
+    "settings.general.support.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Support"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Soporte"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поддержка"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "支持"
+          }
+        }
+      }
+    },
+    "settings.general.system.subtitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manage launch options, Dock, and menu bar icon visibility."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Administrar opciones de inicio, visibilidad del Dock y del icono de la barra de menú."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Управление параметрами запуска, отображением в Dock и строке меню."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "管理启动选项、Dock 和菜单栏图标的显示。"
+          }
+        }
+      }
+    },
     "settings.general.system.title" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -14289,6 +14972,7 @@
       }
     },
     "settings.general.windowStyle.description" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -14317,6 +15001,7 @@
       }
     },
     "settings.general.windowStyle.regular" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -14345,6 +15030,7 @@
       }
     },
     "settings.general.windowStyle.semiTranslucent" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -14373,6 +15059,7 @@
       }
     },
     "settings.general.windowStyle.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -15428,6 +16115,34 @@
         }
       }
     },
+    "settings.notch.animation.subtitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Set motion parameters and animation speed."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajusta los parámetros de movimiento y la velocidad de animación."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройте параметры движения и скорость анимации."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设置运动参数和动画速度。"
+          }
+        }
+      }
+    },
     "settings.notch.animation.title" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -15660,6 +16375,146 @@
         }
       }
     },
+    "settings.notch.display.subtitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configure where and how the notch is displayed."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configura dónde y cómo se muestra la muesca."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройте то, где и как отображается вырез."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "配置刘海显示的位置和方式。"
+          }
+        }
+      }
+    },
+    "settings.notch.display.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Display"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Visualización"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отображение"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示"
+          }
+        }
+      }
+    },
+    "settings.notch.gestures.subtitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configure click, hover, and scroll gestures."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configura los gestos de clic, deslizamiento y desplazamiento."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройте жесты нажатия, наведения и прокрутки."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "配置点击、悬停和滚动手势。"
+          }
+        }
+      }
+    },
+    "settings.notch.gestures.swipeDismissAndRestore.subtitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allow vertical swipe gestures over the notch to hide the active activity or restore the recently dismissed one."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permite gestos de deslizamiento vertical sobre la muesca para ocultar la actividad activa o restaurar la recientemente cerrada."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Разрешить вертикальные свайпы по вырезу для скрытия активной панели или восстановления недавно закрытой."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "允许在刘海上进行垂直滑动以隐藏活动内容或恢复最近关闭的内容。"
+          }
+        }
+      }
+    },
+    "settings.notch.gestures.swipeDismissAndRestore.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Swipe up to hide / down to restore"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desliza hacia arriba para ocultar / abajo para restaurar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Свайп вверх для скрытия / вниз для возврата"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上滑以隐藏 / 下滑以恢复"
+          }
+        }
+      }
+    },
     "settings.notch.height.description" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -15747,6 +16602,7 @@
       }
     },
     "settings.notch.priorities.customOrder.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -15804,6 +16660,7 @@
       }
     },
     "settings.notch.priorities.reset" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -16136,6 +16993,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "托盘"
+          }
+        }
+      }
+    },
+    "settings.notch.priorities.subtitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configure priority level for each activity."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configura el nivel de prioridad para cada actividad."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройка уровней приоритета для каждой активности."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "配置每个活动的优先级。"
           }
         }
       }
@@ -16754,6 +17639,7 @@
       }
     },
     "settings.permissions.card.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -16893,6 +17779,62 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "媒体控制"
+          }
+        }
+      }
+    },
+    "settings.permissions.page.subtitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Provide access to accessibility, Bluetooth, media playback, camera, calendar, and disk files to enable all features."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Proporcione acceso a accesibilidad, Bluetooth, reproducción de medios, cámara, calendario y archivos de disco para habilitar todas las funciones."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Предоставьте доступ к универсальному доступу, Bluetooth, управлению воспроизведением, камере, календарю и дисковым файлам для работы всех функций."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "允许访问辅助功能、蓝牙、媒体播放、相机、日历以及磁盘文件，以启用所有功能。"
+          }
+        }
+      }
+    },
+    "settings.permissions.page.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confirm Permissions"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confirmar permisos"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подтвердить разрешения"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "确认权限"
           }
         }
       }
@@ -17130,7 +18072,6 @@
       }
     },
     "settings.reset.action" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -17246,7 +18187,6 @@
       }
     },
     "settings.reset.message" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -17275,7 +18215,6 @@
       }
     },
     "settings.reset.title" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -17362,7 +18301,6 @@
       }
     },
     "settings.section.about.subtitle" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -17391,7 +18329,6 @@
       }
     },
     "settings.section.about.title" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -17652,7 +18589,6 @@
       }
     },
     "settings.section.debug.subtitle" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -17681,7 +18617,6 @@
       }
     },
     "settings.section.debug.title" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -18058,7 +18993,6 @@
       }
     },
     "settings.section.language.subtitle" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -18087,7 +19021,6 @@
       }
     },
     "settings.section.language.title" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -18174,7 +19107,6 @@
       }
     },
     "settings.section.notch.subtitle" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -18203,7 +19135,6 @@
       }
     },
     "settings.section.notch.title" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -18290,36 +19221,34 @@
       }
     },
     "settings.section.permissions.subtitle" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Accessibility, Bluetooth, and media control access required by app features."
+            "value" : "Manage system permissions and access settings."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Acceso de accesibilidad, Bluetooth y control multimedia requerido por las funciones de la app."
+            "value" : "Administrar permisos del sistema y configuraciones de acceso."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Доступ к универсальному доступу, Bluetooth и управлению медиа, необходимый для функций приложения."
+            "value" : "Управление разрешениями и системным доступом."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "应用功能所需的辅助功能、蓝牙和媒体控制访问权限。"
+            "value" : "管理系统权限和访问设置。"
           }
         }
       }
     },
     "settings.section.permissions.title" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -18555,10 +19484,96 @@
         }
       }
     },
+    "settings.support.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch is a free, open-source project. If you like the app, support its development! Donations motivate to develop the project further."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch es un proyecto gratuito y de código abierto. Si te gusta la aplicación, ¡apoya su desarrollo! Las donaciones motivan a seguir desarrollando el proyecto."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch — бесплатный проект с открытым исходным кодом. Если вам нравится приложение, поддержите его разработку! Донаты мотивируют развивать проект дальше."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch 是一个免费且开源的项目。如果你喜欢这个应用，请支持它的开发！您的捐赠是继续开发该项目的动力。"
+          }
+        }
+      }
+    },
+    "settings.support.options" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Donation Options"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opciones de donación"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Варианты поддержки"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "捐赠选项"
+          }
+        }
+      }
+    },
+    "settings.support.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Support DynamicNotch"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apoyar DynamicNotch"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поддержка DynamicNotch"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "支持 DynamicNotch"
+          }
+        }
+      }
+    },
     "settings.title" : {
 
     },
     "Short-lived overlays appear above live activities so quick system events still feel prominent." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -20148,6 +21163,34 @@
         }
       }
     },
+    "Software Update" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Software Update"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actualización de software"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Обновление ПО"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "软件更新"
+          }
+        }
+      }
+    },
     "Solid" : {
       "localizations" : {
         "en" : {
@@ -20256,6 +21299,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "标准"
+          }
+        }
+      }
+    },
+    "Star the project on GitHub" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Star the project on GitHub"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dale una estrella al proyecto en GitHub"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поставьте звезду проекту на GitHub"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在 GitHub 上为项目点星"
           }
         }
       }
@@ -20431,6 +21502,34 @@
         }
       }
     },
+    "Support development or subscribe" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Support development or subscribe"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apoya el desarrollo o suscríbete"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поддержать разработку или подписаться"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "支持开发或订阅"
+          }
+        }
+      }
+    },
     "Support this app" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -20490,6 +21589,7 @@
       }
     },
     "Swipe down to restore" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -20518,6 +21618,7 @@
       }
     },
     "Swipe up to dismiss" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -20546,6 +21647,7 @@
       }
     },
     "System" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -20715,6 +21817,62 @@
         }
       }
     },
+    "Telegram Account" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Telegram Account"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuenta de Telegram"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Аккаунт Telegram"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Telegram 账号"
+          }
+        }
+      }
+    },
+    "Telegram Channel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Telegram Channel"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Canal de Telegram"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Telegram-канал"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Telegram 频道"
+          }
+        }
+      }
+    },
     "Temporary activities" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -20745,6 +21903,7 @@
       }
     },
     "Temporary Activity" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -21406,6 +22565,15 @@
         }
       }
     },
+    "Update Available" : {
+
+    },
+    "USDT (ERC-20)" : {
+
+    },
+    "USDT (TRC-20)" : {
+
+    },
     "Use click-and-drag over the notch to preview dismiss and restore interactions." : {
       "localizations" : {
         "en" : {
@@ -21885,6 +23053,37 @@
           }
         }
       }
+    },
+    "Version %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Version %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versión %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Версия %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "版本 %@"
+          }
+        }
+      }
+    },
+    "Version 1.6.0" : {
+
     },
     "Version: %@" : {
       "extractionState" : "stale",
@@ -22366,7 +23565,6 @@
       }
     },
     "Website" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

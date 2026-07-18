@@ -167,13 +167,7 @@ final class NotchMediaEventsHandler {
         if isSourceActive {
             deferredNowPlayingHideWhileExpanded = nil
             cancelNowPlayingPauseHideTimer()
-            if notchViewModel.displayedContent?.id == NotchContentRegistry.Media.nowPlaying.id {
-                notchViewModel.triggerFocusCloseAnimation(for: NotchContentRegistry.Media.nowPlaying.id) { [weak self] in
-                    self?.notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Media.nowPlaying.id))
-                }
-            } else {
-                notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Media.nowPlaying.id))
-            }
+            notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Media.nowPlaying.id))
         } else {
             syncNowPlayingPlaybackState()
         }

@@ -25,6 +25,7 @@ struct SettingsStrokeToggleRow: View {
             description: description,
             systemImage: "inset.filled.capsule",
             color: .black,
+            stroke: true,
             isOn: $isOn,
             accessibilityIdentifier: accessibilityIdentifier
         )

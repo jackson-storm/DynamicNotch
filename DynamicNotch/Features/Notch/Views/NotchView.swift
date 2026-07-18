@@ -199,12 +199,6 @@ private extension NotchView {
         } else {
             contentOverlay
                 .environment(\.isDynamicIsland, false)
-                .clipShape(
-                    NotchShape(
-                        topCornerRadius: notchViewModel.interactiveCornerRadius.top,
-                        bottomCornerRadius: notchViewModel.interactiveCornerRadius.bottom
-                    )
-                )
         }
     }
     

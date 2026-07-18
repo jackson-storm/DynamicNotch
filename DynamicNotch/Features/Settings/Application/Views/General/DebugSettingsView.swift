@@ -157,6 +157,20 @@ struct DebugSettingsView: View {
                 isOn: $viewModel.isLockScreenPreviewEnabled,
                 accessibilityIdentifier: "settings.debug.lockScreen"
             )
+            
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+            
+            SettingsToggleRow(
+                title: "Software Update",
+                description: "Preview the software update available live activity.",
+                systemImage: "arrow.clockwise.circle.fill",
+                color: .blue,
+                isOn: $viewModel.isSoftwareUpdatePreviewEnabled,
+                accessibilityIdentifier: "settings.debug.softwareUpdate"
+            )
         }
     }
     

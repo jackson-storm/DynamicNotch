@@ -12,51 +12,98 @@ struct SettingsIconBadge: View {
         case system(String)
         case asset(String)
     }
-
     private let iconSource: IconSource
-    let tint: Color
+    
+    let tint: AnyShapeStyle
     let size: CGFloat
+    let iconColor: Color
     let iconSize: CGFloat
     let cornerRadius: CGFloat
+    let stroke: Bool 
 
     init(
         systemImage: String,
         tint: Color,
         size: CGFloat,
+        iconColor: Color = .white,
         iconSize: CGFloat,
-        cornerRadius: CGFloat
+        cornerRadius: CGFloat,
+        stroke: Bool = false
     ) {
         self.iconSource = .system(systemImage)
-        self.tint = tint
+        self.tint = AnyShapeStyle(tint.gradient)
         self.size = size
+        self.iconColor = iconColor
         self.iconSize = iconSize
         self.cornerRadius = cornerRadius
+        self.stroke = stroke
     }
 
     init(
         imageName: String,
         tint: Color,
         size: CGFloat,
+        iconColor: Color = .white,
         iconSize: CGFloat,
-        cornerRadius: CGFloat
+        cornerRadius: CGFloat,
+        stroke: Bool = false
+    ) {
+        self.iconSource = .asset(imageName)
+        self.tint = AnyShapeStyle(tint.gradient)
+        self.size = size
+        self.iconColor = iconColor
+        self.iconSize = iconSize
+        self.cornerRadius = cornerRadius
+        self.stroke = stroke
+    }
+
+    init(
+        systemImage: String,
+        tint: AnyShapeStyle,
+        size: CGFloat,
+        iconColor: Color = .white,
+        iconSize: CGFloat,
+        cornerRadius: CGFloat,
+        stroke: Bool = false
+    ) {
+        self.iconSource = .system(systemImage)
+        self.tint = tint
+        self.size = size
+        self.iconColor = iconColor
+        self.iconSize = iconSize
+        self.cornerRadius = cornerRadius
+        self.stroke = stroke
+    }
+
+    init(
+        imageName: String,
+        tint: AnyShapeStyle,
+        size: CGFloat,
+        iconColor: Color = .white,
+        iconSize: CGFloat,
+        cornerRadius: CGFloat,
+        stroke: Bool = false
     ) {
         self.iconSource = .asset(imageName)
         self.tint = tint
         self.size = size
+        self.iconColor = iconColor
         self.iconSize = iconSize
         self.cornerRadius = cornerRadius
+        self.stroke = stroke
     }
     
     var body: some View {
         RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-            .fill(tint.gradient)
+            .fill(tint)
             .frame(width: size, height: size)
             .overlay {
                 iconView
             }
+            .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
             .overlay {
                 RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-                    .stroke(Color.white.opacity(0.18), lineWidth: 0.8)
+                    .stroke(stroke == false ? Color.clear : Color.gray.opacity(0.25), lineWidth: 1)
             }
     }
 
@@ -66,13 +113,11 @@ struct SettingsIconBadge: View {
         case .system(let systemImage):
             Image(systemName: systemImage)
                 .font(.system(size: iconSize, weight: .semibold))
-                .foregroundStyle(.white)
+                .foregroundStyle(iconColor)
 
         case .asset(let imageName):
             Image(imageName)
                 .resizable()
-                .renderingMode(.template)
-                .foregroundStyle(.white)
                 .scaledToFit()
                 .frame(width: iconSize + 4, height: iconSize + 4)
         }

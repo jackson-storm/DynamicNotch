@@ -8,5 +8,9 @@
 	<string>DynamicNotch needs access to your calendar to display upcoming events in the notch.</string>
 	<key>NSCalendarsFullAccessUsageDescription</key>
 	<string>DynamicNotch needs access to your calendar to display upcoming events in the notch.</string>
+	<key>SUFeedURL</key>
+	<string>https://raw.githubusercontent.com/jackson-storm/DynamicNotch/main/appcast.xml</string>
+	<key>SUPublicEDKey</key>
+	<string>7di/CHe0WlewXDmFgnxUW5UqZefP/ib1m57PNBOupw4=</string>
 </dict>
 </plist>

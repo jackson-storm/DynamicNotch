@@ -30,11 +30,7 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         }
     }
 
-    @Published var windowStyle: SettingsWindowStyle {
-        didSet {
-            persist(windowStyle.rawValue, for: GeneralSettingsStorage.Keys.windowStyle)
-        }
-    }
+
 
     @Published var isBlueNightMode: Bool {
         didSet {
@@ -296,9 +292,7 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         self.appearanceMode = SettingsAppearanceMode.resolved(
             defaults.string(forKey: GeneralSettingsStorage.Keys.appearanceMode)
         )
-        self.windowStyle = SettingsWindowStyle.resolved(
-            defaults.string(forKey: GeneralSettingsStorage.Keys.windowStyle)
-        )
+
         self.notchBackgroundStyle = NotchBackgroundStyle.resolved(
             defaults.string(forKey: GeneralSettingsStorage.Keys.notchBackgroundStyle)
         )
@@ -389,9 +383,7 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         appearanceMode = SettingsAppearanceMode.resolved(
             defaultString(for: GeneralSettingsStorage.Keys.appearanceMode)
         )
-        windowStyle = SettingsWindowStyle.resolved(
-            defaultString(for: GeneralSettingsStorage.Keys.windowStyle)
-        )
+
         isBlueNightMode = defaultBool(for: GeneralSettingsStorage.Keys.isBlueNightMode)
         isMenuBarIconVisible = defaultBool(for: GeneralSettingsStorage.Keys.menuBarIcon)
         displayLocation = NotchDisplayLocation(
@@ -410,10 +402,40 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         )
     }
 
-    func resetNotch() {
+    func resetAppearance() {
+        appearanceMode = SettingsAppearanceMode.resolved(
+            defaultString(for: GeneralSettingsStorage.Keys.appearanceMode)
+        )
+        isBlueNightMode = defaultBool(for: GeneralSettingsStorage.Keys.isBlueNightMode)
+    }
+
+    func resetDisplay() {
+        displayLocation = NotchDisplayLocation(
+            rawValue: defaultString(for: GeneralSettingsStorage.Keys.displayLocation)
+        ) ?? .main
+        preferredDisplayUUID = defaultString(for: GeneralSettingsStorage.Keys.preferredDisplayUUID)
+        preferredDisplayName = defaultString(for: GeneralSettingsStorage.Keys.preferredDisplayName)
+        isDisplayAutoSwitchEnabled = defaultBool(
+            for: GeneralSettingsStorage.Keys.displayAutoSwitchEnabled
+        )
+        isNotchHiddenInFullscreenEnabled = defaultBool(
+            for: GeneralSettingsStorage.Keys.hideNotchInFullscreenEnabled
+        )
+    }
+
+    func resetLanguage() {
+        appLanguage = DynamicNotchLanguage.resolved(
+            defaultString(for: GeneralSettingsStorage.Keys.appLanguage)
+        )
+    }
+
+    func resetAnimation() {
         notchAnimationPreset = NotchAnimationPreset(
             rawValue: defaultString(for: GeneralSettingsStorage.Keys.notchAnimationPreset)
         ) ?? .balanced
+    }
+
+    func resetGestures() {
         isNotchTapToExpandEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchTapToExpandEnabled)
         notchExpandInteraction = NotchExpandInteraction.resolved(
             defaultString(for: GeneralSettingsStorage.Keys.notchExpandInteraction)
@@ -430,6 +452,11 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         isNotchSwipeRestoreEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchSwipeRestoreEnabled)
         isNotchHoverHapticEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchHoverHapticEnabled)
         isCloseAtFocusLiveActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.closeAtFocusLiveActivityEnabled)
+    }
+
+    func resetNotch() {
+        resetAnimation()
+        resetGestures()
         resetNotchContentPriorities()
         isShowNotchStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchStrokeEnabled)
         isDefaultActivityStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.defaultActivityStrokeEnabled)

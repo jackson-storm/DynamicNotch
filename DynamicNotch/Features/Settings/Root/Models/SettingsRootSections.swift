@@ -43,12 +43,6 @@ extension SettingsRootViewModel {
     enum Section: String, CaseIterable, Identifiable {
         case general
         case homePage
-        case notch
-        case permissions
-        case about
-        #if DEBUG
-        case debug
-        #endif
     
         case wifi
         case bluetooth
@@ -121,7 +115,7 @@ extension SettingsRootViewModel {
             case "language":
                 return .general
             case "permissions":
-                return .permissions
+                return .general
             case "homePage", "homeScreen":
                 return .homePage
             case "activities", "liveActivity":
@@ -196,49 +190,6 @@ private enum SettingsSectionCatalog {
                 resetGroup: .general
             )
 
-        case .permissions:
-            return .init(
-                sidebarGroup: .application,
-                titleKey: "settings.section.permissions.title",
-                fallbackTitle: "Permissions",
-                subtitleKey: "settings.section.permissions.subtitle",
-                fallbackSubtitle: "Accessibility, Bluetooth, and media control access required by app features.",
-                searchKeywords: [
-                    "permissions",
-                    "accessibility",
-                    "bluetooth",
-                    "media controls",
-                    "grant access",
-                    "privacy settings"
-                ],
-                systemImage: "checkmark.seal.fill",
-                imageName: nil,
-                tint: .green.opacity(0.8),
-                resetGroup: nil
-            )
-
-        case .notch:
-            return .init(
-                sidebarGroup: .application,
-                titleKey: "settings.section.notch.title",
-                fallbackTitle: "Notch",
-                subtitleKey: "settings.section.notch.subtitle",
-                fallbackSubtitle: "Appearance, animation, and resize feedback.",
-                searchKeywords: [
-                    "background",
-                    "stroke",
-                    "liquid glass",
-                    "animation",
-                    "speed",
-                    "resize",
-                    "width",
-                    "height"
-                ],
-                systemImage: "rectangle.topthird.inset.filled",
-                imageName: nil,
-                tint: .black,
-                resetGroup: .notch
-            )
 
         case .nowPlaying:
             return .init(
@@ -540,43 +491,7 @@ private enum SettingsSectionCatalog {
                 resetGroup: .lockScreen
             )
 
-        #if DEBUG
-        case .debug:
-            return .init(
-                sidebarGroup: .application,
-                titleKey: "settings.section.debug.title",
-                fallbackTitle: "Debug",
-                subtitleKey: "settings.section.debug.subtitle",
-                fallbackSubtitle: "Manual previews and event triggers for testing.",
-                searchKeywords: [
-                    "preview",
-                    "trigger",
-                    "debug"
-                ],
-                systemImage: "ladybug",
-                imageName: nil,
-                tint: .red,
-                resetGroup: nil
-            )
-        #endif
 
-        case .about:
-            return .init(
-                sidebarGroup: .application,
-                titleKey: "settings.section.about.title",
-                fallbackTitle: "About",
-                subtitleKey: "settings.section.about.subtitle",
-                fallbackSubtitle: "Project details, links, and release information.",
-                searchKeywords: [
-                    "version",
-                    "website",
-                    "about"
-                ],
-                systemImage: "info.circle",
-                imageName: nil,
-                tint: .secondary,
-                resetGroup: nil
-            )
         }
     }
 }

@@ -190,22 +190,14 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         }
     }
 
-    @Published var isNotchMouseDragGesturesEnabled: Bool {
-        didSet {
-            persist(
-                isNotchMouseDragGesturesEnabled,
-                for: GeneralSettingsStorage.Keys.notchMouseDragGesturesEnabled
-            )
-        }
+    var isNotchMouseDragGesturesEnabled: Bool {
+        get { true }
+        set {}
     }
 
-    @Published var isNotchTrackpadSwipeGesturesEnabled: Bool {
-        didSet {
-            persist(
-                isNotchTrackpadSwipeGesturesEnabled,
-                for: GeneralSettingsStorage.Keys.notchTrackpadSwipeGesturesEnabled
-            )
-        }
+    var isNotchTrackpadSwipeGesturesEnabled: Bool {
+        get { true }
+        set {}
     }
 
     @Published var isNotchSwipeDismissEnabled: Bool {
@@ -344,14 +336,6 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
             defaults.object(forKey: GeneralSettingsStorage.Keys.notchPressHoldDuration) as? Double ??
             Self.defaultNotchPressHoldDuration
         )
-        self.isNotchMouseDragGesturesEnabled = Self.resolvedBool(
-            defaults: defaults,
-            key: GeneralSettingsStorage.Keys.notchMouseDragGesturesEnabled
-        )
-        self.isNotchTrackpadSwipeGesturesEnabled = Self.resolvedBool(
-            defaults: defaults,
-            key: GeneralSettingsStorage.Keys.notchTrackpadSwipeGesturesEnabled
-        )
         self.isNotchSwipeDismissEnabled = Self.resolvedBool(
             defaults: defaults,
             key: GeneralSettingsStorage.Keys.notchSwipeDismissEnabled
@@ -446,8 +430,6 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         notchPressHoldDuration = Self.clampNotchPressHoldDuration(
             defaultDouble(for: GeneralSettingsStorage.Keys.notchPressHoldDuration)
         )
-        isNotchMouseDragGesturesEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchMouseDragGesturesEnabled)
-        isNotchTrackpadSwipeGesturesEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchTrackpadSwipeGesturesEnabled)
         isNotchSwipeDismissEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchSwipeDismissEnabled)
         isNotchSwipeRestoreEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchSwipeRestoreEnabled)
         isNotchHoverHapticEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchHoverHapticEnabled)

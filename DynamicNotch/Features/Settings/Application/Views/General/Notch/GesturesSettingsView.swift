@@ -85,34 +85,6 @@ struct GesturesSettingsView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
             
             SettingsToggleRow(
-                title: "Mouse drag gestures",
-                description: "Use click-and-drag over the notch to preview dismiss and restore interactions.",
-                systemImage: "cursorarrow.motionlines",
-                color: .orange,
-                isOn: $applicationSettings.isNotchMouseDragGesturesEnabled,
-                accessibilityIdentifier: "settings.notch.mouseDragGestures"
-            )
-            
-            Divider()
-                .opacity(0.6)
-                .padding(.leading, 43)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
-            
-            SettingsToggleRow(
-                title: "Trackpad swipe gestures",
-                description: "Use vertical two-finger scrolling over the notch to dismiss or restore the latest activity.",
-                systemImage: "rectangle.and.hand.point.up.left.filled",
-                color: .blue,
-                isOn: $applicationSettings.isNotchTrackpadSwipeGesturesEnabled,
-                accessibilityIdentifier: "settings.notch.trackpadSwipeGestures"
-            )
-            
-            Divider()
-                .opacity(0.6)
-                .padding(.leading, 43)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
-            
-            SettingsToggleRow(
                 title: "settings.notch.gestures.swipeDismissAndRestore.title",
                 description: "settings.notch.gestures.swipeDismissAndRestore.subtitle",
                 systemImage: "arrow.up.and.down.circle.fill",

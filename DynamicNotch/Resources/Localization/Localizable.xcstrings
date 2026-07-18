@@ -9897,6 +9897,7 @@
       }
     },
     "Mouse drag gestures" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -22222,6 +22223,7 @@
       }
     },
     "Trackpad swipe gestures" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -22575,6 +22577,7 @@
 
     },
     "Use click-and-drag over the notch to preview dismiss and restore interactions." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -22971,6 +22974,7 @@
       }
     },
     "Use vertical two-finger scrolling over the notch to dismiss or restore the latest activity." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

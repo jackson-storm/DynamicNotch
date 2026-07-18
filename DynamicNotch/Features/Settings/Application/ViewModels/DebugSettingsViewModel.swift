@@ -431,7 +431,7 @@ final class DebugSettingsViewModel: ObservableObject {
 
     private func updateSoftwareUpdatePreview() {
         if isSoftwareUpdatePreviewEnabled {
-            SparkleUpdater.shared.latestVersionString = "1.2.0 (Debug)"
+            SparkleUpdater.shared.latestVersionString = "1.2.0"
             SparkleUpdater.shared.isUpdateAvailable = true
         } else {
             SparkleUpdater.shared.isUpdateAvailable = false
@@ -928,7 +928,7 @@ final class DebugSettingsViewModel: ObservableObject {
     }
 
     private func playSoftwareUpdatePreview() async throws {
-        SparkleUpdater.shared.latestVersionString = "1.2.0 (Debug)"
+        SparkleUpdater.shared.latestVersionString = "1.2.0"
         try await playLivePreview(
             SoftwareUpdateNotchContent(settingsViewModel: settingsViewModel),
             id: Self.sequenceSoftwareUpdateID

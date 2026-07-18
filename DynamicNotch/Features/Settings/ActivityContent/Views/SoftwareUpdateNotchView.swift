@@ -46,7 +46,7 @@ struct SoftwareUpdateExpandedNotchView: View {
                     .interpolation(.high)
                     .antialiased(true)
                     .scaledToFill()
-                    .frame(width: 45, height: 45)
+                    .frame(width: 40, height: 40)
                     .cornerRadius(12)
                 
                 VStack(alignment: .leading, spacing: 2) {
@@ -54,7 +54,7 @@ struct SoftwareUpdateExpandedNotchView: View {
                         .font(.system(size: 14, weight: .medium))
                         .foregroundColor(.white)
                     
-                    Text("Version 1.6.0")
+                    Text("Version \(updater.latestVersionString)")
                         .font(.system(size: 14))
                         .foregroundColor(.white.opacity(0.6))
                 }
@@ -71,7 +71,8 @@ struct SoftwareUpdateExpandedNotchView: View {
                 .buttonStyle(PrimaryButtonStyle(width: 45, height: 45, backgroundColor: .blue.opacity(0.2)))
             }
         }
-        .padding(.horizontal, isDynamicIsland ? 22 : 40)
+        .padding(.leading, isDynamicIsland ? 22 : 42)
+        .padding(.trailing, isDynamicIsland ? 22 : 38)
         .padding(.bottom, isDynamicIsland ? 22 : 14)
     }
 }

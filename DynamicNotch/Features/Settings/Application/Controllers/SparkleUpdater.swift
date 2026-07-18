@@ -30,25 +30,49 @@ final class SparkleUpdater: NSObject, ObservableObject, SPUUpdaterDelegate {
         let updater = updaterController.updater
         
         updater.publisher(for: \.canCheckForUpdates)
-            .assign(to: &$canCheckForUpdates)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] newValue in
+                if self?.canCheckForUpdates != newValue {
+                    self?.canCheckForUpdates = newValue
+                }
+            }
+            .store(in: &cancellables)
             
         updater.publisher(for: \.automaticallyChecksForUpdates)
-            .assign(to: &$automaticallyChecksForUpdates)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] newValue in
+                if self?.automaticallyChecksForUpdates != newValue {
+                    self?.automaticallyChecksForUpdates = newValue
+                }
+            }
+            .store(in: &cancellables)
             
         updater.publisher(for: \.automaticallyDownloadsUpdates)
-            .assign(to: &$automaticallyDownloadsUpdates)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] newValue in
+                if self?.automaticallyDownloadsUpdates != newValue {
+                    self?.automaticallyDownloadsUpdates = newValue
+                }
+            }
+            .store(in: &cancellables)
             
         $automaticallyChecksForUpdates
             .dropFirst()
+            .receive(on: DispatchQueue.main)
             .sink { [weak updater] newValue in
-                updater?.automaticallyChecksForUpdates = newValue
+                if updater?.automaticallyChecksForUpdates != newValue {
+                    updater?.automaticallyChecksForUpdates = newValue
+                }
             }
             .store(in: &cancellables)
             
         $automaticallyDownloadsUpdates
             .dropFirst()
+            .receive(on: DispatchQueue.main)
             .sink { [weak updater] newValue in
-                updater?.automaticallyDownloadsUpdates = newValue
+                if updater?.automaticallyDownloadsUpdates != newValue {
+                    updater?.automaticallyDownloadsUpdates = newValue
+                }
             }
             .store(in: &cancellables)
     }

@@ -64,6 +64,7 @@ struct SoftwareUpdateSettingsView: View {
                 accessibilityIdentifier: "settings.update.automaticallyDownloads"
             )
             .disabled(!updater.automaticallyChecksForUpdates)
+            .opacity(!updater.automaticallyChecksForUpdates ? 0.5 : 1)
         }
     }
 }

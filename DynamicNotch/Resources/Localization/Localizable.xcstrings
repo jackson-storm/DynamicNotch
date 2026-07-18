@@ -1552,10 +1552,60 @@
       }
     },
     "Automatically check for updates" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatically check for updates"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscar actualizaciones automáticamente"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Автоматически проверять обновления"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自动检查更新"
+          }
+        }
+      }
     },
     "Automatically download updates" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatically download updates"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descargar actualizaciones automáticamente"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Автоматически загружать обновления"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自动下载更新"
+          }
+        }
+      }
     },
     "Automatically hide Dynamic Notch while the selected display is showing a full-screen space." : {
       "extractionState" : "stale",
@@ -2548,7 +2598,32 @@
       }
     },
     "Check now" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check now"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscar ahora"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Проверить сейчас"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "立即检查"
+          }
+        }
+      }
     },
     "Check update" : {
       "extractionState" : "stale",
@@ -5871,7 +5946,32 @@
       }
     },
     "Download updates in the background and notify you when ready." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Download updates in the background and notify you when ready."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descarga actualizaciones en segundo plano y te notifica cuando están listas."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скачивать обновления в фоновом режиме и уведомлять, когда они будут готовы."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在后台下载更新，并在准备就绪时通知您。"
+          }
+        }
+      }
     },
     "Downloads" : {
       "localizations" : {
@@ -8748,7 +8848,32 @@
       }
     },
     "Let Dynamic Notch check for new versions automatically." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Let Dynamic Notch check for new versions automatically."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permite que Dynamic Notch busque nuevas versiones automáticamente."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Разрешить Dynamic Notch автоматически искать новые версии."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "让 Dynamic Notch 自动检查新版本。"
+          }
+        }
+      }
     },
     "Level color" : {
       "localizations" : {
@@ -12303,9 +12428,6 @@
 
     },
     "Send the Now Playing playback-state changed event for play." : {
-
-    },
-    "Services" : {
 
     },
     "Set a global motion parameter that controls the speed of the animation." : {
@@ -22933,7 +23055,32 @@
       }
     },
     "Version %@" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Version %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versión %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Версия %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "版本 %@"
+          }
+        }
+      }
     },
     "Version 1.6.0" : {
 

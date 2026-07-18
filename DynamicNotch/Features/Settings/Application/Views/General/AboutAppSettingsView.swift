@@ -46,7 +46,11 @@ struct AboutAppSettingsView: View {
         VStack(spacing: 16) {
             Image("logo")
                 .resizable()
+                .interpolation(.high)
+                .antialiased(true)
+                .scaledToFill()
                 .frame(width: 90, height: 90)
+                .cornerRadius(20)
                 .scaleEffect(0.9)
                 .background(LinearGradient.logoGradient.blur(radius: 20))
                 .padding(.top, 20)

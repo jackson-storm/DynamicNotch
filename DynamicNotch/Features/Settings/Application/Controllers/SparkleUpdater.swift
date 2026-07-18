@@ -76,4 +76,8 @@ final class SparkleUpdater: NSObject, ObservableObject, SPUUpdaterDelegate {
         }
         return false
     }
+    
+    func updater(_ updater: SPUUpdater, didAbortWithError error: Error) {
+        print("Sparkle update error: \(error.localizedDescription)")
+    }
 }

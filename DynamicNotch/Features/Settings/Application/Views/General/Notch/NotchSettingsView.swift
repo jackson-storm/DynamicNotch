@@ -131,7 +131,7 @@ struct NotchSettingsView: View {
                 title: "settings.notch.priorities.title",
                 description: "settings.notch.priorities.subtitle",
                 systemImage: "list.bullet",
-                color: LinearGradient.blueGradient,
+                color: .red,
                 accessibilityIdentifier: "settings.notch.priorities",
                 position: .first,
                 value: SettingsSubPage.activityPriorities

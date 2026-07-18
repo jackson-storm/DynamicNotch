@@ -12,8 +12,7 @@ struct SoftwareUpdateSettingsView: View {
     
     private var currentVersion: String {
         let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
-        let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "1"
-        return "\(version) (\(build))"
+        return "\(version)"
     }
     
     var body: some View {
@@ -25,35 +24,18 @@ struct SoftwareUpdateSettingsView: View {
     
     private var versionCard: some View {
         SettingsCard {
-            HStack(spacing: 16) {
-                SettingsIconBadge(
-                    systemImage: "arrow.clockwise.circle.fill",
-                    tint: Color.accentColor,
-                    size: 40,
-                    iconSize: 20,
-                    cornerRadius: 10
-                )
-                
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("Dynamic Notch")
-                        .font(.headline)
-                    Text("Version \(currentVersion)")
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                }
-                
-                Spacer()
-                
-                Button(action: {
-                    updater.checkForUpdates()
-                }) {
-                    Text("Check now")
-                }
-                .buttonStyle(.bordered)
-                .controlSize(.regular)
-                .disabled(!updater.canCheckForUpdates)
+            SettingsButtonRow(
+                title: "Dynamic Notch",
+                description: "Version \(currentVersion)",
+                imageName: "simplifiedLogo",
+                iconSize: 30,
+                color: .clear,
+                buttonTitle: "Check now",
+                isButtonDisabled: !updater.canCheckForUpdates,
+                accessibilityIdentifier: "settings.update.versionCard"
+            ) {
+                updater.checkForUpdates()
             }
-            .padding(.vertical, 4)
         }
     }
     
@@ -62,8 +44,8 @@ struct SoftwareUpdateSettingsView: View {
             SettingsToggleRow(
                 title: "Automatically check for updates",
                 description: "Let Dynamic Notch check for new versions automatically.",
-                systemImage: "bell.badge",
-                color: .blue,
+                systemImage: "bell.badge.fill",
+                color: .red,
                 isOn: $updater.automaticallyChecksForUpdates,
                 accessibilityIdentifier: "settings.update.automaticallyChecks"
             )
@@ -76,8 +58,8 @@ struct SoftwareUpdateSettingsView: View {
             SettingsToggleRow(
                 title: "Automatically download updates",
                 description: "Download updates in the background and notify you when ready.",
-                systemImage: "arrow.down.circle",
-                color: .green,
+                systemImage: "arrow.down.circle.dotted",
+                color: .blue,
                 isOn: $updater.automaticallyDownloadsUpdates,
                 accessibilityIdentifier: "settings.update.automaticallyDownloads"
             )

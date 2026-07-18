@@ -49,7 +49,7 @@ struct SupportSettingsView: View {
     }
     
     private var supportServicesCard: some View {
-        SettingsCard(title: "Services", spacing: 0, padding: 0) {
+        SettingsCard(spacing: 0, padding: 0) {
             SettingsUrlRowView(
                 title: "Boosty.to",
                 description: "Support development or subscribe",

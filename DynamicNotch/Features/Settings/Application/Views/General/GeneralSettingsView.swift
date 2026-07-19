@@ -96,6 +96,7 @@ struct GeneralSettingsView: View {
     
     private var fourthCard: some View {
         SettingsCard(spacing: 0, padding: 0) {
+            #if DEBUG
             SettingsNavigationRowView(
                 title: "Software Update",
                 description: "Check for updates and manage update preferences.",
@@ -116,7 +117,6 @@ struct GeneralSettingsView: View {
                 position: .middle,
                 value: SettingsSubPage.about
             )
-            #if DEBUG
             SettingsNavigationRowView(
                 title: "settings.section.debug.title",
                 description: "settings.section.debug.subtitle",
@@ -125,6 +125,27 @@ struct GeneralSettingsView: View {
                 accessibilityIdentifier: "settings.general.debug",
                 position: .last,
                 value: SettingsSubPage.debug
+            )
+            #else
+            SettingsNavigationRowView(
+                title: "Software Update",
+                description: "Check for updates and manage update preferences.",
+                systemImage: "gear.badge",
+                color: .gray,
+                accessibilityIdentifier: "settings.general.softwareUpdate",
+                position: .first,
+                showBadge: updater.isUpdateAvailable,
+                value: SettingsSubPage.softwareUpdate
+            )
+            
+            SettingsNavigationRowView(
+                title: "settings.section.about.title",
+                description: "settings.section.about.subtitle",
+                systemImage: "info.circle.fill",
+                color: .gray,
+                accessibilityIdentifier: "settings.general.about",
+                position: .last,
+                value: SettingsSubPage.about
             )
             #endif
         }

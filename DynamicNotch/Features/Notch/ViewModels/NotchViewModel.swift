@@ -75,7 +75,7 @@ final class NotchViewModel: ObservableObject {
     }
     
     var canExpandActiveLiveActivity: Bool {
-        guard !isActivityPresentationHidden else { return false }
+        guard !isActivityPresentationHidden || notchModel.temporaryNotificationContent != nil else { return false }
         return engine.canExpandActiveLiveActivity
     }
     
@@ -119,14 +119,14 @@ final class NotchViewModel: ObservableObject {
     }
 
     var canOpenActiveWindowLink: Bool {
-        guard !isActivityPresentationHidden else { return false }
+        guard !isActivityPresentationHidden || notchModel.temporaryNotificationContent != nil else { return false }
         return engine.canOpenActiveWindowLink
     }
     
     var canDismissWithMouseDrag: Bool {
         settings.isNotchMouseDragGesturesEnabled &&
         settings.isNotchSwipeDismissEnabled &&
-        !isActivityPresentationHidden &&
+        (!isActivityPresentationHidden || notchModel.temporaryNotificationContent != nil) &&
         notchModel.content != nil &&
         (notchModel.content?.id != NotchContentRegistry.HomePage.active.id || notchModel.isLiveActivityExpanded)
     }
@@ -140,7 +140,7 @@ final class NotchViewModel: ObservableObject {
     var canDismissWithTrackpadSwipe: Bool {
         settings.isNotchTrackpadSwipeGesturesEnabled &&
         settings.isNotchSwipeDismissEnabled &&
-        !isActivityPresentationHidden &&
+        (!isActivityPresentationHidden || notchModel.temporaryNotificationContent != nil) &&
         notchModel.content != nil &&
         (notchModel.content?.id != NotchContentRegistry.HomePage.active.id || notchModel.isLiveActivityExpanded)
     }

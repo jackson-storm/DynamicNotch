@@ -138,7 +138,7 @@ private extension NotchView {
     var notchSurface: some View {
         let isDynamicIsland = notchViewModel.topInset == 0
         let isExpandedPresentation = notchViewModel.notchModel.isPresentingExpandedLiveActivity
-        let isPresentationHidden = notchViewModel.isActivityPresentationHidden
+        let isPresentationHidden = notchViewModel.isActivityPresentationHidden && notchViewModel.notchModel.temporaryNotificationContent == nil
         
         NotchBackgroundSurface(
             style: settingsViewModel.application.notchBackgroundStyle,
@@ -162,7 +162,7 @@ private extension NotchView {
     @ViewBuilder
     var contentOverlay: some View {
         let isExpandedPresentation = notchViewModel.notchModel.isPresentingExpandedLiveActivity
-        let isPresentationHidden = notchViewModel.isActivityPresentationHidden
+        let isPresentationHidden = notchViewModel.isActivityPresentationHidden && notchViewModel.notchModel.temporaryNotificationContent == nil
         
         if let content = notchViewModel.displayedContent {
             renderedContentView(for: content)
@@ -251,7 +251,7 @@ private extension NotchView {
     
     private var shouldEnableNotchSwipeGestures: Bool {
         guard !notchViewModel.isLocked else { return false }
-        guard !notchViewModel.isActivityPresentationHidden else { return false }
+        guard !notchViewModel.isActivityPresentationHidden || notchViewModel.notchModel.temporaryNotificationContent != nil else { return false }
         
         return !(
             notchViewModel.notchModel.isPresentingExpandedLiveActivity &&

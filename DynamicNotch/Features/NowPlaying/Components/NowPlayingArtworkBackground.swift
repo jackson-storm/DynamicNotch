@@ -75,7 +75,19 @@ struct NowPlayingArtworkBackground: View {
         guard artworkImage !== lastSourceImage else { return }
         lastSourceImage = artworkImage
         
-        let targetSize = NSSize(width: 60, height: 60)
+        let maxDimension: CGFloat = 80
+        let targetSize: NSSize
+        if artworkImage.size.width > 0 && artworkImage.size.height > 0 {
+            let aspectRatio = artworkImage.size.width / artworkImage.size.height
+            if aspectRatio > 1 {
+                targetSize = NSSize(width: maxDimension, height: maxDimension / aspectRatio)
+            } else {
+                targetSize = NSSize(width: maxDimension * aspectRatio, height: maxDimension)
+            }
+        } else {
+            targetSize = NSSize(width: maxDimension, height: maxDimension)
+        }
+        
         let resized = NSImage(size: targetSize)
         resized.lockFocus()
         artworkImage.draw(

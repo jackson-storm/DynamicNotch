@@ -33,9 +33,18 @@
     <img src="https://img.shields.io/github/v/release/jackson-storm/DynamicNotch?style=for-the-badge&label=Latest%20Release&logo=github&logoColor=white&color=0a84ff" alt="Latest release" />
   </a>
   <a href="LICENSE">
-    <img src="https://img.shields.io/github/license/jackson-storm/DynamicNotch?style=for-the-badge&label=License&color=orange" alt="License" />
+    <img src="https://img.shields.io/github/license/jackson-storm/DynamicNotch?style=for-the-badge&label=License&color=blueviolet" alt="License" />
   </a>
-  <img src="https://img.shields.io/badge/macOS-14.6%2B-000000?style=for-the-badge&logo=apple&logoColor=white" alt="macOS 14.6 or later" />
+  <img src="https://img.shields.io/badge/macOS-14.6%2B-red?style=for-the-badge&logo=apple&logoColor=white" alt="macOS 14.6 or later" />
+</p>
+
+<p align="center">
+  <a href="https://boosty.to/jacksonstormdev">
+    <img src="https://img.shields.io/badge/Boosty-Support-F58220?style=for-the-badge&logo=boosty&logoColor=white" alt="Support on Boosty" />
+  </a>
+  <a href="https://www.donationalerts.com/r/jacksonstormdev">
+    <img src="https://img.shields.io/badge/DonationAlerts-Donate-FF9A00?style=for-the-badge&logo=donationalerts&logoColor=white" alt="Donate via Donation Alerts" />
+  </a>
 </p>
 
 <p align="center">
@@ -137,6 +146,22 @@ The project currently includes localized app content for:
 - Russian
 - Spanish
 - Simplified Chinese
+
+## 💖 Support
+
+Without your support, the project will not be able to develop. If you would like to support the project, you can do so via:
+
+### Services
+
+- **Boosty**: [Support development or subscribe](https://boosty.to/jacksonstormdev)
+- **Donation Alerts**: [One-time donation via cards or crypto](https://www.donationalerts.com/r/jacksonstormdev)
+
+### Cryptocurrency
+
+- **USDT (TRC-20)**: `TWYo42HQNuXSA5gmVoVV1973ScPqCtduvA`
+- **USDT (ERC-20)**: `0xd3261630d7EC2484A3fcf5315f194B58834ab891`
+- **Bitcoin (BTC)**: `bc1qw29074zwlp600rhvjat2v7ks53h835tthfj7dx`
+
 
 ## 🤝 Acknowledgements
 

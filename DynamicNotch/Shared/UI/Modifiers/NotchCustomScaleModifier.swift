@@ -24,7 +24,7 @@ struct NotchCustomScaleModifier: ViewModifier {
     
     let baseSize: CGSize
     
-    private let scaleFactor: CGFloat = 1.05
+    private let scaleFactor: CGFloat = 1.06
     private let tapMovementTolerance: CGFloat = 8
     
     func body(content: Content) -> some View {
@@ -226,10 +226,7 @@ private extension NotchCustomScaleModifier {
 
         if isHovering {
             cancelPendingCollapse()
-
-            // Light haptic tick the moment the cursor lands on a collapsed notch
-            // that can be opened, so the notch feels responsive before any
-            // expand gesture (click / hold / swipe) is performed.
+            
             if !wasHovering,
                notchViewModel.isNotchHoverHapticEnabled,
                notchViewModel.canExpandActiveLiveActivity,

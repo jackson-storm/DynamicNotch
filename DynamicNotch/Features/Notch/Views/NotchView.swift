@@ -105,7 +105,7 @@ private extension NotchView {
             }
             .shadow(
                 color: (notchViewModel.presentedNotchSize.height >= notchViewModel.notchModel.baseHeight + 30)
-                ? .black.opacity(0.5) : .clear, radius: 20
+                ? .black.opacity(0.4) : .clear, radius: 20
             )
             .frame(
                 width: notchViewModel.presentedNotchSize.width,

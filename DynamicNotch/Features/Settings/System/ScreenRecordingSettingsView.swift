@@ -4,10 +4,6 @@ struct ScreenRecordingSettingsView: View {
     @ObservedObject var settings: ScreenRecordingSettingsStore
     @ObservedObject var appearanceSettings: ApplicationSettingsStore
 
-    private var isDefaultStrokeLocked: Bool {
-        appearanceSettings.isDefaultActivityStrokeEnabled
-    }
-
     var body: some View {
         SettingsPageScrollView {
             screenRecordingActivity
@@ -24,20 +20,7 @@ struct ScreenRecordingSettingsView: View {
                 isOn: $settings.isScreenRecordingLiveActivityEnabled,
                 accessibilityIdentifier: "settings.activities.live.screenRecording"
             )
-
-            Divider()
-                .opacity(0.6)
-                .padding(.leading, 43)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
-
-            SettingsStrokeToggleRow(
-                title: "Default stroke",
-                description: "Use the standard white notch stroke instead of the red recording stroke.",
-                isOn: $settings.isScreenRecordingDefaultStrokeEnabled,
-                accessibilityIdentifier: "settings.activities.live.screenRecording.defaultStroke"
-            )
-            .disabled(isDefaultStrokeLocked)
-            .opacity(isDefaultStrokeLocked ? 0.5 : 1)
         }
     }
 }
+

@@ -22,7 +22,7 @@ struct TrayNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     var priority: Int { NotchContentRegistry.DragAndDrop.tray.priority }
 
     var strokeColor: Color {
-        settingsViewModel.isDefaultActivityStrokeEnabled || settingsViewModel.mediaAndFiles.isDragAndDropDefaultStrokeEnabled ?
+        settingsViewModel.isDefaultActivityStrokeEnabled ?
         .white.opacity(0.2) :
         DragAndDropTarget.tray.activityStrokeColor(for: settingsViewModel.mediaAndFiles.dragAndDropTargetColorStyle)
     }

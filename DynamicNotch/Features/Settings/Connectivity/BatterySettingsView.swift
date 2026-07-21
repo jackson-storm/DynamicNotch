@@ -13,9 +13,6 @@ struct BatterySettingsView: View {
         Double(SettingsStoreBase.temporaryActivityDurationRange.lowerBound)...Double(SettingsStoreBase.temporaryActivityDurationRange.upperBound)
     }
 
-    private var isDefaultStrokeLocked: Bool {
-        appearanceSettings.isDefaultActivityStrokeEnabled
-    }
 
     var body: some View {
         SettingsPageScrollView {
@@ -153,19 +150,6 @@ struct BatterySettingsView: View {
                 accessibilityIdentifier: "settings.activities.lowBatterySound"
             )
             
-            Divider()
-                .opacity(0.6)
-                .padding(.leading, 43)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
-
-            SettingsStrokeToggleRow(
-                title: "Default stroke",
-                description: "Use the standard white notch stroke instead of the low battery alert color.",
-                isOn: $batterySettings.isLowPowerDefaultStrokeEnabled,
-                accessibilityIdentifier: "settings.activities.temporary.lowPower.defaultStroke"
-            )
-            .disabled(isDefaultStrokeLocked)
-            .opacity(isDefaultStrokeLocked ? 0.5 : 1)
 
             Divider().opacity(0.6)
             
@@ -217,17 +201,6 @@ struct BatterySettingsView: View {
             
             Divider()
                 .opacity(0.6)
-                .padding(.leading, 43)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
-
-            SettingsStrokeToggleRow(
-                title: "Default stroke",
-                description: "Use the standard white notch stroke instead of the full battery alert color.",
-                isOn: $batterySettings.isFullPowerDefaultStrokeEnabled,
-                accessibilityIdentifier: "settings.activities.temporary.fullPower.defaultStroke"
-            )
-            .disabled(isDefaultStrokeLocked)
-            .opacity(isDefaultStrokeLocked ? 0.5 : 1)
 
             Divider().opacity(0.6)
             
@@ -446,19 +419,10 @@ struct BatterySettingsView: View {
             return .clear
         }
 
-        if appearanceSettings.isDefaultActivityStrokeEnabled || isDefaultStrokeEnabled(for: kind) {
+        if appearanceSettings.isDefaultActivityStrokeEnabled {
             return .white.opacity(0.2)
         }
 
         return kind == .low ? .red.opacity(0.3) : .green.opacity(0.3)
-    }
-
-    private func isDefaultStrokeEnabled(for kind: BatteryNotificationPreviewKind) -> Bool {
-        switch kind {
-        case .low:
-            return batterySettings.isLowPowerDefaultStrokeEnabled
-        case .full:
-            return batterySettings.isFullPowerDefaultStrokeEnabled
-        }
     }
 }

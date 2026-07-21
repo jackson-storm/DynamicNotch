@@ -10,7 +10,7 @@ struct TimerNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     var priority: Int { NotchContentRegistry.Media.timer.priority }
     var isExpandable: Bool { true }
     var strokeColor: Color {
-        settingsViewModel.isDefaultActivityStrokeEnabled || settingsViewModel.mediaAndFiles.isTimerDefaultStrokeEnabled ?
+        settingsViewModel.isDefaultActivityStrokeEnabled ?
         .white.opacity(0.2) :
         .orange.opacity(0.3)
     }

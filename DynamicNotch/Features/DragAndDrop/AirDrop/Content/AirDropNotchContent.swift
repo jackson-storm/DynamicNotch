@@ -22,7 +22,7 @@ struct AirDropNotchContent: NotchContentProtocol {
     var priority: Int { NotchContentRegistry.DragAndDrop.airDrop.priority }
 
     var strokeColor: Color {
-        settingsViewModel.isDefaultActivityStrokeEnabled || settingsViewModel.mediaAndFiles.isDragAndDropDefaultStrokeEnabled ?
+        settingsViewModel.isDefaultActivityStrokeEnabled ?
         .white.opacity(0.2) :
         DragAndDropTarget.airDrop.activityStrokeColor(for: settingsViewModel.mediaAndFiles.dragAndDropTargetColorStyle)
     }

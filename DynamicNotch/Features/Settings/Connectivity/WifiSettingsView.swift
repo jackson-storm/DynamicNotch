@@ -8,16 +8,12 @@ struct WifiSettingsView: View {
         Double(SettingsStoreBase.temporaryActivityDurationRange.lowerBound)...Double(SettingsStoreBase.temporaryActivityDurationRange.upperBound)
     }
     
-    private var isHotspotDefaultStrokeLocked: Bool {
-        appearanceSettings.isDefaultActivityStrokeEnabled
-    }
-
     private var hotspotPreviewStrokeColor: Color {
         guard appearanceSettings.isShowNotchStrokeEnabled else {
             return .clear
         }
 
-        if appearanceSettings.isDefaultActivityStrokeEnabled || connectivitySettings.isHotspotDefaultStrokeEnabled {
+        if appearanceSettings.isDefaultActivityStrokeEnabled {
             return .white.opacity(0.2)
         }
 
@@ -107,16 +103,7 @@ struct WifiSettingsView: View {
                 hotspotAppearancePickerContent(for: style, isSelected: isSelected)
             }
 
-            Divider().opacity(0.6)
 
-            SettingsStrokeToggleRow(
-                title: "Default stroke",
-                description: "Use the standard white notch stroke instead of the hotspot accent stroke.",
-                isOn: $connectivitySettings.isHotspotDefaultStrokeEnabled,
-                accessibilityIdentifier: "settings.activities.live.hotspot.defaultStroke"
-            )
-            .disabled(isHotspotDefaultStrokeLocked)
-            .opacity(isHotspotDefaultStrokeLocked ? 0.5 : 1)
         }
     }
     

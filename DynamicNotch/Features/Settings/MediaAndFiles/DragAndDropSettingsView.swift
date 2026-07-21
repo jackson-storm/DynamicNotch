@@ -4,9 +4,6 @@ struct DragAndDropSettingsView: View {
     @ObservedObject var mediaSettings: MediaAndFilesSettingsStore
     @ObservedObject var appearanceSettings: ApplicationSettingsStore
 
-    private var isDefaultStrokeLocked: Bool {
-        appearanceSettings.isDefaultActivityStrokeEnabled
-    }
 
     var body: some View {
         SettingsPageScrollView {
@@ -100,16 +97,6 @@ struct DragAndDropSettingsView: View {
                 selection: $mediaSettings.dragAndDropTargetColorStyle
             )
 
-            Divider().opacity(0.6)
-
-            SettingsStrokeToggleRow(
-                title: "Default stroke",
-                description: "Use the standard white notch stroke instead of the Drag&Drop accent stroke.",
-                isOn: $mediaSettings.isDragAndDropDefaultStrokeEnabled,
-                accessibilityIdentifier: "settings.activities.live.drop.defaultStroke"
-            )
-            .disabled(isDefaultStrokeLocked)
-            .opacity(isDefaultStrokeLocked ? 0.5 : 1)
 
             Divider()
                 .opacity(0.6)
@@ -327,7 +314,7 @@ struct DragAndDropSettingsView: View {
         }
 
         let baseColor: Color
-        if appearanceSettings.isDefaultActivityStrokeEnabled || mediaSettings.isDragAndDropDefaultStrokeEnabled {
+        if appearanceSettings.isDefaultActivityStrokeEnabled {
             baseColor = .white.opacity(0.2)
         } else {
             baseColor = dragAndDropPreviewBaseStrokeColor

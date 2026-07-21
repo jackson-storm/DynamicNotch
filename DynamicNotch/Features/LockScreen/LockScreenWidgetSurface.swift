@@ -5,6 +5,7 @@ struct LockScreenWidgetSurface: View {
     let tintStyle: LockScreenWidgetTintStyle
     let brightness: Double
     let cornerRadius: CGFloat
+    var liquidGlassVariant: Int = 8
 
     var body: some View {
         let shape = RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
@@ -34,6 +35,15 @@ struct LockScreenWidgetSurface: View {
 
         case .ultraThickMaterial:
             shape.fill(.ultraThickMaterial)
+
+        case .liquidGlass:
+            LiquidGlassBackground(
+                variant: LiquidGlassVariant.clamped(liquidGlassVariant),
+                cornerRadius: cornerRadius
+            ) {
+                Color.clear
+            }
+            .clipShape(shape)
         }
     }
 
@@ -43,6 +53,8 @@ struct LockScreenWidgetSurface: View {
             return 0.14
         case .ultraThickMaterial:
             return 0.18
+        case .liquidGlass:
+            return 0.10
         }
     }
 
@@ -67,6 +79,8 @@ struct LockScreenWidgetSurface: View {
                 return tintColor.opacity(0.24)
             case .ultraThickMaterial:
                 return tintColor.opacity(0.28)
+            case .liquidGlass:
+                return tintColor.opacity(0.18)
             }
         }
 
@@ -75,6 +89,8 @@ struct LockScreenWidgetSurface: View {
             return .white.opacity(0.15)
         case .ultraThickMaterial:
             return .white.opacity(0.18)
+        case .liquidGlass:
+            return .white.opacity(0.12)
         }
     }
 }

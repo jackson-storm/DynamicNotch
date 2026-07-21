@@ -191,7 +191,8 @@ struct LockScreenSettingsView: View {
         LockScreenWidgetAppearancePickerPreview(
             style: style,
             tintStyle: settings.widgetTintStyle,
-            backgroundBrightness: settings.widgetBackgroundBrightness
+            backgroundBrightness: settings.widgetBackgroundBrightness,
+            liquidGlassVariant: settings.liquidGlassVariant
         )
         .scaleEffect(isSelected ? 1 : 0.97)
     }
@@ -344,6 +345,7 @@ private struct LockScreenWidgetAppearancePickerPreview: View {
     let style: LockScreenWidgetAppearanceStyle
     let tintStyle: LockScreenWidgetTintStyle
     let backgroundBrightness: Double
+    let liquidGlassVariant: Int
 
     private let panelSize = CGSize(width: 380, height: 228)
     private let panelCornerRadius: CGFloat = 34
@@ -356,7 +358,8 @@ private struct LockScreenWidgetAppearancePickerPreview: View {
                 style: style,
                 tintStyle: tintStyle,
                 brightness: backgroundBrightness,
-                cornerRadius: panelCornerRadius
+                cornerRadius: panelCornerRadius,
+                liquidGlassVariant: liquidGlassVariant
             )
 
             VStack {

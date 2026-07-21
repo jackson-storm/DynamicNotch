@@ -3,6 +3,7 @@ import SwiftUI
 enum LockScreenWidgetAppearanceStyle: String, CaseIterable {
     case ultraThinMaterial
     case ultraThickMaterial
+    case liquidGlass
 
     static var availableOptions: [Self] {
         return Array(allCases)
@@ -14,6 +15,8 @@ enum LockScreenWidgetAppearanceStyle: String, CaseIterable {
             return "Soft"
         case .ultraThickMaterial:
             return "Solid"
+        case .liquidGlass:
+            return "Liquid Glass"
         }
     }
 

@@ -25,19 +25,6 @@ struct NotchSettingsView: View {
     
     private var appearanceCard: some View {
         SettingsCard() {
-            CustomPicker(
-                selection: $applicationSettings.notchBackgroundStyle,
-                options: NotchBackgroundStyle.availableOptions,
-                title: { $0.title },
-                headerTitle: "Background",
-                headerDescription: "Choose the background color used across the notch and Dynamic Island.",
-                lightBackgroundImage: Image("backgroundLight"),
-                darkBackgroundImage: Image("backgroundDark")
-            ) { style, isSelected in
-                backgroundPickerContent(for: style, isSelected: isSelected, isDynamicIsland: true)
-            }
-            Divider().opacity(0.6)
-            
             SettingsToggleRow(
                 title: "Show stroke",
                 description: "Show a subtle outline that adapts to the active content color.",
@@ -170,91 +157,6 @@ struct NotchSettingsView: View {
         }
     }
     
-    @ViewBuilder
-    private func backgroundPickerContent(for style: NotchBackgroundStyle, isSelected: Bool, isDynamicIsland: Bool) -> some View {
-        ZStack(alignment: isDynamicIsland ? .center : .top) {
-            previewShape(for: style, isDynamicIsland: isDynamicIsland)
-                .frame(width: 116, height: isDynamicIsland ? 30 : 26)
-        }
-        .frame(maxHeight: .infinity, alignment: isDynamicIsland ? .center : .top)
-        .environment(\.colorScheme, .dark)
-        .scaleEffect(isSelected ? 1 : 0.97)
-    }
-    
-    @ViewBuilder
-    private func previewShape(for style: NotchBackgroundStyle, isDynamicIsland: Bool) -> some View {
-        let shape = isDynamicIsland ? AnyShape(Capsule()) : AnyShape(NotchShape(topCornerRadius: 6, bottomCornerRadius: 12))
-        let strokeColor = previewStrokeColor(isDynamicIsland: isDynamicIsland)
-        let strokeWidth = previewStrokeWidth(isDynamicIsland: isDynamicIsland)
-        
-        switch style {
-        case .black:
-            shape
-                .fill(.black)
-                .overlay {
-                    shape
-                        .stroke(strokeColor, lineWidth: strokeWidth)
-                }
-            
-        case .liquidGlass:
-            LiquidGlassBackground(
-                variant: LiquidGlassVariant.clamped(7),
-                cornerRadius: isDynamicIsland ? 15 : 12,
-                hideTopBorder: !isDynamicIsland
-            ) {
-                ZStack {
-                    LinearGradient(
-                        stops: [
-                            .init(color: Color.black.opacity(0.65), location: 0.0),
-                            .init(color: Color.black.opacity(0.65), location: 0.5),
-                            .init(color: .clear, location: 1.0)
-                        ],
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
-                    LinearGradient(
-                        stops: [
-                            .init(color: .clear, location: 0.0),
-                            .init(color: Color.black.opacity(0.65), location: 0.20),
-                            .init(color: Color.black.opacity(0.65), location: 0.80),
-                            .init(color: .clear, location: 1.0)
-                        ],
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    )
-                }
-            }
-            .padding(.top, isDynamicIsland ? 0 : 10)
-            .offset(y: isDynamicIsland ? 0 : -10)
-            .clipShape(shape)
-            .overlay {
-                shape
-                    .stroke(strokeColor, lineWidth: strokeWidth)
-            }
-        }
-    }
-    
-    private func previewStrokeColor(isDynamicIsland: Bool) -> Color {
-        let isShowStroke = applicationSettings.isShowNotchStrokeEnabled
-        guard isShowStroke else {
-            return .clear
-        }
-        
-        let isDefaultActivityStroke = applicationSettings.isDefaultActivityStrokeEnabled
-        let strokeOpacity = applicationSettings.notchStrokeOpacity
-        
-        let baseColor: Color = isDefaultActivityStroke ?
-            .white.opacity(0.2) :
-            .green.opacity(0.3)
-        return baseColor.opacity(strokeOpacity)
-    }
-    
-    private func previewStrokeWidth(isDynamicIsland: Bool) -> CGFloat {
-        let isShowStroke = applicationSettings.isShowNotchStrokeEnabled
-        let strokeWidth = applicationSettings.notchStrokeWidth
-        return isShowStroke ? CGFloat(strokeWidth) : 0
-    }
-
     private func refreshAvailableDisplays() {
         availableDisplays = NSScreen.availableNotchDisplays()
         applicationSettings.syncPreferredDisplayMetadata()

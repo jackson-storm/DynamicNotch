@@ -1,15 +1,6 @@
 {
-  "originHash" : "f2d52804108ae3edc59ab7ef79a33c1eb98d2118d539fa45dd463adda8ecc438",
+  "originHash" : "48ec72907ed3b1e61a15108bdfc37b6a0b405e0376b904eafb3cafaa9c1faad6",
   "pins" : [
-    {
-      "identity" : "glur",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/joogps/Glur",
-      "state" : {
-        "branch" : "main",
-        "revision" : "35ae7c26fe4ef9b348547c4a1489893e38ca134f"
-      }
-    },
     {
       "identity" : "lottie-ios",
       "kind" : "remoteSourceControl",

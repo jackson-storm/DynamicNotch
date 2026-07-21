@@ -57,6 +57,9 @@ final class NowPlayingViewModel: ObservableObject {
     private var artworkFlipStartedAt: Date?
     private var activeDetailedPresentationSources = Set<String>()
     private var isLyricsPresentationActive = false
+    private var recentSeekTargetTime: TimeInterval?
+    private var recentSeekDate: Date?
+    private let seekGracePeriodDuration: TimeInterval = 1.5
     #if DEBUG
     private var isShowingDebugPreviewSnapshot = false
     #endif
@@ -188,6 +191,8 @@ final class NowPlayingViewModel: ObservableObject {
         guard let snapshot, snapshot.duration > 0 else { return }
 
         let clampedElapsedTime = min(max(elapsedTime, 0), snapshot.duration)
+        recentSeekTargetTime = clampedElapsedTime
+        recentSeekDate = Date()
         apply(snapshot: snapshot.settingElapsedTime(clampedElapsedTime))
         service.send(.seek(clampedElapsedTime))
     }
@@ -374,10 +379,32 @@ private extension NowPlayingViewModel {
     func handleServiceSnapshot(_ snapshot: NowPlayingSnapshot?) {
         guard !ignoresServiceSnapshots else { return }
 
-        latestServiceSnapshot = snapshot
+        var resolvedSnapshot = snapshot
 
-        if let snapshot {
-            applyServiceSnapshotIfAllowed(snapshot)
+        if let serviceSnapshot = snapshot,
+           let seekTarget = recentSeekTargetTime,
+           let seekDate = recentSeekDate {
+            let elapsedSinceSeek = Date().timeIntervalSince(seekDate)
+            if elapsedSinceSeek < seekGracePeriodDuration {
+                let expectedTime = seekTarget + (serviceSnapshot.isPlaying ? elapsedSinceSeek : 0)
+                let actualTime = serviceSnapshot.elapsedTime(at: .now)
+
+                if abs(actualTime - expectedTime) > 1.5 {
+                    resolvedSnapshot = serviceSnapshot.settingElapsedTime(expectedTime)
+                } else {
+                    recentSeekTargetTime = nil
+                    recentSeekDate = nil
+                }
+            } else {
+                recentSeekTargetTime = nil
+                recentSeekDate = nil
+            }
+        }
+
+        latestServiceSnapshot = resolvedSnapshot
+
+        if let resolvedSnapshot {
+            applyServiceSnapshotIfAllowed(resolvedSnapshot)
         } else {
             scheduleSessionEnd()
         }
@@ -407,6 +434,8 @@ private extension NowPlayingViewModel {
 
         if previousTrackKey != newTrackKey {
             cancelPendingArtworkPresentation()
+            recentSeekTargetTime = nil
+            recentSeekDate = nil
         }
 
         if previousLyricsKey != newLyricsKey {

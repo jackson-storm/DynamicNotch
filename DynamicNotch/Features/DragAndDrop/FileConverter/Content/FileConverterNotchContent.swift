@@ -16,7 +16,7 @@ struct FileConverterNotchContent: NotchContentProtocol {
     var priority: Int { NotchContentRegistry.DragAndDrop.fileConverter.priority }
 
     var strokeColor: Color {
-        settingsViewModel.isDefaultActivityStrokeEnabled || settingsViewModel.mediaAndFiles.isDragAndDropDefaultStrokeEnabled ?
+        settingsViewModel.isDefaultActivityStrokeEnabled ?
         .white.opacity(0.2) :
         DragAndDropTarget.fileConverter.activityStrokeColor(for: settingsViewModel.mediaAndFiles.dragAndDropTargetColorStyle)
     }

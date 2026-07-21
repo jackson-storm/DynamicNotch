@@ -145,7 +145,7 @@ public enum LiquidGlassVariant: Int, CaseIterable, Identifiable, Sendable {
 
     public static let supportedRange = 0...19
 
-    public static var defaultVariant: LiquidGlassVariant { .v11 }
+    public static var defaultVariant: LiquidGlassVariant { .v8 }
 
     public static func clamped(_ rawValue: Int) -> LiquidGlassVariant {
         let clamped = min(max(rawValue, supportedRange.lowerBound), supportedRange.upperBound)

@@ -610,6 +610,7 @@
       }
     },
     "Adjust the style variant of the liquid glass background." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1042,34 +1043,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "当曲目封面变化时，用 3D 翻转动画显示封面。"
-          }
-        }
-      }
-    },
-    "Current wallpaper" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Current wallpaper"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fondo de pantalla actual"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Текущие обои"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "当前壁纸"
           }
         }
       }
@@ -1687,6 +1660,7 @@
       }
     },
     "Background" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3505,9 +3479,6 @@
           }
         }
       }
-    },
-    "Choose the background color used across the notch and Dynamic Island." : {
-
     },
     "Choose the background color used across the notch." : {
       "extractionState" : "stale",
@@ -5540,6 +5511,34 @@
         }
       }
     },
+    "Current wallpaper" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Current wallpaper"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fondo de pantalla actual"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Текущие обои"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当前壁纸"
+          }
+        }
+      }
+    },
     "Cursor leaves" : {
       "localizations" : {
         "en" : {
@@ -5683,6 +5682,7 @@
       }
     },
     "Default stroke" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -9016,6 +9016,7 @@
       }
     },
     "Liquid glass style" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -22720,6 +22721,7 @@
       }
     },
     "Use the standard white notch stroke instead of the accent-colored download stroke." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -22777,6 +22779,7 @@
       }
     },
     "Use the standard white notch stroke instead of the Drag&Drop accent stroke." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -22834,6 +22837,7 @@
       }
     },
     "Use the standard white notch stroke instead of the Focus accent stroke." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -22862,6 +22866,7 @@
       }
     },
     "Use the standard white notch stroke instead of the full battery alert color." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -22890,6 +22895,7 @@
       }
     },
     "Use the standard white notch stroke instead of the hotspot accent stroke." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -22918,6 +22924,7 @@
       }
     },
     "Use the standard white notch stroke instead of the low battery alert color." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -22946,6 +22953,7 @@
       }
     },
     "Use the standard white notch stroke instead of the orange timer stroke." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -22974,6 +22982,7 @@
       }
     },
     "Use the standard white notch stroke instead of the red recording stroke." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

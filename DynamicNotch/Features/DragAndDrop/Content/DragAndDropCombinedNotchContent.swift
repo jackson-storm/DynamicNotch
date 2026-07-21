@@ -16,7 +16,7 @@ struct DragAndDropCombinedNotchContent: NotchContentProtocol, DynamicIslandCusto
     var priority: Int { NotchContentRegistry.DragAndDrop.combined.priority }
 
     var strokeColor: Color {
-        if settingsViewModel.isDefaultActivityStrokeEnabled || settingsViewModel.mediaAndFiles.isDragAndDropDefaultStrokeEnabled {
+        if settingsViewModel.isDefaultActivityStrokeEnabled {
             return .white.opacity(0.2)
         }
 

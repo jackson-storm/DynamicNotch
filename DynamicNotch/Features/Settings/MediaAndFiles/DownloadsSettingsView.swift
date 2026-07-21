@@ -3,13 +3,7 @@ import SwiftUI
 struct DownloadsSettingsView: View {
     @ObservedObject var mediaSettings: MediaAndFilesSettingsStore
     @ObservedObject var appearanceSettings: ApplicationSettingsStore
-    
-    private var isDefaultStrokeLocked: Bool {
-        appearanceSettings.isDefaultActivityStrokeEnabled
-    }
-    
 
-    
     var body: some View {
         SettingsPageScrollView {
             downloadActivity
@@ -40,17 +34,7 @@ struct DownloadsSettingsView: View {
                 accessibilityIdentifier: "settings.activities.live.downloads.progressIndicator",
                 selection: $mediaSettings.downloadsProgressIndicatorStyle
             )
-            
-            Divider().opacity(0.6)
-            
-            SettingsStrokeToggleRow(
-                title: "Default stroke",
-                description: "Use the standard white notch stroke instead of the accent-colored download stroke.",
-                isOn: $mediaSettings.isDownloadsDefaultStrokeEnabled,
-                accessibilityIdentifier: "settings.activities.live.downloads.defaultStroke"
-            )
-            .disabled(isDefaultStrokeLocked)
-            .opacity(isDefaultStrokeLocked ? 0.5 : 1)
         }
     }
 }
+

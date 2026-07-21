@@ -12,7 +12,7 @@ struct FullPowerNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     }
 
     var strokeColor: Color {
-        settingsViewModel.isDefaultActivityStrokeEnabled || settingsViewModel.battery.isFullPowerDefaultStrokeEnabled ?
+        settingsViewModel.isDefaultActivityStrokeEnabled ?
         .white.opacity(0.2) :
         (powerService.isLowPowerMode ? .yellow.opacity(0.3) : .green.opacity(0.3))
     }

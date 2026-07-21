@@ -90,7 +90,7 @@ enum LockScreenSettings {
 
     static func liquidGlassVariant(in defaults: UserDefaults = .standard) -> Int {
         guard let value = defaults.object(forKey: liquidGlassVariantKey) as? Int else {
-            return 11
+            return 8
         }
 
         return min(max(value, liquidGlassVariantRange.lowerBound), liquidGlassVariantRange.upperBound)

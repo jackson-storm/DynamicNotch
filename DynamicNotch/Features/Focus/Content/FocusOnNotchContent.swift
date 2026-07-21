@@ -17,7 +17,7 @@ struct FocusOnNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     }
     var priority: Int { NotchContentRegistry.Focus.active.priority }
     var strokeColor: Color {
-        settingsViewModel.isDefaultActivityStrokeEnabled || settingsViewModel.connectivity.isFocusDefaultStrokeEnabled ?
+        settingsViewModel.isDefaultActivityStrokeEnabled ?
         .white.opacity(0.2) :
         focusModeType.tint.opacity(0.3)
     }

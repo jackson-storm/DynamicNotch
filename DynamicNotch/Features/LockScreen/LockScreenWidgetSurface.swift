@@ -5,7 +5,7 @@ struct LockScreenWidgetSurface: View {
     let tintStyle: LockScreenWidgetTintStyle
     let brightness: Double
     let cornerRadius: CGFloat
-    let liquidGlassVariant: Int
+    var liquidGlassVariant: Int = 8
 
     var body: some View {
         let shape = RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)

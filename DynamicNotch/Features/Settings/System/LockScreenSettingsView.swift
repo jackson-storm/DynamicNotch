@@ -127,24 +127,6 @@ struct LockScreenSettingsView: View {
             }
             .accessibilityIdentifier("settings.activities.lockScreen.widgetAppearance")
             
-            if settings.widgetAppearanceStyle == .liquidGlass {
-                Divider().opacity(0.6)
-
-                SettingsSliderRow(
-                    title: "Liquid glass style",
-                    description: "Adjust the style variant of the liquid glass background.",
-                    range: Double(LockScreenSettings.liquidGlassVariantRange.lowerBound)...Double(LockScreenSettings.liquidGlassVariantRange.upperBound),
-                    step: 1,
-                    fractionLength: 0,
-                    suffix: "",
-                    accessibilityIdentifier: "settings.activities.lockScreen.liquidGlassVariant",
-                    value: Binding(
-                        get: { Double(settings.liquidGlassVariant) },
-                        set: { settings.liquidGlassVariant = Int($0) }
-                    )
-                )
-            }
-            
             Divider().opacity(0.6)
 
             SettingsSliderRow(

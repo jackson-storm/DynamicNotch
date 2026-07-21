@@ -8,7 +8,6 @@ struct NotchBackgroundSurface: View {
     let dynamicIslandCornerRadius: CGFloat
     let strokeColor: Color
     let strokeWidth: CGFloat
-    let liquidGlassVariant: Int
     var height: CGFloat? = nil
     var baseHeight: CGFloat? = nil
     
@@ -35,43 +34,6 @@ struct NotchBackgroundSurface: View {
         switch style {
         case .black:
             shape.fill(.black)
-            
-        case .liquidGlass:
-            LiquidGlassBackground(
-                variant: LiquidGlassVariant.clamped(liquidGlassVariant),
-                cornerRadius: isDynamicIsland ? dynamicIslandCornerRadius : 12,
-                hideTopBorder: !isDynamicIsland
-            ) {
-                ZStack {
-                    LinearGradient(
-                        stops: [
-                            .init(color: .black, location: 0.0),
-                            .init(color: .black, location: 0.25),
-                            .init(color: .black.opacity(0.8), location: 0.55),
-                            .init(color: .black.opacity(0.6), location: 0.75),
-                            .init(color: .black.opacity(0.4), location: 1.0)
-                        ],
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
-                    
-                    if let height, let baseHeight, height > baseHeight {
-                        // Only vertical gradient
-                    } else {
-                        LinearGradient(
-                            stops: [
-                                .init(color: .clear, location: 0.0),
-                                .init(color: .black, location: 0.20),
-                                .init(color: .black, location: 0.80),
-                                .init(color: .clear, location: 1.0)
-                            ],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                    }
-                }
-            }
-            .clipShape(shape)
         }
     }
 }

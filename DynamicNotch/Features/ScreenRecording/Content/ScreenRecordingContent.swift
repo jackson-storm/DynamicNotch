@@ -22,9 +22,7 @@ struct ScreenRecordingContent: NotchContentProtocol {
 
     @MainActor
     init(settingsViewModel: SettingsViewModel) {
-        self.usesDefaultStroke =
-            settingsViewModel.isDefaultActivityStrokeEnabled ||
-            settingsViewModel.screenRecording.isScreenRecordingDefaultStrokeEnabled
+        self.usesDefaultStroke = settingsViewModel.isDefaultActivityStrokeEnabled
     }
 
     var priority: Int { NotchContentRegistry.ScreenRecording.active.priority }

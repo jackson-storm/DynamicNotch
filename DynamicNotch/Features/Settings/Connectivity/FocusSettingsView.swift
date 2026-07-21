@@ -8,10 +8,6 @@ struct FocusSettingsView: View {
         Double(SettingsStoreBase.temporaryActivityDurationRange.lowerBound)...Double(SettingsStoreBase.temporaryActivityDurationRange.upperBound)
     }
 
-    private var isDefaultStrokeLocked: Bool {
-        appearanceSettings.isDefaultActivityStrokeEnabled
-    }
-    
     var body: some View {
         SettingsPageScrollView {
             focusActivity
@@ -115,17 +111,6 @@ struct FocusSettingsView: View {
             ) { style, isSelected in
                 focusStylePickerContent(for: style, isSelected: isSelected)
             }
-
-            Divider().opacity(0.6)
-
-            SettingsStrokeToggleRow(
-                title: "Default stroke",
-                description: "Use the standard white notch stroke instead of the Focus accent stroke.",
-                isOn: $connectivitySettings.isFocusDefaultStrokeEnabled,
-                accessibilityIdentifier: "settings.activities.focus.defaultStroke"
-            )
-            .disabled(isDefaultStrokeLocked)
-            .opacity(isDefaultStrokeLocked ? 0.5 : 1)
         }
     }
     
@@ -171,7 +156,7 @@ struct FocusSettingsView: View {
             return .clear
         }
 
-        if appearanceSettings.isDefaultActivityStrokeEnabled || connectivitySettings.isFocusDefaultStrokeEnabled {
+        if appearanceSettings.isDefaultActivityStrokeEnabled {
             return .white.opacity(0.2)
         }
 

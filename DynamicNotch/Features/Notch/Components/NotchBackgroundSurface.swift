@@ -37,11 +37,31 @@ struct NotchBackgroundSurface: View {
             shape.fill(.black)
             
         case .liquidGlass:
-            LiquidGlassBackground(
-                variant: LiquidGlassVariant.clamped(liquidGlassVariant),
-                cornerRadius: isDynamicIsland ? dynamicIslandCornerRadius : 12,
-                hideTopBorder: !isDynamicIsland
-            ) {
+            ZStack {
+                LiquidGlassBackground(
+                    variant: LiquidGlassVariant.clamped(liquidGlassVariant),
+                    cornerRadius: isDynamicIsland ? dynamicIslandCornerRadius : 12,
+                    hideTopBorder: !isDynamicIsland
+                ) {
+                    Color.clear
+                }
+
+                if !isDynamicIsland {
+                    let insetPadding = max(2, bottomCornerRadius * 0.25)
+                    let rectCornerRadius = max(4, bottomCornerRadius - insetPadding)
+
+                    LiquidGlassBackground(
+                        variant: LiquidGlassVariant.clamped(liquidGlassVariant),
+                        cornerRadius: rectCornerRadius,
+                        hideTopBorder: false
+                    ) {
+                        Color.clear
+                    }
+                    .clipShape(RoundedRectangle(cornerRadius: rectCornerRadius, style: .continuous))
+                    .padding(.horizontal, insetPadding)
+                    .padding(.top, insetPadding)
+                }
+
                 ZStack {
                     LinearGradient(
                         stops: [

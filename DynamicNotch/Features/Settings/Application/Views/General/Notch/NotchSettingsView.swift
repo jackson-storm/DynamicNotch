@@ -197,11 +197,32 @@ struct NotchSettingsView: View {
                 }
             
         case .liquidGlass:
-            LiquidGlassBackground(
-                variant: LiquidGlassVariant.clamped(7),
-                cornerRadius: isDynamicIsland ? 15 : 12,
-                hideTopBorder: !isDynamicIsland
-            ) {
+            ZStack {
+                LiquidGlassBackground(
+                    variant: LiquidGlassVariant.clamped(7),
+                    cornerRadius: isDynamicIsland ? 15 : 12,
+                    hideTopBorder: !isDynamicIsland
+                ) {
+                    Color.clear
+                }
+
+                if !isDynamicIsland {
+                    let effectiveBottomRadius: CGFloat = 12
+                    let insetPadding = max(2, effectiveBottomRadius * 0.25)
+                    let rectCornerRadius = max(4, effectiveBottomRadius - insetPadding)
+
+                    LiquidGlassBackground(
+                        variant: LiquidGlassVariant.clamped(7),
+                        cornerRadius: rectCornerRadius,
+                        hideTopBorder: false
+                    ) {
+                        Color.clear
+                    }
+                    .clipShape(RoundedRectangle(cornerRadius: rectCornerRadius, style: .continuous))
+                    .padding(.horizontal, insetPadding)
+                    .padding(.top, insetPadding)
+                }
+
                 ZStack {
                     LinearGradient(
                         stops: [

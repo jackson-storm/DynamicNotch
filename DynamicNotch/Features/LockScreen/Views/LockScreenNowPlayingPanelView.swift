@@ -248,9 +248,9 @@ struct LockScreenNowPlayingPanelView: View {
                     if mediaPanelBackgroundStyle == .wallpaper {
                         NowPlayingArtworkBackground(
                             artworkImage: resolvedArtworkImage,
-                            blurRadius: 10,
+                            blurRadius: 5,
                             darkeningOpacity: 0.6,
-                            saturation: 1.00,
+                            saturation: 1.0,
                             scale: 1.0
                         )
                         .frame(width: proxy.size.width, height: proxy.size.height)

@@ -151,6 +151,24 @@ final class NowPlayingViewModelIntegrationTests: XCTestCase {
         XCTAssertEqual(viewModel.snapshot?.playbackRate, 1)
     }
 
+    func testSeekIgnoresStaleServiceSnapshotsDuringGracePeriod() {
+        let service = FakeNowPlayingService()
+        let viewModel = NowPlayingViewModel(service: service)
+        TestLifetime.retain(viewModel)
+        viewModel.startMonitoring()
+
+        service.publish(makeNowPlayingSnapshot(duration: 243, elapsedTime: 42, playbackRate: 1))
+
+        viewModel.seek(to: 120)
+        XCTAssertEqual(viewModel.snapshot?.elapsedTime, 120)
+
+        // Simulate stale service snapshot arriving during seek grace period
+        service.publish(makeNowPlayingSnapshot(duration: 243, elapsedTime: 42.5, playbackRate: 1))
+
+        // Snapshot should maintain the target seek position, preventing UI jump-backs
+        XCTAssertGreaterThanOrEqual(viewModel.snapshot?.elapsedTime ?? 0, 119.5)
+    }
+
     func testAdvancedPlaybackControlsUpdateSnapshotAndSendCommands() {
         let service = FakeNowPlayingService()
         let viewModel = NowPlayingViewModel(service: service)

@@ -112,7 +112,8 @@ final class MediaRemoteNowPlayingService: NowPlayingMonitoring, NowPlayingDetail
         if command.requiresApplicationBridge,
            applicationBridge.send(command, source: lastSnapshot?.playbackSource) {
             recordOptimisticApplicationPlaybackState(for: command)
-            scheduleApplicationPlaybackRefresh(for: lastSnapshot, force: true, delay: 0.2)
+            let delay: TimeInterval = if case .seek = command { 0.8 } else { 0.2 }
+            scheduleApplicationPlaybackRefresh(for: lastSnapshot, force: true, delay: delay)
             return
         }
 
@@ -342,9 +343,21 @@ private extension MediaRemoteNowPlayingService {
     func recordOptimisticApplicationPlaybackState(for command: NowPlayingCommand) {
         guard let snapshot = lastSnapshot,
               let bundleIdentifier = snapshot.playbackSource?.preferredBundleIdentifier,
-              supportsApplicationPlaybackState(bundleIdentifier: bundleIdentifier),
-              let isPlaying = command.optimisticPlaybackState else {
+              supportsApplicationPlaybackState(bundleIdentifier: bundleIdentifier) else {
             return
+        }
+
+        let isPlaying: Bool
+        let elapsedTime: TimeInterval
+
+        switch command {
+        case .seek(let targetElapsedTime):
+            isPlaying = snapshot.isPlaying
+            elapsedTime = targetElapsedTime
+        default:
+            guard let optimisticState = command.optimisticPlaybackState else { return }
+            isPlaying = optimisticState
+            elapsedTime = snapshot.elapsedTime(at: .now)
         }
 
         let state = NowPlayingApplicationPlaybackState(
@@ -353,7 +366,7 @@ private extension MediaRemoteNowPlayingService {
             title: snapshot.title,
             artist: snapshot.artist,
             album: snapshot.album,
-            elapsedTime: snapshot.elapsedTime(at: .now),
+            elapsedTime: elapsedTime,
             duration: snapshot.duration,
             isShuffled: snapshot.isShuffled,
             repeatMode: snapshot.repeatMode,

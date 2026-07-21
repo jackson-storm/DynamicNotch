@@ -57,12 +57,6 @@ final class LockScreenFeatureSettingsStore: SettingsStoreBase {
         }
     }
 
-    @Published var liquidGlassVariant: Int {
-        didSet {
-            persist(liquidGlassVariant, for: LockScreenSettings.liquidGlassVariantKey)
-        }
-    }
-
     @Published var mediaPanelBackgroundStyle: LockScreenMediaPanelBackgroundStyle {
         didSet {
             persist(
@@ -109,7 +103,6 @@ final class LockScreenFeatureSettingsStore: SettingsStoreBase {
         self.widgetAppearanceStyle = LockScreenSettings.widgetAppearanceStyle(in: defaults)
         self.widgetTintStyle = LockScreenSettings.widgetTintStyle(in: defaults)
         self.widgetBackgroundBrightness = LockScreenSettings.widgetBackgroundBrightness(in: defaults)
-        self.liquidGlassVariant = LockScreenSettings.liquidGlassVariant(in: defaults)
         self.mediaPanelBackgroundStyle = LockScreenSettings.mediaPanelBackgroundStyle(in: defaults)
         self.isLockScreenLyricsEnabled = LockScreenSettings.isLyricsEnabled(in: defaults)
         self.mediaPanelVerticalOffset = LockScreenSettings.mediaPanelVerticalOffset(in: defaults)
@@ -136,7 +129,6 @@ final class LockScreenFeatureSettingsStore: SettingsStoreBase {
             rawValue: defaultString(for: LockScreenSettings.widgetTintStyleKey)
         ) ?? .neutral
         widgetBackgroundBrightness = defaultDouble(for: LockScreenSettings.widgetBackgroundBrightnessKey)
-        liquidGlassVariant = defaultInt(for: LockScreenSettings.liquidGlassVariantKey)
         mediaPanelBackgroundStyle = LockScreenMediaPanelBackgroundStyle(
             rawValue: defaultString(for: LockScreenSettings.mediaPanelBackgroundStyleKey)
         ) ?? .wallpaper

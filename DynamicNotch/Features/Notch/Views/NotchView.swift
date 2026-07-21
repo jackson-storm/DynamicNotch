@@ -148,7 +148,6 @@ private extension NotchView {
             dynamicIslandCornerRadius: notchViewModel.dynamicIslandCornerRadius,
             strokeColor: shouldShowStroke ? visibleStrokeColor : .clear,
             strokeWidth: settingsViewModel.notchStrokeWidth,
-            liquidGlassVariant: settingsViewModel.lockScreen.liquidGlassVariant,
             height: notchViewModel.interactiveNotchSize.height,
             baseHeight: notchViewModel.notchModel.baseHeight
         )

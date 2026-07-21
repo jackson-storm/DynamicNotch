@@ -277,8 +277,7 @@ struct LockScreenNowPlayingPanelView: View {
             style: settingsViewModel.lockScreen.widgetAppearanceStyle,
             tintStyle: settingsViewModel.lockScreen.widgetTintStyle,
             brightness: settingsViewModel.lockScreen.widgetBackgroundBrightness,
-            cornerRadius: 28,
-            liquidGlassVariant: settingsViewModel.lockScreen.liquidGlassVariant
+            cornerRadius: 28
         )
     }
 

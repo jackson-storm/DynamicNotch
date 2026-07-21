@@ -195,63 +195,6 @@ struct NotchSettingsView: View {
                     shape
                         .stroke(strokeColor, lineWidth: strokeWidth)
                 }
-            
-        case .liquidGlass:
-            ZStack {
-                LiquidGlassBackground(
-                    variant: LiquidGlassVariant.clamped(7),
-                    cornerRadius: isDynamicIsland ? 15 : 12,
-                    hideTopBorder: !isDynamicIsland
-                ) {
-                    Color.clear
-                }
-
-                if !isDynamicIsland {
-                    let effectiveBottomRadius: CGFloat = 12
-                    let insetPadding = max(2, effectiveBottomRadius * 0.25)
-                    let rectCornerRadius = max(4, effectiveBottomRadius - insetPadding)
-
-                    LiquidGlassBackground(
-                        variant: LiquidGlassVariant.clamped(7),
-                        cornerRadius: rectCornerRadius,
-                        hideTopBorder: false
-                    ) {
-                        Color.clear
-                    }
-                    .clipShape(RoundedRectangle(cornerRadius: rectCornerRadius, style: .continuous))
-                    .padding(.horizontal, insetPadding)
-                    .padding(.top, insetPadding)
-                }
-
-                ZStack {
-                    LinearGradient(
-                        stops: [
-                            .init(color: Color.black.opacity(0.65), location: 0.0),
-                            .init(color: Color.black.opacity(0.65), location: 0.5),
-                            .init(color: .clear, location: 1.0)
-                        ],
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
-                    LinearGradient(
-                        stops: [
-                            .init(color: .clear, location: 0.0),
-                            .init(color: Color.black.opacity(0.65), location: 0.20),
-                            .init(color: Color.black.opacity(0.65), location: 0.80),
-                            .init(color: .clear, location: 1.0)
-                        ],
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    )
-                }
-            }
-            .padding(.top, isDynamicIsland ? 0 : 10)
-            .offset(y: isDynamicIsland ? 0 : -10)
-            .clipShape(shape)
-            .overlay {
-                shape
-                    .stroke(strokeColor, lineWidth: strokeWidth)
-            }
         }
     }
     

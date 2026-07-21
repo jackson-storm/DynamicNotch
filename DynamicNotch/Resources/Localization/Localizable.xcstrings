@@ -1660,6 +1660,7 @@
       }
     },
     "Background" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3478,9 +3479,6 @@
           }
         }
       }
-    },
-    "Choose the background color used across the notch and Dynamic Island." : {
-
     },
     "Choose the background color used across the notch." : {
       "extractionState" : "stale",

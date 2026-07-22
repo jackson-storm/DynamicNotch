@@ -33,8 +33,8 @@ struct VpnSettingsView: View {
         SettingsPageScrollView {
             vpnActivity
             vpnDuration
-            preferredVpnCard
             vpnAppearance
+            preferredVpnCard
         }
         .onAppear {
             vpnViewModel.startMonitoring()

@@ -21,8 +21,8 @@ struct LockScreenSettingsView: View {
         SettingsPageScrollView {
             lockScreenActivity
             notchAppearance
-            artworkAppearance
             widgetAppearance
+            artworkAppearance
         }
     }
     

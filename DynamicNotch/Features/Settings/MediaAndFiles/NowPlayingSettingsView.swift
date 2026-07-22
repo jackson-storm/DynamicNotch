@@ -8,10 +8,6 @@ struct NowPlayingSettingsView: View {
         Double(SettingsStoreBase.temporaryActivityDurationRange.lowerBound)...Double(SettingsStoreBase.temporaryActivityDurationRange.upperBound)
     }
 
-    private var isArtworkStrokeLocked: Bool {
-        applicationSettings.isDefaultActivityStrokeEnabled
-    }
-
     private var isWithoutCloseTimer: Binding<Bool> {
         Binding(
             get: { !settings.isNowPlayingPauseHideTimerEnabled },
@@ -93,17 +89,6 @@ struct NowPlayingSettingsView: View {
 
             Divider().opacity(0.6)
             
-            SettingsToggleRow(
-                title: "Artwork 3D effect",
-                description: "Animate artwork with a 3D flip when the track cover changes.",
-                systemImage: "square.stack.3d.up.fill",
-                color: .purple,
-                isOn: $settings.isNowPlayingArtwork3DEffectEnabled,
-                accessibilityIdentifier: "settings.activities.live.nowPlaying.artwork3DEffect"
-            )
-            
-            Divider().opacity(0.6)
-            
             SettingsMenuRow(
                 title: "Progress bar tint",
                 description: "Choose how to color the progress bar and timer labels.",
@@ -114,12 +99,23 @@ struct NowPlayingSettingsView: View {
             )
 
             Divider().opacity(0.6)
+            
+            SettingsToggleRow(
+                title: "Artwork 3D effect",
+                description: "Animate artwork with a 3D flip when the track cover changes.",
+                systemImage: "rotate.3d.fill",
+                color: .blue,
+                isOn: $settings.isNowPlayingArtwork3DEffectEnabled,
+                accessibilityIdentifier: "settings.activities.live.nowPlaying.artwork3DEffect"
+            )
+            
+            Divider().opacity(0.6)
 
             SettingsToggleRow(
                 title: "Hide favorite",
                 description: "Remove the favorite button from the expanded player controls.",
                 systemImage: "star.slash.fill",
-                color: .pink,
+                color: .red,
                 isOn: Binding(
                     get: { !settings.isNowPlayingFavoriteButtonVisible },
                     set: { settings.isNowPlayingFavoriteButtonVisible = !$0 }
@@ -136,27 +132,13 @@ struct NowPlayingSettingsView: View {
                 title: "Hide output device",
                 description: "Remove the output device button from the expanded player controls.",
                 systemImage: "airplay.audio",
-                color: .blue,
+                color: .red,
                 isOn: Binding(
                     get: { !settings.isNowPlayingOutputDeviceButtonVisible },
                     set: { settings.isNowPlayingOutputDeviceButtonVisible = !$0 }
                 ),
                 accessibilityIdentifier: "settings.activities.live.nowPlaying.hideOutputDevice"
             )
-            
-            Divider()
-                .opacity(0.6)
-                .padding(.leading, 43)
-                .frame(maxWidth: .infinity, alignment: .trailing)
-
-            SettingsStrokeToggleRow(
-                title: "Artwork-tinted stroke",
-                description: "Color the notch stroke using the current artwork palette.",
-                isOn: $settings.isNowPlayingArtworkStrokeEnabled,
-                accessibilityIdentifier: "settings.activities.live.nowPlaying.artworkStroke"
-            )
-            .disabled(isArtworkStrokeLocked)
-            .opacity(isArtworkStrokeLocked ? 0.5 : 1)
         }
     }
 }
@@ -189,7 +171,7 @@ private struct NowPlayingAppearancePreview: View {
             backgroundStyle: .black,
             showsStroke: showsNotchStroke,
             strokeColor: showsNotchStroke
-            ? (appearance.usesArtworkStrokeTint ? baseColor.opacity(0.3) : .white.opacity(0.2)).opacity(applicationSettings.notchStrokeOpacity)
+            ? Color.white.opacity(0.2).opacity(applicationSettings.notchStrokeOpacity)
             : .clear,
             strokeWidth: 1.5,
             lightBackgroundImage: Image("backgroundLight"),

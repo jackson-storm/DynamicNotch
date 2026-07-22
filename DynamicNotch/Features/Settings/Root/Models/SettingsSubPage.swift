@@ -16,6 +16,8 @@ enum SettingsSubPage: Hashable, Identifiable {
     case notchDisplay
     case notchAnimation
     case gestures
+    case fileTray
+    case fileConverter
     
     var id: Self { self }
     var titleKey: String {
@@ -35,6 +37,8 @@ enum SettingsSubPage: Hashable, Identifiable {
         case .notchDisplay: return "settings.notch.display.title"
         case .notchAnimation: return "Animation"
         case .gestures: return "Gestures"
+        case .fileTray: return "Tray"
+        case .fileConverter: return "File Converter"
         }
     }
     
@@ -55,6 +59,8 @@ enum SettingsSubPage: Hashable, Identifiable {
         case .notchDisplay: return "Display"
         case .notchAnimation: return "Animation"
         case .gestures: return "Gestures"
+        case .fileTray: return "Tray"
+        case .fileConverter: return "File Converter"
         }
     }
     
@@ -75,6 +81,8 @@ enum SettingsSubPage: Hashable, Identifiable {
         case .notchDisplay: return "settings.notch.display.subtitle"
         case .notchAnimation: return "settings.notch.animation.subtitle"
         case .gestures: return "settings.notch.gestures.subtitle"
+        case .fileTray: return "settings.dragAndDrop.tray.subtitle"
+        case .fileConverter: return "settings.dragAndDrop.fileConverter.subtitle"
         }
     }
     
@@ -95,12 +103,14 @@ enum SettingsSubPage: Hashable, Identifiable {
         case .notchDisplay: return "Configure where and how the notch is displayed."
         case .notchAnimation: return "Set motion parameters and animation speed."
         case .gestures: return "Configure click, hover, and scroll gestures."
+        case .fileTray: return "Configure file tray behavior, scroll direction, and appearance."
+        case .fileConverter: return "Configure output location, existing file behavior, and quality."
         }
     }
     
     var canReset: Bool {
         switch self {
-        case .appearance, .notch, .language, .activityPriorities, .notchDisplay, .notchAnimation, .gestures:
+        case .appearance, .notch, .language, .activityPriorities, .notchDisplay, .notchAnimation, .gestures, .fileTray, .fileConverter:
             return true
         default:
             return false

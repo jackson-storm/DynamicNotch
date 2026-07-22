@@ -7,8 +7,8 @@ struct HomePageSettingsView: View {
     var body: some View {
         SettingsPageScrollView {
             homePageActivity
-            homePagePages
             homePageAppearance
+            homePagePages
         }
     }
     private var homePageActivity: some View {

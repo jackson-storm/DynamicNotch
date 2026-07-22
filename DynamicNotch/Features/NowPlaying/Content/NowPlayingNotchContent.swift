@@ -38,11 +38,7 @@ struct NowPlayingNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     }
 
     var strokeColor: Color {
-        guard settings.isNowPlayingArtworkStrokeEnabled,
-              applicationSettings.isDefaultActivityStrokeEnabled == false else {
-            return .white.opacity(0.2)
-        }
-        return Color(nsColor: nowPlayingViewModel.artworkPalette.equalizerBaseColor).opacity(0.4)
+        .white.opacity(0.2)
     }
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {

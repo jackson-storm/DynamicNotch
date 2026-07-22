@@ -57,6 +57,7 @@ final class AppContainer {
         settingsViewModel: settingsViewModel,
         nowPlayingViewModel: nowPlayingViewModel,
         timerViewModel: timerViewModel,
+        screenRecordingViewModel: screenRecordingViewModel,
         lockScreenManager: lockScreenManager,
         homePageViewModel: homePageViewModel,
         localTimerViewModel: localTimerViewModel,

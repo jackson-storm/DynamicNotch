@@ -70,6 +70,20 @@ final class SystemScreenRecordingMonitor: NSObject, ScreenRecordingMonitoring {
         isRecorderIdle = true
         applyRecordingState(false)
     }
+
+    func stopRecording() {
+        let pkillURL = URL(fileURLWithPath: "/usr/bin/pkill")
+
+        let task1 = Process()
+        task1.executableURL = pkillURL
+        task1.arguments = ["-INT", "-x", "screencapture"]
+        try? task1.run()
+
+        let task2 = Process()
+        task2.executableURL = pkillURL
+        task2.arguments = ["-INT", "-x", "screencaptureui"]
+        try? task2.run()
+    }
 }
 
 extension SystemScreenRecordingMonitor {
@@ -86,7 +100,7 @@ extension SystemScreenRecordingMonitor {
         let minutes = totalSeconds / 60
         let seconds = totalSeconds % 60
 
-        return String(format: "%d:%02d", minutes, seconds)
+        return String(format: "%02d:%02d", minutes, seconds)
     }
 }
 

@@ -34,12 +34,6 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         }
     }
 
-    @Published var isNowPlayingArtworkStrokeEnabled: Bool {
-        didSet {
-            persist(isNowPlayingArtworkStrokeEnabled, for: GeneralSettingsStorage.Keys.nowPlayingArtworkStrokeEnabled)
-        }
-    }
-
     @Published var isNowPlayingPauseHideTimerEnabled: Bool {
         didSet {
             persist(
@@ -241,7 +235,6 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
             let legacyTint = defaults.bool(forKey: GeneralSettingsStorage.Keys.nowPlayingArtworkTintEnabled)
             self.nowPlayingProgressTintStyle = legacyTint ? .artwork : .default
         }
-        self.isNowPlayingArtworkStrokeEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.nowPlayingArtworkStrokeEnabled)
         self.isNowPlayingPauseHideTimerEnabled = Self.resolvedBool(
             defaults: defaults,
             key: GeneralSettingsStorage.Keys.nowPlayingPauseHideTimerEnabled
@@ -334,7 +327,6 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         nowPlayingProgressTintStyle = NowPlayingProgressTintStyle.resolved(
             defaultString(for: GeneralSettingsStorage.Keys.nowPlayingProgressTintStyle)
         )
-        isNowPlayingArtworkStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.nowPlayingArtworkStrokeEnabled)
         isNowPlayingPauseHideTimerEnabled = defaultBool(
             for: GeneralSettingsStorage.Keys.nowPlayingPauseHideTimerEnabled
         )
@@ -358,7 +350,28 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         isDragAndDropLiveActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.airDropLiveActivityEnabled)
         isDragAndDropDefaultStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.airDropDefaultStrokeEnabled)
         isDropMotionAnimationEnabled = defaultBool(for: GeneralSettingsStorage.Keys.dropMotionAnimationEnabled)
+        dragAndDropActivityMode = DragAndDropActivityMode.resolved(
+            defaultString(for: GeneralSettingsStorage.Keys.dragAndDropActivityMode)
+        )
+        dragAndDropTargetColorStyle = DragAndDropTargetColorStyle.resolved(
+            defaultString(for: GeneralSettingsStorage.Keys.dragAndDropTargetColorStyle)
+        )
+        resetFileTray()
+        resetFileConverter()
+    }
+
+    func resetFileTray() {
         isTrayLiveActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.trayLiveActivityEnabled)
+        fileTrayUsageMode = FileTrayUsageMode.resolved(
+            defaultString(for: GeneralSettingsStorage.Keys.fileTrayUsageMode)
+        )
+        fileTrayScrollDirection = FileTrayScrollDirection.resolved(
+            defaultString(for: GeneralSettingsStorage.Keys.fileTrayScrollDirection)
+        )
+        isFileTrayRemoveButtonHidden = defaultBool(for: GeneralSettingsStorage.Keys.fileTrayRemoveButtonHidden)
+    }
+
+    func resetFileConverter() {
         isFileConverterLiveActivityEnabled = defaultBool(
             for: GeneralSettingsStorage.Keys.fileConverterLiveActivityEnabled
         )
@@ -381,19 +394,6 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         fileConverterAudioQuality = FileConverterAudioQuality.resolved(
             defaultString(for: GeneralSettingsStorage.Keys.fileConverterAudioQuality)
         )
-        dragAndDropActivityMode = DragAndDropActivityMode.resolved(
-            defaultString(for: GeneralSettingsStorage.Keys.dragAndDropActivityMode)
-        )
-        dragAndDropTargetColorStyle = DragAndDropTargetColorStyle.resolved(
-            defaultString(for: GeneralSettingsStorage.Keys.dragAndDropTargetColorStyle)
-        )
-        fileTrayUsageMode = FileTrayUsageMode.resolved(
-            defaultString(for: GeneralSettingsStorage.Keys.fileTrayUsageMode)
-        )
-        fileTrayScrollDirection = FileTrayScrollDirection.resolved(
-            defaultString(for: GeneralSettingsStorage.Keys.fileTrayScrollDirection)
-        )
-        isFileTrayRemoveButtonHidden = defaultBool(for: GeneralSettingsStorage.Keys.fileTrayRemoveButtonHidden)
     }
 
     func resetTimer() {
@@ -425,7 +425,6 @@ struct NowPlayingAppearanceOptions {
     let showsOutputDeviceButton: Bool
     let usesArtwork3DEffect: Bool
     let progressTintStyle: NowPlayingProgressTintStyle
-    let usesArtworkStrokeTint: Bool
 }
 
 extension MediaAndFilesSettingsStore {
@@ -434,14 +433,13 @@ extension MediaAndFilesSettingsStore {
     }
 
     func resolvedNowPlayingAppearanceOptions(
-        isDefaultActivityStrokeEnabled: Bool
+        isDefaultActivityStrokeEnabled: Bool = false
     ) -> NowPlayingAppearanceOptions {
         .init(
             showsFavoriteButton: isNowPlayingFavoriteButtonVisible,
             showsOutputDeviceButton: isNowPlayingOutputDeviceButtonVisible,
             usesArtwork3DEffect: isNowPlayingArtwork3DEffectEnabled,
-            progressTintStyle: nowPlayingProgressTintStyle,
-            usesArtworkStrokeTint: isNowPlayingArtworkStrokeEnabled && !isDefaultActivityStrokeEnabled
+            progressTintStyle: nowPlayingProgressTintStyle
         )
     }
 }

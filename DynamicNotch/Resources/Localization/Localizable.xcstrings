@@ -1440,34 +1440,6 @@
         }
       }
     },
-    "Artwork-tinted stroke" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Artwork-tinted stroke"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Trazo teñido por la carátula"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Обводка в цветах обложки"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "封面配色描边"
-          }
-        }
-      }
-    },
     "Ask" : {
       "localizations" : {
         "en" : {
@@ -4642,34 +4614,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "折叠手势"
-          }
-        }
-      }
-    },
-    "Color the notch stroke using the current artwork palette." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Color the notch stroke using the current artwork palette."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Colorea el trazo de la muesca usando la paleta de la carátula actual."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Окрашивайте обводку нотча в цвета текущей обложки."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "使用当前封面配色为刘海描边着色。"
           }
         }
       }
@@ -13233,6 +13177,118 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "日历活动"
+          }
+        }
+      }
+    },
+    "settings.dragAndDrop.fileConverter.subtitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configure output location, existing file behavior, and quality."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configura la ubicación de salida, el comportamiento con archivos existentes y la calidad."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройка папки сохранения, поведения при совпадении файлов и качества."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "配置输出位置、已存在文件的处理方式和转换质量。"
+          }
+        }
+      }
+    },
+    "settings.dragAndDrop.fileConverter.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "File Converter"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conversor de archivos"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Конвертер файлов"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "文件转换器"
+          }
+        }
+      }
+    },
+    "settings.dragAndDrop.tray.subtitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configure file tray behavior, scroll direction, and appearance."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configura el comportamiento, la dirección de desplazamiento y la apariencia de la bandeja."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройка поведения, направления прокрутки и внешнего вида трея."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "配置文件托盘的行为、滚动方向和外观。"
+          }
+        }
+      }
+    },
+    "settings.dragAndDrop.tray.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tray"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bandeja"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Трей"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "托盘"
           }
         }
       }

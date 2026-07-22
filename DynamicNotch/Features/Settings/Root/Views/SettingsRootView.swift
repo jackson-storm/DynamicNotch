@@ -620,6 +620,15 @@ struct SettingsRootView: View {
             AnimationSettingsView(applicationSettings: settingsViewModel.application)
         case .gestures:
             GesturesSettingsView(applicationSettings: settingsViewModel.application)
+        case .fileTray:
+            FileTraySettingsView(
+                mediaSettings: settingsViewModel.mediaAndFiles,
+                appearanceSettings: settingsViewModel.application
+            )
+        case .fileConverter:
+            FileConverterSettingsView(
+                mediaSettings: settingsViewModel.mediaAndFiles
+            )
         }
     }
 
@@ -660,6 +669,10 @@ struct SettingsRootView: View {
             settingsViewModel.application.resetAnimation()
         case .gestures:
             settingsViewModel.application.resetGestures()
+        case .fileTray:
+            settingsViewModel.mediaAndFiles.resetFileTray()
+        case .fileConverter:
+            settingsViewModel.mediaAndFiles.resetFileConverter()
         default:
             break
         }

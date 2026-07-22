@@ -128,6 +128,6 @@ struct BluetoothConnectedNotchView: View {
             }
         }
         .padding(.horizontal, isDynamicIsland ? 15 : 38)
-        .padding(.bottom, isDynamicIsland ? 5 : 10)
+        .padding(.bottom, isDynamicIsland ? 7 : 10)
     }
 }

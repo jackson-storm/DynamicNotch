@@ -15,6 +15,7 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     let homePages: HomePages
     let localTimerViewModel: LocalTimerViewModel
     let nowPlayingViewModel: NowPlayingViewModel
+    let fileConverterViewModel: FileConverterViewModel
     let mediaAndFilesSettings: MediaAndFilesSettingsStore
     let applicationSettings: ApplicationSettingsStore
 
@@ -28,15 +29,28 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
         return .white.opacity(0)
     }
     
-    func expandedCornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
+    private var activePageContent: any NotchContentProtocol {
         switch homePages {
         case .camera:
-            let isStarted = UserDefaults.standard.bool(forKey: "isCameraStarted")
-            return (top: isStarted ? 34 : 24, bottom: isStarted ? 48 : 38)
-
-        case .localTimer, .vpn, .systemStats:
-            return (top: 24, bottom: 38)
+            return CameraActiveNotchContent()
+        case .localTimer:
+            return LocalTimerHomePageNotchContent()
+        case .vpn:
+            return VpnHomePageNotchContent()
+        case .systemStats:
+            return SystemStatsHomePageNotchContent()
+        case .fileConverter:
+            return FileConverterHomePageNotchContent(
+                fileConverterViewModel: fileConverterViewModel,
+                onRequestCollapse: { [weak notchViewModel] in
+                    notchViewModel?.handleOutsideClick()
+                }
+            )
         }
+    }
+
+    func expandedCornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
+        activePageContent.expandedCornerRadius(baseRadius: baseRadius)
     }
     
     func dynamicIslandCornerRadius(baseHeight: CGFloat) -> CGFloat {
@@ -52,78 +66,21 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     }
     
     func expandedDynamicIslandCornerRadius(baseHeight: CGFloat) -> CGFloat {
-        switch homePages {
-        case .camera:
-            let isStarted = UserDefaults.standard.bool(forKey: "isCameraStarted")
-            let isLarge = UserDefaults.standard.bool(forKey: "isCameraLarge")
-            
-            if !isStarted {
-                return baseHeight * 0.2
-            }
-            if isLarge {
-                return baseHeight * 0.15
-                
-            } else {
-                return baseHeight * 0.2
-            }
-            
-        case .localTimer, .vpn, .systemStats:
-            return baseHeight * 0.2
+        if let custom = activePageContent as? DynamicIslandCustomizable {
+            return custom.expandedDynamicIslandCornerRadius(baseHeight: baseHeight)
         }
+        return baseHeight * 0.2
     }
 
     func expandedSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        switch homePages {
-        case .camera:
-            let isStarted = UserDefaults.standard.bool(forKey: "isCameraStarted")
-            let isLarge = UserDefaults.standard.bool(forKey: "isCameraLarge")
-            
-            if !isStarted {
-                return .init(width: baseWidth + 65, height: baseHeight + 125)
-            }
-            if isLarge {
-                return .init(width: baseWidth + 250, height: baseHeight + 220)
-                
-            } else {
-                return .init(width: baseWidth + 180, height: baseHeight + 180)
-            }
-
-        case .localTimer:
-            return .init(width: baseWidth + 100, height: baseHeight + 125)
-
-        case .vpn:
-            return .init(width: baseWidth + 140, height: baseHeight + 110)
-
-        case .systemStats:
-            return .init(width: baseWidth + 140, height: baseHeight + 110)
-        }
+        activePageContent.expandedSize(baseWidth: baseWidth, baseHeight: baseHeight)
     }
 
     func expandedDynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        switch homePages {
-        case .camera:
-            let isStarted = UserDefaults.standard.bool(forKey: "isCameraStarted")
-            let isLarge = UserDefaults.standard.bool(forKey: "isCameraLarge")
-            
-            if !isStarted {
-                return .init(width: baseWidth + 95, height: baseHeight + 125)
-            }
-            if isLarge {
-                return .init(width: baseWidth + 280, height: baseHeight + 220)
-                
-            } else {
-                return .init(width: baseWidth + 210, height: baseHeight + 180)
-            }
-
-        case .localTimer:
-            return .init(width: baseWidth + 140, height: baseHeight + 125)
-
-        case .vpn:
-            return .init(width: baseWidth + 180, height: baseHeight + 125)
-
-        case .systemStats:
-            return .init(width: baseWidth + 180, height: baseHeight + 125)
+        if let custom = activePageContent as? DynamicIslandCustomizable {
+            return custom.expandedDynamicIslandSize(baseWidth: baseWidth, baseHeight: baseHeight)
         }
+        return .init(width: baseWidth + 180, height: baseHeight + 125)
     }
     
     @MainActor
@@ -134,6 +91,7 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
                 settings: settings,
                 localTimerViewModel: localTimerViewModel,
                 nowPlayingViewModel: nowPlayingViewModel,
+                fileConverterViewModel: fileConverterViewModel,
                 mediaAndFilesSettings: mediaAndFilesSettings,
                 applicationSettings: applicationSettings,
                 initialPage: homePages

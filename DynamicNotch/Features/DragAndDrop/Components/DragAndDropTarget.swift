@@ -3,7 +3,6 @@ import SwiftUI
 enum DragAndDropTarget: String, Hashable, CaseIterable {
     case airDrop
     case tray
-    case fileConverter
 
     var title: LocalizedStringKey {
         switch self {
@@ -12,9 +11,6 @@ enum DragAndDropTarget: String, Hashable, CaseIterable {
             
         case .tray:
             return "Tray"
-
-        case .fileConverter:
-            return "Converter"
         }
     }
 
@@ -52,9 +48,6 @@ enum DragAndDropTarget: String, Hashable, CaseIterable {
             
         case .tray:
             return .white
-
-        case .fileConverter:
-            return .green
         }
     }
 
@@ -67,7 +60,7 @@ enum DragAndDropTarget: String, Hashable, CaseIterable {
 
     var acceptsDrop: Bool {
         switch self {
-        case .airDrop, .tray, .fileConverter:
+        case .airDrop, .tray:
             return true
         }
     }
@@ -82,11 +75,6 @@ enum DragAndDropTarget: String, Hashable, CaseIterable {
             
         case .tray:
             Text(verbatim: "Tray")
-                .font(.system(size: 12))
-                .foregroundStyle(titleColor(for: colorStyle))
-
-        case .fileConverter:
-            Text(verbatim: "Converter")
                 .font(.system(size: 12))
                 .foregroundStyle(titleColor(for: colorStyle))
         }
@@ -107,12 +95,6 @@ enum DragAndDropTarget: String, Hashable, CaseIterable {
         case .tray:
             Image(systemName: "tray.full.fill")
                 .font(.system(size: 22))
-                .foregroundStyle(color)
-                .frame(width: 28, height: 28)
-
-        case .fileConverter:
-            Image(systemName: "arrow.trianglehead.2.clockwise.rotate.90.circle.fill")
-                .font(.system(size: 23, weight: .semibold))
                 .foregroundStyle(color)
                 .frame(width: 28, height: 28)
         }

@@ -13,6 +13,7 @@ struct CameraNotchView: View {
     let settings: HomePageSettingsStore
     let localTimerViewModel: LocalTimerViewModel
     let nowPlayingViewModel: NowPlayingViewModel
+    let fileConverterViewModel: FileConverterViewModel
     let mediaAndFilesSettings: MediaAndFilesSettingsStore
     let applicationSettings: ApplicationSettingsStore
     
@@ -111,6 +112,7 @@ struct CameraNotchView: View {
                     homePages: .camera,
                     localTimerViewModel: localTimerViewModel,
                     nowPlayingViewModel: nowPlayingViewModel,
+                    fileConverterViewModel: fileConverterViewModel,
                     mediaAndFilesSettings: mediaAndFilesSettings,
                     applicationSettings: applicationSettings
                 )
@@ -159,6 +161,7 @@ struct CameraNotchView: View {
                         homePages: .camera,
                         localTimerViewModel: localTimerViewModel,
                         nowPlayingViewModel: nowPlayingViewModel,
+                        fileConverterViewModel: fileConverterViewModel,
                         mediaAndFilesSettings: mediaAndFilesSettings,
                         applicationSettings: applicationSettings
                     )
@@ -221,7 +224,7 @@ struct CameraNotchView: View {
                     .progressViewStyle(CircularProgressViewStyle(tint: .white))
             }
         }
-        .padding(.horizontal, isDynamicIsland ? 0 : 12)
+        .padding(.horizontal, isDynamicIsland ? 2 : 12)
     }
 }
 

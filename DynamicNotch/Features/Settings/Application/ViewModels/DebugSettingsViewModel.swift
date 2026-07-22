@@ -270,7 +270,6 @@ final class DebugSettingsViewModel: ObservableObject {
     }
 
     func triggerFileConverterTargetPreview() {
-        showDragAndDropTargetPreview(.fileConverter)
     }
 
     func triggerCombinedDragAndDropPreview() {
@@ -489,10 +488,6 @@ final class DebugSettingsViewModel: ObservableObject {
                     .tray,
                     id: Self.sequenceTrayID
                 )
-                try await self.playDragAndDropTargetPreview(
-                    .fileConverter,
-                    id: Self.sequenceFileConverterID
-                )
                 try await self.playCombinedDragAndDropPreview()
                 try await self.playFileTrayActivePreview()
                 try await self.playFileConverterActivePreview()
@@ -582,8 +577,6 @@ final class DebugSettingsViewModel: ObservableObject {
             id = Self.sequenceAirDropID
         case .tray:
             id = Self.sequenceTrayID
-        case .fileConverter:
-            id = Self.sequenceFileConverterID
         }
 
         notchViewModel.send(
@@ -599,7 +592,7 @@ final class DebugSettingsViewModel: ObservableObject {
 
     private func showCombinedDragAndDropPreview() {
         dragAndDropPreviewViewModel.setDraggingFile(true)
-        dragAndDropPreviewViewModel.setTargetedDropTarget(.fileConverter)
+        dragAndDropPreviewViewModel.setTargetedDropTarget(.airDrop)
         notchViewModel.send(
             .showLiveActivity(
                 makeSequenceContent(
@@ -635,12 +628,6 @@ final class DebugSettingsViewModel: ObservableObject {
 
         case .tray:
             return TrayNotchContent(
-                airDropViewModel: dragAndDropPreviewViewModel,
-                settingsViewModel: settingsViewModel
-            )
-
-        case .fileConverter:
-            return FileConverterNotchContent(
                 airDropViewModel: dragAndDropPreviewViewModel,
                 settingsViewModel: settingsViewModel
             )
@@ -849,7 +836,7 @@ final class DebugSettingsViewModel: ObservableObject {
 
     private func playCombinedDragAndDropPreview() async throws {
         dragAndDropPreviewViewModel.setDraggingFile(true)
-        dragAndDropPreviewViewModel.setTargetedDropTarget(.fileConverter)
+        dragAndDropPreviewViewModel.setTargetedDropTarget(.airDrop)
         try await playLivePreview(
             DragAndDropCombinedNotchContent(
                 airDropViewModel: dragAndDropPreviewViewModel,

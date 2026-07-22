@@ -629,6 +629,10 @@ struct SettingsRootView: View {
             FileConverterSettingsView(
                 mediaSettings: settingsViewModel.mediaAndFiles
             )
+        case .homePagePages:
+            HomePagePagesSettingsView(
+                homePageSettings: settingsViewModel.homePage
+            )
         }
     }
 
@@ -673,6 +677,8 @@ struct SettingsRootView: View {
             settingsViewModel.mediaAndFiles.resetFileTray()
         case .fileConverter:
             settingsViewModel.mediaAndFiles.resetFileConverter()
+        case .homePagePages:
+            settingsViewModel.homePage.resetHomePage()
         default:
             break
         }

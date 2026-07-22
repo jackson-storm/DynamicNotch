@@ -93,9 +93,10 @@ struct VpnPageNotchView: View {
                 
                 timer(for: vpn)
             }
+            
             buttons(for: vpn)
         }
-        .padding(.horizontal, 2)
+        .padding(.horizontal, isDynamicIsland ? 2 : 4)
     }
     
     @ViewBuilder

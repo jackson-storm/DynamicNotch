@@ -34,7 +34,7 @@ struct FileConverterActiveNotchView: View {
         switch fileConverterViewModel.status {
         case .idle:
             Image(systemName: "arrow.triangle.2.circlepath")
-                .foregroundStyle(Color.accentColor)
+                .foregroundStyle(Color.blue)
                 .font(.system(size: isDynamicIsland ? 16 : 18, weight: .semibold))
 
         case .converting:

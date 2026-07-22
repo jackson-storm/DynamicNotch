@@ -139,7 +139,8 @@ final class NotchEventCoordinator: ObservableObject {
             notchViewModel: notchViewModel,
             settingsViewModel: settingsViewModel,
             localTimerViewModel: localTimerViewModel,
-            nowPlayingViewModel: nowPlayingViewModel
+            nowPlayingViewModel: nowPlayingViewModel,
+            fileConverterViewModel: fileConverterViewModel
         )
         self.calendarHandler = NotchCalendarEventsHandler(
             notchViewModel: notchViewModel,
@@ -181,7 +182,6 @@ final class NotchEventCoordinator: ObservableObject {
 
             guard self.settingsViewModel.isLiveActivityEnabled(.drop),
                   self.settingsViewModel.mediaAndFiles.isFileConverterLiveActivityEnabled,
-                  !self.fileConverterViewModel.isConverted,
                   item != nil else {
                 self.fileConverterExpansionTask?.cancel()
                 self.notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.DragAndDrop.fileConverterActive.id))
@@ -189,6 +189,7 @@ final class NotchEventCoordinator: ObservableObject {
             }
 
             self.notchViewModel.send(.showLiveActivity(self.makeFileConverterActiveContent()))
+            self.notchViewModel.expandActiveLiveActivity()
             self.scheduleFileConverterExpansion()
         }
 
@@ -444,7 +445,6 @@ final class NotchEventCoordinator: ObservableObject {
 
         guard settingsViewModel.isLiveActivityEnabled(.drop),
               settingsViewModel.mediaAndFiles.isFileConverterLiveActivityEnabled,
-              !fileConverterViewModel.isConverted,
               hasConverterItem else {
             fileConverterExpansionTask?.cancel()
             notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.DragAndDrop.fileConverterActive.id))
@@ -488,8 +488,7 @@ final class NotchEventCoordinator: ObservableObject {
 
     @discardableResult
     private func expandFileConverterIfReady() -> Bool {
-        guard fileConverterViewModel.hasItem,
-              !fileConverterViewModel.isConverted else {
+        guard fileConverterViewModel.hasItem else {
             fileConverterExpansionTask = nil
             return true
         }
@@ -499,16 +498,9 @@ final class NotchEventCoordinator: ObservableObject {
             return false
         }
 
-        guard !notchViewModel.notchModel.isLiveActivityExpanded else {
-            fileConverterExpansionTask = nil
-            return true
+        if !notchViewModel.notchModel.isLiveActivityExpanded {
+            notchViewModel.expandActiveLiveActivity()
         }
-
-        guard notchViewModel.canExpandActiveLiveActivity else {
-            return false
-        }
-
-        notchViewModel.expandActiveLiveActivity()
         fileConverterExpansionTask = nil
         return true
     }

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct LocalTimerSetupNotchView: View {
     @ObservedObject var localTimerViewModel: LocalTimerViewModel
+    @Environment(\.isDynamicIsland) private var isDynamicIsland
     
     @State private var hours: String = ""
     @State private var minutes: String = ""
@@ -22,7 +23,7 @@ struct LocalTimerSetupNotchView: View {
                 button
             }
         }
-        .padding(.horizontal, 2)
+        .padding(.horizontal, isDynamicIsland ? 2 : 4)
     }
     
     @ViewBuilder

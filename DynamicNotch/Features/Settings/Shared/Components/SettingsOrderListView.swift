@@ -13,6 +13,7 @@ struct SettingsOrderListView<Item: Hashable>: View {
     
     let icon: (Item) -> String
     let tint: (Item) -> Color
+    let iconTint: (Item) -> Color
     let title: (Item) -> LocalizedStringKey
     let subtitle: (Item) -> LocalizedStringKey
     
@@ -30,6 +31,7 @@ struct SettingsOrderListView<Item: Hashable>: View {
                         systemImage: icon(item),
                         tint: tint(item),
                         size: 30,
+                        iconColor: iconTint(item),
                         iconSize: 14,
                         cornerRadius: 9
                     )

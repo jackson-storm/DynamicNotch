@@ -16,7 +16,7 @@ struct DragAndDropSettingsView: View {
         SettingsCard(title: "Drag&Drop activity") {
             SettingsToggleRow(
                 title: "Drag&Drop live activity",
-                description: "Show AirDrop, Tray, and File Converter targets when you drag files over the notch.",
+                description: "Show AirDrop and Tray targets when you drag files over the notch.",
                 systemImage: "tray.and.arrow.down.fill",
                 color: .black,
                 stroke: true,
@@ -36,20 +36,6 @@ struct DragAndDropSettingsView: View {
                 color: .blue,
                 isOn: $mediaSettings.isTrayLiveActivityEnabled,
                 accessibilityIdentifier: "settings.activities.live.drop.tray"
-            )
-
-            Divider()
-                .opacity(0.6)
-                .padding(.leading, 43)
-                .frame(maxWidth: .infinity, alignment: .trailing)
-
-            SettingsToggleRow(
-                title: "File Converter live activity",
-                description: "Show the File Converter live activity after a file is dropped for conversion.",
-                systemImage: "arrow.trianglehead.2.clockwise.rotate.90.circle.fill",
-                color: .green,
-                isOn: $mediaSettings.isFileConverterLiveActivityEnabled,
-                accessibilityIdentifier: "settings.activities.live.drop.fileConverter"
             )
         }
     }
@@ -118,18 +104,8 @@ struct DragAndDropSettingsView: View {
                 systemImage: "tray.full.fill",
                 color: .blue,
                 accessibilityIdentifier: "settings.dragAndDrop.tray",
-                position: .first,
+                position: .single,
                 value: SettingsSubPage.fileTray
-            )
-
-            SettingsNavigationRowView(
-                title: "settings.dragAndDrop.fileConverter.title",
-                description: "settings.dragAndDrop.fileConverter.subtitle",
-                systemImage: "arrow.trianglehead.2.clockwise.rotate.90.circle.fill",
-                color: .green,
-                accessibilityIdentifier: "settings.dragAndDrop.fileConverter",
-                position: .last,
-                value: SettingsSubPage.fileConverter
             )
         }
     }
@@ -179,9 +155,6 @@ struct DragAndDropSettingsView: View {
         switch mediaSettings.dragAndDropActivityMode {
         case .tray:
             return DragAndDropTarget.tray.activityStrokeColor(for: .original)
-
-        case .fileConverter:
-            return DragAndDropTarget.fileConverter.activityStrokeColor(for: .original)
 
         case .airDrop:
             return DragAndDropTarget.airDrop.activityStrokeColor(for: .original)

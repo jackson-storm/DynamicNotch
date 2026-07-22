@@ -26,9 +26,6 @@ struct DragAndDropCombinedNotchContent: NotchContentProtocol, DynamicIslandCusto
         case .airDrop:
             return DragAndDropTarget.airDrop.activityStrokeColor(for: colorStyle)
 
-        case .fileConverter:
-            return DragAndDropTarget.fileConverter.activityStrokeColor(for: colorStyle)
-
         case .tray:
             return DragAndDropTarget.tray.activityStrokeColor(for: colorStyle)
 

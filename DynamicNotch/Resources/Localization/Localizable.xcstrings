@@ -497,6 +497,7 @@
       }
     },
     "Add this suffix before the converted file extension." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1497,6 +1498,7 @@
       }
     },
     "Audio quality" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3567,6 +3569,7 @@
       }
     },
     "Choose the bitrate target for compressed audio formats." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3623,6 +3626,7 @@
       }
     },
     "Choose the export preset used for video conversion." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3765,6 +3769,7 @@
       }
     },
     "Choose what happens when a converted filename already exists." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3851,6 +3856,7 @@
       }
     },
     "Choose where converted files are saved." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4471,6 +4477,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "当当前内容支持时，点击刘海可打开实时活动的展开布局。"
+          }
+        }
+      }
+    },
+    "Click to select file" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Click to select file"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haz clic para seleccionar el archivo"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нажмите, чтобы выбрать файл"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "点击选择文件"
           }
         }
       }
@@ -5269,6 +5304,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "转换成功时长"
+          }
+        }
+      }
+    },
+    "Convert files to multiple formats." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Convert files to multiple formats."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Convierte archivos a múltiples formatos."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Конвертируйте файлы в различные форматы."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "将文件转换为多种格式。"
           }
         }
       }
@@ -6387,6 +6450,7 @@
       }
     },
     "Existing files" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6500,6 +6564,7 @@
       }
     },
     "File Converter" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6531,6 +6596,7 @@
 
     },
     "File Converter files" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6559,6 +6625,7 @@
       }
     },
     "File Converter live activity" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6587,6 +6654,7 @@
       }
     },
     "File Converter quality" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6647,6 +6715,7 @@
 
     },
     "Filename suffix" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -8394,6 +8463,7 @@
       }
     },
     "Image quality" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -10789,6 +10859,7 @@
       }
     },
     "Output location" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -13182,6 +13253,7 @@
       }
     },
     "settings.dragAndDrop.fileConverter.subtitle" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -13210,6 +13282,7 @@
       }
     },
     "settings.dragAndDrop.fileConverter.title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -13289,6 +13362,482 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "托盘"
+          }
+        }
+      }
+    },
+    "settings.fileConverter.activity.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show the File Converter live activity after a file is dropped for conversion."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Muestra la actividad en vivo del conversor de archivos después de arrastrar un archivo para convertir."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показывать Live Activity конвертера файлов после выбора или перетаскивания файла."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拖放文件转换后显示文件转换器 Live Activity。"
+          }
+        }
+      }
+    },
+    "settings.fileConverter.activity.sectionTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "File Converter activity"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actividad del Conversor de archivos"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Активность Конвертера файлов"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "文件转换器活动"
+          }
+        }
+      }
+    },
+    "settings.fileConverter.activity.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "File Converter live activity"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live Activity del Conversor de archivos"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live Activity Конвертера файлов"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "文件转换器 Live Activity"
+          }
+        }
+      }
+    },
+    "settings.fileConverter.audioQuality.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose the bitrate target for compressed audio formats."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige la tasa de bits objetivo para formatos de audio comprimidos."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите целевой битрейт для сжатых аудиоформатов."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择压缩音频格式的目标比特率。"
+          }
+        }
+      }
+    },
+    "settings.fileConverter.audioQuality.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Audio quality"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calidad de audio"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Качество аудио"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "音频质量"
+          }
+        }
+      }
+    },
+    "settings.fileConverter.existingFiles.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose what happens when a converted filename already exists."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige qué sucede cuando ya existe un archivo con el mismo имя."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите действие при существовании файла с таким же именем."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择当转换后的文件名已存在时的处理方式。"
+          }
+        }
+      }
+    },
+    "settings.fileConverter.existingFiles.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Existing files"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Archivos existentes"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Существующие файлы"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已存在的文件"
+          }
+        }
+      }
+    },
+    "settings.fileConverter.filenameSuffix.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add this suffix before the converted file extension."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Añade este sufijo antes de la extensión del archivo convertido."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавить этот суффикс перед расширением сконвертированного файла."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在转换后的文件扩展名之前添加此后缀。"
+          }
+        }
+      }
+    },
+    "settings.fileConverter.filenameSuffix.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filename suffix"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sufijo de имя de archivo"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Суффикс имени файла"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "文件名后缀"
+          }
+        }
+      }
+    },
+    "settings.fileConverter.files.sectionTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "File Converter files"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Archivos del Conversor"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Файлы Конвертера"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "转换器文件"
+          }
+        }
+      }
+    },
+    "settings.fileConverter.imageQuality.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Used for lossy image formats like JPEG, HEIC, WEBP, and AVIF."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usado para formatos de imagen con pérdida como JPEG, HEIC, WEBP y AVIF."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Используется для форматов изображений со сжатием с потерями (JPEG, HEIC, WEBP, AVIF)."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用于 JPEG、HEIC、WEBP 和 AVIF 等有损图像格式。"
+          }
+        }
+      }
+    },
+    "settings.fileConverter.imageQuality.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Image quality"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calidad de imagen"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Качество изображений"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "图像质量"
+          }
+        }
+      }
+    },
+    "settings.fileConverter.outputLocation.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose where converted files are saved."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige dónde se guardan los archivos convertidos."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите место сохранения сконвертированных файлов."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择转换后文件的保存位置。"
+          }
+        }
+      }
+    },
+    "settings.fileConverter.outputLocation.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Output location"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ubicación de salida"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Папка сохранения"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "输出位置"
+          }
+        }
+      }
+    },
+    "settings.fileConverter.quality.sectionTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "File Converter quality"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calidad del Conversor de archivos"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Качество Конвертера файлов"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "文件转换器质量"
+          }
+        }
+      }
+    },
+    "settings.fileConverter.videoQuality.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose the export preset used for video conversion."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige el пресет de exportación usado para la conversión de video."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите пресет экспорта для конвертации видео."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择用于视频转换的导出预设。"
+          }
+        }
+      }
+    },
+    "settings.fileConverter.videoQuality.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Video quality"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calidad de video"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Качество видео"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "视频质量"
           }
         }
       }
@@ -15347,6 +15896,62 @@
         }
       }
     },
+    "settings.homePage.fileConverter.subtitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configure output location, existing file behavior, and quality."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configura la ubicación de salida, el comportamiento con archivos existentes y la calidad."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройка папки сохранения, поведения при совпадении файлов и качества."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "配置输出位置、已存在文件的处理方式和转换质量。"
+          }
+        }
+      }
+    },
+    "settings.homePage.fileConverter.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "File Converter"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conversor de archivos"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Конвертер файлов"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "文件转换器"
+          }
+        }
+      }
+    },
     "settings.homePage.indicatorSize.description" : {
       "localizations" : {
         "en" : {
@@ -15597,6 +16202,62 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "页面指示器"
+          }
+        }
+      }
+    },
+    "settings.homePage.pages.subtitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reorder or enable/disable home page cards."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reordena o activa/desactiva las tarjetas de la página de inicio."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Изменение порядка и включение/выключение карточек."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重新排序或启用/禁用主页卡片。"
+          }
+        }
+      }
+    },
+    "settings.homePage.pages.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pages"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Páginas"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Страницы"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "页面"
           }
         }
       }
@@ -20223,7 +20884,6 @@
       }
     },
     "Show AirDrop and Tray targets when you drag files over the notch." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -20252,6 +20912,7 @@
       }
     },
     "Show AirDrop, Tray, and File Converter targets when you drag files over the notch." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -20367,6 +21028,9 @@
           }
         }
       }
+    },
+    "Show in Finder" : {
+
     },
     "Show live download progress from monitored folders in the notch." : {
       "extractionState" : "stale",
@@ -20734,6 +21398,7 @@
 
     },
     "Show the File Converter live activity after a file is dropped for conversion." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -23096,6 +23761,7 @@
       }
     },
     "Used for lossy image formats like JPEG, HEIC, WEBP, and AVIF." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -23237,6 +23903,7 @@
       }
     },
     "Video quality" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

@@ -406,7 +406,13 @@ private final class FileConverterExportSessionBox: @unchecked Sendable {
 @MainActor
 final class FileConverterViewModel: ObservableObject {
     @Published private(set) var item: FileConverterItem?
-    @Published var selectedFormat: FileConverterOutputFormat = .png
+    @Published var selectedFormat: FileConverterOutputFormat = .png {
+        didSet {
+            if status != .idle && status != .converting {
+                status = .idle
+            }
+        }
+    }
     @Published private(set) var status: FileConverterStatus = .idle
     
     private var conversionTask: Task<Void, Never>?

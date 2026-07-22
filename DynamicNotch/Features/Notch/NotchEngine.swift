@@ -109,6 +109,7 @@ final class NotchEngine: ObservableObject {
             }
 
         case .showLiveActivity(let content):
+            dismissedLiveActivityIDs.removeAll(where: { $0 == content.id })
             updateLiveActivityStack(with: content)
 
             if notchModel.liveActivityContent?.id == content.id {
@@ -324,9 +325,7 @@ final class NotchEngine: ObservableObject {
 
         switch state {
         case .showLiveActivity(let content):
-            if dismissedLiveActivityIDs.contains(content.id) {
-                return
-            }
+            dismissedLiveActivityIDs.removeAll(where: { $0 == content.id })
 
             let bestVisible = highestPriorityVisibleActivity
 

@@ -3,7 +3,6 @@ import SwiftUI
 enum DragAndDropActivityMode: String, CaseIterable {
     case airDrop
     case tray
-    case fileConverter
     case combined
 
     var title: LocalizedStringKey {
@@ -12,8 +11,6 @@ enum DragAndDropActivityMode: String, CaseIterable {
             return "AirDrop"
         case .tray:
             return "Tray"
-        case .fileConverter:
-            return "File Converter"
         case .combined:
             return "Combined"
         }
@@ -25,10 +22,8 @@ enum DragAndDropActivityMode: String, CaseIterable {
             return [.airDrop]
         case .tray:
             return [.tray]
-        case .fileConverter:
-            return [.fileConverter]
         case .combined:
-            return [.airDrop, .tray, .fileConverter]
+            return [.airDrop, .tray]
         }
     }
 
@@ -40,16 +35,10 @@ enum DragAndDropActivityMode: String, CaseIterable {
         targets.contains(.tray)
     }
 
-    var showsFileConverter: Bool {
-        targets.contains(.fileConverter)
-    }
-
     static func resolved(_ rawValue: String?) -> DragAndDropActivityMode {
         switch rawValue {
         case DragAndDropActivityMode.tray.rawValue:
             return .tray
-        case DragAndDropActivityMode.fileConverter.rawValue:
-            return .fileConverter
         case DragAndDropActivityMode.combined.rawValue:
             return .combined
         default:

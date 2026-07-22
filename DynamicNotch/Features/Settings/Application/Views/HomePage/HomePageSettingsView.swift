@@ -8,9 +8,10 @@ struct HomePageSettingsView: View {
         SettingsPageScrollView {
             homePageActivity
             homePageAppearance
-            homePagePages
+            subPageNavigation
         }
     }
+
     private var homePageActivity: some View {
         SettingsCard(title: "Home Page activity") {
             SettingsToggleRow(
@@ -24,27 +25,6 @@ struct HomePageSettingsView: View {
         }
     }
 
-    private var homePagePages: some View {
-        SettingsCard(title: "Pages") {
-            SettingsOrderListView(
-                items: $homePageSettings.homePageOrder,
-                disabledItems: $homePageSettings.homePageDisabled,
-                icon: { $0.icon },
-                tint: { $0.tint },
-                title: { $0.title },
-                subtitle: { $0.subtitle },
-                isListEnabled: homePageSettings.isHomePageLiveActivityEnabled
-            )
-
-            Divider().opacity(0.6)
-
-            Text(LocalizedStringKey("Drag to reorder pages. Disabled pages will be hidden."))
-                .font(.caption)
-                .foregroundColor(.gray)
-                .opacity(homePageSettings.isHomePageLiveActivityEnabled ? 1.0 : 0.5)
-        }
-    }
-    
     private var homePageAppearance: some View {
         SettingsCard(title: "Home Page appearance") {
             HomePageAppearancePreview(
@@ -86,6 +66,30 @@ struct HomePageSettingsView: View {
                 optionTitle: { $0.title },
                 accessibilityIdentifier: "settings.homePage.scrollAxis",
                 selection: $homePageSettings.homePageScrollAxis
+            )
+        }
+    }
+
+    private var subPageNavigation: some View {
+        SettingsCard(spacing: 0, padding: 0) {
+            SettingsNavigationRowView(
+                title: "settings.homePage.pages.title",
+                description: "settings.homePage.pages.subtitle",
+                systemImage: "book.pages.fill",
+                color: .gray,
+                accessibilityIdentifier: "settings.homePage.pages",
+                position: .first,
+                value: SettingsSubPage.homePagePages
+            )
+
+            SettingsNavigationRowView(
+                title: "settings.homePage.fileConverter.title",
+                description: "settings.homePage.fileConverter.subtitle",
+                systemImage: "arrow.trianglehead.2.clockwise.rotate.90",
+                color: .blue,
+                accessibilityIdentifier: "settings.homePage.fileConverter",
+                position: .last,
+                value: SettingsSubPage.fileConverter
             )
         }
     }

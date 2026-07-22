@@ -29,19 +29,19 @@ struct FileConverterActiveNotchContent: NotchContentProtocol, DynamicIslandCusto
     }
 
     func expandedSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        return .init(width: baseWidth + 150, height: baseHeight + 165)
+        return .init(width: baseWidth + 150, height: baseHeight + 145)
     }
 
     func expandedCornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
-        return (top: 30, bottom: 40)
+        (top: 24, bottom: 38)
     }
     
     func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        return .init(width: baseWidth + 55, height: baseHeight)
+        return .init(width: baseWidth + 30, height: baseHeight)
     }
     
     func expandedDynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        return .init(width: baseWidth + 180, height: baseHeight + 165)
+        return .init(width: baseWidth + 180, height: baseHeight + 145)
     }
     
     func expandedDynamicIslandCornerRadius(baseHeight: CGFloat) -> CGFloat {

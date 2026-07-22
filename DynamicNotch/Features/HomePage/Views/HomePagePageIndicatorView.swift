@@ -203,6 +203,7 @@ struct HomePagePageIndicatorView: View {
                     homePages: page,
                     localTimerViewModel: homePageContent.localTimerViewModel,
                     nowPlayingViewModel: homePageContent.nowPlayingViewModel,
+                    fileConverterViewModel: homePageContent.fileConverterViewModel,
                     mediaAndFilesSettings: settingsViewModel.mediaAndFiles,
                     applicationSettings: settingsViewModel.application
                 )

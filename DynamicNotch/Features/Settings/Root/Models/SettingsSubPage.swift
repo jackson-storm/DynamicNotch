@@ -18,6 +18,7 @@ enum SettingsSubPage: Hashable, Identifiable {
     case gestures
     case fileTray
     case fileConverter
+    case homePagePages
     
     var id: Self { self }
     var titleKey: String {
@@ -38,7 +39,8 @@ enum SettingsSubPage: Hashable, Identifiable {
         case .notchAnimation: return "Animation"
         case .gestures: return "Gestures"
         case .fileTray: return "Tray"
-        case .fileConverter: return "File Converter"
+        case .fileConverter: return "settings.homePage.fileConverter.title"
+        case .homePagePages: return "settings.homePage.pages.title"
         }
     }
     
@@ -61,6 +63,7 @@ enum SettingsSubPage: Hashable, Identifiable {
         case .gestures: return "Gestures"
         case .fileTray: return "Tray"
         case .fileConverter: return "File Converter"
+        case .homePagePages: return "Pages"
         }
     }
     
@@ -82,7 +85,8 @@ enum SettingsSubPage: Hashable, Identifiable {
         case .notchAnimation: return "settings.notch.animation.subtitle"
         case .gestures: return "settings.notch.gestures.subtitle"
         case .fileTray: return "settings.dragAndDrop.tray.subtitle"
-        case .fileConverter: return "settings.dragAndDrop.fileConverter.subtitle"
+        case .fileConverter: return "settings.homePage.fileConverter.subtitle"
+        case .homePagePages: return "settings.homePage.pages.subtitle"
         }
     }
     
@@ -105,12 +109,13 @@ enum SettingsSubPage: Hashable, Identifiable {
         case .gestures: return "Configure click, hover, and scroll gestures."
         case .fileTray: return "Configure file tray behavior, scroll direction, and appearance."
         case .fileConverter: return "Configure output location, existing file behavior, and quality."
+        case .homePagePages: return "Reorder or enable/disable home page cards."
         }
     }
     
     var canReset: Bool {
         switch self {
-        case .appearance, .notch, .language, .activityPriorities, .notchDisplay, .notchAnimation, .gestures, .fileTray, .fileConverter:
+        case .appearance, .notch, .language, .activityPriorities, .notchDisplay, .notchAnimation, .gestures, .fileTray, .fileConverter, .homePagePages:
             return true
         default:
             return false

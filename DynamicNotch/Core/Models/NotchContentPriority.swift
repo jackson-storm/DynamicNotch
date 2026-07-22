@@ -8,10 +8,10 @@ enum NotchContentPriority {
         case hotspot
         case download
         case trayActive
-        case fileConverterActive
         case nowPlaying
         case timer
         case calendar
+        case fileConverterActive
         case screenRecording
 
         var id: String { rawValue }
@@ -28,16 +28,16 @@ enum NotchContentPriority {
                 NotchContentPriority.download
             case .trayActive:
                 NotchContentPriority.trayActive
-            case .fileConverterActive:
-                NotchContentPriority.fileConverterActive
             case .nowPlaying:
                 NotchContentPriority.nowPlaying
             case .timer:
                 NotchContentPriority.timer
-            case .screenRecording:
-                NotchContentPriority.screenRecording
             case .calendar:
                 NotchContentPriority.calendar
+            case .fileConverterActive:
+                NotchContentPriority.fileConverterActive
+            case .screenRecording:
+                NotchContentPriority.screenRecording
             }
         }
         
@@ -124,10 +124,10 @@ enum NotchContentPriority {
         .hotspot,
         .download,
         .trayActive,
-        .fileConverterActive,
         .nowPlaying,
         .timer,
         .calendar,
+        .fileConverterActive,
         .screenRecording,
     ]
 
@@ -136,10 +136,10 @@ enum NotchContentPriority {
     static let hotspot = 2
     static let download = 3
     static let trayActive = 4
-    static let fileConverterActive = 5
-    static let nowPlaying = 6
-    static let timer = 7
-    static let calendar = 8
+    static let nowPlaying = 5
+    static let timer = 6
+    static let calendar = 7
+    static let fileConverterActive = 8
     static let screenRecording = 9
 
     static let homePage = -10000

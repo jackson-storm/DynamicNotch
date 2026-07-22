@@ -12,6 +12,7 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
     case localTimer
     case vpn
     case systemStats
+    case fileConverter
     
     var id: String { rawValue }
     
@@ -21,6 +22,7 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
         case .localTimer: return "Timer"
         case .vpn: return "VPN"
         case .systemStats: return "Stats"
+        case .fileConverter: return "Converter"
         }
     }
     
@@ -30,6 +32,7 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
         case .localTimer: return "Set a quick timer."
         case .vpn: return "Manage VPN connections."
         case .systemStats: return "Monitor system resources."
+        case .fileConverter: return "Convert files to multiple formats."
         }
     }
     
@@ -39,15 +42,27 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
         case .localTimer: return "timer"
         case .vpn: return "network.badge.shield.half.filled"
         case .systemStats: return "cpu"
+        case .fileConverter: return "arrow.trianglehead.2.clockwise.rotate.90"
         }
     }
     
     var tint: Color {
         switch self {
-        case .camera: return .black
+        case .camera: return .gray
         case .localTimer: return .orange
         case .vpn: return .blue
         case .systemStats: return .green
+        case .fileConverter: return .blue
+        }
+    }
+    
+    var iconTint: Color {
+        switch self {
+        case .camera: return .black
+        case .localTimer: return .white
+        case .vpn: return .white
+        case .systemStats: return .white
+        case .fileConverter: return .white
         }
     }
 }
@@ -59,6 +74,7 @@ struct HomePageNotchView: View {
     let settings: HomePageSettingsStore
     let localTimerViewModel: LocalTimerViewModel
     let nowPlayingViewModel: NowPlayingViewModel
+    let fileConverterViewModel: FileConverterViewModel
     let mediaAndFilesSettings: MediaAndFilesSettingsStore
     let applicationSettings: ApplicationSettingsStore
     let initialPage: HomePages
@@ -69,11 +85,12 @@ struct HomePageNotchView: View {
     @State private var isPageSettled = true
     @State private var settleTask: Task<Void, Never>? = nil
     
-    init(notchViewModel: NotchViewModel, settings: HomePageSettingsStore, localTimerViewModel: LocalTimerViewModel, nowPlayingViewModel: NowPlayingViewModel, mediaAndFilesSettings: MediaAndFilesSettingsStore, applicationSettings: ApplicationSettingsStore, initialPage: HomePages) {
+    init(notchViewModel: NotchViewModel, settings: HomePageSettingsStore, localTimerViewModel: LocalTimerViewModel, nowPlayingViewModel: NowPlayingViewModel, fileConverterViewModel: FileConverterViewModel, mediaAndFilesSettings: MediaAndFilesSettingsStore, applicationSettings: ApplicationSettingsStore, initialPage: HomePages) {
         self.notchViewModel = notchViewModel
         self.settings = settings
         self.localTimerViewModel = localTimerViewModel
         self.nowPlayingViewModel = nowPlayingViewModel
+        self.fileConverterViewModel = fileConverterViewModel
         self.mediaAndFilesSettings = mediaAndFilesSettings
         self.applicationSettings = applicationSettings
         self.initialPage = initialPage
@@ -203,6 +220,7 @@ struct HomePageNotchView: View {
                             homePages: newPage,
                             localTimerViewModel: localTimerViewModel,
                             nowPlayingViewModel: nowPlayingViewModel,
+                            fileConverterViewModel: fileConverterViewModel,
                             mediaAndFilesSettings: mediaAndFilesSettings,
                             applicationSettings: applicationSettings
                         )
@@ -224,6 +242,7 @@ struct HomePageNotchView: View {
                         homePages: activePages.first ?? .camera,
                         localTimerViewModel: localTimerViewModel,
                         nowPlayingViewModel: nowPlayingViewModel,
+                        fileConverterViewModel: fileConverterViewModel,
                         mediaAndFilesSettings: mediaAndFilesSettings,
                         applicationSettings: applicationSettings
                     )
@@ -238,13 +257,20 @@ struct HomePageNotchView: View {
     private func pageView(for page: HomePages) -> some View {
         switch page {
         case .camera:
-            CameraNotchView(notchViewModel: notchViewModel, settings: settings, localTimerViewModel: localTimerViewModel, nowPlayingViewModel: nowPlayingViewModel, mediaAndFilesSettings: mediaAndFilesSettings, applicationSettings: applicationSettings)
+            CameraNotchView(notchViewModel: notchViewModel, settings: settings, localTimerViewModel: localTimerViewModel, nowPlayingViewModel: nowPlayingViewModel, fileConverterViewModel: fileConverterViewModel, mediaAndFilesSettings: mediaAndFilesSettings, applicationSettings: applicationSettings)
         case .localTimer:
             LocalTimerSetupNotchView(localTimerViewModel: localTimerViewModel)
         case .vpn:
             VpnPageNotchView(notchViewModel: notchViewModel)
         case .systemStats:
             SystemStatsPageNotchView(notchViewModel: notchViewModel)
+        case .fileConverter:
+            FileConverterHomePageView(
+                fileConverterViewModel: fileConverterViewModel,
+                onRequestCollapse: {
+                    notchViewModel.handleOutsideClick()
+                }
+            )
         }
     }
 }

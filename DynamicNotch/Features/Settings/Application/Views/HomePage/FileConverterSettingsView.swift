@@ -5,16 +5,30 @@ struct FileConverterSettingsView: View {
 
     var body: some View {
         SettingsPageScrollView {
+            fileConverterActivity
             fileConverterFiles
             fileConverterQuality
         }
     }
 
+    private var fileConverterActivity: some View {
+        SettingsCard(title: "settings.fileConverter.activity.sectionTitle") {
+            SettingsToggleRow(
+                title: "settings.fileConverter.activity.title",
+                description: "settings.fileConverter.activity.description",
+                systemImage: "arrow.trianglehead.2.clockwise.rotate.90",
+                color: .blue,
+                isOn: $mediaSettings.isFileConverterLiveActivityEnabled,
+                accessibilityIdentifier: "settings.activities.live.drop.fileConverter"
+            )
+        }
+    }
+
     private var fileConverterFiles: some View {
-        SettingsCard(title: "File Converter files") {
+        SettingsCard(title: "settings.fileConverter.files.sectionTitle") {
             SettingsMenuRow(
-                title: "Output location",
-                description: "Choose where converted files are saved.",
+                title: "settings.fileConverter.outputLocation.title",
+                description: "settings.fileConverter.outputLocation.description",
                 options: Array(FileConverterOutputLocation.allCases),
                 optionTitle: { $0.title },
                 accessibilityIdentifier: "settings.activities.live.drop.fileConverter.outputLocation",
@@ -24,8 +38,8 @@ struct FileConverterSettingsView: View {
             Divider().opacity(0.6)
 
             SettingsMenuRow(
-                title: "Existing files",
-                description: "Choose what happens when a converted filename already exists.",
+                title: "settings.fileConverter.existingFiles.title",
+                description: "settings.fileConverter.existingFiles.description",
                 options: Array(FileConverterExistingFileBehavior.allCases),
                 optionTitle: { $0.title },
                 accessibilityIdentifier: "settings.activities.live.drop.fileConverter.existingFiles",
@@ -35,8 +49,8 @@ struct FileConverterSettingsView: View {
             Divider().opacity(0.6)
 
             SettingsTextFieldRow(
-                title: "Filename suffix",
-                description: "Add this suffix before the converted file extension.",
+                title: "settings.fileConverter.filenameSuffix.title",
+                description: "settings.fileConverter.filenameSuffix.description",
                 placeholder: "-converted",
                 accessibilityIdentifier: "settings.activities.live.drop.fileConverter.filenameSuffix",
                 text: $mediaSettings.fileConverterFilenameSuffix
@@ -45,10 +59,10 @@ struct FileConverterSettingsView: View {
     }
 
     private var fileConverterQuality: some View {
-        SettingsCard(title: "File Converter quality") {
+        SettingsCard(title: "settings.fileConverter.quality.sectionTitle") {
             SettingsSliderRow(
-                title: "Image quality",
-                description: "Used for lossy image formats like JPEG, HEIC, WEBP, and AVIF.",
+                title: "settings.fileConverter.imageQuality.title",
+                description: "settings.fileConverter.imageQuality.description",
                 range: 10...100,
                 step: 1,
                 fractionLength: 0,
@@ -60,8 +74,8 @@ struct FileConverterSettingsView: View {
             Divider().opacity(0.6)
 
             SettingsMenuRow(
-                title: "Video quality",
-                description: "Choose the export preset used for video conversion.",
+                title: "settings.fileConverter.videoQuality.title",
+                description: "settings.fileConverter.videoQuality.description",
                 options: Array(FileConverterVideoQuality.allCases),
                 optionTitle: { $0.title },
                 accessibilityIdentifier: "settings.activities.live.drop.fileConverter.videoQuality",
@@ -71,8 +85,8 @@ struct FileConverterSettingsView: View {
             Divider().opacity(0.6)
 
             SettingsMenuRow(
-                title: "Audio quality",
-                description: "Choose the bitrate target for compressed audio formats.",
+                title: "settings.fileConverter.audioQuality.title",
+                description: "settings.fileConverter.audioQuality.description",
                 options: Array(FileConverterAudioQuality.allCases),
                 optionTitle: { $0.title },
                 accessibilityIdentifier: "settings.activities.live.drop.fileConverter.audioQuality",

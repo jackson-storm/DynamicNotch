@@ -16,13 +16,12 @@ struct ScreenRecordingView: View {
         HStack {
             Circle()
                 .fill(Color.red)
-                .frame(width: 12, height: 12)
+                .frame(width: isDynamicIsland ? 12 : 14, height: isDynamicIsland ? 12 : 14)
                 .opacity(isBlinking ? 0.5 : 1)
 
             Spacer()
         }
-        .padding(.vertical, isDynamicIsland ? 0 : 10)
-        .padding(.horizontal, isDynamicIsland ? 10.scaled(by: scale) : 16.scaled(by: scale))
+        .padding(.horizontal, isDynamicIsland ? 7.scaled(by: scale) : 16.scaled(by: scale))
         .onAppear {
             withAnimation(.easeInOut(duration: 1).repeatForever(autoreverses: true)) {
                 isBlinking = true

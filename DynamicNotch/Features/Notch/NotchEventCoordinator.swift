@@ -19,6 +19,7 @@ final class NotchEventCoordinator: ObservableObject {
     private let fileTrayViewModel: FileTrayViewModel
     private let fileConverterViewModel: FileConverterViewModel
     private let timerViewModel: TimerViewModel
+    private let screenRecordingViewModel: ScreenRecordingViewModel
     private let localTimerViewModel: LocalTimerViewModel
     private let homePageViewModel: HomePageViewModel
     private let calendarViewModel: CalendarViewModel
@@ -69,6 +70,7 @@ final class NotchEventCoordinator: ObservableObject {
         settingsViewModel: SettingsViewModel,
         nowPlayingViewModel: NowPlayingViewModel,
         timerViewModel: TimerViewModel,
+        screenRecordingViewModel: ScreenRecordingViewModel,
         lockScreenManager: LockScreenManager,
         homePageViewModel: HomePageViewModel,
         localTimerViewModel: LocalTimerViewModel,
@@ -83,6 +85,7 @@ final class NotchEventCoordinator: ObservableObject {
         self.fileTrayViewModel = fileTrayViewModel
         self.fileConverterViewModel = fileConverterViewModel
         self.timerViewModel = timerViewModel
+        self.screenRecordingViewModel = screenRecordingViewModel
         self.localTimerViewModel = localTimerViewModel
         self.homePageViewModel = homePageViewModel
         self.calendarViewModel = calendarViewModel
@@ -381,7 +384,10 @@ final class NotchEventCoordinator: ObservableObject {
         case .started:
             notchViewModel.send(
                 .showLiveActivity(
-                    ScreenRecordingContent(settingsViewModel: settingsViewModel)
+                    ScreenRecordingContent(
+                        screenRecordingViewModel: screenRecordingViewModel,
+                        settingsViewModel: settingsViewModel
+                    )
                 )
             )
 

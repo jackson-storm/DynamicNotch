@@ -102,6 +102,9 @@ extension SettingsRootViewModel {
         let resolvedTimerViewModel = timerViewModel ?? TimerViewModel(
             monitor: InactiveClockTimerMonitor()
         )
+        let resolvedScreenRecordingViewModel = ScreenRecordingViewModel(
+            monitor: InactiveScreenRecordingMonitor()
+        )
         let resolvedLockScreenManager = lockScreenManager ?? LockScreenManager(
             service: InactiveLockScreenMonitoringService(),
             soundPlayer: InactiveLockScreenSoundPlayer()
@@ -122,6 +125,7 @@ extension SettingsRootViewModel {
             settingsViewModel: settingsViewModel,
             nowPlayingViewModel: resolvedNowPlayingViewModel,
             timerViewModel: resolvedTimerViewModel,
+            screenRecordingViewModel: resolvedScreenRecordingViewModel,
             lockScreenManager: resolvedLockScreenManager,
             homePageViewModel: resolvedHomePageViewModel,
             localTimerViewModel: resolvedLocalTimerViewModel,

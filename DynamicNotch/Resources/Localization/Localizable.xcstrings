@@ -3083,6 +3083,34 @@
         }
       }
     },
+    "Choose how long the screenshot preview stays visible in the notch." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose how long the screenshot preview stays visible in the notch."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige cuánto tiempo permanece visible la vista previa de la captura en el notch."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите, как долго превью скриншота будет отображаться в челке."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择截图预览在刘海屏中保持可见的时间。"
+          }
+        }
+      }
+    },
     "Choose how long the volume HUD stays visible." : {
       "localizations" : {
         "en" : {
@@ -4482,6 +4510,36 @@
         }
       }
     },
+    "Click to edit screenshot in Markup editor" : {
+      "comment" : "Accessibility hint for screenshot thumbnail",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Click to edit screenshot in Markup editor"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haz clic para editar la captura en el editor"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нажмите для открытия редактора скриншотов"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "点击在编辑器中编辑截图"
+          }
+        }
+      }
+    },
     "Click to select file" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -5686,6 +5744,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "默认描边"
+          }
+        }
+      }
+    },
+    "Delete screenshot" : {
+      "comment" : "Accessibility label for delete screenshot button",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete screenshot"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar captura"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить скриншот"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "删除截图"
           }
         }
       }
@@ -12246,6 +12334,90 @@
         }
       }
     },
+    "Screen Capture activity" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Screen Capture activity"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actividad de captura de pantalla"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Активность захвата экрана"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "屏幕捕捉活动"
+          }
+        }
+      }
+    },
+    "Auto-dismiss timer" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auto-dismiss timer"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temporizador de cierre automático"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Автоматическое скрытие"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自动隐藏定时器"
+          }
+        }
+      }
+    },
+    "Automatically hide the screenshot preview when the duration timer expires." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatically hide the screenshot preview when the duration timer expires."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oculta automáticamente la vista previa de la captura cuando expira el temporizador."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Автоматически скрывать превью скриншота по истечении таймера."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当倒计时结束时自动隐藏截图预览。"
+          }
+        }
+      }
+    },
     "Screen Recording" : {
       "localizations" : {
         "en" : {
@@ -12275,6 +12447,7 @@
       }
     },
     "Screen Recording activity" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12332,6 +12505,121 @@
     },
     "Screen Recording Stopped" : {
 
+    },
+    "Screenshot activity" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Screenshot activity"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actividad de capturas"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Активность скриншотов"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "截图活动"
+          }
+        }
+      }
+    },
+    "Screenshot duration" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Screenshot duration"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duración de la captura"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Длительность скриншота"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "截图停留时间"
+          }
+        }
+      }
+    },
+    "Screenshot preview" : {
+      "comment" : "Accessibility label for screenshot thumbnail",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Screenshot preview"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vista previa de la captura"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Превью скриншота"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "截图预览"
+          }
+        }
+      }
+    },
+    "Screenshots" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Screenshots"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Capturas"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скриншоты"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "截图"
+          }
+        }
+      }
     },
     "Scroll direction" : {
       "localizations" : {
@@ -20123,25 +20411,25 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Screen Recording"
+            "value" : "Screen Capture"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Grabación de pantalla"
+            "value" : "Captura de pantalla"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Запись экрана"
+            "value" : "Захват экрана"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "屏幕录制"
+            "value" : "屏幕捕捉"
           }
         }
       }
@@ -21210,6 +21498,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "展开封面时，在曲目封面旁显示同步歌词。"
+          }
+        }
+      }
+    },
+    "Show temporary activity with screenshot preview in the notch and hide default macOS corner thumbnail." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show temporary activity with screenshot preview in the notch and hide default macOS corner thumbnail."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Muestra una actividad temporal con la vista previa de la captura en el notch y oculta la miniatura del sistema."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показывать временную активность с превью скриншота в челке и скрывать стандартную миниатюру macOS в углу экрана."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "截屏时在刘海屏中显示临时预览活动，并隐藏默认 macOS 角落缩略图。"
           }
         }
       }

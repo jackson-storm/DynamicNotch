@@ -321,19 +321,22 @@ private enum SettingsSectionCatalog {
             return .init(
                 sidebarGroup: .system,
                 titleKey: "settings.section.screenRecording.title",
-                fallbackTitle: "Screen Recording",
+                fallbackTitle: "Screen Capture",
                 subtitleKey: "settings.section.screenRecording.subtitle",
-                fallbackSubtitle: "Recording indicator behavior and stroke appearance.",
+                fallbackSubtitle: "Screenshot and screen recording activity behavior.",
                 searchKeywords: [
+                    "screenshot",
+                    "screenshots",
                     "screen recording",
                     "recording",
                     "capture",
                     "record",
+                    "ocr",
                     "indicator",
                     "stroke",
                     "live activity"
                 ],
-                systemImage: "record.circle",
+                systemImage: "camera.viewfinder",
                 imageName: nil,
                 tint: .red,
                 resetGroup: .screenRecording

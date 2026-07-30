@@ -133,6 +133,8 @@ private extension NotchView {
         let isDynamicIsland = notchViewModel.topInset == 0
         let isExpandedPresentation = notchViewModel.notchModel.isPresentingExpandedLiveActivity
         let isPresentationHidden = notchViewModel.isActivityPresentationHidden && notchViewModel.notchModel.temporaryNotificationContent == nil
+        let isScreenshotContent = notchViewModel.displayedContent?.id == NotchContentRegistry.Screenshot.active.id
+        let shouldApplyPressScale = !isExpandedPresentation && !isPresentationHidden && !isScreenshotContent
         
         NotchBackgroundSurface(
             style: settingsViewModel.application.notchBackgroundStyle,
@@ -146,8 +148,8 @@ private extension NotchView {
             baseHeight: notchViewModel.notchModel.baseHeight
         )
         .scaleEffect(
-            x: !isExpandedPresentation && !isPresentationHidden ? notchViewModel.pressScale : 1,
-            y: !isExpandedPresentation && !isPresentationHidden ? notchViewModel.pressScale : 1,
+            x: shouldApplyPressScale ? notchViewModel.pressScale : 1,
+            y: shouldApplyPressScale ? notchViewModel.pressScale : 1,
             anchor: .top
         )
     }
@@ -156,12 +158,14 @@ private extension NotchView {
     var contentOverlay: some View {
         let isExpandedPresentation = notchViewModel.notchModel.isPresentingExpandedLiveActivity
         let isPresentationHidden = notchViewModel.isActivityPresentationHidden && notchViewModel.notchModel.temporaryNotificationContent == nil
+        let isScreenshotContent = notchViewModel.displayedContent?.id == NotchContentRegistry.Screenshot.active.id
+        let shouldApplyPressScale = !isExpandedPresentation && !isPresentationHidden && !isScreenshotContent
         
         if let content = notchViewModel.displayedContent {
             renderedContentView(for: content)
                 .scaleEffect(
-                    x: !isExpandedPresentation && !isPresentationHidden ? notchViewModel.pressScale : 1,
-                    y: !isExpandedPresentation && !isPresentationHidden ? notchViewModel.pressScale : 1,
+                    x: shouldApplyPressScale ? notchViewModel.pressScale : 1,
+                    y: shouldApplyPressScale ? notchViewModel.pressScale : 1,
                     anchor: .top
                 )
                 .resizeAwareBlur(

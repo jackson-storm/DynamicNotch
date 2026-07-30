@@ -196,15 +196,19 @@ final class NotchEventCoordinator: ObservableObject {
             self.scheduleFileConverterExpansion()
         }
 
-        self.screenshotViewModel.onScreenshotReady = { [weak self] _ in
+        self.screenshotViewModel.onScreenshotReady = { [weak self] screenshot in
             guard let self else { return }
             guard self.settingsViewModel.screenRecording.isScreenshotActivityEnabled else { return }
-            let content = ScreenshotNotchContent(viewModel: self.screenshotViewModel)
-            if self.settingsViewModel.screenRecording.isScreenshotAutoHideEnabled {
-                let duration = TimeInterval(self.settingsViewModel.screenRecording.screenshotTemporaryActivityDuration)
-                self.notchViewModel.send(.showTemporaryNotification(content, duration: duration))
-            } else {
-                self.notchViewModel.send(.showLiveActivity(content))
+            
+            ScreenshotFlyAnimationService.shared.playFlyToNotchAnimation(image: screenshot.image) { [weak self] in
+                guard let self else { return }
+                let content = ScreenshotNotchContent(viewModel: self.screenshotViewModel)
+                if self.settingsViewModel.screenRecording.isScreenshotAutoHideEnabled {
+                    let duration = TimeInterval(self.settingsViewModel.screenRecording.screenshotTemporaryActivityDuration)
+                    self.notchViewModel.send(.showTemporaryNotification(content, duration: duration))
+                } else {
+                    self.notchViewModel.send(.showLiveActivity(content))
+                }
             }
         }
         self.screenshotViewModel.onScreenshotDismissed = { [weak self] in

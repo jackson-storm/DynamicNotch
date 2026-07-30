@@ -30,13 +30,11 @@ final class ScreenshotMonitorService {
         
         primeBaseline()
         
-        // Timer for polling filesystem for new screenshot files
-        fileWatcherTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+        fileWatcherTimer = Timer.scheduledTimer(withTimeInterval: 0.25, repeats: true) { [weak self] _ in
             self?.scanForNewScreenshots()
         }
         
-        // Timer for pasteboard screenshot detection
-        pasteboardTimer = Timer.scheduledTimer(withTimeInterval: 0.8, repeats: true) { [weak self] _ in
+        pasteboardTimer = Timer.scheduledTimer(withTimeInterval: 0.25, repeats: true) { [weak self] _ in
             self?.checkPasteboard()
         }
     }
@@ -79,7 +77,6 @@ final class ScreenshotMonitorService {
             guard !knownFilePaths.contains(path) else { continue }
             knownFilePaths.insert(path)
             
-            // Check if it's a recent image file created within last 5 seconds
             guard let resourceValues = try? url.resourceValues(forKeys: [.contentModificationDateKey, .isRegularFileKey]),
                   resourceValues.isRegularFile == true,
                   let modDate = resourceValues.contentModificationDate,
@@ -89,7 +86,7 @@ final class ScreenshotMonitorService {
             
             let filename = url.lastPathComponent
             let lower = filename.lowercased()
-            // Standard macOS screenshot naming or image file
+            
             if lower.contains("screenshot") || lower.contains("скриншот") || lower.hasSuffix(".png") || lower.hasSuffix(".jpg") {
                 if let image = NSImage(contentsOf: url) {
                     DispatchQueue.main.async { [weak self] in

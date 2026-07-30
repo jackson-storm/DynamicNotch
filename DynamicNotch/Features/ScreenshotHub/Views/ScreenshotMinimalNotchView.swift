@@ -20,13 +20,15 @@ struct ScreenshotNotchView: View {
                     Button(action: {
                         screenshotViewModel.openEditingWindow()
                     }) {
-                        Image(nsImage: screenshot.image)
-                            .resizable()
-                            .interpolation(.high)
-                            .antialiased(true)
-                            .scaledToFill()
-                            .frame(maxWidth: .infinity)
+                        Color.clear
                             .frame(height: 145)
+                            .overlay(
+                                Image(nsImage: screenshot.image)
+                                    .resizable()
+                                    .interpolation(.high)
+                                    .antialiased(true)
+                                    .scaledToFill()
+                            )
                             .clipShape(RoundedRectangle(cornerRadius: 24))
                     }
                     .buttonStyle(.plain)
@@ -37,7 +39,7 @@ struct ScreenshotNotchView: View {
                         }) {
                             ZStack {
                                 Circle()
-                                    .fill(.blue)
+                                    .fill(.thickMaterial)
                                     .frame(width: 26, height: 26)
                                     .shadow(color: .black.opacity(0.8), radius: 2, x: 0, y: 1)
                                 
@@ -52,11 +54,11 @@ struct ScreenshotNotchView: View {
                         }) {
                             ZStack {
                                 Circle()
-                                    .fill(.red)
+                                    .fill(.thickMaterial)
                                     .frame(width: 26, height: 26)
                                     .shadow(color: .black.opacity(0.8), radius: 2, x: 0, y: 1)
                                 
-                                Image(systemName: "xmark")
+                                Image(systemName: "trash.fill")
                                     .font(.system(size: 12, weight: .medium))
                                     .foregroundStyle(Color.white)
                             }

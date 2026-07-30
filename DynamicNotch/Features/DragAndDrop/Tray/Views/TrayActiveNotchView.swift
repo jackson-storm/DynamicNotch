@@ -22,8 +22,9 @@ struct TrayActiveNotchView: View {
             
             Text("\(fileTrayViewModel.count)")
                 .font(.system(size: 16, design: .rounded))
-                .foregroundStyle(.white.gradient)
+                .foregroundStyle(.white)
         }
-        .padding(.horizontal, isDynamicIsland ? 8.scaled(by: scale) : 14.scaled(by: scale))
+        .padding(.leading, isDynamicIsland ? 5.scaled(by: scale) : 14.scaled(by: scale))
+        .padding(.trailing, isDynamicIsland ? 8.scaled(by: scale) : 14.scaled(by: scale))
     }
 }

@@ -35,7 +35,7 @@ struct LowPowerNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
         if style == .compact {
             return .init(width: baseWidth + 150, height: baseHeight)
         }
-        return .init(width: baseWidth + 170, height: baseHeight + 65)
+        return .init(width: baseWidth + 190, height: baseHeight + 65)
     }
 
     @MainActor

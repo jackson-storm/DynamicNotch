@@ -83,7 +83,7 @@ struct NotchSettingsView: View {
             SettingsSliderRow(
                 title: "Width",
                 description: "Fine-tune the width of the notch or Dynamic Island.",
-                range: -32...16,
+                range: -16...16,
                 step: 1,
                 fractionLength: 0,
                 suffix: "px",

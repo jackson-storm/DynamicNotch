@@ -1,46 +1,46 @@
 import SwiftUI
 
 struct TimerMinimalNotchView: View {
-    @Environment(\.notchScale) private var scale
-    @Environment(\.isDynamicIsland) private var isDynamicIsland
-    @ObservedObject var timerViewModel: TimerViewModel
+    let source: TimerSource
 
-    private var snapshot: ClockTimerSnapshot? {
-        timerViewModel.snapshot
+    init(source: TimerSource) {
+        self.source = source
+    }
+
+    init(timerViewModel: TimerViewModel) {
+        self.source = .system(timerViewModel)
     }
 
     var body: some View {
-        HStack(spacing: 10) {
-            TimerCompactIndicatorView(
-                snapshot: snapshot ?? ClockTimerSnapshot(
-                    identifier: "debug.clock.timer",
-                    title: "Timer",
-                    duration: 0,
-                    endDate: .now,
-                    isPaused: false,
-                    pausedRemaining: nil,
-                    fingerprint: "debug.clock.timer.idle"
-                )
-            )
+        Group {
+            switch source {
+            case .system(let vm):
+                TimerMinimalNotchViewInternal(source: source, viewModel: vm)
+                
+            case .local(let vm):
+                TimerMinimalNotchViewInternal(source: source, viewModel: vm)
+            }
+        }
+    }
+}
 
-            Spacer(minLength: 0)
+private struct TimerMinimalNotchViewInternal<VM: ObservableObject>: View {
+    let source: TimerSource
+    
+    @Environment(\.notchScale) private var scale
+    @Environment(\.isDynamicIsland) private var isDynamicIsland
+    @ObservedObject var viewModel: VM
 
-            TimerCountdownText(
-                timerViewModel: timerViewModel,
-                snapshot: snapshot ?? ClockTimerSnapshot(
-                    identifier: "debug.clock.timer",
-                    title: "Timer",
-                    duration: 0,
-                    endDate: .now,
-                    isPaused: false,
-                    pausedRemaining: nil,
-                    fingerprint: "debug.clock.timer.idle"
-                )
-            )
-            .foregroundStyle(.orange)
+    var body: some View {
+        HStack {
+            TimerCompactIndicatorView(source: source)
+            
+            Spacer()
+            
+            TimerCountdownText(source: source)
         }
         .padding(.vertical, 10)
-        .padding(.leading, isDynamicIsland ? 5.scaled(by: scale) : 14.scaled(by: scale))
-        .padding(.trailing, isDynamicIsland ? 8.scaled(by: scale) : 14.scaled(by: scale))
+        .padding(.leading, isDynamicIsland ? 4.scaled(by: scale) : 14.scaled(by: scale))
+        .padding(.trailing, isDynamicIsland ? 6.scaled(by: scale) : 14.scaled(by: scale))
     }
 }

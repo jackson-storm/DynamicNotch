@@ -71,8 +71,8 @@ struct SoftwareUpdateExpandedNotchView: View {
                 .buttonStyle(PrimaryButtonStyle(width: 45, height: 45, backgroundColor: .blue.opacity(0.2)))
             }
         }
-        .padding(.leading, isDynamicIsland ? 22 : 42)
-        .padding(.trailing, isDynamicIsland ? 22 : 38)
-        .padding(.bottom, isDynamicIsland ? 22 : 14)
+        .padding(.leading, isDynamicIsland ? 20 : 42)
+        .padding(.trailing, isDynamicIsland ? 20 : 38)
+        .padding(.bottom, isDynamicIsland ? 20 : 14)
     }
 }

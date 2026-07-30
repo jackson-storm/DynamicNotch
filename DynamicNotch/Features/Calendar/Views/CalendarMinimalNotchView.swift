@@ -9,7 +9,7 @@ struct CalendarMinimalNotchView: View {
     var body: some View {
         HStack {
             Image(systemName: "calendar")
-                .font(.system(size: isDynamicIsland ? 16 : 20, weight: .bold))
+                .font(.system(size: isDynamicIsland ? 16 : 20, weight: .semibold))
                 .foregroundColor(.white)
             
             Spacer()
@@ -21,7 +21,7 @@ struct CalendarMinimalNotchView: View {
                     .monospacedDigit()
             }
         }
+        .padding(.leading, isDynamicIsland ? 6.scaled(by: notchScale) : 14.scaled(by: notchScale))
         .padding(.trailing, isDynamicIsland ? 6.scaled(by: notchScale) : 14.scaled(by: notchScale))
-        .padding(.leading, isDynamicIsland ? 8.scaled(by: notchScale) : 14.scaled(by: notchScale))
     }
 }

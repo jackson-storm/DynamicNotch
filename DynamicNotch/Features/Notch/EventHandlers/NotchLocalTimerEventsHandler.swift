@@ -26,8 +26,8 @@ final class NotchLocalTimerEventsHandler {
             
             notchViewModel.send(
                 .showLiveActivity(
-                    LocalTimerNotchContent(
-                        localTimerViewModel: localTimerViewModel
+                    TimerNotchContent(
+                        source: .local(localTimerViewModel)
                     )
                 )
             )

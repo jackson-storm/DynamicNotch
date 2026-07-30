@@ -33,7 +33,7 @@ final class NotchTimerEventsHandler {
             notchViewModel.send(
                 .showLiveActivity(
                     TimerNotchContent(
-                        timerViewModel: timerViewModel,
+                        source: .system(timerViewModel),
                         settingsViewModel: settingsViewModel
                     )
                 )
@@ -51,7 +51,7 @@ final class NotchTimerEventsHandler {
             notchViewModel.send(
                 .showLiveActivity(
                     TimerNotchContent(
-                        timerViewModel: timerViewModel,
+                        source: .system(timerViewModel),
                         settingsViewModel: settingsViewModel
                     )
                 )

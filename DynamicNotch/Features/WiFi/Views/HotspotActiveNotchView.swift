@@ -14,26 +14,40 @@ struct HotspotActiveNotchView: View {
     let style: HotspotAppearanceStyle
     
     var body: some View {
-        HStack(spacing: 0) {
-            if style == .minimal {
-                Image(systemName: "personalhotspot")
-                    .font(.system(size: 16, weight: .bold))
-                    .foregroundStyle(.green)
+        HStack {
+            switch style {
+            case .minimal:
+                minimal
                 
-                Spacer()
-                
-            } else {
-                Image(systemName: "personalhotspot")
-                    .font(.system(size: 16, weight: .bold))
-                    .foregroundStyle(.green)
-                
-                Spacer(minLength: 10)
-                
-                Text(verbatim: "On")
-                    .font(.system(size: 14))
-                    .foregroundStyle(.green.opacity(0.8))
+            case .detailed:
+                detailed
             }
         }
-        .padding(.horizontal, isDynamicIsland ? 7.scaled(by: scale) : 14.scaled(by: scale))
+        .padding(.leading, isDynamicIsland ? 4.scaled(by: scale) : 14.scaled(by: scale))
+        .padding(.trailing, isDynamicIsland ? 6.scaled(by: scale) : 14.scaled(by: scale))
+    }
+    
+    private var minimal: some View {
+        HStack {
+            Image(systemName: "personalhotspot")
+                .font(.system(size: 16, weight: .bold))
+                .foregroundStyle(.green)
+            
+            Spacer()
+        }
+    }
+    
+    private var detailed: some View {
+        HStack {
+            Image(systemName: "personalhotspot")
+                .font(.system(size: 16, weight: .bold))
+                .foregroundStyle(.green)
+            
+            Spacer()
+            
+            Text(verbatim: "On")
+                .font(.system(size: 14))
+                .foregroundStyle(.green.opacity(0.8))
+        }
     }
 }

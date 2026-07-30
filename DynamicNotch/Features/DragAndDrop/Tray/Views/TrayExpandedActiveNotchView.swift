@@ -12,7 +12,6 @@ internal import AppKit
 struct TrayExpandedActiveNotchView: View {
     @Environment(\.notchScale) private var scale
     @Environment(\.isDynamicIsland) private var isDynamicIsland
-    
     @ObservedObject var fileTrayViewModel: FileTrayViewModel
     @ObservedObject var mediaSettings: MediaAndFilesSettingsStore
 

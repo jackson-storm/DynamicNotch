@@ -312,7 +312,7 @@ final class NotchViewModel: ObservableObject {
             )
             
         } else {
-            let baseWidthValue: CGFloat = isDynamicIsland ? 110 : 190
+            let baseWidthValue: CGFloat = isDynamicIsland ? 100 : 190
             
             engine.updateBaseGeometry(
                 width: (baseWidthValue * scale) + widthOffset,

@@ -1,18 +1,43 @@
 import SwiftUI
 
 struct TimerNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
-    static let activityID = NotchContentRegistry.Media.timer.id
+    let id: String
+    let source: TimerSource
+    let settingsViewModel: SettingsViewModel?
 
-    let id = Self.activityID
-    let timerViewModel: TimerViewModel
-    let settingsViewModel: SettingsViewModel
-
-    var priority: Int { NotchContentRegistry.Media.timer.priority }
-    var isExpandable: Bool { true }
+    var priority: Int {
+        switch source {
+        case .system:
+            return NotchContentRegistry.Media.timer.priority
+        case .local:
+            return NotchContentRegistry.Media.localTimer.priority
+        }
+    }
+    
     var strokeColor: Color {
-        settingsViewModel.isDefaultActivityStrokeEnabled ?
-        .white.opacity(0.2) :
-        .orange.opacity(0.3)
+        if let settingsViewModel, settingsViewModel.isDefaultActivityStrokeEnabled {
+            return .white.opacity(0.2)
+        }
+        return .orange.opacity(0.3)
+    }
+
+    var isExpandable: Bool { true }
+
+    init(source: TimerSource, settingsViewModel: SettingsViewModel? = nil) {
+        self.source = source
+        self.settingsViewModel = settingsViewModel
+        switch source {
+        case .system:
+            self.id = NotchContentRegistry.Media.timer.id
+        case .local:
+            self.id = NotchContentRegistry.Media.localTimer.id
+        }
+    }
+
+    init(timerViewModel: TimerViewModel, settingsViewModel: SettingsViewModel) {
+        self.source = .system(timerViewModel)
+        self.settingsViewModel = settingsViewModel
+        self.id = NotchContentRegistry.Media.timer.id
     }
 
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
@@ -20,7 +45,7 @@ struct TimerNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     }
 
     func expandedSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        .init(width: baseWidth + 170, height: baseHeight + 70)
+        .init(width: baseWidth + 170, height: baseHeight + 60)
     }
 
     func expandedCornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
@@ -28,7 +53,7 @@ struct TimerNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     }
     
     func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        .init(width: baseWidth + 130, height: baseHeight)
+        .init(width: baseWidth + 60, height: baseHeight)
     }
     
     func expandedDynamicIslandCornerRadius(baseHeight: CGFloat) -> CGFloat {
@@ -41,24 +66,25 @@ struct TimerNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
 
     @MainActor
     func makeView() -> AnyView {
-        AnyView(TimerMinimalNotchView(timerViewModel: timerViewModel))
+        AnyView(TimerMinimalNotchView(source: source))
     }
 
     @MainActor
     func makeExpandedView() -> AnyView {
-        AnyView(TimerExpandedNotchView(timerViewModel: timerViewModel))
+        AnyView(TimerExpandedNotchView(source: source))
     }
 }
 
 extension TimerNotchContent {
     var minimalTimerSize: CGFloat {
-        switch timerViewModel.formattedTime {
+        switch source.formattedTime(at: .now) {
         case let value where value.contains("h"):
-            170
+            return 170
         case let value where value.contains(":"):
-            110
+            return 110
         default:
-            170
+            return 170
         }
     }
 }
+

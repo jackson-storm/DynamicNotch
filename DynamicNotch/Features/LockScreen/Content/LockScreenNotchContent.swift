@@ -7,7 +7,6 @@ enum LockScreenEvent: Equatable {
 
 struct LockScreenNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     let id = NotchContentRegistry.LockScreen.activity.id
-    
     let lockScreenManager: LockScreenManager
     let style: LockScreenStyle
 
@@ -25,9 +24,9 @@ struct LockScreenNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         switch style {
         case .enlarged:
-            .init(width: baseWidth + 120, height: baseHeight)
+            .init(width: baseWidth + 110, height: baseHeight)
         case .compact:
-            .init(width: baseWidth + 45, height: baseHeight)
+            .init(width: baseWidth + 40, height: baseHeight)
         }
     }
 

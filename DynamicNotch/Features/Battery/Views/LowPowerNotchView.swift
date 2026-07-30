@@ -41,8 +41,9 @@ struct LowPowerNotchView: View {
                         }
                     }
                 }
+                .padding(.leading, isDynamicIsland ? 25 : 45)
+                .padding(.trailing, isDynamicIsland ? 20 : 40)
                 .padding(.bottom, isDynamicIsland ? 20 : 20)
-                .padding(.horizontal, isDynamicIsland ? 25 : 45)
             }
         }
     }

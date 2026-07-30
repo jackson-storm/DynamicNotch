@@ -28,6 +28,7 @@ struct LockScreenNotchView: View {
                     .foregroundColor(.white)
             }
         }
-        .padding(.horizontal, isDynamicIsland ? 8.scaled(by: scale) : 14.scaled(by: scale))
+        .padding(.leading, isDynamicIsland ? 6.scaled(by: scale) : 14.scaled(by: scale))
+        .padding(.trailing, isDynamicIsland ? 8.scaled(by: scale) : 14.scaled(by: scale))
     }
 }

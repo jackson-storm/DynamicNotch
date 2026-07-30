@@ -30,7 +30,7 @@ struct NoInternetConnectionContent: NotchContentProtocol, DynamicIslandCustomiza
     }
 
     func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        .init(width: baseWidth + 150, height: baseHeight + 120)
+        .init(width: baseWidth + 160, height: baseHeight + 120)
     }
 
     func cornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {

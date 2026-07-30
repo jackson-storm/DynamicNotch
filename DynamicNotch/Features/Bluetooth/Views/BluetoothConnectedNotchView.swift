@@ -63,7 +63,7 @@ struct BluetoothConnectedNotchView: View {
             case .circle:
                 BluetoothBatteryIndicatorView(
                     batteryLevel: bluetoothViewModel.batteryLevel,
-                    circleSize: 18,
+                    circleSize: isDynamicIsland ? 16 : 18,
                     circleLineWidth: 3,
                     usesTintedTrackStroke: isBatteryStrokeActive
                 )
@@ -76,7 +76,8 @@ struct BluetoothConnectedNotchView: View {
             }
         }
         .padding(.vertical, 10)
-        .padding(.horizontal, isDynamicIsland ? 5.scaled(by: scale) : 14.scaled(by: scale))
+        .padding(.trailing, isDynamicIsland ? 4.scaled(by: scale) : 14.scaled(by: scale))
+        .padding(.leading, isDynamicIsland ? 4.scaled(by: scale) : 14.scaled(by: scale))
     }
     
     @ViewBuilder

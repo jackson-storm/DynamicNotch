@@ -32,7 +32,8 @@ struct LanguageChangedNotchView: View {
                 .foregroundColor(.white)
                 .lineLimit(1)
         }
-        .padding(.horizontal, isDynamicIsland ? 6.scaled(by: scale) : 15.scaled(by: scale))
+        .padding(.leading, isDynamicIsland ? 6.scaled(by: scale) : 15.scaled(by: scale))
+        .padding(.trailing, isDynamicIsland ? 8.scaled(by: scale) : 15.scaled(by: scale))
         .padding(.vertical, 10)
     }
 }

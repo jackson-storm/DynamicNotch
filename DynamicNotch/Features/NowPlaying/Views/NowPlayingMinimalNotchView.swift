@@ -29,7 +29,6 @@ struct NowPlayingMinimalNotchView: View {
     
     var body: some View {
         let snapshot = resolvedSnapshot
-
         timelineContent(snapshot: snapshot)
     }
 
@@ -42,6 +41,7 @@ struct NowPlayingMinimalNotchView: View {
                 cornerRadius: isDynamicIsland ? 3 : 5,
                 usesFlipAnimation: settings.isNowPlayingArtwork3DEffectEnabled
             )
+            
             Spacer()
             
             LightweightNowPlayingEqualizerView(
@@ -55,6 +55,7 @@ struct NowPlayingMinimalNotchView: View {
             )
             .frame(width: isDynamicIsland ? 14 : 18, height: isDynamicIsland ? 12 : 16)
         }
-        .padding(.horizontal, isDynamicIsland ? 8.scaled(by: scale) : 14.scaled(by: scale))
+        .padding(.leading, isDynamicIsland ? 7.scaled(by: scale) : 14.scaled(by: scale))
+        .padding(.trailing, isDynamicIsland ? 8.scaled(by: scale) : 14.scaled(by: scale))
     }
 }

@@ -115,7 +115,7 @@ struct VpnDisconnectedNotchView: View {
             }
         }
         .padding(.horizontal, isDynamicIsland ? 20 : 36)
-        .padding(.vertical, 10)
+        .padding(.bottom, isDynamicIsland ? 9 : 10)
     }
     
     private func getAppIcon(for bundleID: String) -> NSImage? {

@@ -51,8 +51,9 @@ struct FullPowerNotchView: View {
                         }
                     }
                 }
-                .padding(.horizontal, isDynamicIsland ? 25 : 40)
-                .padding(.bottom, 20)
+                .padding(.leading, isDynamicIsland ? 25 : 40)
+                .padding(.trailing, isDynamicIsland ? 20 : 35)
+                .padding(.bottom, isDynamicIsland ? 23 : 20)
                 .onAppear {
                     showBatteryIndicator = true
                     changeBatteryIndicator = true

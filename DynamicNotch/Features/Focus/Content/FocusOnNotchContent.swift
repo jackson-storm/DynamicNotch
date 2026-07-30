@@ -27,7 +27,7 @@ struct FocusOnNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     }
     
     func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        return .init(width: baseWidth + 50, height: baseHeight)
+        return .init(width: baseWidth + 30, height: baseHeight)
     }
     
     @MainActor

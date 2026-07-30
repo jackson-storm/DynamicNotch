@@ -33,7 +33,7 @@ struct CalendarNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     }
     
     func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        let extraWidth: CGFloat = isAMPM ? 115 : 90
+        let extraWidth: CGFloat = isAMPM ? 90 : 60
         return .init(width: baseWidth + extraWidth, height: baseHeight)
     }
     
@@ -42,7 +42,7 @@ struct CalendarNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     }
     
     func expandedDynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        .init(width: baseWidth + 180, height: baseHeight + 100)
+        .init(width: baseWidth + 200, height: baseHeight + 80)
     }
     
     @MainActor

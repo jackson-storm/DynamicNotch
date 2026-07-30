@@ -25,6 +25,7 @@ struct FileConverterActiveNotchView: View {
 
             statusIcon
         }
+        .padding(.vertical, 10)
         .padding(.leading, isDynamicIsland ? 6.scaled(by: scale) : 14.scaled(by: scale))
         .padding(.trailing, isDynamicIsland ? 3.scaled(by: scale) : 12.scaled(by: scale))
     }
@@ -50,7 +51,7 @@ struct FileConverterActiveNotchView: View {
         case .failed:
             Image(systemName: "exclamationmark.triangle.fill")
                 .foregroundStyle(Color.yellow)
-                .font(.system(size: isDynamicIsland ? 16 : 18, weight: .semibold))
+                .font(.system(size: isDynamicIsland ? 14 : 18, weight: .semibold))
         }
     }
 }

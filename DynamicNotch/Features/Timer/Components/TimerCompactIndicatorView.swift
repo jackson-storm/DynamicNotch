@@ -8,12 +8,14 @@
 import SwiftUI
 
 struct TimerCompactIndicatorView: View {
+    let source: TimerSource
+    
     @Environment(\.isDynamicIsland) private var isDynamicIsland
-    let snapshot: ClockTimerSnapshot
+    
     private var lineWidth: CGFloat { 2.5 }
 
     var body: some View {
-        TimelineView(.animation(minimumInterval: 1 / 24, paused: snapshot.isPaused)) { context in
+        TimelineView(.animation(minimumInterval: 1 / 24, paused: source.isPaused)) { context in
             let progress = resolvedProgress(at: context.date)
             let angle = Angle.degrees((-Double(progress) * 360) - 90)
 
@@ -40,19 +42,18 @@ struct TimerCompactIndicatorView: View {
                     .offset(x: 3.5)
                     .rotationEffect(angle)
             }
-            .frame(width: isDynamicIsland ? 18 : 20, height: isDynamicIsland ? 18 : 20)
+            .frame(width: isDynamicIsland ? 16 : 20, height: isDynamicIsland ? 16: 20)
         }
     }
 
     private func resolvedProgress(at date: Date) -> CGFloat {
-        let rawProgress = CGFloat(snapshot.progress(at: date))
-        guard snapshot.remainingTime(at: date) > 0 else { return 1 }
-        guard snapshot.duration > 0 else { return 0 }
+        let rawProgress = CGFloat(source.progress(at: date))
+        let remaining = source.remainingTime(at: date)
+        guard remaining > 0 else { return 1 }
 
-        if snapshot.isPaused {
+        if source.isPaused {
             return max(0, min(rawProgress, 1))
         }
-
         return max(0.03, min(rawProgress, 1))
     }
 }

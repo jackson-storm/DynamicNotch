@@ -19,3 +19,6 @@ build/
 # Swift Package Manager
 .build/
 .swiftpm/
+
+# Machine-local agent settings
+.claude/settings.local.json

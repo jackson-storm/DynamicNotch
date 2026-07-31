@@ -196,6 +196,27 @@ final class NotchEventCoordinator: ObservableObject {
             self.notchViewModel.expandActiveLiveActivity()
             self.scheduleFileConverterExpansion()
         }
+        self.notificationCenterViewModel.onChange = { [weak notchViewModel, weak notificationCenterViewModel] in
+            guard let notchViewModel, let notificationCenterViewModel else {
+                return
+            }
+
+            // Thin glue: the show/hide decision lives in the VM (`isBadgeVisible`); the
+            // coordinator only relays it. The badge view observes the VM, so re-sending
+            // `show` on every mutation just refreshes the count/tint.
+            guard notificationCenterViewModel.isBadgeVisible else {
+                notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Notifications.badge.id))
+                return
+            }
+
+            notchViewModel.send(
+                .showLiveActivity(
+                    NotificationsBadgeNotchContent(
+                        notificationCenterViewModel: notificationCenterViewModel
+                    )
+                )
+            )
+        }
 
         observeCalendarEvents()
         observeSettingsChanges()

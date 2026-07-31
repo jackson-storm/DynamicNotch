@@ -52,6 +52,112 @@ final class NotificationCenterViewModelTests: XCTestCase {
         XCTAssertNil(viewModel.highestUnreadLevel)
     }
 
+    func testBadgeIsHiddenWhenListEmpty() {
+        let monitor = FakeNotificationInboxMonitor()
+        let viewModel = makeViewModel(monitor: monitor)
+
+        XCTAssertFalse(viewModel.isBadgeVisible)
+    }
+
+    func testBadgeIsVisibleWhenAtLeastOneUnread() {
+        let monitor = FakeNotificationInboxMonitor()
+        let viewModel = makeViewModel(monitor: monitor)
+
+        monitor.publish(makePayload(level: .info))
+
+        XCTAssertTrue(viewModel.isBadgeVisible)
+    }
+
+    // isBadgeVisible must track the unread count, not mere presence: a list holding only
+    // read items keeps the badge hidden. Slice 2 has no markRead yet, so we seed a persisted
+    // read item and let the VM restore it. The key mirrors the VM's private persistence key;
+    // the `items.count == 1` guard makes any key drift fail loudly instead of passing vacuously.
+    func testBadgeIsHiddenWhenAllItemsAreRead() {
+        let defaults = UserDefaults(suiteName: UUID().uuidString)!
+        let readItem = NotificationItem(
+            id: UUID(),
+            title: "Backup",
+            summary: "done",
+            level: .error,
+            source: "backup.sh",
+            icon: nil,
+            receivedAt: Date(timeIntervalSince1970: 1_700_000_000),
+            read: true
+        )
+        let data = try! JSONEncoder().encode([readItem])
+        defaults.set(data, forKey: "settings.notifications.persistedItems")
+
+        let viewModel = NotificationCenterViewModel(
+            monitor: FakeNotificationInboxMonitor(),
+            defaults: defaults
+        )
+        TestLifetime.retain(viewModel)
+
+        XCTAssertEqual(viewModel.items.count, 1)
+        XCTAssertEqual(viewModel.unreadCount, 0)
+        XCTAssertNil(viewModel.highestUnreadLevel)
+        XCTAssertFalse(viewModel.isBadgeVisible)
+    }
+
+    func testBadgeIsHiddenAfterClearAll() {
+        let monitor = FakeNotificationInboxMonitor()
+        let viewModel = makeViewModel(monitor: monitor)
+
+        monitor.publish(makePayload(level: .error))
+        XCTAssertTrue(viewModel.isBadgeVisible)
+
+        viewModel.clearAll()
+
+        XCTAssertFalse(viewModel.isBadgeVisible)
+    }
+
+    func testOnChangeFiresImmediatelyOnAssignment() {
+        let monitor = FakeNotificationInboxMonitor()
+        let viewModel = makeViewModel(monitor: monitor)
+
+        var fireCount = 0
+        viewModel.onChange = { fireCount += 1 }
+
+        XCTAssertEqual(fireCount, 1)
+    }
+
+    func testOnChangeFiresOnMutation() {
+        let monitor = FakeNotificationInboxMonitor()
+        let viewModel = makeViewModel(monitor: monitor)
+
+        var fireCount = 0
+        viewModel.onChange = { fireCount += 1 }
+        fireCount = 0
+
+        monitor.publish(makePayload())
+        XCTAssertEqual(fireCount, 1)
+
+        viewModel.clearAll()
+        XCTAssertEqual(fireCount, 2)
+    }
+
+    // Load-bearing for launch: a persisted unread item restored at init must make the
+    // coordinator show the badge the moment it wires `onChange` (PRD stories 23–25).
+    func testOnChangeInitialFireReflectsRestoredUnreadItem() {
+        let defaults = UserDefaults(suiteName: UUID().uuidString)!
+
+        let firstMonitor = FakeNotificationInboxMonitor()
+        let firstViewModel = NotificationCenterViewModel(monitor: firstMonitor, defaults: defaults)
+        TestLifetime.retain(firstViewModel)
+        firstMonitor.publish(makePayload(level: .error))
+
+        let secondMonitor = FakeNotificationInboxMonitor()
+        let restoredViewModel = NotificationCenterViewModel(monitor: secondMonitor, defaults: defaults)
+        TestLifetime.retain(restoredViewModel)
+
+        var visibleAtWireTime: Bool?
+        restoredViewModel.onChange = { [weak restoredViewModel] in
+            visibleAtWireTime = restoredViewModel?.isBadgeVisible
+        }
+
+        XCTAssertEqual(visibleAtWireTime, true)
+    }
+
     func testListAndBadgeAreRestoredIdenticallyOnRelaunch() {
         let defaults = UserDefaults(suiteName: UUID().uuidString)!
         let fixedDate = Date(timeIntervalSince1970: 1_700_000_000)

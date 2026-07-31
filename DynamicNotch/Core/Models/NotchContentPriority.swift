@@ -13,6 +13,7 @@ enum NotchContentPriority {
         case calendar
         case fileConverterActive
         case screenRecording
+        case notifications
 
         var id: String { rawValue }
 
@@ -38,9 +39,11 @@ enum NotchContentPriority {
                 NotchContentPriority.fileConverterActive
             case .screenRecording:
                 NotchContentPriority.screenRecording
+            case .notifications:
+                NotchContentPriority.notifications
             }
         }
-        
+
         var titleKey: LocalizedStringKey {
             switch self {
             case .homePage:
@@ -63,9 +66,11 @@ enum NotchContentPriority {
                 "settings.notch.priorities.row.fileConverterActive"
             case .calendar:
                 "settings.notch.priorities.row.calendar"
+            case .notifications:
+                "settings.notch.priorities.row.notifications"
             }
         }
-        
+
         var image: String {
             switch self {
             case .homePage:
@@ -88,9 +93,11 @@ enum NotchContentPriority {
                 return "record.circle"
             case .calendar:
                 return "calendar"
+            case .notifications:
+                return "bell.fill"
             }
         }
-        
+
         var color: Color {
             switch self {
             case .homePage:
@@ -113,6 +120,8 @@ enum NotchContentPriority {
                     .red
             case .calendar:
                     .blue
+            case .notifications:
+                    .red
             }
         }
     }
@@ -129,6 +138,7 @@ enum NotchContentPriority {
         .calendar,
         .fileConverterActive,
         .screenRecording,
+        .notifications,
     ]
 
     static let `default` = 0
@@ -141,6 +151,9 @@ enum NotchContentPriority {
     static let calendar = 7
     static let fileConverterActive = 8
     static let screenRecording = 9
+    // Rest tier (peer of VPN, which also resolves to 0), above `homePage = -10000`: the
+    // ambient badge is best-effort and yields to any higher-priority live activity.
+    static let notifications = 0
 
     static let homePage = -10000
     static let notchSizeWidth = 10000

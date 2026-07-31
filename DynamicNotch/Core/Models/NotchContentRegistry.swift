@@ -128,6 +128,14 @@ enum NotchContentRegistry {
         )
     }
 
+    enum Notifications {
+        /// Ambient badge (bell + unread counter) shown on the resting notch.
+        static let badge = NotchContentDescriptor(
+            id: "notifications.badge",
+            priorityKey: .notifications
+        )
+    }
+
     enum Settings {
         static let language = NotchContentDescriptor(
             id: "settings.language"

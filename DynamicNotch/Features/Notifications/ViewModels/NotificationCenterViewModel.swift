@@ -6,7 +6,17 @@ import Foundation
 /// payloads; the badge and the carousel page both render from it.
 @MainActor
 final class NotificationCenterViewModel: ObservableObject {
-    @Published private(set) var items: [NotificationItem] = []
+    @Published private(set) var items: [NotificationItem] = [] {
+        didSet { onChange?() }
+    }
+
+    /// Relayed by the notch coordinator to show/hide the ambient badge. Firing on
+    /// assignment (`didSet` below) is deliberate: the VM restores persisted items in
+    /// `init`, then the coordinator wires `onChange`, which must immediately reflect a
+    /// restored unread item so the badge is current at launch — without a retroactive banner.
+    var onChange: (() -> Void)? {
+        didSet { onChange?() }
+    }
 
     private static let persistedItemsKey = "settings.notifications.persistedItems"
 
@@ -24,6 +34,13 @@ final class NotificationCenterViewModel: ObservableObject {
     /// Drives the badge tint (error > warning > success > info).
     var highestUnreadLevel: NotificationLevel? {
         items.lazy.filter { !$0.read }.map(\.level).max()
+    }
+
+    /// The ambient badge shows iff there is at least one unread notification. Read items
+    /// left in the list keep it hidden — the list stays reachable through the carousel.
+    /// Slice 6 will additionally gate this on the feature toggle.
+    var isBadgeVisible: Bool {
+        unreadCount > 0
     }
 
     init(

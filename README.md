@@ -65,6 +65,8 @@ The main goal is to make the project as native as possible, both in terms of des
 
 - **Live Activities**: Now Playing (media control, album artwork, audio visualizer, customizable progress bar tint style), Downloads progress, AirDrop, Timer, Screen Recording indicator, Focus mode, Personal Hotspot, and Lock Screen media/live activity surfaces.
 
+- **Script Notifications**: Ambient bell badge with unread counter on the notch at rest, a transient arrival banner (~3 s) for each new push, and a watched inbox folder where any local script can drop a JSON file to send a notification — each tagged with a severity level (`info` / `success` / `warning` / `error`) that colors the badge and banner.
+
 - **Temporary Alerts**: Interactive HUD status for battery charging, low/full battery, Bluetooth connections, Wi-Fi, VPN, Focus-off toggling, and notch size modification settings feedback.
 
 - **Gestures & Swipe Controls**: Native interactive gestures including mouse drag, trackpad swipes, vertical swipe-to-dismiss/restore with adaptive corner radii and swipe-aware blur, and horizontal trackpad/mouse scroll-to-dismiss.
@@ -102,6 +104,55 @@ open DynamicNotch.xcodeproj
 ```
 
 Then run the `DynamicNotch` scheme from Xcode. Swift Package Manager dependencies are resolved by the project.
+
+## 🔔 Script Notifications
+
+DynamicNotch can receive notifications from any local script by watching a folder on your Mac. Drop
+a JSON file into the inbox folder and the app shows an ambient bell badge on the notch (with an
+unread counter tinted by the highest-severity unread notification) plus a transient arrival banner
+for about 3 seconds. Notifications are coalesced by `source` — a new drop from the same source
+replaces the existing entry instead of adding a duplicate — and they persist across app restarts.
+
+### JSON contract
+
+Create a file with this structure and write it atomically into the inbox folder (see the one-liner
+below):
+
+```json
+{
+  "title":   "Backup nightly",
+  "summary": "42 files, 1.2 GB\nOK",
+  "level":   "success",
+  "source":  "backup.sh",
+  "icon":    "externaldrive.badge.checkmark"
+}
+```
+
+| Field | Required | Description |
+|-------|----------|-------------|
+| `title` | **Yes** | Short heading shown in the list and arrival banner. |
+| `summary` | **Yes** | Full body text (multi-line supported). |
+| `level` | No | `info` (default) · `success` · `warning` · `error` — controls badge and banner color. |
+| `source` | No | Coalescence key: a new drop with the same `source` replaces the existing entry and re-marks it unread. Omit to always append. |
+| `icon` | No | SF Symbol name. Falls back to the `level` icon when the symbol is invalid or absent. |
+
+### Atomic one-liner for scripts
+
+Always write via a temp file and `mv` to avoid the app reading a partially written file.
+Set `INBOX` to the path shown under **Settings → Notifications → Reveal inbox in Finder**:
+
+```bash
+INBOX="/path/from/settings"   # paste the path revealed in Settings
+tmp=$(mktemp "${INBOX}/.XXXXXX.json") \
+  && printf '{"title":"Backup nightly","summary":"42 files, 1.2 GB\nOK","level":"success","source":"backup.sh"}' > "$tmp" \
+  && mv "$tmp" "${INBOX}/drop.json"
+```
+
+### Enabling the feature
+
+Open **Settings → Notifications** and flip the single **Notifications** toggle. This activates
+both the ambient badge and the Notifications page in the carousel. You can also adjust the badge's
+display priority under **Settings → Priorities**.
 
 ## 💻 Gallery
 

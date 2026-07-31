@@ -492,7 +492,6 @@ private enum SettingsSectionCatalog {
                 resetGroup: .lockScreen
             )
 
-
         case .notifications:
             return .init(
                 sidebarGroup: .system,

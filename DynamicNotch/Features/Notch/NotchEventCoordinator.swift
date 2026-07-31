@@ -218,11 +218,9 @@ final class NotchEventCoordinator: ObservableObject {
             )
         }
 
-        // No settings gate here: the arrival banner is intentionally always-on so a push is
-        // never missed when the ambient badge is hidden by a higher-priority live activity.
-        // Slice 6 will add a user toggle for the entire Notifications feature.
-        self.notificationCenterViewModel.onNewItem = { [weak notchViewModel] item in
-            guard let notchViewModel else { return }
+        self.notificationCenterViewModel.onNewItem = { [weak notchViewModel, weak notificationCenterViewModel] item in
+            guard let notchViewModel, let notificationCenterViewModel else { return }
+            guard notificationCenterViewModel.isFeatureEnabled else { return }
             notchViewModel.send(.showTemporaryNotification(
                 NotificationArrivalNotchContent(item: item),
                 duration: 3.0
@@ -231,11 +229,11 @@ final class NotchEventCoordinator: ObservableObject {
 
         observeCalendarEvents()
         observeSettingsChanges()
+        observeNotificationsSettings()
     }
     
     func checkFirstLaunch() {
-        // Notifications feature is wired always-on for this slice: start the inbox watcher
-        // and drain any files dropped while the app was closed, regardless of onboarding state.
+        notificationCenterViewModel.isFeatureEnabled = settingsViewModel.notifications.isEnabled
         notificationCenterViewModel.startMonitoring()
 
         let hasSeenOnboarding = UserDefaults.standard.bool(forKey: "hasSeenOnboarding")
@@ -811,5 +809,15 @@ final class NotchEventCoordinator: ObservableObject {
     private func showLanguageChangedNotification(for language: DynamicNotchLanguage) {
         let content = LanguageChangedNotchContent(language: language)
         notchViewModel.send(.showTemporaryNotification(content, duration: 3.0))
+    }
+
+    private func observeNotificationsSettings() {
+        settingsViewModel.notifications.$isEnabled
+            .removeDuplicates()
+            .sink { [weak self] isEnabled in
+                guard let self else { return }
+                self.notificationCenterViewModel.isFeatureEnabled = isEnabled
+            }
+            .store(in: &cancellables)
     }
 }

@@ -52,6 +52,12 @@ final class HomePageSettingsStore: SettingsStoreBase {
         }
     }
     
+    func activePages(notificationsEnabled: Bool) -> [HomePages] {
+        homePageOrder.filter {
+            !homePageDisabled.contains($0) && ($0 != .notifications || notificationsEnabled)
+        }
+    }
+
     func resetHomePage() {
         isHomePageLiveActivityEnabled = (GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.homePageLiveActivity] as? Bool) ?? true
         homePageOrder = HomePages.allCases

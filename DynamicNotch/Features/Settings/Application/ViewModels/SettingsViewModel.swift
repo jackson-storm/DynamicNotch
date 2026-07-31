@@ -63,6 +63,7 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
     let lockScreen: LockScreenFeatureSettingsStore
     let screenRecording: ScreenRecordingSettingsStore
     let calendar: CalendarSettingsStore
+    let notifications: NotificationsSettingsStore
     private let defaults: UserDefaults
 
     private var cancellables = Set<AnyCancellable>()
@@ -78,6 +79,7 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
         self.lockScreen = LockScreenFeatureSettingsStore(defaults: defaults)
         self.screenRecording = ScreenRecordingSettingsStore(defaults: defaults)
         self.calendar = CalendarSettingsStore(defaults: defaults)
+        self.notifications = NotificationsSettingsStore(defaults: defaults)
         bindStores()
     }
 
@@ -500,6 +502,7 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
         bind(store: lockScreen)
         bind(store: screenRecording)
         bind(store: calendar)
+        bind(store: notifications)
     }
 
     private func bind<Object: ObservableObject>(store: Object)

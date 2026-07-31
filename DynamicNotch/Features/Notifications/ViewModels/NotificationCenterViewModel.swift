@@ -44,11 +44,17 @@ final class NotificationCenterViewModel: ObservableObject {
         items.lazy.filter { !$0.read }.map(\.level).max()
     }
 
-    /// The ambient badge shows iff there is at least one unread notification. Read items
-    /// left in the list keep it hidden — the list stays reachable through the carousel.
-    /// Slice 6 will additionally gate this on the feature toggle.
+    /// Set by the coordinator when the user toggles the Notifications feature. Changing
+    /// this fires `onChange` so the badge is shown/hidden without any other mutation.
+    var isFeatureEnabled: Bool = true {
+        didSet { onChange?() }
+    }
+
+    /// The ambient badge shows iff there is at least one unread notification AND the feature
+    /// is enabled. Read items left in the list keep it hidden — the list stays reachable
+    /// through the carousel.
     var isBadgeVisible: Bool {
-        unreadCount > 0
+        unreadCount > 0 && isFeatureEnabled
     }
 
     init(

@@ -129,6 +129,7 @@ enum GeneralSettingsStorage {
         static let homePageIndicatorSize = "settings.homePage.indicatorSize"
         static let homePageScrollAxis = "settings.homePage.scrollAxis"
         static let selectedVPNID = "settings.vpn.selectedID"
+        static let notificationsEnabled = "settings.notifications.enabled"
     }
 
     static let defaultValues: [String: Any] = [
@@ -269,6 +270,7 @@ enum GeneralSettingsStorage {
         Keys.homePagePageIndicator: true,
         Keys.homePageIndicatorSize: "medium",
         Keys.homePageScrollAxis: HomePageScrollAxis.horizontal.rawValue,
+        Keys.notificationsEnabled: true,
         Keys.selectedVPNID: "",
         Keys.calendarLiveActivity: true,
         Keys.calendarHideWhenFocused: true,

@@ -19,6 +19,7 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     let mediaAndFilesSettings: MediaAndFilesSettingsStore
     let applicationSettings: ApplicationSettingsStore
     let notificationCenterViewModel: NotificationCenterViewModel
+    var notificationsEnabled: Bool = true
 
     var priority: Int { NotchContentRegistry.HomePage.active.priority }
     var isExpandable: Bool { true }
@@ -98,6 +99,7 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
                 mediaAndFilesSettings: mediaAndFilesSettings,
                 applicationSettings: applicationSettings,
                 notificationCenterViewModel: notificationCenterViewModel,
+                notificationsEnabled: notificationsEnabled,
                 initialPage: homePages
             )
         )

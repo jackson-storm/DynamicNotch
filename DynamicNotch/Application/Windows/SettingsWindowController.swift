@@ -62,7 +62,8 @@ class SettingsWindowController: NSWindowController {
             downloadViewModel: appDelegate.downloadViewModel,
             nowPlayingViewModel: appDelegate.nowPlayingViewModel,
             timerViewModel: appDelegate.timerViewModel,
-            lockScreenManager: appDelegate.lockScreenManager
+            lockScreenManager: appDelegate.lockScreenManager,
+            notificationCenterViewModel: appDelegate.notificationCenterViewModel
         )
         .frame(width: SettingsWindowLayout.width, height: SettingsWindowLayout.height)
         

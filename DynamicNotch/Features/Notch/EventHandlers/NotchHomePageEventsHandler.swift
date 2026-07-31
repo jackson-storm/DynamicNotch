@@ -40,7 +40,8 @@ final class NotchHomePageEventsHandler {
     func handleHomePage(_ event: HomePageEvent) {
         switch event {
         case .homePageOn:
-            let activePages = settingsViewModel.homePage.homePageOrder.filter { !settingsViewModel.homePage.homePageDisabled.contains($0) }
+            let notificationsEnabled = settingsViewModel.notifications.isEnabled
+            let activePages = settingsViewModel.homePage.activePages(notificationsEnabled: notificationsEnabled)
             let activePage = activePages.first ?? .camera
             notchViewModel.send(.showLiveActivity(HomePageNotchContent(
                 notchViewModel: notchViewModel,
@@ -51,7 +52,8 @@ final class NotchHomePageEventsHandler {
                 fileConverterViewModel: fileConverterViewModel,
                 mediaAndFilesSettings: settingsViewModel.mediaAndFiles,
                 applicationSettings: settingsViewModel.application,
-                notificationCenterViewModel: notificationCenterViewModel
+                notificationCenterViewModel: notificationCenterViewModel,
+                notificationsEnabled: notificationsEnabled
             )))
             
         case .homePageOff:

@@ -534,6 +534,51 @@ final class NotificationCenterViewModelTests: XCTestCase {
         XCTAssertEqual(received?.summary, "prod-api crashed")
         XCTAssertEqual(received?.level, .error)
     }
+
+    // MARK: - Feature toggle gate (Seam 1 — Slice 6)
+
+    /// Badge is hidden when feature is disabled, even with unread items.
+    func testBadgeIsHiddenWhenFeatureDisabled() {
+        let monitor = FakeNotificationInboxMonitor()
+        let viewModel = makeViewModel(monitor: monitor)
+
+        monitor.publish(makePayload(level: .error))
+        XCTAssertTrue(viewModel.isBadgeVisible, "pre-condition: badge visible with unread + feature on")
+
+        viewModel.isFeatureEnabled = false
+
+        XCTAssertFalse(viewModel.isBadgeVisible)
+    }
+
+    /// Badge becomes visible again when feature is re-enabled while unread items remain.
+    func testBadgeReappearsWhenFeatureReEnabled() {
+        let monitor = FakeNotificationInboxMonitor()
+        let viewModel = makeViewModel(monitor: monitor)
+
+        monitor.publish(makePayload(level: .info))
+        viewModel.isFeatureEnabled = false
+        XCTAssertFalse(viewModel.isBadgeVisible, "pre-condition: badge hidden when feature off")
+
+        viewModel.isFeatureEnabled = true
+
+        XCTAssertTrue(viewModel.isBadgeVisible)
+    }
+
+    /// Setting isFeatureEnabled fires onChange so the coordinator updates the badge immediately.
+    func testOnChangeFiresWhenFeatureToggleChanges() {
+        let monitor = FakeNotificationInboxMonitor()
+        let viewModel = makeViewModel(monitor: monitor)
+
+        var fireCount = 0
+        viewModel.onChange = { fireCount += 1 }
+        fireCount = 0
+
+        viewModel.isFeatureEnabled = false
+        XCTAssertEqual(fireCount, 1)
+
+        viewModel.isFeatureEnabled = true
+        XCTAssertEqual(fireCount, 2)
+    }
 }
 
 private extension NotificationCenterViewModelTests {

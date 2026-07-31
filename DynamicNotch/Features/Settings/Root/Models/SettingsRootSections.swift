@@ -59,6 +59,7 @@ extension SettingsRootViewModel {
         case calendar
         case screenRecording
         case lockScreen
+        case notifications
 
         var id: String { rawValue }
 
@@ -492,6 +493,26 @@ private enum SettingsSectionCatalog {
             )
 
 
+        case .notifications:
+            return .init(
+                sidebarGroup: .system,
+                titleKey: "settings.section.notifications.title",
+                fallbackTitle: "Notifications",
+                subtitleKey: "settings.section.notifications.subtitle",
+                fallbackSubtitle: "Ambient badge and script inbox settings.",
+                searchKeywords: [
+                    "notifications",
+                    "badge",
+                    "inbox",
+                    "push",
+                    "scripts",
+                    "bell"
+                ],
+                systemImage: "bell.fill",
+                imageName: nil,
+                tint: .red,
+                resetGroup: nil
+            )
         }
     }
 }

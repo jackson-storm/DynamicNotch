@@ -75,7 +75,7 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
 
 struct HomePageNotchView: View {
     @Environment(\.isDynamicIsland) var isDynamicIsland
-    
+
     let notchViewModel: NotchViewModel
     let settings: HomePageSettingsStore
     let localTimerViewModel: LocalTimerViewModel
@@ -84,6 +84,7 @@ struct HomePageNotchView: View {
     let mediaAndFilesSettings: MediaAndFilesSettingsStore
     let applicationSettings: ApplicationSettingsStore
     let notificationCenterViewModel: NotificationCenterViewModel
+    let notificationsEnabled: Bool
     let initialPage: HomePages
 
     @State private var currentPage: HomePages?
@@ -92,7 +93,7 @@ struct HomePageNotchView: View {
     @State private var isPageSettled = true
     @State private var settleTask: Task<Void, Never>? = nil
 
-    init(notchViewModel: NotchViewModel, settings: HomePageSettingsStore, localTimerViewModel: LocalTimerViewModel, nowPlayingViewModel: NowPlayingViewModel, fileConverterViewModel: FileConverterViewModel, mediaAndFilesSettings: MediaAndFilesSettingsStore, applicationSettings: ApplicationSettingsStore, notificationCenterViewModel: NotificationCenterViewModel, initialPage: HomePages) {
+    init(notchViewModel: NotchViewModel, settings: HomePageSettingsStore, localTimerViewModel: LocalTimerViewModel, nowPlayingViewModel: NowPlayingViewModel, fileConverterViewModel: FileConverterViewModel, mediaAndFilesSettings: MediaAndFilesSettingsStore, applicationSettings: ApplicationSettingsStore, notificationCenterViewModel: NotificationCenterViewModel, notificationsEnabled: Bool, initialPage: HomePages) {
         self.notchViewModel = notchViewModel
         self.settings = settings
         self.localTimerViewModel = localTimerViewModel
@@ -101,15 +102,16 @@ struct HomePageNotchView: View {
         self.mediaAndFilesSettings = mediaAndFilesSettings
         self.applicationSettings = applicationSettings
         self.notificationCenterViewModel = notificationCenterViewModel
+        self.notificationsEnabled = notificationsEnabled
         self.initialPage = initialPage
-        
-        let activePages = settings.homePageOrder.filter { !settings.homePageDisabled.contains($0) }
+
+        let activePages = settings.activePages(notificationsEnabled: notificationsEnabled)
         let pageToSelect = activePages.contains(initialPage) ? initialPage : (activePages.first ?? .camera)
         self._currentPage = State(initialValue: pageToSelect)
     }
-    
+
     var body: some View {
-        let activePages = settings.homePageOrder.filter { !settings.homePageDisabled.contains($0) }
+        let activePages = settings.activePages(notificationsEnabled: notificationsEnabled)
         let settled = isPageSettled
         
         VStack() {
@@ -231,7 +233,8 @@ struct HomePageNotchView: View {
                             fileConverterViewModel: fileConverterViewModel,
                             mediaAndFilesSettings: mediaAndFilesSettings,
                             applicationSettings: applicationSettings,
-                            notificationCenterViewModel: notificationCenterViewModel
+                            notificationCenterViewModel: notificationCenterViewModel,
+                            notificationsEnabled: notificationsEnabled
                         )
                     )
                 )
@@ -242,7 +245,7 @@ struct HomePageNotchView: View {
             }
         }
         .onDisappear {
-            let activePages = settings.homePageOrder.filter { !settings.homePageDisabled.contains($0) }
+            let activePages = settings.activePages(notificationsEnabled: notificationsEnabled)
             notchViewModel.send(
                 .showLiveActivity(
                     HomePageNotchContent(
@@ -254,7 +257,8 @@ struct HomePageNotchView: View {
                         fileConverterViewModel: fileConverterViewModel,
                         mediaAndFilesSettings: mediaAndFilesSettings,
                         applicationSettings: applicationSettings,
-                        notificationCenterViewModel: notificationCenterViewModel
+                        notificationCenterViewModel: notificationCenterViewModel,
+                        notificationsEnabled: notificationsEnabled
                     )
                 )
             )

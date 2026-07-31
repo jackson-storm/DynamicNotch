@@ -119,17 +119,14 @@ struct HomePagePageIndicatorView: View {
         guard settingsViewModel.homePage.isHomePagePageIndicatorEnabled else { return false }
         guard notchViewModel.isDisplayingExpandedLiveActivity else { return false }
         
-        let active = homePageContent.settings.homePageOrder.filter { 
-            !homePageContent.settings.homePageDisabled.contains($0) 
-        }
-        return active.count > 1
+        return activePages.count > 1
     }
-    
+
     private var activePages: [HomePages] {
         guard let homePageContent = homePageContent else { return [] }
-        return homePageContent.settings.homePageOrder.filter { 
-            !homePageContent.settings.homePageDisabled.contains($0) 
-        }
+        return homePageContent.settings.activePages(
+            notificationsEnabled: settingsViewModel.notifications.isEnabled
+        )
     }
 
     private var indicatorWidth: CGFloat {
@@ -205,7 +202,9 @@ struct HomePagePageIndicatorView: View {
                     nowPlayingViewModel: homePageContent.nowPlayingViewModel,
                     fileConverterViewModel: homePageContent.fileConverterViewModel,
                     mediaAndFilesSettings: settingsViewModel.mediaAndFiles,
-                    applicationSettings: settingsViewModel.application
+                    applicationSettings: settingsViewModel.application,
+                    notificationCenterViewModel: homePageContent.notificationCenterViewModel,
+                    notificationsEnabled: settingsViewModel.notifications.isEnabled
                 )
             )
         )

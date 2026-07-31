@@ -1,28 +1,12 @@
 internal import AppKit
+import NotificationContract
 import SwiftUI
 
-/// Severity of a notification. Drives the tint and the default SF Symbol when the
-/// script does not provide its own `icon`. Ordering (info < success < warning < error)
-/// is what `highestUnreadLevel` relies on.
-enum NotificationLevel: String, Codable, CaseIterable, Comparable {
-    case info
-    case success
-    case warning
-    case error
-
-    private var severity: Int {
-        switch self {
-        case .info: 0
-        case .success: 1
-        case .warning: 2
-        case .error: 3
-        }
-    }
-
-    static func < (lhs: NotificationLevel, rhs: NotificationLevel) -> Bool {
-        lhs.severity < rhs.severity
-    }
-
+// `NotificationLevel` and `NotificationPayload` are the wire contract, now owned by the
+// `NotificationContract` module (shared with the `dynamicnotch` CLI). Only the
+// *presentation* of a level — its tint and default SF Symbol — stays app-side, as an
+// extension on the imported enum, so the module keeps zero UI dependencies.
+extension NotificationLevel {
     var color: Color {
         switch self {
         case .info: .white

@@ -1,12 +1,12 @@
 import Foundation
+import NotificationContract
 
 @MainActor
 final class AppContainer {
-    /// `~/Library/Application Support/DynamicNotch/inbox` — where scripts drop notification JSON.
+    /// Where scripts drop notification JSON. Derived once in `NotificationContract` so the
+    /// app and the `dynamicnotch` CLI can never disagree; honors `$DYNAMICNOTCH_INBOX`.
     static var notificationsInboxDirectory: URL {
-        FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
-            .appendingPathComponent("DynamicNotch", isDirectory: true)
-            .appendingPathComponent("inbox", isDirectory: true)
+        NotificationInbox.resolvedURL
     }
 
     let powerService = PowerService()

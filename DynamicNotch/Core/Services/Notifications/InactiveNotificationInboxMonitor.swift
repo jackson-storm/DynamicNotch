@@ -1,4 +1,5 @@
 import Foundation
+import NotificationContract
 
 /// No-op inbox monitor for DEBUG factories and previews: never watches the real inbox
 /// directory and never emits a payload. Mirrors `InactiveDownloadMonitor`, and keeps debug

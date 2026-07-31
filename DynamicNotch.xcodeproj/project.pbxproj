@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		E2761738300A66E900E79207 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = E2761737300A66E900E79207 /* Sparkle */; };
+		AAAA000000000000000000A4 /* NotificationContract in Frameworks */ = {isa = PBXBuildFile; productRef = AAAA000000000000000000A2 /* NotificationContract */; };
+		AAAA000000000000000000A5 /* NotificationContract in Frameworks */ = {isa = PBXBuildFile; productRef = AAAA000000000000000000A3 /* NotificationContract */; };
+		CADE00000000000000000015 /* ArgumentParser in Frameworks */ = {isa = PBXBuildFile; productRef = CADE000000000000000000A2 /* ArgumentParser */; };
+		CADE00000000000000000016 /* NotificationContract in Frameworks */ = {isa = PBXBuildFile; productRef = CADE000000000000000000A3 /* NotificationContract */; };
+		CAFE00000000000000000001 /* dynamicnotch in Embed CLI Tool */ = {isa = PBXBuildFile; fileRef = CADE00000000000000000011 /* dynamicnotch */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		E2A100022F90000000000001 /* DynamicNotch/Resources/MediaRemoteAdapter/MediaRemoteAdapter.framework in Embed MediaRemote Adapter */ = {isa = PBXBuildFile; fileRef = E2A100012F90000000000001 /* DynamicNotch/Resources/MediaRemoteAdapter/MediaRemoteAdapter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E2C135B72F59FA8100348421 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = E2C135B62F59FA8100348421 /* Lottie */; };
 /* End PBXBuildFile section */
@@ -27,6 +32,20 @@
 			remoteGlobalIDString = E2EF78502EDDB60E00F96D1E;
 			remoteInfo = DynamicNotch;
 		};
+		CADE0000000000000000001B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E2EF78492EDDB60E00F96D1E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CADE00000000000000000010;
+			remoteInfo = DynamicNotchCLI;
+		};
+		CAFE00000000000000000003 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E2EF78492EDDB60E00F96D1E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CADE00000000000000000010;
+			remoteInfo = DynamicNotchCLI;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -41,6 +60,17 @@
 			name = "Embed MediaRemote Adapter";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CAFE00000000000000000002 /* Embed CLI Tool */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "Contents/Helpers";
+			dstSubfolderSpec = 1;
+			files = (
+				CAFE00000000000000000001 /* dynamicnotch in Embed CLI Tool */,
+			);
+			name = "Embed CLI Tool";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +78,7 @@
 		E2EF78512EDDB60E00F96D1E /* DynamicNotch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DynamicNotch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F10000000000000000000001 /* DynamicNotchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DynamicNotchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F20000000000000000000001 /* DynamicNotchUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DynamicNotchUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CADE00000000000000000011 /* dynamicnotch */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = dynamicnotch; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -108,6 +139,11 @@
 			path = DynamicNotchUITests;
 			sourceTree = "<group>";
 		};
+		CADE00000000000000000012 /* CLI */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = CLI;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +153,7 @@
 			files = (
 				E2761738300A66E900E79207 /* Sparkle in Frameworks */,
 				E2C135B72F59FA8100348421 /* Lottie in Frameworks */,
+				AAAA000000000000000000A4 /* NotificationContract in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -124,6 +161,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AAAA000000000000000000A5 /* NotificationContract in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -131,6 +169,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CADE00000000000000000014 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CADE00000000000000000015 /* ArgumentParser in Frameworks */,
+				CADE00000000000000000016 /* NotificationContract in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -149,6 +196,7 @@
 			isa = PBXGroup;
 			children = (
 				E2EF78532EDDB60E00F96D1E /* DynamicNotch */,
+				CADE00000000000000000012 /* CLI */,
 				F10000000000000000000002 /* DynamicNotchTests */,
 				F20000000000000000000002 /* DynamicNotchUITests */,
 				E2EF78522EDDB60E00F96D1E /* Products */,
@@ -162,6 +210,7 @@
 				E2EF78512EDDB60E00F96D1E /* DynamicNotch.app */,
 				F10000000000000000000001 /* DynamicNotchTests.xctest */,
 				F20000000000000000000001 /* DynamicNotchUITests.xctest */,
+				CADE00000000000000000011 /* dynamicnotch */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -176,12 +225,14 @@
 				E2EF784D2EDDB60E00F96D1E /* Sources */,
 				E2EF784E2EDDB60E00F96D1E /* Frameworks */,
 				E2A100032F90000000000001 /* Embed MediaRemote Adapter */,
+				CAFE00000000000000000002 /* Embed CLI Tool */,
 				E2EF784F2EDDB60E00F96D1E /* Resources */,
 				E2C1A0013000000000000001 /* Remove Stale XCTest Bundles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				CAFE00000000000000000004 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				E2EF78532EDDB60E00F96D1E /* DynamicNotch */,
@@ -190,6 +241,7 @@
 			packageProductDependencies = (
 				E2C135B62F59FA8100348421 /* Lottie */,
 				E2761737300A66E900E79207 /* Sparkle */,
+				AAAA000000000000000000A2 /* NotificationContract */,
 			);
 			productName = DynamicNotch;
 			productReference = E2EF78512EDDB60E00F96D1E /* DynamicNotch.app */;
@@ -207,12 +259,14 @@
 			);
 			dependencies = (
 				F10000000000000000000008 /* PBXTargetDependency */,
+				CADE0000000000000000001A /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				F10000000000000000000002 /* DynamicNotchTests */,
 			);
 			name = DynamicNotchTests;
 			packageProductDependencies = (
+				AAAA000000000000000000A3 /* NotificationContract */,
 			);
 			productName = DynamicNotchTests;
 			productReference = F10000000000000000000001 /* DynamicNotchTests.xctest */;
@@ -240,6 +294,29 @@
 			productName = DynamicNotchUITests;
 			productReference = F20000000000000000000001 /* DynamicNotchUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		CADE00000000000000000010 /* DynamicNotchCLI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CADE00000000000000000017 /* Build configuration list for PBXNativeTarget "DynamicNotchCLI" */;
+			buildPhases = (
+				CADE00000000000000000013 /* Sources */,
+				CADE00000000000000000014 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				CADE00000000000000000012 /* CLI */,
+			);
+			name = DynamicNotchCLI;
+			packageProductDependencies = (
+				CADE000000000000000000A2 /* ArgumentParser */,
+				CADE000000000000000000A3 /* NotificationContract */,
+			);
+			productName = DynamicNotchCLI;
+			productReference = CADE00000000000000000011 /* dynamicnotch */;
+			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
 
@@ -279,6 +356,8 @@
 			packageReferences = (
 				E2C135B52F59FA8100348421 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				E2761736300A66E900E79207 /* XCRemoteSwiftPackageReference "Sparkle" */,
+				AAAA000000000000000000A1 /* XCLocalSwiftPackageReference "NotificationContract" */,
+				CADE000000000000000000A1 /* XCRemoteSwiftPackageReference "swift-argument-parser" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = E2EF78522EDDB60E00F96D1E /* Products */;
@@ -286,6 +365,7 @@
 			projectRoot = "";
 			targets = (
 				E2EF78502EDDB60E00F96D1E /* DynamicNotch */,
+				CADE00000000000000000010 /* DynamicNotchCLI */,
 				F10000000000000000000006 /* DynamicNotchTests */,
 				F20000000000000000000006 /* DynamicNotchUITests */,
 			);
@@ -360,6 +440,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CADE00000000000000000013 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -372,6 +459,16 @@
 			isa = PBXTargetDependency;
 			target = E2EF78502EDDB60E00F96D1E /* DynamicNotch */;
 			targetProxy = F20000000000000000000007 /* PBXContainerItemProxy */;
+		};
+		CADE0000000000000000001A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CADE00000000000000000010 /* DynamicNotchCLI */;
+			targetProxy = CADE0000000000000000001B /* PBXContainerItemProxy */;
+		};
+		CAFE00000000000000000004 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CADE00000000000000000010 /* DynamicNotchCLI */;
+			targetProxy = CAFE00000000000000000003 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -726,6 +823,42 @@
 			};
 			name = Release;
 		};
+		CADE00000000000000000018 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.6;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Jackson.dynamicnotch;
+				PRODUCT_MODULE_NAME = DynamicNotchCLI;
+				PRODUCT_NAME = dynamicnotch;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		CADE00000000000000000019 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.6;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Jackson.dynamicnotch;
+				PRODUCT_MODULE_NAME = DynamicNotchCLI;
+				PRODUCT_NAME = dynamicnotch;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -765,7 +898,23 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		CADE00000000000000000017 /* Build configuration list for PBXNativeTarget "DynamicNotchCLI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CADE00000000000000000018 /* Debug */,
+				CADE00000000000000000019 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		AAAA000000000000000000A1 /* XCLocalSwiftPackageReference "NotificationContract" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = NotificationContract;
+		};
+/* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
 		E2761736300A66E900E79207 /* XCRemoteSwiftPackageReference "Sparkle" */ = {
@@ -784,9 +933,27 @@
 				minimumVersion = 4.6.0;
 			};
 		};
+		CADE000000000000000000A1 /* XCRemoteSwiftPackageReference "swift-argument-parser" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-argument-parser";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.5.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		AAAA000000000000000000A2 /* NotificationContract */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AAAA000000000000000000A1 /* XCLocalSwiftPackageReference "NotificationContract" */;
+			productName = NotificationContract;
+		};
+		AAAA000000000000000000A3 /* NotificationContract */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AAAA000000000000000000A1 /* XCLocalSwiftPackageReference "NotificationContract" */;
+			productName = NotificationContract;
+		};
 		E2761737300A66E900E79207 /* Sparkle */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = E2761736300A66E900E79207 /* XCRemoteSwiftPackageReference "Sparkle" */;
@@ -796,6 +963,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E2C135B52F59FA8100348421 /* XCRemoteSwiftPackageReference "lottie-ios" */;
 			productName = Lottie;
+		};
+		CADE000000000000000000A2 /* ArgumentParser */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CADE000000000000000000A1 /* XCRemoteSwiftPackageReference "swift-argument-parser" */;
+			productName = ArgumentParser;
+		};
+		CADE000000000000000000A3 /* NotificationContract */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AAAA000000000000000000A1 /* XCLocalSwiftPackageReference "NotificationContract" */;
+			productName = NotificationContract;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

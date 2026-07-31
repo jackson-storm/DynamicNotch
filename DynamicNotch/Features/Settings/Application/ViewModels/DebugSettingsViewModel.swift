@@ -8,6 +8,7 @@
 #if DEBUG
 import SwiftUI
 import Combine
+import NotificationContract
 
 @MainActor
 final class DebugSettingsViewModel: ObservableObject {

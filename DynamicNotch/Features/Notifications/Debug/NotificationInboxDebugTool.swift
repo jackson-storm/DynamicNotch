@@ -1,6 +1,7 @@
 #if DEBUG
-import Foundation
 internal import AppKit
+import Foundation
+import NotificationContract
 
 /// Debug-only helper that drives the notifications feature through its *real* pipeline by
 /// writing files into the app's watched inbox. The running app owns the live
@@ -24,9 +25,9 @@ struct NotificationInboxDebugTool {
         self.fileManager = fileManager
     }
 
-    /// Atomically drops a valid notification of `level`. Temp-then-rename (via
-    /// `Data.write(.atomic)`) mirrors the reference script so the watcher never reads a
-    /// half-written file. Expect a new row of the matching severity on the carousel page.
+    /// Atomically drops a valid notification of `level` through the shared `AtomicInboxDrop`
+    /// mechanism, so the watcher never reads a half-written file. Expect a new row of the
+    /// matching severity on the carousel page.
     func injectSample(level: NotificationLevel) {
         let payload: [String: Any] = [
             "title": Self.sampleTitle(for: level),
@@ -71,12 +72,14 @@ private extension NotificationInboxDebugTool {
         try? fileManager.createDirectory(at: inboxDirectory, withIntermediateDirectories: true)
     }
 
-    /// Writes `data` atomically under a fresh `<uuid>.json` name — the only shape the
-    /// monitor treats as eligible.
+    /// Writes `data` under a fresh `<uuid>.json` name — the only shape the monitor treats as
+    /// eligible. The atomic write itself is `AtomicInboxDrop`'s (temp `.`-prefixed + rename,
+    /// creates the inbox if absent), shared with the CLI and the app so no second
+    /// implementation can drift. `injectSample` feeds valid JSON, `injectMalformed` invalid —
+    /// both share this one drop path.
     func write(_ data: Data) {
-        ensureInboxExists()
         let url = inboxDirectory.appendingPathComponent("\(UUID().uuidString).json")
-        try? data.write(to: url, options: .atomic)
+        try? AtomicInboxDrop.writeAtomically(data, to: url)
     }
 
     static func sampleTitle(for level: NotificationLevel) -> String {

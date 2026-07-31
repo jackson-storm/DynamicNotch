@@ -4802,6 +4802,34 @@
     "Combined Targets" : {
 
     },
+    "Command-line tool" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Command-line tool"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Herramienta de línea de comandos"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Инструмент командной строки"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "命令行工具"
+          }
+        }
+      }
+    },
     "Compact" : {
       "localizations" : {
         "en" : {
@@ -8548,6 +8576,146 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "靛蓝色"
+          }
+        }
+      }
+    },
+    "Install CLI tool" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Install CLI tool"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instalar herramienta CLI"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Установить CLI-инструмент"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "安装命令行工具"
+          }
+        }
+      }
+    },
+    "Install the dynamicnotch command so scripts, cron jobs and Shortcuts can push notifications from any terminal." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Install the dynamicnotch command so scripts, cron jobs and Shortcuts can push notifications from any terminal."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instala el comando dynamicnotch para que scripts, tareas cron y Atajos puedan enviar notificaciones desde cualquier terminal."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Установите команду dynamicnotch, чтобы скрипты, задачи cron и «Быстрые команды» могли отправлять уведомления из любого терминала."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "安装 dynamicnotch 命令，让脚本、cron 任务和快捷指令可以从任何终端推送通知。"
+          }
+        }
+      }
+    },
+    "Installation failed. Check that /usr/local/bin is writable." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installation failed. Check that /usr/local/bin is writable."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La instalación falló. Comprueba que /usr/local/bin tenga permisos de escritura."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удалось установить. Убедитесь, что /usr/local/bin доступен для записи."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "安装失败。请检查 /usr/local/bin 是否可写。"
+          }
+        }
+      }
+    },
+    "Installation was cancelled. Administrator permission is required." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installation was cancelled. Administrator permission is required."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se canceló la instalación. Se requiere permiso de administrador."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Установка отменена. Требуются права администратора."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "安装已取消。需要管理员权限。"
+          }
+        }
+      }
+    },
+    "Installed. dynamicnotch is now available on your PATH." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installed. dynamicnotch is now available on your PATH."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instalado. dynamicnotch ya está disponible en tu PATH."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Установлено. dynamicnotch теперь доступен в вашем PATH."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已安装。dynamicnotch 现在已加入你的 PATH。"
           }
         }
       }
@@ -15069,6 +15237,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "临时活动"
+          }
+        }
+      }
+    },
+    "The command-line tool is missing from the app bundle." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The command-line tool is missing from the app bundle."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La herramienta de línea de comandos no se encuentra en el paquete de la app."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Инструмент командной строки отсутствует в пакете приложения."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "应用程序包中缺少命令行工具。"
           }
         }
       }

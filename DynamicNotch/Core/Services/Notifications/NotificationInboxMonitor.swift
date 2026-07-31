@@ -1,5 +1,6 @@
 import Dispatch
 import Foundation
+import NotificationContract
 import OSLog
 
 /// Watches the inbox directory for `*.json` drops, parses each into a `NotificationPayload`,

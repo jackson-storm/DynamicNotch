@@ -1,4 +1,5 @@
 #if DEBUG
+import NotificationContract
 import XCTest
 @testable import DynamicNotch
 

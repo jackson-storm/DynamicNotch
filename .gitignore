@@ -14,11 +14,8 @@ xcuserdata/
 # Build products
 DerivedData/
 build/
-/.idea/.gitignore
-/.idea/DynamicNotch.iml
-/.idea/easy-i18n.xml
-/.idea/misc.xml
-/.idea/modules.xml
-/.idea/noctule.xml
-/.idea/ShadcnHelperSettings.xml
-/.idea/vcs.xml
+/.idea
+
+# Swift Package Manager
+.build/
+.swiftpm/

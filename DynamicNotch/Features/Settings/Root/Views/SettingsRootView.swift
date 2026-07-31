@@ -527,8 +527,6 @@ struct SettingsRootView: View {
                     inboxURL: AppContainer.notificationsInboxDirectory
                 )
             }
-
-
         }
     }
 

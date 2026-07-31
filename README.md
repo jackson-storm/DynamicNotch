@@ -107,13 +107,52 @@ Then run the `DynamicNotch` scheme from Xcode. Swift Package Manager dependencie
 
 ## 🔔 Script Notifications
 
-DynamicNotch can receive notifications from any local script by watching a folder on your Mac. Drop
-a JSON file into the inbox folder and the app shows an ambient bell badge on the notch (with an
-unread counter tinted by the highest-severity unread notification) plus a transient arrival banner
-for about 3 seconds. Notifications are coalesced by `source` — a new drop from the same source
-replaces the existing entry instead of adding a duplicate — and they persist across app restarts.
+DynamicNotch can receive notifications from any local script or process. When a notification
+arrives, the app shows an ambient bell badge on the notch (with an unread counter tinted by the
+highest-severity unread notification) plus a transient arrival banner for about 3 seconds.
+Notifications are coalesced by `source` — a new notification from the same source replaces the
+existing entry instead of adding a duplicate — and they persist across app restarts.
 
-### JSON contract
+The recommended way to send a notification is the **`dynamicnotch` command-line tool**. It builds a
+valid payload and delivers it atomically for you, so scripts never hand-roll JSON escaping or the
+temp-file dance. Under the hood it drops a file into a watched inbox folder — the same raw file-drop
+contract remains available as a [low-level fallback](#low-level-file-drop) for environments without
+the CLI.
+
+### Installing the CLI
+
+Open **Settings → Notifications**, find the **Command-line tool** card, and click **Install CLI
+tool**. This puts `dynamicnotch` on your `PATH` (`/usr/local/bin/dynamicnotch`). On Apple Silicon
+`/usr/local/bin` is often not writable, so macOS may ask once for your administrator password. The
+install is idempotent — click it again anytime to repair the link.
+
+### Using the CLI
+
+```bash
+dynamicnotch notify --title "Backup nightly" \
+  --summary $'42 files, 1.2 GB\nOK' --level success \
+  --source backup.sh --icon externaldrive.badge.checkmark
+
+# summary piped from stdin (e.g. the output of a job)
+backup.sh 2>&1 | dynamicnotch notify --title "Backup nightly" --level success --source backup.sh
+```
+
+| Flag | Required | Description |
+|------|----------|-------------|
+| `--title` | **Yes** | Short heading shown in the list and arrival banner. |
+| `--summary` | **Yes\*** | Full body text (multi-line supported). *\*Provide it via this flag **or** pipe it on stdin; if `--summary` is omitted the CLI reads all of stdin as the summary. Neither one → error.* |
+| `--level` | No | `info` (default) · `success` · `warning` · `error` — controls badge and banner color. **Strict**: an unknown value is a usage error, never a silent downgrade. |
+| `--source` | No | Coalescence key / subtitle: a new notification with the same `source` replaces the existing entry and re-marks it unread. Omit to always append. |
+| `--icon` | No | SF Symbol name. Falls back to the `level` icon when the symbol is invalid or absent. |
+
+The CLI exits `0` once the notification has been handed off, or non-zero on invalid arguments (a
+missing `--title`/`--summary`, an unknown `--level`) or a write failure. It works even when the app
+is closed — the notification is drained on the next launch.
+
+### Low-level file-drop
+
+If the CLI is not available, any script can talk to the same inbox folder directly by writing a JSON
+file into it. This is the low-level layer the CLI is built on.
 
 Create a file with this structure and write it atomically into the inbox folder (see the one-liner
 below):
@@ -136,8 +175,6 @@ below):
 | `source` | No | Coalescence key: a new drop with the same `source` replaces the existing entry and re-marks it unread. Omit to always append. |
 | `icon` | No | SF Symbol name. Falls back to the `level` icon when the symbol is invalid or absent. |
 
-### Atomic one-liner for scripts
-
 Always write via a temp file and `mv` to avoid the app reading a partially written file.
 Set `INBOX` to the path shown under **Settings → Notifications → Reveal inbox in Finder**:
 
@@ -147,6 +184,10 @@ tmp=$(mktemp "${INBOX}/.XXXXXX.json") \
   && printf '{"title":"Backup nightly","summary":"42 files, 1.2 GB\nOK","level":"success","source":"backup.sh"}' > "$tmp" \
   && mv "$tmp" "${INBOX}/drop.json"
 ```
+
+> **Note:** this one-liner writes to a fixed filename (`drop.json`), so two drops that land before
+> the app ingests the first can collide and lose a notification. The `dynamicnotch` CLI avoids this
+> by generating a unique filename for every invocation — prefer it under bursty load.
 
 ### Enabling the feature
 

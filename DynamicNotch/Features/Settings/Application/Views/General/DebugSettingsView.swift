@@ -1,6 +1,7 @@
 #if DEBUG
 import SwiftUI
 import Combine
+import NotificationContract
 
 struct DebugSettingsView: View {
     @ObservedObject var viewModel: DebugSettingsViewModel

@@ -295,6 +295,117 @@ final class NotificationCenterViewModelTests: XCTestCase {
         XCTAssertEqual(visibleAtWireTime, true)
     }
 
+    // MARK: - Coalescence by source (Seam 1 — Slice 4)
+
+    /// Second drop of a known source replaces content and moves the item to head.
+    /// The item count must not grow, and the UUID must be preserved (detail views key by id).
+    func testCoalescingKnownSourceReplacesContentAndMovesToHead() {
+        let monitor = FakeNotificationInboxMonitor()
+        let viewModel = makeViewModel(monitor: monitor)
+
+        monitor.publish(makePayload(title: "Initial", summary: "v1", level: .info, source: "backup.sh"))
+        let originalId = viewModel.items[0].id
+
+        monitor.publish(makePayload(title: "Updated", summary: "v2", level: .success, source: "backup.sh"))
+
+        XCTAssertEqual(viewModel.items.count, 1, "coalesce must not grow the list")
+        XCTAssertEqual(viewModel.items[0].id, originalId, "coalesce must preserve the item id")
+        XCTAssertEqual(viewModel.items[0].title, "Updated")
+        XCTAssertEqual(viewModel.items[0].summary, "v2")
+        XCTAssertEqual(viewModel.items[0].level, .success)
+    }
+
+    /// Coalescing updates receivedAt to the timestamp of the second drop, not the first.
+    func testCoalescingUpdatesReceivedAt() {
+        let monitor = FakeNotificationInboxMonitor()
+        let first = Date(timeIntervalSince1970: 1_000_000)
+        let second = Date(timeIntervalSince1970: 2_000_000)
+        var dates = [first, second]
+        let viewModel = makeViewModel(monitor: monitor, now: { dates.removeFirst() })
+
+        monitor.publish(makePayload(source: "backup.sh"))
+        monitor.publish(makePayload(source: "backup.sh"))
+
+        XCTAssertEqual(viewModel.items[0].receivedAt, second)
+    }
+
+    /// Coalescing a read item re-marks it unread and increments the badge (the badge-critical path).
+    func testCoalescingReadItemRepassesUnreadAndIncrementsBadge() {
+        let monitor = FakeNotificationInboxMonitor()
+        let viewModel = makeViewModel(monitor: monitor)
+
+        monitor.publish(makePayload(source: "backup.sh"))
+        let id = viewModel.items[0].id
+        viewModel.markRead(id: id)
+        XCTAssertEqual(viewModel.unreadCount, 0)
+
+        monitor.publish(makePayload(source: "backup.sh"))
+
+        XCTAssertEqual(viewModel.items.count, 1)
+        XCTAssertFalse(viewModel.items[0].read)
+        XCTAssertEqual(viewModel.unreadCount, 1)
+        XCTAssertTrue(viewModel.isBadgeVisible)
+    }
+
+    /// Coalescing an already-unread item keeps it unread and the badge count unchanged.
+    func testCoalescingUnreadItemRemainsUnreadWithUnchangedBadge() {
+        let monitor = FakeNotificationInboxMonitor()
+        let viewModel = makeViewModel(monitor: monitor)
+
+        monitor.publish(makePayload(source: "backup.sh"))
+        XCTAssertEqual(viewModel.unreadCount, 1)
+
+        monitor.publish(makePayload(source: "backup.sh"))
+
+        XCTAssertEqual(viewModel.items.count, 1)
+        XCTAssertFalse(viewModel.items[0].read)
+        XCTAssertEqual(viewModel.unreadCount, 1)
+    }
+
+    /// Two drops without source are always appended and must never coalesce with each other.
+    func testTwoDropsWithoutSourceProduceTwoDistinctItems() {
+        let monitor = FakeNotificationInboxMonitor()
+        let viewModel = makeViewModel(monitor: monitor)
+
+        monitor.publish(makePayload(title: "First", summary: "A"))
+        monitor.publish(makePayload(title: "Second", summary: "B"))
+
+        XCTAssertEqual(viewModel.items.count, 2)
+        XCTAssertNotEqual(viewModel.items[0].id, viewModel.items[1].id)
+    }
+
+    /// A coalesced item must be promoted to head even when another item was more recently added.
+    func testCoalescingMovesItemToHeadWhenNotAlreadyFirst() {
+        let monitor = FakeNotificationInboxMonitor()
+        let viewModel = makeViewModel(monitor: monitor)
+
+        monitor.publish(makePayload(title: "Older", summary: "A", source: "backup.sh"))
+        monitor.publish(makePayload(title: "Newer", summary: "B", source: "ci.sh"))
+        XCTAssertEqual(viewModel.items[0].source, "backup.sh")
+        XCTAssertEqual(viewModel.items[1].source, "ci.sh")
+
+        monitor.publish(makePayload(title: "Updated", summary: "A2", source: "backup.sh"))
+
+        XCTAssertEqual(viewModel.items.count, 2)
+        XCTAssertEqual(viewModel.items[0].source, "backup.sh", "coalesced item must be at head")
+        XCTAssertEqual(viewModel.items[0].title, "Updated")
+        XCTAssertEqual(viewModel.items[1].source, "ci.sh")
+    }
+
+    /// highestUnreadLevel reflects the coalesced item's new level.
+    func testCoalescingUpdatesHighestUnreadLevel() {
+        let monitor = FakeNotificationInboxMonitor()
+        let viewModel = makeViewModel(monitor: monitor)
+
+        monitor.publish(makePayload(level: .info, source: "backup.sh"))
+        XCTAssertEqual(viewModel.highestUnreadLevel, .info)
+
+        monitor.publish(makePayload(level: .error, source: "backup.sh"))
+
+        XCTAssertEqual(viewModel.items.count, 1)
+        XCTAssertEqual(viewModel.highestUnreadLevel, .error)
+    }
+
     func testListAndBadgeAreRestoredIdenticallyOnRelaunch() {
         let defaults = UserDefaults(suiteName: UUID().uuidString)!
         let fixedDate = Date(timeIntervalSince1970: 1_700_000_000)
@@ -328,10 +439,11 @@ final class NotificationCenterViewModelTests: XCTestCase {
 private extension NotificationCenterViewModelTests {
     func makeViewModel(
         monitor: FakeNotificationInboxMonitor,
-        defaults: UserDefaults? = nil
+        defaults: UserDefaults? = nil,
+        now: @escaping () -> Date = { Date() }
     ) -> NotificationCenterViewModel {
         let store = defaults ?? UserDefaults(suiteName: UUID().uuidString)!
-        let viewModel = NotificationCenterViewModel(monitor: monitor, defaults: store)
+        let viewModel = NotificationCenterViewModel(monitor: monitor, defaults: store, now: now)
         TestLifetime.retain(viewModel)
         return viewModel
     }

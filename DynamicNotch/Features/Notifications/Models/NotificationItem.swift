@@ -55,6 +55,19 @@ struct NotificationItem: Identifiable, Equatable, Codable {
     var receivedAt: Date
     var read: Bool
 
+    /// Replaces all script-authored fields with those from a newer payload and re-marks the
+    /// item unread. The `id` is preserved so detail views keyed by id survive coalescence.
+    /// `unreadCount` is computed from `read` — flipping to `false` implicitly increments it
+    /// if the item was previously read; no separate badge counter exists.
+    mutating func apply(_ payload: NotificationPayload, receivedAt: Date) {
+        title = payload.title
+        summary = payload.summary
+        level = payload.level
+        icon = payload.icon
+        self.receivedAt = receivedAt
+        read = false
+    }
+
     /// The resolved SF Symbol name for the detail view. Returns the custom `icon` when it
     /// names a valid system symbol; falls back to the level's default otherwise.
     var effectiveIconName: String {

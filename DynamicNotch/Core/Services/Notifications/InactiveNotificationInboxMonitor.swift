@@ -5,6 +5,7 @@ import Foundation
 /// coordinators from racing the app's real monitor over the same `inbox/` files.
 final class InactiveNotificationInboxMonitor: NotificationInboxMonitoring {
     var onPayload: ((NotificationPayload) -> Void)?
+    var onDrainCompleted: (() -> Void)?
 
     func startMonitoring() {}
     func stopMonitoring() {}

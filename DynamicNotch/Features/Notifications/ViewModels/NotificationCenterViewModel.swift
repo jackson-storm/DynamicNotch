@@ -18,6 +18,14 @@ final class NotificationCenterViewModel: ObservableObject {
         didSet { onChange?() }
     }
 
+    /// Called with the affected item each time a live payload (post-drain) is ingested.
+    /// Wired by the coordinator to show a temporary arrival banner in the notch.
+    var onNewItem: ((NotificationItem) -> Void)?
+
+    /// Suppressed until the initial drain scan completes. Prevents retroactive banners
+    /// for notifications that arrived while the app was closed.
+    private var suppressBanners = true
+
     private static let persistedItemsKey = "settings.notifications.persistedItems"
 
     private let monitor: any NotificationInboxMonitoring
@@ -67,9 +75,24 @@ final class NotificationCenterViewModel: ObservableObject {
                 }
             }
         }
+
+        self.monitor.onDrainCompleted = { [weak self] in
+            guard let self else { return }
+
+            if Thread.isMainThread {
+                MainActor.assumeIsolated {
+                    self.suppressBanners = false
+                }
+            } else {
+                DispatchQueue.main.async { [weak self] in
+                    self?.suppressBanners = false
+                }
+            }
+        }
     }
 
     func startMonitoring() {
+        suppressBanners = true
         monitor.startMonitoring()
     }
 
@@ -84,13 +107,15 @@ final class NotificationCenterViewModel: ObservableObject {
         }
 
         var newItems = items
+        let affectedItem: NotificationItem
 
         if let source, let index = newItems.firstIndex(where: { $0.source == source }) {
             newItems[index].apply(payload, receivedAt: now())
             let coalesced = newItems.remove(at: index)
             newItems.insert(coalesced, at: 0)
+            affectedItem = coalesced
         } else {
-            newItems.append(NotificationItem(
+            let newItem = NotificationItem(
                 id: UUID(),
                 title: payload.title,
                 summary: payload.summary,
@@ -99,11 +124,14 @@ final class NotificationCenterViewModel: ObservableObject {
                 icon: payload.icon,
                 receivedAt: now(),
                 read: false
-            ))
+            )
+            newItems.append(newItem)
+            affectedItem = newItem
         }
 
         items = newItems
         persistItems()
+        if !suppressBanners { onNewItem?(affectedItem) }
     }
 
     /// Marks the notification read, keeping it in the list. Decrements the badge if it was

@@ -8,6 +8,7 @@ import OSLog
 /// `rejected/`. The inbox directory and the retry delay are injected for testability.
 final class NotificationInboxMonitor: NotificationInboxMonitoring {
     var onPayload: ((NotificationPayload) -> Void)?
+    var onDrainCompleted: (() -> Void)?
 
     private let inboxDirectory: URL
     private let retryDelay: TimeInterval
@@ -47,6 +48,10 @@ final class NotificationInboxMonitor: NotificationInboxMonitoring {
             // seen by the drain scan or latched by the (already resumed) source — never missed.
             self.installDirectoryWatcher()
             self.scanInbox()
+            // Signal drain completion on the main thread. Because each payload from scanInbox()
+            // is also dispatched via DispatchQueue.main.async, FIFO ordering on the main queue
+            // guarantees this fires AFTER all drain items have been added to the VM.
+            DispatchQueue.main.async { [weak self] in self?.onDrainCompleted?() }
         }
     }
 

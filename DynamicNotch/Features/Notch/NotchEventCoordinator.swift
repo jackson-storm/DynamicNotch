@@ -218,6 +218,17 @@ final class NotchEventCoordinator: ObservableObject {
             )
         }
 
+        // No settings gate here: the arrival banner is intentionally always-on so a push is
+        // never missed when the ambient badge is hidden by a higher-priority live activity.
+        // Slice 6 will add a user toggle for the entire Notifications feature.
+        self.notificationCenterViewModel.onNewItem = { [weak notchViewModel] item in
+            guard let notchViewModel else { return }
+            notchViewModel.send(.showTemporaryNotification(
+                NotificationArrivalNotchContent(item: item),
+                duration: 3.0
+            ))
+        }
+
         observeCalendarEvents()
         observeSettingsChanges()
     }

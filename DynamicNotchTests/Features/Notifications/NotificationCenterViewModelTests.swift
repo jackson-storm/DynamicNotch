@@ -434,6 +434,106 @@ final class NotificationCenterViewModelTests: XCTestCase {
         XCTAssertEqual(restoredViewModel.unreadCount, 2)
         XCTAssertEqual(restoredViewModel.highestUnreadLevel, .error)
     }
+
+    // MARK: - Arrival banner (Seam 2 — Slice 5)
+
+    /// A payload arriving before completeDrain() (drain items) must NOT fire onNewItem.
+    func testOnNewItemIsSuppressedBeforeDrainCompletes() {
+        let monitor = FakeNotificationInboxMonitor()
+        let viewModel = makeViewModel(monitor: monitor)
+
+        var received: [NotificationItem] = []
+        viewModel.onNewItem = { received.append($0) }
+
+        monitor.publish(makePayload(title: "Drain item"))
+
+        XCTAssertTrue(received.isEmpty, "drain item must not trigger onNewItem")
+    }
+
+    /// A payload arriving after completeDrain() (live item) must fire onNewItem once.
+    func testOnNewItemFiresAfterDrainCompletes() {
+        let monitor = FakeNotificationInboxMonitor()
+        let viewModel = makeViewModel(monitor: monitor)
+
+        var received: [NotificationItem] = []
+        viewModel.onNewItem = { received.append($0) }
+
+        monitor.completeDrain()
+        monitor.publish(makePayload(title: "Live item"))
+
+        XCTAssertEqual(received.count, 1)
+        XCTAssertEqual(received[0].title, "Live item")
+    }
+
+    /// Three live drops in quick succession fire onNewItem three times with distinct items.
+    func testOnNewItemFiresForEachDropInBurst() {
+        let monitor = FakeNotificationInboxMonitor()
+        let viewModel = makeViewModel(monitor: monitor)
+
+        var received: [NotificationItem] = []
+        viewModel.onNewItem = { received.append($0) }
+
+        monitor.completeDrain()
+        monitor.publish(makePayload(title: "A"))
+        monitor.publish(makePayload(title: "B"))
+        monitor.publish(makePayload(title: "C"))
+
+        XCTAssertEqual(received.count, 3)
+        XCTAssertEqual(received.map(\.title), ["A", "B", "C"])
+    }
+
+    /// markRead, markDone, and clearAll do not trigger onNewItem.
+    func testOnNewItemIsNotFiredByReadDoneClearAll() {
+        let monitor = FakeNotificationInboxMonitor()
+        let viewModel = makeViewModel(monitor: monitor)
+
+        monitor.completeDrain()
+        monitor.publish(makePayload(title: "Item"))
+
+        var receivedAfterActions: [NotificationItem] = []
+        viewModel.onNewItem = { receivedAfterActions.append($0) }
+
+        let id = viewModel.items[0].id
+        viewModel.markRead(id: id)
+        viewModel.markDone(id: id)
+        viewModel.clearAll()
+
+        XCTAssertTrue(receivedAfterActions.isEmpty)
+    }
+
+    /// A coalescing update (known source, live) also fires onNewItem with the updated item.
+    func testOnNewItemFiresOnCoalescenceWithUpdatedContent() {
+        let monitor = FakeNotificationInboxMonitor()
+        let viewModel = makeViewModel(monitor: monitor)
+
+        monitor.completeDrain()
+        monitor.publish(makePayload(title: "Initial", level: .info, source: "backup.sh"))
+
+        var received: [NotificationItem] = []
+        viewModel.onNewItem = { received.append($0) }
+
+        monitor.publish(makePayload(title: "Updated", level: .error, source: "backup.sh"))
+
+        XCTAssertEqual(received.count, 1)
+        XCTAssertEqual(received[0].title, "Updated")
+        XCTAssertEqual(received[0].level, .error)
+    }
+
+    /// onNewItem passes the correct title, summary, and level from the payload.
+    func testOnNewItemPassesCorrectItemFields() {
+        let monitor = FakeNotificationInboxMonitor()
+        let viewModel = makeViewModel(monitor: monitor)
+
+        var received: NotificationItem?
+        viewModel.onNewItem = { received = $0 }
+
+        monitor.completeDrain()
+        monitor.publish(makePayload(title: "Deploy failed", summary: "prod-api crashed", level: .error))
+
+        XCTAssertEqual(received?.title, "Deploy failed")
+        XCTAssertEqual(received?.summary, "prod-api crashed")
+        XCTAssertEqual(received?.level, .error)
+    }
 }
 
 private extension NotificationCenterViewModelTests {

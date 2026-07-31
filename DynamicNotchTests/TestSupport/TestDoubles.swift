@@ -220,6 +220,7 @@ final class FakeFileDownloadMonitor: DownloadMonitoring {
 
 final class FakeNotificationInboxMonitor: NotificationInboxMonitoring {
     var onPayload: ((NotificationPayload) -> Void)?
+    var onDrainCompleted: (() -> Void)?
 
     private(set) var startCalls = 0
     private(set) var stopCalls = 0
@@ -234,6 +235,10 @@ final class FakeNotificationInboxMonitor: NotificationInboxMonitoring {
 
     func publish(_ payload: NotificationPayload) {
         onPayload?(payload)
+    }
+
+    func completeDrain() {
+        onDrainCompleted?()
     }
 }
 

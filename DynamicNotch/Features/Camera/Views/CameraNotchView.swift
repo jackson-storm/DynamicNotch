@@ -16,7 +16,8 @@ struct CameraNotchView: View {
     let fileConverterViewModel: FileConverterViewModel
     let mediaAndFilesSettings: MediaAndFilesSettingsStore
     let applicationSettings: ApplicationSettingsStore
-    
+    let notificationCenterViewModel: NotificationCenterViewModel
+
     @Environment(\.isDynamicIsland) private var isDynamicIsland
     @StateObject private var cameraViewModel = CameraViewModel()
     @State private var isHovering: Bool = false
@@ -114,7 +115,8 @@ struct CameraNotchView: View {
                     nowPlayingViewModel: nowPlayingViewModel,
                     fileConverterViewModel: fileConverterViewModel,
                     mediaAndFilesSettings: mediaAndFilesSettings,
-                    applicationSettings: applicationSettings
+                    applicationSettings: applicationSettings,
+                    notificationCenterViewModel: notificationCenterViewModel
                 )
             ))
         }) {
@@ -163,7 +165,8 @@ struct CameraNotchView: View {
                         nowPlayingViewModel: nowPlayingViewModel,
                         fileConverterViewModel: fileConverterViewModel,
                         mediaAndFilesSettings: mediaAndFilesSettings,
-                        applicationSettings: applicationSettings
+                        applicationSettings: applicationSettings,
+                        notificationCenterViewModel: notificationCenterViewModel
                     )
                 ))
             }) {

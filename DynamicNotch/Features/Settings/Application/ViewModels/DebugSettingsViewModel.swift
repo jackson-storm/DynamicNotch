@@ -57,6 +57,9 @@ final class DebugSettingsViewModel: ObservableObject {
 
     @Published private(set) var isPreviewSequenceRunning = false
 
+    /// Severity used by the "Inject Notification" debug action.
+    @Published var debugNotificationLevel: NotificationLevel = .info
+
     private static let sequenceContentPrefix = NotchContentRegistry.DebugSequence.prefix
     private static let sequenceFocusID = NotchContentRegistry.DebugSequence.focus
     private static let sequenceScreenRecordingID = NotchContentRegistry.DebugSequence.screenRecording
@@ -107,6 +110,9 @@ final class DebugSettingsViewModel: ObservableObject {
     private let dragAndDropPreviewViewModel = AirDropNotchViewModel()
     private let fileTrayPreviewViewModel: FileTrayViewModel
     private let fileConverterPreviewViewModel = FileConverterViewModel()
+    private let notificationInboxDebugTool = NotificationInboxDebugTool(
+        inboxDirectory: AppContainer.notificationsInboxDirectory
+    )
 
     private var isReady = false
     private var previewSequenceTask: Task<Void, Never>?
@@ -140,6 +146,31 @@ final class DebugSettingsViewModel: ObservableObject {
         ) ?? .standard
         self.fileTrayPreviewViewModel = FileTrayViewModel(defaults: previewDefaults)
         self.isReady = true
+    }
+
+    // MARK: - Notifications inbox (debug)
+    //
+    // These go through the real inbox on disk, so the app's live monitor ingests them into
+    // the notch — the settings Debug factory's own notifications view model is inactive.
+
+    /// Drops a valid notification of `debugNotificationLevel` into the real inbox.
+    func injectDebugNotification() {
+        notificationInboxDebugTool.injectSample(level: debugNotificationLevel)
+    }
+
+    /// Drops an invalid file to exercise the parse-failure → `rejected/` path.
+    func injectMalformedDebugNotification() {
+        notificationInboxDebugTool.injectMalformed()
+    }
+
+    /// Opens the inbox folder (and `rejected/`) in Finder.
+    func revealNotificationInbox() {
+        notificationInboxDebugTool.revealInboxInFinder()
+    }
+
+    /// Empties the inbox on disk (pending + rejected). Leaves the in-app list untouched.
+    func clearNotificationInbox() {
+        notificationInboxDebugTool.clearInbox()
     }
 
     func triggerBluetoothPreview() {

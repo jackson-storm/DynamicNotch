@@ -218,6 +218,25 @@ final class FakeFileDownloadMonitor: DownloadMonitoring {
     }
 }
 
+final class FakeNotificationInboxMonitor: NotificationInboxMonitoring {
+    var onPayload: ((NotificationPayload) -> Void)?
+
+    private(set) var startCalls = 0
+    private(set) var stopCalls = 0
+
+    func startMonitoring() {
+        startCalls += 1
+    }
+
+    func stopMonitoring() {
+        stopCalls += 1
+    }
+
+    func publish(_ payload: NotificationPayload) {
+        onPayload?(payload)
+    }
+}
+
 @MainActor
 final class FakeScreenRecordingMonitor: ScreenRecordingMonitoring {
     var onRecordingStateChange: ((Bool) -> Void)?

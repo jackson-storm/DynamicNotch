@@ -13,9 +13,10 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
     case vpn
     case systemStats
     case fileConverter
-    
+    case notifications
+
     var id: String { rawValue }
-    
+
     var title: LocalizedStringKey {
         switch self {
         case .camera: return "Camera"
@@ -23,9 +24,10 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
         case .vpn: return "VPN"
         case .systemStats: return "Stats"
         case .fileConverter: return "Converter"
+        case .notifications: return "Notifications"
         }
     }
-    
+
     var subtitle: LocalizedStringKey {
         switch self {
         case .camera: return "Quickly access the camera."
@@ -33,9 +35,10 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
         case .vpn: return "Manage VPN connections."
         case .systemStats: return "Monitor system resources."
         case .fileConverter: return "Convert files to multiple formats."
+        case .notifications: return "Summaries pushed by your scripts."
         }
     }
-    
+
     var icon: String {
         switch self {
         case .camera: return "camera.fill"
@@ -43,9 +46,10 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
         case .vpn: return "network.badge.shield.half.filled"
         case .systemStats: return "cpu"
         case .fileConverter: return "arrow.trianglehead.2.clockwise.rotate.90"
+        case .notifications: return "bell.fill"
         }
     }
-    
+
     var tint: Color {
         switch self {
         case .camera: return .gray
@@ -53,9 +57,10 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
         case .vpn: return .blue
         case .systemStats: return .green
         case .fileConverter: return .blue
+        case .notifications: return .red
         }
     }
-    
+
     var iconTint: Color {
         switch self {
         case .camera: return .black
@@ -63,6 +68,7 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
         case .vpn: return .white
         case .systemStats: return .white
         case .fileConverter: return .white
+        case .notifications: return .white
         }
     }
 }
@@ -77,15 +83,16 @@ struct HomePageNotchView: View {
     let fileConverterViewModel: FileConverterViewModel
     let mediaAndFilesSettings: MediaAndFilesSettingsStore
     let applicationSettings: ApplicationSettingsStore
+    let notificationCenterViewModel: NotificationCenterViewModel
     let initialPage: HomePages
-    
+
     @State private var currentPage: HomePages?
     @State private var updateTask: Task<Void, Never>? = nil
     @State private var isWaitingForSizeUpdate = false
     @State private var isPageSettled = true
     @State private var settleTask: Task<Void, Never>? = nil
-    
-    init(notchViewModel: NotchViewModel, settings: HomePageSettingsStore, localTimerViewModel: LocalTimerViewModel, nowPlayingViewModel: NowPlayingViewModel, fileConverterViewModel: FileConverterViewModel, mediaAndFilesSettings: MediaAndFilesSettingsStore, applicationSettings: ApplicationSettingsStore, initialPage: HomePages) {
+
+    init(notchViewModel: NotchViewModel, settings: HomePageSettingsStore, localTimerViewModel: LocalTimerViewModel, nowPlayingViewModel: NowPlayingViewModel, fileConverterViewModel: FileConverterViewModel, mediaAndFilesSettings: MediaAndFilesSettingsStore, applicationSettings: ApplicationSettingsStore, notificationCenterViewModel: NotificationCenterViewModel, initialPage: HomePages) {
         self.notchViewModel = notchViewModel
         self.settings = settings
         self.localTimerViewModel = localTimerViewModel
@@ -93,6 +100,7 @@ struct HomePageNotchView: View {
         self.fileConverterViewModel = fileConverterViewModel
         self.mediaAndFilesSettings = mediaAndFilesSettings
         self.applicationSettings = applicationSettings
+        self.notificationCenterViewModel = notificationCenterViewModel
         self.initialPage = initialPage
         
         let activePages = settings.homePageOrder.filter { !settings.homePageDisabled.contains($0) }
@@ -222,7 +230,8 @@ struct HomePageNotchView: View {
                             nowPlayingViewModel: nowPlayingViewModel,
                             fileConverterViewModel: fileConverterViewModel,
                             mediaAndFilesSettings: mediaAndFilesSettings,
-                            applicationSettings: applicationSettings
+                            applicationSettings: applicationSettings,
+                            notificationCenterViewModel: notificationCenterViewModel
                         )
                     )
                 )
@@ -244,7 +253,8 @@ struct HomePageNotchView: View {
                         nowPlayingViewModel: nowPlayingViewModel,
                         fileConverterViewModel: fileConverterViewModel,
                         mediaAndFilesSettings: mediaAndFilesSettings,
-                        applicationSettings: applicationSettings
+                        applicationSettings: applicationSettings,
+                        notificationCenterViewModel: notificationCenterViewModel
                     )
                 )
             )
@@ -252,12 +262,12 @@ struct HomePageNotchView: View {
             updateTask?.cancel()
         }
     }
-    
+
     @ViewBuilder
     private func pageView(for page: HomePages) -> some View {
         switch page {
         case .camera:
-            CameraNotchView(notchViewModel: notchViewModel, settings: settings, localTimerViewModel: localTimerViewModel, nowPlayingViewModel: nowPlayingViewModel, fileConverterViewModel: fileConverterViewModel, mediaAndFilesSettings: mediaAndFilesSettings, applicationSettings: applicationSettings)
+            CameraNotchView(notchViewModel: notchViewModel, settings: settings, localTimerViewModel: localTimerViewModel, nowPlayingViewModel: nowPlayingViewModel, fileConverterViewModel: fileConverterViewModel, mediaAndFilesSettings: mediaAndFilesSettings, applicationSettings: applicationSettings, notificationCenterViewModel: notificationCenterViewModel)
         case .localTimer:
             LocalTimerSetupNotchView(localTimerViewModel: localTimerViewModel)
         case .vpn:
@@ -271,6 +281,8 @@ struct HomePageNotchView: View {
                 },
                 fileConverterViewModel: fileConverterViewModel
             )
+        case .notifications:
+            NotificationsPageNotchView(notificationCenterViewModel: notificationCenterViewModel)
         }
     }
 }

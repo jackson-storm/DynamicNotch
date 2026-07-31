@@ -4425,6 +4425,34 @@
         }
       }
     },
+    "Clear" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clear"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vaciar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Очистить"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清空"
+          }
+        }
+      }
+    },
     "Click" : {
       "localizations" : {
         "en" : {
@@ -10170,6 +10198,34 @@
         }
       }
     },
+    "No notifications" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No notifications"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin notificaciones"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нет уведомлений"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暂无通知"
+          }
+        }
+      }
+    },
     "No Settings Found" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -10448,6 +10504,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "通知时长"
+          }
+        }
+      }
+    },
+    "Notifications" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifications"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notificaciones"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Уведомления"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通知"
           }
         }
       }
@@ -22314,6 +22398,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "笔画宽度"
+          }
+        }
+      }
+    },
+    "Summaries pushed by your scripts." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Summaries pushed by your scripts."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resúmenes enviados por tus scripts."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сводки, отправленные вашими скриптами."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "由你的脚本推送的摘要。"
           }
         }
       }

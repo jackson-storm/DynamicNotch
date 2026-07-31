@@ -18,6 +18,7 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     let fileConverterViewModel: FileConverterViewModel
     let mediaAndFilesSettings: MediaAndFilesSettingsStore
     let applicationSettings: ApplicationSettingsStore
+    let notificationCenterViewModel: NotificationCenterViewModel
 
     var priority: Int { NotchContentRegistry.HomePage.active.priority }
     var isExpandable: Bool { true }
@@ -46,6 +47,8 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
                     notchViewModel?.handleOutsideClick()
                 }
             )
+        case .notifications:
+            return NotificationsHomePageNotchContent(notificationCenterViewModel: notificationCenterViewModel)
         }
     }
 
@@ -94,6 +97,7 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
                 fileConverterViewModel: fileConverterViewModel,
                 mediaAndFilesSettings: mediaAndFilesSettings,
                 applicationSettings: applicationSettings,
+                notificationCenterViewModel: notificationCenterViewModel,
                 initialPage: homePages
             )
         )

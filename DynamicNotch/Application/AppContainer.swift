@@ -2,6 +2,13 @@ import Foundation
 
 @MainActor
 final class AppContainer {
+    /// `~/Library/Application Support/DynamicNotch/inbox` — where scripts drop notification JSON.
+    static var notificationsInboxDirectory: URL {
+        FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
+            .appendingPathComponent("DynamicNotch", isDirectory: true)
+            .appendingPathComponent("inbox", isDirectory: true)
+    }
+
     let powerService = PowerService()
     let bluetoothViewModel = BluetoothViewModel()
     let focusViewModel = FocusViewModel()
@@ -13,6 +20,9 @@ final class AppContainer {
     let vpnViewModel: VpnViewModel
     let homePageViewModel = HomePageViewModel()
     let localTimerViewModel = LocalTimerViewModel()
+    let notificationCenterViewModel = NotificationCenterViewModel(
+        monitor: NotificationInboxMonitor(inboxDirectory: AppContainer.notificationsInboxDirectory)
+    )
     let calendarViewModel = CalendarViewModel()
 
     let powerViewModel: PowerViewModel
@@ -61,6 +71,7 @@ final class AppContainer {
         lockScreenManager: lockScreenManager,
         homePageViewModel: homePageViewModel,
         localTimerViewModel: localTimerViewModel,
+        notificationCenterViewModel: notificationCenterViewModel,
         calendarViewModel: calendarViewModel
     )
 

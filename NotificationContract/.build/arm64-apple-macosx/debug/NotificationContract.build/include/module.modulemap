@@ -1,0 +1,3 @@
+module NotificationContract {
+    header "/Users/vincentbattez/lab/macosApp/DynamicNotch/NotificationContract/.build/arm64-apple-macosx/debug/NotificationContract.build/include/NotificationContract-Swift.h"
+}

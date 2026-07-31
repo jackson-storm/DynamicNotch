@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="NoctuleProjectSettings">
+    <option name="buildEnabled" value="true" />
+  </component>
+  <component name="NoctuleWorkspaceSettings">
+    <fileSettings>
+      <settings filePath="$PROJECT_DIR$/DynamicNotch.xcodeproj/project.pbxproj">
+        <projectSettings projectType="noctule.xcode">
+          <filePath>$PROJECT_DIR$/DynamicNotch.xcodeproj/project.pbxproj</filePath>
+        </projectSettings>
+      </settings>
+    </fileSettings>
+  </component>
+  <component name="SwiftToolchain">
+    <option name="toolchain" value="xcode-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift" />
+  </component>
+</project>

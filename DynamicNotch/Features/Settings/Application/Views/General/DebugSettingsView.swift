@@ -9,6 +9,7 @@ struct DebugSettingsView: View {
         SettingsPageScrollView {
             persistentPreviewsCard
             triggerEventsCard
+            notificationsCard
             utilitiesCard
         }
         .accessibilityIdentifier("settings.debug.root")
@@ -547,6 +548,78 @@ struct DebugSettingsView: View {
         }
     }
     
+    private var notificationsCard: some View {
+        SettingsCard(title: "Notifications") {
+            HStack(alignment: .center, spacing: 14) {
+                Image(systemName: "bell.badge.fill")
+                    .font(.system(size: 15, weight: .semibold))
+                    .foregroundStyle(.white)
+                    .frame(width: 30, height: 30)
+                    .background(
+                        RoundedRectangle(cornerRadius: 10, style: .continuous)
+                            .fill(Color.orange.gradient)
+                    )
+
+                VStack(alignment: .leading, spacing: 3) {
+                    Text("Inject Notification")
+                        .font(.system(size: 13, weight: .medium))
+
+                    Text("Drop a valid JSON of the chosen level into the real inbox; the running monitor ingests it into the notch.")
+                        .font(.system(size: 11))
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+
+                Spacer(minLength: 16)
+
+                Picker("", selection: $viewModel.debugNotificationLevel) {
+                    ForEach(NotificationLevel.allCases, id: \.self) { level in
+                        Text(level.rawValue.capitalized).tag(level)
+                    }
+                }
+                .labelsHidden()
+                .frame(width: 110)
+
+                Button("Inject", action: viewModel.injectDebugNotification)
+                    .controlSize(.small)
+            }
+
+            debugDivider
+
+            DebugActionRow(
+                title: "Malformed Drop",
+                description: "Write an invalid .json so parsing fails and it is quarantined to inbox/rejected/ (no row, no crash).",
+                systemImage: "exclamationmark.triangle.fill",
+                color: .yellow,
+                buttonTitle: "Drop",
+                action: viewModel.injectMalformedDebugNotification
+            )
+
+            debugDivider
+
+            DebugActionRow(
+                title: "Reveal Inbox in Finder",
+                description: "Open ~/Library/Application Support/DynamicNotch/inbox (and rejected/) to inspect drops.",
+                systemImage: "folder.fill",
+                color: .blue,
+                buttonTitle: "Reveal",
+                action: viewModel.revealNotificationInbox
+            )
+
+            debugDivider
+
+            DebugActionRow(
+                title: "Clear Inbox",
+                description: "Delete pending files and rejected/ on disk. Does not clear the in-app notifications list.",
+                systemImage: "trash.fill",
+                color: .red,
+                buttonTitle: "Clear",
+                action: viewModel.clearNotificationInbox
+            )
+        }
+        .accessibilityIdentifier("settings.debug.notifications")
+    }
+
     private var utilitiesCard: some View {
         SettingsCard(title: "Utilities") {
             DebugActionRow(

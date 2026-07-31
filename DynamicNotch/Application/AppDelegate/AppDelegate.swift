@@ -33,7 +33,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     var lockScreenPanelManager: LockScreenPanelManager { container.lockScreenPanelManager }
     var lockScreenLiveActivityWindowManager: LockScreenLiveActivityWindowManager { container.lockScreenLiveActivityWindowManager }
     var homePageViewModel: HomePageViewModel { container.homePageViewModel }
-    
+    var notificationCenterViewModel: NotificationCenterViewModel { container.notificationCenterViewModel }
+
     var window: OverlayPanelWindow!
     var localClickMonitor: Any?
     let globalClickMonitor = GlobalClickMonitor()
@@ -113,6 +114,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         timerViewModel.stopMonitoring()
         screenRecordingViewModel.stopMonitoring()
         hardwareHUDMonitor.stopMonitoring()
+        notificationCenterViewModel.stopMonitoring()
         if !isRunningUITests {
             lockScreenPanelManager.invalidate()
         }

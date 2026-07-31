@@ -22,3 +22,6 @@ build/
 
 # Machine-local agent settings
 .claude/settings.local.json
+
+# Local issue tracker / scratch
+.scratch/

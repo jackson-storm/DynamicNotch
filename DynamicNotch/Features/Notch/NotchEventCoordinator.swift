@@ -213,7 +213,8 @@ final class NotchEventCoordinator: ObservableObject {
         }
         self.screenshotViewModel.onScreenshotDismissed = { [weak self] in
             guard let self else { return }
-            self.notchViewModel.send(.hide)
+            self.notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Screenshot.active.id))
+            self.notchViewModel.hideTemporaryNotification()
         }
         if settingsViewModel.screenRecording.isScreenshotActivityEnabled {
             self.screenshotViewModel.startMonitoring(disableSystemThumbnail: true)

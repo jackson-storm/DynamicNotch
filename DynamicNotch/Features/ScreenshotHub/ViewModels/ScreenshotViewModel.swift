@@ -50,13 +50,6 @@ final class ScreenshotViewModel: ObservableObject {
         }
     }
     
-    func copyTextToClipboard() {
-        guard let text = activeScreenshot?.recognizedText, !text.isEmpty else { return }
-        let pasteboard = NSPasteboard.general
-        pasteboard.clearContents()
-        pasteboard.setString(text, forType: .string)
-    }
-    
     func copyImageToClipboard() {
         guard let image = activeScreenshot?.image else { return }
         let pasteboard = NSPasteboard.general
@@ -64,6 +57,8 @@ final class ScreenshotViewModel: ObservableObject {
         if let tiffData = image.tiffRepresentation {
             pasteboard.setData(tiffData, forType: .tiff)
         }
+        monitorService.updateLastPasteboardChangeCount()
+        dismiss()
     }
     
     func showInFinder() {
@@ -73,26 +68,44 @@ final class ScreenshotViewModel: ObservableObject {
     }
     
     func openEditingWindow() {
-        guard let screenshot = activeScreenshot else { return }
-        
-        let targetURL: URL
-        if let fileURL = screenshot.fileURL {
-            targetURL = fileURL
-        } else {
-            let tempDir = FileManager.default.temporaryDirectory
-            let tempURL = tempDir.appendingPathComponent("Screenshot_\(Int(Date().timeIntervalSince1970)).png")
-            if let tiff = screenshot.image.tiffRepresentation,
-               let bitmap = NSBitmapImageRep(data: tiff),
-               let pngData = bitmap.representation(using: .png, properties: [:]) {
-                try? pngData.write(to: tempURL)
-                targetURL = tempURL
-            } else {
-                return
-            }
-        }
+        guard let screenshot = activeScreenshot,
+              let targetURL = getFileURL(for: screenshot) else { return }
         
         NSWorkspace.shared.open(targetURL)
         dismiss()
+    }
+    
+    func makeItemProvider(for screenshot: ScreenshotModel) -> NSItemProvider {
+        if let url = getFileURL(for: screenshot) {
+            let provider = NSItemProvider(object: url as NSURL)
+            provider.registerObject(screenshot.image, visibility: .all)
+            return provider
+        } else {
+            return NSItemProvider(object: screenshot.image)
+        }
+    }
+    
+    func makePasteboardWriter(for screenshot: ScreenshotModel) -> NSPasteboardWriting {
+        if let url = getFileURL(for: screenshot) {
+            return url as NSURL
+        } else {
+            return screenshot.image
+        }
+    }
+    
+    private func getFileURL(for screenshot: ScreenshotModel) -> URL? {
+        if let fileURL = screenshot.fileURL {
+            return fileURL
+        }
+        let tempDir = FileManager.default.temporaryDirectory
+        let tempURL = tempDir.appendingPathComponent("Screenshot_\(Int(Date().timeIntervalSince1970)).png")
+        if let tiff = screenshot.image.tiffRepresentation,
+           let bitmap = NSBitmapImageRep(data: tiff),
+           let pngData = bitmap.representation(using: .png, properties: [:]) {
+            try? pngData.write(to: tempURL)
+            return tempURL
+        }
+        return nil
     }
     
     func deleteScreenshot() {
@@ -103,8 +116,11 @@ final class ScreenshotViewModel: ObservableObject {
     }
     
     func dismiss() {
-        activeScreenshot = nil
+        monitorService.suppressMonitoring(for: 3.0)
         onScreenshotDismissed?()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { [weak self] in
+            self?.activeScreenshot = nil
+        }
     }
     
     private func setupMonitoring() {

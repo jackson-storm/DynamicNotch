@@ -32,42 +32,57 @@ struct ScreenshotNotchView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 24))
                     }
                     .buttonStyle(.plain)
-                    
-                    HStack {
-                        Button(action: {
-                            screenshotViewModel.showInFinder()
-                        }) {
-                            ZStack {
-                                Circle()
-                                    .fill(.thickMaterial)
-                                    .frame(width: 26, height: 26)
-                                    .shadow(color: .black.opacity(0.8), radius: 2, x: 0, y: 1)
-                                
-                                Image(systemName: "folder.fill")
-                                    .font(.system(size: 12, weight: .medium))
-                                    .foregroundStyle(Color.white)
-                            }
+                    .onDrag {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+                            screenshotViewModel.dismiss()
                         }
-                        
-                        Button(action: {
-                            screenshotViewModel.deleteScreenshot()
-                        }) {
-                            ZStack {
-                                Circle()
-                                    .fill(.thickMaterial)
-                                    .frame(width: 26, height: 26)
-                                    .shadow(color: .black.opacity(0.8), radius: 2, x: 0, y: 1)
-                                
-                                Image(systemName: "trash.fill")
-                                    .font(.system(size: 12, weight: .medium))
-                                    .foregroundStyle(Color.white)
-                            }
-                        }
+                        return screenshotViewModel.makeItemProvider(for: screenshot)
                     }
-                    .padding(8)
-                    .buttonStyle(.plain)
+                    buttons
                 }
             }
         }
+    }
+    
+    private var buttons: some View {
+        HStack {
+            Button(action: { screenshotViewModel.showInFinder() }) {
+                ZStack {
+                    Circle()
+                        .fill(.thickMaterial)
+                        .frame(width: 30, height: 30)
+                    
+                    Image(systemName: "folder.fill")
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundStyle(Color.white)
+                }
+            }
+            
+            Button(action: { screenshotViewModel.copyImageToClipboard() }) {
+                ZStack {
+                    Circle()
+                        .fill(.thickMaterial)
+                        .frame(width: 30, height: 30)
+                    
+                    Image(systemName: "document.on.document.fill")
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundStyle(Color.white)
+                }
+            }
+            
+            Button(action: { screenshotViewModel.deleteScreenshot() }) {
+                ZStack {
+                    Circle()
+                        .fill(.thickMaterial)
+                        .frame(width: 30, height: 30)
+                    
+                    Image(systemName: "trash.fill")
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundStyle(Color.white)
+                }
+            }
+        }
+        .padding(8)
+        .buttonStyle(.plain)
     }
 }

@@ -10,6 +10,7 @@ final class ScreenshotMonitorService {
     private var lastPasteboardChangeCount: Int = 0
     private var knownFilePaths = Set<String>()
     private var isMonitoring = false
+    private var suppressMonitoringUntil: Date?
     private let fileManager = FileManager.default
     
     init() {
@@ -48,6 +49,16 @@ final class ScreenshotMonitorService {
         pasteboardTimer = nil
     }
     
+    func updateLastPasteboardChangeCount() {
+        lastPasteboardChangeCount = NSPasteboard.general.changeCount
+    }
+    
+    func suppressMonitoring(for duration: TimeInterval = 3.0) {
+        suppressMonitoringUntil = Date().addingTimeInterval(duration)
+        updateLastPasteboardChangeCount()
+        primeBaseline()
+    }
+    
     private func screenshotDirectoryURL() -> URL {
         if let customLocation = UserDefaults(suiteName: "com.apple.screencapture")?.string(forKey: "location") {
             let expanded = (customLocation as NSString).expandingTildeInPath
@@ -64,6 +75,11 @@ final class ScreenshotMonitorService {
     }
     
     private func scanForNewScreenshots() {
+        if let suppressUntil = suppressMonitoringUntil, Date() < suppressUntil {
+            primeBaseline()
+            return
+        }
+        
         let dir = screenshotDirectoryURL()
         guard let urls = try? fileManager.contentsOfDirectory(
             at: dir,
@@ -99,6 +115,11 @@ final class ScreenshotMonitorService {
     }
     
     private func checkPasteboard() {
+        if let suppressUntil = suppressMonitoringUntil, Date() < suppressUntil {
+            updateLastPasteboardChangeCount()
+            return
+        }
+        
         let currentCount = NSPasteboard.general.changeCount
         guard currentCount != lastPasteboardChangeCount else { return }
         lastPasteboardChangeCount = currentCount

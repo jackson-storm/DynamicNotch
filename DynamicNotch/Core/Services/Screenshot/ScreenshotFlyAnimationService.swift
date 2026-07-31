@@ -5,29 +5,16 @@ import QuartzCore
 struct ScreenshotFlyAnimationView: View {
     let image: NSImage
     
-    @State private var isFlying = false
-    
     var body: some View {
         Image(nsImage: image)
             .resizable()
+            .interpolation(.high)
+            .antialiased(true)
             .scaledToFill()
-            .cornerRadius(20)
-            .scaleEffect(
-                x: isFlying ? 0.5 : 1.0,
-                y: isFlying ? 0.5 : 1.0,
-                anchor: .top
-            )
-            .blur(radius: isFlying ? 8 : 0)
-            .overlay(
-                RoundedRectangle(cornerRadius: 20)
-                    .stroke(Color.white.opacity(isFlying ? 0.4 : 0.1), lineWidth: 1)
-            )
-            .shadow(color: .black.opacity(0.5), radius: isFlying ? 16 : 8, x: 0, y: 6)
-            .onAppear {
-                withAnimation(.easeInOut(duration: 0.5)) {
-                    isFlying = true
-                }
-            }
+            .clipShape(RoundedRectangle(cornerRadius: 24))
+            .shadow(color: .black, radius: 20)
+            .padding(20)
+            .blur(radius: 20)
     }
 }
 
@@ -39,10 +26,7 @@ final class ScreenshotFlyAnimationService {
     
     private init() {}
     
-    func playFlyToNotchAnimation(
-        image: NSImage,
-        onComplete: @escaping () -> Void
-    ) {
+    func playFlyToNotchAnimation(image: NSImage, onComplete: @escaping () -> Void) {
         guard let mainScreen = NSScreen.main else {
             onComplete()
             return
@@ -64,7 +48,7 @@ final class ScreenshotFlyAnimationService {
         let targetWidth: CGFloat = 140
         let targetHeight: CGFloat = 35
         let targetX = screenFrame.midX - (targetWidth / 2)
-        let targetY = screenFrame.maxY - targetHeight - 5
+        let targetY = screenFrame.maxY - (targetHeight - 50)
         let endFrame = NSRect(x: targetX, y: targetY, width: targetWidth, height: targetHeight)
         
         let panel = OverlayPanelFactory.makePanel(
@@ -80,17 +64,29 @@ final class ScreenshotFlyAnimationService {
         panel.orderFront(nil)
         self.activeWindow = panel
         
+        var hasTriggeredComplete = false
+        let triggerEarly = {
+            guard !hasTriggeredComplete else { return }
+            hasTriggeredComplete = true
+            onComplete()
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+            triggerEarly()
+        }
+        
         NSAnimationContext.runAnimationGroup { context in
-            context.duration = 0.5
+            context.duration = 0.38
             context.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
             panel.animator().setFrame(endFrame, display: true)
-            panel.animator().alphaValue = 0.0
             
         } completionHandler: {
             MainActor.assumeIsolated {
-                panel.orderOut(nil)
-                self.activeWindow = nil
-                onComplete()
+                triggerEarly()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.20) {
+                    panel.orderOut(nil)
+                    self.activeWindow = nil
+                }
             }
         }
     }

@@ -93,6 +93,23 @@ final class NotificationCenterViewModel: ObservableObject {
         persistItems()
     }
 
+    /// Marks the notification read, keeping it in the list. Decrements the badge if it was
+    /// unread. Idempotent: calling it on an already-read item is a no-op.
+    func markRead(id: UUID) {
+        guard let index = items.firstIndex(where: { $0.id == id }),
+              !items[index].read else { return }
+        items[index].read = true
+        persistItems()
+    }
+
+    /// Removes the notification from the list entirely. If it was unread, the badge
+    /// decrements accordingly (via the recomputed `unreadCount`).
+    func markDone(id: UUID) {
+        guard items.contains(where: { $0.id == id }) else { return }
+        items.removeAll { $0.id == id }
+        persistItems()
+    }
+
     /// "Vider" — drops the whole list, taking the badge to zero.
     func clearAll() {
         items.removeAll()

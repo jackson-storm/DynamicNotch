@@ -4568,6 +4568,9 @@
         }
       }
     },
+    "Close" : {
+
+    },
     "Close at focus" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -5948,6 +5951,9 @@
           }
         }
       }
+    },
+    "Done" : {
+
     },
     "Download Stopped" : {
 
@@ -11955,6 +11961,9 @@
           }
         }
       }
+    },
+    "Read" : {
+
     },
     "Red" : {
       "extractionState" : "stale",

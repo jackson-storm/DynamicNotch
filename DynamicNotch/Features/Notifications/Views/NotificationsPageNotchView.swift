@@ -5,40 +5,79 @@
 
 import SwiftUI
 
-/// Read-only Notifications page for the Home carousel. Renders the shared
-/// `NotificationCenterViewModel` list: a header (title + "Clear") and a scrollable
-/// list of rows. Script-authored fields (`title`, `source`) are rendered with
-/// `Text(verbatim:)` so a title like "50% done" is never treated as a localization key.
+/// Notifications page shared by the Home carousel and the ambient badge expanded view.
+/// Renders the shared `NotificationCenterViewModel` as a two-level UX:
+/// - Level 1 (list): header with "Clear" + scrollable rows.
+/// - Level 2 (detail): full payload + Read / Done / Close buttons.
 ///
-/// Slice 1 is read-only: tapping a row does nothing and there is no detail level yet
-/// (Read/Done/Close arrive in a later slice). The row is factored into
-/// `NotificationRowView` so the ambient badge can reuse it without a rewrite.
+/// Tapping a row opens the detail without changing any state. Read/Done change state
+/// and return to the list; Close returns without any change.
+///
+/// `isInCarousel`: when true (carousel via HomePageNotchView), a Spacer() in the outer
+/// container already pushes content below the physical notch, so minimal top padding
+/// suffices. When false (ambient badge expanded), the view fills the frame from y=0 and
+/// must clear the physical notch (~37pt) with its own top padding.
 struct NotificationsPageNotchView: View {
     @Environment(\.isDynamicIsland) private var isDynamicIsland
 
     @ObservedObject var notificationCenterViewModel: NotificationCenterViewModel
+    var isInCarousel: Bool = false
+
+    @State private var selectedItem: NotificationItem?
+
+    // Top padding: badge starts at the notch ceiling and must clear the physical notch
+    // hardware (~37pt); carousel's outer Spacer() already positions content lower.
+    private var topPadding: CGFloat {
+        if isDynamicIsland { return 8 }
+        return isInCarousel ? 20 : 40
+    }
+
+    // Horizontal padding: carousel wrapper adds 30pt, so pages only need a few points.
+    // Badge has no wrapper and needs clearance from the 24pt corner radius.
+    private var horizontalPadding: CGFloat {
+        if isDynamicIsland { return isInCarousel ? 6 : 14 }
+        return isInCarousel ? 6 : 28
+    }
 
     var body: some View {
         ZStack {
-            VStack(alignment: .leading, spacing: 0) {
-                header
-                Spacer()
+            if let item = selectedItem {
+                NotificationDetailNotchView(
+                    item: item,
+                    viewModel: notificationCenterViewModel,
+                    isInCarousel: isInCarousel,
+                    onDismiss: { selectedItem = nil }
+                )
+                .transition(.asymmetric(
+                    insertion: .move(edge: .trailing).combined(with: .opacity),
+                    removal: .move(edge: .trailing).combined(with: .opacity)
+                ))
+            } else {
+                listLevel
+                    .transition(.asymmetric(
+                        insertion: .move(edge: .leading).combined(with: .opacity),
+                        removal: .move(edge: .leading).combined(with: .opacity)
+                    ))
             }
-            .padding(.top, isDynamicIsland ? 8 : 4)
-            .padding(.horizontal, isDynamicIsland ? 20 : 34)
-
-            VStack(spacing: 0) {
-                Spacer()
-
-                if notificationCenterViewModel.items.isEmpty {
-                    emptyState
-                } else {
-                    list
-                }
-            }
-            .padding(.horizontal, isDynamicIsland ? 16 : 30)
-            .padding(.bottom, isDynamicIsland ? 7 : 12)
         }
+        .animation(.spring(response: 0.3, dampingFraction: 0.85), value: selectedItem?.id)
+    }
+
+    private var listLevel: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            header
+
+            Spacer(minLength: 8)
+
+            if notificationCenterViewModel.items.isEmpty {
+                emptyState
+            } else {
+                list
+            }
+        }
+        .padding(.top, topPadding)
+        .padding(.horizontal, horizontalPadding)
+        .padding(.bottom, isDynamicIsland ? 7 : 12)
     }
 
     private var header: some View {
@@ -72,7 +111,12 @@ struct NotificationsPageNotchView: View {
         ScrollView(.vertical, showsIndicators: false) {
             LazyVStack(spacing: 6) {
                 ForEach(notificationCenterViewModel.items) { item in
-                    NotificationRowView(item: item)
+                    Button {
+                        selectedItem = item
+                    } label: {
+                        NotificationRowView(item: item)
+                    }
+                    .buttonStyle(.plain)
                 }
             }
             .padding(.horizontal, 2)

@@ -282,7 +282,7 @@ struct HomePageNotchView: View {
                 fileConverterViewModel: fileConverterViewModel
             )
         case .notifications:
-            NotificationsPageNotchView(notificationCenterViewModel: notificationCenterViewModel)
+            NotificationsPageNotchView(notificationCenterViewModel: notificationCenterViewModel, isInCarousel: true)
         }
     }
 }

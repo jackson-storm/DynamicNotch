@@ -138,6 +138,143 @@ final class NotificationCenterViewModelTests: XCTestCase {
 
     // Load-bearing for launch: a persisted unread item restored at init must make the
     // coordinator show the badge the moment it wires `onChange` (PRD stories 23–25).
+    // MARK: - Read / Done / Close (Seam 1 — Slice 3)
+
+    /// Read keeps item in list, marks it read, decrements badge.
+    func testReadKeepsItemMarksReadAndDecrementsBadge() {
+        let monitor = FakeNotificationInboxMonitor()
+        let viewModel = makeViewModel(monitor: monitor)
+
+        monitor.publish(makePayload())
+        let id = viewModel.items[0].id
+        XCTAssertEqual(viewModel.unreadCount, 1)
+
+        viewModel.markRead(id: id)
+
+        XCTAssertEqual(viewModel.items.count, 1)
+        XCTAssertTrue(viewModel.items[0].read)
+        XCTAssertEqual(viewModel.unreadCount, 0)
+        XCTAssertFalse(viewModel.isBadgeVisible)
+    }
+
+    /// Done removes item from list; decrements badge when item was unread.
+    func testDoneRemovesItemAndDecrementsBadgeWhenUnread() {
+        let monitor = FakeNotificationInboxMonitor()
+        let viewModel = makeViewModel(monitor: monitor)
+
+        monitor.publish(makePayload())
+        let id = viewModel.items[0].id
+        XCTAssertEqual(viewModel.unreadCount, 1)
+
+        viewModel.markDone(id: id)
+
+        XCTAssertTrue(viewModel.items.isEmpty)
+        XCTAssertEqual(viewModel.unreadCount, 0)
+        XCTAssertFalse(viewModel.isBadgeVisible)
+    }
+
+    /// Done removes an already-read item without affecting the badge (it was already 0).
+    func testDoneRemovesReadItemWithoutChangingBadge() {
+        let monitor = FakeNotificationInboxMonitor()
+        let viewModel = makeViewModel(monitor: monitor)
+
+        monitor.publish(makePayload())
+        let id = viewModel.items[0].id
+        viewModel.markRead(id: id)
+        XCTAssertEqual(viewModel.unreadCount, 0)
+
+        viewModel.markDone(id: id)
+
+        XCTAssertTrue(viewModel.items.isEmpty)
+        XCTAssertEqual(viewModel.unreadCount, 0)
+    }
+
+    /// Read is idempotent: calling it twice on the same item does not phantom-decrement the badge.
+    func testReadIsIdempotent() {
+        let monitor = FakeNotificationInboxMonitor()
+        let viewModel = makeViewModel(monitor: monitor)
+
+        monitor.publish(makePayload())
+        let id = viewModel.items[0].id
+        viewModel.markRead(id: id)
+        XCTAssertEqual(viewModel.unreadCount, 0)
+
+        viewModel.markRead(id: id)
+
+        XCTAssertEqual(viewModel.items.count, 1)
+        XCTAssertEqual(viewModel.unreadCount, 0)
+    }
+
+    /// Control scenario (spec §4): 2 unread A and B. Read A → [A(read), B], badge 2→1.
+    func testControlScenarioReadA() {
+        let monitor = FakeNotificationInboxMonitor()
+        let viewModel = makeViewModel(monitor: monitor)
+
+        monitor.publish(makePayload(title: "A"))
+        monitor.publish(makePayload(title: "B"))
+        let idA = viewModel.items[0].id
+        XCTAssertEqual(viewModel.unreadCount, 2)
+
+        viewModel.markRead(id: idA)
+
+        XCTAssertEqual(viewModel.items.count, 2)
+        XCTAssertTrue(viewModel.items[0].read)
+        XCTAssertFalse(viewModel.items[1].read)
+        XCTAssertEqual(viewModel.unreadCount, 1)
+    }
+
+    /// Control scenario (spec §4): 2 unread A and B. Done A → [B], badge 2→1.
+    func testControlScenarioDoneA() {
+        let monitor = FakeNotificationInboxMonitor()
+        let viewModel = makeViewModel(monitor: monitor)
+
+        monitor.publish(makePayload(title: "A"))
+        monitor.publish(makePayload(title: "B"))
+        let idA = viewModel.items[0].id
+        XCTAssertEqual(viewModel.unreadCount, 2)
+
+        viewModel.markDone(id: idA)
+
+        XCTAssertEqual(viewModel.items.count, 1)
+        XCTAssertEqual(viewModel.items[0].title, "B")
+        XCTAssertEqual(viewModel.unreadCount, 1)
+    }
+
+    /// Control scenario (spec §4): 2 unread A and B. Close A (no VM call) → [A, B], badge 2→2.
+    /// A is still unread. Verifies that merely selecting a row changes no state.
+    func testControlScenarioCloseALeavesStateUnchanged() {
+        let monitor = FakeNotificationInboxMonitor()
+        let viewModel = makeViewModel(monitor: monitor)
+
+        monitor.publish(makePayload(title: "A"))
+        monitor.publish(makePayload(title: "B"))
+        // Close and Open are navigation-only: no VM method is called.
+        XCTAssertEqual(viewModel.items.count, 2)
+        XCTAssertFalse(viewModel.items[0].read)
+        XCTAssertFalse(viewModel.items[1].read)
+        XCTAssertEqual(viewModel.unreadCount, 2)
+    }
+
+    /// markRead persists: restarting the VM on the same UserDefaults preserves read=true.
+    func testMarkReadPersistsAcrossRelaunch() {
+        let defaults = UserDefaults(suiteName: UUID().uuidString)!
+
+        let monitor1 = FakeNotificationInboxMonitor()
+        let vm1 = NotificationCenterViewModel(monitor: monitor1, defaults: defaults)
+        TestLifetime.retain(vm1)
+        monitor1.publish(makePayload())
+        let id = vm1.items[0].id
+        vm1.markRead(id: id)
+
+        let monitor2 = FakeNotificationInboxMonitor()
+        let vm2 = NotificationCenterViewModel(monitor: monitor2, defaults: defaults)
+        TestLifetime.retain(vm2)
+
+        XCTAssertEqual(vm2.items.count, 1)
+        XCTAssertTrue(vm2.items[0].read)
+        XCTAssertEqual(vm2.unreadCount, 0)
+    }
+
     func testOnChangeInitialFireReflectsRestoredUnreadItem() {
         let defaults = UserDefaults(suiteName: UUID().uuidString)!
 

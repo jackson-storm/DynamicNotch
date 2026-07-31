@@ -1,3 +1,4 @@
+internal import AppKit
 import SwiftUI
 
 /// Severity of a notification. Drives the tint and the default SF Symbol when the
@@ -53,4 +54,14 @@ struct NotificationItem: Identifiable, Equatable, Codable {
     var icon: String?
     var receivedAt: Date
     var read: Bool
+
+    /// The resolved SF Symbol name for the detail view. Returns the custom `icon` when it
+    /// names a valid system symbol; falls back to the level's default otherwise.
+    var effectiveIconName: String {
+        guard let icon, !icon.isEmpty,
+              NSImage(systemSymbolName: icon, accessibilityDescription: nil) != nil else {
+            return level.defaultIconName
+        }
+        return icon
+    }
 }

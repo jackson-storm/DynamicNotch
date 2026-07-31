@@ -327,6 +327,12 @@ final class NotchViewModel: ObservableObject {
         engine.send(notchState)
     }
 
+    /// Relayout the current live activity so a size that depends on external view state
+    /// (e.g. a notification detail being open) takes effect, animated.
+    func refreshActiveLiveActivityGeometry() {
+        engine.refreshActiveLiveActivityGeometry()
+    }
+
     func setActivityPresentationHidden(_ isHidden: Bool) {
         guard isActivityPresentationHidden != isHidden else { return }
 

@@ -1,6 +1,6 @@
 # Slice 2 — Badge ambiant (live activity compacte)
 
-Status: ready-for-agent
+Status: done
 
 ## Parent
 

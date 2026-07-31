@@ -1,6 +1,6 @@
 # Slice 6 — Réglages (toggle unique) + localisation
 
-Status: ready-for-agent
+Status: done
 
 ## Parent
 

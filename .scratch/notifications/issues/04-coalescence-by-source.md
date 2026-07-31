@@ -1,6 +1,6 @@
 # Slice 4 — Coalescence par `source`
 
-Status: ready-for-agent
+Status: done
 
 ## Parent
 

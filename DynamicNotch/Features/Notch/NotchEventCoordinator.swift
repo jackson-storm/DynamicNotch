@@ -227,6 +227,12 @@ final class NotchEventCoordinator: ObservableObject {
             ))
         }
 
+        // Opening/closing a notification's detail changes the expanded page's size (the
+        // content types read `isDetailPresented`); relayout the notch so it takes effect.
+        self.notificationCenterViewModel.onDetailPresentationChange = { [weak notchViewModel] in
+            notchViewModel?.refreshActiveLiveActivityGeometry()
+        }
+
         observeCalendarEvents()
         observeSettingsChanges()
         observeNotificationsSettings()

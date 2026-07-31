@@ -48,6 +48,9 @@ struct NotificationsPageNotchView: View {
                     isInCarousel: isInCarousel,
                     onDismiss: { selectedItem = nil }
                 )
+                // Fresh view identity per notification so the detail's per-item `@State`
+                // (e.g. the expand toggle) never leaks an expanded pose onto the next item.
+                .id(item.id)
                 .transition(.asymmetric(
                     insertion: .move(edge: .trailing).combined(with: .opacity),
                     removal: .move(edge: .trailing).combined(with: .opacity)
@@ -61,6 +64,15 @@ struct NotificationsPageNotchView: View {
             }
         }
         .animation(.spring(response: 0.3, dampingFraction: 0.85), value: selectedItem?.id)
+        // Opening a detail grows the expanded notch (the content types read this flag in
+        // `expandedSize`); the coordinator relayouts on change. Reset on disappear so an
+        // outside-click collapse (which bypasses `selectedItem`) never leaves it stuck true.
+        .onChange(of: selectedItem?.id) {
+            notificationCenterViewModel.isDetailPresented = (selectedItem != nil)
+        }
+        .onDisappear {
+            notificationCenterViewModel.isDetailPresented = false
+        }
     }
 
     private var listLevel: some View {

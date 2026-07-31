@@ -1,6 +1,6 @@
 # Slice 5 — Bannière à l'arrivée (~3 s)
 
-Status: ready-for-agent
+Status: done
 
 ## Parent
 

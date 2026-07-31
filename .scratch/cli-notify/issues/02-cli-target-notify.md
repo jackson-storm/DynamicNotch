@@ -1,4 +1,4 @@
-Status: ready-for-agent
+Status: done
 
 # Slice 2 — Target CLI `dynamicnotch notify`
 

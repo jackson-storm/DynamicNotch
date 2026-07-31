@@ -21,7 +21,11 @@ struct NotificationsBadgeNotchContent: NotchContentProtocol, DynamicIslandCustom
     }
 
     func expandedSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        .init(width: baseWidth + 170, height: baseHeight + 130)
+        if notificationCenterViewModel.isDetailPresented {
+            let measured = notificationCenterViewModel.detailContentHeight
+            return .init(width: baseWidth + 210, height: measured > 0 ? measured : baseHeight + 205)
+        }
+        return .init(width: baseWidth + 170, height: baseHeight + 130)
     }
 
     func expandedCornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
@@ -33,7 +37,11 @@ struct NotificationsBadgeNotchContent: NotchContentProtocol, DynamicIslandCustom
     }
 
     func expandedDynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        .init(width: baseWidth + 200, height: baseHeight + 130)
+        if notificationCenterViewModel.isDetailPresented {
+            let measured = notificationCenterViewModel.detailContentHeight
+            return .init(width: baseWidth + 240, height: measured > 0 ? measured : baseHeight + 205)
+        }
+        return .init(width: baseWidth + 200, height: baseHeight + 130)
     }
 
     func expandedDynamicIslandCornerRadius(baseHeight: CGFloat) -> CGFloat {

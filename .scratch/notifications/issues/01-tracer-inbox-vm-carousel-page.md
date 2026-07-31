@@ -1,6 +1,6 @@
 # Slice 1 — Tracer : inbox → VM → page carousel (persistée)
 
-Status: ready-for-agent
+Status: done
 
 ## Parent
 

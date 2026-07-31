@@ -1,6 +1,6 @@
 # Slice 3 — Détail + Read / Done / Close
 
-Status: ready-for-agent
+Status: done
 
 ## Parent
 

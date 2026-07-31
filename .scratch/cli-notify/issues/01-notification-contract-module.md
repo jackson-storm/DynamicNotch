@@ -1,4 +1,4 @@
-Status: ready-for-agent
+Status: done
 
 # Slice 1 — Module partagé `NotificationContract`
 

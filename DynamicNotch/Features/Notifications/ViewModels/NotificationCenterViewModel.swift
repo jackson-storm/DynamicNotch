@@ -23,6 +23,39 @@ final class NotificationCenterViewModel: ObservableObject {
     /// Wired by the coordinator to show a temporary arrival banner in the notch.
     var onNewItem: ((NotificationItem) -> Void)?
 
+    /// Presentation state shared with the notch content types: `true` while a single
+    /// notification's detail is open in the expanded page. The two content types
+    /// (`NotificationsBadgeNotchContent`, `HomePageNotchContent`) read it in their
+    /// `expandedSize` to grow the notch so the full payload text fits. It is a plain
+    /// stored property (not `@Published`): the resize is driven by `onDetailPresentationChange`
+    /// forcing a notch relayout, not by SwiftUI dependency tracking.
+    var isDetailPresented: Bool = false {
+        didSet {
+            guard oldValue != isDetailPresented else { return }
+            if !isDetailPresented { detailContentHeight = 0 }
+            onDetailPresentationChange?()
+        }
+    }
+
+    /// Measured absolute height (pt) of the open detail view, reported by the detail view
+    /// via `setDetailContentHeight`. The content types use it as the expanded notch height
+    /// so the notch fits the text instead of a fixed tall frame. `0` until measured (or
+    /// after close), in which case content types fall back to a default height.
+    private(set) var detailContentHeight: CGFloat = 0
+
+    /// Wired by the coordinator to relayout the notch when the detail presentation state
+    /// or its measured height changes, so the freshly-computed `expandedSize` takes effect.
+    var onDetailPresentationChange: (() -> Void)?
+
+    /// Reports the detail view's measured height; relayouts the notch when it changes by
+    /// at least a point (rounded to avoid sub-pixel jitter looping the layout).
+    func setDetailContentHeight(_ height: CGFloat) {
+        let rounded = height.rounded()
+        guard rounded > 0, abs(rounded - detailContentHeight) >= 1 else { return }
+        detailContentHeight = rounded
+        onDetailPresentationChange?()
+    }
+
     /// Suppressed until the initial drain scan completes. Prevents retroactive banners
     /// for notifications that arrived while the app was closed.
     private var suppressBanners = true

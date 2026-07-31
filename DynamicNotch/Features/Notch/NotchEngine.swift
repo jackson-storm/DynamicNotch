@@ -229,6 +229,18 @@ final class NotchEngine: ObservableObject {
         notchModel.content?.windowLink?()
     }
 
+    /// Re-publishes the current live activity so its size is recomputed with animation,
+    /// without swapping content. Used when the size depends on external view state — e.g.
+    /// a notification detail opening, which grows the expanded notch. A strict subset of
+    /// the `showLiveActivity` same-id branch (token bump only, no content reassignment).
+    func refreshActiveLiveActivityGeometry() {
+        guard notchModel.liveActivityContent != nil else { return }
+
+        withAnimation(animations.expandLiveActivity) {
+            notchModel.updateToken = UUID()
+        }
+    }
+
     func handleActiveContentTap() {
         guard canExpandActiveLiveActivity else { return }
 

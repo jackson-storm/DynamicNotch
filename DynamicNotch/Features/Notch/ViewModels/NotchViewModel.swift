@@ -490,16 +490,6 @@ final class NotchViewModel: ObservableObject {
     }
 
     private var displayedNotchModel: NotchModel {
-        if isLocked {
-            var model = notchModel
-            model.temporaryNotificationContent = nil
-            if model.liveActivityContent?.id != NotchContentRegistry.LockScreen.activity.id {
-                model.liveActivityContent = nil
-                model.isLiveActivityExpanded = false
-            }
-            return model
-        }
-
         guard isActivityPresentationHidden else {
             return notchModel
         }

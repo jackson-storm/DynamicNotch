@@ -79,6 +79,7 @@ extension AppDelegate {
 
         isPrimaryWindowSuspendedForLock = true
         notchViewModel.isLocked = true
+        airDropController.resetTargetState()
         clearNowPlayingPrimaryWindowPresentationState()
         notchViewModel.setActivityPresentationHidden(false)
         
@@ -92,10 +93,36 @@ extension AppDelegate {
 
         isPrimaryWindowSuspendedForLock = false
         notchViewModel.isLocked = false
+        airDropController.resetTargetState()
         
         window.level = OverlayWindowLevel.interactiveNotch
         SkyLightOperator.shared.delegateWindow(window, to: .notchSurface)
         updateWindowFrame()
+        reRegisterDragDestination(for: window)
+    }
+
+    func reRegisterDragDestination(for window: NSWindow) {
+        window.unregisterDraggedTypes()
+
+        func notifyViews(_ view: NSView) {
+            if let dragView = view as? DragAndDropView {
+                dragView.registerTypes()
+            }
+            for subview in view.subviews {
+                notifyViews(subview)
+            }
+        }
+
+        if let contentView = window.contentView {
+            notifyViews(contentView)
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            window.unregisterDraggedTypes()
+            if let contentView = window.contentView {
+                notifyViews(contentView)
+            }
+        }
     }
 
     private func updatePrimaryWindowPresentation(on screen: NSScreen) {

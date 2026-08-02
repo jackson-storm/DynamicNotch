@@ -300,7 +300,6 @@ final class NotchEventCoordinator: ObservableObject {
     
     func handleNotchWidthEvent(_ event: NotchSizeEvent) {
         guard !isOnboardingActive else { return }
-        guard !isLockScreenTransitionActive else { return }
         guard settingsViewModel.isTemporaryActivityEnabled(.notchSize) else { return }
 
         systemHandler.handleNotchSize(event)
@@ -308,14 +307,12 @@ final class NotchEventCoordinator: ObservableObject {
     
     func handleFocusEvent(_ event: FocusEvent) {
         guard !isOnboardingActive else { return }
-        guard !isLockScreenTransitionActive else { return }
 
         focusHandler.handleFocus(event)
     }
     
     func handleHudEvent(_ event: HudEvent) {
         guard !isOnboardingActive else { return }
-        guard !isLockScreenTransitionActive else { return }
 
         hudHandler.handleHud(event)
     }
@@ -329,13 +326,11 @@ final class NotchEventCoordinator: ObservableObject {
     
     func handleBluetoothEvent(_ event: BluetoothEvent) {
         guard !isOnboardingActive else { return }
-        guard !isLockScreenTransitionActive else { return }
 
         connectivityHandler.handleBluetooth(event)
     }
     
     func handleWifiEvent(_ event: WifiEvent) {
-        guard !isLockScreenTransitionActive else { return }
         if event != .noInternetConnection {
             guard !isOnboardingActive else { return }
         }
@@ -345,7 +340,6 @@ final class NotchEventCoordinator: ObservableObject {
     }
 
     func handleVpnEvent(_ event: VpnEvent) {
-        guard !isLockScreenTransitionActive else { return }
         guard !isOnboardingActive else { return }
 
         connectivityHandler.handleVpn(event)
@@ -364,21 +358,17 @@ final class NotchEventCoordinator: ObservableObject {
     
     func handlePowerEvent(_ event: PowerEvent) {
         guard !isOnboardingActive else { return }
-        guard !isLockScreenTransitionActive else { return }
 
         powerHandler.handle(event)
     }
 
     func handleDownloadEvent(_ event: DownloadEvent) {
         guard !isOnboardingActive else { return }
-        guard !isLockScreenTransitionActive else { return }
 
         downloadHandler.handleDownload(event)
     }
 
     func handleAirDropEvent(_ event: AirDropEvent) {
-        guard !isLockScreenTransitionActive else { return }
-
         dragAndDropHandler.handleAirDrop(event)
     }
     
@@ -390,21 +380,18 @@ final class NotchEventCoordinator: ObservableObject {
 
     func handleTimerEvent(_ event: TimerEvent) {
         guard !isOnboardingActive else { return }
-        guard !isLockScreenTransitionActive else { return }
 
         timerHandler.handleTimer(event)
     }
     
     func handleHomePageEvent(_ event: HomePageEvent) {
         guard !isOnboardingActive else { return }
-        guard !isLockScreenTransitionActive else { return }
         
         homePageHandler.handleHomePage(event)
     }
 
     func handleScreenRecordingEvent(_ event: ScreenRecordingEvent) {
         guard !isOnboardingActive else { return }
-        guard !isLockScreenTransitionActive else { return }
         guard settingsViewModel.isLiveActivityEnabled(.screenRecording) else {
             notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.ScreenRecording.active.id))
             return

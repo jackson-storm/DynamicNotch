@@ -30,7 +30,7 @@ struct TrayDropZoneContent: View {
     let isTargeted: Bool
 
     private var fillColor: Color {
-        isTargeted ? Color.white.opacity(0.25) : Color.white.opacity(0.15)
+        isTargeted ? Color.white.opacity(0.20) : Color.white.opacity(0.10)
     }
 
     private var strokeColor: Color {

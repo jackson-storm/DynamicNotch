@@ -247,7 +247,6 @@ private extension NotchView {
     }
     
     private var shouldEnableNotchSwipeGestures: Bool {
-        guard !notchViewModel.isLocked else { return false }
         guard !notchViewModel.isActivityPresentationHidden || notchViewModel.notchModel.temporaryNotificationContent != nil else { return false }
         
         return !(

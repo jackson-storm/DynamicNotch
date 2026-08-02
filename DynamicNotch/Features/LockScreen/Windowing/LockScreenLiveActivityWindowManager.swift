@@ -19,6 +19,8 @@ final class LockScreenLiveActivityWindowManager {
     private let notchViewModel: NotchViewModel
     private let lockScreenManager: LockScreenManager
     private let settingsViewModel: SettingsViewModel
+    private let airDropViewModel: AirDropNotchViewModel
+    private let airDropController: NotchAirDropController
     private let animator = LockScreenLiveActivityAnimator()
     
     private var overlayWindow: OverlayPanelWindow?
@@ -31,11 +33,15 @@ final class LockScreenLiveActivityWindowManager {
     init(
         notchViewModel: NotchViewModel,
         lockScreenManager: LockScreenManager,
-        settingsViewModel: SettingsViewModel
+        settingsViewModel: SettingsViewModel,
+        airDropViewModel: AirDropNotchViewModel,
+        airDropController: NotchAirDropController
     ) {
         self.notchViewModel = notchViewModel
         self.lockScreenManager = lockScreenManager
         self.settingsViewModel = settingsViewModel
+        self.airDropViewModel = airDropViewModel
+        self.airDropController = airDropController
         
         bindState()
         registerObservers()
@@ -176,26 +182,13 @@ final class LockScreenLiveActivityWindowManager {
         isPreparingLock: Bool,
         isLockIdle: Bool
     ) {
-        let isLockScreenContentReady = notchViewModel.notchModel.content?.id == NotchContentRegistry.LockScreen.activity.id
-        
         guard LockScreenSettings.isLiveActivityEnabled() else {
             hideOverlay(animated: true, releaseResources: true)
             return
         }
         
-        if isLocked {
-            guard isLockScreenContentReady else {
-                hideOverlay(animated: false)
-                return
-            }
-            
+        if isLocked || isPreparingLock {
             showLockedOverlay()
-        } else if isPreparingLock {
-            if isLockScreenContentReady {
-                showLockedOverlay()
-            } else {
-                hideOverlay(animated: false)
-            }
         } else if !isLockIdle {
             showUnlockingOverlay()
         } else {
@@ -225,7 +218,9 @@ final class LockScreenLiveActivityWindowManager {
             notchViewModel: notchViewModel,
             settingsViewModel: settingsViewModel,
             lockScreenManager: lockScreenManager,
-            animator: animator
+            animator: animator,
+            airDropViewModel: airDropViewModel,
+            airDropController: airDropController
         )
         
         if animatedIn {
@@ -337,7 +332,9 @@ final class LockScreenLiveActivityWindowManager {
             notchViewModel: notchViewModel,
             settingsViewModel: settingsViewModel,
             lockScreenManager: lockScreenManager,
-            animator: animator
+            animator: animator,
+            airDropViewModel: airDropViewModel,
+            airDropController: airDropController
         ))
         
         window.orderFrontRegardless()
@@ -373,6 +370,8 @@ private struct LockScreenLiveActivityOverlayView: View {
     @ObservedObject var settingsViewModel: SettingsViewModel
     @ObservedObject var lockScreenManager: LockScreenManager
     @ObservedObject var animator: LockScreenLiveActivityAnimator
+    @ObservedObject var airDropViewModel: AirDropNotchViewModel
+    @ObservedObject var airDropController: NotchAirDropController
     
     var body: some View {
         notchSurface
@@ -380,6 +379,33 @@ private struct LockScreenLiveActivityOverlayView: View {
                 contentOverlay
                     .environment(\.isDynamicIsland, notchViewModel.topInset == 0)
                     .clipShape(Rectangle())
+            }
+            .overlay {
+                DragAndDropDestinationView(
+                    isTargeted: $airDropController.isTargeted,
+                    targetedDropTarget: Binding(
+                        get: { airDropViewModel.targetedDropTarget },
+                        set: { airDropViewModel.setTargetedDropTarget($0) }
+                    ),
+                    mode: settingsViewModel.mediaAndFiles.dragAndDropActivityMode,
+                    onDropPasteboard: { target, pasteboard in
+                        switch target {
+                        case .airDrop:
+                            guard settingsViewModel.mediaAndFiles.dragAndDropActivityMode.showsAirDrop else {
+                                return false
+                            }
+                            return airDropController.handlePasteboardDrop(pasteboard)
+                        case .tray:
+                            guard settingsViewModel.mediaAndFiles.dragAndDropActivityMode.showsTray else {
+                                return false
+                            }
+                            return airDropController.handleTrayDrop(
+                                pasteboard,
+                                mode: settingsViewModel.mediaAndFiles.fileTrayUsageMode
+                            )
+                        }
+                    }
+                )
             }
             .environment(\.colorScheme, .dark)
             .frame(
@@ -396,6 +422,9 @@ private struct LockScreenLiveActivityOverlayView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .animation(notchViewModel.animations.strokeVisibility, value: settingsViewModel.isShowNotchStrokeEnabled)
             .animation(notchViewModel.animations.notchVisibility, value: notchViewModel.showNotch)
+            .onChange(of: notchViewModel.notchModel.content?.id) {
+                notchViewModel.handleStrokeVisibility()
+            }
     }
     
     @ViewBuilder
@@ -423,21 +452,21 @@ private struct LockScreenLiveActivityOverlayView: View {
         if isDefaultStroke {
             baseColor = .white.opacity(0.2)
         } else {
-            baseColor = notchViewModel.notchModel.content?.strokeColor ?? notchViewModel.cachedStrokeColor
+            baseColor = notchViewModel.displayedContent?.strokeColor ?? notchViewModel.cachedStrokeColor
         }
         return baseColor.opacity(strokeOpacity)
     }
     
     @ViewBuilder
     private var contentOverlay: some View {
-        if let content = notchViewModel.notchModel.content {
+        if let content = notchViewModel.displayedContent {
             renderedContentView(for: content)
-                .id(notchViewModel.notchModel.presentationID)
+                .id(notchViewModel.displayedPresentationID)
                 .transition(
                     notchViewModel.contentTransition(
                         notchHeight: notchViewModel.interactiveNotchSize.height,
                         baseHeight: notchViewModel.notchModel.baseHeight,
-                        isExpandedPresentation: notchViewModel.notchModel.isPresentingExpandedLiveActivity
+                        isExpandedPresentation: notchViewModel.isDisplayingExpandedLiveActivity
                     )
                 )
         }
@@ -446,7 +475,7 @@ private struct LockScreenLiveActivityOverlayView: View {
     @MainActor
     @ViewBuilder
     private func renderedContentView(for content: NotchContentProtocol) -> some View {
-        if notchViewModel.notchModel.isPresentingExpandedLiveActivity {
+        if notchViewModel.isDisplayingExpandedLiveActivity {
             content.makeExpandedView()
         } else {
             content.makeView()

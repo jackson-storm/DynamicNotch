@@ -44,7 +44,7 @@ struct LightweightNowPlayingEqualizerView: NSViewRepresentable {
 
 final class LightweightNowPlayingEqualizerNSView: NSView {
     private enum Metrics {
-        static let barCount = 5
+        static let barCount = 6
         static let defaultBarWidth: CGFloat = 2
         static let barSpacing: CGFloat = 2
         static let defaultHeight: CGFloat = 16

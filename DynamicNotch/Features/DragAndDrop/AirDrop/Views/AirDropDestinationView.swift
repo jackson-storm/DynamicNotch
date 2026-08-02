@@ -7,6 +7,7 @@
 
 import SwiftUI
 import UniformTypeIdentifiers
+internal import AppKit
 
 struct DragAndDropDestinationView: NSViewRepresentable {
     @Binding var isTargeted: Bool
@@ -45,6 +46,7 @@ struct DragAndDropDestinationView: NSViewRepresentable {
             }
         }
         nsView.onDropPasteboard = onDropPasteboard
+        nsView.registerTypes()
     }
 }
 
@@ -54,8 +56,26 @@ final class DragAndDropView: NSView {
     var onTargetedDropTargetChange: (DragAndDropTarget?) -> Void = { _ in }
     var onDropPasteboard: (DragAndDropTarget, NSPasteboard) -> Bool = { _, _ in false }
 
+    private var workspaceObserver: NSObjectProtocol?
+    private var screenUnlockObserver: NSObjectProtocol?
+
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
+        registerTypes()
+        setupNotificationObservers()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    deinit {
+        removeNotificationObservers()
+    }
+
+    func registerTypes() {
+        unregisterDraggedTypes()
+        window?.unregisterDraggedTypes()
         registerForDraggedTypes([
             .fileURL,
             .URL,
@@ -63,8 +83,40 @@ final class DragAndDropView: NSView {
         ])
     }
 
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    override func viewDidMoveToWindow() {
+        super.viewDidMoveToWindow()
+        if window != nil {
+            registerTypes()
+        }
+    }
+
+    private func setupNotificationObservers() {
+        workspaceObserver = NSWorkspace.shared.notificationCenter.addObserver(
+            forName: NSWorkspace.sessionDidBecomeActiveNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            self?.registerTypes()
+        }
+
+        screenUnlockObserver = DistributedNotificationCenter.default().addObserver(
+            forName: Notification.Name("com.apple.screenIsUnlocked"),
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            self?.registerTypes()
+        }
+    }
+
+    private func removeNotificationObservers() {
+        if let observer = workspaceObserver {
+            NSWorkspace.shared.notificationCenter.removeObserver(observer)
+            workspaceObserver = nil
+        }
+        if let observer = screenUnlockObserver {
+            DistributedNotificationCenter.default().removeObserver(observer)
+            screenUnlockObserver = nil
+        }
     }
 
     override func hitTest(_ point: NSPoint) -> NSView? {

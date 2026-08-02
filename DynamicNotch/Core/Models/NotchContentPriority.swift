@@ -143,12 +143,10 @@ enum NotchContentPriority {
     static let screenRecording = 9
 
     static let homePage = -10000
-    static let notchSizeWidth = 10000
-    static let notchSizeHeight = 10001
-    static let dragAndDrop = 10002
     static let softwareUpdate = 10003
     static let lockScreen = 10004
     static let onboarding = 10005
+    static let dragAndDrop = 10006
 
     static func resolvedValue(for key: Key, defaults: UserDefaults = .standard) -> Int {
         overrideValues(defaults: defaults)[key.rawValue] ?? key.defaultValue

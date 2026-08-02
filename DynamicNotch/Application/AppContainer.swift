@@ -75,7 +75,9 @@ final class AppContainer {
     lazy var lockScreenLiveActivityWindowManager = LockScreenLiveActivityWindowManager(
         notchViewModel: notchViewModel,
         lockScreenManager: lockScreenManager,
-        settingsViewModel: settingsViewModel
+        settingsViewModel: settingsViewModel,
+        airDropViewModel: airDropViewModel,
+        airDropController: airDropController
     )
 
     init(isRunningUITests: Bool = ProcessInfo.processInfo.arguments.contains("-ui-testing")) {

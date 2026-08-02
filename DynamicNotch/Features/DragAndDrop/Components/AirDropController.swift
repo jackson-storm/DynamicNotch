@@ -42,6 +42,12 @@ final class NotchAirDropController: NSObject, ObservableObject {
         super.init()
     }
 
+    func resetTargetState() {
+        suppressTargetResetEvent = false
+        isTargeted = false
+        airDropViewModel.setDraggingFile(false)
+    }
+
     func handlePasteboardDrop(_ pasteboard: NSPasteboard) -> Bool {
         guard let fileURLs = pasteboard.fileURLsForAirDrop(), !fileURLs.isEmpty else {
             return false

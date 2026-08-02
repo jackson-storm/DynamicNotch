@@ -147,14 +147,8 @@ enum NotchContentRegistry {
 
 
     enum NotchSize {
-        static let width = NotchContentDescriptor(
-            id: "notchSize.width",
-            priority: NotchContentPriority.notchSizeWidth
-        )
-        static let height = NotchContentDescriptor(
-            id: "notchSize.height",
-            priority: NotchContentPriority.notchSizeHeight
-        )
+        static let width = NotchContentDescriptor(id: "notchSize.width")
+        static let height = NotchContentDescriptor(id: "notchSize.height")
     }
 
     enum Onboarding {

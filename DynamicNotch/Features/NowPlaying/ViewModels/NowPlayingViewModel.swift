@@ -60,6 +60,10 @@ final class NowPlayingViewModel: ObservableObject {
     private var recentSeekTargetTime: TimeInterval?
     private var recentSeekDate: Date?
     private let seekGracePeriodDuration: TimeInterval = 1.5
+    private var recentPlaybackToggleTargetIsPlaying: Bool?
+    private var recentPlaybackToggleDate: Date?
+    private let playbackToggleGracePeriodDuration: TimeInterval = 0.8
+    private var lastValidFilteredSnapshot: NowPlayingSnapshot?
     #if DEBUG
     private var isShowingDebugPreviewSnapshot = false
     #endif
@@ -137,6 +141,9 @@ final class NowPlayingViewModel: ObservableObject {
         cancelPendingArtworkPresentation()
         cancelLyricsLookup()
         latestServiceSnapshot = nil
+        lastValidFilteredSnapshot = nil
+        recentPlaybackToggleTargetIsPlaying = nil
+        recentPlaybackToggleDate = nil
         apply(snapshot: nil)
     }
 
@@ -144,6 +151,7 @@ final class NowPlayingViewModel: ObservableObject {
         guard self.sourceFilter != sourceFilter else { return }
 
         self.sourceFilter = sourceFilter
+        lastValidFilteredSnapshot = nil
 
         #if DEBUG
         guard !isShowingDebugPreviewSnapshot else { return }
@@ -158,12 +166,16 @@ final class NowPlayingViewModel: ObservableObject {
             return
         }
 
-        let command: NowPlayingCommand = snapshot.isPlaying ? .pause : .play
+        let targetIsPlaying = !snapshot.isPlaying
+        recentPlaybackToggleTargetIsPlaying = targetIsPlaying
+        recentPlaybackToggleDate = Date()
         apply(snapshot: snapshot.togglingPlaybackState())
-        service.send(command)
+        service.send(snapshot.isPlaying ? .pause : .play)
     }
 
     func play() {
+        recentPlaybackToggleTargetIsPlaying = true
+        recentPlaybackToggleDate = Date()
         if let snapshot, !snapshot.isPlaying {
             apply(snapshot: snapshot.settingPlaybackRate(1))
         }
@@ -172,6 +184,8 @@ final class NowPlayingViewModel: ObservableObject {
     }
 
     func pause() {
+        recentPlaybackToggleTargetIsPlaying = false
+        recentPlaybackToggleDate = Date()
         if let snapshot, snapshot.isPlaying {
             apply(snapshot: snapshot.settingPlaybackRate(0))
         }
@@ -401,6 +415,24 @@ private extension NowPlayingViewModel {
             }
         }
 
+        if let serviceSnapshot = resolvedSnapshot,
+           let targetIsPlaying = recentPlaybackToggleTargetIsPlaying,
+           let toggleDate = recentPlaybackToggleDate {
+            let elapsedSinceToggle = Date().timeIntervalSince(toggleDate)
+            if elapsedSinceToggle < playbackToggleGracePeriodDuration {
+                if serviceSnapshot.isPlaying != targetIsPlaying {
+                    let expectedPlaybackRate: Double = targetIsPlaying ? max(serviceSnapshot.playbackRate, 1) : 0
+                    resolvedSnapshot = serviceSnapshot.settingPlaybackRate(expectedPlaybackRate)
+                } else {
+                    recentPlaybackToggleTargetIsPlaying = nil
+                    recentPlaybackToggleDate = nil
+                }
+            } else {
+                recentPlaybackToggleTargetIsPlaying = nil
+                recentPlaybackToggleDate = nil
+            }
+        }
+
         latestServiceSnapshot = resolvedSnapshot
 
         if let resolvedSnapshot {
@@ -436,6 +468,8 @@ private extension NowPlayingViewModel {
             cancelPendingArtworkPresentation()
             recentSeekTargetTime = nil
             recentSeekDate = nil
+            recentPlaybackToggleTargetIsPlaying = nil
+            recentPlaybackToggleDate = nil
         }
 
         if previousLyricsKey != newLyricsKey {
@@ -495,13 +529,19 @@ private extension NowPlayingViewModel {
     func applyServiceSnapshotIfAllowed(_ serviceSnapshot: NowPlayingSnapshot) {
         cancelPendingSessionEnd()
 
-        guard sourceFilter.allows(serviceSnapshot.playbackSource) else {
-            cancelPendingArtworkPresentation()
-            apply(snapshot: nil)
-            return
+        if sourceFilter.allows(serviceSnapshot.playbackSource) {
+            lastValidFilteredSnapshot = serviceSnapshot
+            apply(snapshot: serviceSnapshot)
+        } else {
+            if let lastValidFilteredSnapshot,
+               sourceFilter.allows(lastValidFilteredSnapshot.playbackSource),
+               lastValidFilteredSnapshot.hasVisibleMetadata {
+                apply(snapshot: lastValidFilteredSnapshot)
+            } else {
+                cancelPendingArtworkPresentation()
+                apply(snapshot: nil)
+            }
         }
-
-        apply(snapshot: serviceSnapshot)
     }
 
     func refreshVisibleSnapshotForCurrentSourceFilter() {
@@ -566,6 +606,7 @@ private extension NowPlayingViewModel {
         let workItem = DispatchWorkItem { [weak self] in
             guard let self else { return }
             self.pendingSessionEndWorkItem = nil
+            self.lastValidFilteredSnapshot = nil
             self.cancelPendingArtworkPresentation()
             self.apply(snapshot: nil)
         }

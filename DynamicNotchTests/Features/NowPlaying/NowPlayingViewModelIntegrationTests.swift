@@ -169,6 +169,49 @@ final class NowPlayingViewModelIntegrationTests: XCTestCase {
         XCTAssertGreaterThanOrEqual(viewModel.snapshot?.elapsedTime ?? 0, 119.5)
     }
 
+    func testTogglePlayPauseIgnoresStaleServiceSnapshotsDuringGracePeriod() {
+        let service = FakeNowPlayingService()
+        let viewModel = NowPlayingViewModel(service: service)
+        TestLifetime.retain(viewModel)
+        viewModel.startMonitoring()
+
+        service.publish(makeNowPlayingSnapshot(duration: 243, elapsedTime: 42, playbackRate: 1))
+
+        viewModel.togglePlayPause()
+        XCTAssertEqual(viewModel.snapshot?.playbackRate, 0)
+        XCTAssertFalse(viewModel.snapshot?.isPlaying ?? true)
+
+        // Simulate stale service snapshot arriving during playback toggle grace period
+        service.publish(makeNowPlayingSnapshot(duration: 243, elapsedTime: 42, playbackRate: 1))
+
+        // Snapshot should maintain the target paused state, preventing double animation
+        XCTAssertEqual(viewModel.snapshot?.playbackRate, 0)
+        XCTAssertFalse(viewModel.snapshot?.isPlaying ?? true)
+    }
+
+    func testSourceFilterRetainsLastValidSnapshotWhenUnallowedSourceEmitsSnapshot() {
+        let service = FakeNowPlayingService()
+        let viewModel = NowPlayingViewModel(service: service, sourceFilter: .appleMusic)
+        TestLifetime.retain(viewModel)
+        viewModel.startMonitoring()
+
+        let appleMusicSource = NowPlayingPlaybackSource(bundleIdentifier: "com.apple.Music", parentBundleIdentifier: nil, processIdentifier: 100)
+        let safariSource = NowPlayingPlaybackSource(bundleIdentifier: "com.apple.Safari", parentBundleIdentifier: nil, processIdentifier: 200)
+
+        // 1. Publish Apple Music snapshot (matches filter)
+        let appleMusicSnapshot = makeNowPlayingSnapshot(title: "Apple Music Track", playbackSource: appleMusicSource)
+        service.publish(appleMusicSnapshot)
+
+        XCTAssertEqual(viewModel.snapshot?.title, "Apple Music Track")
+
+        // 2. Publish Safari snapshot (web video played, doesn't match filter)
+        let safariSnapshot = makeNowPlayingSnapshot(title: "Web Video", playbackSource: safariSource)
+        service.publish(safariSnapshot)
+
+        // 3. Apple Music snapshot should be retained instead of clearing to nil
+        XCTAssertEqual(viewModel.snapshot?.title, "Apple Music Track")
+    }
+
     func testAdvancedPlaybackControlsUpdateSnapshotAndSendCommands() {
         let service = FakeNowPlayingService()
         let viewModel = NowPlayingViewModel(service: service)

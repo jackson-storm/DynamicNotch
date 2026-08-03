@@ -138,6 +138,7 @@ enum GeneralSettingsStorage {
         static let calendarOngoingEventHideMinutes = "settings.calendar.ongoingEventHideMinutes"
         static let calendarPrivacyMode = "settings.calendar.privacy"
         static let calendarSoundAlert = "settings.calendar.soundAlert"
+        static let appleMailNotificationsEnabled = "settings.notifications.appleMail.enabled"
         static let homePageOrder = "settings.homePage.order"
         static let homePageDisabled = "settings.homePage.disabled"
         static let homePagePageIndicator = "settings.homePage.pageIndicator"
@@ -303,6 +304,7 @@ enum GeneralSettingsStorage {
         Keys.calendarTimeDisplayFormat: CalendarTimeDisplayFormat.exact.rawValue,
         Keys.calendarOngoingEventHideMinutes: 0,
         Keys.calendarPrivacyMode: false,
-        Keys.calendarSoundAlert: false
+        Keys.calendarSoundAlert: false,
+        Keys.appleMailNotificationsEnabled: false
     ]
 }

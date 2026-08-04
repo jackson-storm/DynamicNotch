@@ -89,6 +89,7 @@ extension SettingsRootViewModel {
         
         case hud
         case calendar
+        case notifications
         case screenRecording
         case lockScreen
 
@@ -314,6 +315,26 @@ private enum SettingsSectionCatalog {
                 stroke: true,
                 resetGroup: .calendar
             )
+            
+        case .notifications:
+            return .init(
+                sidebarGroup: .system,
+                titleKey: "settings.section.notifications.title",
+                fallbackTitle: "Notifications",
+                subtitleKey: "settings.section.notifications.subtitle",
+                fallbackSubtitle: "Configure notifications shown in the notch.",
+                searchKeywords: [
+                    "notifications",
+                    "mail",
+                    "apple mail",
+                    "email",
+                    "message"
+                ],
+                systemImage: "bell.badge.fill",
+                imageName: nil,
+                tint: .yellow,
+                resetGroup: .notifications
+            )
 
         case .downloads:
             return .init(
@@ -536,8 +557,6 @@ private enum SettingsSectionCatalog {
                 tint: .black,
                 resetGroup: .lockScreen
             )
-
-
         }
     }
 }

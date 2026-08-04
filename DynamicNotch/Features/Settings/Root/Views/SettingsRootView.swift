@@ -442,6 +442,13 @@ struct SettingsRootView: View {
                 )
             }
 
+        case .notifications:
+            detailContainer(for: section) {
+                NotificationsSettingsView(
+                    settings: settingsViewModel.notifications
+                )
+            }
+            
         case .downloads:
             detailContainer(for: section) {
                 DownloadsSettingsView(

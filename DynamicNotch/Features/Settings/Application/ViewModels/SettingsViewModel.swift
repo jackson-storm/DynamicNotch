@@ -20,6 +20,7 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
         case lockScreen
         case screenRecording
         case calendar
+        case notifications
     }
 
     enum LiveActivityPreference {
@@ -494,6 +495,8 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
             screenRecording.reset()
         case .calendar:
             calendar.resetCalendar()
+        case .notifications:
+            notifications.reset()
         }
     }
 

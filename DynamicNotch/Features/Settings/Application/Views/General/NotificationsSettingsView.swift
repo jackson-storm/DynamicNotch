@@ -16,8 +16,10 @@ struct NotificationsSettingsView: View {
                 SettingsToggleRow(
                     title: "settings.notifications.appleMail.enabled",
                     description: "settings.notifications.appleMail.enabled.description",
-                    systemImage: "envelope.fill",
-                    color: .blue,
+                    imageName: "appleMail",
+                    color: .clear,
+                    badgeSize: 40,
+                    iconSize: 36,
                     isOn: $settings.isAppleMailNotificationsEnabled,
                     accessibilityIdentifier: "settings.notifications.appleMail.toggle"
                 )

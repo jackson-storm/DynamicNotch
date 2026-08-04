@@ -73,6 +73,10 @@ final class CalendarViewModel: ObservableObject {
             fetchedEvents = fetchedEvents.filter { !$0.isAllDay }
         }
         
+        if !dismissedEventIdentifiers.isEmpty {
+            fetchedEvents = fetchedEvents.filter { !dismissedEventIdentifiers.contains($0.eventIdentifier) }
+        }
+        
         // Sort by start date
         fetchedEvents.sort { $0.startDate < $1.startDate }
         
@@ -215,16 +219,13 @@ final class CalendarViewModel: ObservableObject {
         }
     }
 
-    func deleteEvent(_ event: EKEvent) {
-        do {
-            try eventStore.remove(event, span: .thisEvent, commit: true)
-            // Immediately update the UI locally, the system will also trigger .EKEventStoreChanged
-            self.events.removeAll { $0.eventIdentifier == event.eventIdentifier }
-            if self.nextEvent?.eventIdentifier == event.eventIdentifier {
-                self.nextEvent = self.events.first
-            }
-        } catch {
-            print("Failed to delete event: \(error.localizedDescription)")
+    @Published var dismissedEventIdentifiers: Set<String> = []
+    
+    func dismissEvent(_ event: EKEvent) {
+        dismissedEventIdentifiers.insert(event.eventIdentifier)
+        self.events.removeAll { $0.eventIdentifier == event.eventIdentifier }
+        if self.nextEvent?.eventIdentifier == event.eventIdentifier {
+            self.nextEvent = self.events.first
         }
     }
 }

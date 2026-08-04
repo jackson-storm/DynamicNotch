@@ -92,7 +92,8 @@ struct CalendarExpandedNotchView: View {
     private func buttons(event: EKEvent) -> some View {
         HStack {
             Button {
-                calendarViewModel.deleteEvent(event)
+                calendarViewModel.dismissEvent(event)
+                notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.HomePage.calendar.id))
             } label: {
                 Image(systemName: "xmark")
                     .font(.system(size: 20, weight: .semibold))

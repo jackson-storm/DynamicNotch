@@ -42,16 +42,28 @@ final class CalendarViewModel: ObservableObject {
         }
     }
     
+    private var lastAlertedEventIdentifier: String?
+
+    var availableCalendars: [EKCalendar] {
+        guard authorizationStatus == .fullAccess else { return [] }
+        return eventStore.calendars(for: .event)
+    }
+
     func fetchUpcomingEvents() {
         guard authorizationStatus == .fullAccess else { return }
         
         let now = Date()
         let daysToShow = UserDefaults.standard.object(forKey: GeneralSettingsStorage.Keys.calendarDaysToShow) as? Int ?? GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.calendarDaysToShow] as! Int
         let showAllDay = UserDefaults.standard.object(forKey: GeneralSettingsStorage.Keys.calendarShowAllDay) as? Bool ?? GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.calendarShowAllDay] as! Bool
+        let includedCalendarIDs = UserDefaults.standard.object(forKey: GeneralSettingsStorage.Keys.calendarIncludedCalendarIDs) as? [String] ?? []
         
         guard let endDate = Calendar.current.date(byAdding: .day, value: daysToShow, to: now) else { return }
         
-        let calendars = eventStore.calendars(for: .event)
+        var calendars = eventStore.calendars(for: .event)
+        if !includedCalendarIDs.isEmpty {
+            calendars = calendars.filter { includedCalendarIDs.contains($0.calendarIdentifier) }
+        }
+        
         let predicate = eventStore.predicateForEvents(withStart: now, end: endDate, calendars: calendars)
         
         var fetchedEvents = eventStore.events(matching: predicate)
@@ -61,14 +73,27 @@ final class CalendarViewModel: ObservableObject {
             fetchedEvents = fetchedEvents.filter { !$0.isAllDay }
         }
         
+        if !dismissedEventIdentifiers.isEmpty {
+            fetchedEvents = fetchedEvents.filter { !dismissedEventIdentifiers.contains($0.eventIdentifier) }
+        }
+        
         // Sort by start date
         fetchedEvents.sort { $0.startDate < $1.startDate }
         
         self.events = fetchedEvents
-        
-        // Find the next upcoming event (or currently running one if we want to show it)
-        // Usually, the next event is the first one in the sorted list.
         self.nextEvent = fetchedEvents.first
+
+        checkSoundAlert()
+    }
+
+    private func checkSoundAlert() {
+        let isSoundAlertEnabled = UserDefaults.standard.bool(forKey: GeneralSettingsStorage.Keys.calendarSoundAlert)
+        guard isSoundAlertEnabled, hasUpcomingEvent, let event = nextEvent else { return }
+
+        if lastAlertedEventIdentifier != event.eventIdentifier {
+            lastAlertedEventIdentifier = event.eventIdentifier
+            NSSound(named: "Glass")?.play()
+        }
     }
     
     func startAutoRefresh() {
@@ -82,11 +107,10 @@ final class CalendarViewModel: ObservableObject {
             }
             .store(in: &cancellables)
         
-        // Listen for settings changes (days to show, all day)
+        // Listen for settings changes
         NotificationCenter.default.publisher(for: UserDefaults.didChangeNotification)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                // Debounce or just fetch, it's cheap enough for typical calendar sizes
                 self?.fetchUpcomingEvents()
             }
             .store(in: &cancellables)
@@ -109,26 +133,77 @@ final class CalendarViewModel: ObservableObject {
             return "All Day"
         }
         
+        let now = Date()
+        let formatRaw = UserDefaults.standard.string(forKey: GeneralSettingsStorage.Keys.calendarTimeDisplayFormat) ?? CalendarTimeDisplayFormat.exact.rawValue
+        let format = CalendarTimeDisplayFormat(rawValue: formatRaw) ?? .exact
+        
         let formatter = DateFormatter()
         formatter.timeStyle = .short
-        return formatter.string(from: event.startDate)
+        let exactTime = formatter.string(from: event.startDate)
+        
+        let minutesUntilStart = max(0, Int(ceil(event.startDate.timeIntervalSince(now) / 60)))
+        let relativeTime: String
+        if minutesUntilStart == 0 {
+            relativeTime = "Now"
+        } else if minutesUntilStart < 60 {
+            relativeTime = "in \(minutesUntilStart)m"
+        } else {
+            let hours = minutesUntilStart / 60
+            let mins = minutesUntilStart % 60
+            relativeTime = mins > 0 ? "in \(hours)h \(mins)m" : "in \(hours)h"
+        }
+        
+        switch format {
+        case .exact:
+            return exactTime
+        case .relative:
+            return relativeTime
+        case .both:
+            return "\(exactTime) · \(relativeTime)"
+        }
+    }
+
+    var isPrivacyModeEnabled: Bool {
+        UserDefaults.standard.bool(forKey: GeneralSettingsStorage.Keys.calendarPrivacyMode)
+    }
+
+    func displayTitle(for event: EKEvent) -> String {
+        if isPrivacyModeEnabled {
+            return "Calendar Event"
+        }
+        return event.title.isEmpty ? "Empty Title" : event.title
+    }
+
+    func displayLocation(for event: EKEvent) -> String? {
+        if isPrivacyModeEnabled {
+            return nil
+        }
+        return event.location
     }
     
     var hasUpcomingEvent: Bool {
         guard let event = nextEvent else { return false }
-        // For example, only show live activity if event is starting within next 30 mins
-        // Or if it is currently running. Let's just say if it's within 1 hour or currently running.
         let now = Date()
         let timeUntilStart = event.startDate.timeIntervalSince(now)
         let timeUntilEnd = event.endDate.timeIntervalSince(now)
         
         // Is currently running
         if timeUntilStart <= 0 && timeUntilEnd > 0 {
+            let hideMinutes = UserDefaults.standard.object(forKey: GeneralSettingsStorage.Keys.calendarOngoingEventHideMinutes) as? Int ?? 0
+            if hideMinutes > 0 {
+                let elapsedMinutes = Int(abs(timeUntilStart) / 60)
+                if elapsedMinutes >= hideMinutes {
+                    return false
+                }
+            }
             return true
         }
         
-        // Starts within 60 minutes
-        if timeUntilStart > 0 && timeUntilStart <= 3600 {
+        let noticeMinutes = UserDefaults.standard.object(forKey: GeneralSettingsStorage.Keys.calendarNoticeMinutes) as? Int ?? GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.calendarNoticeMinutes] as! Int
+        let maxSeconds = TimeInterval(noticeMinutes * 60)
+        
+        // Starts within configured notice time
+        if timeUntilStart > 0 && timeUntilStart <= maxSeconds {
             return true
         }
         
@@ -144,16 +219,13 @@ final class CalendarViewModel: ObservableObject {
         }
     }
 
-    func deleteEvent(_ event: EKEvent) {
-        do {
-            try eventStore.remove(event, span: .thisEvent, commit: true)
-            // Immediately update the UI locally, the system will also trigger .EKEventStoreChanged
-            self.events.removeAll { $0.eventIdentifier == event.eventIdentifier }
-            if self.nextEvent?.eventIdentifier == event.eventIdentifier {
-                self.nextEvent = self.events.first
-            }
-        } catch {
-            print("Failed to delete event: \(error.localizedDescription)")
+    @Published var dismissedEventIdentifiers: Set<String> = []
+    
+    func dismissEvent(_ event: EKEvent) {
+        dismissedEventIdentifiers.insert(event.eventIdentifier)
+        self.events.removeAll { $0.eventIdentifier == event.eventIdentifier }
+        if self.nextEvent?.eventIdentifier == event.eventIdentifier {
+            self.nextEvent = self.events.first
         }
     }
 }

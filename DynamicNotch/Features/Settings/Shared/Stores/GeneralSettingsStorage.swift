@@ -127,6 +127,12 @@ enum GeneralSettingsStorage {
         static let calendarHideWhenFocused = "settings.calendar.hideWhenFocused"
         static let calendarShowAllDay = "settings.calendar.showAllDay"
         static let calendarDaysToShow = "settings.calendar.daysToShow"
+        static let calendarNoticeMinutes = "settings.calendar.noticeMinutes"
+        static let calendarIncludedCalendarIDs = "settings.calendar.includedCalendarIDs"
+        static let calendarTimeDisplayFormat = "settings.calendar.timeDisplayFormat"
+        static let calendarOngoingEventHideMinutes = "settings.calendar.ongoingEventHideMinutes"
+        static let calendarPrivacyMode = "settings.calendar.privacy"
+        static let calendarSoundAlert = "settings.calendar.soundAlert"
         static let homePageOrder = "settings.homePage.order"
         static let homePageDisabled = "settings.homePage.disabled"
         static let homePagePageIndicator = "settings.homePage.pageIndicator"
@@ -281,6 +287,12 @@ enum GeneralSettingsStorage {
         Keys.calendarLiveActivity: true,
         Keys.calendarHideWhenFocused: true,
         Keys.calendarShowAllDay: true,
-        Keys.calendarDaysToShow: 7
+        Keys.calendarDaysToShow: 7,
+        Keys.calendarNoticeMinutes: 15,
+        Keys.calendarIncludedCalendarIDs: [String](),
+        Keys.calendarTimeDisplayFormat: CalendarTimeDisplayFormat.exact.rawValue,
+        Keys.calendarOngoingEventHideMinutes: 0,
+        Keys.calendarPrivacyMode: false,
+        Keys.calendarSoundAlert: false
     ]
 }

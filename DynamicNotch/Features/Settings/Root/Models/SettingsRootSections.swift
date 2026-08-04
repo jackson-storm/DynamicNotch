@@ -15,7 +15,37 @@ private struct SettingsSectionDescriptor {
     let systemImage: String
     let imageName: String?
     let tint: Color
+    let iconColor: Color?
+    let stroke: Bool?
     let resetGroup: SettingsViewModel.ResetGroup?
+
+    init(
+        sidebarGroup: SettingsRootViewModel.SidebarGroup,
+        titleKey: String,
+        fallbackTitle: String,
+        subtitleKey: String,
+        fallbackSubtitle: String,
+        searchKeywords: [String],
+        systemImage: String,
+        imageName: String?,
+        tint: Color,
+        iconColor: Color? = nil,
+        stroke: Bool? = nil,
+        resetGroup: SettingsViewModel.ResetGroup?
+    ) {
+        self.sidebarGroup = sidebarGroup
+        self.titleKey = titleKey
+        self.fallbackTitle = fallbackTitle
+        self.subtitleKey = subtitleKey
+        self.fallbackSubtitle = fallbackSubtitle
+        self.searchKeywords = searchKeywords
+        self.systemImage = systemImage
+        self.imageName = imageName
+        self.tint = tint
+        self.iconColor = iconColor
+        self.stroke = stroke
+        self.resetGroup = resetGroup
+    }
 }
 
 extension SettingsRootViewModel {
@@ -96,6 +126,14 @@ extension SettingsRootViewModel {
 
         var tint: Color {
             descriptor.tint
+        }
+
+        var iconColor: Color {
+            descriptor.iconColor ?? .white
+        }
+
+        var stroke: Bool {
+            descriptor.stroke ?? false
         }
 
         var resetGroup: SettingsViewModel.ResetGroup? {
@@ -246,9 +284,11 @@ private enum SettingsSectionCatalog {
                     "Calendar",
                     "Events"
                 ],
-                systemImage: "calendar",
+                systemImage: "29.calendar",
                 imageName: nil,
-                tint: .blue,
+                tint: .white,
+                iconColor: .black,
+                stroke: true,
                 resetGroup: .calendar
             )
 

@@ -13,6 +13,7 @@ struct SettingsToggleRow: View {
     let systemImage: String?
     let imageName: String?
     let color: AnyShapeStyle
+    let iconColor: Color
     let stroke: Bool
     let accessibilityIdentifier: String?
     
@@ -23,6 +24,7 @@ struct SettingsToggleRow: View {
         description: LocalizedStringKey,
         systemImage: String,
         color: Color,
+        iconColor: Color = .white,
         stroke: Bool = false,
         isOn: Binding<Bool>,
         accessibilityIdentifier: String? = nil
@@ -32,6 +34,7 @@ struct SettingsToggleRow: View {
         self.systemImage = systemImage
         self.imageName = nil
         self.color = AnyShapeStyle(color.gradient)
+        self.iconColor = iconColor
         self.stroke = stroke
         self._isOn = isOn
         self.accessibilityIdentifier = accessibilityIdentifier
@@ -42,6 +45,7 @@ struct SettingsToggleRow: View {
         description: LocalizedStringKey,
         imageName: String,
         color: Color,
+        iconColor: Color = .white,
         stroke: Bool = false,
         isOn: Binding<Bool>,
         accessibilityIdentifier: String? = nil
@@ -51,6 +55,7 @@ struct SettingsToggleRow: View {
         self.systemImage = nil
         self.imageName = imageName
         self.color = AnyShapeStyle(color.gradient)
+        self.iconColor = iconColor
         self.stroke = stroke
         self._isOn = isOn
         self.accessibilityIdentifier = accessibilityIdentifier
@@ -61,6 +66,7 @@ struct SettingsToggleRow: View {
         description: LocalizedStringKey,
         systemImage: String,
         color: LinearGradient,
+        iconColor: Color = .white,
         stroke: Bool = false,
         isOn: Binding<Bool>,
         accessibilityIdentifier: String? = nil
@@ -70,6 +76,7 @@ struct SettingsToggleRow: View {
         self.systemImage = systemImage
         self.imageName = nil
         self.color = AnyShapeStyle(color)
+        self.iconColor = iconColor
         self.stroke = stroke
         self._isOn = isOn
         self.accessibilityIdentifier = accessibilityIdentifier
@@ -80,6 +87,7 @@ struct SettingsToggleRow: View {
         description: LocalizedStringKey,
         imageName: String,
         color: LinearGradient,
+        iconColor: Color = .white,
         stroke: Bool = false,
         isOn: Binding<Bool>,
         accessibilityIdentifier: String? = nil
@@ -89,6 +97,7 @@ struct SettingsToggleRow: View {
         self.systemImage = nil
         self.imageName = imageName
         self.color = AnyShapeStyle(color)
+        self.iconColor = iconColor
         self.stroke = stroke
         self._isOn = isOn
         self.accessibilityIdentifier = accessibilityIdentifier
@@ -102,6 +111,7 @@ struct SettingsToggleRow: View {
                         systemImage: systemImage,
                         tint: color,
                         size: 30,
+                        iconColor: iconColor,
                         iconSize: 14,
                         cornerRadius: 9,
                         stroke: stroke
@@ -111,6 +121,7 @@ struct SettingsToggleRow: View {
                         imageName: imageName,
                         tint: color,
                         size: 30,
+                        iconColor: iconColor,
                         iconSize: 14,
                         cornerRadius: 9,
                         stroke: stroke

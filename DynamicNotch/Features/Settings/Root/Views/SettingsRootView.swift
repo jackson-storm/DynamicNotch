@@ -112,6 +112,8 @@ struct SettingsRootView: View {
                                         title: localized(section.titleKey, fallback: section.fallbackTitle),
                                         imageName: imageName,
                                         tint: section.tint,
+                                        iconColor: section.iconColor,
+                                        stroke: section.stroke,
                                         showBadge: section == .general && updater.isUpdateAvailable
                                     )
                                 } else {
@@ -119,6 +121,8 @@ struct SettingsRootView: View {
                                         title: localized(section.titleKey, fallback: section.fallbackTitle),
                                         systemImage: section.systemImage,
                                         tint: section.tint,
+                                        iconColor: section.iconColor,
+                                        stroke: section.stroke,
                                         showBadge: section == .general && updater.isUpdateAvailable
                                     )
                                 }

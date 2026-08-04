@@ -12,21 +12,27 @@ struct SettingsSidebarRow: View {
     let systemImage: String?
     let imageName: String?
     let tint: Color
+    let iconColor: Color
+    let stroke: Bool
     let showBadge: Bool
 
-    init(title: String, systemImage: String, tint: Color, showBadge: Bool = false) {
+    init(title: String, systemImage: String, tint: Color, iconColor: Color = .white, stroke: Bool = false, showBadge: Bool = false) {
         self.title = title
         self.systemImage = systemImage
         self.imageName = nil
         self.tint = tint
+        self.iconColor = iconColor
+        self.stroke = stroke
         self.showBadge = showBadge
     }
 
-    init(title: String, imageName: String, tint: Color, showBadge: Bool = false) {
+    init(title: String, imageName: String, tint: Color, iconColor: Color = .white, stroke: Bool = false, showBadge: Bool = false) {
         self.title = title
         self.systemImage = nil
         self.imageName = imageName
         self.tint = tint
+        self.iconColor = iconColor
+        self.stroke = stroke
         self.showBadge = showBadge
     }
     
@@ -40,16 +46,20 @@ struct SettingsSidebarRow: View {
                         systemImage: systemImage,
                         tint: tint,
                         size: 22,
+                        iconColor: iconColor,
                         iconSize: 12,
-                        cornerRadius: 6
+                        cornerRadius: 6,
+                        stroke: stroke
                     )
                 } else if let imageName {
                     SettingsIconBadge(
                         imageName: imageName,
                         tint: tint,
                         size: 22,
+                        iconColor: iconColor,
                         iconSize: 12,
-                        cornerRadius: 6
+                        cornerRadius: 6,
+                        stroke: stroke
                     )
                 }
             }

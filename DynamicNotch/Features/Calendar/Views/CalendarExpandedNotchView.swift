@@ -36,22 +36,16 @@ struct CalendarExpandedNotchView: View {
     
     @ViewBuilder
     private func title(event: EKEvent) -> some View {
-        if !event.title.isEmpty {
-            MarqueeText(
-                .constant(event.title),
-                font: .system(size: 18, weight: .bold),
-                nsFont: .headline,
-                textColor: .white,
-                backgroundColor: .clear,
-                minDuration: 2.0,
-                frameWidth: 200
-            )
-        } else {
-            Text("Empty Title")
-                .font(.system(size: 18, weight: .bold))
-                .foregroundColor(.gray.opacity(0.6))
-                .lineLimit(1)
-        }
+        let displayTitle = calendarViewModel.displayTitle(for: event)
+        MarqueeText(
+            .constant(displayTitle),
+            font: .system(size: 18, weight: .bold),
+            nsFont: .headline,
+            textColor: .white,
+            backgroundColor: .clear,
+            minDuration: 2.0,
+            frameWidth: 200
+        )
     }
     
     @ViewBuilder
@@ -76,7 +70,7 @@ struct CalendarExpandedNotchView: View {
     
     @ViewBuilder
     private func location(event: EKEvent) -> some View {
-        if let location = event.location, !location.isEmpty {
+        if let location = calendarViewModel.displayLocation(for: event), !location.isEmpty {
             MarqueeText(
                 .constant(location),
                 font: .system(size: 12),
@@ -87,7 +81,7 @@ struct CalendarExpandedNotchView: View {
                 frameWidth: 200
             )
         } else {
-            Text("Empty Location")
+            Text(calendarViewModel.isPrivacyModeEnabled ? "Private Event" : "Empty Location")
                 .font(.system(size: 12))
                 .lineLimit(1)
                 .foregroundColor(.gray.opacity(0.8))

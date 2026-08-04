@@ -1526,6 +1526,34 @@
         }
       }
     },
+    "Auto-dismiss timer" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auto-dismiss timer"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temporizador de cierre automático"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Автоматическое скрытие"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自动隐藏定时器"
+          }
+        }
+      }
+    },
     "Automatically check for updates" : {
       "localizations" : {
         "en" : {
@@ -1629,6 +1657,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在所选显示屏显示全屏空间时自动隐藏实时活动"
+          }
+        }
+      }
+    },
+    "Automatically hide the screenshot preview when the duration timer expires." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatically hide the screenshot preview when the duration timer expires."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oculta automáticamente la vista previa de la captura cuando expira el temporizador."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Автоматически скрывать превью скриншота по истечении таймера."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当倒计时结束时自动隐藏截图预览。"
           }
         }
       }
@@ -6477,9 +6533,6 @@
       }
     },
     "Empty Location" : {
-
-    },
-    "Empty Title" : {
 
     },
     "Enlarged" : {
@@ -11790,6 +11843,9 @@
     "Preview the software update available live activity." : {
 
     },
+    "Private Event" : {
+
+    },
     "Produce a soft haptic tick when the cursor enters the collapsed notch." : {
       "localizations" : {
         "en" : {
@@ -12358,62 +12414,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "屏幕捕捉活动"
-          }
-        }
-      }
-    },
-    "Auto-dismiss timer" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Auto-dismiss timer"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Temporizador de cierre automático"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Автоматическое скрытие"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "自动隐藏定时器"
-          }
-        }
-      }
-    },
-    "Automatically hide the screenshot preview when the duration timer expires." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Automatically hide the screenshot preview when the duration timer expires."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Oculta automáticamente la vista previa de la captura cuando expira el temporizador."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Автоматически скрывать превью скриншота по истечении таймера."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "当倒计时结束时自动隐藏截图预览。"
           }
         }
       }
@@ -13316,6 +13316,34 @@
         }
       }
     },
+    "settings.activities.calendar.displayOptions.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Event Display Options"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opciones de visualización"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Параметры отображения"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示选项"
+          }
+        }
+      }
+    },
     "settings.activities.calendar.hideWhenFocused" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -13430,60 +13458,537 @@
         }
       }
     },
-    "settings.activities.calendar.permissions" : {
-      "extractionState" : "stale",
+    "settings.activities.calendar.noticeMinutes" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Permissions"
+            "value" : "Lead time before event"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Permisos"
+            "value" : "Tiempo de aviso previo"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Разрешения"
+            "value" : "Время показа до начала"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "权限"
+            "value" : "活动开始前提醒时间"
           }
         }
       }
     },
-    "settings.activities.calendar.preferences" : {
-      "extractionState" : "stale",
+    "settings.activities.calendar.noticeMinutes.atStart" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Preferences"
+            "value" : "At event start"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Preferencias"
+            "value" : "Al comenzar"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Предпочтения"
+            "value" : "В момент начала"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "偏好设置"
+            "value" : "活动开始时"
+          }
+        }
+      }
+    },
+    "settings.activities.calendar.noticeMinutes.desc" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select how early upcoming events trigger in the notch."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecciona con cuánta antelación se mostrará el evento."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите, за сколько времени до начала события показывать его в чёлке."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择在刘海屏中提前多久显示即将举行的活动。"
+          }
+        }
+      }
+    },
+    "settings.activities.calendar.noticeMinutes.5m" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "5 minutes before" } },
+        "es" : { "stringUnit" : { "state" : "translated", "value" : "Con 5 min de antelación" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "За 5 минут" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "提前 5 分钟" } }
+      }
+    },
+    "settings.activities.calendar.noticeMinutes.10m" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "10 minutes before" } },
+        "es" : { "stringUnit" : { "state" : "translated", "value" : "Con 10 min de antelación" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "За 10 минут" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "提前 10 分钟" } }
+      }
+    },
+    "settings.activities.calendar.noticeMinutes.15m" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "15 minutes before" } },
+        "es" : { "stringUnit" : { "state" : "translated", "value" : "Con 15 min de antelación" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "За 15 минут" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "提前 15 分钟" } }
+      }
+    },
+    "settings.activities.calendar.noticeMinutes.30m" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "30 minutes before" } },
+        "es" : { "stringUnit" : { "state" : "translated", "value" : "Con 30 min de antelación" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "За 30 минут" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "提前 30 分钟" } }
+      }
+    },
+    "settings.activities.calendar.noticeMinutes.oneHour" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 hour before"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 hora antes"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "За 1 час"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提前 1 小时"
+          }
+        }
+      }
+    },
+    "settings.activities.calendar.ongoing.5m" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Hide 5m after start" } },
+        "es" : { "stringUnit" : { "state" : "translated", "value" : "Ocultar 5 min después de iniciar" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Скрывать через 5 минут" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "开始 5 分钟后隐藏" } }
+      }
+    },
+    "settings.activities.calendar.ongoing.10m" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Hide 10m after start" } },
+        "es" : { "stringUnit" : { "state" : "translated", "value" : "Ocultar 10 min después de iniciar" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Скрывать через 10 минут" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "开始 10 分钟后隐藏" } }
+      }
+    },
+    "settings.activities.calendar.ongoing.15m" : {
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Hide 15m after start" } },
+        "es" : { "stringUnit" : { "state" : "translated", "value" : "Ocultar 15 min después de iniciar" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Скрывать через 15 минут" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "开始 15 分钟后隐藏" } }
+      }
+    },
+    "settings.activities.calendar.ongoing.untilEnd" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show until event ends"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar hasta que finalice"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показывать до конца события"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一直显示直到活动结束"
+          }
+        }
+      }
+    },
+    "settings.activities.calendar.ongoingEventHideMinutes" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ongoing event auto-hide"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ocultar evento en curso"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Автоскрытие текущего события"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自动隐藏进行中的活动"
+          }
+        }
+      }
+    },
+    "settings.activities.calendar.ongoingEventHideMinutes.desc" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatically hide event card N minutes after it starts."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ocultar automáticamente N minutos después de comenzar."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Автоматически скрывать карточку события через N минут после старта."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "活动开始 N 分钟后自动隐藏卡片。"
+          }
+        }
+      }
+    },
+    "settings.activities.calendar.privacyAndNotifications.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy & Sound"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacidad y sonido"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приватность и звук"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隐私与声音"
+          }
+        }
+      }
+    },
+    "settings.activities.calendar.privacyMode" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy mode"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modo de privacidad"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Режим приватности"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隐私模式"
+          }
+        }
+      }
+    },
+    "settings.activities.calendar.privacyMode.desc" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide event titles and location details in the notch."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ocultar títulos y ubicaciones de eventos en el notch."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скрывать названия и местоположение событий в чёлке."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在刘海屏中隐藏活动标题和地点详情。"
+          }
+        }
+      }
+    },
+    "settings.activities.calendar.soundAlert" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sound alert"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alerta de sonido"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Звуковое оповещение"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "声音提醒"
+          }
+        }
+      }
+    },
+    "settings.activities.calendar.soundAlert.desc" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Play a subtle sound when a calendar alert triggers."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reproducir un sonido cuando aparezca la alerta en el notch."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Воспроизводить звук при появлении события в чёлке."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当活动提醒在刘海屏触发时播放提示音。"
+          }
+        }
+      }
+    },
+    "settings.activities.calendar.timeDisplayFormat" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time format"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Formato de hora"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Формат времени"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "时间格式"
+          }
+        }
+      }
+    },
+    "settings.activities.calendar.timeDisplayFormat.both" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Both (14:30 · in 15m)"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ambos (14:30 · en 15m)"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оба формата (14:30 · через 15м)"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "两者 (14:30 · 15分钟后)"
+          }
+        }
+      }
+    },
+    "settings.activities.calendar.timeDisplayFormat.desc" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Display exact start time, relative remaining time, or both."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar hora exacta, tiempo relativo o ambos."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отображать точное время начала, оставшееся время или оба варианта."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示精确开始时间、相对剩余时间或两者皆有。"
+          }
+        }
+      }
+    },
+    "settings.activities.calendar.timeDisplayFormat.exact" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exact time (14:30)"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hora exacta (14:30)"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Точное время (14:30)"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "精确时间 (14:30)"
+          }
+        }
+      }
+    },
+    "settings.activities.calendar.timeDisplayFormat.relative" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Relative time (in 15m)"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tiempo relativo (en 15m)"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оставшееся время (через 15м)"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "相对时间 (15分钟后)"
           }
         }
       }

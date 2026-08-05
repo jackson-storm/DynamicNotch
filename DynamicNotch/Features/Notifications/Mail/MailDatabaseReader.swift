@@ -6,7 +6,7 @@ final class MailDatabaseReader {
 
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "DynamicNotch", category: "MailDatabaseReader")
 
-    // Return the highest message RowID currently stored in Mail database
+    //Return the highest message RowID currently stored in Mail database
     func latestRowID() -> Int64? {
         inDatabase { database in
             let query = """
@@ -15,8 +15,13 @@ final class MailDatabaseReader {
             WHERE deleted = 0;
             """
 
-            return inStatement(database: database, query: query, errorMessage: "Could not prepare latest RowID query") { statement in
-                // Read the single RowID value returned by the query
+            return inStatement(
+                database: database,
+                query: query,
+                errorMessage: "Could not prepare latest RowID query"
+            ) { statement in
+                
+                //Read the single RowID value returned by the query
                 guard sqlite3_step(statement) == SQLITE_ROW else {
                     logDatabaseError(database, message: "Could not read latest RowID")
                     return nil
@@ -31,7 +36,7 @@ final class MailDatabaseReader {
         }
     }
 
-    // Return all messages added after the provided RowID
+    //Return all messages added after the provided RowID
     func messages(after rowID: Int64) -> [MailMessage] {
         inDatabase { database in
             let query = """
@@ -42,6 +47,8 @@ final class MailDatabaseReader {
                 s.subject,
                 sm.summary
             FROM messages AS m
+            INNER JOIN mailboxes AS mb
+                ON mb.ROWID = m.mailbox
             LEFT JOIN addresses AS a
                 ON a.ROWID = m.sender
             LEFT JOIN subjects AS s
@@ -51,10 +58,15 @@ final class MailDatabaseReader {
             WHERE
                 m.ROWID > ?
                 AND m.deleted = 0
+                AND LOWER(RTRIM(mb.url, '/')) LIKE '%/inbox'
             ORDER BY m.ROWID ASC;
             """
 
-            return inStatement(database: database, query: query, errorMessage: "Could not prepare messages query") { statement in
+            return inStatement(
+                database: database,
+                query: query,
+                errorMessage: "Could not prepare messages query"
+            ) { statement in
                 // Bind the last processed RowID to the query placeholder
                 guard sqlite3_bind_int64(statement, 1, rowID) == SQLITE_OK else {
                     logDatabaseError(database, message: "Could not bind the last processed RowID")
@@ -72,8 +84,13 @@ final class MailDatabaseReader {
                     let subject = stringValue(from: statement, column: 3) ?? ""
                     let summary = stringValue(from: statement, column: 4)
 
-                    let message = MailMessage(rowID: messageRowID, sender: sender, subject: subject, summary: summary, receivedDate: Date(timeIntervalSince1970: TimeInterval(receivedTimestamp)))
-
+                    let message = MailMessage(
+                        rowID: messageRowID,
+                        sender: sender,
+                        subject: subject,
+                        summary: summary,
+                        receivedDate: Date(timeIntervalSince1970: TimeInterval(receivedTimestamp))
+                    )
                     messages.append(message)
                     result = sqlite3_step(statement)
                 }
@@ -88,7 +105,7 @@ final class MailDatabaseReader {
         } ?? []
     }
 
-    // Locate Envelope Index database in Mail storage version
+    //Locate Envelope Index database in Mail storage version
     func databaseURL() -> URL? {
         let root = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("Library/Mail", isDirectory: true)
 
@@ -116,7 +133,7 @@ final class MailDatabaseReader {
         return databaseURL
     }
 
-    // Open Mail database, execute the operation and close the connection
+    //Open Mail database, execute the operation and close the connection
     private func inDatabase<T>(_ operation: (OpaquePointer) -> T?) -> T? {
         guard let databaseURL = databaseURL() else {
             logger.error("Mail database was not found")
@@ -136,13 +153,13 @@ final class MailDatabaseReader {
             sqlite3_close(database)
         }
 
-        // Wait if Mail is writing to the database
+        //Wait if Mail is writing to the database
         sqlite3_busy_timeout(database, 1_000)
 
         return operation(database)
     }
 
-    // Prepare SQLite statement, execute the operation and finalize the statement
+    //Prepare SQLite statement, execute the operation and finalize the statement
     private func inStatement<T>(database: OpaquePointer, query: String, errorMessage: String, operation: (OpaquePointer) -> T?) -> T? {
         var statement: OpaquePointer?
 
@@ -160,7 +177,7 @@ final class MailDatabaseReader {
         return operation(statement)
     }
 
-    // Convert a nullable SQLite text column into a Swift String
+    //Convert a nullable SQLite text column into a Swift String
     private func stringValue(from statement: OpaquePointer?, column: Int32) -> String? {
         guard sqlite3_column_type(statement, column) != SQLITE_NULL,
               let value = sqlite3_column_text(statement, column) else {
@@ -170,7 +187,7 @@ final class MailDatabaseReader {
         return String(cString: value)
     }
 
-    // Write the current SQLite error to the system log
+    //Write the current SQLite error to the system log
     private func logDatabaseError(_ database: OpaquePointer?, message: String) {
         let details = database.flatMap { sqlite3_errmsg($0) }.map(String.init(cString:)) ?? "Unknown SQLite error"
         logger.error("\(message, privacy: .public): \(details, privacy: .public)")

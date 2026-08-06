@@ -6,25 +6,29 @@ struct LightweightNowPlayingEqualizerView: NSViewRepresentable {
     let colors: [NSColor]
     let barHeight: CGFloat
     let barWidth: CGFloat
+    let cornerRadius: CGFloat?
 
-    init(isPlaying: Bool, colors: [NSColor], barHeight: CGFloat = 16, barWidth: CGFloat = 2) {
+    init(isPlaying: Bool, colors: [NSColor], barHeight: CGFloat = 16, barWidth: CGFloat = 2, cornerRadius: CGFloat? = nil) {
         self.isPlaying = isPlaying
         self.colors = colors
         self.barHeight = barHeight
         self.barWidth = barWidth
+        self.cornerRadius = cornerRadius
     }
 
-    init(isPlaying: Bool, color: NSColor, barHeight: CGFloat = 16, barWidth: CGFloat = 2) {
+    init(isPlaying: Bool, color: NSColor, barHeight: CGFloat = 16, barWidth: CGFloat = 2, cornerRadius: CGFloat? = nil) {
         self.isPlaying = isPlaying
         self.colors = [color]
         self.barHeight = barHeight
         self.barWidth = barWidth
+        self.cornerRadius = cornerRadius
     }
 
     func makeNSView(context: Context) -> LightweightNowPlayingEqualizerNSView {
         let view = LightweightNowPlayingEqualizerNSView()
         view.setBarHeight(barHeight)
         view.setBarWidth(barWidth)
+        view.setCornerRadius(cornerRadius)
         view.setColors(colors)
         view.setPlaying(isPlaying)
         return view
@@ -33,6 +37,7 @@ struct LightweightNowPlayingEqualizerView: NSViewRepresentable {
     func updateNSView(_ nsView: LightweightNowPlayingEqualizerNSView, context: Context) {
         nsView.setBarHeight(barHeight)
         nsView.setBarWidth(barWidth)
+        nsView.setCornerRadius(cornerRadius)
         nsView.setColors(colors)
         nsView.setPlaying(isPlaying)
     }
@@ -62,6 +67,7 @@ final class LightweightNowPlayingEqualizerNSView: NSView {
     private var barColors: [NSColor] = [.white]
     private var barHeight = Metrics.defaultHeight
     private var barWidth = Metrics.defaultBarWidth
+    private var customCornerRadius: CGFloat?
     private var windowObservers: [NSObjectProtocol] = []
 
     override var intrinsicContentSize: NSSize {
@@ -148,17 +154,31 @@ final class LightweightNowPlayingEqualizerNSView: NSView {
         }
     }
 
+    func setCornerRadius(_ radius: CGFloat?) {
+        guard customCornerRadius != radius else { return }
+        customCornerRadius = radius
+        updateBarCornerRadius()
+    }
+
     func setBarWidth(_ width: CGFloat) {
         let resolvedWidth = max(width, 1)
         guard abs(barWidth - resolvedWidth) > 0.001 else { return }
 
         barWidth = resolvedWidth
-        barLayers.forEach { $0.cornerRadius = resolvedWidth / 2 }
+        updateBarCornerRadius()
         invalidateIntrinsicContentSize()
         layoutBars()
 
         if !isPlaying {
             resetBars()
+        }
+    }
+
+    private func updateBarCornerRadius() {
+        let resolvedRadius = customCornerRadius ?? (barWidth * 0.65)
+        barLayers.forEach {
+            $0.cornerRadius = resolvedRadius
+            $0.cornerCurve = .continuous
         }
     }
 
@@ -188,11 +208,13 @@ private extension LightweightNowPlayingEqualizerNSView {
         guard barLayers.isEmpty else { return }
 
         barScales = Array(repeating: pausedScale, count: Metrics.barCount)
+        let resolvedRadius = customCornerRadius ?? (barWidth * 0.65)
 
         for _ in 0..<Metrics.barCount {
             let barLayer = CALayer()
             barLayer.backgroundColor = NSColor.white.cgColor
-            barLayer.cornerRadius = barWidth / 2
+            barLayer.cornerRadius = resolvedRadius
+            barLayer.cornerCurve = .continuous
             barLayer.masksToBounds = true
             barLayer.allowsGroupOpacity = false
             barLayer.anchorPoint = CGPoint(x: 0.5, y: 0.5)

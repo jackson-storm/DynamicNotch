@@ -50,6 +50,7 @@ struct ScreenshotNotchView: View {
                 ZStack {
                     Circle()
                         .fill(.thickMaterial)
+                        .stroke(.white.opacity(0.1))
                         .frame(width: 30, height: 30)
                     
                     Image(systemName: "folder.fill")
@@ -62,6 +63,7 @@ struct ScreenshotNotchView: View {
                 ZStack {
                     Circle()
                         .fill(.thickMaterial)
+                        .stroke(.white.opacity(0.1))
                         .frame(width: 30, height: 30)
                     
                     Image(systemName: "document.on.document.fill")
@@ -74,6 +76,7 @@ struct ScreenshotNotchView: View {
                 ZStack {
                     Circle()
                         .fill(.thickMaterial)
+                        .stroke(.white.opacity(0.1))
                         .frame(width: 30, height: 30)
                     
                     Image(systemName: "trash.fill")

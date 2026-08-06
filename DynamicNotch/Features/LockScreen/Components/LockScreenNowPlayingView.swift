@@ -50,11 +50,7 @@ struct LockScreenNowPlayingView: View {
         return VStack {
             HStack(spacing: 15) {
                 if onTapArtwork == false {
-                    Button(action: {
-                        withAnimation(.spring(response: 0.6)) {
-                            onTapArtwork = true
-                        }
-                    }) {
+                    Button(action: {withAnimation(.spring(response: 0.6)) { onTapArtwork = true }}) {
                         ArtworkView(
                             nowPlayingViewModel: nowPlayingViewModel,
                             width: 60,
@@ -67,12 +63,8 @@ struct LockScreenNowPlayingView: View {
                     .buttonStyle(PlaybackSourceButtonStyle())
                 }
                 
-                HStack(alignment: .top, spacing: 10) {
-                    Button(action: {
-                        withAnimation(.spring(response: 0.6)) {
-                            onTapArtwork.toggle()
-                        }
-                    }) {
+                HStack(alignment: .top) {
+                    Button(action: {withAnimation(.spring(response: 0.6)) { onTapArtwork.toggle() }}) {
                         VStack(alignment: .leading, spacing: 2) {
                             MarqueeText(
                                 .constant(displayTitle(for: snapshot)),
@@ -98,16 +90,17 @@ struct LockScreenNowPlayingView: View {
                     }
                     .buttonStyle(PlaybackSourceButtonStyle())
 
-                    Spacer(minLength: 0)
+                    Spacer()
                     
                     LightweightNowPlayingEqualizerView(
                         isPlaying: snapshot.isPlaying,
                         color: NSColor.white.withAlphaComponent(0.7),
-                        barHeight: onTapArtwork ? 18 : 23,
-                        barWidth: 2.7
+                        barHeight: 20,
+                        barWidth: 2.2
                     )
-                    .frame(width: 23, height: 18)
+                    .frame(width: 13, height: 15)
                 }
+                .padding(.trailing, 5)
             }
             Spacer()
             

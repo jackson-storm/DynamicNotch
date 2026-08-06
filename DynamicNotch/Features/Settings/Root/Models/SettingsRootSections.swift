@@ -78,8 +78,8 @@ extension SettingsRootViewModel {
         case bluetooth
         case vpn
         case battery
-        case focus
         
+        case focus
         case nowPlaying
         case downloads
         case drop
@@ -286,8 +286,7 @@ private enum SettingsSectionCatalog {
                 ],
                 systemImage: "29.calendar",
                 imageName: nil,
-                tint: .white,
-                iconColor: .black,
+                tint: .blue,
                 stroke: true,
                 resetGroup: .calendar
             )
@@ -384,7 +383,7 @@ private enum SettingsSectionCatalog {
 
         case .focus:
             return .init(
-                sidebarGroup: .connectivity,
+                sidebarGroup: .mediaAndFiles,
                 titleKey: "settings.section.focus.title",
                 fallbackTitle: "Focus",
                 subtitleKey: "settings.section.focus.subtitle",

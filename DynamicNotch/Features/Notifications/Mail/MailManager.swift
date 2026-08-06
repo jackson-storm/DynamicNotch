@@ -1,4 +1,5 @@
 import Foundation
+internal import AppKit
 
 final class MailManager {
 
@@ -43,5 +44,15 @@ final class MailManager {
 
         NotificationCenter.default.removeObserver(observer)
         self.observer = nil
+    }
+    
+    //Open selected message in Apple Mail
+    func open(_ message: MailMessage) {
+        guard !message.messageIDHeader.isEmpty,
+              let url = URL(string: "message:\(message.messageIDHeader)") else {
+            return
+        }
+
+        NSWorkspace.shared.open(url)
     }
 }

@@ -462,7 +462,7 @@ final class NotchEventCoordinator: ObservableObject {
     }
     
     private func handleMailMessage(_ message: MailMessage) {
-        print("[NotchEventCoordinator] Mail: \(message.subject)")
+
     }
 
     private func syncAirDropTransferLiveActivity() {

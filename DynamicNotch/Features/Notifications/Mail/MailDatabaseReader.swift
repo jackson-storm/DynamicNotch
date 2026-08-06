@@ -42,6 +42,7 @@ final class MailDatabaseReader {
             let query = """
             SELECT
                 m.ROWID,
+                mgd.message_id_header,
                 m.date_received,
                 a.address,
                 s.subject,
@@ -49,6 +50,8 @@ final class MailDatabaseReader {
             FROM messages AS m
             INNER JOIN mailboxes AS mb
                 ON mb.ROWID = m.mailbox
+            LEFT JOIN message_global_data AS mgd
+                ON mgd.ROWID = m.global_message_id
             LEFT JOIN addresses AS a
                 ON a.ROWID = m.sender
             LEFT JOIN subjects AS s
@@ -67,7 +70,7 @@ final class MailDatabaseReader {
                 query: query,
                 errorMessage: "Could not prepare messages query"
             ) { statement in
-                // Bind the last processed RowID to the query placeholder
+                //handleMailMessageBind the last processed RowID to the query placeholder
                 guard sqlite3_bind_int64(statement, 1, rowID) == SQLITE_OK else {
                     logDatabaseError(database, message: "Could not bind the last processed RowID")
                     return nil
@@ -79,13 +82,15 @@ final class MailDatabaseReader {
                 //Convert each returned database row into MailMessage
                 while result == SQLITE_ROW {
                     let messageRowID = sqlite3_column_int64(statement, 0)
-                    let receivedTimestamp = sqlite3_column_int64(statement, 1)
-                    let sender = stringValue(from: statement, column: 2) ?? ""
-                    let subject = stringValue(from: statement, column: 3) ?? ""
-                    let summary = stringValue(from: statement, column: 4)
+                    let messageIDHeader = stringValue(from: statement, column: 1) ?? ""
+                    let receivedTimestamp = sqlite3_column_int64(statement, 2)
+                    let sender = stringValue(from: statement, column: 3) ?? ""
+                    let subject = stringValue(from: statement, column: 4) ?? ""
+                    let summary = stringValue(from: statement, column: 5)
 
                     let message = MailMessage(
                         rowID: messageRowID,
+                        messageIDHeader: messageIDHeader,
                         sender: sender,
                         subject: subject,
                         summary: summary,

@@ -33,10 +33,18 @@ struct ArtworkView: View {
         self.usesFlipAnimation = usesFlipAnimation
     }
 
+    private var displayedImage: NSImage? {
+        guard let artworkImage = nowPlayingViewModel.artworkImage else { return nil }
+        if artworkImage === lastSourceImage, let cached = cachedResizedImage {
+            return cached
+        }
+        return artworkImage
+    }
+
     var body: some View {
         Group {
-            if let artworkImage = nowPlayingViewModel.artworkImage {
-                Image(nsImage: cachedResizedImage ?? artworkImage)
+            if let artworkImage = displayedImage {
+                Image(nsImage: artworkImage)
                     .resizable()
                     .interpolation(.high)
                     .antialiased(true)

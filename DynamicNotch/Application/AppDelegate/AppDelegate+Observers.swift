@@ -68,6 +68,19 @@ extension AppDelegate {
                 }
             }
             .store(in: &cancellables)
+        
+        settingsViewModel.notifications.$isAppleMailNotificationsEnabled
+            .removeDuplicates()
+            .sink { [weak self] isAppleMailNotificationsEnabled in
+                guard let self else { return }
+
+                if isAppleMailNotificationsEnabled {
+                    mailManager.startMonitoring()
+                } else {
+                    mailManager.stopMonitoring()
+                }
+            }
+            .store(in: &cancellables)
     }
 
     func observeDockIconVisibilityChanges() {

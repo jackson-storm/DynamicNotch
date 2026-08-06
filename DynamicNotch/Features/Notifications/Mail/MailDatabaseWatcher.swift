@@ -27,7 +27,7 @@ final class MailDatabaseWatcher {
         stopMonitoring()
     }
     
-    //Store the latest RowID and start watching the Mail database
+    //Store the latest RowID and start watching Mail database
     func startMonitoring() {
         queue.async { [weak self] in
             guard let self, source == nil else { return }
@@ -42,7 +42,7 @@ final class MailDatabaseWatcher {
         }
     }
     
-    //Stop watching the Mail database and cancel any pending database read
+    //Stop watching Mail database and cancel any pending database read
     func stopMonitoring() {
         queue.async { [weak self] in
             guard let self else { return }
@@ -55,7 +55,7 @@ final class MailDatabaseWatcher {
         }
     }
     
-    //Start monitoring changes to the Mail database WAL file
+    //Start monitoring changes to Mail database WAL file
     private func startWatchingWriteAheadLog() {
         guard let databaseURL = reader.databaseURL() else {
             logger.error("Mail database was not found")
@@ -64,7 +64,7 @@ final class MailDatabaseWatcher {
 
         //Add -wal because Mail writes changes here
         let writeAheadLogURL = URL(fileURLWithPath: databaseURL.path + "-wal")
-        //Open file without read
+        //Open file without read permission
         fileDescriptor = open(writeAheadLogURL.path, O_EVTONLY)
 
         guard fileDescriptor >= 0 else {
@@ -107,7 +107,7 @@ final class MailDatabaseWatcher {
         logger.info("Started watching Mail database WAL file")
     }
     
-    //Delay the database read to merge multiple WAL events into one operation
+    //Delay database read to merge multiple WAL events into one operation
     private func scheduleDatabaseRead() {
         debounceWorkItem?.cancel()
 

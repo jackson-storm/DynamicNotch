@@ -76,7 +76,7 @@ final class MailDatabaseReader {
                 var messages: [MailMessage] = []
                 var result = sqlite3_step(statement)
 
-                // Convert each returned database row into MailMessage
+                //Convert each returned database row into MailMessage
                 while result == SQLITE_ROW {
                     let messageRowID = sqlite3_column_int64(statement, 0)
                     let receivedTimestamp = sqlite3_column_int64(statement, 1)
@@ -120,15 +120,11 @@ final class MailDatabaseReader {
                                         return lhs < rhs
                                     }
 
-        guard let latestVersion else {
-            return nil
-        }
+        guard let latestVersion else { return nil }
 
         let databaseURL = latestVersion.appendingPathComponent("MailData").appendingPathComponent("Envelope Index")
 
-        guard FileManager.default.fileExists(atPath: databaseURL.path) else {
-            return nil
-        }
+        guard FileManager.default.fileExists(atPath: databaseURL.path) else { return nil }
 
         return databaseURL
     }

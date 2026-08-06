@@ -18,8 +18,7 @@ struct CalendarSettingsView: View {
                 title: "settings.activities.calendar.liveActivity",
                 description: "settings.activities.calendar.liveActivity.desc",
                 systemImage: "29.calendar",
-                color: .white,
-                iconColor: .black,
+                color: .blue,
                 stroke: true,
                 isOn: $settings.isCalendarLiveActivityEnabled,
                 accessibilityIdentifier: "settings.activities.live.calendar"
@@ -100,7 +99,8 @@ struct CalendarSettingsView: View {
                 title: "settings.activities.calendar.privacyMode",
                 description: "settings.activities.calendar.privacyMode.desc",
                 systemImage: "eye.slash",
-                color: .purple,
+                color: .black,
+                stroke: true,
                 isOn: $settings.isPrivacyModeEnabled,
                 accessibilityIdentifier: "settings.activities.calendar.privacyMode"
             )

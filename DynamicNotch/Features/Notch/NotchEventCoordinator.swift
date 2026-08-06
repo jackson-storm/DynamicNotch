@@ -462,7 +462,17 @@ final class NotchEventCoordinator: ObservableObject {
     }
     
     private func handleMailMessage(_ message: MailMessage) {
+        
+        print("[MailDebug] Summary:", message.summary ?? "nil")
+        
+        let content = MailNotchContent(
+            message: message,
+            onOpen: { [weak mailManager] in
+                mailManager?.open(message)
+            }
+        )
 
+        notchViewModel.send(.showTemporaryNotification(content, duration: 60))
     }
 
     private func syncAirDropTransferLiveActivity() {

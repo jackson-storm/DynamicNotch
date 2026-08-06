@@ -64,7 +64,8 @@ final class AppContainer {
         homePageViewModel: homePageViewModel,
         localTimerViewModel: localTimerViewModel,
         calendarViewModel: calendarViewModel,
-        screenshotViewModel: screenshotViewModel
+        screenshotViewModel: screenshotViewModel,
+        mailManager: mailManager
     )
 
     lazy var lockScreenPanelManager = LockScreenPanelManager(

@@ -10,7 +10,7 @@ struct HomePagePagesSettingsView: View {
     }
 
     private var homePagePages: some View {
-        SettingsCard(title: "Pages") {
+        SettingsCard() {
             SettingsOrderListView(
                 items: $homePageSettings.homePageOrder,
                 disabledItems: $homePageSettings.homePageDisabled,

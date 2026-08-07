@@ -4,6 +4,8 @@ struct ScreenshotModel: Identifiable, Equatable {
     let id = UUID()
     let image: NSImage
     let fileURL: URL?
+    let tempFileURL: URL?
+    var targetDestinationURL: URL?
     let fileName: String
     var recognizedText: String
     var isRecognizing: Bool

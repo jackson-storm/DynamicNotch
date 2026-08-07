@@ -57,6 +57,24 @@ final class ScreenRecordingSettingsStore: SettingsStoreBase {
         }
     }
 
+    @Published var screenshotSavePath: String {
+        didSet {
+            persist(
+                screenshotSavePath,
+                for: GeneralSettingsStorage.Keys.screenshotSavePath
+            )
+        }
+    }
+
+    @Published var screenRecordingSavePath: String {
+        didSet {
+            persist(
+                screenRecordingSavePath,
+                for: GeneralSettingsStorage.Keys.screenRecordingSavePath
+            )
+        }
+    }
+
     override init(defaults: UserDefaults) {
         defaults.register(defaults: GeneralSettingsStorage.defaultValues)
         self.isScreenRecordingLiveActivityEnabled = Self.resolvedBool(
@@ -83,6 +101,14 @@ final class ScreenRecordingSettingsStore: SettingsStoreBase {
             defaults: defaults,
             key: GeneralSettingsStorage.Keys.screenshotTemporaryActivityDuration
         )
+        self.screenshotSavePath = Self.resolvedString(
+            defaults: defaults,
+            key: GeneralSettingsStorage.Keys.screenshotSavePath
+        )
+        self.screenRecordingSavePath = Self.resolvedString(
+            defaults: defaults,
+            key: GeneralSettingsStorage.Keys.screenRecordingSavePath
+        )
         super.init(defaults: defaults)
     }
 
@@ -105,6 +131,12 @@ final class ScreenRecordingSettingsStore: SettingsStoreBase {
         screenshotTemporaryActivityDuration = defaultInt(
             for: GeneralSettingsStorage.Keys.screenshotTemporaryActivityDuration
         )
+        screenshotSavePath = defaultString(
+            for: GeneralSettingsStorage.Keys.screenshotSavePath
+        )
+        screenRecordingSavePath = defaultString(
+            for: GeneralSettingsStorage.Keys.screenRecordingSavePath
+        )
     }
 
     private static func resolvedBool(defaults: UserDefaults, key: String) -> Bool {
@@ -121,5 +153,13 @@ final class ScreenRecordingSettingsStore: SettingsStoreBase {
         }
 
         return (GeneralSettingsStorage.defaultValues[key] as? Int) ?? 4
+    }
+
+    private static func resolvedString(defaults: UserDefaults, key: String) -> String {
+        if let currentValue = defaults.object(forKey: key) as? String {
+            return currentValue
+        }
+
+        return (GeneralSettingsStorage.defaultValues[key] as? String) ?? ""
     }
 }

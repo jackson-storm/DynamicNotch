@@ -84,6 +84,8 @@ enum GeneralSettingsStorage {
         static let screenshotDisableSystemThumbnail = "settings.screenshot.disableSystemThumbnail"
         static let screenshotTemporaryActivityDuration = "settings.temporary.screenshot.duration"
         static let screenshotAutoHideEnabled = "settings.screenshot.autoHideEnabled"
+        static let screenshotSavePath = "settings.screenshot.savePath"
+        static let screenRecordingSavePath = "settings.screenRecording.savePath"
         static let legacyFileTransfersLiveActivityEnabled = "settings.live.fileTransfers"
         static let chargerTemporaryActivityEnabled = "settings.temporary.charger"
         static let lowPowerTemporaryActivityEnabled = "settings.temporary.lowPower"
@@ -226,6 +228,8 @@ enum GeneralSettingsStorage {
         Keys.screenshotDisableSystemThumbnail: true,
         Keys.screenshotTemporaryActivityDuration: 4,
         Keys.screenshotAutoHideEnabled: true,
+        Keys.screenshotSavePath: "",
+        Keys.screenRecordingSavePath: "",
         LockScreenSettings.liveActivityKey: true,
         LockScreenSettings.soundKey: true,
         LockScreenSettings.customSoundPathKey: "",

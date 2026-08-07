@@ -222,6 +222,20 @@ final class NotchEventCoordinator: ObservableObject {
             ScreenshotMonitorService.setSystemFloatingThumbnailEnabled(true)
         }
 
+        notchViewModel.$notchModel
+            .map { model in
+                model.temporaryNotificationContent?.id == NotchContentRegistry.Screenshot.active.id ||
+                model.liveActivityContent?.id == NotchContentRegistry.Screenshot.active.id
+            }
+            .removeDuplicates()
+            .dropFirst()
+            .sink { [weak self] isShowingScreenshot in
+                if !isShowingScreenshot {
+                    self?.screenshotViewModel.saveToDiskIfNeeded()
+                }
+            }
+            .store(in: &cancellables)
+
         observeCalendarEvents()
         observeSettingsChanges()
     }

@@ -5,6 +5,9 @@ import Combine
 final class ScreenshotMonitorService {
     var onScreenshotCaptured: ((NSImage, URL?, String) -> Void)?
     
+    private(set) var userTargetDirectoryURL: URL = FileManager.default.urls(for: .desktopDirectory, in: .userDomainMask).first ?? URL(fileURLWithPath: NSHomeDirectory())
+    
+    private var originalScreenshotLocation: String?
     private var fileWatcherTimer: Timer?
     private var pasteboardTimer: Timer?
     private var lastPasteboardChangeCount: Int = 0
@@ -24,6 +27,14 @@ final class ScreenshotMonitorService {
     func startMonitoring(disableSystemThumbnail: Bool = true) {
         guard !isMonitoring else { return }
         isMonitoring = true
+        
+        self.originalScreenshotLocation = Self.getSystemScreenshotLocation()
+        self.userTargetDirectoryURL = computeUserTargetDirectoryURL()
+        
+        let stagingDir = rawStagingDirectoryURL()
+        try? fileManager.createDirectory(at: stagingDir, withIntermediateDirectories: true)
+        
+        Self.setSystemScreenshotLocation(stagingDir.path)
         
         if disableSystemThumbnail {
             Self.setSystemFloatingThumbnailEnabled(false)
@@ -47,6 +58,8 @@ final class ScreenshotMonitorService {
         fileWatcherTimer = nil
         pasteboardTimer?.invalidate()
         pasteboardTimer = nil
+        
+        Self.setSystemScreenshotLocation(originalScreenshotLocation)
     }
     
     func updateLastPasteboardChangeCount() {
@@ -56,31 +69,34 @@ final class ScreenshotMonitorService {
     func suppressMonitoring(for duration: TimeInterval = 3.0) {
         suppressMonitoringUntil = Date().addingTimeInterval(duration)
         updateLastPasteboardChangeCount()
-        primeBaseline()
     }
     
-    private func screenshotDirectoryURL() -> URL {
-        if let customLocation = UserDefaults(suiteName: "com.apple.screencapture")?.string(forKey: "location") {
-            let expanded = (customLocation as NSString).expandingTildeInPath
-            return URL(fileURLWithPath: expanded)
+    func rawStagingDirectoryURL() -> URL {
+        let caches = fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first ?? fileManager.temporaryDirectory
+        return caches.appendingPathComponent("com.Jackson.DynamicNotch/RawScreenshots")
+    }
+    
+    private func computeUserTargetDirectoryURL() -> URL {
+        let desktop = fileManager.urls(for: .desktopDirectory, in: .userDomainMask).first ?? URL(fileURLWithPath: NSHomeDirectory())
+        guard let original = originalScreenshotLocation, !original.isEmpty else {
+            return desktop
         }
-        return fileManager.urls(for: .desktopDirectory, in: .userDomainMask).first ?? URL(fileURLWithPath: NSHomeDirectory())
+        let expanded = (original as NSString).expandingTildeInPath
+        if expanded.contains("com.Jackson.DynamicNotch") || expanded.contains("RawScreenshots") {
+            return desktop
+        }
+        return URL(fileURLWithPath: expanded)
     }
     
     private func primeBaseline() {
-        let dir = screenshotDirectoryURL()
+        let dir = rawStagingDirectoryURL()
         if let urls = try? fileManager.contentsOfDirectory(at: dir, includingPropertiesForKeys: [.contentModificationDateKey], options: [.skipsHiddenFiles]) {
             knownFilePaths = Set(urls.map { $0.path })
         }
     }
     
     private func scanForNewScreenshots() {
-        if let suppressUntil = suppressMonitoringUntil, Date() < suppressUntil {
-            primeBaseline()
-            return
-        }
-        
-        let dir = screenshotDirectoryURL()
+        let dir = rawStagingDirectoryURL()
         guard let urls = try? fileManager.contentsOfDirectory(
             at: dir,
             includingPropertiesForKeys: [.contentModificationDateKey, .isRegularFileKey],
@@ -91,12 +107,12 @@ final class ScreenshotMonitorService {
         for url in urls {
             let path = url.path
             guard !knownFilePaths.contains(path) else { continue }
-            knownFilePaths.insert(path)
             
             guard let resourceValues = try? url.resourceValues(forKeys: [.contentModificationDateKey, .isRegularFileKey]),
                   resourceValues.isRegularFile == true,
                   let modDate = resourceValues.contentModificationDate,
-                  now.timeIntervalSince(modDate) < 5.0 else {
+                  now.timeIntervalSince(modDate) < 10.0 else {
+                knownFilePaths.insert(path)
                 continue
             }
             
@@ -105,6 +121,9 @@ final class ScreenshotMonitorService {
             
             if lower.contains("screenshot") || lower.contains("скриншот") || lower.hasSuffix(".png") || lower.hasSuffix(".jpg") {
                 if let image = NSImage(contentsOf: url) {
+                    knownFilePaths.insert(path)
+                    updateLastPasteboardChangeCount()
+                    suppressMonitoring(for: 1.5)
                     DispatchQueue.main.async { [weak self] in
                         self?.onScreenshotCaptured?(image, url, filename)
                     }
@@ -135,11 +154,38 @@ final class ScreenshotMonitorService {
         }
     }
     
+    func markPathAsKnown(_ path: String) {
+        knownFilePaths.insert(path)
+    }
+    
     /// Configures system preference to hide or show the default floating screenshot thumbnail in the bottom-right corner of macOS.
     static func setSystemFloatingThumbnailEnabled(_ enabled: Bool) {
         let key = "show-thumbnail" as CFString
         let domain = "com.apple.screencapture" as CFString
         CFPreferencesSetValue(key, enabled as CFBoolean, domain, kCFPreferencesCurrentUser, kCFPreferencesAnyHost)
         CFPreferencesAppSynchronize(domain)
+    }
+    
+    static func getSystemScreenshotLocation() -> String? {
+        let key = "location" as CFString
+        let domain = "com.apple.screencapture" as CFString
+        return CFPreferencesCopyAppValue(key, domain) as? String
+    }
+    
+    static func setSystemScreenshotLocation(_ path: String?) {
+        let key = "location" as CFString
+        let domain = "com.apple.screencapture" as CFString
+        if let path = path {
+            let expanded = (path as NSString).expandingTildeInPath
+            CFPreferencesSetValue(key, expanded as CFString, domain, kCFPreferencesCurrentUser, kCFPreferencesAnyHost)
+        } else {
+            CFPreferencesSetValue(key, nil, domain, kCFPreferencesCurrentUser, kCFPreferencesAnyHost)
+        }
+        CFPreferencesAppSynchronize(domain)
+        
+        let task = Process()
+        task.launchPath = "/usr/bin/killall"
+        task.arguments = ["SystemUIServer"]
+        try? task.run()
     }
 }

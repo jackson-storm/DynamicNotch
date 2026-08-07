@@ -3940,6 +3940,35 @@
         }
       }
     },
+    "Choose where captured screenshots will be saved." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose where captured screenshots will be saved."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elija dónde se guardarán las capturas de pantalla tomadas."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите папку для сохранения сделанных скриншотов."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择捕获的截图保存位置。"
+          }
+        }
+      }
+    },
     "Choose where converted files are saved." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -3965,6 +3994,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "选择转换后的文件保存位置。"
+          }
+        }
+      }
+    },
+    "Choose where screen recordings will be saved." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose where screen recordings will be saved."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elija dónde se guardarán las grabaciones de pantalla."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите папку для сохранения записей экрана."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择屏幕录制保存位置。"
           }
         }
       }
@@ -5834,6 +5892,35 @@
         }
       }
     },
+    "Desktop (%@)" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desktop (%@)"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escritorio (%@)"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Рабочий стол (%@)"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "桌面 (%@)"
+          }
+        }
+      }
+    },
     "Detailed" : {
       "localizations" : {
         "en" : {
@@ -6474,6 +6561,7 @@
       }
     },
     "Dynamic Notch" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11004,6 +11092,7 @@
       }
     },
     "Pages" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12361,6 +12450,35 @@
         }
       }
     },
+    "Save Locations" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save Locations"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ubicaciones de guardado"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Место сохранения"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保存位置"
+          }
+        }
+      }
+    },
     "Scale the duration of temporary activities across HUD, battery, connectivity, and resize feedback." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -12492,7 +12610,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Live activity записи экрана"
+            "value" : "Активность записи экрана"
           }
         },
         "zh-Hans" : {
@@ -12505,6 +12623,35 @@
     },
     "Screen Recording Stopped" : {
 
+    },
+    "Screen recordings folder" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Screen recordings folder"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carpeta para grabaciones de pantalla"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Папка для записей экрана"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "屏幕录制文件夹"
+          }
+        }
+      }
     },
     "Screenshot activity" : {
       "localizations" : {
@@ -12617,6 +12764,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "截图"
+          }
+        }
+      }
+    },
+    "Screenshots folder" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Screenshots folder"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carpeta para capturas de pantalla"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Папка для скриншотов"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "截图文件夹"
           }
         }
       }
@@ -13486,6 +13662,118 @@
         }
       }
     },
+    "settings.activities.calendar.noticeMinutes.5m" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5 minutes before"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Con 5 min de antelación"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "За 5 минут"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提前 5 分钟"
+          }
+        }
+      }
+    },
+    "settings.activities.calendar.noticeMinutes.10m" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "10 minutes before"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Con 10 min de antelación"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "За 10 минут"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提前 10 分钟"
+          }
+        }
+      }
+    },
+    "settings.activities.calendar.noticeMinutes.15m" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "15 minutes before"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Con 15 min de antelación"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "За 15 минут"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提前 15 分钟"
+          }
+        }
+      }
+    },
+    "settings.activities.calendar.noticeMinutes.30m" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30 minutes before"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Con 30 min de antelación"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "За 30 минут"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提前 30 分钟"
+          }
+        }
+      }
+    },
     "settings.activities.calendar.noticeMinutes.atStart" : {
       "localizations" : {
         "en" : {
@@ -13542,38 +13830,6 @@
         }
       }
     },
-    "settings.activities.calendar.noticeMinutes.5m" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "5 minutes before" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Con 5 min de antelación" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "За 5 минут" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "提前 5 分钟" } }
-      }
-    },
-    "settings.activities.calendar.noticeMinutes.10m" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "10 minutes before" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Con 10 min de antelación" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "За 10 минут" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "提前 10 分钟" } }
-      }
-    },
-    "settings.activities.calendar.noticeMinutes.15m" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "15 minutes before" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Con 15 min de antelación" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "За 15 минут" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "提前 15 分钟" } }
-      }
-    },
-    "settings.activities.calendar.noticeMinutes.30m" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "30 minutes before" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Con 30 min de antelación" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "За 30 минут" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "提前 30 分钟" } }
-      }
-    },
     "settings.activities.calendar.noticeMinutes.oneHour" : {
       "localizations" : {
         "en" : {
@@ -13604,26 +13860,86 @@
     },
     "settings.activities.calendar.ongoing.5m" : {
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Hide 5m after start" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Ocultar 5 min después de iniciar" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Скрывать через 5 минут" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "开始 5 分钟后隐藏" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide 5m after start"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ocultar 5 min después de iniciar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скрывать через 5 минут"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开始 5 分钟后隐藏"
+          }
+        }
       }
     },
     "settings.activities.calendar.ongoing.10m" : {
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Hide 10m after start" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Ocultar 10 min después de iniciar" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Скрывать через 10 минут" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "开始 10 分钟后隐藏" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide 10m after start"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ocultar 10 min después de iniciar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скрывать через 10 минут"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开始 10 分钟后隐藏"
+          }
+        }
       }
     },
     "settings.activities.calendar.ongoing.15m" : {
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Hide 15m after start" } },
-        "es" : { "stringUnit" : { "state" : "translated", "value" : "Ocultar 15 min después de iniciar" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Скрывать через 15 минут" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "开始 15 分钟后隐藏" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide 15m after start"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ocultar 15 min después de iniciar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скрывать через 15 минут"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开始 15 分钟后隐藏"
+          }
+        }
       }
     },
     "settings.activities.calendar.ongoing.untilEnd" : {

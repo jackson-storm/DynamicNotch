@@ -25,7 +25,7 @@ struct SoftwareUpdateSettingsView: View {
     private var versionCard: some View {
         SettingsCard {
             SettingsButtonRow(
-                title: "Dynamic Notch",
+                title: "DynamicNotch",
                 description: "Version \(currentVersion)",
                 imageName: "simplifiedLogo",
                 iconSize: 30,

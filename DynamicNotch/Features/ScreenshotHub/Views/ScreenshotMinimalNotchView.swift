@@ -33,6 +33,7 @@ struct ScreenshotNotchView: View {
                     }
                     .buttonStyle(.plain)
                     .onDrag {
+                        screenshotViewModel.markAsDropped()
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
                             screenshotViewModel.dismiss()
                         }

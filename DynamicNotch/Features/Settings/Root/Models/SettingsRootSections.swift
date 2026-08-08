@@ -86,6 +86,7 @@ extension SettingsRootViewModel {
         
         case hud
         case timer
+        case pomodoro
         case calendar
         case screenRecording
         case lockScreen
@@ -354,6 +355,28 @@ private enum SettingsSectionCatalog {
                 imageName: nil,
                 tint: .orange,
                 resetGroup: .timer
+            )
+
+        case .pomodoro:
+            return .init(
+                sidebarGroup: .system,
+                titleKey: "settings.section.pomodoro.title",
+                fallbackTitle: "Pomodoro",
+                subtitleKey: "settings.section.pomodoro.subtitle",
+                fallbackSubtitle: "Focus and break durations, sounds, and session behavior.",
+                searchKeywords: [
+                    "pomodoro",
+                    "focus timer",
+                    "focus duration",
+                    "short break",
+                    "long break",
+                    "ticking sound",
+                    "sound"
+                ],
+                systemImage: "tomato.fill",
+                imageName: nil,
+                tint: .red,
+                resetGroup: nil
             )
 
         case .screenRecording:

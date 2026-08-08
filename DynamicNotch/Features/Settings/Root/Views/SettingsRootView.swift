@@ -459,6 +459,11 @@ struct SettingsRootView: View {
                 )
             }
 
+        case .pomodoro:
+            detailContainer(for: section) {
+                PomodoroSettingsView()
+            }
+
         case .screenRecording:
             detailContainer(for: section) {
                 ScreenCaptureSettingsView(

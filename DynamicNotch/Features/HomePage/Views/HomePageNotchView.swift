@@ -67,28 +67,6 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
     }
 }
 
-private enum HomeCarouselID: Hashable {
-    case leadingSentinel(HomePages)
-    case page(HomePages)
-    case trailingSentinel(HomePages)
-}
-
-private struct HomeCarouselItem: Identifiable, Hashable {
-    let id: HomeCarouselID
-    let page: HomePages
-}
-
-private struct OnePageScrollTargetModifier: ViewModifier {
-    @ViewBuilder
-    func body(content: Content) -> some View {
-        if #available(macOS 15.0, *) {
-            content.scrollTargetBehavior(.viewAligned(limitBehavior: .alwaysByOne))
-        } else {
-            content.scrollTargetBehavior(.viewAligned(limitBehavior: .always))
-        }
-    }
-}
-
 struct HomePageNotchView: View {
     @Environment(\.isDynamicIsland) var isDynamicIsland
     
@@ -102,7 +80,7 @@ struct HomePageNotchView: View {
     let initialPage: HomePages
     @StateObject private var pomodoroViewModel = PomodoroViewModel.shared
     
-    @State private var currentCarouselID: HomeCarouselID?
+    @State private var currentPage: HomePages
     @State private var updateTask: Task<Void, Never>? = nil
     @State private var isWaitingForSizeUpdate = false
     @State private var isPageSettled = true
@@ -120,120 +98,54 @@ struct HomePageNotchView: View {
         
         let activePages = settings.homePageOrder.filter { !settings.homePageDisabled.contains($0) }
         let pageToSelect = activePages.contains(initialPage) ? initialPage : (activePages.first ?? .camera)
-        self._currentCarouselID = State(initialValue: .page(pageToSelect))
+        self._currentPage = State(initialValue: pageToSelect)
     }
     
     var body: some View {
         let activePages = settings.homePageOrder.filter { !settings.homePageDisabled.contains($0) }
-        let carouselItems = makeCarouselItems(from: activePages)
-        let settled = isPageSettled
         
         VStack() {
             if settings.homePageScrollAxis != .vertical {
                 Spacer()
             }
 
-            ScrollView(settings.homePageScrollAxis == .vertical ? .vertical : .horizontal, showsIndicators: false) {
-                if settings.homePageScrollAxis == .vertical {
-                    LazyVStack(spacing: 20) {
-                        ForEach(carouselItems) { item in
-                            pageView(for: item.page)
-                                .containerRelativeFrame(.vertical)
-                                .scrollTransition(.interactive) { content, phase in
-                                    content
-                                        .blur(radius: settled ? min(20, CGFloat(abs(phase.value)) * 150) : 20)
-                                        .opacity(settled ? max(0.7, 1.0 - (abs(phase.value) * 2.0)) : 0.7)
-                                }
-                                .id(item.id)
-                        }
-                    }
-                    .scrollTargetLayout()
-                    
-                } else {
-                    LazyHStack(spacing: 20) {
-                        ForEach(carouselItems) { item in
-                            pageView(for: item.page)
-                                .containerRelativeFrame(.horizontal)
-                                .scrollTransition(.interactive) { content, phase in
-                                    content
-                                        .blur(radius: settled ? min(20, CGFloat(abs(phase.value)) * 150) : 20)
-                                        .opacity(settled ? max(0.7, 1.0 - (abs(phase.value) * 2.0)) : 0.7)
-                                }
-                                .id(item.id)
-                        }
-                    }
-                    .scrollTargetLayout()
+            pageView(for: currentPage)
+                .id(currentPage)
+                .transition(.opacity.combined(with: .scale(scale: 0.98)))
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .blur(radius: isPageSettled ? 0 : 8)
+                .opacity(isPageSettled ? 1 : 0.72)
+                .background {
+                    HomeCarouselScrollMonitor(
+                        axis: settings.homePageScrollAxis,
+                        isEnabled: activePages.count > 1,
+                        onNext: { movePage(by: 1, through: activePages) },
+                        onPrevious: { movePage(by: -1, through: activePages) }
+                    )
                 }
-            }
-            .modifier(OnePageScrollTargetModifier())
-            .scrollPosition(id: $currentCarouselID)
-            .mask {
-                if settings.homePageScrollAxis == .vertical {
-                    let totalHeight = notchViewModel.presentedNotchSize.height
-                    let baseHeight = notchViewModel.notchModel.baseHeight
-                    let cornerRadius: CGFloat = 20
-                    
-                    if totalHeight > 0 {
-                        let fadeStart = baseHeight / totalHeight
-                        let fadeEnd = min(1.0, (baseHeight + 4) / totalHeight)
-                        
-                        RoundedRectangle(cornerRadius: cornerRadius)
-                            .mask(
-                                LinearGradient(
-                                    stops: [
-                                        .init(color: .clear, location: 0),
-                                        .init(color: .clear, location: fadeStart),
-                                        .init(color: .black, location: fadeEnd),
-                                        .init(color: .black, location: 1)
-                                    ],
-                                    startPoint: .top,
-                                    endPoint: .bottom
-                                )
-                            )
+                .mask {
+                    if settings.homePageScrollAxis == .vertical {
+                        verticalPageMask
                     } else {
-                        RoundedRectangle(cornerRadius: cornerRadius)
+                        Color.black
                     }
-                } else {
-                    Color.black
                 }
             }
-        }
         .clipShape(RoundedRectangle(cornerRadius: 20))
         .padding(.horizontal, isDynamicIsland ? 8 : 33)
         .padding(.bottom, isDynamicIsland ? 9 : 10)
         .contentShape(Rectangle())
         .onChange(of: initialPage) { _, newPage in
-            if newPage != selectedPage(for: currentCarouselID, in: carouselItems),
-               activePages.contains(newPage) {
-                currentCarouselID = .page(newPage)
+            if newPage != currentPage, activePages.contains(newPage) {
+                currentPage = newPage
             }
         }
         .onChange(of: activePages) { _, newActivePages in
-            if let current = selectedPage(for: currentCarouselID, in: carouselItems),
-               !newActivePages.contains(current) {
-                if let first = newActivePages.first {
-                    currentCarouselID = .page(first)
-                }
+            if !newActivePages.contains(currentPage), let first = newActivePages.first {
+                currentPage = first
             }
         }
-        .onChange(of: currentCarouselID) { oldID, newID in
-            guard let newID,
-                  let newItem = carouselItems.first(where: { $0.id == newID }) else { return }
-
-            let oldPage = selectedPage(for: oldID, in: carouselItems)
-            let newPage = newItem.page
-
-            if isSentinel(newID) {
-                Task { @MainActor in
-                    await Task.yield()
-                    var transaction = Transaction()
-                    transaction.disablesAnimations = true
-                    withTransaction(transaction) {
-                        currentCarouselID = .page(newPage)
-                    }
-                }
-            }
-
+        .onChange(of: currentPage) { oldPage, newPage in
             guard newPage != oldPage else { return }
             
             withAnimation(.easeInOut(duration: 0.15)) {
@@ -281,30 +193,34 @@ struct HomePageNotchView: View {
         }
     }
 
-    private func makeCarouselItems(from pages: [HomePages]) -> [HomeCarouselItem] {
-        guard pages.count > 1, let first = pages.first, let last = pages.last else {
-            return pages.map { HomeCarouselItem(id: .page($0), page: $0) }
-        }
+    private var verticalPageMask: some View {
+        let totalHeight = notchViewModel.presentedNotchSize.height
+        let baseHeight = notchViewModel.notchModel.baseHeight
+        let fadeStart = totalHeight > 0 ? baseHeight / totalHeight : 0
+        let fadeEnd = totalHeight > 0 ? min(1.0, (baseHeight + 4) / totalHeight) : 0
 
-        return [HomeCarouselItem(id: .leadingSentinel(last), page: last)]
-            + pages.map { HomeCarouselItem(id: .page($0), page: $0) }
-            + [HomeCarouselItem(id: .trailingSentinel(first), page: first)]
+        return RoundedRectangle(cornerRadius: 20)
+            .mask(
+                LinearGradient(
+                    stops: [
+                        .init(color: .clear, location: 0),
+                        .init(color: .clear, location: fadeStart),
+                        .init(color: .black, location: fadeEnd),
+                        .init(color: .black, location: 1)
+                    ],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+            )
     }
 
-    private func selectedPage(
-        for id: HomeCarouselID?,
-        in items: [HomeCarouselItem]
-    ) -> HomePages? {
-        guard let id else { return nil }
-        return items.first(where: { $0.id == id })?.page
-    }
+    private func movePage(by offset: Int, through pages: [HomePages]) {
+        guard pages.count > 1 else { return }
+        let currentIndex = pages.firstIndex(of: currentPage) ?? 0
+        let nextIndex = (currentIndex + offset + pages.count) % pages.count
 
-    private func isSentinel(_ id: HomeCarouselID) -> Bool {
-        switch id {
-        case .leadingSentinel, .trailingSentinel:
-            true
-        case .page:
-            false
+        withAnimation(.easeInOut(duration: 0.18)) {
+            currentPage = pages[nextIndex]
         }
     }
     

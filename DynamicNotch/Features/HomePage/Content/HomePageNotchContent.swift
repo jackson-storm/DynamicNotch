@@ -41,13 +41,6 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
             return VpnHomePageNotchContent()
         case .systemStats:
             return SystemStatsHomePageNotchContent()
-        case .fileConverter:
-            return FileConverterHomePageNotchContent(
-                fileConverterViewModel: fileConverterViewModel,
-                onRequestCollapse: { [weak notchViewModel] in
-                    notchViewModel?.handleOutsideClick()
-                }
-            )
         }
     }
 

@@ -403,6 +403,11 @@ private struct LockScreenLiveActivityOverlayView: View {
                                 pasteboard,
                                 mode: settingsViewModel.mediaAndFiles.fileTrayUsageMode
                             )
+                        case .fileConverter:
+                            guard settingsViewModel.mediaAndFiles.dragAndDropActivityMode.showsFileConverter else {
+                                return false
+                            }
+                            return airDropController.handleFileConverterDrop(pasteboard)
                         }
                     }
                 )

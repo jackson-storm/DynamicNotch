@@ -23,7 +23,7 @@ enum DragAndDropActivityMode: String, CaseIterable {
         case .tray:
             return [.tray]
         case .combined:
-            return [.airDrop, .tray]
+            return [.airDrop, .tray, .fileConverter]
         }
     }
 
@@ -33,6 +33,10 @@ enum DragAndDropActivityMode: String, CaseIterable {
 
     var showsTray: Bool {
         targets.contains(.tray)
+    }
+
+    var showsFileConverter: Bool {
+        targets.contains(.fileConverter)
     }
 
     static func resolved(_ rawValue: String?) -> DragAndDropActivityMode {

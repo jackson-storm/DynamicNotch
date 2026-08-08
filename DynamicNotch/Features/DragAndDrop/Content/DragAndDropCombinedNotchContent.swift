@@ -27,6 +27,9 @@ struct DragAndDropCombinedNotchContent: NotchContentProtocol, DynamicIslandCusto
         case .tray:
             return DragAndDropTarget.tray.activityStrokeColor
 
+        case .fileConverter:
+            return DragAndDropTarget.fileConverter.activityStrokeColor
+
         case nil:
             return .white.opacity(0.2)
         }
@@ -37,11 +40,11 @@ struct DragAndDropCombinedNotchContent: NotchContentProtocol, DynamicIslandCusto
     }
 
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        return .init(width: baseWidth + 200, height: baseHeight + 110)
+        return .init(width: baseWidth + 320, height: baseHeight + 110)
     }
     
     func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        return .init(width: baseWidth + 200, height: baseHeight + 110)
+        return .init(width: baseWidth + 320, height: baseHeight + 110)
     }
     
     func dynamicIslandCornerRadius(baseHeight: CGFloat) -> CGFloat {

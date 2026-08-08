@@ -3,6 +3,7 @@ import SwiftUI
 enum DragAndDropTarget: String, Hashable, CaseIterable {
     case airDrop
     case tray
+    case fileConverter
 
     var title: LocalizedStringKey {
         switch self {
@@ -11,6 +12,8 @@ enum DragAndDropTarget: String, Hashable, CaseIterable {
             
         case .tray:
             return "Tray"
+        case .fileConverter:
+            return "Convert"
         }
     }
 
@@ -21,6 +24,8 @@ enum DragAndDropTarget: String, Hashable, CaseIterable {
 
         case .tray:
             return .white
+        case .fileConverter:
+            return .purple
         }
     }
 
@@ -30,7 +35,7 @@ enum DragAndDropTarget: String, Hashable, CaseIterable {
 
     var acceptsDrop: Bool {
         switch self {
-        case .airDrop, .tray:
+        case .airDrop, .tray, .fileConverter:
             return true
         }
     }
@@ -45,6 +50,10 @@ enum DragAndDropTarget: String, Hashable, CaseIterable {
 
         case .tray:
             Text(verbatim: "Tray")
+                .font(.system(size: 12))
+                .foregroundStyle(color)
+        case .fileConverter:
+            Text(verbatim: "Convert")
                 .font(.system(size: 12))
                 .foregroundStyle(color)
         }
@@ -62,6 +71,11 @@ enum DragAndDropTarget: String, Hashable, CaseIterable {
 
         case .tray:
             Image(systemName: "tray.full.fill")
+                .font(.system(size: 22))
+                .foregroundStyle(color)
+                .frame(width: 28, height: 28)
+        case .fileConverter:
+            Image(systemName: "arrow.trianglehead.2.clockwise.rotate.90")
                 .font(.system(size: 22))
                 .foregroundStyle(color)
                 .frame(width: 28, height: 28)

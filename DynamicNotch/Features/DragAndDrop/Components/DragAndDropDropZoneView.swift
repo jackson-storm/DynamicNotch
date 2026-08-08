@@ -45,6 +45,31 @@ struct DragAndDropDropZoneContent: View {
             AirDropDropZoneContent(isTargeted: isTargeted)
         case .tray:
             TrayDropZoneContent(isTargeted: isTargeted)
+        case .fileConverter:
+            FileConverterDropZoneContent(isTargeted: isTargeted)
         }
+    }
+}
+
+struct FileConverterDropZoneContent: View {
+    let isTargeted: Bool
+
+    var body: some View {
+        RoundedRectangle(cornerRadius: AirDropDropZoneMetrics.cornerRadius)
+            .fill(Color.purple.opacity(isTargeted ? 0.35 : 0.18))
+            .stroke(
+                Color.purple.opacity(0.65),
+                style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round)
+            )
+            .overlay {
+                HStack {
+                    VStack(spacing: 4) {
+                        DragAndDropTarget.fileConverter.icon()
+                        DragAndDropTarget.fileConverter.titleIcon()
+                    }
+                    Spacer()
+                }
+                .padding(.leading)
+            }
     }
 }

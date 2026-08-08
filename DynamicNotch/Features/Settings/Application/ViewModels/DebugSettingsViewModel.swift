@@ -577,6 +577,8 @@ final class DebugSettingsViewModel: ObservableObject {
             id = Self.sequenceAirDropID
         case .tray:
             id = Self.sequenceTrayID
+        case .fileConverter:
+            id = Self.sequenceFileConverterID
         }
 
         notchViewModel.send(
@@ -628,6 +630,11 @@ final class DebugSettingsViewModel: ObservableObject {
 
         case .tray:
             return TrayNotchContent(
+                airDropViewModel: dragAndDropPreviewViewModel,
+                settingsViewModel: settingsViewModel
+            )
+        case .fileConverter:
+            return DragAndDropCombinedNotchContent(
                 airDropViewModel: dragAndDropPreviewViewModel,
                 settingsViewModel: settingsViewModel
             )

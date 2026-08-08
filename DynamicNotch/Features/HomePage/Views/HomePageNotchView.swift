@@ -13,7 +13,6 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
     case pomodoro
     case vpn
     case systemStats
-    case fileConverter
     
     var id: String { rawValue }
     
@@ -24,7 +23,6 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
         case .pomodoro: return "Pomodoro"
         case .vpn: return "VPN"
         case .systemStats: return "Stats"
-        case .fileConverter: return "Converter"
         }
     }
     
@@ -35,7 +33,6 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
         case .pomodoro: return "Alternate focus and break sessions."
         case .vpn: return "Manage VPN connections."
         case .systemStats: return "Monitor system resources."
-        case .fileConverter: return "Convert files to multiple formats."
         }
     }
     
@@ -46,7 +43,6 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
         case .pomodoro: return "tomato.fill"
         case .vpn: return "network.badge.shield.half.filled"
         case .systemStats: return "cpu"
-        case .fileConverter: return "arrow.trianglehead.2.clockwise.rotate.90"
         }
     }
     
@@ -57,7 +53,6 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
         case .pomodoro: return .red
         case .vpn: return .blue
         case .systemStats: return .green
-        case .fileConverter: return .blue
         }
     }
     
@@ -68,7 +63,6 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
         case .pomodoro: return .white
         case .vpn: return .white
         case .systemStats: return .white
-        case .fileConverter: return .white
         }
     }
 }
@@ -276,13 +270,6 @@ struct HomePageNotchView: View {
             VpnPageNotchView(notchViewModel: notchViewModel)
         case .systemStats:
             SystemStatsPageNotchView(notchViewModel: notchViewModel)
-        case .fileConverter:
-            FileConverterHomePageView(
-                onRequestCollapse: {
-                    notchViewModel.handleOutsideClick()
-                },
-                fileConverterViewModel: fileConverterViewModel
-            )
         }
     }
 }

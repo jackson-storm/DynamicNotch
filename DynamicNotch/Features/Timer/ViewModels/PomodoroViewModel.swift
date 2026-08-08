@@ -36,6 +36,9 @@ final class PomodoroViewModel: ObservableObject {
     private var totalDuration: TimeInterval
     private var endDate: Date?
     private var ticker: AnyCancellable?
+    private let soundPlayer = PomodoroSoundPlayer()
+    private var soundsEnabled = true
+    private var lastTickSecond: Int?
 
     private init() {
         let defaults = UserDefaults.standard
@@ -49,11 +52,16 @@ final class PomodoroViewModel: ObservableObject {
 
     func startOrResume() {
         guard state != .running else { return }
+        let isStartingNewSession = state == .stopped
         if remainingTime <= 0 {
             resetCurrentPhase()
         }
         state = .running
         endDate = Date().addingTimeInterval(remainingTime)
+        lastTickSecond = Int(ceil(remainingTime))
+        if isStartingNewSession && soundsEnabled {
+            soundPlayer.playWindUp()
+        }
         startTicker()
     }
 
@@ -72,6 +80,7 @@ final class PomodoroViewModel: ObservableObject {
         completedFocusSessions = 0
         ticker?.cancel()
         ticker = nil
+        lastTickSecond = nil
         resetCurrentPhase()
     }
 
@@ -79,7 +88,15 @@ final class PomodoroViewModel: ObservableObject {
         advancePhase()
         if state == .running {
             endDate = Date().addingTimeInterval(remainingTime)
+            lastTickSecond = Int(ceil(remainingTime))
             startTicker()
+        }
+    }
+
+    func setSoundsEnabled(_ enabled: Bool) {
+        soundsEnabled = enabled
+        if !enabled {
+            soundPlayer.stop()
         }
     }
 
@@ -123,6 +140,13 @@ final class PomodoroViewModel: ObservableObject {
     private func updateRemainingTime() {
         guard let endDate else { return }
         remainingTime = max(0, endDate.timeIntervalSinceNow)
+        let currentSecond = Int(ceil(remainingTime))
+        if currentSecond != lastTickSecond {
+            lastTickSecond = currentSecond
+            if soundsEnabled && currentSecond > 0 {
+                soundPlayer.playTick()
+            }
+        }
     }
 
     private func completeCurrentPhase() {
@@ -130,7 +154,11 @@ final class PomodoroViewModel: ObservableObject {
             completedFocusSessions += 1
         }
         advancePhase()
+        if soundsEnabled {
+            soundPlayer.playWindUp()
+        }
         endDate = Date().addingTimeInterval(remainingTime)
+        lastTickSecond = Int(ceil(remainingTime))
     }
 
     private func advancePhase() {
@@ -147,5 +175,6 @@ final class PomodoroViewModel: ObservableObject {
         totalDuration = TimeInterval((durations[phase] ?? 1) * 60)
         remainingTime = totalDuration
         endDate = nil
+        lastTickSecond = nil
     }
 }

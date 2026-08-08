@@ -7,6 +7,7 @@ struct PomodoroNotchView: View {
     @AppStorage("pomodoro.focusMinutes") private var focusMinutes = 25
     @AppStorage("pomodoro.shortBreakMinutes") private var shortBreakMinutes = 5
     @AppStorage("pomodoro.longBreakMinutes") private var longBreakMinutes = 15
+    @AppStorage("pomodoro.soundsEnabled") private var soundsEnabled = true
 
     var body: some View {
         VStack(spacing: 9) {
@@ -16,6 +17,15 @@ struct PomodoroNotchView: View {
                     .foregroundStyle(viewModel.phase == .focus ? .red : .green)
 
                 Spacer()
+
+                Button {
+                    soundsEnabled.toggle()
+                } label: {
+                    Image(systemName: soundsEnabled ? "speaker.wave.2.fill" : "speaker.slash.fill")
+                        .font(.system(size: 10, weight: .semibold))
+                        .foregroundStyle(.secondary)
+                }
+                .buttonStyle(.plain)
 
                 Text("\(viewModel.completedFocusSessions) sessions")
                     .font(.system(size: 10, weight: .medium))
@@ -59,10 +69,16 @@ struct PomodoroNotchView: View {
             }
         }
         .padding(.horizontal, 20)
-        .onAppear { synchronizeDurations() }
+        .onAppear {
+            synchronizeDurations()
+            viewModel.setSoundsEnabled(soundsEnabled)
+        }
         .onChange(of: focusMinutes) { _, value in update(value, phase: .focus) }
         .onChange(of: shortBreakMinutes) { _, value in update(value, phase: .shortBreak) }
         .onChange(of: longBreakMinutes) { _, value in update(value, phase: .longBreak) }
+        .onChange(of: soundsEnabled) { _, enabled in
+            viewModel.setSoundsEnabled(enabled)
+        }
         .onChange(of: viewModel.state) { _, state in
             switch state {
             case .running, .paused:

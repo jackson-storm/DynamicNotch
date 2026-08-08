@@ -79,28 +79,9 @@ struct LocalTimerSetupNotchView: View {
                 .font(.system(size: 10, weight: .bold))
                 .foregroundColor(.gray)
             
-            TextField("00", text: value)
-                .textFieldStyle(PlainTextFieldStyle())
-                .font(.system(size: 36, weight: .semibold, design: .rounded))
-                .foregroundStyle(Color.orange)
-                .multilineTextAlignment(.center)
+            TimerTextField(value: value, maxValue: maxVal)
                 .frame(width: 55)
-                .onChange(of: value.wrappedValue) { _, newValue in
-                    let filtered = newValue.filter { "0123456789".contains($0) }
-                    var finalValue = filtered
-                    
-                    if filtered.count > 2 {
-                        finalValue = String(filtered.prefix(2))
-                    }
-                    
-                    if let intValue = Int(finalValue), intValue > maxVal {
-                        finalValue = String(maxVal)
-                    }
-                    
-                    if finalValue != newValue {
-                        value.wrappedValue = finalValue
-                    }
-                }
+                .frame(height: 44)
         }
     }
 }

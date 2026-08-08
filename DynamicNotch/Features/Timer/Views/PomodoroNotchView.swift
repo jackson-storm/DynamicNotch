@@ -58,7 +58,7 @@ struct PomodoroNotchView: View {
                 .buttonStyle(PrimaryButtonStyle(height: 30, backgroundColor: .gray.opacity(0.2)))
             }
         }
-        .padding(.horizontal, 4)
+        .padding(.horizontal, 20)
         .onAppear { synchronizeDurations() }
         .onChange(of: focusMinutes) { _, value in update(value, phase: .focus) }
         .onChange(of: shortBreakMinutes) { _, value in update(value, phase: .shortBreak) }

@@ -5,14 +5,7 @@ struct TimerNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     let source: TimerSource
     let settingsViewModel: SettingsViewModel?
 
-    var priority: Int {
-        switch source {
-        case .system:
-            return NotchContentRegistry.Media.timer.priority
-        case .local:
-            return NotchContentRegistry.Media.localTimer.priority
-        }
-    }
+    var priority: Int { NotchContentRegistry.Media.timer.priority }
     
     var strokeColor: Color {
         if let settingsViewModel, settingsViewModel.isDefaultActivityStrokeEnabled {
@@ -26,12 +19,7 @@ struct TimerNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     init(source: TimerSource, settingsViewModel: SettingsViewModel? = nil) {
         self.source = source
         self.settingsViewModel = settingsViewModel
-        switch source {
-        case .system:
-            self.id = NotchContentRegistry.Media.timer.id
-        case .local:
-            self.id = NotchContentRegistry.Media.localTimer.id
-        }
+        self.id = NotchContentRegistry.Media.timer.id
     }
 
     init(timerViewModel: TimerViewModel, settingsViewModel: SettingsViewModel) {
@@ -87,4 +75,3 @@ extension TimerNotchContent {
         }
     }
 }
-

@@ -4,7 +4,7 @@ struct PomodoroNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     let id = NotchContentRegistry.Media.pomodoro.id
     let viewModel: PomodoroViewModel
     let notchViewModel: NotchViewModel
-    let localTimerViewModel: LocalTimerViewModel?
+    let stopwatchViewModel: StopwatchViewModel?
 
     var priority: Int { NotchContentRegistry.Media.pomodoro.priority }
     var isExpandable: Bool { true }
@@ -45,7 +45,7 @@ struct PomodoroNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
             PomodoroNotchView(
                 viewModel: viewModel,
                 notchViewModel: notchViewModel,
-                localTimerViewModel: localTimerViewModel
+                stopwatchViewModel: stopwatchViewModel
             )
         )
     }

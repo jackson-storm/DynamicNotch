@@ -11,7 +11,7 @@ import AVFoundation
 struct CameraNotchView: View {
     let notchViewModel: NotchViewModel
     let settings: HomePageSettingsStore
-    let localTimerViewModel: LocalTimerViewModel
+    let stopwatchViewModel: StopwatchViewModel
     let nowPlayingViewModel: NowPlayingViewModel
     let fileConverterViewModel: FileConverterViewModel
     let mediaAndFilesSettings: MediaAndFilesSettingsStore
@@ -110,7 +110,7 @@ struct CameraNotchView: View {
                     notchViewModel: notchViewModel,
                     settings: settings,
                     homePages: .camera,
-                    localTimerViewModel: localTimerViewModel,
+                    stopwatchViewModel: stopwatchViewModel,
                     nowPlayingViewModel: nowPlayingViewModel,
                     fileConverterViewModel: fileConverterViewModel,
                     mediaAndFilesSettings: mediaAndFilesSettings,
@@ -159,7 +159,7 @@ struct CameraNotchView: View {
                         notchViewModel: notchViewModel,
                         settings: settings,
                         homePages: .camera,
-                        localTimerViewModel: localTimerViewModel,
+                        stopwatchViewModel: stopwatchViewModel,
                         nowPlayingViewModel: nowPlayingViewModel,
                         fileConverterViewModel: fileConverterViewModel,
                         mediaAndFilesSettings: mediaAndFilesSettings,

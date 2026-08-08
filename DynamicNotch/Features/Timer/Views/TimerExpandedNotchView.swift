@@ -16,9 +16,6 @@ struct TimerExpandedNotchView: View {
             switch source {
             case .system(let vm):
                 TimerExpandedNotchViewInternal(source: source, viewModel: vm)
-                
-            case .local(let vm):
-                TimerExpandedNotchViewInternal(source: source, viewModel: vm)
             }
         }
     }

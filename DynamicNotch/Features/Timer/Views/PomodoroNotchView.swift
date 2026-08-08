@@ -3,7 +3,7 @@ import SwiftUI
 struct PomodoroNotchView: View {
     @ObservedObject var viewModel: PomodoroViewModel
     let notchViewModel: NotchViewModel
-    let localTimerViewModel: LocalTimerViewModel?
+    let stopwatchViewModel: StopwatchViewModel?
 
     @AppStorage("pomodoro.focusMinutes") private var focusMinutes = 25
     @AppStorage("pomodoro.shortBreakMinutes") private var shortBreakMinutes = 5
@@ -13,11 +13,11 @@ struct PomodoroNotchView: View {
     init(
         viewModel: PomodoroViewModel,
         notchViewModel: NotchViewModel,
-        localTimerViewModel: LocalTimerViewModel? = nil
+        stopwatchViewModel: StopwatchViewModel? = nil
     ) {
         self.viewModel = viewModel
         self.notchViewModel = notchViewModel
-        self.localTimerViewModel = localTimerViewModel
+        self.stopwatchViewModel = stopwatchViewModel
     }
 
     var body: some View {
@@ -95,18 +95,18 @@ struct PomodoroNotchView: View {
         .onChange(of: viewModel.state) { _, state in
             switch state {
             case .running, .paused:
-                if localTimerViewModel?.state != .stopped {
-                    localTimerViewModel?.stop()
+                if stopwatchViewModel?.state != .stopped {
+                    stopwatchViewModel?.stop()
                 }
                 notchViewModel.send(
-                    .hideLiveActivity(id: NotchContentRegistry.Media.localTimer.id)
+                    .hideLiveActivity(id: NotchContentRegistry.Media.stopwatch.id)
                 )
                 notchViewModel.send(
                     .showLiveActivity(
                         PomodoroNotchContent(
                             viewModel: viewModel,
                             notchViewModel: notchViewModel,
-                            localTimerViewModel: localTimerViewModel
+                            stopwatchViewModel: stopwatchViewModel
                         )
                     )
                 )

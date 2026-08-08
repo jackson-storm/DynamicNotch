@@ -12,7 +12,7 @@ final class AppContainer {
     let wifiViewModel: WifiViewModel
     let vpnViewModel: VpnViewModel
     let homePageViewModel = HomePageViewModel()
-    let localTimerViewModel = LocalTimerViewModel()
+    let stopwatchViewModel = StopwatchViewModel()
     let calendarViewModel = CalendarViewModel()
     let screenshotViewModel = ScreenshotViewModel()
 
@@ -61,7 +61,7 @@ final class AppContainer {
         screenRecordingViewModel: screenRecordingViewModel,
         lockScreenManager: lockScreenManager,
         homePageViewModel: homePageViewModel,
-        localTimerViewModel: localTimerViewModel,
+        stopwatchViewModel: stopwatchViewModel,
         calendarViewModel: calendarViewModel,
         screenshotViewModel: screenshotViewModel
     )

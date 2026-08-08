@@ -79,7 +79,7 @@ private extension NotchTimerEventsHandlerTests {
             notchViewModel: notchViewModel,
             timerViewModel: timerViewModel,
             settingsViewModel: settingsViewModel,
-            localTimerViewModel: LocalTimerViewModel()
+            stopwatchViewModel: StopwatchViewModel()
         )
 
         return TestContext(

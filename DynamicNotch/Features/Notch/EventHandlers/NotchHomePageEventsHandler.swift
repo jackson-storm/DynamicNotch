@@ -16,20 +16,20 @@ enum HomePageEvent: Equatable {
 final class NotchHomePageEventsHandler {
     private let notchViewModel: NotchViewModel
     private let settingsViewModel: SettingsViewModel
-    private let localTimerViewModel: LocalTimerViewModel
+    private let stopwatchViewModel: StopwatchViewModel
     private let nowPlayingViewModel: NowPlayingViewModel
     private let fileConverterViewModel: FileConverterViewModel
 
     init(
         notchViewModel: NotchViewModel,
         settingsViewModel: SettingsViewModel,
-        localTimerViewModel: LocalTimerViewModel,
+        stopwatchViewModel: StopwatchViewModel,
         nowPlayingViewModel: NowPlayingViewModel,
         fileConverterViewModel: FileConverterViewModel
     ) {
         self.notchViewModel = notchViewModel
         self.settingsViewModel = settingsViewModel
-        self.localTimerViewModel = localTimerViewModel
+        self.stopwatchViewModel = stopwatchViewModel
         self.nowPlayingViewModel = nowPlayingViewModel
         self.fileConverterViewModel = fileConverterViewModel
     }
@@ -43,7 +43,7 @@ final class NotchHomePageEventsHandler {
                 notchViewModel: notchViewModel,
                 settings: settingsViewModel.homePage,
                 homePages: activePage,
-                localTimerViewModel: localTimerViewModel,
+                stopwatchViewModel: stopwatchViewModel,
                 nowPlayingViewModel: nowPlayingViewModel,
                 fileConverterViewModel: fileConverterViewModel,
                 mediaAndFilesSettings: settingsViewModel.mediaAndFiles,

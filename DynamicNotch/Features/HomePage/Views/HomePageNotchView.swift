@@ -19,7 +19,7 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
     var title: LocalizedStringKey {
         switch self {
         case .camera: return "Camera"
-        case .localTimer: return "Timer"
+        case .localTimer: return "Stopwatch"
         case .pomodoro: return "Pomodoro"
         case .vpn: return "VPN"
         case .systemStats: return "Stats"
@@ -29,7 +29,7 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
     var subtitle: LocalizedStringKey {
         switch self {
         case .camera: return "Quickly access the camera."
-        case .localTimer: return "Set a quick timer."
+        case .localTimer: return "Measure elapsed time."
         case .pomodoro: return "Alternate focus and break sessions."
         case .vpn: return "Manage VPN connections."
         case .systemStats: return "Monitor system resources."
@@ -39,7 +39,7 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
     var icon: String {
         switch self {
         case .camera: return "camera.fill"
-        case .localTimer: return "timer"
+        case .localTimer: return "stopwatch.fill"
         case .pomodoro: return "tomato.fill"
         case .vpn: return "network.badge.shield.half.filled"
         case .systemStats: return "cpu"
@@ -72,7 +72,7 @@ struct HomePageNotchView: View {
     
     let notchViewModel: NotchViewModel
     let settings: HomePageSettingsStore
-    let localTimerViewModel: LocalTimerViewModel
+    let stopwatchViewModel: StopwatchViewModel
     let nowPlayingViewModel: NowPlayingViewModel
     let fileConverterViewModel: FileConverterViewModel
     let mediaAndFilesSettings: MediaAndFilesSettingsStore
@@ -86,10 +86,10 @@ struct HomePageNotchView: View {
     @State private var isPageSettled = true
     @State private var settleTask: Task<Void, Never>? = nil
     
-    init(notchViewModel: NotchViewModel, settings: HomePageSettingsStore, localTimerViewModel: LocalTimerViewModel, nowPlayingViewModel: NowPlayingViewModel, fileConverterViewModel: FileConverterViewModel, mediaAndFilesSettings: MediaAndFilesSettingsStore, applicationSettings: ApplicationSettingsStore, initialPage: HomePages) {
+    init(notchViewModel: NotchViewModel, settings: HomePageSettingsStore, stopwatchViewModel: StopwatchViewModel, nowPlayingViewModel: NowPlayingViewModel, fileConverterViewModel: FileConverterViewModel, mediaAndFilesSettings: MediaAndFilesSettingsStore, applicationSettings: ApplicationSettingsStore, initialPage: HomePages) {
         self.notchViewModel = notchViewModel
         self.settings = settings
-        self.localTimerViewModel = localTimerViewModel
+        self.stopwatchViewModel = stopwatchViewModel
         self.nowPlayingViewModel = nowPlayingViewModel
         self.fileConverterViewModel = fileConverterViewModel
         self.mediaAndFilesSettings = mediaAndFilesSettings
@@ -219,7 +219,7 @@ struct HomePageNotchView: View {
                             notchViewModel: notchViewModel,
                             settings: settings,
                             homePages: newPage,
-                            localTimerViewModel: localTimerViewModel,
+                            stopwatchViewModel: stopwatchViewModel,
                             nowPlayingViewModel: nowPlayingViewModel,
                             fileConverterViewModel: fileConverterViewModel,
                             mediaAndFilesSettings: mediaAndFilesSettings,
@@ -243,14 +243,14 @@ struct HomePageNotchView: View {
     private func pageView(for page: HomePages) -> some View {
         switch page {
         case .camera:
-            CameraNotchView(notchViewModel: notchViewModel, settings: settings, localTimerViewModel: localTimerViewModel, nowPlayingViewModel: nowPlayingViewModel, fileConverterViewModel: fileConverterViewModel, mediaAndFilesSettings: mediaAndFilesSettings, applicationSettings: applicationSettings)
+            CameraNotchView(notchViewModel: notchViewModel, settings: settings, stopwatchViewModel: stopwatchViewModel, nowPlayingViewModel: nowPlayingViewModel, fileConverterViewModel: fileConverterViewModel, mediaAndFilesSettings: mediaAndFilesSettings, applicationSettings: applicationSettings)
         case .localTimer:
-            LocalTimerSetupNotchView(localTimerViewModel: localTimerViewModel)
+            StopwatchSetupNotchView(stopwatchViewModel: stopwatchViewModel)
         case .pomodoro:
             PomodoroNotchView(
                 viewModel: pomodoroViewModel,
                 notchViewModel: notchViewModel,
-                localTimerViewModel: localTimerViewModel
+                stopwatchViewModel: stopwatchViewModel
             )
         case .vpn:
             VpnPageNotchView(notchViewModel: notchViewModel)

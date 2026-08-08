@@ -28,7 +28,7 @@ extension SettingsRootViewModel {
         timerViewModel: TimerViewModel?,
         lockScreenManager: LockScreenManager?,
         homePageViewModel: HomePageViewModel?,
-        localTimerViewModel: LocalTimerViewModel?,
+        stopwatchViewModel: StopwatchViewModel?,
         calendarViewModel: CalendarViewModel?
     ) -> DebugSettingsViewModel {
         let dependencies = resolveDebugDependencies(
@@ -44,7 +44,7 @@ extension SettingsRootViewModel {
             timerViewModel: timerViewModel,
             lockScreenManager: lockScreenManager,
             homePageViewModel: homePageViewModel,
-            localTimerViewModel: localTimerViewModel,
+            stopwatchViewModel: stopwatchViewModel,
             calendarViewModel: calendarViewModel
         )
 
@@ -76,7 +76,7 @@ extension SettingsRootViewModel {
         timerViewModel: TimerViewModel?,
         lockScreenManager: LockScreenManager?,
         homePageViewModel: HomePageViewModel?,
-        localTimerViewModel: LocalTimerViewModel?,
+        stopwatchViewModel: StopwatchViewModel?,
         calendarViewModel: CalendarViewModel?
     ) -> SettingsRootDebugDependencies {
         let resolvedNotchViewModel = notchViewModel ?? NotchViewModel(
@@ -110,7 +110,7 @@ extension SettingsRootViewModel {
             soundPlayer: InactiveLockScreenSoundPlayer()
         )
         let resolvedHomePageViewModel = homePageViewModel ?? HomePageViewModel()
-        let resolvedLocalTimerViewModel = localTimerViewModel ?? LocalTimerViewModel()
+        let resolvedStopwatchViewModel = stopwatchViewModel ?? StopwatchViewModel()
         let resolvedCalendarViewModel = calendarViewModel ?? CalendarViewModel()
         let resolvedCoordinator = notchEventCoordinator ?? NotchEventCoordinator(
             notchViewModel: resolvedNotchViewModel,
@@ -128,7 +128,7 @@ extension SettingsRootViewModel {
             screenRecordingViewModel: resolvedScreenRecordingViewModel,
             lockScreenManager: resolvedLockScreenManager,
             homePageViewModel: resolvedHomePageViewModel,
-            localTimerViewModel: resolvedLocalTimerViewModel,
+            stopwatchViewModel: resolvedStopwatchViewModel,
             calendarViewModel: resolvedCalendarViewModel
         )
 

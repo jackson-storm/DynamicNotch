@@ -20,7 +20,7 @@ final class NotchEventCoordinator: ObservableObject {
     private let fileConverterViewModel: FileConverterViewModel
     private let timerViewModel: TimerViewModel
     private let screenRecordingViewModel: ScreenRecordingViewModel
-    private let localTimerViewModel: LocalTimerViewModel
+    private let stopwatchViewModel: StopwatchViewModel
     private let homePageViewModel: HomePageViewModel
     private let calendarViewModel: CalendarViewModel
     private let screenshotViewModel: ScreenshotViewModel
@@ -35,7 +35,7 @@ final class NotchEventCoordinator: ObservableObject {
     private let dragAndDropHandler: NotchDragAndDropEventsHandler
     private let timerHandler: NotchTimerEventsHandler
     private let homePageHandler: NotchHomePageEventsHandler
-    private let localTimerHandler: NotchLocalTimerEventsHandler
+    private let stopwatchHandler: NotchStopwatchEventsHandler
     private let calendarHandler: NotchCalendarEventsHandler
     private var cancellables = Set<AnyCancellable>()
     private var fileConverterExpansionTask: Task<Void, Never>?
@@ -74,7 +74,7 @@ final class NotchEventCoordinator: ObservableObject {
         screenRecordingViewModel: ScreenRecordingViewModel,
         lockScreenManager: LockScreenManager,
         homePageViewModel: HomePageViewModel,
-        localTimerViewModel: LocalTimerViewModel,
+        stopwatchViewModel: StopwatchViewModel,
         calendarViewModel: CalendarViewModel,
         screenshotViewModel: ScreenshotViewModel? = nil
     ) {
@@ -88,7 +88,7 @@ final class NotchEventCoordinator: ObservableObject {
         self.fileConverterViewModel = fileConverterViewModel
         self.timerViewModel = timerViewModel
         self.screenRecordingViewModel = screenRecordingViewModel
-        self.localTimerViewModel = localTimerViewModel
+        self.stopwatchViewModel = stopwatchViewModel
         self.homePageViewModel = homePageViewModel
         self.calendarViewModel = calendarViewModel
         self.screenshotViewModel = screenshotViewModel ?? ScreenshotViewModel()
@@ -136,12 +136,12 @@ final class NotchEventCoordinator: ObservableObject {
             notchViewModel: notchViewModel,
             timerViewModel: timerViewModel,
             settingsViewModel: settingsViewModel,
-            localTimerViewModel: localTimerViewModel
+            stopwatchViewModel: stopwatchViewModel
         )
         self.homePageHandler = NotchHomePageEventsHandler(
             notchViewModel: notchViewModel,
             settingsViewModel: settingsViewModel,
-            localTimerViewModel: localTimerViewModel,
+            stopwatchViewModel: stopwatchViewModel,
             nowPlayingViewModel: nowPlayingViewModel,
             fileConverterViewModel: fileConverterViewModel
         )
@@ -150,10 +150,9 @@ final class NotchEventCoordinator: ObservableObject {
             calendarViewModel: calendarViewModel,
             settingsViewModel: settingsViewModel
         )
-        self.localTimerHandler = NotchLocalTimerEventsHandler(
+        self.stopwatchHandler = NotchStopwatchEventsHandler(
             notchViewModel: notchViewModel,
-            localTimerViewModel: localTimerViewModel,
-            timerViewModel: timerViewModel
+            stopwatchViewModel: stopwatchViewModel
         )
         self.fileTrayViewModel.onItemsChange = { [weak notchViewModel, weak settingsViewModel, weak fileTrayViewModel] items in
             guard let notchViewModel, let settingsViewModel, let fileTrayViewModel else {
@@ -794,10 +793,10 @@ final class NotchEventCoordinator: ObservableObject {
             }
             .store(in: &cancellables)
         
-        localTimerViewModel.$state
+        stopwatchViewModel.$state
             .dropFirst()
             .sink { [weak self] state in
-                self?.localTimerHandler.handleLocalTimerStateChanged(state)
+                self?.stopwatchHandler.handleStopwatchStateChanged(state)
             }
             .store(in: &cancellables)
 

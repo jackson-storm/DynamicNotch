@@ -5,24 +5,24 @@ final class NotchTimerEventsHandler {
     private let notchViewModel: NotchViewModel
     private let timerViewModel: TimerViewModel
     private let settingsViewModel: SettingsViewModel
-    private let localTimerViewModel: LocalTimerViewModel
+    private let stopwatchViewModel: StopwatchViewModel
 
     init(
         notchViewModel: NotchViewModel,
         timerViewModel: TimerViewModel,
         settingsViewModel: SettingsViewModel,
-        localTimerViewModel: LocalTimerViewModel
+        stopwatchViewModel: StopwatchViewModel
     ) {
         self.notchViewModel = notchViewModel
         self.timerViewModel = timerViewModel
         self.settingsViewModel = settingsViewModel
-        self.localTimerViewModel = localTimerViewModel
+        self.stopwatchViewModel = stopwatchViewModel
     }
 
     func handleTimer(_ event: TimerEvent) {
         switch event {
         case .started:
-            if localTimerViewModel.state == .running || localTimerViewModel.state == .paused {
+            if stopwatchViewModel.state == .running || stopwatchViewModel.state == .paused {
                 return
             }
             guard settingsViewModel.isLiveActivityEnabled(.timer) else {
@@ -40,7 +40,7 @@ final class NotchTimerEventsHandler {
             )
 
         case .updated:
-            if localTimerViewModel.state == .running || localTimerViewModel.state == .paused {
+            if stopwatchViewModel.state == .running || stopwatchViewModel.state == .paused {
                 return
             }
             guard settingsViewModel.isLiveActivityEnabled(.timer) else {

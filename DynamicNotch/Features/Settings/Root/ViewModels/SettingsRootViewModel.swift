@@ -23,7 +23,7 @@ final class SettingsRootViewModel {
         timerViewModel: TimerViewModel? = nil,
         lockScreenManager: LockScreenManager? = nil,
         homePageViewModel: HomePageViewModel? = nil,
-        localTimerViewModel: LocalTimerViewModel? = nil,
+        stopwatchViewModel: StopwatchViewModel? = nil,
         calendarViewModel: CalendarViewModel? = nil,
         defaults: UserDefaults = .standard
     ) {
@@ -44,7 +44,7 @@ final class SettingsRootViewModel {
             timerViewModel: timerViewModel,
             lockScreenManager: lockScreenManager,
             homePageViewModel: homePageViewModel,
-            localTimerViewModel: localTimerViewModel,
+            stopwatchViewModel: stopwatchViewModel,
             calendarViewModel: calendarViewModel
         )
         #endif

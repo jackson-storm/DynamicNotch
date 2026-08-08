@@ -66,8 +66,8 @@ enum NotchContentRegistry {
             id: "clock.timer",
             priorityKey: .timer
         )
-        static let localTimer = NotchContentDescriptor(
-            id: "clock.localTimer",
+        static let stopwatch = NotchContentDescriptor(
+            id: "clock.stopwatch",
             priorityKey: .timer
         )
         static let pomodoro = NotchContentDescriptor(

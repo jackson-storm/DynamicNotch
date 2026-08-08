@@ -13,7 +13,7 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     let notchViewModel: NotchViewModel
     let settings: HomePageSettingsStore
     let homePages: HomePages
-    let localTimerViewModel: LocalTimerViewModel
+    let stopwatchViewModel: StopwatchViewModel
     let nowPlayingViewModel: NowPlayingViewModel
     let fileConverterViewModel: FileConverterViewModel
     let mediaAndFilesSettings: MediaAndFilesSettingsStore
@@ -34,7 +34,7 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
         case .camera:
             return CameraActiveNotchContent()
         case .localTimer:
-            return LocalTimerHomePageNotchContent()
+            return StopwatchHomePageNotchContent()
         case .pomodoro:
             return PomodoroHomePageNotchContent()
         case .vpn:
@@ -84,7 +84,7 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
             HomePageNotchView(
                 notchViewModel: notchViewModel,
                 settings: settings,
-                localTimerViewModel: localTimerViewModel,
+                stopwatchViewModel: stopwatchViewModel,
                 nowPlayingViewModel: nowPlayingViewModel,
                 fileConverterViewModel: fileConverterViewModel,
                 mediaAndFilesSettings: mediaAndFilesSettings,

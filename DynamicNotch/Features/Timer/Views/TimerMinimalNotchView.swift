@@ -16,9 +16,6 @@ struct TimerMinimalNotchView: View {
             switch source {
             case .system(let vm):
                 TimerMinimalNotchViewInternal(source: source, viewModel: vm)
-                
-            case .local(let vm):
-                TimerMinimalNotchViewInternal(source: source, viewModel: vm)
             }
         }
     }

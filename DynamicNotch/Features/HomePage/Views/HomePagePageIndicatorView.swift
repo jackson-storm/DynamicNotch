@@ -201,7 +201,7 @@ struct HomePagePageIndicatorView: View {
                     notchViewModel: notchViewModel,
                     settings: settingsViewModel.homePage,
                     homePages: page,
-                    localTimerViewModel: homePageContent.localTimerViewModel,
+                    stopwatchViewModel: homePageContent.stopwatchViewModel,
                     nowPlayingViewModel: homePageContent.nowPlayingViewModel,
                     fileConverterViewModel: homePageContent.fileConverterViewModel,
                     mediaAndFilesSettings: settingsViewModel.mediaAndFiles,

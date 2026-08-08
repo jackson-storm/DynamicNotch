@@ -542,7 +542,7 @@ private extension NotchEventCoordinatorIntegrationTests {
         lockScreenManager.startMonitoring()
         let screenRecordingViewModel = ScreenRecordingViewModel(monitor: FakeScreenRecordingMonitor())
         let homePageViewModel = HomePageViewModel()
-        let localTimerViewModel = LocalTimerViewModel()
+        let stopwatchViewModel = StopwatchViewModel()
         let calendarViewModel = CalendarViewModel()
         let coordinator = NotchEventCoordinator(
             notchViewModel: notchViewModel,
@@ -560,7 +560,7 @@ private extension NotchEventCoordinatorIntegrationTests {
             screenRecordingViewModel: screenRecordingViewModel,
             lockScreenManager: lockScreenManager,
             homePageViewModel: homePageViewModel,
-            localTimerViewModel: localTimerViewModel,
+            stopwatchViewModel: stopwatchViewModel,
             calendarViewModel: calendarViewModel
         )
         var cancellables = Set<AnyCancellable>()

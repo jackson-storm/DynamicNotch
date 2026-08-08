@@ -9,14 +9,11 @@ import SwiftUI
 
 enum TimerSource {
     case system(TimerViewModel)
-    case local(LocalTimerViewModel)
 
     var isPaused: Bool {
         switch self {
         case .system(let vm):
             return vm.snapshot?.isPaused ?? false
-        case .local(let vm):
-            return vm.state == .paused
         }
     }
 
@@ -24,8 +21,6 @@ enum TimerSource {
         switch self {
         case .system(let vm):
             return vm.hasActiveTimer
-        case .local(let vm):
-            return vm.state == .running || vm.state == .paused
         }
     }
 
@@ -33,8 +28,6 @@ enum TimerSource {
         switch self {
         case .system(let vm):
             return vm.snapshot?.remainingTime(at: date) ?? 0
-        case .local(let vm):
-            return vm.remainingTime(at: date)
         }
     }
 
@@ -42,10 +35,6 @@ enum TimerSource {
         switch self {
         case .system(let vm):
             return vm.snapshot?.progress(at: date) ?? 0
-        case .local(let vm):
-            guard vm.totalTime > 0 else { return 0 }
-            let remaining = vm.remainingTime(at: date)
-            return min(max(1.0 - (remaining / vm.totalTime), 0), 1)
         }
     }
 
@@ -53,9 +42,6 @@ enum TimerSource {
         switch self {
         case .system(let vm):
             return vm.formattedTime
-        case .local(let vm):
-            let remaining = vm.remainingTime(at: date)
-            return vm.formatTime(remaining)
         }
     }
 
@@ -64,12 +50,6 @@ enum TimerSource {
         switch self {
         case .system(let vm):
             _ = await vm.togglePauseResume()
-        case .local(let vm):
-            if vm.state == .paused {
-                vm.resume()
-            } else {
-                vm.pause()
-            }
         }
     }
 
@@ -78,8 +58,6 @@ enum TimerSource {
         switch self {
         case .system(let vm):
             _ = await vm.stopTimer()
-        case .local(let vm):
-            vm.stop()
         }
     }
 }

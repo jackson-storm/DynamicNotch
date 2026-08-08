@@ -11,6 +11,8 @@ struct PomodoroNotchView: View {
 
     var body: some View {
         VStack(spacing: 7) {
+            Spacer(minLength: 0)
+
             HStack {
                 Label(viewModel.phase.title, systemImage: viewModel.phase == .focus ? "brain.head.profile" : "cup.and.saucer.fill")
                     .font(.system(size: 12, weight: .semibold))

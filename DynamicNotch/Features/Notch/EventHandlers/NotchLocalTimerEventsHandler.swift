@@ -19,11 +19,9 @@ final class NotchLocalTimerEventsHandler {
     func handleLocalTimerStateChanged(_ state: LocalTimerState) {
         switch state {
         case .running, .paused:
-            // Conflict protection: If the system timer is actively running, abort.
-            if timerViewModel.snapshot != nil && timerViewModel.snapshot!.isPaused == false {
-                return
-            }
-            
+            notchViewModel.send(
+                .hideLiveActivity(id: NotchContentRegistry.HomePage.active.id)
+            )
             notchViewModel.send(
                 .showLiveActivity(
                     TimerNotchContent(

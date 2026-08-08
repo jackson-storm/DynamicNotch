@@ -1,4 +1,5 @@
 import SwiftUI
+import Combine
 
 enum LocalTimerState {
     case stopped

@@ -21,7 +21,9 @@ jobs:
             -scheme DynamicNotch \
             -configuration Release \
             -derivedDataPath build \
+            -jobs 2 \
             CODE_SIGNING_ALLOWED=NO \
+            SWIFT_COMPILATION_MODE=incremental \
             build
 
       - name: Create DMG

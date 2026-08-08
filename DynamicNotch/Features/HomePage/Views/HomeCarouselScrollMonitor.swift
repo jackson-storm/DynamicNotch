@@ -1,6 +1,56 @@
 import SwiftUI
 internal import AppKit
 
+@MainActor
+private final class HomeCarouselGestureState {
+    static let shared = HomeCarouselGestureState()
+
+    enum Direction {
+        case next
+        case previous
+    }
+
+    private enum Metrics {
+        static let triggerThreshold: CGFloat = 36
+        static let directionDominance: CGFloat = 1.2
+    }
+
+    private(set) var isTracking = false
+    private var isLocked = false
+    private var primaryDistance: CGFloat = 0
+    private var crossDistance: CGFloat = 0
+
+    func beginIfNeeded(isInside: Bool) {
+        guard !isTracking else { return }
+        reset()
+        isTracking = isInside
+    }
+
+    func accumulate(primary: CGFloat, cross: CGFloat) -> Direction? {
+        guard isTracking, !isLocked else { return nil }
+
+        primaryDistance += primary
+        crossDistance += abs(cross)
+
+        guard abs(primaryDistance) >= Metrics.triggerThreshold,
+              abs(primaryDistance) > crossDistance * Metrics.directionDominance else { return nil }
+
+        isLocked = true
+        return primaryDistance > 0 ? .next : .previous
+    }
+
+    func end() {
+        reset()
+    }
+
+    private func reset() {
+        isTracking = false
+        isLocked = false
+        primaryDistance = 0
+        crossDistance = 0
+    }
+}
+
 struct HomeCarouselScrollMonitor: NSViewRepresentable {
     let axis: HomePageScrollAxis
     let isEnabled: Bool
@@ -23,21 +73,13 @@ struct HomeCarouselScrollMonitor: NSViewRepresentable {
 }
 
 final class HomeCarouselScrollMonitorView: NSView {
-    private enum Metrics {
-        static let triggerThreshold: CGFloat = 36
-        static let directionDominance: CGFloat = 1.2
-    }
-
     private var localMonitor: Any?
     private var globalMonitor: Any?
+    private let gestureState = HomeCarouselGestureState.shared
     private var axis: HomePageScrollAxis = .horizontal
     private var isEnabled = false
     private var onNext: (() -> Void)?
     private var onPrevious: (() -> Void)?
-    private var isTracking = false
-    private var isLocked = false
-    private var primaryDistance: CGFloat = 0
-    private var crossDistance: CGFloat = 0
 
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
@@ -67,10 +109,6 @@ final class HomeCarouselScrollMonitorView: NSView {
         self.isEnabled = isEnabled
         self.onNext = onNext
         self.onPrevious = onPrevious
-
-        if !isEnabled {
-            resetGesture()
-        }
     }
 
     func stopMonitoring() {
@@ -82,7 +120,6 @@ final class HomeCarouselScrollMonitorView: NSView {
         }
         localMonitor = nil
         globalMonitor = nil
-        resetGesture()
     }
 }
 
@@ -105,43 +142,37 @@ private extension HomeCarouselScrollMonitorView {
     }
 
     func process(_ event: NSEvent, at screenLocation: NSPoint) {
-        guard isEnabled, window != nil, event.hasPreciseScrollingDeltas else {
-            resetGesture()
-            return
-        }
+        guard isEnabled, window != nil, event.hasPreciseScrollingDeltas else { return }
 
         if !event.momentumPhase.isEmpty {
             return
         }
 
         if event.phase.contains(.ended) || event.phase.contains(.cancelled) {
-            resetGesture()
+            gestureState.end()
             return
         }
 
         let isInside = currentScreenRect()?.contains(screenLocation) == true
         if event.phase.contains(.mayBegin) || event.phase.contains(.began) {
-            resetGesture()
-            isTracking = isInside
-        } else if !isTracking && isInside {
-            isTracking = true
+            gestureState.beginIfNeeded(isInside: isInside)
+        } else if !gestureState.isTracking {
+            gestureState.beginIfNeeded(isInside: isInside)
         }
-
-        guard isTracking, !isLocked else { return }
 
         let horizontal = physicalDelta(event.scrollingDeltaX, event: event)
         let vertical = physicalDelta(event.scrollingDeltaY, event: event)
         let primary = axis == .horizontal ? horizontal : vertical
         let cross = axis == .horizontal ? vertical : horizontal
 
-        primaryDistance += primary
-        crossDistance += abs(cross)
-
-        guard abs(primaryDistance) >= Metrics.triggerThreshold,
-              abs(primaryDistance) > crossDistance * Metrics.directionDominance else { return }
-
-        isLocked = true
-        let action = primaryDistance > 0 ? onNext : onPrevious
+        guard let direction = gestureState.accumulate(primary: primary, cross: cross) else { return }
+        let action: (() -> Void)?
+        switch direction {
+        case .next:
+            action = onNext
+        case .previous:
+            action = onPrevious
+        }
         DispatchQueue.main.async {
             action?()
         }
@@ -159,12 +190,5 @@ private extension HomeCarouselScrollMonitorView {
 
     func physicalDelta(_ delta: CGFloat, event: NSEvent) -> CGFloat {
         event.isDirectionInvertedFromDevice ? -delta : delta
-    }
-
-    func resetGesture() {
-        isTracking = false
-        isLocked = false
-        primaryDistance = 0
-        crossDistance = 0
     }
 }

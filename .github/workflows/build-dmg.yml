@@ -1,0 +1,41 @@
+name: Build DynamicNotch DMG
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-26
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Build application
+        run: |
+          xcodebuild \
+            -project DynamicNotch.xcodeproj \
+            -scheme DynamicNotch \
+            -configuration Release \
+            -derivedDataPath build \
+            -resolvePackageDependencies \
+            CODE_SIGNING_ALLOWED=NO \
+            build
+
+      - name: Create DMG
+        run: |
+          mkdir dmg-root
+          cp -R build/Build/Products/Release/DynamicNotch.app dmg-root/
+          ln -s /Applications dmg-root/Applications
+          hdiutil create \
+            -volname DynamicNotch \
+            -srcfolder dmg-root \
+            -format UDZO \
+            -ov \
+            DynamicNotch-fixed.dmg
+
+      - name: Upload DMG
+        uses: actions/upload-artifact@v4
+        with:
+          name: DynamicNotch-fixed
+          path: DynamicNotch-fixed.dmg

@@ -10,6 +10,7 @@ import SwiftUI
 enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
     case camera
     case localTimer
+    case pomodoro
     case vpn
     case systemStats
     case fileConverter
@@ -20,6 +21,7 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
         switch self {
         case .camera: return "Camera"
         case .localTimer: return "Timer"
+        case .pomodoro: return "Pomodoro"
         case .vpn: return "VPN"
         case .systemStats: return "Stats"
         case .fileConverter: return "Converter"
@@ -30,6 +32,7 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
         switch self {
         case .camera: return "Quickly access the camera."
         case .localTimer: return "Set a quick timer."
+        case .pomodoro: return "Alternate focus and break sessions."
         case .vpn: return "Manage VPN connections."
         case .systemStats: return "Monitor system resources."
         case .fileConverter: return "Convert files to multiple formats."
@@ -40,6 +43,7 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
         switch self {
         case .camera: return "camera.fill"
         case .localTimer: return "timer"
+        case .pomodoro: return "tomato.fill"
         case .vpn: return "network.badge.shield.half.filled"
         case .systemStats: return "cpu"
         case .fileConverter: return "arrow.trianglehead.2.clockwise.rotate.90"
@@ -50,6 +54,7 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
         switch self {
         case .camera: return .gray
         case .localTimer: return .orange
+        case .pomodoro: return .red
         case .vpn: return .blue
         case .systemStats: return .green
         case .fileConverter: return .blue
@@ -60,6 +65,7 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
         switch self {
         case .camera: return .black
         case .localTimer: return .white
+        case .pomodoro: return .white
         case .vpn: return .white
         case .systemStats: return .white
         case .fileConverter: return .white
@@ -78,6 +84,7 @@ struct HomePageNotchView: View {
     let mediaAndFilesSettings: MediaAndFilesSettingsStore
     let applicationSettings: ApplicationSettingsStore
     let initialPage: HomePages
+    @StateObject private var pomodoroViewModel = PomodoroViewModel.shared
     
     @State private var currentPage: HomePages?
     @State private var updateTask: Task<Void, Never>? = nil
@@ -260,6 +267,11 @@ struct HomePageNotchView: View {
             CameraNotchView(notchViewModel: notchViewModel, settings: settings, localTimerViewModel: localTimerViewModel, nowPlayingViewModel: nowPlayingViewModel, fileConverterViewModel: fileConverterViewModel, mediaAndFilesSettings: mediaAndFilesSettings, applicationSettings: applicationSettings)
         case .localTimer:
             LocalTimerSetupNotchView(localTimerViewModel: localTimerViewModel)
+        case .pomodoro:
+            PomodoroNotchView(
+                viewModel: pomodoroViewModel,
+                notchViewModel: notchViewModel
+            )
         case .vpn:
             VpnPageNotchView(notchViewModel: notchViewModel)
         case .systemStats:

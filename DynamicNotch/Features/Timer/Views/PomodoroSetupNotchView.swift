@@ -6,10 +6,18 @@ struct PomodoroSetupNotchView: View {
     let stopwatchViewModel: StopwatchViewModel?
 
     var body: some View {
-        PomodoroPanelView(
-            viewModel: viewModel,
-            notchViewModel: notchViewModel,
-            stopwatchViewModel: stopwatchViewModel
-        )
+        GeometryReader { geometry in
+            PomodoroPanelView(
+                viewModel: viewModel,
+                notchViewModel: notchViewModel,
+                stopwatchViewModel: stopwatchViewModel
+            )
+            .frame(
+                width: geometry.size.width,
+                height: geometry.size.height,
+                alignment: .top
+            )
+        }
+        .clipped()
     }
 }

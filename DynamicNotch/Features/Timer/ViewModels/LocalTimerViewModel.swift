@@ -1,5 +1,4 @@
 import SwiftUI
-import Combine
 
 enum LocalTimerState {
     case stopped
@@ -7,7 +6,8 @@ enum LocalTimerState {
     case paused
 }
 
-class LocalTimerViewModel: ObservableObject {
+@MainActor
+final class LocalTimerViewModel: ObservableObject {
     @Published var state: LocalTimerState = .stopped
     @Published var remainingTime: TimeInterval = 0
     
@@ -15,7 +15,7 @@ class LocalTimerViewModel: ObservableObject {
     var endDate: Date?
     var pausedRemaining: TimeInterval?
     
-    private var timer: AnyCancellable?
+    private var timerTask: Task<Void, Never>?
     
     func start(hours: Int, minutes: Int, seconds: Int) {
         totalTime = TimeInterval(hours * 3600 + minutes * 60 + seconds)
@@ -27,8 +27,10 @@ class LocalTimerViewModel: ObservableObject {
     }
     
     func pause() {
+        guard state == .running else { return }
         state = .paused
-        timer?.cancel()
+        timerTask?.cancel()
+        timerTask = nil
         if let endDate = endDate {
             pausedRemaining = max(0, endDate.timeIntervalSince(Date()))
         }
@@ -36,6 +38,8 @@ class LocalTimerViewModel: ObservableObject {
     }
     
     func resume() {
+        guard remainingTime > 0 || pausedRemaining != nil else { return }
+        timerTask?.cancel()
         state = .running
         if let pausedRemaining = pausedRemaining {
             endDate = Date().addingTimeInterval(pausedRemaining)
@@ -44,21 +48,25 @@ class LocalTimerViewModel: ObservableObject {
         }
         pausedRemaining = nil
         
-        timer = Timer.publish(every: 0.1, on: .main, in: .common)
-            .autoconnect()
-            .sink { [weak self] _ in
-                guard let self = self else { return }
-                let rem = self.remainingTime(at: Date())
-                self.remainingTime = rem
-                if rem <= 0 {
+        timerTask = Task { [weak self] in
+            while !Task.isCancelled {
+                guard let self else { return }
+                let remaining = self.remainingTime(at: Date())
+                self.remainingTime = remaining
+                if remaining <= 0 {
                     self.stop()
+                    return
                 }
+
+                try? await Task.sleep(for: .milliseconds(100))
             }
+        }
     }
     
     func stop() {
         state = .stopped
-        timer?.cancel()
+        timerTask?.cancel()
+        timerTask = nil
         remainingTime = 0
         endDate = nil
         pausedRemaining = nil

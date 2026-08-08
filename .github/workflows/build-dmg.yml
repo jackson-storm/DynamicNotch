@@ -21,7 +21,6 @@ jobs:
             -scheme DynamicNotch \
             -configuration Release \
             -derivedDataPath build \
-            -resolvePackageDependencies \
             CODE_SIGNING_ALLOWED=NO \
             build
 

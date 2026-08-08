@@ -2,6 +2,9 @@ name: Build DynamicNotch DMG
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - "agent/**"
 
 jobs:
   build:

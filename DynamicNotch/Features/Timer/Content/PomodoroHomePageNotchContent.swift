@@ -15,11 +15,11 @@ struct PomodoroHomePageNotchContent: NotchContentProtocol, DynamicIslandCustomiz
     }
 
     func expandedSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        .init(width: baseWidth + 60, height: baseHeight + 135)
+        .init(width: baseWidth + 100, height: baseHeight + 135)
     }
 
     func expandedDynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        .init(width: baseWidth + 100, height: baseHeight + 135)
+        .init(width: baseWidth + 140, height: baseHeight + 135)
     }
 
     func expandedDynamicIslandCornerRadius(baseHeight: CGFloat) -> CGFloat {

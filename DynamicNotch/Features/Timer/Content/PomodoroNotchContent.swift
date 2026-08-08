@@ -11,19 +11,19 @@ struct PomodoroNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     var strokeColor: Color { .red.opacity(0.3) }
 
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        .init(width: baseWidth + 115, height: baseHeight)
+        .init(width: baseWidth + 120, height: baseHeight)
     }
 
     func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        .init(width: baseWidth + 65, height: baseHeight)
+        .init(width: baseWidth + 110, height: baseHeight)
     }
 
     func expandedSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        .init(width: baseWidth + 100, height: baseHeight + 135)
+        .init(width: baseWidth + 190, height: baseHeight + 165)
     }
 
     func expandedDynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        .init(width: baseWidth + 140, height: baseHeight + 135)
+        .init(width: baseWidth + 260, height: baseHeight + 165)
     }
 
     func expandedCornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
@@ -42,7 +42,7 @@ struct PomodoroNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     @MainActor
     func makeExpandedView() -> AnyView {
         AnyView(
-            PomodoroNotchView(
+            PomodoroExpandedNotchView(
                 viewModel: viewModel,
                 notchViewModel: notchViewModel,
                 stopwatchViewModel: stopwatchViewModel

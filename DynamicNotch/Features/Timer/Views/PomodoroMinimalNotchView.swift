@@ -6,25 +6,33 @@ struct PomodoroMinimalNotchView: View {
     @ObservedObject var viewModel: PomodoroViewModel
 
     var body: some View {
-        HStack(spacing: 8) {
-            Image(systemName: viewModel.phase == .focus ? "brain.head.profile" : "cup.and.saucer.fill")
-                .font(.system(size: isDynamicIsland ? 16 : 20, weight: .semibold))
-                .foregroundStyle(.white)
-                .frame(width: isDynamicIsland ? 18 : 22)
+        HStack(spacing: 6) {
+            Image(systemName: viewModel.phase.symbolName)
+                .font(.system(size: isDynamicIsland ? 15 : 18, weight: .semibold))
+                .foregroundStyle(accentColor)
+                .frame(width: isDynamicIsland ? 18 : 22, alignment: .leading)
 
-            Spacer()
+            Spacer(minLength: 8)
 
             Text(viewModel.formattedRemainingTime)
-                .font(.system(size: 14, design: .rounded))
-                .foregroundStyle(viewModel.phase == .focus ? .red : .green)
+                .font(.system(size: 14, weight: .medium, design: .rounded))
+                .foregroundStyle(accentColor)
                 .monospacedDigit()
+                .contentTransition(.numericText())
                 .lineLimit(1)
-                .minimumScaleFactor(0.8)
-                .fixedSize(horizontal: true, vertical: false)
+                .minimumScaleFactor(0.75)
+                .layoutPriority(1)
         }
-        .frame(maxWidth: .infinity)
-        .padding(.leading, isDynamicIsland ? 6.scaled(by: notchScale) : 14.scaled(by: notchScale))
-        .padding(.trailing, isDynamicIsland ? 6.scaled(by: notchScale) : 14.scaled(by: notchScale))
+        .padding(.horizontal, horizontalPadding)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .clipped()
+    }
+
+    private var accentColor: Color {
+        viewModel.phase == .focus ? .red : .green
+    }
+
+    private var horizontalPadding: CGFloat {
+        (isDynamicIsland ? 6 : 12).scaled(by: notchScale)
     }
 }

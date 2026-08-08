@@ -2,20 +2,21 @@ internal import AppKit
 
 @MainActor
 final class PomodoroSoundPlayer {
-    private let tickingSound = PomodoroSoundPlayer.sound(named: "ticking")
-    private let windUpSound = PomodoroSoundPlayer.sound(named: "windup")
-    private let dingSound = PomodoroSoundPlayer.sound(named: "ding")
-    private var delayedTickingTask: Task<Void, Never>?
+    private let tickingSound = PomodoroSoundPlayer.loadSound(named: "ticking")
+    private let windUpSound = PomodoroSoundPlayer.loadSound(named: "windup")
+    private let completionSound = PomodoroSoundPlayer.loadSound(named: "ding")
+    private var delayedTickTask: Task<Void, Never>?
 
     init() {
         tickingSound?.loops = true
         tickingSound?.volume = 0.45
         windUpSound?.volume = 0.7
-        dingSound?.volume = 0.7
+        completionSound?.volume = 0.7
     }
 
     func startTicking(withWindUp: Bool) {
-        delayedTickingTask?.cancel()
+        delayedTickTask?.cancel()
+        delayedTickTask = nil
         tickingSound?.stop()
 
         guard withWindUp else {
@@ -25,7 +26,7 @@ final class PomodoroSoundPlayer {
 
         windUpSound?.stop()
         windUpSound?.play()
-        delayedTickingTask = Task { [weak self] in
+        delayedTickTask = Task { [weak self] in
             try? await Task.sleep(for: .milliseconds(920))
             guard !Task.isCancelled else { return }
             self?.tickingSound?.play()
@@ -33,25 +34,25 @@ final class PomodoroSoundPlayer {
     }
 
     func pauseTicking() {
-        delayedTickingTask?.cancel()
-        delayedTickingTask = nil
+        delayedTickTask?.cancel()
+        delayedTickTask = nil
         tickingSound?.pause()
     }
 
     func playCompletion() {
-        dingSound?.stop()
-        dingSound?.play()
+        completionSound?.stop()
+        completionSound?.play()
     }
 
-    func stop() {
-        delayedTickingTask?.cancel()
-        delayedTickingTask = nil
+    func stopAll() {
+        delayedTickTask?.cancel()
+        delayedTickTask = nil
         tickingSound?.stop()
         windUpSound?.stop()
-        dingSound?.stop()
+        completionSound?.stop()
     }
 
-    private static func sound(named name: String) -> NSSound? {
+    private static func loadSound(named name: String) -> NSSound? {
         guard let data = NSDataAsset(name: name)?.data else { return nil }
         return NSSound(data: data)
     }

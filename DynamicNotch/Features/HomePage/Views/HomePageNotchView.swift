@@ -247,7 +247,7 @@ struct HomePageNotchView: View {
         case .localTimer:
             StopwatchSetupNotchView(stopwatchViewModel: stopwatchViewModel)
         case .pomodoro:
-            PomodoroNotchView(
+            PomodoroSetupNotchView(
                 viewModel: pomodoroViewModel,
                 notchViewModel: notchViewModel,
                 stopwatchViewModel: stopwatchViewModel

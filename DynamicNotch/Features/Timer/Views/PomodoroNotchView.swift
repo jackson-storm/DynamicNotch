@@ -10,7 +10,7 @@ struct PomodoroNotchView: View {
     @AppStorage("pomodoro.soundsEnabled") private var soundsEnabled = true
 
     var body: some View {
-        VStack(spacing: 9) {
+        VStack(spacing: 7) {
             HStack {
                 Label(viewModel.phase.title, systemImage: viewModel.phase == .focus ? "brain.head.profile" : "cup.and.saucer.fill")
                     .font(.system(size: 12, weight: .semibold))
@@ -68,7 +68,7 @@ struct PomodoroNotchView: View {
                 .buttonStyle(PrimaryButtonStyle(height: 30, backgroundColor: .gray.opacity(0.2)))
             }
         }
-        .padding(.horizontal, 20)
+        .padding(.horizontal, 14)
         .onAppear {
             synchronizeDurations()
             viewModel.setSoundsEnabled(soundsEnabled)

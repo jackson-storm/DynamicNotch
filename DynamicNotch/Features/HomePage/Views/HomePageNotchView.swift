@@ -234,21 +234,6 @@ struct HomePageNotchView: View {
             }
         }
         .onDisappear {
-            let activePages = settings.homePageOrder.filter { !settings.homePageDisabled.contains($0) }
-            notchViewModel.send(
-                .showLiveActivity(
-                    HomePageNotchContent(
-                        notchViewModel: notchViewModel,
-                        settings: settings,
-                        homePages: activePages.first ?? .camera,
-                        localTimerViewModel: localTimerViewModel,
-                        nowPlayingViewModel: nowPlayingViewModel,
-                        fileConverterViewModel: fileConverterViewModel,
-                        mediaAndFilesSettings: mediaAndFilesSettings,
-                        applicationSettings: applicationSettings
-                    )
-                )
-            )
             settleTask?.cancel()
             updateTask?.cancel()
         }

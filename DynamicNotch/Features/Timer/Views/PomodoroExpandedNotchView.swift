@@ -2,22 +2,20 @@ import SwiftUI
 
 struct PomodoroExpandedNotchView: View {
     @ObservedObject var viewModel: PomodoroViewModel
-    let notchViewModel: NotchViewModel
+    @ObservedObject var notchViewModel: NotchViewModel
     let stopwatchViewModel: StopwatchViewModel?
 
     var body: some View {
-        GeometryReader { geometry in
-            PomodoroPanelView(
-                viewModel: viewModel,
-                notchViewModel: notchViewModel,
-                stopwatchViewModel: stopwatchViewModel
-            )
-            .frame(
-                width: geometry.size.width,
-                height: geometry.size.height,
-                alignment: .top
-            )
-        }
+        PomodoroPanelView(
+            viewModel: viewModel,
+            notchViewModel: notchViewModel,
+            stopwatchViewModel: stopwatchViewModel
+        )
+        .frame(
+            width: max(0, notchViewModel.presentedNotchSize.width),
+            height: max(0, notchViewModel.presentedNotchSize.height),
+            alignment: .top
+        )
         .clipped()
     }
 }

@@ -36,7 +36,12 @@ struct PomodoroNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
 
     @MainActor
     func makeView() -> AnyView {
-        AnyView(PomodoroMinimalNotchView(viewModel: viewModel))
+        AnyView(
+            PomodoroMinimalNotchView(
+                viewModel: viewModel,
+                notchViewModel: notchViewModel
+            )
+        )
     }
 
     @MainActor

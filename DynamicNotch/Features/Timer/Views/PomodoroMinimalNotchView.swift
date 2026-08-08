@@ -4,6 +4,7 @@ struct PomodoroMinimalNotchView: View {
     @Environment(\.notchScale) private var notchScale
     @Environment(\.isDynamicIsland) private var isDynamicIsland
     @ObservedObject var viewModel: PomodoroViewModel
+    @ObservedObject var notchViewModel: NotchViewModel
 
     var body: some View {
         HStack(spacing: 6) {
@@ -24,7 +25,10 @@ struct PomodoroMinimalNotchView: View {
                 .layoutPriority(1)
         }
         .padding(.horizontal, horizontalPadding)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .frame(
+            width: max(0, notchViewModel.presentedNotchSize.width),
+            height: max(0, notchViewModel.presentedNotchSize.height)
+        )
         .clipped()
     }
 

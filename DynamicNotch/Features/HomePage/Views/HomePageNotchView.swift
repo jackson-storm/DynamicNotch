@@ -154,7 +154,7 @@ struct HomePageNotchView: View {
                     .scrollTargetLayout()
                 }
             }
-            .scrollTargetBehavior(.viewAligned)
+            .scrollTargetBehavior(.viewAligned(limitBehavior: .alwaysByOne))
             .scrollPosition(id: $currentCarouselID)
             .mask {
                 if settings.homePageScrollAxis == .vertical {

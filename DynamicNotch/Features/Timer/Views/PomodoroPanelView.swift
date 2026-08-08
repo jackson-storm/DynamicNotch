@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct PomodoroPanelView: View {
+    @Environment(\.isDynamicIsland) private var isDynamicIsland
     @ObservedObject var viewModel: PomodoroViewModel
     let notchViewModel: NotchViewModel
     let stopwatchViewModel: StopwatchViewModel?
@@ -19,7 +20,7 @@ struct PomodoroPanelView: View {
             durationControls
             actionButtons
         }
-        .padding(.horizontal, 16)
+        .padding(.horizontal, panelHorizontalPadding)
         .padding(.bottom, 10)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .clipped()
@@ -190,6 +191,10 @@ struct PomodoroPanelView: View {
 
     private var accentColor: Color {
         viewModel.phase == .focus ? .red : .green
+    }
+
+    private var panelHorizontalPadding: CGFloat {
+        isDynamicIsland ? 24 : 52
     }
 
     private func synchronizePreferences() {

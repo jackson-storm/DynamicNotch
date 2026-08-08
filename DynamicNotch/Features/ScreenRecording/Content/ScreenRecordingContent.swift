@@ -57,7 +57,7 @@ struct ScreenRecordingContent: NotchContentProtocol, DynamicIslandCustomizable {
 
     @MainActor
     func makeView() -> AnyView {
-        AnyView(ScreenRecordingView())
+        AnyView(ScreenRecordingView(viewModel: screenRecordingViewModel))
     }
 
     @MainActor

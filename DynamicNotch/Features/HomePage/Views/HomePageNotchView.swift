@@ -249,7 +249,8 @@ struct HomePageNotchView: View {
         case .pomodoro:
             PomodoroNotchView(
                 viewModel: pomodoroViewModel,
-                notchViewModel: notchViewModel
+                notchViewModel: notchViewModel,
+                localTimerViewModel: localTimerViewModel
             )
         case .vpn:
             VpnPageNotchView(notchViewModel: notchViewModel)

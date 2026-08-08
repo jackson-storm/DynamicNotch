@@ -3,11 +3,22 @@ import SwiftUI
 struct PomodoroNotchView: View {
     @ObservedObject var viewModel: PomodoroViewModel
     let notchViewModel: NotchViewModel
+    let localTimerViewModel: LocalTimerViewModel?
 
     @AppStorage("pomodoro.focusMinutes") private var focusMinutes = 25
     @AppStorage("pomodoro.shortBreakMinutes") private var shortBreakMinutes = 5
     @AppStorage("pomodoro.longBreakMinutes") private var longBreakMinutes = 15
     @AppStorage("pomodoro.soundsEnabled") private var soundsEnabled = true
+
+    init(
+        viewModel: PomodoroViewModel,
+        notchViewModel: NotchViewModel,
+        localTimerViewModel: LocalTimerViewModel? = nil
+    ) {
+        self.viewModel = viewModel
+        self.notchViewModel = notchViewModel
+        self.localTimerViewModel = localTimerViewModel
+    }
 
     var body: some View {
         VStack(spacing: 7) {
@@ -84,11 +95,18 @@ struct PomodoroNotchView: View {
         .onChange(of: viewModel.state) { _, state in
             switch state {
             case .running, .paused:
+                if localTimerViewModel?.state != .stopped {
+                    localTimerViewModel?.stop()
+                }
+                notchViewModel.send(
+                    .hideLiveActivity(id: NotchContentRegistry.Media.localTimer.id)
+                )
                 notchViewModel.send(
                     .showLiveActivity(
                         PomodoroNotchContent(
                             viewModel: viewModel,
-                            notchViewModel: notchViewModel
+                            notchViewModel: notchViewModel,
+                            localTimerViewModel: localTimerViewModel
                         )
                     )
                 )

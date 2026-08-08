@@ -19,6 +19,10 @@ final class NotchLocalTimerEventsHandler {
     func handleLocalTimerStateChanged(_ state: LocalTimerState) {
         switch state {
         case .running, .paused:
+            PomodoroViewModel.shared.reset()
+            notchViewModel.send(
+                .hideLiveActivity(id: NotchContentRegistry.Media.pomodoro.id)
+            )
             notchViewModel.send(
                 .hideLiveActivity(id: NotchContentRegistry.HomePage.active.id)
             )

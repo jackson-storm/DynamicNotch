@@ -78,6 +78,17 @@ private struct HomeCarouselItem: Identifiable, Hashable {
     let page: HomePages
 }
 
+private struct OnePageScrollTargetModifier: ViewModifier {
+    @ViewBuilder
+    func body(content: Content) -> some View {
+        if #available(macOS 15.0, *) {
+            content.scrollTargetBehavior(.viewAligned(limitBehavior: .alwaysByOne))
+        } else {
+            content.scrollTargetBehavior(.viewAligned(limitBehavior: .always))
+        }
+    }
+}
+
 struct HomePageNotchView: View {
     @Environment(\.isDynamicIsland) var isDynamicIsland
     
@@ -154,7 +165,7 @@ struct HomePageNotchView: View {
                     .scrollTargetLayout()
                 }
             }
-            .scrollTargetBehavior(.viewAligned(limitBehavior: .alwaysByOne))
+            .modifier(OnePageScrollTargetModifier())
             .scrollPosition(id: $currentCarouselID)
             .mask {
                 if settings.homePageScrollAxis == .vertical {

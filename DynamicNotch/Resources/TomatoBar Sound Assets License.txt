@@ -1,4 +1,4 @@
-The Pomodoro ticking, wind-up, and ding sound assets are from TomatoBar:
+The Pomodoro ticking, wind-up, ding, and tomato icon assets are from TomatoBar:
 https://github.com/ivoronin/TomatoBar
 
 MIT License

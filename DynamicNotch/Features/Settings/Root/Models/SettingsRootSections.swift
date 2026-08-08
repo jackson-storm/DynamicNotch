@@ -374,7 +374,7 @@ private enum SettingsSectionCatalog {
                     "sound"
                 ],
                 systemImage: "tomato.fill",
-                imageName: nil,
+                imageName: "tomatobar",
                 tint: .red,
                 resetGroup: nil
             )

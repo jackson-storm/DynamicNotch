@@ -90,12 +90,22 @@ struct ActivityPrioritiesSettingsView: View {
     
     @ViewBuilder
     private func priorityIcon(for priorityPreset: NotchContentPriority.Key) -> some View {
-        SettingsIconBadge(
-            systemImage: priorityPreset.image,
-            tint: priorityPreset.color,
-            size: 30,
-            iconSize: 14,
-            cornerRadius: 9
-        )
+        if priorityPreset == .airDropTransferActive {
+            SettingsIconBadge(
+                imageName: priorityPreset.image,
+                tint: priorityPreset.color,
+                size: 30,
+                iconSize: 14,
+                cornerRadius: 9
+            )
+        } else {
+            SettingsIconBadge(
+                systemImage: priorityPreset.image,
+                tint: priorityPreset.color,
+                size: 30,
+                iconSize: 14,
+                cornerRadius: 9
+            )
+        }
     }
 }

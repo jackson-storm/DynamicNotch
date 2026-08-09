@@ -30,6 +30,20 @@ struct DragAndDropSettingsView: View {
                 .frame(maxWidth: .infinity, alignment: .trailing)
 
             SettingsToggleRow(
+                title: "AirDrop live activity",
+                description: "Show live activity in notch when transferring files via AirDrop.",
+                imageName: "airdrop.white",
+                color: .blue,
+                isOn: $mediaSettings.isAirDropLiveActivityEnabled,
+                accessibilityIdentifier: "settings.activities.live.drop.airdrop"
+            )
+
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+
+            SettingsToggleRow(
                 title: "Tray live activity",
                 description: "Show the pinned file tray after files are dropped into Tray.",
                 systemImage: "tray.full.fill",

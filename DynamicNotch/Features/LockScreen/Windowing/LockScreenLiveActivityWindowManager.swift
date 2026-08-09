@@ -391,12 +391,14 @@ private struct LockScreenLiveActivityOverlayView: View {
                     onDropPasteboard: { target, pasteboard in
                         switch target {
                         case .airDrop:
-                            guard settingsViewModel.mediaAndFiles.dragAndDropActivityMode.showsAirDrop else {
+                            guard settingsViewModel.mediaAndFiles.dragAndDropActivityMode.showsAirDrop,
+                                  settingsViewModel.mediaAndFiles.isAirDropLiveActivityEnabled else {
                                 return false
                             }
                             return airDropController.handlePasteboardDrop(pasteboard)
                         case .tray:
-                            guard settingsViewModel.mediaAndFiles.dragAndDropActivityMode.showsTray else {
+                            guard settingsViewModel.mediaAndFiles.dragAndDropActivityMode.showsTray,
+                                  settingsViewModel.mediaAndFiles.isTrayLiveActivityEnabled else {
                                 return false
                             }
                             return airDropController.handleTrayDrop(

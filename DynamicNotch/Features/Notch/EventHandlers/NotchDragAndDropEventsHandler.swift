@@ -42,8 +42,12 @@ final class NotchDragAndDropEventsHandler {
     }
     
     private func showDragAndDropLiveActivity() {
+        let isAirDropEnabled = settingsViewModel.mediaAndFiles.isAirDropLiveActivityEnabled
+        let isTrayEnabled = settingsViewModel.mediaAndFiles.isTrayLiveActivityEnabled
+
         switch settingsViewModel.mediaAndFiles.dragAndDropActivityMode {
         case .airDrop:
+            guard isAirDropEnabled else { return }
             notchViewModel.send(
                 .showLiveActivity(
                     AirDropNotchContent(
@@ -54,6 +58,7 @@ final class NotchDragAndDropEventsHandler {
             )
             
         case .tray:
+            guard isTrayEnabled else { return }
             notchViewModel.send(
                 .showLiveActivity(
                     TrayNotchContent(
@@ -64,14 +69,34 @@ final class NotchDragAndDropEventsHandler {
             )
             
         case .combined:
-            notchViewModel.send(
-                .showLiveActivity(
-                    DragAndDropCombinedNotchContent(
-                        airDropViewModel: airDropViewModel,
-                        settingsViewModel: settingsViewModel
+            if isAirDropEnabled && isTrayEnabled {
+                notchViewModel.send(
+                    .showLiveActivity(
+                        DragAndDropCombinedNotchContent(
+                            airDropViewModel: airDropViewModel,
+                            settingsViewModel: settingsViewModel
+                        )
                     )
                 )
-            )
+            } else if isAirDropEnabled {
+                notchViewModel.send(
+                    .showLiveActivity(
+                        AirDropNotchContent(
+                            airDropViewModel: airDropViewModel,
+                            settingsViewModel: settingsViewModel
+                        )
+                    )
+                )
+            } else if isTrayEnabled {
+                notchViewModel.send(
+                    .showLiveActivity(
+                        TrayNotchContent(
+                            airDropViewModel: airDropViewModel,
+                            settingsViewModel: settingsViewModel
+                        )
+                    )
+                )
+            }
         }
     }
     

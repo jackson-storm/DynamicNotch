@@ -1,45 +1,65 @@
+
 name: Build DynamicNotch DMG
 
 on:
   workflow_dispatch:
   push:
     branches:
-      - "agent/**"
+      - agent/fix-timer-add-pomodoro
+
+permissions:
+  contents: read
 
 jobs:
   build:
     runs-on: macos-26
+    timeout-minutes: 45
 
     steps:
-      - name: Checkout source
+      - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Build application
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      - name: Resolve Swift packages
         run: |
-          xcodebuild \
+          xcodebuild -resolvePackageDependencies \
+            -project DynamicNotch.xcodeproj \
+            -scheme DynamicNotch
+
+      - name: Build unsigned Release app
+        run: |
+          xcodebuild build \
             -project DynamicNotch.xcodeproj \
             -scheme DynamicNotch \
             -configuration Release \
-            -derivedDataPath build \
-            -jobs 2 \
+            -destination "platform=macOS" \
+            -derivedDataPath "$RUNNER_TEMP/DerivedData" \
             CODE_SIGNING_ALLOWED=NO \
-            SWIFT_COMPILATION_MODE=incremental \
-            build
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            DEVELOPMENT_TEAM=""
 
-      - name: Create DMG
+      - name: Ad-hoc sign and create DMG
         run: |
-          mkdir dmg-root
-          cp -R build/Build/Products/Release/DynamicNotch.app dmg-root/
-          ln -s /Applications dmg-root/Applications
+          APP="$RUNNER_TEMP/DerivedData/Build/Products/Release/DynamicNotch.app"
+          test -d "$APP"
+          codesign --force --deep --sign - "$APP"
+          mkdir -p "$RUNNER_TEMP/dmg-root" dist
+          ditto "$APP" "$RUNNER_TEMP/dmg-root/DynamicNotch.app"
+          ln -s /Applications "$RUNNER_TEMP/dmg-root/Applications"
           hdiutil create \
-            -volname DynamicNotch \
-            -srcfolder dmg-root \
-            -format UDZO \
+            -volname "DynamicNotch" \
+            -srcfolder "$RUNNER_TEMP/dmg-root" \
             -ov \
-            DynamicNotch-fixed.dmg
+            -format UDZO \
+            "dist/DynamicNotch.dmg"
 
       - name: Upload DMG
         uses: actions/upload-artifact@v4
         with:
-          name: DynamicNotch-fixed
-          path: DynamicNotch-fixed.dmg
+          name: DynamicNotch-DMG
+          path: dist/DynamicNotch.dmg
+          if-no-files-found: error
+          retention-days: 30

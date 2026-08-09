@@ -102,6 +102,9 @@
     "%lld" : {
 
     },
+    "%lld files" : {
+
+    },
     "%lld%%" : {
       "localizations" : {
         "en" : {
@@ -840,7 +843,6 @@
       }
     },
     "AirDrop live activity" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -869,6 +871,9 @@
       }
     },
     "AirDrop Target" : {
+
+    },
+    "AirDrop Transfer" : {
 
     },
     "AirPods Max" : {
@@ -12105,6 +12110,9 @@
         }
       }
     },
+    "Ready" : {
+
+    },
     "Red" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -12913,6 +12921,9 @@
 
     },
     "Send the Now Playing playback-state changed event for play." : {
+
+    },
+    "Sending items..." : {
 
     },
     "Set a global motion parameter that controls the speed of the animation." : {
@@ -18520,6 +18531,34 @@
         }
       }
     },
+    "settings.notch.priorities.row.airDropTransferActive" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AirDrop Transfer"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Transferencia AirDrop"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Передача AirDrop"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AirDrop 传输"
+          }
+        }
+      }
+    },
     "settings.notch.priorities.row.calendar" : {
       "localizations" : {
         "en" : {
@@ -22057,6 +22096,9 @@
         }
       }
     },
+    "Show active AirDrop file transfer progress and completion." : {
+
+    },
     "Show AirDrop and Tray targets when you drag files over the notch." : {
       "localizations" : {
         "en" : {
@@ -22205,6 +22247,34 @@
     },
     "Show in Finder" : {
 
+    },
+    "Show live activity in notch when transferring files via AirDrop." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show live activity in notch when transferring files via AirDrop."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar live activity en el notch al transferir archivos por AirDrop."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показывать live activity в нотче при передаче файлов по AirDrop."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通过 AirDrop 传输文件时在 notch 中显示实时活动。"
+          }
+        }
+      }
     },
     "Show live download progress from monitored folders in the notch." : {
       "extractionState" : "stale",
@@ -24203,6 +24273,12 @@
           }
         }
       }
+    },
+    "Transfer complete" : {
+
+    },
+    "Transfer failed" : {
+
     },
     "Tray" : {
       "localizations" : {

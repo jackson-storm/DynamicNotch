@@ -252,6 +252,16 @@ struct DebugSettingsView: View {
             debugDivider
 
             DebugActionRow(
+                title: "AirDrop Transfer",
+                description: "Show active AirDrop file transfer progress and completion.",
+                imageName: "airdrop.white",
+                color: .blue,
+                action: viewModel.triggerAirDropTransferPreview
+            )
+
+            debugDivider
+
+            DebugActionRow(
                 title: "Converter Converting",
                 description: "Show the converter collapsed converting state.",
                 systemImage: "arrow.triangle.2.circlepath",
@@ -573,7 +583,8 @@ struct DebugSettingsView: View {
 struct DebugActionRow: View {
     let title: LocalizedStringKey
     let description: LocalizedStringKey
-    let systemImage: String
+    let systemImage: String?
+    let imageName: String?
     let color: Color
     let buttonTitle: LocalizedStringKey
     let action: () -> Void
@@ -589,6 +600,24 @@ struct DebugActionRow: View {
         self.title = title
         self.description = description
         self.systemImage = systemImage
+        self.imageName = nil
+        self.color = color
+        self.buttonTitle = buttonTitle
+        self.action = action
+    }
+
+    init(
+        title: LocalizedStringKey,
+        description: LocalizedStringKey,
+        imageName: String,
+        color: Color,
+        buttonTitle: LocalizedStringKey = "Start",
+        action: @escaping () -> Void
+    ) {
+        self.title = title
+        self.description = description
+        self.systemImage = nil
+        self.imageName = imageName
         self.color = color
         self.buttonTitle = buttonTitle
         self.action = action
@@ -596,14 +625,24 @@ struct DebugActionRow: View {
     
     var body: some View {
         HStack(alignment: .center, spacing: 14) {
-            Image(systemName: systemImage)
-                .font(.system(size: 15, weight: .semibold))
-                .foregroundStyle(.white)
-                .frame(width: 30, height: 30)
-                .background(
-                    RoundedRectangle(cornerRadius: 10, style: .continuous)
-                        .fill(color.gradient)
+            if let systemImage {
+                Image(systemName: systemImage)
+                    .font(.system(size: 15, weight: .semibold))
+                    .foregroundStyle(.white)
+                    .frame(width: 30, height: 30)
+                    .background(
+                        RoundedRectangle(cornerRadius: 10, style: .continuous)
+                            .fill(color.gradient)
+                    )
+            } else if let imageName {
+                SettingsIconBadge(
+                    imageName: imageName,
+                    tint: color,
+                    size: 30,
+                    iconSize: 14,
+                    cornerRadius: 10
                 )
+            }
             
             VStack(alignment: .leading, spacing: 3) {
                 Text(title)

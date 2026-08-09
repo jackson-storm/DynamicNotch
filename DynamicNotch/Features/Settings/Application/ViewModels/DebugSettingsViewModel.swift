@@ -288,6 +288,34 @@ final class DebugSettingsViewModel: ObservableObject {
         notchEventCoordinator.handleAirDropEvent(.dropped)
     }
 
+    func triggerAirDropTransferPreview() {
+        let testID = UUID()
+        let sampleURL = URL(fileURLWithPath: "/tmp/sample_airdrop_document.pdf")
+        let previewViewModel = AirDropNotchViewModel()
+        previewViewModel.beginTransfer(id: testID, urls: [sampleURL], initialProgress: 0.1)
+
+        notchViewModel.send(
+            .showLiveActivity(
+                AirDropActiveNotchContent(
+                    airDropViewModel: previewViewModel,
+                    mediaSettings: settingsViewModel.mediaAndFiles
+                )
+            )
+        )
+
+        Task { @MainActor in
+            let progressSteps = [0.25, 0.48, 0.72, 0.90, 1.0]
+            for p in progressSteps {
+                try? await Task.sleep(nanoseconds: 500_000_000)
+                previewViewModel.updateTransferProgress(id: testID, progress: p)
+            }
+            try? await Task.sleep(nanoseconds: 400_000_000)
+            previewViewModel.completeTransfer(id: testID)
+            try? await Task.sleep(nanoseconds: 2_500_000_000)
+            self.notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.DragAndDrop.airDropTransferActive.id))
+        }
+    }
+
     func triggerFileConverterConvertedPreview() {
         showFileConverterStatusPreview {
             fileConverterPreviewViewModel.convert(options: fileConverterDebugConversionOptions)

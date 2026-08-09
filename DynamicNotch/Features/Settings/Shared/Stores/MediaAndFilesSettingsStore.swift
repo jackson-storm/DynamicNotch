@@ -84,7 +84,13 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
 
     @Published var isDragAndDropLiveActivityEnabled: Bool {
         didSet {
-            persist(isDragAndDropLiveActivityEnabled, for: GeneralSettingsStorage.Keys.airDropLiveActivityEnabled)
+            persist(isDragAndDropLiveActivityEnabled, for: GeneralSettingsStorage.Keys.dragAndDropLiveActivityEnabled)
+        }
+    }
+
+    @Published var isAirDropLiveActivityEnabled: Bool {
+        didSet {
+            persist(isAirDropLiveActivityEnabled, for: GeneralSettingsStorage.Keys.airDropLiveActivityEnabled)
         }
     }
 
@@ -242,7 +248,15 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         self.downloadsProgressIndicatorStyle = DownloadProgressIndicatorStyle.resolved(
             defaults.string(forKey: GeneralSettingsStorage.Keys.downloadsProgressIndicatorStyle)
         )
-        self.isDragAndDropLiveActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.airDropLiveActivityEnabled)
+        self.isDragAndDropLiveActivityEnabled = Self.resolvedBool(
+            defaults: defaults,
+            key: GeneralSettingsStorage.Keys.dragAndDropLiveActivityEnabled,
+            fallbackKey: GeneralSettingsStorage.Keys.airDropLiveActivityEnabled
+        )
+        self.isAirDropLiveActivityEnabled = Self.resolvedBool(
+            defaults: defaults,
+            key: GeneralSettingsStorage.Keys.airDropLiveActivityEnabled
+        )
         self.isDragAndDropDefaultStrokeEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.airDropDefaultStrokeEnabled)
         self.isTrayLiveActivityEnabled = Self.resolvedBool(
             defaults: defaults,
@@ -325,7 +339,8 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
     }
 
     func resetDragAndDrop() {
-        isDragAndDropLiveActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.airDropLiveActivityEnabled)
+        isDragAndDropLiveActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.dragAndDropLiveActivityEnabled)
+        isAirDropLiveActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.airDropLiveActivityEnabled)
         isDragAndDropDefaultStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.airDropDefaultStrokeEnabled)
         dragAndDropActivityMode = DragAndDropActivityMode.resolved(
             defaultString(for: GeneralSettingsStorage.Keys.dragAndDropActivityMode)
@@ -375,9 +390,13 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         isTimerDefaultStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.timerDefaultStrokeEnabled)
     }
 
-    private static func resolvedBool(defaults: UserDefaults, key: String) -> Bool {
+    private static func resolvedBool(defaults: UserDefaults, key: String, fallbackKey: String? = nil) -> Bool {
         if let currentValue = defaults.object(forKey: key) as? Bool {
             return currentValue
+        }
+
+        if let fallbackKey, let fallbackValue = defaults.object(forKey: fallbackKey) as? Bool {
+            return fallbackValue
         }
 
         return (GeneralSettingsStorage.defaultValues[key] as? Bool) ?? false

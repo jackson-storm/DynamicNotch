@@ -105,6 +105,10 @@ enum NotchContentRegistry {
             id: "tray.active",
             priorityKey: .trayActive
         )
+        static let airDropTransferActive = NotchContentDescriptor(
+            id: "airDrop.transferActive",
+            priorityKey: .airDropTransferActive
+        )
         static let fileConverterActive = NotchContentDescriptor(
             id: "fileConverter.active",
             priorityKey: .fileConverterActive

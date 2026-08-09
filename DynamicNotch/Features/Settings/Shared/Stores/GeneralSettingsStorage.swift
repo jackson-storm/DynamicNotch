@@ -61,6 +61,7 @@ enum GeneralSettingsStorage {
         static let downloadsLiveActivityEnabled = "settings.live.downloads"
         static let downloadsDefaultStrokeEnabled = "settings.live.downloads.defaultStroke"
         static let downloadsProgressIndicatorStyle = "settings.live.downloads.progressIndicatorStyle"
+        static let dragAndDropLiveActivityEnabled = "settings.live.dragAndDrop"
         static let airDropLiveActivityEnabled = "settings.live.airDrop"
         static let airDropDefaultStrokeEnabled = "settings.live.airDrop.defaultStroke"
         static let dragAndDropActivityMode = "settings.live.dragAndDrop.mode"
@@ -205,6 +206,7 @@ enum GeneralSettingsStorage {
         Keys.downloadsLiveActivityEnabled: true,
         Keys.downloadsDefaultStrokeEnabled: false,
         Keys.downloadsProgressIndicatorStyle: DownloadProgressIndicatorStyle.percent.rawValue,
+        Keys.dragAndDropLiveActivityEnabled: true,
         Keys.airDropLiveActivityEnabled: true,
         Keys.airDropDefaultStrokeEnabled: false,
         Keys.dragAndDropActivityMode: DragAndDropActivityMode.combined.rawValue,

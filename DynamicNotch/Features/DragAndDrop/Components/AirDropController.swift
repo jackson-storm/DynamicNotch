@@ -135,9 +135,25 @@ final class NotchAirDropController: NSObject, ObservableObject {
 
     private func beginShare(with batch: ResolvedAirDropBatch) {
         let identifier = UUID()
-        let session = NotchAirDropShareSession(batch: batch) { [weak self] in
-            self?.activeShares.removeValue(forKey: identifier)
-        }
+        airDropViewModel.beginTransfer(id: identifier, urls: batch.urls)
+
+        let session = NotchAirDropShareSession(
+            identifier: identifier,
+            batch: batch,
+            onSuccess: { [weak self] id in
+                Task { @MainActor in
+                    self?.airDropViewModel.completeTransfer(id: id)
+                }
+            },
+            onFailure: { [weak self] id, error in
+                Task { @MainActor in
+                    self?.airDropViewModel.failTransfer(id: id, error: error)
+                }
+            },
+            onFinish: { [weak self] in
+                self?.activeShares.removeValue(forKey: identifier)
+            }
+        )
 
         activeShares[identifier] = session
         session.begin()
@@ -150,12 +166,24 @@ final class NotchAirDropController: NSObject, ObservableObject {
 }
 
 private final class NotchAirDropShareSession: NSObject, NSSharingServiceDelegate {
+    private let identifier: UUID
     private let batch: ResolvedAirDropBatch
+    private let onSuccess: (UUID) -> Void
+    private let onFailure: (UUID, Error) -> Void
     private let onFinish: () -> Void
     private var hasFinished = false
 
-    init(batch: ResolvedAirDropBatch, onFinish: @escaping () -> Void) {
+    init(
+        identifier: UUID,
+        batch: ResolvedAirDropBatch,
+        onSuccess: @escaping (UUID) -> Void,
+        onFailure: @escaping (UUID, Error) -> Void,
+        onFinish: @escaping () -> Void
+    ) {
+        self.identifier = identifier
         self.batch = batch
+        self.onSuccess = onSuccess
+        self.onFailure = onFailure
         self.onFinish = onFinish
         super.init()
     }
@@ -168,16 +196,19 @@ private final class NotchAirDropShareSession: NSObject, NSSharingServiceDelegate
                 self?.finish()
             }
         } catch {
+            onFailure(identifier, error)
             present(error: error)
             finish()
         }
     }
 
     func sharingService(_ sharingService: NSSharingService, didShareItems items: [Any]) {
+        onSuccess(identifier)
         finish()
     }
 
     func sharingService(_ sharingService: NSSharingService, didFailToShareItems items: [Any], error: Error) {
+        onFailure(identifier, error)
         present(error: error)
         finish()
     }

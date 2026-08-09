@@ -14,6 +14,7 @@ final class NotchEventCoordinator: ObservableObject {
     private let wifiViewModel: WifiViewModel
     private let vpnViewModel: VpnViewModel
     private let downloadViewModel: DownloadViewModel
+    private let airDropViewModel: AirDropNotchViewModel
     private let settingsViewModel: SettingsViewModel
     private let nowPlayingViewModel: NowPlayingViewModel
     private let fileTrayViewModel: FileTrayViewModel
@@ -82,6 +83,7 @@ final class NotchEventCoordinator: ObservableObject {
         self.wifiViewModel = wifiViewModel
         self.vpnViewModel = vpnViewModel
         self.downloadViewModel = downloadViewModel
+        self.airDropViewModel = airDropViewModel
         self.settingsViewModel = settingsViewModel
         self.nowPlayingViewModel = nowPlayingViewModel
         self.fileTrayViewModel = fileTrayViewModel
@@ -450,6 +452,24 @@ final class NotchEventCoordinator: ObservableObject {
         }
     }
 
+    private func syncAirDropTransferLiveActivity() {
+        guard settingsViewModel.isLiveActivityEnabled(.drop),
+              settingsViewModel.mediaAndFiles.isAirDropLiveActivityEnabled,
+              airDropViewModel.activeTransfer != nil else {
+            notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.DragAndDrop.airDropTransferActive.id))
+            return
+        }
+
+        notchViewModel.send(
+            .showLiveActivity(
+                AirDropActiveNotchContent(
+                    airDropViewModel: airDropViewModel,
+                    mediaSettings: settingsViewModel.mediaAndFiles
+                )
+            )
+        )
+    }
+
     private func syncFileTrayLiveActivity(hasItems: Bool? = nil) {
         let hasTrayItems = hasItems ?? fileTrayViewModel.items.isEmpty == false
 
@@ -668,6 +688,20 @@ final class NotchEventCoordinator: ObservableObject {
                 self?.dragAndDropHandler.refreshDragAndDropPresentation()
                 self?.syncFileTrayLiveActivity()
                 self?.syncFileConverterLiveActivity()
+            }
+            .store(in: &cancellables)
+
+        settingsViewModel.mediaAndFiles.$isAirDropLiveActivityEnabled
+            .removeDuplicates()
+            .sink { [weak self] _ in
+                self?.dragAndDropHandler.refreshDragAndDropPresentation()
+                self?.syncAirDropTransferLiveActivity()
+            }
+            .store(in: &cancellables)
+
+        airDropViewModel.$activeTransfer
+            .sink { [weak self] _ in
+                self?.syncAirDropTransferLiveActivity()
             }
             .store(in: &cancellables)
 

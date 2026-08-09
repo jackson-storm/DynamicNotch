@@ -291,6 +291,11 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
         set { mediaAndFiles.isDragAndDropLiveActivityEnabled = newValue }
     }
 
+    var isAirDropLiveActivityEnabled: Bool {
+        get { mediaAndFiles.isAirDropLiveActivityEnabled }
+        set { mediaAndFiles.isAirDropLiveActivityEnabled = newValue }
+    }
+
     var isTimerLiveActivityEnabled: Bool {
         get { mediaAndFiles.isTimerLiveActivityEnabled }
         set { mediaAndFiles.isTimerLiveActivityEnabled = newValue }

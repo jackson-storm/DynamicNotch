@@ -34,11 +34,30 @@ struct LockScreenNowPlayingPanelView: View {
     @ObservedObject var animator: LockScreenPanelAnimator
     
     @State private var scrubProgress: CGFloat?
-    @State private var onTapArtwork: Bool = false
+    @State private var onTapArtwork: Bool
     @State private var backgroundRotation: Double = 0
     @State private var backgroundScale: CGFloat = 1
     
     private let animationTick: TimeInterval = 1.0 / 10.0
+    
+    init(
+        snapshot: NowPlayingSnapshot,
+        artworkImage: NSImage?,
+        screen: NSScreen,
+        settingsViewModel: SettingsViewModel,
+        nowPlayingViewModel: NowPlayingViewModel,
+        lockScreenManager: LockScreenManager,
+        animator: LockScreenPanelAnimator
+    ) {
+        self.snapshot = snapshot
+        self.artworkImage = artworkImage
+        self.screen = screen
+        self.settingsViewModel = settingsViewModel
+        self.nowPlayingViewModel = nowPlayingViewModel
+        self.lockScreenManager = lockScreenManager
+        self.animator = animator
+        self._onTapArtwork = State(initialValue: settingsViewModel.lockScreen.isLockScreenArtworkExpanded)
+    }
     
     var body: some View {
         GeometryReader { screenProxy in
@@ -87,11 +106,19 @@ struct LockScreenNowPlayingPanelView: View {
         .animation(.spring(response: 0.58, dampingFraction: 0.86), value: onTapArtwork)
         .animation(.spring(response: 0.58, dampingFraction: 0.86), value: shouldShowExpandedLyrics)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-        .onAppear(perform: syncLyricsPresentationState)
+        .onAppear {
+            if onTapArtwork != settingsViewModel.lockScreen.isLockScreenArtworkExpanded {
+                onTapArtwork = settingsViewModel.lockScreen.isLockScreenArtworkExpanded
+            }
+            syncLyricsPresentationState()
+        }
         .onDisappear {
             nowPlayingViewModel.setLyricsPresentationActive(false)
         }
-        .onChange(of: onTapArtwork) {
+        .onChange(of: onTapArtwork) { _, newValue in
+            if settingsViewModel.lockScreen.isLockScreenArtworkExpanded != newValue {
+                settingsViewModel.lockScreen.isLockScreenArtworkExpanded = newValue
+            }
             syncLyricsPresentationState()
         }
         .onChange(of: settingsViewModel.lockScreen.isLockScreenLyricsEnabled) {

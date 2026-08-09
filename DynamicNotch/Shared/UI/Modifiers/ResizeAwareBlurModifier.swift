@@ -19,9 +19,9 @@ struct ResizeAwareBlurModifier: AnimatableModifier {
     private let swipeInteraction: SwipeInteraction?
 
     private enum Metrics {
-        static let maxBlurRadius: CGFloat = 3
+        static let maxBlurRadius: CGFloat = 20
         static let maxNormalizedDelta: CGFloat = 0.2
-        static let maxOpacityReduction: Double = 0.3
+        static let maxOpacityReduction: Double = 0.9
     }
 
     init(size: CGSize, baseHeight: CGFloat = 38, interactiveBlur: CGFloat, interactiveOpacity: Double, swipeProgress: CGFloat, swipeInteraction: SwipeInteraction?) {

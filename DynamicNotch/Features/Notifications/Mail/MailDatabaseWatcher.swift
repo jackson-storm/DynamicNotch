@@ -128,12 +128,7 @@ final class MailDatabaseWatcher {
         lastRowID = messages.map(\.rowID).max() ?? lastRowID
 
         for message in messages {
-            DispatchQueue.main.async {
-                NotificationCenter.default.post(
-                    name: .mailDatabaseDidReceiveMessage,
-                    object: message
-                )
-            }
+            message.summary?.isEmpty == false ? post(message) : scheduleMessageRefresh(for: message)
         }
     }
     
@@ -145,12 +140,52 @@ final class MailDatabaseWatcher {
         scheduleRestart()
     }
     
-    // Retry watcher creation after the WAL file becomes available again
+    //Retry watcher creation after the WAL file becomes available again
     private func scheduleRestart() {
         queue.asyncAfter(deadline: .now() + 1) { [weak self] in
             guard let self, source == nil else { return }
 
             startWatchingWriteAheadLog()
+        }
+    }
+    
+    //Post a new Mail message notification
+    private func post(_ message: MailMessage) {
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(
+                name: .mailDatabaseDidReceiveMessage,
+                object: message
+            )
+        }
+    }
+    
+    //Retry reading a Mail message until its summary is available
+    private func scheduleMessageRefresh(
+        for message: MailMessage,
+        attempt: Int = 1
+    ) {
+        queue.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+            guard let self else { return }
+
+            guard let refreshedMessage = reader.message(withRowID: message.rowID) else {
+                post(message)
+                return
+            }
+
+            if refreshedMessage.summary?.isEmpty == false {
+                post(refreshedMessage)
+                return
+            }
+
+            if attempt >= 10 {
+                post(refreshedMessage)
+                return
+            }
+
+            scheduleMessageRefresh(
+                for: refreshedMessage,
+                attempt: attempt + 1
+            )
         }
     }
 }

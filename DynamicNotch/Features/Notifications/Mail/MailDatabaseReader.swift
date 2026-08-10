@@ -109,6 +109,65 @@ final class MailDatabaseReader {
             }
         } ?? []
     }
+    
+    //Fetch a Mail message by its RowID
+    func message(withRowID rowID: Int64) -> MailMessage? {
+        let query = """
+        SELECT
+            m.ROWID,
+            mgd.message_id_header,
+            m.date_received,
+            a.address,
+            s.subject,
+            sm.summary
+        FROM messages AS m
+        INNER JOIN mailboxes AS mb
+            ON mb.ROWID = m.mailbox
+        LEFT JOIN message_global_data AS mgd
+            ON mgd.ROWID = m.global_message_id
+        LEFT JOIN addresses AS a
+            ON a.ROWID = m.sender
+        LEFT JOIN subjects AS s
+            ON s.ROWID = m.subject
+        LEFT JOIN summaries AS sm
+            ON sm.ROWID = m.summary
+        WHERE
+            m.ROWID = ?
+            AND m.deleted = 0
+            AND LOWER(RTRIM(mb.url, '/')) LIKE '%/inbox'
+        LIMIT 1;
+        """
+
+        return inDatabase { database in
+            inStatement(
+                database: database,
+                query: query,
+                errorMessage: "Failed to prepare Mail message query"
+            ) { statement in
+                sqlite3_bind_int64(statement, 1, rowID)
+
+                guard sqlite3_step(statement) == SQLITE_ROW else { return nil }
+
+                let messageRowID = sqlite3_column_int64(statement, 0)
+                let messageIDHeader = stringValue(from: statement, column: 1) ?? ""
+                let receivedTimestamp = sqlite3_column_int64(statement, 2)
+                let sender = stringValue(from: statement, column: 3) ?? ""
+                let subject = stringValue(from: statement, column: 4) ?? ""
+                let summary = stringValue(from: statement, column: 5)
+
+                return MailMessage(
+                    rowID: messageRowID,
+                    messageIDHeader: messageIDHeader,
+                    sender: sender,
+                    subject: subject,
+                    summary: summary,
+                    receivedDate: Date(
+                        timeIntervalSince1970: TimeInterval(receivedTimestamp)
+                    )
+                )
+            }
+        }
+    }
 
     //Locate Envelope Index database in Mail storage version
     func databaseURL() -> URL? {

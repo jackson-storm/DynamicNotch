@@ -60,7 +60,7 @@ struct AirDropActiveNotchView: View {
             case .completed:
                 Image(systemName: "checkmark.circle.fill")
                     .font(.system(size: isDynamicIsland ? 14 : 20, weight: .semibold))
-                    .foregroundStyle(Color.green)
+                    .foregroundStyle(Color.blue)
                 
             case .failed:
                 Image(systemName: "exclamationmark.circle.fill")

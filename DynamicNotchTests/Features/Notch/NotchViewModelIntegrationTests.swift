@@ -1005,15 +1005,15 @@ final class NotchViewModelIntegrationTests: XCTestCase {
         )
         TestLifetime.retain(viewModel)
 
-        XCTAssertEqual(viewModel.notchModel.baseWidth, 220.7, accuracy: 0.001)
+        XCTAssertEqual(viewModel.notchModel.baseWidth, 220.245, accuracy: 0.01)
         XCTAssertEqual(viewModel.notchModel.baseHeight, 37, accuracy: 0.001)
 
         settings.displayLocation = .main
         viewModel.updateDimensions()
 
         let mainScale = max(0.35, CGFloat(1728) / 1440.0)
-        XCTAssertEqual(viewModel.notchModel.baseWidth, 102.0, accuracy: 0.001)
-        XCTAssertEqual(viewModel.notchModel.baseHeight, 27.0, accuracy: 0.001)
+        XCTAssertEqual(viewModel.notchModel.baseWidth, 104.592, accuracy: 0.01)
+        XCTAssertEqual(viewModel.notchModel.baseHeight, 24.0, accuracy: 0.001)
     }
 
     @MainActor
@@ -1042,8 +1042,8 @@ final class NotchViewModelIntegrationTests: XCTestCase {
         TestLifetime.retain(viewModel)
 
         let scale = max(0.35, CGFloat(1920) / 1440.0)
-        XCTAssertEqual(viewModel.notchModel.baseWidth, 113.333, accuracy: 0.01)
-        XCTAssertEqual(viewModel.notchModel.baseHeight, 30.333, accuracy: 0.01)
+        XCTAssertEqual(viewModel.notchModel.baseWidth, 109.154, accuracy: 0.01)
+        XCTAssertEqual(viewModel.notchModel.baseHeight, 24.0, accuracy: 0.01)
     }
 
     @MainActor

@@ -294,14 +294,15 @@ final class NotchViewModel: ObservableObject {
         let screenWidth = screenMetrics.width
         let baseScreenWidth: CGFloat = 1440.0
         let scale = max(0.35, screenWidth / baseScreenWidth)
+        let widthScale = scale > 1.0 ? 1.0 + (scale - 1.0) * 0.35 : scale
         
         let isDynamicIsland = screenMetrics.topInset == 0
         let widthOffset = CGFloat(settings.notchWidth)
         let heightOffset = CGFloat(settings.notchHeight)
-        let baseHeightAdjustment: CGFloat = isDynamicIsland ? -3 : 0
+        let baseHeightAdjustment: CGFloat = isDynamicIsland ? -1 : 0
         
         if let notchSize = screenMetrics.notchSize {
-            let baseWidth = notchSize.width + 14.scaled(by: scale) + widthOffset
+            let baseWidth = notchSize.width + 14.scaled(by: widthScale) + widthOffset
             let finalWidth = isDynamicIsland ? baseWidth * 0.85 : baseWidth
             
             engine.updateBaseGeometry(
@@ -312,11 +313,13 @@ final class NotchViewModel: ObservableObject {
             )
             
         } else {
-            let baseWidthValue: CGFloat = isDynamicIsland ? 100 : 190
+            let baseWidthValue: CGFloat = isDynamicIsland ? 120 : 190
+            let baseWidth = (baseWidthValue * widthScale) + widthOffset
+            let finalWidth = isDynamicIsland ? baseWidth * 0.85 : baseWidth
             
             engine.updateBaseGeometry(
-                width: (baseWidthValue * scale) + widthOffset,
-                height: (25 * scale) + heightOffset + baseHeightAdjustment,
+                width: finalWidth,
+                height: 26 + heightOffset + baseHeightAdjustment,
                 scale: scale,
                 isDynamicIsland: isDynamicIsland
             )

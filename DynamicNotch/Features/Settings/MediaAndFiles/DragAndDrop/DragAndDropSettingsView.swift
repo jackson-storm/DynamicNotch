@@ -18,7 +18,7 @@ struct DragAndDropSettingsView: View {
                 title: "Drag&Drop live activity",
                 description: "Show AirDrop and Tray targets when you drag files over the notch.",
                 systemImage: "tray.and.arrow.down.fill",
-                color: .black,
+                color: .gray,
                 stroke: true,
                 isOn: $mediaSettings.isDragAndDropLiveActivityEnabled,
                 accessibilityIdentifier: "settings.activities.live.drop"
@@ -47,7 +47,8 @@ struct DragAndDropSettingsView: View {
                 title: "Tray live activity",
                 description: "Show the pinned file tray after files are dropped into Tray.",
                 systemImage: "tray.full.fill",
-                color: .blue,
+                color: .black,
+                stroke: true,
                 isOn: $mediaSettings.isTrayLiveActivityEnabled,
                 accessibilityIdentifier: "settings.activities.live.drop.tray"
             )
@@ -91,7 +92,8 @@ struct DragAndDropSettingsView: View {
                 title: "settings.dragAndDrop.tray.title",
                 description: "settings.dragAndDrop.tray.subtitle",
                 systemImage: "tray.full.fill",
-                color: .blue,
+                color: .black,
+                stroke: true,
                 accessibilityIdentifier: "settings.dragAndDrop.tray",
                 position: .single,
                 value: SettingsSubPage.fileTray

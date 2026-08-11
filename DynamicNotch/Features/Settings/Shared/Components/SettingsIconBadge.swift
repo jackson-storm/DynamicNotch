@@ -118,7 +118,6 @@ struct SettingsIconBadge: View {
         case .asset(let imageName):
             Image(imageName)
                 .resizable()
-                .renderingMode(.template)
                 .foregroundStyle(iconColor)
                 .scaledToFit()
                 .frame(width: iconSize + 4, height: iconSize + 4)

@@ -21,8 +21,6 @@ struct LockScreenNowPlayingPanelView: View {
     private static let expandedLyricsWidth: CGFloat = 520
     private static let expandedLyricsSpacing: CGFloat = 90
     private static let panelCenterYOffset: CGFloat = (Self.panelSize.height / 2) + 80
-    private static let backgroundScaleRange: ClosedRange<CGFloat> = 1...2
-    private static let rotationOverscanScale: CGFloat = 1.04
     
     let snapshot: NowPlayingSnapshot
     let artworkImage: NSImage?
@@ -35,8 +33,6 @@ struct LockScreenNowPlayingPanelView: View {
     
     @State private var scrubProgress: CGFloat?
     @State private var onTapArtwork: Bool
-    @State private var backgroundRotation: Double = 0
-    @State private var backgroundScale: CGFloat = 1
     
     private let animationTick: TimeInterval = 1.0 / 10.0
     
@@ -66,11 +62,7 @@ struct LockScreenNowPlayingPanelView: View {
             
             ZStack {
                 if onTapArtwork {
-                    artworkPresentationBackground
-                        .onAppear(perform: configureMediaPanelBackgroundAnimation)
-                        .onChange(of: mediaPanelBackgroundStyle) {
-                            configureMediaPanelBackgroundAnimation()
-                        }
+                    coverAndBackgroundPresentation
                         .ignoresSafeArea()
                         .transition(.opacity)
                 }
@@ -209,49 +201,8 @@ struct LockScreenNowPlayingPanelView: View {
         settingsViewModel.lockScreen.mediaPanelBackgroundStyle
     }
 
-    private var mediaPanelBackgroundScale: CGFloat {
-        mediaPanelBackgroundStyle == .animatedArtwork ?
-        backgroundScale :
-        1
-    }
-
-    private var mediaPanelBackgroundRotation: Angle {
-        mediaPanelBackgroundStyle == .animatedArtwork ?
-        .degrees(backgroundRotation) :
-        .zero
-    }
-
-    private func configureMediaPanelBackgroundAnimation() {
-        var transaction = Transaction()
-        transaction.disablesAnimations = true
-        withTransaction(transaction) {
-            backgroundRotation = 0
-            backgroundScale = Self.backgroundScaleRange.lowerBound
-        }
-
-        guard
-            mediaPanelBackgroundStyle == .animatedArtwork
-        else {
-            return
-        }
-
-        withAnimation(.linear(duration: 30).repeatForever(autoreverses: false)) {
-            backgroundRotation = 360
-        }
-
-        withAnimation(.easeInOut(duration: 4).repeatForever(autoreverses: true)) {
-            backgroundScale = Self.backgroundScaleRange.upperBound
-        }
-    }
-
-    @ViewBuilder
-    private var artworkPresentationBackground: some View {
-        coverAndBackgroundPresentation
-    }
-
     private var coverAndBackgroundPresentation: some View {
         GeometryReader { proxy in
-            let diagonal = hypot(proxy.size.width, proxy.size.height) * Self.rotationOverscanScale
             ZStack {
                 Color.black
 
@@ -261,10 +212,8 @@ struct LockScreenNowPlayingPanelView: View {
                         blurRadius: 200,
                         darkeningOpacity: 0.6,
                         saturation: 1.45,
-                        scale: mediaPanelBackgroundScale
+                        scale: 1
                     )
-                    .frame(width: diagonal, height: diagonal)
-                    .rotationEffect(mediaPanelBackgroundRotation)
                 }
             }
             .frame(width: proxy.size.width, height: proxy.size.height)

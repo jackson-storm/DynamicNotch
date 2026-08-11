@@ -1054,6 +1054,7 @@
       }
     },
     "Animated background" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -19388,6 +19389,64 @@
         }
       }
     },
+    "settings.permissions.automation.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allow controlling System Events to automatically center screenshot and recording preview windows on screen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permite controlar System Events para centrar automáticamente las ventanas de vista previa."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Разрешите управление System Events для автоматического центрирования окон просмотра скриншотов и записей экрана."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "允许控制 System Events 以在屏幕上自动居中显示截图和录屏预览窗口。"
+          }
+        }
+      }
+    },
+    "settings.permissions.automation.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automation (System Events)"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatización (System Events)"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Автоматизация (System Events)"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自动化 (System Events)"
+          }
+        }
+      }
+    },
     "settings.permissions.bluetooth.description" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -19563,64 +19622,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "权限"
-          }
-        }
-      }
-    },
-    "settings.permissions.automation.description" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Allow controlling System Events to automatically center screenshot and recording preview windows on screen."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Permite controlar System Events para centrar automáticamente las ventanas de vista previa."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Разрешите управление System Events для автоматического центрирования окон просмотра скриншотов и записей экрана."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "允许控制 System Events 以在屏幕上自动居中显示截图和录屏预览窗口。"
-          }
-        }
-      }
-    },
-    "settings.permissions.automation.title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Automation (System Events)"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Automatización (System Events)"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Автоматизация (System Events)"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "自动化 (System Events)"
           }
         }
       }

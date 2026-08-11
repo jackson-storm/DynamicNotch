@@ -3,12 +3,14 @@ import SwiftUI
 struct ScreenshotNotchView: View {
     @ObservedObject var screenshotViewModel: ScreenshotViewModel
     @Environment(\.isDynamicIsland) private var isDynamicIsland
+    @State private var isHovering: Bool = false
     
     var body: some View {
         VStack {
             Spacer()
             screenshot
         }
+        .onHover { isHovering = $0 }
         .padding(.horizontal, isDynamicIsland ? 10 : 36)
         .padding(.bottom, isDynamicIsland ? 10 : 10)
     }
@@ -39,22 +41,25 @@ struct ScreenshotNotchView: View {
                         }
                         return screenshotViewModel.makeItemProvider(for: screenshot)
                     }
-                    buttons
+                    
+                    if isHovering {
+                        buttons
+                    }
                 }
             }
         }
     }
     
     private var buttons: some View {
-        HStack {
-            Button(action: { screenshotViewModel.showInFinder() }) {
+        VStack(spacing: 10) {
+            Button(action: { screenshotViewModel.deleteScreenshot() }) {
                 ZStack {
                     Circle()
                         .fill(.thickMaterial)
-                        .stroke(.white.opacity(0.1))
+                        .stroke(.white.opacity(0.08))
                         .frame(width: 30, height: 30)
                     
-                    Image(systemName: "folder.fill")
+                    Image(systemName: "trash.fill")
                         .font(.system(size: 12, weight: .medium))
                         .foregroundStyle(Color.white)
                 }
@@ -64,7 +69,7 @@ struct ScreenshotNotchView: View {
                 ZStack {
                     Circle()
                         .fill(.thickMaterial)
-                        .stroke(.white.opacity(0.1))
+                        .stroke(.white.opacity(0.08))
                         .frame(width: 30, height: 30)
                     
                     Image(systemName: "document.on.document.fill")
@@ -73,14 +78,14 @@ struct ScreenshotNotchView: View {
                 }
             }
             
-            Button(action: { screenshotViewModel.deleteScreenshot() }) {
+            Button(action: { screenshotViewModel.showInFinder() }) {
                 ZStack {
                     Circle()
                         .fill(.thickMaterial)
-                        .stroke(.white.opacity(0.1))
+                        .stroke(.white.opacity(0.08))
                         .frame(width: 30, height: 30)
                     
-                    Image(systemName: "trash.fill")
+                    Image(systemName: "folder.fill")
                         .font(.system(size: 12, weight: .medium))
                         .foregroundStyle(Color.white)
                 }

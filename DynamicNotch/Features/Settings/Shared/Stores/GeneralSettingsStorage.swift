@@ -243,7 +243,7 @@ enum GeneralSettingsStorage {
         LockScreenSettings.widgetTintStyleKey: LockScreenWidgetTintStyle.neutral.rawValue,
         LockScreenSettings.widgetBackgroundBrightnessKey: 1.0,
         LockScreenSettings.liquidGlassVariantKey: 8,
-        LockScreenSettings.mediaPanelBackgroundStyleKey: LockScreenMediaPanelBackgroundStyle.animatedArtwork.rawValue,
+        LockScreenSettings.mediaPanelBackgroundStyleKey: LockScreenMediaPanelBackgroundStyle.staticArtwork.rawValue,
         LockScreenSettings.lyricsEnabledKey: true,
         LockScreenSettings.mediaPanelVerticalOffsetKey: 0.0,
         Keys.chargerTemporaryActivityEnabled: true,

@@ -146,7 +146,7 @@ final class LockScreenFeatureSettingsStore: SettingsStoreBase {
         liquidGlassVariant = defaultInt(for: LockScreenSettings.liquidGlassVariantKey)
         mediaPanelBackgroundStyle = LockScreenMediaPanelBackgroundStyle(
             rawValue: defaultString(for: LockScreenSettings.mediaPanelBackgroundStyleKey)
-        ) ?? .animatedArtwork
+        ) ?? .staticArtwork
         isLockScreenLyricsEnabled = defaultBool(for: LockScreenSettings.lyricsEnabledKey)
         isLockScreenArtworkExpanded = defaultBool(for: LockScreenSettings.artworkExpandedKey)
         mediaPanelVerticalOffset = defaultDouble(for: LockScreenSettings.mediaPanelVerticalOffsetKey)

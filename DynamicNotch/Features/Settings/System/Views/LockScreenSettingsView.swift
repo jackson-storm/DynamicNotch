@@ -329,8 +329,6 @@ struct LockScreenSettingsView: View {
 private extension LockScreenMediaPanelBackgroundStyle {
     var previewSystemImage: String {
         switch self {
-        case .animatedArtwork:
-            "sparkles"
         case .staticArtwork:
             "photo.fill"
         case .black:

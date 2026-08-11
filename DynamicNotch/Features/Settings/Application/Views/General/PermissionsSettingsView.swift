@@ -44,6 +44,7 @@ struct PermissionsSettingsView: View {
                     imageName: assetImageName,
                     tint: item.tintColor,
                     size: 30,
+                    iconColor: item.iconColor,
                     iconSize: 14,
                     cornerRadius: 9
                 )
@@ -52,6 +53,7 @@ struct PermissionsSettingsView: View {
                     systemImage: item.systemImage,
                     tint: item.tintColor,
                     size: 30,
+                    iconColor: item.iconColor,
                     iconSize: 14,
                     cornerRadius: 9
                 )

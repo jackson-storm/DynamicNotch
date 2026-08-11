@@ -71,16 +71,20 @@ struct CameraNotchView: View {
                     .padding(.horizontal, isDynamicIsland ? 0 : 12)
                 
                 HStack {
-                    if isHovering {
-                        cameraButton
-                    }
+                    cameraButton
                 }
+                .blur(radius: isHovering ? 0 : 6)
+                .opacity(isHovering ? 1 : 0)
+                .allowsHitTesting(isHovering)
                 .font(.system(size: 14))
                 .padding(.bottom, 12)
                 .buttonStyle(.plain)
             }
-            .onHover { isHovering = $0 }
-            .animation(.spring(response: 0.4), value: isHovering)
+            .onHover { hovering in
+                withAnimation(.spring(duration: 0.4)) {
+                    isHovering = hovering
+                }
+            }
         }
     }
     

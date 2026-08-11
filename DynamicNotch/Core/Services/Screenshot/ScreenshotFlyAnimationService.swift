@@ -36,14 +36,20 @@ final class ScreenshotFlyAnimationService {
         let targetScreen = NSScreen.screens.first { NSMouseInRect(mouseLoc, $0.frame, false) } ?? mainScreen
         let screenFrame = targetScreen.frame
         
-        let initialWidth: CGFloat = 380
-        let initialHeight: CGFloat = 240
+        let initialWidth: CGFloat = 300
+        let initialHeight: CGFloat = 300
         let rawX = mouseLoc.x - (initialWidth / 2)
         let rawY = mouseLoc.y - (initialHeight / 2)
         
         let initialX = max(screenFrame.minX + 20, min(rawX, screenFrame.maxX - initialWidth - 20))
         let initialY = max(screenFrame.minY + 20, min(rawY, screenFrame.maxY - initialHeight - 20))
         let startFrame = NSRect(x: initialX, y: initialY, width: initialWidth, height: initialHeight)
+        
+        let popWidth = initialWidth * 0.2
+        let popHeight = initialHeight * 2.5
+        let popX = startFrame.midX - (popWidth / 2)
+        let popY = startFrame.midY - (popHeight / 2)
+        let popFrame = NSRect(x: popX, y: popY, width: popWidth, height: popHeight)
         
         let targetWidth: CGFloat = 140
         let targetHeight: CGFloat = 35
@@ -76,7 +82,7 @@ final class ScreenshotFlyAnimationService {
         }
         
         NSAnimationContext.runAnimationGroup { context in
-            context.duration = 0.38
+            context.duration = 0.45
             context.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
             panel.animator().setFrame(endFrame, display: true)
             

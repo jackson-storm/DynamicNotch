@@ -1,5 +1,6 @@
 internal import AppKit
 import Combine
+import QuickLookUI
 
 @MainActor
 final class ScreenshotViewModel: ObservableObject {
@@ -122,7 +123,44 @@ final class ScreenshotViewModel: ObservableObject {
               fileManager.fileExists(atPath: targetURL.path) else { return }
         
         NSWorkspace.shared.open(targetURL)
+        centerPreviewWindowOnScreen()
         dismiss()
+    }
+    
+    private func centerPreviewWindowOnScreen() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+            let script = """
+            tell application "System Events"
+                repeat with appName in {"Preview", "Просмотр", "QuickLook"}
+                    if exists (process appName) then
+                        tell process appName
+                            if (count of windows) > 0 then
+                                set win to window 1
+                                set {w, h} to size of win
+                                tell application "Finder"
+                                    set screenBounds to bounds of window of desktop
+                                    set screenW to item 3 of screenBounds
+                                    set screenH to item 4 of screenBounds
+                                end tell
+                                set newX to (screenW - w) / 2
+                                set newY to (screenH - h) / 2
+                                set position of win to {newX, newY}
+                                exit repeat
+                            end if
+                        end tell
+                    end if
+                end repeat
+            end tell
+            """
+            if let appleScript = NSAppleScript(source: script) {
+                var error: NSDictionary?
+                appleScript.executeAndReturnError(&error)
+            }
+        }
+        
+        if let panel = QLPreviewPanel.shared(), QLPreviewPanel.sharedPreviewPanelExists() {
+            panel.center()
+        }
     }
     
     func makeItemProvider(for screenshot: ScreenshotModel) -> NSItemProvider {

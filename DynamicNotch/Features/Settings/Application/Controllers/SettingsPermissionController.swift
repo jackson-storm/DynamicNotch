@@ -8,6 +8,7 @@ internal import EventKit
 
 #if canImport(ApplicationServices)
 import ApplicationServices
+import CoreServices
 #endif
 
 enum Kind: String {
@@ -17,6 +18,7 @@ enum Kind: String {
     case camera
     case calendar
     case fullDiskAccess
+    case automation
 }
 
 struct PermissionItem: Identifiable {
@@ -28,10 +30,41 @@ struct PermissionItem: Identifiable {
     let assetImageName: String?
     let systemImage: String
     let tintColor: Color
+    let iconColor: Color
     let isGranted: Bool
     let actionTitleKey: String?
     let fallbackActionTitle: String?
     let accessibilityIdentifier: String
+
+    init(
+        kind: Kind,
+        titleKey: String,
+        fallbackTitle: String,
+        descriptionKey: String,
+        fallbackDescription: String,
+        assetImageName: String? = nil,
+        systemImage: String,
+        tintColor: Color,
+        iconColor: Color = .white,
+        isGranted: Bool,
+        actionTitleKey: String?,
+        fallbackActionTitle: String?,
+        accessibilityIdentifier: String
+    ) {
+        self.kind = kind
+        self.titleKey = titleKey
+        self.fallbackTitle = fallbackTitle
+        self.descriptionKey = descriptionKey
+        self.fallbackDescription = fallbackDescription
+        self.assetImageName = assetImageName
+        self.systemImage = systemImage
+        self.tintColor = tintColor
+        self.iconColor = iconColor
+        self.isGranted = isGranted
+        self.actionTitleKey = actionTitleKey
+        self.fallbackActionTitle = fallbackActionTitle
+        self.accessibilityIdentifier = accessibilityIdentifier
+    }
 
     var id: String { kind.rawValue }
 }
@@ -44,11 +77,13 @@ final class SettingsPermissionController: NSObject, ObservableObject, CBCentralM
     @Published private(set) var cameraAuthorization: AVAuthorizationStatus
     @Published private(set) var calendarAuthorization: EKAuthorizationStatus
     @Published private(set) var isFullDiskAccessGranted: Bool
+    @Published private(set) var isAutomationAccessGranted: Bool
 
     private var didPromptForAccessibility = false
     private var didPromptForPostEventAccess = false
     private var didPromptForCameraAccess = false
     private var didPromptForCalendarAccess = false
+    private var didPromptForAutomationAccess = false
     private var bluetoothPermissionRequester: CBCentralManager?
     private var cancellables = Set<AnyCancellable>()
 
@@ -67,6 +102,9 @@ final class SettingsPermissionController: NSObject, ObservableObject, CBCentralM
     private static let fullDiskAccessPrivacySettingsURL = URL(
         string: "x-apple.systempreferences:com.apple.preference.security?Privacy_AllFiles"
     )
+    private static let automationPrivacySettingsURL = URL(
+        string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Automation"
+    )
 
     init(notificationCenter: NotificationCenter = .default) {
         self.bluetoothAuthorization = Self.currentBluetoothAuthorizationStatus()
@@ -75,6 +113,7 @@ final class SettingsPermissionController: NSObject, ObservableObject, CBCentralM
         self.cameraAuthorization = AVCaptureDevice.authorizationStatus(for: .video)
         self.calendarAuthorization = EKEventStore.authorizationStatus(for: .event)
         self.isFullDiskAccessGranted = FullDiskAccessAuthorization.hasPermission()
+        self.isAutomationAccessGranted = Self.currentAutomationAccessState()
 
         super.init()
 
@@ -93,6 +132,7 @@ final class SettingsPermissionController: NSObject, ObservableObject, CBCentralM
         cameraAuthorization = AVCaptureDevice.authorizationStatus(for: .video)
         calendarAuthorization = EKEventStore.authorizationStatus(for: .event)
         isFullDiskAccessGranted = FullDiskAccessAuthorization.hasPermission()
+        isAutomationAccessGranted = Self.currentAutomationAccessState()
     }
 
     var permissionItems: [PermissionItem] {
@@ -103,7 +143,6 @@ final class SettingsPermissionController: NSObject, ObservableObject, CBCentralM
                 fallbackTitle: "Accessibility",
                 descriptionKey: "settings.permissions.accessibility.description",
                 fallbackDescription: "Allow Accessibility access to use custom volume and brightness HUD controls.",
-                assetImageName: nil,
                 systemImage: "hand.raised.fill",
                 tintColor: .orange,
                 isGranted: isAccessibilityTrusted,
@@ -132,12 +171,26 @@ final class SettingsPermissionController: NSObject, ObservableObject, CBCentralM
                 accessibilityIdentifier: "settings.permissions.bluetooth"
             ),
             PermissionItem(
+                kind: .camera,
+                titleKey: "settings.permissions.camera.title",
+                fallbackTitle: "Camera",
+                descriptionKey: "settings.permissions.camera.description",
+                fallbackDescription: "Allow Camera access to display a camera preview in the notch.",
+                assetImageName: nil,
+                systemImage: "camera.fill",
+                tintColor: .gray,
+                iconColor: .black,
+                isGranted: cameraAuthorization == .authorized,
+                actionTitleKey: cameraActionTitleKey,
+                fallbackActionTitle: cameraFallbackActionTitle,
+                accessibilityIdentifier: "settings.permissions.camera"
+            ),
+            PermissionItem(
                 kind: .mediaControls,
                 titleKey: "settings.permissions.mediaControls.title",
                 fallbackTitle: "Media Controls",
                 descriptionKey: "settings.permissions.mediaControls.description",
                 fallbackDescription: "Allow media control event access so play, pause, and track buttons work from Now Playing.",
-                assetImageName: nil,
                 systemImage: "music.note",
                 tintColor: .red,
                 isGranted: canPostMediaKeyEvents,
@@ -152,18 +205,17 @@ final class SettingsPermissionController: NSObject, ObservableObject, CBCentralM
                 accessibilityIdentifier: "settings.permissions.mediaControls"
             ),
             PermissionItem(
-                kind: .camera,
-                titleKey: "settings.permissions.camera.title",
-                fallbackTitle: "Camera",
-                descriptionKey: "settings.permissions.camera.description",
-                fallbackDescription: "Allow Camera access to display a camera preview in the notch.",
-                assetImageName: nil,
-                systemImage: "camera.fill",
-                tintColor: .black,
-                isGranted: cameraAuthorization == .authorized,
-                actionTitleKey: cameraActionTitleKey,
-                fallbackActionTitle: cameraFallbackActionTitle,
-                accessibilityIdentifier: "settings.permissions.camera"
+                kind: .fullDiskAccess,
+                titleKey: "settings.permissions.fullDiskAccess.title",
+                fallbackTitle: "Full Disk Access",
+                descriptionKey: "settings.permissions.fullDiskAccess.description",
+                fallbackDescription: "Allow Full Disk Access to display real names and custom icons of Focus modes.",
+                systemImage: "opticaldiscdrive.fill",
+                tintColor: .gray,
+                isGranted: isFullDiskAccessGranted,
+                actionTitleKey: isFullDiskAccessGranted ? nil : "settings.permissions.action.openPrivacySettings",
+                fallbackActionTitle: isFullDiskAccessGranted ? nil : "Open Privacy Settings",
+                accessibilityIdentifier: "settings.permissions.fullDiskAccess"
             ),
             PermissionItem(
                 kind: .calendar,
@@ -180,18 +232,24 @@ final class SettingsPermissionController: NSObject, ObservableObject, CBCentralM
                 accessibilityIdentifier: "settings.permissions.calendar"
             ),
             PermissionItem(
-                kind: .fullDiskAccess,
-                titleKey: "settings.permissions.fullDiskAccess.title",
-                fallbackTitle: "Full Disk Access",
-                descriptionKey: "settings.permissions.fullDiskAccess.description",
-                fallbackDescription: "Allow Full Disk Access to display real names and custom icons of Focus modes.",
+                kind: .automation,
+                titleKey: "settings.permissions.automation.title",
+                fallbackTitle: "Automation (System Events)",
+                descriptionKey: "settings.permissions.automation.description",
+                fallbackDescription: "Allow controlling System Events to automatically center screenshot and recording preview windows on screen.",
                 assetImageName: nil,
-                systemImage: "opticaldiscdrive.fill",
+                systemImage: "gearshape.2.fill",
                 tintColor: .gray,
-                isGranted: isFullDiskAccessGranted,
-                actionTitleKey: isFullDiskAccessGranted ? nil : "settings.permissions.action.openPrivacySettings",
-                fallbackActionTitle: isFullDiskAccessGranted ? nil : "Open Privacy Settings",
-                accessibilityIdentifier: "settings.permissions.fullDiskAccess"
+                isGranted: isAutomationAccessGranted,
+                actionTitleKey: isAutomationAccessGranted ? nil : (
+                    didPromptForAutomationAccess ?
+                    "settings.permissions.action.openPrivacySettings" :
+                    "settings.permissions.action.grantAccess"
+                ),
+                fallbackActionTitle: isAutomationAccessGranted ? nil : (
+                    didPromptForAutomationAccess ? "Open Privacy Settings" : "Grant Access"
+                ),
+                accessibilityIdentifier: "settings.permissions.automation"
             )
         ]
     }
@@ -210,6 +268,8 @@ final class SettingsPermissionController: NSObject, ObservableObject, CBCentralM
             requestCalendarAccess()
         case .fullDiskAccess:
             Self.openFullDiskAccessPrivacySettings()
+        case .automation:
+            requestAutomationAccess()
         }
     }
 
@@ -436,6 +496,43 @@ final class SettingsPermissionController: NSObject, ObservableObject, CBCentralM
         #else
         true
         #endif
+    }
+
+    private func requestAutomationAccess() {
+        guard !Self.currentAutomationAccessState() else {
+            refresh()
+            return
+        }
+
+        if !didPromptForAutomationAccess {
+            didPromptForAutomationAccess = true
+            let script = "tell application \"System Events\" to get name"
+            if let appleScript = NSAppleScript(source: script) {
+                var error: NSDictionary?
+                _ = appleScript.executeAndReturnError(&error)
+            }
+        } else {
+            Self.openAutomationPrivacySettings()
+        }
+
+        refresh()
+    }
+
+    private static func openAutomationPrivacySettings() {
+        guard let automationPrivacySettingsURL else { return }
+        NSWorkspace.shared.open(automationPrivacySettingsURL)
+    }
+
+    private static func currentAutomationAccessState() -> Bool {
+        let script = "tell application \"System Events\" to get name"
+        if let appleScript = NSAppleScript(source: script) {
+            var error: NSDictionary?
+            _ = appleScript.executeAndReturnError(&error)
+            if let err = error, let errNum = err[NSAppleScript.errorNumber] as? Int, errNum == -1743 || errNum == -1744 {
+                return false
+            }
+        }
+        return true
     }
 
     private static func currentBluetoothAuthorizationStatus() -> CBManagerAuthorization {

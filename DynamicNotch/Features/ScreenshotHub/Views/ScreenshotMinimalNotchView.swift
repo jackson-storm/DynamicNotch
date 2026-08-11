@@ -10,7 +10,11 @@ struct ScreenshotNotchView: View {
             Spacer()
             screenshot
         }
-        .onHover { isHovering = $0 }
+        .onHover { hovering in
+            withAnimation(.spring(duration: 0.4)) {
+                isHovering = hovering
+            }
+        }
         .padding(.horizontal, isDynamicIsland ? 10 : 36)
         .padding(.bottom, isDynamicIsland ? 10 : 10)
     }
@@ -42,9 +46,10 @@ struct ScreenshotNotchView: View {
                         return screenshotViewModel.makeItemProvider(for: screenshot)
                     }
                     
-                    if isHovering {
-                        buttons
-                    }
+                    buttons
+                        .blur(radius: isHovering ? 0 : 6)
+                        .opacity(isHovering ? 1 : 0)
+                        .allowsHitTesting(isHovering)
                 }
             }
         }
@@ -55,7 +60,7 @@ struct ScreenshotNotchView: View {
             Button(action: { screenshotViewModel.deleteScreenshot() }) {
                 ZStack {
                     Circle()
-                        .fill(.thickMaterial)
+                        .fill(.thinMaterial)
                         .stroke(.white.opacity(0.08))
                         .frame(width: 30, height: 30)
                     
@@ -68,7 +73,7 @@ struct ScreenshotNotchView: View {
             Button(action: { screenshotViewModel.copyImageToClipboard() }) {
                 ZStack {
                     Circle()
-                        .fill(.thickMaterial)
+                        .fill(.thinMaterial)
                         .stroke(.white.opacity(0.08))
                         .frame(width: 30, height: 30)
                     
@@ -81,7 +86,7 @@ struct ScreenshotNotchView: View {
             Button(action: { screenshotViewModel.showInFinder() }) {
                 ZStack {
                     Circle()
-                        .fill(.thickMaterial)
+                        .fill(.thinMaterial)
                         .stroke(.white.opacity(0.08))
                         .frame(width: 30, height: 30)
                     

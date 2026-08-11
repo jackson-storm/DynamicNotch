@@ -77,6 +77,10 @@ final class ScreenshotMonitorService {
     }
     
     private func computeUserTargetDirectoryURL() -> URL {
+        if let customPath = UserDefaults.standard.string(forKey: "settings.screenshot.savePath"), !customPath.isEmpty {
+            let expanded = (customPath as NSString).expandingTildeInPath
+            return URL(fileURLWithPath: expanded)
+        }
         let desktop = fileManager.urls(for: .desktopDirectory, in: .userDomainMask).first ?? URL(fileURLWithPath: NSHomeDirectory())
         guard let original = originalScreenshotLocation, !original.isEmpty else {
             return desktop
@@ -88,10 +92,40 @@ final class ScreenshotMonitorService {
         return URL(fileURLWithPath: expanded)
     }
     
+    private func computeScreenRecordingTargetDirectoryURL() -> URL {
+        if let customPath = UserDefaults.standard.string(forKey: "settings.screenRecording.savePath"), !customPath.isEmpty {
+            let expanded = (customPath as NSString).expandingTildeInPath
+            return URL(fileURLWithPath: expanded)
+        }
+        return computeUserTargetDirectoryURL()
+    }
+    
+    private func uniqueURL(for targetURL: URL) -> URL {
+        guard fileManager.fileExists(atPath: targetURL.path) else { return targetURL }
+        
+        let dir = targetURL.deletingLastPathComponent()
+        let ext = targetURL.pathExtension
+        let baseName = targetURL.deletingPathExtension().lastPathComponent
+        
+        var counter = 1
+        var candidateURL = targetURL
+        while fileManager.fileExists(atPath: candidateURL.path) {
+            let newName = ext.isEmpty ? "\(baseName) (\(counter))" : "\(baseName) (\(counter)).\(ext)"
+            candidateURL = dir.appendingPathComponent(newName)
+            counter += 1
+        }
+        return candidateURL
+    }
+    
     private func primeBaseline() {
         let dir = rawStagingDirectoryURL()
         if let urls = try? fileManager.contentsOfDirectory(at: dir, includingPropertiesForKeys: [.contentModificationDateKey], options: [.skipsHiddenFiles]) {
-            knownFilePaths = Set(urls.map { $0.path })
+            for url in urls {
+                let lower = url.lastPathComponent.lowercased()
+                if !lower.hasSuffix(".mov") && !lower.hasSuffix(".mp4") {
+                    knownFilePaths.insert(url.path)
+                }
+            }
         }
     }
     
@@ -108,6 +142,26 @@ final class ScreenshotMonitorService {
             let path = url.path
             guard !knownFilePaths.contains(path) else { continue }
             
+            let filename = url.lastPathComponent
+            let lower = filename.lowercased()
+            
+            if lower.hasSuffix(".mov") || lower.hasSuffix(".mp4") || lower.contains("screen recording") || lower.contains("запись экрана") {
+                guard let resourceValues = try? url.resourceValues(forKeys: [.isRegularFileKey]),
+                      resourceValues.isRegularFile == true else { continue }
+                
+                let targetDir = computeScreenRecordingTargetDirectoryURL()
+                try? fileManager.createDirectory(at: targetDir, withIntermediateDirectories: true)
+                let destinationURL = uniqueURL(for: targetDir.appendingPathComponent(filename))
+                do {
+                    try fileManager.moveItem(at: url, to: destinationURL)
+                    knownFilePaths.insert(path)
+                    knownFilePaths.insert(destinationURL.path)
+                } catch {
+                    // File might be currently open/being written by screencapture, try again on next timer tick
+                }
+                continue
+            }
+            
             guard let resourceValues = try? url.resourceValues(forKeys: [.contentModificationDateKey, .isRegularFileKey]),
                   resourceValues.isRegularFile == true,
                   let modDate = resourceValues.contentModificationDate,
@@ -115,9 +169,6 @@ final class ScreenshotMonitorService {
                 knownFilePaths.insert(path)
                 continue
             }
-            
-            let filename = url.lastPathComponent
-            let lower = filename.lowercased()
             
             if lower.contains("screenshot") || lower.contains("скриншот") || lower.hasSuffix(".png") || lower.hasSuffix(".jpg") {
                 if let image = NSImage(contentsOf: url) {

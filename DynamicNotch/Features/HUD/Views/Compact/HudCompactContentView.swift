@@ -43,7 +43,7 @@ struct HudCompactContentView: View {
     private var trailingPadding: CGFloat {
         let basePadding = indicatorStyle == .circle
             ? (isDynamicIsland ? 4 : 14)
-            : (isDynamicIsland ? 8 : 14)
+            : (isDynamicIsland ? 8 : 16)
         return CGFloat(basePadding)
     }
     

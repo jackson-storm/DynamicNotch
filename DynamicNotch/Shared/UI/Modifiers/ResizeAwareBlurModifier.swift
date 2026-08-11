@@ -20,7 +20,7 @@ struct ResizeAwareBlurModifier: AnimatableModifier {
 
     private enum Metrics {
         static let maxBlurRadius: CGFloat = 20
-        static let maxNormalizedDelta: CGFloat = 0.2
+        static let maxNormalizedDelta: CGFloat = 0.1
         static let maxOpacityReduction: Double = 0.9
     }
 

@@ -26,7 +26,7 @@ struct NotchAnimations {
     static let `default` = preset(.balanced)
 
     static func preset(_ preset: NotchAnimationPreset) -> Self {
-        let damping: Double = 0.77
+        let damping: Double = 0.75
         
         switch preset {
         case .snappy:

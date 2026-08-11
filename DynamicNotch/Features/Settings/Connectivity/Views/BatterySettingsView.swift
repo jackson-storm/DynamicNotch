@@ -36,6 +36,7 @@ struct BatterySettingsView: View {
 
             Divider()
                 .opacity(0.6)
+                .padding(.leading, 43)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
 
             SettingsToggleRow(

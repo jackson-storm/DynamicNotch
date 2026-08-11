@@ -45,12 +45,6 @@ final class ScreenshotFlyAnimationService {
         let initialY = max(screenFrame.minY + 20, min(rawY, screenFrame.maxY - initialHeight - 20))
         let startFrame = NSRect(x: initialX, y: initialY, width: initialWidth, height: initialHeight)
         
-        let popWidth = initialWidth * 0.2
-        let popHeight = initialHeight * 2.5
-        let popX = startFrame.midX - (popWidth / 2)
-        let popY = startFrame.midY - (popHeight / 2)
-        let popFrame = NSRect(x: popX, y: popY, width: popWidth, height: popHeight)
-        
         let targetWidth: CGFloat = 140
         let targetHeight: CGFloat = 35
         let targetX = screenFrame.midX - (targetWidth / 2)

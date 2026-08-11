@@ -48,7 +48,10 @@ struct HUDSettingsView: View {
                 accessibilityIdentifier: "settings.general.hud.brightness"
             )
             
-            Divider().opacity(0.6)
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
             
             SettingsToggleRow(
                 title: "Keyboard HUD",
@@ -59,7 +62,10 @@ struct HUDSettingsView: View {
                 accessibilityIdentifier: "settings.general.hud.keyboard"
             )
             
-            Divider().opacity(0.6)
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
             
             SettingsToggleRow(
                 title: "Volume HUD",

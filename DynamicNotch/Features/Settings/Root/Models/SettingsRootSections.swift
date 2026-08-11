@@ -332,7 +332,7 @@ private enum SettingsSectionCatalog {
                 ],
                 systemImage: "tray.and.arrow.down.fill",
                 imageName: nil,
-                tint: .black,
+                tint: .gray,
                 resetGroup: .drop
             )
 

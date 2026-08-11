@@ -14,19 +14,18 @@ enum SwipeInteraction {
 
 enum SwipeFeedbackMetrics {
     static let restoreHeightExpansion: CGFloat = 10
+    
     static let collapsedDismissWidthFactor: CGFloat = 0.18
     static let collapsedDismissMinimumWidth: CGFloat = 28
     static let collapsedDismissMaximumWidth: CGFloat = 44
+    
     static let expandedDismissHeightFactor: CGFloat = 0.16
     static let expandedDismissMinimumHeight: CGFloat = 12
     static let expandedDismissMaximumHeight: CGFloat = 28
-    static let expandedDismissWidthExpansionFactor: CGFloat = 0.02
-    static let restoreCornerRadiusExpansion: CGFloat = 4
-    static let restoreTopCornerRadiusExpansion: CGFloat = 10
-    static let dismissTopCornerRadiusReduction: CGFloat = 10
-    static let expandedDismissCornerRadiusReduction: CGFloat = 4
-    static let dismissBlurRadius: CGFloat = 4
-    static let restoreBlurRadius: CGFloat = 4
-    static let dismissOpacityReduction: Double = 0.4
-    static let restoreOpacityReduction: Double = 0.4
+    
+    static let dismissBlurRadius: CGFloat = 8
+    static let restoreBlurRadius: CGFloat = 8
+    
+    static let dismissOpacityReduction: Double = 0.2
+    static let restoreOpacityReduction: Double = 0.2
 }

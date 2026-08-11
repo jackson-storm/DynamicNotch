@@ -228,7 +228,7 @@ final class NotchViewModel: ObservableObject {
     }
     
     var contentResizeBlurRadius: CGFloat {
-        let progress = easedSwipeStretchProgress
+        let progress = min(1.0, easedSwipeStretchProgress)
         
         switch swipeInteraction {
         case .dismiss:

@@ -6,15 +6,44 @@ struct ScreenshotFlyAnimationView: View {
     let image: NSImage
     
     var body: some View {
-        Image(nsImage: image)
-            .resizable()
-            .interpolation(.high)
-            .antialiased(true)
-            .scaledToFill()
-            .clipShape(RoundedRectangle(cornerRadius: 24))
-            .shadow(color: .black, radius: 20)
-            .padding(20)
-            .blur(radius: 20)
+        GeometryReader { proxy in
+            let targetWidth = max(1, proxy.size.width - 70)
+            let targetHeight = max(1, proxy.size.height - 70)
+            
+            Image(nsImage: image)
+                .resizable()
+                .interpolation(.high)
+                .antialiased(true)
+                .scaledToFill()
+                .frame(width: targetWidth, height: targetHeight)
+                .clipped()
+                .blur(radius: 20)
+                .mask(
+                    LinearGradient(
+                        stops: [
+                            .init(color: .clear, location: 0.0),
+                            .init(color: .black, location: 0.22),
+                            .init(color: .black, location: 0.78),
+                            .init(color: .clear, location: 1.0)
+                        ],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                )
+                .mask(
+                    LinearGradient(
+                        stops: [
+                            .init(color: .clear, location: 0.0),
+                            .init(color: .black, location: 0.22),
+                            .init(color: .black, location: 0.78),
+                            .init(color: .clear, location: 1.0)
+                        ],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    )
+                )
+                .position(x: proxy.size.width / 2, y: proxy.size.height / 2)
+        }
     }
 }
 
@@ -36,8 +65,8 @@ final class ScreenshotFlyAnimationService {
         let targetScreen = NSScreen.screens.first { NSMouseInRect(mouseLoc, $0.frame, false) } ?? mainScreen
         let screenFrame = targetScreen.frame
         
-        let initialWidth: CGFloat = 300
-        let initialHeight: CGFloat = 300
+        let initialWidth: CGFloat = 450
+        let initialHeight: CGFloat = 350
         let rawX = mouseLoc.x - (initialWidth / 2)
         let rawY = mouseLoc.y - (initialHeight / 2)
         
@@ -45,11 +74,17 @@ final class ScreenshotFlyAnimationService {
         let initialY = max(screenFrame.minY + 20, min(rawY, screenFrame.maxY - initialHeight - 20))
         let startFrame = NSRect(x: initialX, y: initialY, width: initialWidth, height: initialHeight)
         
-        let targetWidth: CGFloat = 140
-        let targetHeight: CGFloat = 35
-        let targetX = screenFrame.midX - (targetWidth / 2)
-        let targetY = screenFrame.maxY - (targetHeight - 50)
-        let endFrame = NSRect(x: targetX, y: targetY, width: targetWidth, height: targetHeight)
+        let middleWidth: CGFloat = 250
+        let middleHeight: CGFloat = 450
+        let middleX = screenFrame.midX - (middleWidth / 2)
+        let middleY = screenFrame.maxY - (middleHeight + 30)
+        let middleFrame = NSRect(x: middleX, y: middleY, width: middleWidth, height: middleHeight)
+        
+        let finalWidth: CGFloat = 100
+        let finalHeight: CGFloat = 30
+        let finalX = screenFrame.midX - (finalWidth / 2)
+        let finalY = screenFrame.maxY + 15
+        let finalUpFrame = NSRect(x: finalX, y: finalY, width: finalWidth, height: finalHeight)
         
         let panel = OverlayPanelFactory.makePanel(
             frame: startFrame,
@@ -71,19 +106,24 @@ final class ScreenshotFlyAnimationService {
             onComplete()
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-            triggerEarly()
+        // Stage 1: Fly towards target point near notch
+        NSAnimationContext.runAnimationGroup { context in
+            context.duration = 0.3
+            context.timingFunction = CAMediaTimingFunction(name: .easeIn)
+            panel.animator().setFrame(middleFrame, display: true)
         }
         
-        NSAnimationContext.runAnimationGroup { context in
-            context.duration = 0.45
-            context.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
-            panel.animator().setFrame(endFrame, display: true)
+        // Stage 2: Seamlessly transition upwards into notch before Stage 1 stops (zero pause)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+            triggerEarly()
             
-        } completionHandler: {
-            MainActor.assumeIsolated {
-                triggerEarly()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.20) {
+            NSAnimationContext.runAnimationGroup { context in
+                context.duration = 0.2
+                context.timingFunction = CAMediaTimingFunction(name: .easeIn)
+                panel.animator().setFrame(finalUpFrame, display: true)
+                panel.animator().alphaValue = 0.0
+            } completionHandler: {
+                MainActor.assumeIsolated {
                     panel.orderOut(nil)
                     self.activeWindow = nil
                 }

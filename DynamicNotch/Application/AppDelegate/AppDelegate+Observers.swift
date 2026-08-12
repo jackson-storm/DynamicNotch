@@ -71,14 +71,15 @@ extension AppDelegate {
         
         settingsViewModel.notifications.$isAppleMailNotificationsEnabled
             .removeDuplicates()
-            .sink { [weak self] isAppleMailNotificationsEnabled in
-                guard let self else { return }
+            .sink { [weak self] _ in
+                self?.updateMailMonitoringState()
+            }
+            .store(in: &cancellables)
 
-                if isAppleMailNotificationsEnabled {
-                    mailManager.startMonitoring()
-                } else {
-                    mailManager.stopMonitoring()
-                }
+        NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in
+                self?.reconcileMailPermissionState()
             }
             .store(in: &cancellables)
     }
@@ -170,6 +171,34 @@ extension AppDelegate {
             name: NSWorkspace.didActivateApplicationNotification,
             object: nil
         )
+    }
+    
+    private func updateMailMonitoringState() {
+        let isEnabled = settingsViewModel.notifications.isAppleMailNotificationsEnabled
+        let hasFullDiskAccess = FullDiskAccessAuthorization.hasPermission()
+
+        if isEnabled && hasFullDiskAccess {
+            mailManager.startMonitoring()
+        } else {
+            mailManager.stopMonitoring()
+        }
+    }
+    
+    private func reconcileMailPermissionState() {
+        let hasFullDiskAccess = FullDiskAccessAuthorization.hasPermission()
+        let settings = settingsViewModel.notifications
+
+        if hasFullDiskAccess {
+            if settings.isAppleMailNotificationsPermissionPending {
+                settings.isAppleMailNotificationsPermissionPending = false
+                settings.isAppleMailNotificationsEnabled = true
+            }
+        } else {
+            settings.isAppleMailNotificationsPermissionPending = false
+            settings.isAppleMailNotificationsEnabled = false
+        }
+
+        updateMailMonitoringState()
     }
 
     @objc

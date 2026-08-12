@@ -11,12 +11,25 @@ final class NotificationsSettingsStore: SettingsStoreBase {
             )
         }
     }
+    
+    var isAppleMailNotificationsPermissionPending: Bool {
+        didSet {
+            persist(
+                isAppleMailNotificationsPermissionPending,
+                for: GeneralSettingsStorage.Keys.appleMailNotificationsPermissionPending
+            )
+        }
+    }
 
     override init(defaults: UserDefaults) {
         defaults.register(defaults: GeneralSettingsStorage.defaultValues)
 
         self.isAppleMailNotificationsEnabled = defaults.object(
             forKey: GeneralSettingsStorage.Keys.appleMailNotificationsEnabled
+        ) as? Bool ?? false
+        
+        self.isAppleMailNotificationsPermissionPending = defaults.object(
+            forKey: GeneralSettingsStorage.Keys.appleMailNotificationsPermissionPending
         ) as? Bool ?? false
 
         super.init(defaults: defaults)
@@ -26,5 +39,7 @@ final class NotificationsSettingsStore: SettingsStoreBase {
         isAppleMailNotificationsEnabled = defaultBool(
             for: GeneralSettingsStorage.Keys.appleMailNotificationsEnabled
         )
+        
+        isAppleMailNotificationsPermissionPending = false
     }
 }

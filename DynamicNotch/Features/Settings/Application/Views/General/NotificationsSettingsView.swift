@@ -1,14 +1,8 @@
-//
-//  NotificationsSettingsView.swift
-//  DynamicNotch
-//
-//  Created by Igor Volkov on 03.08.2026.
-//
-
 import SwiftUI
 
 struct NotificationsSettingsView: View {
     @ObservedObject var settings: NotificationsSettingsStore
+    @ObservedObject var permissionController: SettingsPermissionController
 
     var body: some View {
         SettingsPageScrollView {
@@ -20,10 +14,38 @@ struct NotificationsSettingsView: View {
                     color: .clear,
                     badgeSize: 40,
                     iconSize: 36,
-                    isOn: $settings.isAppleMailNotificationsEnabled,
+                    isOn: appleMailNotificationsBinding,
                     accessibilityIdentifier: "settings.notifications.appleMail.toggle"
                 )
             }
         }
+    }
+
+    private var appleMailNotificationsBinding: Binding<Bool> {
+        Binding(
+            get: {
+                settings.isAppleMailNotificationsEnabled
+            },
+            set: { isEnabled in
+                handleMailNotificationsToggle(isEnabled)
+            }
+        )
+    }
+
+    private func handleMailNotificationsToggle(_ isEnabled: Bool) {
+        guard isEnabled else {
+            settings.isAppleMailNotificationsPermissionPending = false
+            settings.isAppleMailNotificationsEnabled = false
+            return
+        }
+
+        guard permissionController.isFullDiskAccessGranted else {
+            settings.isAppleMailNotificationsPermissionPending = true
+            permissionController.performAction(for: .fullDiskAccess)
+            return
+        }
+
+        settings.isAppleMailNotificationsPermissionPending = false
+        settings.isAppleMailNotificationsEnabled = true
     }
 }

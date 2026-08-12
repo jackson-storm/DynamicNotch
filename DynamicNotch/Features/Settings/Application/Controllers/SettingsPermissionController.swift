@@ -236,7 +236,7 @@ final class SettingsPermissionController: NSObject, ObservableObject, CBCentralM
                 titleKey: "settings.permissions.automation.title",
                 fallbackTitle: "Automation (System Events)",
                 descriptionKey: "settings.permissions.automation.description",
-                fallbackDescription: "Allow controlling System Events to automatically center screenshot and recording preview windows on screen.",
+                fallbackDescription: "Allow Full Disk Access to display Mail notifications and real names and custom icons of Focus modes.",
                 assetImageName: nil,
                 systemImage: "gearshape.2.fill",
                 tintColor: .gray,

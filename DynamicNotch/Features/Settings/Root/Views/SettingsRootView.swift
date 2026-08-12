@@ -445,7 +445,8 @@ struct SettingsRootView: View {
         case .notifications:
             detailContainer(for: section) {
                 NotificationsSettingsView(
-                    settings: settingsViewModel.notifications
+                    settings: settingsViewModel.notifications,
+                    permissionController: permissionController
                 )
             }
             

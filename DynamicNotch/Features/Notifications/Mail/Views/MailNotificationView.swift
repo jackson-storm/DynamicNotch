@@ -9,39 +9,42 @@ struct MailNotificationView: View {
             Text(message.receivedDate, format: .dateTime.hour().minute())
                 .font(.system(size: 11, weight: .medium))
                 .foregroundStyle(.secondary)
+                .frame(width: MailNotchContent.extraWidth / 2)
                 .padding(.top, 10)
-                .padding(.trailing, 14)
 
-            HStack(alignment: .center, spacing: 12) {
-                Image("appleMail")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 44, height: 44)
+            VStack {
+                Spacer()
 
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(message.sender)
-                        .font(.system(size: 14, weight: .semibold))
-                        .lineLimit(1)
+                HStack(alignment: .center, spacing: 12) {
+                    Image("appleMail")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 44, height: 44)
 
-                    Text(message.subject)
-                        .font(.system(size: 13, weight: .medium))
-                        .lineLimit(1)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(message.sender)
+                            .font(.system(size: 13, weight: .semibold))
+                            .lineLimit(1)
 
-                    if let summary = message.summary,
-                       !summary.isEmpty {
-                        Text(summary)
-                            .font(.system(size: 11))
-                            .foregroundStyle(.secondary)
-                            .lineLimit(2)
-                            .multilineTextAlignment(.leading)
+                        Text(message.subject)
+                            .font(.system(size: 12, weight: .medium))
+                            .lineLimit(1)
+                            .padding(EdgeInsets(top: 2, leading: 0, bottom: 0, trailing: 0))
+
+                        if let summary = message.summary, !summary.isEmpty {
+                            Text(summary)
+                                .font(.system(size: 11, weight: .medium))
+                                .foregroundStyle(.secondary)
+                                .lineLimit(2)
+                                .multilineTextAlignment(.leading)
+                        }
                     }
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.leading, 22)
+                .padding(.trailing, 14)
+                .padding(.bottom, 12)
             }
-            .padding(.leading, 14)
-            .padding(.trailing, 62)
-            .padding(.top, 22)
-            .padding(.bottom, 10)
         }
         .contentShape(Rectangle())
     }

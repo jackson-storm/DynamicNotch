@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct MailNotchContent: NotchContentProtocol {
+    
+    static let extraWidth: CGFloat = 160
 
     let message: MailMessage
     let onOpen: @MainActor () -> Void
@@ -14,7 +16,7 @@ struct MailNotchContent: NotchContentProtocol {
     }
 
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        CGSize(width: 330, height: 96)
+        .init(width: baseWidth + Self.extraWidth, height: baseHeight + 85)
     }
 
     @MainActor

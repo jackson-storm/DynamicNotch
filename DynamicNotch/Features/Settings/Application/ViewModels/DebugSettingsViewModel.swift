@@ -333,6 +333,10 @@ final class DebugSettingsViewModel: ObservableObject {
             fileConverterPreviewViewModel.showDebugFailedStatus()
         }
     }
+    
+    func triggerMailPreview() {
+        notchEventCoordinator.handleMailMessage(.debugPreview)
+    }
 
     func togglePreviewSequence() {
         if isPreviewSequenceRunning {

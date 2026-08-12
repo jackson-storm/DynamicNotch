@@ -326,6 +326,19 @@ struct DebugSettingsView: View {
                 .opacity(0.6)
                 .padding(.leading, 43)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+
+            DebugActionRow(
+                title: "Mail Message",
+                description: "Show the Mail notification with sample message data.",
+                systemImage: "envelope.fill",
+                color: .yellow,
+                action: viewModel.triggerMailPreview
+            )
+            
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
             
             DebugActionRow(
                 title: "Wi-Fi Connected",

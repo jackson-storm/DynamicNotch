@@ -8,3 +8,16 @@ struct MailMessage: Equatable {
     let summary: String?
     let receivedDate: Date
 }
+
+#if DEBUG
+extension MailMessage {
+    static let debugPreview = MailMessage(
+        rowID: -1,
+        messageIDHeader: "<debug@mail.preview>",
+        sender: "debug@mail.preview",
+        subject: "Test email",
+        summary: "This is a test text of the letter to customize the appearance of the DynamicNotch notification.",
+        receivedDate: Date()
+    )
+}
+#endif

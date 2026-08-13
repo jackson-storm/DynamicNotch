@@ -13,9 +13,9 @@
         url="https://github.com/jackson-storm/DynamicNotch/releases/download/v1.6.1/DynamicNotch.zip"
         sparkle:version="23"
         sparkle:shortVersionString="1.6.1"
-        length="12295928"
+        length="12295954"
         type="application/octet-stream"
-        sparkle:edSignature="AGD2oE11ymNE0TB3mIuTq6k8UrdMv3Z7E/C6YDNlxuDzKuZN+DZVHN4ShwsDaDuDTLVDCcApbsYeH8Tq4jVNCA==" />
+        sparkle:edSignature="upnOkiJCVoFaaWkCOtzkdHRfi6qcS8ljXaYosLp/pH9zvNaufR1JOqKHgc+uWq8XdvIsFFsjW7ccRzrcC1EIBQ==" />
     </item>
   </channel>
 </rss>

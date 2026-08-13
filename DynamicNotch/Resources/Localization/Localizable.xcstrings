@@ -870,6 +870,12 @@
         }
       }
     },
+    "AirDrop Target" : {
+
+    },
+    "AirDrop Transfer" : {
+
+    },
     "AirPods Max" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1217,7 +1223,6 @@
       }
     },
     "Apply a full battery sample and show the completion notification." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1246,7 +1251,6 @@
       }
     },
     "Apply a low battery sample and show the low-power alert." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1275,7 +1279,6 @@
       }
     },
     "Apply a sample charging state and show the charger notification." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1862,7 +1865,6 @@
       }
     },
     "Battery Low" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2121,7 +2123,6 @@
       }
     },
     "Bluetooth Connected" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4917,6 +4918,9 @@
         }
       }
     },
+    "Combined Targets" : {
+
+    },
     "common.cancel" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -5539,6 +5543,18 @@
         }
       }
     },
+    "Converter Converting" : {
+
+    },
+    "Converter Failed" : {
+
+    },
+    "Converter Success" : {
+
+    },
+    "Converter Target" : {
+
+    },
     "Copy" : {
       "localizations" : {
         "en" : {
@@ -6003,7 +6019,6 @@
       }
     },
     "Dismiss the currently visible temporary notification." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6143,6 +6158,9 @@
         }
       }
     },
+    "Download Stopped" : {
+
+    },
     "Download style" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -6255,6 +6273,9 @@
           }
         }
       }
+    },
+    "Drag Ended" : {
+
     },
     "Drag to reorder pages. Disabled pages will be hidden." : {
       "localizations" : {
@@ -6396,6 +6417,9 @@
           }
         }
       }
+    },
+    "Drop Completed" : {
+
     },
     "Drop live activity" : {
       "extractionState" : "stale",
@@ -6776,6 +6800,9 @@
         }
       }
     },
+    "File Converter Active" : {
+
+    },
     "File Converter files" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -6891,6 +6918,9 @@
           }
         }
       }
+    },
+    "File Tray Active" : {
+
     },
     "Filename suffix" : {
       "extractionState" : "stale",
@@ -7122,6 +7152,9 @@
         }
       }
     },
+    "Finish an active drag with the dropped event." : {
+
+    },
     "Focus activity" : {
       "localizations" : {
         "en" : {
@@ -7235,7 +7268,6 @@
       }
     },
     "Focus Off" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -7320,7 +7352,6 @@
       }
     },
     "Focus On" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -7433,7 +7464,6 @@
       }
     },
     "Full Battery" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -7801,8 +7831,10 @@
         }
       }
     },
+    "Hide active drag targets with the drag-ended event." : {
+
+    },
     "Hide Current Temporary" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -7993,8 +8025,10 @@
         }
       }
     },
+    "Hide the downloads live activity with the stopped event." : {
+
+    },
     "Hide the Focus live activity and show the short \"Off\" notification." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -8021,6 +8055,21 @@
           }
         }
       }
+    },
+    "Hide the hotspot live activity with the hotspot-hide event." : {
+
+    },
+    "Hide the lock screen live activity with the stopped event." : {
+
+    },
+    "Hide the Now Playing live activity with the stopped event." : {
+
+    },
+    "Hide the screen recording live activity." : {
+
+    },
+    "Hide the timer live activity with the stopped event." : {
+
     },
     "Hide the x button on file cards in the expanded Tray." : {
       "localizations" : {
@@ -8223,7 +8272,6 @@
       }
     },
     "Hotspot Active" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -8278,6 +8326,9 @@
           }
         }
       }
+    },
+    "Hotspot Hidden" : {
+
     },
     "Hover" : {
       "localizations" : {
@@ -8879,7 +8930,6 @@
       }
     },
     "Keep the hotspot live activity visible until you turn it off." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -9332,7 +9382,6 @@
       }
     },
     "Lock Screen" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -9528,6 +9577,9 @@
           }
         }
       }
+    },
+    "Lock Screen Stopped" : {
+
     },
     "Lock sound" : {
       "extractionState" : "stale",
@@ -10298,7 +10350,6 @@
       }
     },
     "No Internet Connection" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -10494,7 +10545,6 @@
       }
     },
     "Notch Height Changed" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -10552,7 +10602,6 @@
       }
     },
     "Notch Width Changed" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -10639,7 +10688,6 @@
       }
     },
     "Now Playing" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -10694,6 +10742,15 @@
           }
         }
       }
+    },
+    "Now Playing Paused" : {
+
+    },
+    "Now Playing Playing" : {
+
+    },
+    "Now Playing Stopped" : {
+
     },
     "Off" : {
       "extractionState" : "stale",
@@ -10754,7 +10811,6 @@
       }
     },
     "Onboarding" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11155,7 +11211,6 @@
       }
     },
     "Persistent Events" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11327,7 +11382,6 @@
       }
     },
     "Play All Events" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11798,7 +11852,6 @@
       }
     },
     "Preview the lock live activity without actually locking macOS." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11827,7 +11880,6 @@
       }
     },
     "Preview the persistent Focus live activity." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11856,7 +11908,6 @@
       }
     },
     "Preview the persistent screen recording indicator." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11883,6 +11934,9 @@
           }
         }
       }
+    },
+    "Preview the software update available live activity." : {
+
     },
     "Private Event" : {
 
@@ -12089,6 +12143,9 @@
         }
       }
     },
+    "Refresh the timer live activity with the updated event." : {
+
+    },
     "Remove the favorite button from the expanded player controls." : {
       "localizations" : {
         "en" : {
@@ -12286,7 +12343,6 @@
       }
     },
     "Reset All Previews" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12342,6 +12398,9 @@
           }
         }
       }
+    },
+    "Run every debug event in sequence, keep each item visible for its configured duration, and wait 1 second between items." : {
+
     },
     "Run every debug event in sequence, keep each item visible for its configured duration, wait 1 second between items, and skip onboarding, notch size, and lock screen previews." : {
       "extractionState" : "stale",
@@ -12487,7 +12546,6 @@
       }
     },
     "Screen Recording" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12571,6 +12629,9 @@
           }
         }
       }
+    },
+    "Screen Recording Stopped" : {
+
     },
     "Screen recordings folder" : {
       "extractionState" : "stale",
@@ -12856,6 +12917,12 @@
           }
         }
       }
+    },
+    "Send the Now Playing playback-state changed event for pause." : {
+
+    },
+    "Send the Now Playing playback-state changed event for play." : {
+
     },
     "Sending items..." : {
 
@@ -20541,7 +20608,6 @@
       }
     },
     "settings.section.debug.subtitle" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -20570,7 +20636,6 @@
       }
     },
     "settings.section.debug.title" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -21725,7 +21790,6 @@
       }
     },
     "Show a safe debug preview of the onboarding live activity." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -22091,6 +22155,9 @@
         }
       }
     },
+    "Show active AirDrop file transfer progress and completion." : {
+
+    },
     "Show AirDrop and Tray targets when you drag files over the notch." : {
       "localizations" : {
         "en" : {
@@ -22147,6 +22214,9 @@
           }
         }
       }
+    },
+    "Show all drag targets with the converter target highlighted." : {
+
     },
     "Show Dock icon" : {
       "localizations" : {
@@ -22467,6 +22537,12 @@
         }
       }
     },
+    "Show the active tray live activity with sample files." : {
+
+    },
+    "Show the AirDrop drag target as an active drag event." : {
+
+    },
     "Show the AirDrop drop target when you drag files over the notch." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -22497,7 +22573,6 @@
       }
     },
     "Show the Bluetooth notification with sample AirPods data." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -22526,7 +22601,6 @@
       }
     },
     "Show the brightness HUD preview at 72%." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -22553,6 +22627,18 @@
           }
         }
       }
+    },
+    "Show the converter collapsed converting state." : {
+
+    },
+    "Show the converter collapsed failed state." : {
+
+    },
+    "Show the converter collapsed success state." : {
+
+    },
+    "Show the converter live activity with a sample image." : {
+
     },
     "Show the detached media panel on the lock screen while playback is active." : {
       "localizations" : {
@@ -22583,7 +22669,6 @@
       }
     },
     "Show the download live activity with sample transfer data." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -22639,6 +22724,9 @@
           }
         }
       }
+    },
+    "Show the File Converter drag target as an active drag event." : {
+
     },
     "Show the File Converter live activity after a file is dropped for conversion." : {
       "extractionState" : "stale",
@@ -22698,7 +22786,6 @@
       }
     },
     "Show the height resize helper using the current settings." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -22756,7 +22843,6 @@
       }
     },
     "Show the keyboard backlight HUD preview at 64%." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -22813,7 +22899,6 @@
       }
     },
     "Show the music live activity with sample track data." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -22870,7 +22955,6 @@
       }
     },
     "Show the offline temporary notification with its actions." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -22926,8 +23010,13 @@
         }
       }
     },
+    "Show the timer live activity with sample transfer data." : {
+
+    },
+    "Show the Tray drag target as an active drag event." : {
+
+    },
     "Show the volume HUD preview at 42%." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -22955,8 +23044,10 @@
         }
       }
     },
+    "Show the VPN disconnected notification with sample tunnel data." : {
+
+    },
     "Show the VPN notification with sample tunnel data." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -22985,7 +23076,6 @@
       }
     },
     "Show the width resize helper using the current settings." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -23043,7 +23133,6 @@
       }
     },
     "Shows the Wi-Fi temporary notification." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -23325,7 +23414,6 @@
       }
     },
     "Start" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -23413,7 +23501,6 @@
       }
     },
     "Stop" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -24068,6 +24155,12 @@
         }
       }
     },
+    "Timer Stopped" : {
+
+    },
+    "Timer Updated" : {
+
+    },
     "Tint" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -24330,6 +24423,9 @@
         }
       }
     },
+    "Tray Target" : {
+
+    },
     "Tray usage" : {
       "localizations" : {
         "en" : {
@@ -24359,7 +24455,6 @@
       }
     },
     "Trigger Events" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -24446,7 +24541,6 @@
       }
     },
     "Turn off every persistent preview and close any temporary content." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -25034,7 +25128,6 @@
       }
     },
     "Utilities" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -25375,7 +25468,6 @@
       }
     },
     "VPN Connected" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -25404,7 +25496,6 @@
       }
     },
     "VPN Disconnected" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -25686,7 +25777,6 @@
       }
     },
     "Wi-Fi Connected" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

@@ -11,7 +11,7 @@
       <pubDate>Thu, 13 Aug 2026 21:35:00 +0300</pubDate>
       <enclosure 
         url="https://github.com/jackson-storm/DynamicNotch/releases/download/v1.6.1/DynamicNotch.zip"
-        sparkle:version="1.6.1"
+        sparkle:version="23"
         sparkle:shortVersionString="1.6.1"
         length="12295928"
         type="application/octet-stream"

@@ -19,6 +19,8 @@ extension AppDelegate {
     }
 
     func startOutsideClickMonitoring() {
+        expansionTime = Date()
+
         if localClickMonitor == nil {
             localClickMonitor = NSEvent.addLocalMonitorForEvents(
                 matching: [.leftMouseDown, .rightMouseDown, .otherMouseDown]
@@ -79,7 +81,9 @@ extension AppDelegate {
 
     @MainActor
     var shouldHandleOutsideClick: Bool {
-        notchViewModel.notchModel.isLiveActivityExpanded
+        guard notchViewModel.notchModel.isLiveActivityExpanded else { return false }
+        guard Date().timeIntervalSince(expansionTime) > 0.35 else { return false }
+        return true
     }
 
     @MainActor

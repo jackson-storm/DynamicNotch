@@ -35,7 +35,7 @@ struct FocusStatusNotchView: View {
             }
         }
         .foregroundStyle(tint)
-        .padding(.leading, isDynamicIsland ? 4.scaled(by: scale) : 14.scaled(by: scale))
+        .padding(.leading, isDynamicIsland ? 3.scaled(by: scale) : 14.scaled(by: scale))
         .padding(.trailing, isDynamicIsland ? 6.scaled(by: scale) : 14.scaled(by: scale))
     }
     
@@ -57,6 +57,7 @@ struct FocusStatusNotchView: View {
 
             Text(verbatim: title)
                 .font(.system(size: 14))
+                .padding(.bottom, isDynamicIsland ? 2 : 0)
         }
     }
 }

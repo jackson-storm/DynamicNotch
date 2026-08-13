@@ -14,38 +14,38 @@ struct FocusOnExpandedNotchView: View {
     @ObservedObject private var manager = DoNotDisturbManager.shared
     @Environment(\.notchScale) private var scale
     @Environment(\.isDynamicIsland) private var isDynamicIsland
-
+    
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack {
             Spacer()
-            HStack(alignment: .center, spacing: 12) {
+            
+            HStack(spacing: 15) {
                 ZStack {
                     Circle()
-                        .fill(activeFocusModeType.tint.opacity(0.2))
-                        .frame(width: 42, height: 42)
-
+                        .fill(.white)
+                        .frame(width: 45, height: 45)
+                    
                     Image(systemName: activeFocusModeType.icon)
-                        .font(.system(size: 20, weight: .semibold))
+                        .font(.system(size: 20, weight: .medium))
                         .foregroundStyle(activeFocusModeType.tint)
                 }
-
-                VStack(alignment: .leading, spacing: 3) {
-                    Text(titleText)
-                        .font(.system(size: 14, weight: .semibold))
-                        .foregroundStyle(.white.opacity(0.9))
-                        .lineLimit(1)
-
-                    Text(verbatim: "Focus On")
-                        .font(.system(size: 12, weight: .medium))
-                        .foregroundStyle(activeFocusModeType.tint)
-                        .lineLimit(1)
-                }
-
+                
+                Text(titleText)
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundStyle(.white)
+                    .lineLimit(1)
+                
                 Spacer()
+                
+                Text(verbatim: "On")
+                    .font(.system(size: 16, weight: .medium))
+                    .foregroundStyle(activeFocusModeType.tint)
+                    .lineLimit(1)
+                    .padding(.trailing, 5)
             }
         }
-        .padding(.horizontal, isDynamicIsland ? 25 : 40)
-        .padding(.bottom, isDynamicIsland ? 15 : 20)
+        .padding(.horizontal, isDynamicIsland ? 15 : 40)
+        .padding(.bottom, isDynamicIsland ? 15 : 15)
     }
     
     private var activeFocusModeType: FocusModeType {
@@ -57,7 +57,7 @@ struct FocusOnExpandedNotchView: View {
         }
         return focusModeType
     }
-
+    
     private var titleText: String {
         let modeName = manager.currentFocusModeName
         if !modeName.isEmpty {

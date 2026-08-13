@@ -34,11 +34,11 @@ struct FocusOffNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     }
 
     func expandedSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        return .init(width: baseWidth + 140, height: baseHeight + 65)
+        return .init(width: baseWidth + 140, height: baseHeight + 60)
     }
 
     func expandedCornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
-        (top: 24, bottom: 34)
+        (top: 24, bottom: 40)
     }
 
     func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
@@ -46,7 +46,7 @@ struct FocusOffNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     }
 
     func expandedDynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        return .init(width: baseWidth + 180, height: baseHeight + 65)
+        return .init(width: baseWidth + 180, height: baseHeight + 50)
     }
 
     func expandedDynamicIslandCornerRadius(baseHeight: CGFloat) -> CGFloat {

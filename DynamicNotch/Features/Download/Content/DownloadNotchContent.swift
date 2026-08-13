@@ -16,6 +16,12 @@ struct DownloadNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     var priority: Int { NotchContentRegistry.Media.download.priority }
     var isExpandable: Bool { true }
     
+    var windowLink: (@MainActor () -> Void)? {
+        return {
+            downloadViewModel.openPrimaryDownloadFolder()
+        }
+    }
+    
     var strokeColor: Color {
         settingsViewModel.isDefaultActivityStrokeEnabled ?
         .white.opacity(0.2) :

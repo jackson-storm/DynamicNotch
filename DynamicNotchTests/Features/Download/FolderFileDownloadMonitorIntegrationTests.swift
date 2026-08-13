@@ -31,6 +31,32 @@ final class FolderFileDownloadMonitorIntegrationTests: XCTestCase {
         wait(for: [expectation], timeout: 3.0)
         monitor.stopMonitoring()
     }
+
+    func testEventDrivenTemporaryDownloadDetection() {
+        let tempDirectory = makeTemporaryDirectory()
+        defer { try? FileManager.default.removeItem(at: tempDirectory) }
+
+        let monitor = FolderFileDownloadMonitor(monitoredDirectories: [tempDirectory])
+        let expectation = expectation(description: "publishes chrome download package")
+
+        monitor.onSnapshotChange = { transfers in
+            guard let transfer = transfers.first else { return }
+            XCTAssertEqual(transfer.displayName, "video.mp4")
+            XCTAssertTrue(transfer.isTemporaryFile)
+            expectation.fulfill()
+        }
+
+        monitor.startMonitoring()
+
+        let downloadURL = tempDirectory.appendingPathComponent("video.mp4.crdownload")
+        FileManager.default.createFile(
+            atPath: downloadURL.path,
+            contents: Data(repeating: 0xB, count: 16_384)
+        )
+
+        wait(for: [expectation], timeout: 3.0)
+        monitor.stopMonitoring()
+    }
 }
 
 private extension FolderFileDownloadMonitorIntegrationTests {

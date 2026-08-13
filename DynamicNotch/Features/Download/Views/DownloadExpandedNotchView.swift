@@ -91,8 +91,8 @@ private struct DownloadExpandedNotchContentView: View {
     }
     
     private func progressLabel(for progress: Double) -> String {
-           "\(Int((clampedProgress(progress) * 100).rounded()))%"
-       }
+        "\(Int((clampedProgress(progress) * 100).rounded()))%"
+    }
 
     private func clampedProgress(_ progress: Double) -> Double {
         min(max(progress, 0), 1)

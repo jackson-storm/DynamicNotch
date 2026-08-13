@@ -30,6 +30,7 @@ extension AnyTransition {
 
     private static func notchCompact(notchHeight: CGFloat, baseHeight: CGFloat) -> AnyTransition {
         let verticalOffset = NotchTransitionMetrics.verticalCompensationOffset(for: notchHeight, baseHeight: baseHeight)
+        
         return .asymmetric(
             insertion: .modifier(
                 active: NotchTransitionModifier(
@@ -58,6 +59,7 @@ extension AnyTransition {
 
     private static func notchExpanded(notchHeight: CGFloat, baseHeight: CGFloat) -> AnyTransition {
         let verticalOffset = NotchTransitionMetrics.verticalCompensationOffset(for: notchHeight, baseHeight: baseHeight)
+        
         return .asymmetric(
             insertion: .modifier(
                 active: NotchTransitionModifier(

@@ -1,6 +1,7 @@
 import Darwin
 import Foundation
 import Dispatch
+import CoreServices
 
 final class FolderFileDownloadMonitor: DownloadMonitoring {
     var onSnapshotChange: (([DownloadModel]) -> Void)?
@@ -48,6 +49,7 @@ final class FolderFileDownloadMonitor: DownloadMonitoring {
     )
 
     private var timer: DispatchSourceTimer?
+    private var directoryWatcher: DirectoryWatcher?
     private var trackedFiles: [String: TrackedFile] = [:]
     private var lastPublishedTransfers: [DownloadModel] = []
     private var isMonitoring = false
@@ -69,19 +71,22 @@ final class FolderFileDownloadMonitor: DownloadMonitoring {
         isMonitoring = true
 
         callbackQueue.async { [weak self] in
-            self?.primeBaseline()
-            self?.installTimerIfNeeded()
+            guard let self, self.isMonitoring else { return }
+            self.setupDirectoryWatcher()
+            self.primeBaseline()
+            self.performScan()
         }
     }
 
     func stopMonitoring() {
-        guard !(!isMonitoring && timer == nil) else { return }
+        guard isMonitoring || timer != nil || directoryWatcher != nil else { return }
         isMonitoring = false
 
         callbackQueue.async { [weak self] in
             guard let self else { return }
-            self.timer?.cancel()
-            self.timer = nil
+            self.directoryWatcher?.stop()
+            self.directoryWatcher = nil
+            self.stopTimer()
             self.trackedFiles.removeAll()
             self.lastPublishedTransfers.removeAll()
         }
@@ -105,8 +110,18 @@ private extension FolderFileDownloadMonitor {
             .removingDuplicatePaths()
     }
 
-    private func installTimerIfNeeded() {
-        guard timer == nil else { return }
+    private func setupDirectoryWatcher() {
+        directoryWatcher?.stop()
+        directoryWatcher = DirectoryWatcher(
+            urls: monitoredDirectories,
+            queue: callbackQueue
+        ) { [weak self] in
+            self?.performScan()
+        }
+    }
+
+    private func startTimerIfNeeded() {
+        guard timer == nil, isMonitoring else { return }
 
         let timer = DispatchSource.makeTimerSource(queue: callbackQueue)
         timer.schedule(
@@ -118,6 +133,11 @@ private extension FolderFileDownloadMonitor {
         }
         self.timer = timer
         timer.resume()
+    }
+
+    private func stopTimer() {
+        timer?.cancel()
+        timer = nil
     }
 
     private func primeBaseline() {
@@ -246,6 +266,12 @@ private extension FolderFileDownloadMonitor {
                 return $0.byteCount > $1.byteCount
             }
 
+        if activeTransfers.isEmpty {
+            stopTimer()
+        } else {
+            startTimerIfNeeded()
+        }
+
         guard activeTransfers != lastPublishedTransfers else { return }
         lastPublishedTransfers = activeTransfers
         publish(activeTransfers)
@@ -275,8 +301,7 @@ private extension FolderFileDownloadMonitor {
 
         let now = Date()
         return urls.compactMap { url in
-            let standardizedURL = url.standardizedFileURL
-            let fileName = standardizedURL.lastPathComponent
+            let fileName = url.lastPathComponent
             let isTemporaryFile = isTemporaryDownloadFile(named: fileName)
 
             guard
@@ -290,16 +315,25 @@ private extension FolderFileDownloadMonitor {
                 return nil
             }
 
-            // Optimization: If a file is not a temporary download file and has not been modified
-            // in the last 10 seconds, we skip it. This avoids processing thousands of static files.
+            let isRegular = resourceValues.isRegularFile == true
+            let isDir = resourceValues.isDirectory == true
+
+            // Optimization: Skip non-temporary regular files that have not been modified in the last 10 seconds.
+            // This avoids processing thousands of static files and calling standardizedFileURL / getxattr on them.
             if !isTemporaryFile {
-                if let modificationDate = resourceValues.contentModificationDate,
-                   now.timeIntervalSince(modificationDate) > 10.0 {
+                guard isRegular else { return nil }
+                if let modificationDate = resourceValues.contentModificationDate {
+                    if now.timeIntervalSince(modificationDate) > 10.0 {
+                        return nil
+                    }
+                } else {
                     return nil
                 }
             }
 
-            if resourceValues.isRegularFile == true {
+            let standardizedURL = url.standardizedFileURL
+
+            if isRegular {
                 return ObservedFile(
                     url: standardizedURL,
                     displayName: displayName(for: fileName),
@@ -310,7 +344,7 @@ private extension FolderFileDownloadMonitor {
                 )
             }
 
-            guard resourceValues.isDirectory == true, isTemporaryFile else {
+            guard isDir, isTemporaryFile else {
                 return nil
             }
 
@@ -537,6 +571,61 @@ private extension FolderFileDownloadMonitor {
             ".partial",
             ".tmp"
         ].contains { lowercasedName.hasSuffix($0) }
+    }
+}
+
+private final class DirectoryWatcher {
+    private var stream: FSEventStreamRef?
+    private let onChange: () -> Void
+
+    init?(urls: [URL], queue: DispatchQueue, onChange: @escaping () -> Void) {
+        guard !urls.isEmpty else { return nil }
+        self.onChange = onChange
+
+        let paths = urls.map { $0.path } as CFArray
+        var context = FSEventStreamContext(
+            version: 0,
+            info: Unmanaged.passUnretained(self).toOpaque(),
+            retain: nil,
+            release: nil,
+            copyDescription: nil
+        )
+
+        let callback: FSEventStreamCallback = { _, clientCallBackInfo, _, _, _, _ in
+            guard let clientCallBackInfo else { return }
+            let watcher = Unmanaged<DirectoryWatcher>.fromOpaque(clientCallBackInfo).takeUnretainedValue()
+            watcher.onChange()
+        }
+
+        let flags = UInt32(kFSEventStreamCreateFlagFileEvents | kFSEventStreamCreateFlagNoDefer)
+
+        guard let stream = FSEventStreamCreate(
+            kCFAllocatorDefault,
+            callback,
+            &context,
+            paths,
+            FSEventStreamEventId(kFSEventStreamEventIdSinceNow),
+            0.3,
+            flags
+        ) else {
+            return nil
+        }
+
+        self.stream = stream
+        FSEventStreamSetDispatchQueue(stream, queue)
+        FSEventStreamStart(stream)
+    }
+
+    func stop() {
+        guard let stream else { return }
+        FSEventStreamStop(stream)
+        FSEventStreamInvalidate(stream)
+        FSEventStreamRelease(stream)
+        self.stream = nil
+    }
+
+    deinit {
+        stop()
     }
 }
 

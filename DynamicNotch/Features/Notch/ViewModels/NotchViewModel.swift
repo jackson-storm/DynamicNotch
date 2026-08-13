@@ -504,20 +504,19 @@ final class NotchViewModel: ObservableObject {
     }
 
     func contentTransition(notchHeight: CGFloat, baseHeight: CGFloat, isExpandedPresentation: Bool) -> AnyTransition {
-
-        let baseTransition = AnyTransition.notchContent(
-            notchHeight: notchHeight,
-            baseHeight: baseHeight,
-            isExpandedPresentation: isExpandedPresentation,
-        )
+        let expandedTransition = AnyTransition.notchExpanded(notchHeight: notchHeight, baseHeight: baseHeight)
+        let compactTransition = AnyTransition.notchCompact(notchHeight: notchHeight, baseHeight: baseHeight)
 
         if isExpandedPresentation {
             return .asymmetric(
-                insertion: baseTransition.animation(animations.expandLiveActivityContentTransition),
-                removal: baseTransition.animation(animations.closeLiveActivityContentTransition)
+                insertion: expandedTransition.animation(animations.expandLiveActivityContentTransition),
+                removal: expandedTransition.animation(animations.closeLiveActivityContentTransition)
             )
         } else {
-            return baseTransition.animation(animations.openContentTransition)
+            return .asymmetric(
+                insertion: compactTransition.animation(animations.closeLiveActivityContentTransition),
+                removal: compactTransition.animation(animations.openContentTransition)
+            )
         }
     }
     

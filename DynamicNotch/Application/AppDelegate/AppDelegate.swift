@@ -39,6 +39,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     let globalClickMonitor = GlobalClickMonitor()
     var cancellables = Set<AnyCancellable>()
     var isPrimaryWindowSuspendedForLock = false
+    var expansionTime: Date = .distantPast
     
     override init() {
         let isRunningUITests = ProcessInfo.processInfo.arguments.contains("-ui-testing")

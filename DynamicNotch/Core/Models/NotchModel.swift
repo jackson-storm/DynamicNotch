@@ -20,9 +20,8 @@ struct NotchModel: Equatable {
     var isDynamicIsland = false
     
     var isPresentingExpandedLiveActivity: Bool {
-        temporaryNotificationContent == nil &&
         isLiveActivityExpanded &&
-        (liveActivityContent?.isExpandable ?? false)
+        (content?.isExpandable ?? false)
     }
 
     var presentationID: String? {
@@ -36,46 +35,30 @@ struct NotchModel: Equatable {
     }
 
     var size: CGSize {
-        if let temporaryNotificationContent {
-            if isDynamicIsland, let customizable = temporaryNotificationContent as? DynamicIslandCustomizable {
-                return customizable.dynamicIslandSize(baseWidth: baseWidth, baseHeight: baseHeight)
+        guard let content else { return .init(width: baseWidth, height: baseHeight) }
+
+        if isPresentingExpandedLiveActivity {
+            if isDynamicIsland, let customizable = content as? DynamicIslandCustomizable {
+                return customizable.expandedDynamicIslandSize(baseWidth: baseWidth, baseHeight: baseHeight)
             }
-            return temporaryNotificationContent.size(baseWidth: baseWidth, baseHeight: baseHeight)
+            return content.expandedSize(baseWidth: baseWidth, baseHeight: baseHeight)
         }
 
-        if let liveActivityContent {
-            if isPresentingExpandedLiveActivity {
-                if isDynamicIsland, let customizable = liveActivityContent as? DynamicIslandCustomizable {
-                    return customizable.expandedDynamicIslandSize(baseWidth: baseWidth, baseHeight: baseHeight)
-                }
-                return liveActivityContent.expandedSize(baseWidth: baseWidth, baseHeight: baseHeight)
-            }
-
-            if isDynamicIsland, let customizable = liveActivityContent as? DynamicIslandCustomizable {
-                return customizable.dynamicIslandSize(baseWidth: baseWidth, baseHeight: baseHeight)
-            }
-            return liveActivityContent.size(baseWidth: baseWidth, baseHeight: baseHeight)
+        if isDynamicIsland, let customizable = content as? DynamicIslandCustomizable {
+            return customizable.dynamicIslandSize(baseWidth: baseWidth, baseHeight: baseHeight)
         }
-
-        return .init(width: baseWidth, height: baseHeight)
+        return content.size(baseWidth: baseWidth, baseHeight: baseHeight)
     }
     
     var cornerRadius: (top: CGFloat, bottom: CGFloat) {
         let baseRadius = baseHeight / 3
+        guard let content else { return (top: baseRadius - 4, bottom: baseRadius) }
 
-        if let temporaryNotificationContent {
-            return temporaryNotificationContent.cornerRadius(baseRadius: baseRadius)
+        if isPresentingExpandedLiveActivity {
+            return content.expandedCornerRadius(baseRadius: baseRadius)
         }
 
-        if let liveActivityContent {
-            if isPresentingExpandedLiveActivity {
-                return liveActivityContent.expandedCornerRadius(baseRadius: baseRadius)
-            }
-
-            return liveActivityContent.cornerRadius(baseRadius: baseRadius)
-        }
-
-        return (top: baseRadius - 4, bottom: baseRadius)
+        return content.cornerRadius(baseRadius: baseRadius)
     }
     
     var strokeColor: Color { content?.strokeColor ?? .clear }

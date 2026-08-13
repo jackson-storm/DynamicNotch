@@ -5,5 +5,18 @@
     <link>https://raw.githubusercontent.com/jackson-storm/DynamicNotch/main/appcast.xml</link>
     <description>Most recent updates to Dynamic Notch.</description>
     <language>en</language>
+    <item>
+      <title>Version 1.6.1</title>
+      <sparkle:releaseNotesLink>https://github.com/jackson-storm/DynamicNotch/releases/tag/v1.6.1</sparkle:releaseNotesLink>
+      <pubDate>Thu, 13 Aug 2026 21:35:00 +0300</pubDate>
+      <enclosure 
+        url="https://github.com/jackson-storm/DynamicNotch/releases/download/v1.6.1/DynamicNotch.zip"
+        sparkle:version="1.6.1"
+        sparkle:shortVersionString="1.6.1"
+        length="12295928"
+        type="application/octet-stream"
+        sparkle:edSignature="AGD2oE11ymNE0TB3mIuTq6k8UrdMv3Z7E/C6YDNlxuDzKuZN+DZVHN4ShwsDaDuDTLVDCcApbsYeH8Tq4jVNCA==" />
+    </item>
   </channel>
 </rss>
+

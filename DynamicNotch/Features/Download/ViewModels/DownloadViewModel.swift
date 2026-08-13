@@ -1,3 +1,4 @@
+internal import AppKit
 import Combine
 import Foundation
 
@@ -57,6 +58,18 @@ final class DownloadViewModel: ObservableObject {
         monitor.stopMonitoring()
         latestObservedDownloads = []
         commit([])
+    }
+
+    func openPrimaryDownloadFolder() {
+        guard let primaryDownload else { return }
+        let fileURL = primaryDownload.url
+        let folderURL = fileURL.deletingLastPathComponent()
+
+        if FileManager.default.fileExists(atPath: fileURL.path) {
+            NSWorkspace.shared.activateFileViewerSelecting([fileURL])
+        } else {
+            NSWorkspace.shared.open(folderURL)
+        }
     }
 
     #if DEBUG

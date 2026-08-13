@@ -24,7 +24,7 @@ struct NotchCustomScaleModifier: ViewModifier {
     
     let baseSize: CGSize
     
-    private let scaleFactor: CGFloat = 1.06
+    private let scaleFactor: CGFloat = 1.07
     private let tapMovementTolerance: CGFloat = 8
     
     func body(content: Content) -> some View {

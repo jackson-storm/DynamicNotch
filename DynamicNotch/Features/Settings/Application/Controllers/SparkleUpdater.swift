@@ -75,6 +75,32 @@ final class SparkleUpdater: NSObject, ObservableObject, SPUUpdaterDelegate {
                 }
             }
             .store(in: &cancellables)
+        
+        updater.updateCheckInterval = 600
+        
+        startAutomaticCheckOnLaunch()
+        startPeriodicCheckTimer()
+    }
+    
+    private var checkTimer: Timer?
+    
+    private func startPeriodicCheckTimer() {
+        checkTimer?.invalidate()
+        checkTimer = Timer.scheduledTimer(withTimeInterval: 600.0, repeats: true) { [weak self] _ in
+            guard let self = self else { return }
+            if self.automaticallyChecksForUpdates {
+                self.updaterController.updater.checkForUpdatesInBackground()
+            }
+        }
+    }
+    
+    func startAutomaticCheckOnLaunch() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { [weak self] in
+            guard let self = self else { return }
+            if self.automaticallyChecksForUpdates {
+                self.updaterController.updater.checkForUpdatesInBackground()
+            }
+        }
     }
     
     func checkForUpdates() {

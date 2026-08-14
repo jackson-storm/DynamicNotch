@@ -12,5 +12,7 @@
 	<string>https://raw.githubusercontent.com/jackson-storm/DynamicNotch/main/appcast.xml</string>
 	<key>SUPublicEDKey</key>
 	<string>7di/CHe0WlewXDmFgnxUW5UqZefP/ib1m57PNBOupw4=</string>
+	<key>SUScheduledCheckInterval</key>
+	<integer>600</integer>
 </dict>
 </plist>

@@ -374,173 +374,34 @@ private struct LockScreenLiveActivityOverlayView: View {
     @ObservedObject var airDropController: NotchAirDropController
     
     var body: some View {
-        notchSurface
-            .overlay {
-                contentOverlayWrapped
-            }
-            .overlay {
-                DragAndDropDestinationView(
-                    isTargeted: $airDropController.isTargeted,
-                    targetedDropTarget: Binding(
-                        get: { airDropViewModel.targetedDropTarget },
-                        set: { airDropViewModel.setTargetedDropTarget($0) }
-                    ),
-                    mode: settingsViewModel.mediaAndFiles.dragAndDropActivityMode,
-                    onDropPasteboard: { target, pasteboard in
-                        switch target {
-                        case .airDrop:
-                            guard settingsViewModel.mediaAndFiles.dragAndDropActivityMode.showsAirDrop,
-                                  settingsViewModel.mediaAndFiles.isAirDropLiveActivityEnabled else {
-                                return false
-                            }
-                            return airDropController.handlePasteboardDrop(pasteboard)
-                        case .tray:
-                            guard settingsViewModel.mediaAndFiles.dragAndDropActivityMode.showsTray,
-                                  settingsViewModel.mediaAndFiles.isTrayLiveActivityEnabled else {
-                                return false
-                            }
-                            return airDropController.handleTrayDrop(
-                                pasteboard,
-                                mode: settingsViewModel.mediaAndFiles.fileTrayUsageMode
-                            )
-                        }
-                    }
-                )
-            }
-            .environment(\.colorScheme, .dark)
-            .frame(
-                width: notchViewModel.interactiveNotchSize.width,
-                height: notchViewModel.interactiveNotchSize.height
-            )
-            .customNotchPressable(
-                notchViewModel: notchViewModel,
-                isPressed: $notchViewModel.isPressed,
-                baseSize: notchViewModel.interactiveNotchSize
-            )
-            .scaleEffect(animator.scale)
-            .opacity(animator.opacity)
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-            .animation(notchViewModel.animations.strokeVisibility, value: settingsViewModel.isShowNotchStrokeEnabled)
-            .animation(notchViewModel.animations.notchVisibility, value: notchViewModel.showNotch)
-            .onChange(of: notchViewModel.notchModel.content?.id) {
-                notchViewModel.handleStrokeVisibility()
-            }
-    }
-    
-    @ViewBuilder
-    private var notchSurface: some View {
-        let isDynamicIsland = notchViewModel.topInset == 0
-        let shouldShowStroke = settingsViewModel.application.isShowNotchStrokeEnabled
-        let isExpandedPresentation = notchViewModel.notchModel.isPresentingExpandedLiveActivity
-        let isPresentationHidden = notchViewModel.isActivityPresentationHidden && notchViewModel.notchModel.temporaryNotificationContent == nil
-        let isScreenshotContent = notchViewModel.displayedContent?.id == NotchContentRegistry.Screenshot.active.id
-        let shouldApplyPressScale = !isExpandedPresentation && !isPresentationHidden && !isScreenshotContent
-        
-        NotchBackgroundSurface(
-            style: settingsViewModel.application.notchBackgroundStyle,
-            topCornerRadius: notchViewModel.interactiveCornerRadius.top,
-            bottomCornerRadius: notchViewModel.interactiveCornerRadius.bottom,
-            isDynamicIsland: isDynamicIsland,
-            dynamicIslandCornerRadius: notchViewModel.dynamicIslandCornerRadius,
-            strokeColor: shouldShowStroke ? visibleStrokeColor : .clear,
-            strokeWidth: settingsViewModel.notchStrokeWidth,
-            height: notchViewModel.interactiveNotchSize.height,
-            baseHeight: notchViewModel.notchModel.baseHeight
+        NotchSurfaceContainerView(
+            notchViewModel: notchViewModel,
+            settingsViewModel: settingsViewModel
         )
-        .scaleEffect(
-            x: shouldApplyPressScale ? notchViewModel.pressScale : 1,
-            y: shouldApplyPressScale ? notchViewModel.pressScale : 1,
-            anchor: .top
+        .overlay {
+            NotchDragAndDropDestinationOverlay(
+                airDropViewModel: airDropViewModel,
+                airDropController: airDropController,
+                settingsViewModel: settingsViewModel
+            )
+        }
+        .environment(\.colorScheme, .dark)
+        .frame(
+            width: notchViewModel.interactiveNotchSize.width,
+            height: notchViewModel.interactiveNotchSize.height
         )
-    }
-    
-    private var visibleStrokeColor: Color {
-        let strokeOpacity = settingsViewModel.application.notchStrokeOpacity
-        let isDefaultStroke = settingsViewModel.application.isDefaultActivityStrokeEnabled
-        
-        let baseColor: Color
-        if isDefaultStroke {
-            baseColor = .white.opacity(0.2)
-        } else {
-            baseColor = notchViewModel.displayedContent?.strokeColor ?? notchViewModel.cachedStrokeColor
-        }
-        return baseColor.opacity(strokeOpacity)
-    }
-    
-    @ViewBuilder
-    private var contentOverlay: some View {
-        let isExpandedPresentation = notchViewModel.notchModel.isPresentingExpandedLiveActivity
-        let isPresentationHidden = notchViewModel.isActivityPresentationHidden && notchViewModel.notchModel.temporaryNotificationContent == nil
-        let isScreenshotContent = notchViewModel.displayedContent?.id == NotchContentRegistry.Screenshot.active.id
-        let shouldApplyPressScale = !isExpandedPresentation && !isPresentationHidden && !isScreenshotContent
-        
-        if let content = notchViewModel.displayedContent {
-            renderedContentView(for: content)
-                .scaleEffect(
-                    x: shouldApplyPressScale ? notchViewModel.pressScale : 1,
-                    y: shouldApplyPressScale ? notchViewModel.pressScale : 1,
-                    anchor: .top
-                )
-                .id(notchViewModel.displayedPresentationID)
-                .transition(
-                    notchViewModel.contentTransition(
-                        notchHeight: notchViewModel.interactiveNotchSize.height,
-                        baseHeight: notchViewModel.notchModel.baseHeight,
-                        isExpandedPresentation: notchViewModel.isDisplayingExpandedLiveActivity
-                    )
-                )
-        }
-    }
-    
-    @ViewBuilder
-    private var contentOverlayWrapped: some View {
-        let isExpandedPresentation = notchViewModel.notchModel.isPresentingExpandedLiveActivity
-        let isPresentationHidden = notchViewModel.isActivityPresentationHidden && notchViewModel.notchModel.temporaryNotificationContent == nil
-        let isScreenshotContent = notchViewModel.displayedContent?.id == NotchContentRegistry.Screenshot.active.id
-        let shouldApplyPressScale = !isExpandedPresentation && !isPresentationHidden && !isScreenshotContent
-        
-        if notchViewModel.topInset == 0 {
-            contentOverlay
-                .environment(\.isDynamicIsland, true)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .mask {
-                    DynamicIslandShape(
-                        cornerRadius: max(0, notchViewModel.dynamicIslandCornerRadius - 2)
-                    )
-                    .padding(3)
-                    .scaleEffect(
-                        x: shouldApplyPressScale ? notchViewModel.pressScale : 1,
-                        y: shouldApplyPressScale ? notchViewModel.pressScale : 1,
-                        anchor: .top
-                    )
-                }
-        } else {
-            contentOverlay
-                .environment(\.isDynamicIsland, false)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .mask {
-                    NotchShape(
-                        topCornerRadius: max(0, notchViewModel.interactiveCornerRadius.top - 2),
-                        bottomCornerRadius: max(0, notchViewModel.interactiveCornerRadius.bottom - 2)
-                    )
-                    .padding(.horizontal, 5)
-                    .padding(.bottom, 3)
-                    .scaleEffect(
-                        x: shouldApplyPressScale ? notchViewModel.pressScale : 1,
-                        y: shouldApplyPressScale ? notchViewModel.pressScale : 1,
-                        anchor: .top
-                    )
-                }
-        }
-    }
-    
-    @MainActor
-    @ViewBuilder
-    private func renderedContentView(for content: NotchContentProtocol) -> some View {
-        if notchViewModel.isDisplayingExpandedLiveActivity {
-            content.makeExpandedView()
-        } else {
-            content.makeView()
+        .customNotchPressable(
+            notchViewModel: notchViewModel,
+            isPressed: $notchViewModel.isPressed,
+            baseSize: notchViewModel.interactiveNotchSize
+        )
+        .scaleEffect(animator.scale)
+        .opacity(animator.opacity)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .animation(notchViewModel.animations.strokeVisibility, value: settingsViewModel.isShowNotchStrokeEnabled)
+        .animation(notchViewModel.animations.notchVisibility, value: notchViewModel.showNotch)
+        .onChange(of: notchViewModel.notchModel.content?.id) {
+            notchViewModel.handleStrokeVisibility()
         }
     }
 }

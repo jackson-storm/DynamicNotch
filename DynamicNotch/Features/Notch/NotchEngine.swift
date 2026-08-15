@@ -174,18 +174,24 @@ final class NotchEngine: ObservableObject {
 
     func dismissActiveContent() {
         if let temporaryContent = notchModel.temporaryNotificationContent {
-            lastDismissedContent = .temporary(
-                temporaryContent,
-                duration: currentTemporaryNotificationDuration ?? .infinity
-            )
+            if temporaryContent.isRestorable {
+                lastDismissedContent = .temporary(
+                    temporaryContent,
+                    duration: currentTemporaryNotificationDuration ?? .infinity
+                )
+            }
             hideTemporaryNotification()
             return
         }
 
         guard let liveActivityContent = notchModel.liveActivityContent else { return }
-        lastDismissedContent = .live(liveActivityContent)
-        recordDismissedLiveActivity(id: liveActivityContent.id)
-        send(.dismissLiveActivity(id: liveActivityContent.id))
+        if liveActivityContent.isRestorable {
+            lastDismissedContent = .live(liveActivityContent)
+            recordDismissedLiveActivity(id: liveActivityContent.id)
+            send(.dismissLiveActivity(id: liveActivityContent.id))
+        } else {
+            send(.hideLiveActivity(id: liveActivityContent.id))
+        }
     }
 
     func restoreDismissedContent() {

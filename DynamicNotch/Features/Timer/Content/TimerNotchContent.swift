@@ -1,3 +1,4 @@
+internal import AppKit
 import SwiftUI
 
 struct TimerNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
@@ -22,6 +23,31 @@ struct TimerNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     }
 
     var isExpandable: Bool { true }
+
+    var windowLink: (@MainActor () -> Void)? {
+        switch source {
+        case .system:
+            return {
+                Self.openClockApp()
+            }
+        case .local:
+            return nil
+        }
+    }
+
+    @MainActor
+    static func openClockApp() {
+        if let runningTimerURL = URL(string: "clock-timer-running:"), NSWorkspace.shared.open(runningTimerURL) {
+            return
+        }
+        if let app = NSRunningApplication.runningApplications(withBundleIdentifier: "com.apple.clock").first {
+            app.activate()
+        } else if let appURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier: "com.apple.clock") {
+            let configuration = NSWorkspace.OpenConfiguration()
+            configuration.activates = true
+            NSWorkspace.shared.openApplication(at: appURL, configuration: configuration, completionHandler: nil)
+        }
+    }
 
     init(source: TimerSource, settingsViewModel: SettingsViewModel? = nil) {
         self.source = source

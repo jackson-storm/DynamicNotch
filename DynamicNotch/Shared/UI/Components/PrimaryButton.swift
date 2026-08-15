@@ -20,5 +20,7 @@ struct PrimaryButtonStyle: ButtonStyle {
             .foregroundColor(foregroundColor)
             .cornerRadius(30)
             .opacity(configuration.isPressed ? 0.7 : 1.0)
+            .scaleEffect(configuration.isPressed ? 0.94 : 1.0)
+            .animation(.easeInOut(duration: 0.12), value: configuration.isPressed)
     }
 }

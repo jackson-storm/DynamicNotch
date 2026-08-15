@@ -374,113 +374,34 @@ private struct LockScreenLiveActivityOverlayView: View {
     @ObservedObject var airDropController: NotchAirDropController
     
     var body: some View {
-        notchSurface
-            .overlay {
-                contentOverlay
-                    .environment(\.isDynamicIsland, notchViewModel.topInset == 0)
-                    .clipShape(Rectangle())
-            }
-            .overlay {
-                DragAndDropDestinationView(
-                    isTargeted: $airDropController.isTargeted,
-                    targetedDropTarget: Binding(
-                        get: { airDropViewModel.targetedDropTarget },
-                        set: { airDropViewModel.setTargetedDropTarget($0) }
-                    ),
-                    mode: settingsViewModel.mediaAndFiles.dragAndDropActivityMode,
-                    onDropPasteboard: { target, pasteboard in
-                        switch target {
-                        case .airDrop:
-                            guard settingsViewModel.mediaAndFiles.dragAndDropActivityMode.showsAirDrop,
-                                  settingsViewModel.mediaAndFiles.isAirDropLiveActivityEnabled else {
-                                return false
-                            }
-                            return airDropController.handlePasteboardDrop(pasteboard)
-                        case .tray:
-                            guard settingsViewModel.mediaAndFiles.dragAndDropActivityMode.showsTray,
-                                  settingsViewModel.mediaAndFiles.isTrayLiveActivityEnabled else {
-                                return false
-                            }
-                            return airDropController.handleTrayDrop(
-                                pasteboard,
-                                mode: settingsViewModel.mediaAndFiles.fileTrayUsageMode
-                            )
-                        }
-                    }
-                )
-            }
-            .environment(\.colorScheme, .dark)
-            .frame(
-                width: notchViewModel.interactiveNotchSize.width,
-                height: notchViewModel.interactiveNotchSize.height
-            )
-            .customNotchPressable(
-                notchViewModel: notchViewModel,
-                isPressed: $notchViewModel.isPressed,
-                baseSize: notchViewModel.interactiveNotchSize
-            )
-            .scaleEffect(animator.scale)
-            .opacity(animator.opacity)
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-            .animation(notchViewModel.animations.strokeVisibility, value: settingsViewModel.isShowNotchStrokeEnabled)
-            .animation(notchViewModel.animations.notchVisibility, value: notchViewModel.showNotch)
-            .onChange(of: notchViewModel.notchModel.content?.id) {
-                notchViewModel.handleStrokeVisibility()
-            }
-    }
-    
-    @ViewBuilder
-    private var notchSurface: some View {
-        let isDynamicIsland = notchViewModel.topInset == 0
-        let shouldShowStroke = settingsViewModel.application.isShowNotchStrokeEnabled
-        NotchBackgroundSurface(
-            style: settingsViewModel.application.notchBackgroundStyle,
-            topCornerRadius: notchViewModel.interactiveCornerRadius.top,
-            bottomCornerRadius: notchViewModel.interactiveCornerRadius.bottom,
-            isDynamicIsland: isDynamicIsland,
-            dynamicIslandCornerRadius: notchViewModel.dynamicIslandCornerRadius,
-            strokeColor: shouldShowStroke ? visibleStrokeColor : .clear,
-            strokeWidth: settingsViewModel.notchStrokeWidth,
-            height: notchViewModel.interactiveNotchSize.height,
-            baseHeight: notchViewModel.notchModel.baseHeight
+        NotchSurfaceContainerView(
+            notchViewModel: notchViewModel,
+            settingsViewModel: settingsViewModel
         )
-    }
-    
-    private var visibleStrokeColor: Color {
-        let strokeOpacity = settingsViewModel.application.notchStrokeOpacity
-        let isDefaultStroke = settingsViewModel.application.isDefaultActivityStrokeEnabled
-        
-        let baseColor: Color
-        if isDefaultStroke {
-            baseColor = .white.opacity(0.2)
-        } else {
-            baseColor = notchViewModel.displayedContent?.strokeColor ?? notchViewModel.cachedStrokeColor
+        .overlay {
+            NotchDragAndDropDestinationOverlay(
+                airDropViewModel: airDropViewModel,
+                airDropController: airDropController,
+                settingsViewModel: settingsViewModel
+            )
         }
-        return baseColor.opacity(strokeOpacity)
-    }
-    
-    @ViewBuilder
-    private var contentOverlay: some View {
-        if let content = notchViewModel.displayedContent {
-            renderedContentView(for: content)
-                .id(notchViewModel.displayedPresentationID)
-                .transition(
-                    notchViewModel.contentTransition(
-                        notchHeight: notchViewModel.interactiveNotchSize.height,
-                        baseHeight: notchViewModel.notchModel.baseHeight,
-                        isExpandedPresentation: notchViewModel.isDisplayingExpandedLiveActivity
-                    )
-                )
-        }
-    }
-    
-    @MainActor
-    @ViewBuilder
-    private func renderedContentView(for content: NotchContentProtocol) -> some View {
-        if notchViewModel.isDisplayingExpandedLiveActivity {
-            content.makeExpandedView()
-        } else {
-            content.makeView()
+        .environment(\.colorScheme, .dark)
+        .frame(
+            width: notchViewModel.interactiveNotchSize.width,
+            height: notchViewModel.interactiveNotchSize.height
+        )
+        .customNotchPressable(
+            notchViewModel: notchViewModel,
+            isPressed: $notchViewModel.isPressed,
+            baseSize: notchViewModel.interactiveNotchSize
+        )
+        .scaleEffect(animator.scale)
+        .opacity(animator.opacity)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .animation(notchViewModel.animations.strokeVisibility, value: settingsViewModel.isShowNotchStrokeEnabled)
+        .animation(notchViewModel.animations.notchVisibility, value: notchViewModel.showNotch)
+        .onChange(of: notchViewModel.notchModel.content?.id) {
+            notchViewModel.handleStrokeVisibility()
         }
     }
 }

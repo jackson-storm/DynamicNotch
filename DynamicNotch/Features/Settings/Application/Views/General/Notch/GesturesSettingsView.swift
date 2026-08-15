@@ -19,8 +19,8 @@ struct GesturesSettingsView: View {
     private var gesturesCard: some View {
         SettingsCard() {
             SettingsToggleRow(
-                title: "Expand live activity",
-                description: "Allow the selected notch gesture to open the expanded live activity layout when supported.",
+                title: "settings.notch.gestures.expandActivity.title",
+                description: "settings.notch.gestures.expandActivity.desc",
                 systemImage: "hand.tap.fill",
                 color: .blue,
                 isOn: $applicationSettings.isNotchTapToExpandEnabled,
@@ -31,8 +31,8 @@ struct GesturesSettingsView: View {
                 .opacity(0.6)
             
             SettingsMenuRow(
-                title: "Expand gesture",
-                description: "Choose whether expanded content opens on click, after holding the notch, or after hovering over it.",
+                title: "settings.notch.gestures.expandGesture.title",
+                description: "settings.notch.gestures.expandGesture.desc",
                 options: Array(NotchExpandInteraction.allCases),
                 optionTitle: { $0.title },
                 accessibilityIdentifier: "settings.notch.expandInteraction",
@@ -43,8 +43,8 @@ struct GesturesSettingsView: View {
                 .opacity(0.6)
 
             SettingsMenuRow(
-                title: "Collapse gesture",
-                description: "Choose whether expanded content closes on click or when the cursor leaves the notch.",
+                title: "settings.notch.gestures.collapseGesture.title",
+                description: "settings.notch.gestures.collapseGesture.desc",
                 options: Array(NotchCollapseInteraction.allCases),
                 optionTitle: { $0.title },
                 accessibilityIdentifier: "settings.notch.collapseInteraction",
@@ -55,8 +55,8 @@ struct GesturesSettingsView: View {
                 .opacity(0.6)
             
             SettingsSliderRow(
-                title: "Press and hold timing",
-                description: "Adjust how quickly press-and-hold and hover expansion trigger.",
+                title: "settings.notch.gestures.pressHoldTiming.title",
+                description: "settings.notch.gestures.pressHoldTiming.desc",
                 range: ApplicationSettingsStore.notchPressHoldDurationRange,
                 step: ApplicationSettingsStore.notchPressHoldDurationStep,
                 fractionLength: 2,
@@ -71,8 +71,8 @@ struct GesturesSettingsView: View {
     private var gestureToggleCard: some View {
         SettingsCard {
             SettingsToggleRow(
-                title: "Hover haptic feedback",
-                description: "Produce a soft haptic tick when the cursor enters the collapsed notch.",
+                title: "settings.notch.gestures.hoverHaptic.title",
+                description: "settings.notch.gestures.hoverHaptic.desc",
                 systemImage: "waveform",
                 color: .red,
                 isOn: $applicationSettings.isNotchHoverHapticEnabled,

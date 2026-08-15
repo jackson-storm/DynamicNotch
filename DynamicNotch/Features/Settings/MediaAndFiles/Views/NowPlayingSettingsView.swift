@@ -24,10 +24,10 @@ struct NowPlayingSettingsView: View {
     }
     
     private var playbackActivity: some View {
-        SettingsCard(title: "Playback activity") {
+        SettingsCard(title: "settings.nowPlaying.card.playback") {
             SettingsToggleRow(
-                title: "Now Playing live activity",
-                description: "Show the Now Playing live activity while audio or video playback is active.",
+                title: "settings.nowPlaying.liveActivity.title",
+                description: "settings.nowPlaying.liveActivity.desc",
                 systemImage: "music.note",
                 color: .red,
                 isOn: $settings.isNowPlayingLiveActivityEnabled,
@@ -39,8 +39,8 @@ struct NowPlayingSettingsView: View {
             Divider().opacity(0.6)
 
             SettingsMenuRow(
-                title: "Playback source",
-                description: "Choose which media app can show Now Playing in the notch.",
+                title: "settings.nowPlaying.playbackSource.title",
+                description: "settings.nowPlaying.playbackSource.desc",
                 options: Array(NowPlayingSourceFilter.allCases),
                 optionTitle: { $0.title },
                 accessibilityIdentifier: "settings.activities.live.nowPlaying.sourceFilter",
@@ -50,10 +50,10 @@ struct NowPlayingSettingsView: View {
     }
 
     private var pausedPlaybackBehavior: some View {
-        SettingsCard(title: "Paused playback") {
+        SettingsCard(title: "settings.nowPlaying.card.paused") {
             SettingsToggleRow(
-                title: "Without close timer",
-                description: "Keep Now Playing visible in the notch while playback is paused.",
+                title: "settings.nowPlaying.withoutCloseTimer.title",
+                description: "settings.nowPlaying.withoutCloseTimer.desc",
                 systemImage: "pause.circle",
                 color: .orange,
                 isOn: isWithoutCloseTimer,
@@ -63,8 +63,8 @@ struct NowPlayingSettingsView: View {
             Divider().opacity(0.6)
 
             SettingsSliderRow(
-                title: "Close delay",
-                description: "Choose how long the paused player stays visible before the notch closes.",
+                title: "settings.nowPlaying.closeDelay.title",
+                description: "settings.nowPlaying.closeDelay.desc",
                 range: temporaryActivityDurationRange,
                 step: 1,
                 fractionLength: 0,
@@ -81,7 +81,7 @@ struct NowPlayingSettingsView: View {
     }
     
     private var playerAppearance: some View {
-        SettingsCard(title: "Player appearance") {
+        SettingsCard(title: "settings.nowPlaying.card.playerAppearance") {
             NowPlayingAppearancePreview(
                 settings: settings,
                 applicationSettings: applicationSettings
@@ -90,8 +90,8 @@ struct NowPlayingSettingsView: View {
             Divider().opacity(0.6)
             
             SettingsMenuRow(
-                title: "Progress bar tint",
-                description: "Choose how to color the progress bar and timer labels.",
+                title: "settings.nowPlaying.progressBarTint.title",
+                description: "settings.nowPlaying.progressBarTint.desc",
                 options: Array(NowPlayingProgressTintStyle.allCases),
                 optionTitle: { $0.title },
                 accessibilityIdentifier: "settings.activities.live.nowPlaying.progressTintStyle",
@@ -101,8 +101,8 @@ struct NowPlayingSettingsView: View {
             Divider().opacity(0.6)
             
             SettingsToggleRow(
-                title: "Artwork 3D effect",
-                description: "Animate artwork with a 3D flip when the track cover changes.",
+                title: "settings.nowPlaying.artwork3D.title",
+                description: "settings.nowPlaying.artwork3D.desc",
                 systemImage: "rotate.3d.fill",
                 color: .blue,
                 isOn: $settings.isNowPlayingArtwork3DEffectEnabled,
@@ -112,8 +112,8 @@ struct NowPlayingSettingsView: View {
             Divider().opacity(0.6)
 
             SettingsToggleRow(
-                title: "Hide favorite",
-                description: "Remove the favorite button from the expanded player controls.",
+                title: "settings.nowPlaying.hideFavorite.title",
+                description: "settings.nowPlaying.hideFavorite.desc",
                 systemImage: "star.slash.fill",
                 color: .red,
                 isOn: Binding(
@@ -129,8 +129,8 @@ struct NowPlayingSettingsView: View {
                 .frame(maxWidth: .infinity, alignment: .trailing)
             
             SettingsToggleRow(
-                title: "Hide output device",
-                description: "Remove the output device button from the expanded player controls.",
+                title: "settings.nowPlaying.hideOutputDevice.title",
+                description: "settings.nowPlaying.hideOutputDevice.desc",
                 systemImage: "airplay.audio",
                 color: .red,
                 isOn: Binding(

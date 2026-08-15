@@ -73,6 +73,9 @@ extension SettingsRootViewModel {
     enum Section: String, CaseIterable, Identifiable {
         case general
         case homePage
+        #if DEBUG
+        case debug
+        #endif
     
         case wifi
         case bluetooth
@@ -85,7 +88,6 @@ extension SettingsRootViewModel {
         case drop
         
         case hud
-        case timer
         case calendar
         case screenRecording
         case lockScreen
@@ -272,6 +274,28 @@ private enum SettingsSectionCatalog {
                 resetGroup: .homePage
             )
 
+        #if DEBUG
+        case .debug:
+            return .init(
+                sidebarGroup: .application,
+                titleKey: "settings.section.debug.title",
+                fallbackTitle: "Debug",
+                subtitleKey: "settings.section.debug.subtitle",
+                fallbackSubtitle: "Manual previews and event triggers for testing.",
+                searchKeywords: [
+                    "debug",
+                    "preview",
+                    "onboarding",
+                    "trigger",
+                    "testing"
+                ],
+                systemImage: "ladybug.fill",
+                imageName: nil,
+                tint: .red,
+                resetGroup: nil
+            )
+        #endif
+
             
         case .calendar:
             return .init(
@@ -336,26 +360,6 @@ private enum SettingsSectionCatalog {
                 resetGroup: .drop
             )
 
-        case .timer:
-            return .init(
-                sidebarGroup: .system,
-                titleKey: "settings.section.timer.title",
-                fallbackTitle: "Timer",
-                subtitleKey: "settings.section.timer.subtitle",
-                fallbackSubtitle: "Clock timer live activity and stroke appearance.",
-                searchKeywords: [
-                    "timer",
-                    "clock",
-                    "countdown",
-                    "live activity",
-                    "stroke"
-                ],
-                systemImage: "timer",
-                imageName: nil,
-                tint: .orange,
-                resetGroup: .timer
-            )
-
         case .screenRecording:
             return .init(
                 sidebarGroup: .system,
@@ -383,7 +387,7 @@ private enum SettingsSectionCatalog {
 
         case .focus:
             return .init(
-                sidebarGroup: .mediaAndFiles,
+                sidebarGroup: .system,
                 titleKey: "settings.section.focus.title",
                 fallbackTitle: "Focus",
                 subtitleKey: "settings.section.focus.subtitle",

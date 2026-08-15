@@ -12,11 +12,11 @@ enum LockScreenWidgetAppearanceStyle: String, CaseIterable {
     var title: LocalizedStringKey {
         switch self {
         case .ultraThinMaterial:
-            return "Soft"
+            return "settings.lockScreen.widgetAppearanceStyle.soft"
         case .ultraThickMaterial:
-            return "Solid"
+            return "settings.lockScreen.widgetAppearanceStyle.solid"
         case .liquidGlass:
-            return "Liquid Glass"
+            return "settings.lockScreen.widgetAppearanceStyle.liquidGlass"
         }
     }
 

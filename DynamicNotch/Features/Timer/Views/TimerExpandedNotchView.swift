@@ -45,8 +45,9 @@ private struct TimerExpandedNotchViewInternal<VM: ObservableObject>: View {
                 rightContent
             }
         }
-        .padding(.horizontal, isDynamicIsland ? 18 : 32)
-        .padding(.bottom, isDynamicIsland ? 15 : 12)
+        .padding(.leading, isDynamicIsland ? 14 : 32)
+        .padding(.trailing, isDynamicIsland ? 18 : 38)
+        .padding(.bottom, isDynamicIsland ? 14 : 12)
     }
     
     private var leftContent: some View {
@@ -78,7 +79,7 @@ private struct TimerExpandedNotchViewInternal<VM: ObservableObject>: View {
             } label: {
                 Image(systemName: "xmark")
                     .font(.system(size: 20, weight: .semibold))
-                    .foregroundStyle(.white.opacity(0.8))
+                    .foregroundStyle(.white.opacity(0.9))
             }
             .buttonStyle(PrimaryButtonStyle(width: 45, height: 45, backgroundColor: .gray.opacity(0.3)))
             .disabled(isControlActionRunning)
@@ -93,8 +94,12 @@ private struct TimerExpandedNotchViewInternal<VM: ObservableObject>: View {
                 .offset(y: 8)
             
             TimelineView(.animation(minimumInterval: 0.25, paused: source.isPaused)) { context in
-                Text(formattedDuration(source.remainingTime(at: context.date)))
-                    .font(.system(size: 36, weight: .semibold, design: .rounded))
+                let remaining = source.remainingTime(at: context.date)
+                let roundedSeconds = max(0, Int(remaining.rounded()))
+                let hours = roundedSeconds / 3600
+                
+                Text(formattedDuration(remaining))
+                    .font(.system(size: hours > 0 ? 26 : 36, weight: .semibold, design: .rounded))
                     .monospacedDigit()
                     .foregroundStyle(Color.orange)
                     .contentTransition(.numericText())

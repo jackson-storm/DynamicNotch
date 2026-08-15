@@ -14,6 +14,7 @@ protocol NotchContentProtocol {
     var strokeColor: Color { get }
     var isExpandable: Bool { get }
     var expandsOnTap: Bool { get }
+    var isRestorable: Bool { get }
     var windowLink: (@MainActor () -> Void)? { get }
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize
@@ -31,6 +32,7 @@ extension NotchContentProtocol {
     var strokeColor: Color { .white.opacity(0.2) }
     var isExpandable: Bool { false }
     var expandsOnTap: Bool { isExpandable }
+    var isRestorable: Bool { true }
     var windowLink: (@MainActor () -> Void)? { nil }
     
     func cornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {

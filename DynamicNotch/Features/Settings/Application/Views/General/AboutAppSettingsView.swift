@@ -71,8 +71,8 @@ struct AboutAppSettingsView: View {
     private var socialLinksCard: some View {
         SettingsCard(spacing: 0, padding: 0) {
             SettingsUrlRowView(
-                title: "Telegram Channel",
-                description: "Join our Telegram channel",
+                title: "settings.about.telegramChannel.title",
+                description: "settings.about.telegramChannel.desc",
                 imageName: "telegram",
                 color: .clear,
                 cornerRadius: 30,
@@ -82,8 +82,8 @@ struct AboutAppSettingsView: View {
             )
             
             SettingsUrlRowView(
-                title: "GitHub Repository",
-                description: "Star the project on GitHub",
+                title: "settings.about.github.title",
+                description: "settings.about.github.desc",
                 imageName: "gitHub",
                 color: .clear,
                 cornerRadius: 30,
@@ -93,8 +93,8 @@ struct AboutAppSettingsView: View {
             )
             
             SettingsUrlRowView(
-                title: "Website",
-                description: "Open the DynamicNotch website",
+                title: "settings.about.website.title",
+                description: "settings.about.website.desc",
                 imageName: "simplifiedLogo",
                 color: .clear,
                 cornerRadius: 30,
@@ -106,10 +106,10 @@ struct AboutAppSettingsView: View {
     }
     
     private var contactMeCard: some View {
-        SettingsCard(title: "Contact Me", spacing: 0, padding: 0) {
+        SettingsCard(title: "settings.about.card.contact", spacing: 0, padding: 0) {
             SettingsUrlRowView(
-                title: "Telegram Account",
-                description: "Send a direct message on Telegram",
+                title: "settings.about.telegramAccount.title",
+                description: "settings.about.telegramAccount.desc",
                 imageName: "telegram",
                 color: .clear,
                 cornerRadius: 30,
@@ -119,8 +119,8 @@ struct AboutAppSettingsView: View {
             )
             
             SettingsUrlRowView(
-                title: "Email Address",
-                description: "Send an email",
+                title: "settings.about.email.title",
+                description: "settings.about.email.desc",
                 imageName: "email",
                 color: .clear,
                 cornerRadius: 30,

@@ -211,6 +211,18 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         }
     }
 
+    @Published var isTimerSoundEnabled: Bool {
+        didSet {
+            persist(isTimerSoundEnabled, for: GeneralSettingsStorage.Keys.timerSoundEnabled)
+        }
+    }
+
+    @Published var timerSound: TimerSound {
+        didSet {
+            persist(timerSound.rawValue, for: GeneralSettingsStorage.Keys.timerSound)
+        }
+    }
+
     override init(defaults: UserDefaults) {
         defaults.register(defaults: GeneralSettingsStorage.defaultValues)
         self.isNowPlayingLiveActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.nowPlayingLiveActivityEnabled)
@@ -306,6 +318,8 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         )
         self.isTimerLiveActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.timerLiveActivityEnabled)
         self.isTimerDefaultStrokeEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.timerDefaultStrokeEnabled)
+        self.isTimerSoundEnabled = defaults.object(forKey: GeneralSettingsStorage.Keys.timerSoundEnabled) as? Bool ?? (GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.timerSoundEnabled] as? Bool ?? true)
+        self.timerSound = TimerSound.resolved(defaults.string(forKey: GeneralSettingsStorage.Keys.timerSound))
         super.init(defaults: defaults)
     }
 
@@ -388,6 +402,8 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
     func resetTimer() {
         isTimerLiveActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.timerLiveActivityEnabled)
         isTimerDefaultStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.timerDefaultStrokeEnabled)
+        isTimerSoundEnabled = defaultBool(for: GeneralSettingsStorage.Keys.timerSoundEnabled)
+        timerSound = TimerSound.resolved(defaultString(for: GeneralSettingsStorage.Keys.timerSound))
     }
 
     private static func resolvedBool(defaults: UserDefaults, key: String, fallbackKey: String? = nil) -> Bool {

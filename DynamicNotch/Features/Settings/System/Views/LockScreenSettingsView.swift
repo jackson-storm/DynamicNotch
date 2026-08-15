@@ -27,10 +27,10 @@ struct LockScreenSettingsView: View {
     }
     
     private var lockScreenActivity: some View {
-        SettingsCard(title: "Lock screen activity") {
+        SettingsCard(title: "settings.lockScreen.card.activity") {
             SettingsToggleRow(
-                title: "Lock screen live activity",
-                description: "Show the lock-screen live activity during lock and unlock transitions.",
+                title: "settings.lockScreen.activity.title",
+                description: "settings.lockScreen.activity.desc",
                 systemImage: "lock.fill",
                 color: .black,
                 stroke: true,
@@ -44,8 +44,8 @@ struct LockScreenSettingsView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
             
             SettingsToggleRow(
-                title: "Lock screen media panel",
-                description: "Show the detached media panel on the lock screen while playback is active.",
+                title: "settings.lockScreen.mediaPanel.title",
+                description: "settings.lockScreen.mediaPanel.desc",
                 systemImage: "play.rectangle.fill",
                 color: .pink,
                 isOn: $settings.isLockScreenMediaPanelEnabled,
@@ -55,7 +55,7 @@ struct LockScreenSettingsView: View {
     }
     
     private var notchAppearance: some View {
-        SettingsCard(title: "Notch appearance") {
+        SettingsCard(title: "settings.lockScreen.card.notchAppearance") {
             CustomPicker(
                 selection: $settings.lockScreenStyle,
                 options: Array(LockScreenStyle.allCases),
@@ -70,8 +70,8 @@ struct LockScreenSettingsView: View {
             Divider().opacity(0.6)
 
             SettingsToggleRow(
-                title: "Lock screen sound",
-                description: "Play a sound when locking or unlocking your Mac.",
+                title: "settings.lockScreen.sound.title",
+                description: "settings.lockScreen.sound.desc",
                 systemImage: "speaker.wave.2.fill",
                 color: .red,
                 isOn: $settings.isLockScreenSoundEnabled,
@@ -89,10 +89,10 @@ struct LockScreenSettingsView: View {
     }
     
     private var artworkAppearance: some View {
-        SettingsCard(title: "Artwork appearance") {
+        SettingsCard(title: "settings.lockScreen.card.artworkAppearance") {
             SettingsToggleRow(
-                title: "Lock screen lyrics",
-                description: "Show synced lyrics next to the track cover when artwork is opened.",
+                title: "settings.lockScreen.lyrics.title",
+                description: "settings.lockScreen.lyrics.desc",
                 systemImage: "text.quote",
                 color: .purple,
                 isOn: $settings.isLockScreenLyricsEnabled,
@@ -102,8 +102,8 @@ struct LockScreenSettingsView: View {
             Divider().opacity(0.6)
             
             SettingsMenuRow(
-                title: "Media panel background",
-                description: "Choose which background will be displayed when playing media.",
+                title: "settings.lockScreen.mediaPanelBackground.title",
+                description: "settings.lockScreen.mediaPanelBackground.desc",
                 options: Array(LockScreenMediaPanelBackgroundStyle.allCases),
                 optionTitle: { $0.title },
                 accessibilityIdentifier: "settings.general.hud.indicatorStyle",
@@ -114,7 +114,7 @@ struct LockScreenSettingsView: View {
     }
 
     private var widgetAppearance: some View {
-        SettingsCard(title: "Widget appearance") {
+        SettingsCard(title: "settings.lockScreen.card.widgetAppearance") {
             CustomPicker(
                 selection: $settings.widgetAppearanceStyle,
                 options: LockScreenWidgetAppearanceStyle.availableOptions,
@@ -130,8 +130,8 @@ struct LockScreenSettingsView: View {
             Divider().opacity(0.6)
 
             SettingsSliderRow(
-                title: "Media panel position",
-                description: "Move the lock-screen media panel up or down.",
+                title: "settings.lockScreen.mediaPanelPosition.title",
+                description: "settings.lockScreen.mediaPanelPosition.desc",
                 range: LockScreenSettings.mediaPanelVerticalOffsetRange,
                 step: 5,
                 fractionLength: 0,
@@ -143,8 +143,8 @@ struct LockScreenSettingsView: View {
             Divider().opacity(0.6)
 
             SettingsSliderRow(
-                title: "Background brightness",
-                description: "Brighten or darken the widget background without changing the selected material style.",
+                title: "settings.lockScreen.widgetBrightness.title",
+                description: "settings.lockScreen.widgetBrightness.desc",
                 range: LockScreenSettings.widgetBackgroundBrightnessRange.lowerBound * 100...LockScreenSettings.widgetBackgroundBrightnessRange.upperBound * 100,
                 step: 5,
                 fractionLength: 0,
@@ -205,7 +205,7 @@ struct LockScreenSettingsView: View {
             statusText: customSoundStatusText(for: kind),
             statusColor: customSoundStatusColor(for: kind),
             errorText: customSoundSelectionError(for: kind),
-            chooseButtonTitle: hasCustomSound(for: kind) ? "Change" : "Choose",
+            chooseButtonTitle: hasCustomSound(for: kind) ? localized("settings.common.change") : localized("settings.common.choose"),
             onChoose: { selectCustomSound(for: kind) },
             onReset: hasCustomSound(for: kind) ? { resetCustomSoundSelection(for: kind) } : nil,
             accessibilityIdentifier: kind.accessibilityIdentifier
@@ -221,7 +221,7 @@ struct LockScreenSettingsView: View {
 
         guard isCustomSoundAvailable(for: kind) else {
             return String(
-                format: localized("%@ is unavailable. Falling back to %@."),
+                format: localized("settings.lockScreen.customSound.unavailableFallback"),
                 customSoundURL.lastPathComponent,
                 builtInTitle.lowercased(with: applicationSettings.appLanguage.locale)
             )
@@ -298,7 +298,7 @@ struct LockScreenSettingsView: View {
     private func selectCustomSound(for kind: LockScreenCustomSoundKind) {
         let panel = NSOpenPanel()
         panel.title = localized(kind.panelTitleKey)
-        panel.prompt = localized("Choose")
+        panel.prompt = localized("settings.common.choose")
         panel.canChooseFiles = true
         panel.canChooseDirectories = false
         panel.allowsMultipleSelection = false
@@ -314,7 +314,7 @@ struct LockScreenSettingsView: View {
             setCustomSoundSelectionError(nil, for: kind)
         } catch {
             setCustomSoundSelectionError(
-                localized("The selected file could not be loaded. Choose an MP3, WAV, AIFF, or M4A audio file."),
+                localized("settings.lockScreen.customSound.loadError"),
                 for: kind
             )
         }

@@ -14,9 +14,9 @@ enum HudLayoutType: String, CaseIterable {
     var title: LocalizedStringKey {
         switch self {
         case .compact:
-            return "settings.general.hud.layoutType.compact"
+            return "settings.hud.layoutType.compact"
         case .expanded:
-            return "settings.general.hud.layoutType.expanded"
+            return "settings.hud.layoutType.expanded"
         }
     }
 }

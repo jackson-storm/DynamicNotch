@@ -104,7 +104,7 @@ struct SettingsRootView: View {
         NavigationSplitView {
             List(selection: selectionBinding) {
                 ForEach(groupedSections, id: \.group.id) { group in
-                    Section {
+                    Section(header: Text(localized(group.group.titleKey ?? "", fallback: group.group.fallbackTitle))) {
                         ForEach(group.sections) { section in
                             NavigationLink(value: section) {
                                 if let imageName = section.imageName {
@@ -428,6 +428,13 @@ struct SettingsRootView: View {
                  )
             }
             
+        #if DEBUG
+        case .debug:
+            detailContainer(for: section) {
+                DebugSettingsView(viewModel: viewModel.debugViewModel)
+            }
+        #endif
+            
         case .calendar:
             detailContainer(for: section) {
                 CalendarSettingsView(
@@ -446,14 +453,6 @@ struct SettingsRootView: View {
         case .drop:
             detailContainer(for: section) {
                 DragAndDropSettingsView(
-                    mediaSettings: settingsViewModel.mediaAndFiles,
-                    appearanceSettings: settingsViewModel.application
-                )
-            }
-
-        case .timer:
-            detailContainer(for: section) {
-                TimerSettingsView(
                     mediaSettings: settingsViewModel.mediaAndFiles,
                     appearanceSettings: settingsViewModel.application
                 )
@@ -562,7 +561,7 @@ struct SettingsRootView: View {
                 Button {
                     pendingResetSubPage = subPage
                 } label: {
-                    Text("Reset")
+                    Text(localized("settings.reset.action", fallback: "Reset"))
                 }
                 .help(
                     String(
@@ -636,6 +635,11 @@ struct SettingsRootView: View {
         case .homePagePages:
             HomePagePagesSettingsView(
                 homePageSettings: settingsViewModel.homePage
+            )
+        case .timer:
+            TimerSettingsView(
+                mediaSettings: settingsViewModel.mediaAndFiles,
+                appearanceSettings: settingsViewModel.application
             )
         }
     }

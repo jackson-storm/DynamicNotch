@@ -16,15 +16,15 @@ struct NotchApp: App {
 }
 
 private struct MenuBarMenu: View {
-    @Environment(\.openWindow) private var openWindow
+    @AppStorage(GeneralSettingsStorage.Keys.appLanguage) private var appLanguageRaw: String = DynamicNotchLanguage.system.rawValue
+
+    private var locale: Locale {
+        DynamicNotchLanguage.resolved(appLanguageRaw).locale
+    }
 
     private var localizedVersionText: String {
-        let appLanguage = DynamicNotchLanguage.resolved(
-            UserDefaults.standard.string(forKey: GeneralSettingsStorage.Keys.appLanguage)
-        )
-
-        return appLanguage.locale.dnFormat(
-            "Version: %@",
+        locale.dnFormat(
+            "menuBar.version",
             fallback: "Version: %@",
             AppVersionText.appVersionText
         )
@@ -40,19 +40,19 @@ private struct MenuBarMenu: View {
                 SettingsWindowController.shared.showWindow()
             } label: {
                 Image(systemName: "gearshape")
-                Text(verbatim: "Settings")
+                Text(locale.dn("menuBar.settings", fallback: "Settings"))
             }
             
             Divider()
             
             Button(action: { AppRelauncher.restartApp() }) {
                 Image(systemName: "arrow.trianglehead.2.counterclockwise.rotate.90")
-                Text(verbatim: "Restart")
+                Text(locale.dn("menuBar.restart", fallback: "Restart"))
             }
             
             Button(action: { NSApplication.shared.terminate(nil) }) {
                 Image(systemName: "rectangle.portrait.and.arrow.right")
-                Text(verbatim: "Quit")
+                Text(locale.dn("menuBar.quit", fallback: "Quit"))
             }
         }
     }

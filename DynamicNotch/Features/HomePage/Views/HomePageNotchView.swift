@@ -18,21 +18,21 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
     
     var title: LocalizedStringKey {
         switch self {
-        case .camera: return "Camera"
-        case .localTimer: return "Timer"
-        case .vpn: return "VPN"
-        case .systemStats: return "Stats"
-        case .fileConverter: return "Converter"
+        case .camera: return "settings.homePage.pages.camera.title"
+        case .localTimer: return "settings.homePage.pages.timer.title"
+        case .vpn: return "settings.homePage.pages.vpn.title"
+        case .systemStats: return "settings.homePage.pages.stats.title"
+        case .fileConverter: return "settings.homePage.pages.converter.title"
         }
     }
     
     var subtitle: LocalizedStringKey {
         switch self {
-        case .camera: return "Quickly access the camera."
-        case .localTimer: return "Set a quick timer."
-        case .vpn: return "Manage VPN connections."
-        case .systemStats: return "Monitor system resources."
-        case .fileConverter: return "Convert files to multiple formats."
+        case .camera: return "settings.homePage.pages.camera.subtitle"
+        case .localTimer: return "settings.homePage.pages.timer.subtitle"
+        case .vpn: return "settings.homePage.pages.vpn.subtitle"
+        case .systemStats: return "settings.homePage.pages.stats.subtitle"
+        case .fileConverter: return "settings.homePage.pages.converter.subtitle"
         }
     }
     

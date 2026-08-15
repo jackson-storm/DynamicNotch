@@ -22,7 +22,7 @@ struct DebugSettingsView: View {
     }
     
     private var persistentPreviewsCard: some View {
-        SettingsCard(title: "Persistent Events") {
+        SettingsCard(title: "settings.debug.card.persistentEvents") {
             SettingsToggleRow(
                 title: "Onboarding",
                 description: "Show a safe debug preview of the onboarding live activity.",
@@ -176,7 +176,7 @@ struct DebugSettingsView: View {
     }
     
     private var triggerEventsCard: some View {
-        SettingsCard(title: "Trigger Events") {
+        SettingsCard(title: "settings.debug.card.triggerEvents") {
             DebugActionRow(
                 title: "Play All Events",
                 description: "Run every debug event in sequence, keep each item visible for its configured duration, and wait 1 second between items.",
@@ -558,7 +558,7 @@ struct DebugSettingsView: View {
     }
     
     private var utilitiesCard: some View {
-        SettingsCard(title: "Utilities") {
+        SettingsCard(title: "settings.debug.card.utilities") {
             DebugActionRow(
                 title: "Hide Current Temporary",
                 description: "Dismiss the currently visible temporary notification.",

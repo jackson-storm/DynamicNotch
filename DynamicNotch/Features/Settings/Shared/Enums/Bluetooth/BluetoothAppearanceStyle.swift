@@ -7,9 +7,9 @@ enum BluetoothAppearanceStyle: String, CaseIterable {
     var title: LocalizedStringKey {
         switch self {
         case .compact:
-            return "Compact"
+            return "settings.bluetooth.appearanceStyle.compact"
         case .detailed:
-            return "Detailed"
+            return "settings.bluetooth.appearanceStyle.detailed"
         }
     }
 

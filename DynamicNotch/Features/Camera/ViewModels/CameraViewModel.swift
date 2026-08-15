@@ -16,16 +16,30 @@ enum CameraState {
 }
 
 final class CameraViewModel: ObservableObject {
-    @Published var session = AVCaptureSession()
+    let session = AVCaptureSession()
     @Published var cameraState: CameraState = .unknown
+    
     private let sessionQueue = DispatchQueue(label: "com.dynamicnotch.cameraSessionQueue")
     private var stopWorkItem: DispatchWorkItem?
+    private var isConfigured = false
+    
     let previewLayer = AVCaptureVideoPreviewLayer()
     
     init() {
         previewLayer.session = session
         previewLayer.videoGravity = .resizeAspectFill
         checkPermissions()
+    }
+    
+    deinit {
+        stopWorkItem?.cancel()
+        previewLayer.session = nil
+        let captureSession = session
+        sessionQueue.async {
+            if captureSession.isRunning {
+                captureSession.stopRunning()
+            }
+        }
     }
     
     func checkPermissions() {
@@ -52,11 +66,17 @@ final class CameraViewModel: ObservableObject {
     func setupCamera() {
         sessionQueue.async { [weak self] in
             guard let self = self else { return }
+            guard !self.isConfigured else { return }
             
-            self.session.beginConfiguration()
+            let captureSession = self.session
+            captureSession.beginConfiguration()
+            
+            for input in captureSession.inputs {
+                captureSession.removeInput(input)
+            }
             
             guard let device = AVCaptureDevice.default(for: .video) else {
-                self.session.commitConfiguration()
+                captureSession.commitConfiguration()
                 DispatchQueue.main.async {
                     self.cameraState = .unavailable
                 }
@@ -65,8 +85,9 @@ final class CameraViewModel: ObservableObject {
             
             do {
                 let input = try AVCaptureDeviceInput(device: device)
-                if self.session.canAddInput(input) {
-                    self.session.addInput(input)
+                if captureSession.canAddInput(input) {
+                    captureSession.addInput(input)
+                    self.isConfigured = true
                 } else {
                     DispatchQueue.main.async {
                         self.cameraState = .unavailable
@@ -79,11 +100,11 @@ final class CameraViewModel: ObservableObject {
                 }
             }
             
-            self.session.commitConfiguration()
+            captureSession.commitConfiguration()
             
             DispatchQueue.main.async {
                 withAnimation {
-                    self.cameraState = .ready
+                    self.cameraState = self.isConfigured ? .ready : .unavailable
                 }
             }
         }
@@ -95,13 +116,14 @@ final class CameraViewModel: ObservableObject {
         
         sessionQueue.async { [weak self] in
             guard let self = self else { return }
+            let captureSession = self.session
             
-            if !self.session.isRunning {
+            if !captureSession.isRunning {
                 DispatchQueue.main.async {
                     self.cameraState = .unknown
                 }
                 
-                self.session.startRunning()
+                captureSession.startRunning()
                 
                 DispatchQueue.main.async {
                     withAnimation {
@@ -121,6 +143,7 @@ final class CameraViewModel: ObservableObject {
     }
     
     func stopSession() {
+        stopWorkItem?.cancel()
         let workItem = DispatchWorkItem { [weak self] in
             guard let self = self else { return }
             if self.session.isRunning {

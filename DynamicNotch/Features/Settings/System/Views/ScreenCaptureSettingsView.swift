@@ -17,10 +17,10 @@ struct ScreenCaptureSettingsView: View {
     }
     
     private var screenCaptureActivity: some View {
-        SettingsCard(title: "Screen Capture activity") {
+        SettingsCard(title: "settings.screenRecording.card.activity") {
             SettingsToggleRow(
-                title: "Screen Recording live activity",
-                description: "Show a red recording indicator in the notch while screen capture is active.",
+                title: "settings.screenRecording.recordingActivity.title",
+                description: "settings.screenRecording.recordingActivity.desc",
                 systemImage: "record.circle.fill",
                 color: .red,
                 isOn: $settings.isScreenRecordingLiveActivityEnabled,
@@ -33,8 +33,8 @@ struct ScreenCaptureSettingsView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
             
             SettingsToggleRow(
-                title: "Screenshot activity",
-                description: "Show temporary activity with screenshot preview in the notch and hide default macOS corner thumbnail.",
+                title: "settings.screenRecording.screenshotActivity.title",
+                description: "settings.screenRecording.screenshotActivity.desc",
                 systemImage: "viewfinder",
                 color: .gray,
                 isOn: $settings.isScreenshotActivityEnabled,
@@ -44,13 +44,13 @@ struct ScreenCaptureSettingsView: View {
     }
     
     private var saveLocationSection: some View {
-        SettingsCard(title: LocalizedStringKey(localized("Save Locations", fallback: "Save Locations"))) {
+        SettingsCard(title: "settings.screenRecording.card.saveLocation") {
             SettingsChoiceRow(
-                title: localized("Screenshots folder", fallback: "Screenshots folder"),
-                description: localized("Choose where captured screenshots will be saved.", fallback: "Choose where captured screenshots will be saved."),
+                title: localized("settings.screenRecording.screenshotsFolder.title"),
+                description: localized("settings.screenRecording.screenshotsFolder.desc"),
                 statusText: formattedPath(settings.screenshotSavePath),
                 statusColor: .secondary,
-                chooseButtonTitle: settings.screenshotSavePath.isEmpty ? localized("Choose", fallback: "Choose") : localized("Change", fallback: "Change"),
+                chooseButtonTitle: settings.screenshotSavePath.isEmpty ? localized("settings.common.choose") : localized("settings.common.change"),
                 onChoose: {
                     selectFolder { path in
                         settings.screenshotSavePath = path
@@ -65,11 +65,11 @@ struct ScreenCaptureSettingsView: View {
             Divider().opacity(0.6)
 
             SettingsChoiceRow(
-                title: localized("Screen recordings folder", fallback: "Screen recordings folder"),
-                description: localized("Choose where screen recordings will be saved.", fallback: "Choose where screen recordings will be saved."),
+                title: localized("settings.screenRecording.recordingsFolder.title"),
+                description: localized("settings.screenRecording.recordingsFolder.desc"),
                 statusText: formattedPath(settings.screenRecordingSavePath),
                 statusColor: .secondary,
-                chooseButtonTitle: settings.screenRecordingSavePath.isEmpty ? localized("Choose", fallback: "Choose") : localized("Change", fallback: "Change"),
+                chooseButtonTitle: settings.screenRecordingSavePath.isEmpty ? localized("settings.common.choose") : localized("settings.common.change"),
                 onChoose: {
                     selectFolder { path in
                         settings.screenRecordingSavePath = path
@@ -84,10 +84,10 @@ struct ScreenCaptureSettingsView: View {
     }
     
     private var screenshotDuration: some View {
-        SettingsCard(title: "Screenshot duration") {
+        SettingsCard(title: "settings.screenRecording.card.duration") {
             SettingsToggleRow(
-                title: "Auto-dismiss timer",
-                description: "Automatically hide the screenshot preview when the duration timer expires.",
+                title: "settings.screenRecording.autoDismiss.title",
+                description: "settings.screenRecording.autoDismiss.desc",
                 systemImage: "timer",
                 color: .orange,
                 isOn: $settings.isScreenshotAutoHideEnabled,
@@ -99,8 +99,8 @@ struct ScreenCaptureSettingsView: View {
             Divider().opacity(0.6)
             
             SettingsSliderRow(
-                title: "Screenshot duration",
-                description: "Choose how long the screenshot preview stays visible in the notch.",
+                title: "settings.screenRecording.duration.title",
+                description: "settings.screenRecording.duration.desc",
                 range: 3...8,
                 step: 1,
                 fractionLength: 0,
@@ -119,7 +119,7 @@ struct ScreenCaptureSettingsView: View {
     private func formattedPath(_ path: String) -> String {
         if path.isEmpty {
             let desktopPath = (FileManager.default.urls(for: .desktopDirectory, in: .userDomainMask).first?.path) ?? "~/Desktop"
-            let format = localized("Desktop (%@)", fallback: "Desktop (%@)")
+            let format = localized("settings.screenRecording.desktopFormat")
             return String(format: format, desktopPath)
         }
         let expanded = (path as NSString).expandingTildeInPath
@@ -133,7 +133,7 @@ struct ScreenCaptureSettingsView: View {
         panel.canChooseDirectories = true
         panel.allowsMultipleSelection = false
         panel.canCreateDirectories = true
-        panel.prompt = localized("Select", fallback: "Select")
+        panel.prompt = localized("settings.common.select")
         
         panel.begin { response in
             if response == .OK, let url = panel.url {

@@ -26,8 +26,8 @@ struct NotchSettingsView: View {
     private var appearanceCard: some View {
         SettingsCard() {
             SettingsToggleRow(
-                title: "Show stroke",
-                description: "Show a subtle outline that adapts to the active content color.",
+                title: "settings.notch.showStroke.title",
+                description: "settings.notch.showStroke.desc",
                 systemImage: "inset.filled.capsule",
                 color: .black,
                 stroke: true,
@@ -41,8 +41,8 @@ struct NotchSettingsView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
             
             SettingsToggleRow(
-                title: "Use default activity stroke color",
-                description: "Apply the standard white stroke to supported activities instead of feature accent colors.",
+                title: "settings.notch.defaultStrokeColor.title",
+                description: "settings.notch.defaultStrokeColor.desc",
                 systemImage: "paintbrush.pointed.fill",
                 color: LinearGradient.purpleGradient,
                 isOn: $applicationSettings.isDefaultActivityStrokeEnabled,
@@ -52,8 +52,8 @@ struct NotchSettingsView: View {
             Divider().opacity(0.6)
             
             SettingsSliderRow(
-                title: "Stroke width",
-                description: "Adjust the thickness of the outline.",
+                title: "settings.notch.strokeWidth.title",
+                description: "settings.notch.strokeWidth.desc",
                 range: 1...3,
                 step: 0.5,
                 fractionLength: 1,
@@ -65,8 +65,8 @@ struct NotchSettingsView: View {
             Divider().opacity(0.6)
             
             SettingsSliderRow(
-                title: "Stroke opacity",
-                description: "Adjust the transparency of the outline.",
+                title: "settings.notch.strokeOpacity.title",
+                description: "settings.notch.strokeOpacity.desc",
                 range: 0...100,
                 step: 5,
                 fractionLength: 0,
@@ -81,8 +81,8 @@ struct NotchSettingsView: View {
             Divider().opacity(0.6)
             
             SettingsSliderRow(
-                title: "Width",
-                description: "Fine-tune the width of the notch or Dynamic Island.",
+                title: "settings.notch.width.title",
+                description: "settings.notch.width.desc",
                 range: -16...16,
                 step: 1,
                 fractionLength: 0,
@@ -97,8 +97,8 @@ struct NotchSettingsView: View {
             Divider().opacity(0.6)
             
             SettingsSliderRow(
-                title: "Height",
-                description: "Fine-tune the height of the notch or Dynamic Island.",
+                title: "settings.notch.height.title",
+                description: "settings.notch.height.desc",
                 range: -4...4,
                 step: 1,
                 fractionLength: 0,
@@ -136,7 +136,7 @@ struct NotchSettingsView: View {
             )
             
             SettingsNavigationRowView(
-                title: "Animation",
+                title: "settings.notch.animation.navTitle",
                 description: "settings.notch.animation.subtitle",
                 systemImage: "sparkles",
                 color: LinearGradient.cyanGradient,
@@ -146,7 +146,7 @@ struct NotchSettingsView: View {
             )
             
             SettingsNavigationRowView(
-                title: "Gestures",
+                title: "settings.notch.gestures.navTitle",
                 description: "settings.notch.gestures.subtitle",
                 systemImage: "hand.draw.badge.ellipsis.fill",
                 color: LinearGradient.orangeGradient,

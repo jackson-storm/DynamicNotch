@@ -155,7 +155,8 @@ final class NotchEventCoordinator: ObservableObject {
         self.localTimerHandler = NotchLocalTimerEventsHandler(
             notchViewModel: notchViewModel,
             localTimerViewModel: localTimerViewModel,
-            timerViewModel: timerViewModel
+            timerViewModel: timerViewModel,
+            settingsViewModel: settingsViewModel
         )
         self.fileTrayViewModel.onItemsChange = { [weak notchViewModel, weak settingsViewModel, weak fileTrayViewModel] items in
             guard let notchViewModel, let settingsViewModel, let fileTrayViewModel else {
@@ -577,6 +578,7 @@ final class NotchEventCoordinator: ObservableObject {
             .sink { [weak self] _ in
                 guard let self else { return }
                 self.calendarHandler.handleCalendarEvent(self.calendarViewModel.hasUpcomingEvent)
+                self.timerHandler.handleFrontmostApplicationChange()
             }
             .store(in: &cancellables)
     }

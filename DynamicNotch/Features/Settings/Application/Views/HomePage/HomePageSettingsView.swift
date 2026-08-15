@@ -13,10 +13,10 @@ struct HomePageSettingsView: View {
     }
 
     private var homePageActivity: some View {
-        SettingsCard(title: "Home Page activity") {
+        SettingsCard(title: "settings.homePage.card.activity") {
             SettingsToggleRow(
-                title: "Home Page live activity",
-                description: "Show the Home Page in the notch.",
+                title: "settings.homePage.liveActivity.title",
+                description: "settings.homePage.liveActivity.desc",
                 systemImage: "house.fill",
                 color: .blue,
                 isOn: $homePageSettings.isHomePageLiveActivityEnabled,
@@ -26,7 +26,7 @@ struct HomePageSettingsView: View {
     }
 
     private var homePageAppearance: some View {
-        SettingsCard(title: "Home Page appearance") {
+        SettingsCard(title: "settings.homePage.card.appearance") {
             HomePageAppearancePreview(
                 homePageSettings: homePageSettings,
                 applicationSettings: applicationSettings
@@ -83,13 +83,23 @@ struct HomePageSettingsView: View {
             )
 
             SettingsNavigationRowView(
-                title: "settings.homePage.fileConverter.title",
-                description: "settings.homePage.fileConverter.subtitle",
+                title: "settings.fileConverter.title",
+                description: "settings.fileConverter.subtitle",
                 systemImage: "arrow.trianglehead.2.clockwise.rotate.90",
                 color: .blue,
                 accessibilityIdentifier: "settings.homePage.fileConverter",
-                position: .last,
+                position: .middle,
                 value: SettingsSubPage.fileConverter
+            )
+
+            SettingsNavigationRowView(
+                title: "settings.section.timer.title",
+                description: "settings.section.timer.subtitle",
+                systemImage: "timer",
+                color: .orange,
+                accessibilityIdentifier: "settings.homePage.timer",
+                position: .last,
+                value: SettingsSubPage.timer
             )
         }
     }
@@ -126,7 +136,7 @@ private struct HomePageAppearancePreview: View {
                                 .font(.system(size: 26))
                                 .foregroundStyle(.white)
                             
-                            Text("Start Camera")
+                            Text(LocalizedStringKey("settings.homePage.preview.startCamera"))
                                 .font(.subheadline)
                                 .fontWeight(.medium)
                                 .foregroundStyle(.white)

@@ -79,6 +79,8 @@ enum GeneralSettingsStorage {
         static let fileConverterAudioQuality = "settings.fileConverter.audioQuality"
         static let timerLiveActivityEnabled = "settings.live.timer"
         static let timerDefaultStrokeEnabled = "settings.live.timer.defaultStroke"
+        static let timerSoundEnabled = "settings.timer.soundEnabled"
+        static let timerSound = "settings.timer.sound"
         static let screenRecordingLiveActivityEnabled = "settings.live.screenRecording"
         static let screenRecordingDefaultStrokeEnabled = "settings.live.screenRecording.defaultStroke"
         static let screenshotActivityEnabled = "settings.live.screenshot"
@@ -224,6 +226,8 @@ enum GeneralSettingsStorage {
         Keys.fileTrayRemoveButtonHidden: false,
         Keys.timerLiveActivityEnabled: true,
         Keys.timerDefaultStrokeEnabled: false,
+        Keys.timerSoundEnabled: true,
+        Keys.timerSound: TimerSound.radar.rawValue,
         Keys.screenRecordingLiveActivityEnabled: true,
         Keys.screenRecordingDefaultStrokeEnabled: false,
         Keys.screenshotActivityEnabled: true,

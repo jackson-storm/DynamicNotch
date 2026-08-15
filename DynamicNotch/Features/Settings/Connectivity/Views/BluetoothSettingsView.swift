@@ -38,10 +38,10 @@ struct BluetoothSettingsView: View {
     }
     
     private var bluetoothActivity: some View {
-        SettingsCard(title: "Bluetooth activity") {
+        SettingsCard(title: "settings.bluetooth.card.activity") {
             SettingsToggleRow(
-                title: "Bluetooth temporary activity",
-                description: "Show a temporary activity when a Bluetooth accessory connects.",
+                title: "settings.bluetooth.temporaryActivity.title",
+                description: "settings.bluetooth.temporaryActivity2.desc",
                 imageName: "bluetooth.white",
                 color: .blue,
                 isOn: $settings.isBluetoothTemporaryActivityEnabled,
@@ -51,10 +51,10 @@ struct BluetoothSettingsView: View {
     }
     
     private var bluetoothDuration: some View {
-        SettingsCard(title: "Bluetooth duration") {
+        SettingsCard(title: "settings.bluetooth.card.duration") {
             SettingsSliderRow(
-                title: "Bluetooth duration",
-                description: "Choose how long the Bluetooth connection notification stays visible.",
+                title: "settings.bluetooth.duration.title",
+                description: "settings.bluetooth.duration2.desc",
                 range: temporaryActivityDurationRange,
                 step: 1,
                 fractionLength: 0,
@@ -71,13 +71,13 @@ struct BluetoothSettingsView: View {
     }
     
     private var bluetoothAppearance: some View {
-        SettingsCard(title: "Bluetooth appearance") {
+        SettingsCard(title: "settings.bluetooth.card.appearance") {
             CustomPicker(
                 selection: $settings.bluetoothAppearanceStyle,
                 options: Array(BluetoothAppearanceStyle.allCases),
                 title: { $0.title },
-                headerTitle: "Bluetooth style",
-                headerDescription: "Choose between a device-focused layout or full device details.",
+                headerTitle: "settings.bluetooth.style.headerTitle",
+                headerDescription: "settings.bluetooth.style.headerDesc",
                 itemHeight: 72,
                 lightBackgroundImage: Image("backgroundLight"),
                 darkBackgroundImage: Image("backgroundDark")
@@ -89,8 +89,8 @@ struct BluetoothSettingsView: View {
             Divider().opacity(0.6)
 
             SettingsMenuRow(
-                title: "Battery indicator",
-                description: "Choose whether Bluetooth battery information is shown as a percentage or a circular indicator.",
+                title: "settings.bluetooth.batteryIndicator.title",
+                description: "settings.bluetooth.batteryIndicator2.desc",
                 options: Array(BluetoothBatteryIndicatorStyle.allCases),
                 optionTitle: { $0.title },
                 accessibilityIdentifier: "settings.activities.temporary.bluetooth.batteryIndicator",
@@ -100,8 +100,8 @@ struct BluetoothSettingsView: View {
             Divider().opacity(0.6)
             
             SettingsStrokeToggleRow(
-                title: "Battery-colored stroke",
-                description: "Tint Bluetooth battery styles using the current battery level color.",
+                title: "settings.bluetooth.batteryColoredStroke.title",
+                description: "settings.bluetooth.batteryColoredStroke.desc",
                 isOn: $settings.isBluetoothBatteryStrokeEnabled,
                 accessibilityIdentifier: "settings.activities.temporary.bluetooth.batteryStroke"
             )

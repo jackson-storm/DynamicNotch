@@ -7,9 +7,9 @@ enum BatteryNotificationStyle: String, CaseIterable {
     var title: LocalizedStringKey {
         switch self {
         case .standard:
-            return "Standard"
+            return "settings.battery.notificationStyle.standard"
         case .compact:
-            return "Compact"
+            return "settings.battery.notificationStyle.compact"
         }
     }
 }

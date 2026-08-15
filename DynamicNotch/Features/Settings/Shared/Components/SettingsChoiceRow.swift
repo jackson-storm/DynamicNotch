@@ -48,7 +48,7 @@ struct SettingsChoiceRow: View {
 
             HStack(spacing: 8) {
                 if let onReset {
-                    Button("Reset") {
+                    Button(LocalizedStringKey("settings.reset.action")) {
                         onReset()
                     }
                     .buttonStyle(.bordered)

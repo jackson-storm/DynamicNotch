@@ -66,7 +66,7 @@ struct NoInternetConnectionView: View {
                     .fontWeight(.medium)
                     .foregroundStyle(.white)
             }
-            .buttonStyle(PrimaryButtonStyle(height: 35, backgroundColor: .gray.opacity(0.2)))
+            .buttonStyle(PrimaryButtonStyle(height: 35, backgroundColor: .gray.opacity(0.25)))
 
             Button(action: {
                 onOpenNetworkSettings()
@@ -77,7 +77,7 @@ struct NoInternetConnectionView: View {
                     .fontWeight(.medium)
                     .foregroundStyle(.blue)
             }
-            .buttonStyle(PrimaryButtonStyle(height: 35, backgroundColor: .blue.opacity(0.2)))
+            .buttonStyle(PrimaryButtonStyle(height: 35, backgroundColor: .blue.opacity(0.25)))
         }
     }
 }

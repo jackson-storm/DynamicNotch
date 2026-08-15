@@ -9,13 +9,13 @@ enum NowPlayingSourceFilter: String, CaseIterable {
     var title: LocalizedStringKey {
         switch self {
         case .any:
-            return "Any source"
+            return "settings.nowPlaying.sourceFilter.all"
         case .appleMusic:
-            return "Apple Music"
+            return "settings.nowPlaying.sourceFilter.appleMusic"
         case .spotify:
-            return "Spotify"
+            return "settings.nowPlaying.sourceFilter.spotify"
         case .youtubeMusic:
-            return "YouTube Music"
+            return "settings.nowPlaying.sourceFilter.youtubeMusic"
         }
     }
 

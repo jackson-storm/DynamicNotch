@@ -38,10 +38,10 @@ struct HUDSettingsView: View {
     }
     
     private var hudActivity: some View {
-        SettingsCard(title: "HUD activity") {
+        SettingsCard(title: "settings.hud.card.activity") {
             SettingsToggleRow(
-                title: "Brightness HUD",
-                description: "Replace the system brightness HUD with DynamicNotch HUD.",
+                title: "settings.hud.brightness.title",
+                description: "settings.hud.brightness.desc",
                 systemImage: "sun.max.fill",
                 color: .teal.opacity(0.9),
                 isOn: $settings.isBrightnessHUDEnabled,
@@ -54,8 +54,8 @@ struct HUDSettingsView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
             
             SettingsToggleRow(
-                title: "Keyboard HUD",
-                description: "Replace the keyboard backlight HUD with DynamicNotch HUD.",
+                title: "settings.hud.keyboard.title",
+                description: "settings.hud.keyboard.desc",
                 systemImage: "light.max",
                 color: .teal.opacity(0.9),
                 isOn: $settings.isKeyboardHUDEnabled,
@@ -68,8 +68,8 @@ struct HUDSettingsView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
             
             SettingsToggleRow(
-                title: "Volume HUD",
-                description: "Replace the system volume HUD with DynamicNotch HUD.",
+                title: "settings.hud.volume.title",
+                description: "settings.hud.volume.desc",
                 systemImage: "speaker.wave.2.fill",
                 color: .teal.opacity(0.9),
                 isOn: $settings.isVolumeHUDEnabled,
@@ -79,10 +79,10 @@ struct HUDSettingsView: View {
     }
 
     private var hudDuration: some View {
-        SettingsCard(title: "HUD duration") {
+        SettingsCard(title: "settings.hud.card.duration") {
             SettingsSliderRow(
-                title: "Brightness duration",
-                description: "Choose how long the brightness HUD stays visible.",
+                title: "settings.hud.brightnessDuration.title",
+                description: "settings.hud.brightnessDuration.desc",
                 range: temporaryActivityDurationRange,
                 step: 1,
                 fractionLength: 0,
@@ -99,8 +99,8 @@ struct HUDSettingsView: View {
             Divider().opacity(0.6)
 
             SettingsSliderRow(
-                title: "Keyboard duration",
-                description: "Choose how long the keyboard backlight HUD stays visible.",
+                title: "settings.hud.keyboardDuration.title",
+                description: "settings.hud.keyboardDuration.desc",
                 range: temporaryActivityDurationRange,
                 step: 1,
                 fractionLength: 0,
@@ -117,8 +117,8 @@ struct HUDSettingsView: View {
             Divider().opacity(0.6)
 
             SettingsSliderRow(
-                title: "Volume duration",
-                description: "Choose how long the volume HUD stays visible.",
+                title: "settings.hud.volumeDuration.title",
+                description: "settings.hud.volumeDuration.desc",
                 range: temporaryActivityDurationRange,
                 step: 1,
                 fractionLength: 0,
@@ -135,13 +135,13 @@ struct HUDSettingsView: View {
     }
     
     private var hudStyleCard: some View {
-        SettingsCard(title: "HUD appearance") {
+        SettingsCard(title: "settings.hud.card.appearance") {
             SettingsMenuRow(
-                title: "HUD style",
-                description: "settings.general.hud.layoutType.desc",
+                title: "settings.hud.style.title",
+                description: "settings.hud.style.desc",
                 options: Array(HudLayoutType.allCases),
                 optionTitle: { $0.title },
-                accessibilityIdentifier: "settings.general.hud.layoutType",
+                accessibilityIdentifier: "settings.hud.layoutType.title",
                 selection: layoutTypeBinding
             )
 
@@ -157,7 +157,7 @@ struct HUDSettingsView: View {
                 ) { style, isSelected in
                     hudStylePickerContent(for: style, isSelected: isSelected)
                 }
-                .accessibilityIdentifier("settings.general.hud.style.compact")
+                .accessibilityIdentifier("settings.hud.style.title.compact")
             } else {
                 CustomPicker(
                     selection: $settings.hudStyle,
@@ -169,15 +169,15 @@ struct HUDSettingsView: View {
                 ) { style, isSelected in
                     hudStylePickerContent(for: style, isSelected: isSelected)
                 }
-                .accessibilityIdentifier("settings.general.hud.style.expanded")
+                .accessibilityIdentifier("settings.hud.style.title.expanded")
             }
 
             if layoutTypeBinding.wrappedValue == .compact {
                 Divider().opacity(0.6)
 
                 SettingsMenuRow(
-                    title: "Level indicator",
-                    description: "Choose whether the HUD level uses a bar or a circular ring.",
+                    title: "settings.hud.indicatorStyle.title",
+                    description: "settings.hud.indicatorStyle.desc",
                     options: Array(HudIndicatorStyle.allCases),
                     optionTitle: { $0.title },
                     accessibilityIdentifier: "settings.general.hud.indicatorStyle",
@@ -188,8 +188,8 @@ struct HUDSettingsView: View {
             Divider().opacity(0.6)
 
             SettingsMenuRow(
-                title: "Indicator tint",
-                description: "Choose the color used by the HUD level indicator.",
+                title: "settings.hud.indicatorTintStyle.title",
+                description: "settings.hud.indicatorTintStyle.desc",
                 options: Array(HudIndicatorTintStyle.allCases),
                 optionTitle: { $0.title },
                 accessibilityIdentifier: "settings.general.hud.indicatorTint",
@@ -199,8 +199,8 @@ struct HUDSettingsView: View {
             Divider().opacity(0.6)
             
             SettingsToggleRow(
-                title: "Play volume sound feedback",
-                description: "Play the tick sound when changing volume.",
+                title: "settings.hud.volumeSoundFeedback.title",
+                description: "settings.hud.volumeSoundFeedback.desc",
                 systemImage: "speaker.wave.2.fill",
                 color: .red,
                 isOn: $settings.isVolumeFeedbackSoundEnabled,
@@ -215,8 +215,8 @@ struct HUDSettingsView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
 
             SettingsToggleRow(
-                title: "Indicator glow",
-                description: "Add a soft glow around the HUD level indicator.",
+                title: "settings.hud.indicatorGlow.title",
+                description: "settings.hud.indicatorGlow.desc",
                 systemImage: "sparkles",
                 color: .yellow,
                 isOn: $settings.isIndicatorGlowEnabled,
@@ -229,8 +229,8 @@ struct HUDSettingsView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
 
             SettingsStrokeToggleRow(
-                title: "Level-based stroke color",
-                description: "Tint the notch stroke using the current HUD level color instead of the default white stroke.",
+                title: "settings.hud.levelStrokeColor.title",
+                description: "settings.hud.levelStrokeColor.desc",
                 isOn: $settings.isColoredLevelStrokeEnabled,
                 accessibilityIdentifier: "settings.general.hud.coloredStroke"
             )

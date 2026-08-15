@@ -1,13 +1,32 @@
 import SwiftUI
 
-struct SettingsMenuRow<Option: Hashable>: View {
+struct SettingsMenuRow<Option: Hashable, LeadingAccessory: View>: View {
     let title: LocalizedStringKey
     let description: LocalizedStringKey
     let options: [Option]
     let optionTitle: (Option) -> LocalizedStringKey
     let accessibilityIdentifier: String?
+    let leadingAccessory: LeadingAccessory
 
     @Binding var selection: Option
+
+    init(
+        title: LocalizedStringKey,
+        description: LocalizedStringKey,
+        options: [Option],
+        optionTitle: @escaping (Option) -> LocalizedStringKey,
+        accessibilityIdentifier: String? = nil,
+        selection: Binding<Option>,
+        @ViewBuilder leadingAccessory: () -> LeadingAccessory
+    ) {
+        self.title = title
+        self.description = description
+        self.options = options
+        self.optionTitle = optionTitle
+        self.accessibilityIdentifier = accessibilityIdentifier
+        self._selection = selection
+        self.leadingAccessory = leadingAccessory()
+    }
 
     var body: some View {
         HStack(alignment: .center, spacing: 12) {
@@ -20,6 +39,8 @@ struct SettingsMenuRow<Option: Hashable>: View {
             }
 
             Spacer(minLength: 12)
+
+            leadingAccessory
 
             Menu {
                 ForEach(options, id: \.self) { option in
@@ -44,3 +65,23 @@ struct SettingsMenuRow<Option: Hashable>: View {
         .modifier(SettingsAccessibilityModifier(identifier: accessibilityIdentifier))
     }
 }
+
+extension SettingsMenuRow where LeadingAccessory == EmptyView {
+    init(
+        title: LocalizedStringKey,
+        description: LocalizedStringKey,
+        options: [Option],
+        optionTitle: @escaping (Option) -> LocalizedStringKey,
+        accessibilityIdentifier: String? = nil,
+        selection: Binding<Option>
+    ) {
+        self.title = title
+        self.description = description
+        self.options = options
+        self.optionTitle = optionTitle
+        self.accessibilityIdentifier = accessibilityIdentifier
+        self._selection = selection
+        self.leadingAccessory = EmptyView()
+    }
+}
+

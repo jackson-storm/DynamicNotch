@@ -8,11 +8,11 @@ enum NowPlayingProgressTintStyle: String, CaseIterable {
     var title: LocalizedStringKey {
         switch self {
         case .`default`:
-            return "Default"
+            return "settings.nowPlaying.progressTintStyle.plainWhite"
         case .artwork:
-            return "Artwork cover"
+            return "settings.nowPlaying.progressTintStyle.artworkColor"
         case .systemAccent:
-            return "System accent"
+            return "settings.nowPlaying.progressTintStyle.accentColor"
         }
     }
 

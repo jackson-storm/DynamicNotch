@@ -8,11 +8,11 @@ enum NotchExpandInteraction: String, CaseIterable {
     var title: LocalizedStringKey {
         switch self {
         case .click:
-            return "Click"
+            return "settings.notch.gestures.expand.click"
         case .pressAndHold:
-            return "Press and hold"
+            return "settings.notch.gestures.expand.pressAndHold"
         case .hover:
-            return "Hover"
+            return "settings.notch.gestures.expand.hover"
         }
     }
 

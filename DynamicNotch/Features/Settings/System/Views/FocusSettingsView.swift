@@ -17,10 +17,10 @@ struct FocusSettingsView: View {
     }
     
     private var focusActivity: some View {
-        SettingsCard(title: "Focus activity") {
+        SettingsCard(title: "settings.focus.card.activity") {
             SettingsToggleRow(
-                title: "Focus live activity",
-                description: "Show a live activity while Focus mode is enabled.",
+                title: "settings.focus.liveActivity.title",
+                description: "settings.focus.liveActivity.desc",
                 systemImage: "moon.fill",
                 color: .indigo,
                 isOn: $connectivitySettings.isFocusLiveActivityEnabled,
@@ -33,8 +33,8 @@ struct FocusSettingsView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
 
             SettingsToggleRow(
-                title: "Focus off activity",
-                description: "Show a short notification when Focus mode turns off.",
+                title: "settings.focus.offActivity.title",
+                description: "settings.focus.offActivity.desc",
                 systemImage: "moon.stars.fill",
                 color: .indigo,
                 isOn: $connectivitySettings.isFocusOffTemporaryActivityEnabled,
@@ -47,8 +47,8 @@ struct FocusSettingsView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
 
             SettingsToggleRow(
-                title: "Hide Focus activity automatically",
-                description: "Show the Focus activity briefly when Focus turns on instead of keeping it visible the whole time.",
+                title: "settings.focus.autoHide.title",
+                description: "settings.focus.autoHide.desc",
                 systemImage: "moon.zzz.fill",
                 color: .red,
                 isOn: $connectivitySettings.isFocusOnAutoHideEnabled,
@@ -60,10 +60,10 @@ struct FocusSettingsView: View {
     }
     
     private var focusDuration: some View {
-        SettingsCard(title: "Focus duration") {
+        SettingsCard(title: "settings.focus.card.duration") {
             SettingsSliderRow(
-                title: "Focus on duration",
-                description: "Choose how long the Focus on notification stays visible.",
+                title: "settings.focus.onDuration.title",
+                description: "settings.focus.onDuration.desc",
                 range: temporaryActivityDurationRange,
                 step: 1,
                 fractionLength: 0,
@@ -80,8 +80,8 @@ struct FocusSettingsView: View {
             Divider().opacity(0.6)
 
             SettingsSliderRow(
-                title: "Focus off duration",
-                description: "Choose how long the Focus off notification stays visible.",
+                title: "settings.focus.offDuration.title",
+                description: "settings.focus.offDuration.desc",
                 range: temporaryActivityDurationRange,
                 step: 1,
                 fractionLength: 0,
@@ -98,13 +98,13 @@ struct FocusSettingsView: View {
     }
     
     private var focusAppearance: some View {
-        SettingsCard(title: "Focus appearance") {
+        SettingsCard(title: "settings.focus.card.appearance") {
             CustomPicker(
                 selection: $connectivitySettings.focusAppearanceStyle,
                 options: Array(FocusAppearanceStyle.allCases),
                 title: { $0.title },
-                headerTitle: "Focus style",
-                headerDescription: "Choose whether Focus shows the On and Off labels or only the moon icon.",
+                headerTitle: "settings.focus.style.headerTitle",
+                headerDescription: "settings.focus.style.headerDesc",
                 itemHeight: 72,
                 lightBackgroundImage: Image("backgroundLight"),
                 darkBackgroundImage: Image("backgroundDark")

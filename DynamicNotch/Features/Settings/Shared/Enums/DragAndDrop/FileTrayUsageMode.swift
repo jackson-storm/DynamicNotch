@@ -14,9 +14,9 @@ enum FileTrayUsageMode: String, CaseIterable {
     var title: LocalizedStringKey {
         switch self {
         case .copy:
-            return "Copy"
+            return "settings.drop.fileTrayUsageMode.copy"
         case .moveOriginals:
-            return "Move originals"
+            return "settings.drop.fileTrayUsageMode.moveOriginals"
         }
     }
 
@@ -37,9 +37,9 @@ enum FileTrayScrollDirection: String, CaseIterable, Equatable {
     var title: LocalizedStringKey {
         switch self {
         case .horizontal:
-            return "Horizontal"
+            return "settings.drop.fileTrayScrollDirection.horizontal"
         case .vertical:
-            return "Vertical"
+            return "settings.drop.fileTrayScrollDirection.vertical"
         }
     }
 
@@ -70,11 +70,11 @@ enum FileConverterOutputLocation: String, CaseIterable, Equatable {
     var title: LocalizedStringKey {
         switch self {
         case .sameFolder:
-            return "Same folder"
+            return "settings.fileConverter.outputLocation.sameFolder"
         case .downloads:
-            return "Downloads"
+            return "settings.fileConverter.outputLocation.downloads"
         case .askEveryTime:
-            return "Ask every time"
+            return "settings.fileConverter.outputLocation.askEveryTime"
         }
     }
 
@@ -98,11 +98,11 @@ enum FileConverterExistingFileBehavior: String, CaseIterable, Equatable {
     var title: LocalizedStringKey {
         switch self {
         case .createUniqueName:
-            return "Create unique name"
+            return "settings.fileConverter.existingFileBehavior.createUniqueName"
         case .replace:
-            return "Replace"
+            return "settings.fileConverter.existingFileBehavior.replace"
         case .ask:
-            return "Ask"
+            return "settings.fileConverter.existingFileBehavior.ask"
         }
     }
 
@@ -127,13 +127,13 @@ enum FileConverterVideoQuality: String, CaseIterable, Equatable {
     var title: LocalizedStringKey {
         switch self {
         case .passthrough:
-            return "Passthrough"
+            return "settings.fileConverter.videoQuality.passthrough"
         case .high:
-            return "High"
+            return "settings.fileConverter.videoQuality.high"
         case .medium:
-            return "Medium"
+            return "settings.fileConverter.videoQuality.medium"
         case .small:
-            return "Small"
+            return "settings.fileConverter.videoQuality.small"
         }
     }
 
@@ -160,13 +160,13 @@ enum FileConverterAudioQuality: String, CaseIterable, Equatable {
     var title: LocalizedStringKey {
         switch self {
         case .source:
-            return "Source"
+            return "settings.fileConverter.audioQuality.source"
         case .high:
-            return "High"
+            return "settings.fileConverter.videoQuality.high"
         case .medium:
-            return "Medium"
+            return "settings.fileConverter.videoQuality.medium"
         case .small:
-            return "Small"
+            return "settings.fileConverter.videoQuality.small"
         }
     }
 

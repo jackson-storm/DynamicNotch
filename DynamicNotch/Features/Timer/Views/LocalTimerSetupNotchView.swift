@@ -57,7 +57,7 @@ struct LocalTimerSetupNotchView: View {
                     .fontWeight(.medium)
                     .foregroundStyle(.white)
             }
-            .buttonStyle(PrimaryButtonStyle(height: 35, backgroundColor: .gray.opacity(0.2)))
+            .buttonStyle(PrimaryButtonStyle(height: 35, backgroundColor: .gray.opacity(0.25)))
             
             Button {
                 let h = Int(hours) ?? 0

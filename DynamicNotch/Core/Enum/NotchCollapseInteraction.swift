@@ -7,9 +7,9 @@ enum NotchCollapseInteraction: String, CaseIterable {
     var title: LocalizedStringKey {
         switch self {
         case .click:
-            return "Click"
+            return "settings.notch.gestures.collapse.click"
         case .hoverLeaves:
-            return "Cursor leaves"
+            return "settings.notch.gestures.collapse.hoverLeaves"
         }
     }
 

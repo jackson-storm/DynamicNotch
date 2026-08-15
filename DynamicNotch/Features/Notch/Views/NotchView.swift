@@ -191,13 +191,43 @@ private extension NotchView {
     
     @ViewBuilder
     var contentOverlayWrapped: some View {
+        let isExpandedPresentation = notchViewModel.notchModel.isPresentingExpandedLiveActivity
+        let isPresentationHidden = notchViewModel.isActivityPresentationHidden && notchViewModel.notchModel.temporaryNotificationContent == nil
+        let isScreenshotContent = notchViewModel.displayedContent?.id == NotchContentRegistry.Screenshot.active.id
+        let shouldApplyPressScale = !isExpandedPresentation && !isPresentationHidden && !isScreenshotContent
+        
         if notchViewModel.topInset == 0 {
             contentOverlay
                 .environment(\.isDynamicIsland, true)
-                .clipShape(DynamicIslandShape(cornerRadius: notchViewModel.dynamicIslandCornerRadius))
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .mask {
+                    DynamicIslandShape(
+                        cornerRadius: max(0, notchViewModel.dynamicIslandCornerRadius - 2)
+                    )
+                    .padding(3)
+                    .scaleEffect(
+                        x: shouldApplyPressScale ? notchViewModel.pressScale : 1,
+                        y: shouldApplyPressScale ? notchViewModel.pressScale : 1,
+                        anchor: .top
+                    )
+                }
         } else {
             contentOverlay
                 .environment(\.isDynamicIsland, false)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .mask {
+                    NotchShape(
+                        topCornerRadius: max(0, notchViewModel.interactiveCornerRadius.top - 2),
+                        bottomCornerRadius: max(0, notchViewModel.interactiveCornerRadius.bottom - 2)
+                    )
+                    .padding(.horizontal, 5)
+                    .padding(.bottom, 3)
+                    .scaleEffect(
+                        x: shouldApplyPressScale ? notchViewModel.pressScale : 1,
+                        y: shouldApplyPressScale ? notchViewModel.pressScale : 1,
+                        anchor: .top
+                    )
+                }
         }
     }
     

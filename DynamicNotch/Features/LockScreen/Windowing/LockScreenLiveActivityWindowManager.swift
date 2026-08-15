@@ -376,9 +376,7 @@ private struct LockScreenLiveActivityOverlayView: View {
     var body: some View {
         notchSurface
             .overlay {
-                contentOverlay
-                    .environment(\.isDynamicIsland, notchViewModel.topInset == 0)
-                    .clipShape(Rectangle())
+                contentOverlayWrapped
             }
             .overlay {
                 DragAndDropDestinationView(
@@ -433,6 +431,11 @@ private struct LockScreenLiveActivityOverlayView: View {
     private var notchSurface: some View {
         let isDynamicIsland = notchViewModel.topInset == 0
         let shouldShowStroke = settingsViewModel.application.isShowNotchStrokeEnabled
+        let isExpandedPresentation = notchViewModel.notchModel.isPresentingExpandedLiveActivity
+        let isPresentationHidden = notchViewModel.isActivityPresentationHidden && notchViewModel.notchModel.temporaryNotificationContent == nil
+        let isScreenshotContent = notchViewModel.displayedContent?.id == NotchContentRegistry.Screenshot.active.id
+        let shouldApplyPressScale = !isExpandedPresentation && !isPresentationHidden && !isScreenshotContent
+        
         NotchBackgroundSurface(
             style: settingsViewModel.application.notchBackgroundStyle,
             topCornerRadius: notchViewModel.interactiveCornerRadius.top,
@@ -443,6 +446,11 @@ private struct LockScreenLiveActivityOverlayView: View {
             strokeWidth: settingsViewModel.notchStrokeWidth,
             height: notchViewModel.interactiveNotchSize.height,
             baseHeight: notchViewModel.notchModel.baseHeight
+        )
+        .scaleEffect(
+            x: shouldApplyPressScale ? notchViewModel.pressScale : 1,
+            y: shouldApplyPressScale ? notchViewModel.pressScale : 1,
+            anchor: .top
         )
     }
     
@@ -461,8 +469,18 @@ private struct LockScreenLiveActivityOverlayView: View {
     
     @ViewBuilder
     private var contentOverlay: some View {
+        let isExpandedPresentation = notchViewModel.notchModel.isPresentingExpandedLiveActivity
+        let isPresentationHidden = notchViewModel.isActivityPresentationHidden && notchViewModel.notchModel.temporaryNotificationContent == nil
+        let isScreenshotContent = notchViewModel.displayedContent?.id == NotchContentRegistry.Screenshot.active.id
+        let shouldApplyPressScale = !isExpandedPresentation && !isPresentationHidden && !isScreenshotContent
+        
         if let content = notchViewModel.displayedContent {
             renderedContentView(for: content)
+                .scaleEffect(
+                    x: shouldApplyPressScale ? notchViewModel.pressScale : 1,
+                    y: shouldApplyPressScale ? notchViewModel.pressScale : 1,
+                    anchor: .top
+                )
                 .id(notchViewModel.displayedPresentationID)
                 .transition(
                     notchViewModel.contentTransition(
@@ -471,6 +489,48 @@ private struct LockScreenLiveActivityOverlayView: View {
                         isExpandedPresentation: notchViewModel.isDisplayingExpandedLiveActivity
                     )
                 )
+        }
+    }
+    
+    @ViewBuilder
+    private var contentOverlayWrapped: some View {
+        let isExpandedPresentation = notchViewModel.notchModel.isPresentingExpandedLiveActivity
+        let isPresentationHidden = notchViewModel.isActivityPresentationHidden && notchViewModel.notchModel.temporaryNotificationContent == nil
+        let isScreenshotContent = notchViewModel.displayedContent?.id == NotchContentRegistry.Screenshot.active.id
+        let shouldApplyPressScale = !isExpandedPresentation && !isPresentationHidden && !isScreenshotContent
+        
+        if notchViewModel.topInset == 0 {
+            contentOverlay
+                .environment(\.isDynamicIsland, true)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .mask {
+                    DynamicIslandShape(
+                        cornerRadius: max(0, notchViewModel.dynamicIslandCornerRadius - 2)
+                    )
+                    .padding(3)
+                    .scaleEffect(
+                        x: shouldApplyPressScale ? notchViewModel.pressScale : 1,
+                        y: shouldApplyPressScale ? notchViewModel.pressScale : 1,
+                        anchor: .top
+                    )
+                }
+        } else {
+            contentOverlay
+                .environment(\.isDynamicIsland, false)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .mask {
+                    NotchShape(
+                        topCornerRadius: max(0, notchViewModel.interactiveCornerRadius.top - 2),
+                        bottomCornerRadius: max(0, notchViewModel.interactiveCornerRadius.bottom - 2)
+                    )
+                    .padding(.horizontal, 5)
+                    .padding(.bottom, 3)
+                    .scaleEffect(
+                        x: shouldApplyPressScale ? notchViewModel.pressScale : 1,
+                        y: shouldApplyPressScale ? notchViewModel.pressScale : 1,
+                        anchor: .top
+                    )
+                }
         }
     }
     

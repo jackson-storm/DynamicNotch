@@ -16,15 +16,14 @@ struct NotchApp: App {
 }
 
 private struct MenuBarMenu: View {
-    @Environment(\.locale) private var locale
-    @Environment(\.openWindow) private var openWindow
+    @AppStorage(GeneralSettingsStorage.Keys.appLanguage) private var appLanguageRaw: String = DynamicNotchLanguage.system.rawValue
+
+    private var locale: Locale {
+        DynamicNotchLanguage.resolved(appLanguageRaw).locale
+    }
 
     private var localizedVersionText: String {
-        let appLanguage = DynamicNotchLanguage.resolved(
-            UserDefaults.standard.string(forKey: GeneralSettingsStorage.Keys.appLanguage)
-        )
-
-        return appLanguage.locale.dnFormat(
+        locale.dnFormat(
             "menuBar.version",
             fallback: "Version: %@",
             AppVersionText.appVersionText

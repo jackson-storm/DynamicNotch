@@ -174,7 +174,7 @@ struct FileConverterExpandedActiveNotchView: View {
                         .fontWeight(.medium)
                         .foregroundStyle(.blue)
                 }
-                .buttonStyle(PrimaryButtonStyle(height: 40, backgroundColor: .blue.opacity(0.2)))
+                .buttonStyle(PrimaryButtonStyle(height: 40, backgroundColor: .blue.opacity(0.25)))
                 
             } else {
                 Button(action: {
@@ -187,7 +187,7 @@ struct FileConverterExpandedActiveNotchView: View {
                     .fontWeight(.medium)
                     .foregroundStyle(.blue)
                 }
-                .buttonStyle(PrimaryButtonStyle(height: 40, backgroundColor: .blue.opacity(0.2)))
+                .buttonStyle(PrimaryButtonStyle(height: 40, backgroundColor: .blue.opacity(0.25)))
                 .disabled(fileConverterViewModel.isConverting)
                 .opacity(fileConverterViewModel.isConverting ? 0.6 : 1.0)
             }

@@ -52,7 +52,7 @@ struct OnboardingNotchView: View {
                         .fontWeight(.medium)
                         .foregroundStyle(.red)
                 }
-                .buttonStyle(PrimaryButtonStyle(height: 35, backgroundColor: .red.opacity(0.2)))
+                .buttonStyle(PrimaryButtonStyle(height: 35, backgroundColor: .red.opacity(0.25)))
                 
                 Spacer()
                 
@@ -63,7 +63,7 @@ struct OnboardingNotchView: View {
                         .fontWeight(.medium)
                         .foregroundStyle(.blue)
                 }
-                .buttonStyle(PrimaryButtonStyle(height: 35, backgroundColor: .blue.opacity(0.2)))
+                .buttonStyle(PrimaryButtonStyle(height: 35, backgroundColor: .blue.opacity(0.25)))
             }
             
         case .second:
@@ -79,7 +79,7 @@ struct OnboardingNotchView: View {
                         .fontWeight(.medium)
                         .foregroundStyle(.white)
                 }
-                .buttonStyle(PrimaryButtonStyle(height: 35, backgroundColor: .gray.opacity(0.2)))
+                .buttonStyle(PrimaryButtonStyle(height: 35, backgroundColor: .gray.opacity(0.25)))
                 
                 Spacer()
                 
@@ -90,7 +90,7 @@ struct OnboardingNotchView: View {
                         .fontWeight(.medium)
                         .foregroundStyle(.blue)
                 }
-                .buttonStyle(PrimaryButtonStyle(height: 35, backgroundColor: .blue.opacity(0.2)))
+                .buttonStyle(PrimaryButtonStyle(height: 35, backgroundColor: .blue.opacity(0.25)))
             }
             
         case .third:
@@ -105,7 +105,7 @@ struct OnboardingNotchView: View {
                         .fontWeight(.medium)
                         .foregroundStyle(.white)
                 }
-                .buttonStyle(PrimaryButtonStyle(height: 35, backgroundColor: .gray.opacity(0.2)))
+                .buttonStyle(PrimaryButtonStyle(height: 35, backgroundColor: .gray.opacity(0.25)))
                 
                 Spacer()
                 
@@ -116,7 +116,7 @@ struct OnboardingNotchView: View {
                         .fontWeight(.medium)
                         .foregroundStyle(.blue)
                 }
-                .buttonStyle(PrimaryButtonStyle(height: 35, backgroundColor: .blue.opacity(0.2)))
+                .buttonStyle(PrimaryButtonStyle(height: 35, backgroundColor: .blue.opacity(0.25)))
             }
 
         case .fourth:
@@ -132,7 +132,7 @@ struct OnboardingNotchView: View {
                         .fontWeight(.medium)
                         .foregroundStyle(.white)
                 }
-                .buttonStyle(PrimaryButtonStyle(height: 35, backgroundColor: .gray.opacity(0.2)))
+                .buttonStyle(PrimaryButtonStyle(height: 35, backgroundColor: .gray.opacity(0.25)))
 
                 Spacer()
 
@@ -143,7 +143,7 @@ struct OnboardingNotchView: View {
                         .fontWeight(.medium)
                         .foregroundStyle(.blue)
                 }
-                .buttonStyle(PrimaryButtonStyle(height: 35, backgroundColor: .blue.opacity(0.2)))
+                .buttonStyle(PrimaryButtonStyle(height: 35, backgroundColor: .blue.opacity(0.25)))
             }
         }
     }

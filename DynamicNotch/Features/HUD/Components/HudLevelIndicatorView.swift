@@ -42,7 +42,7 @@ struct HudLevelIndicatorView: View {
     }
 
     private var glowRadius: CGFloat {
-        showsGlow ? 10 : 0
+        showsGlow ? 5 : 0
     }
 
     private var barFill: LinearGradient {

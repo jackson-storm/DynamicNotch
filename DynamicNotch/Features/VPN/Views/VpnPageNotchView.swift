@@ -147,7 +147,7 @@ struct VpnPageNotchView: View {
                     .fontWeight(.medium)
                     .foregroundStyle(.white)
             }
-            .buttonStyle(PrimaryButtonStyle(height: 35, backgroundColor: Color.gray.opacity(0.2)))
+            .buttonStyle(PrimaryButtonStyle(height: 35, backgroundColor: Color.gray.opacity(0.25)))
             
             Button(action: {
                 viewModel.toggleVPN(vpn)
@@ -157,7 +157,7 @@ struct VpnPageNotchView: View {
                     .fontWeight(.medium)
                     .foregroundStyle(vpn.isConnected ? .red : .blue)
             }
-            .buttonStyle(PrimaryButtonStyle(height: 35, backgroundColor: vpn.isConnected ? Color.red.opacity(0.2) : Color.blue.opacity(0.2)))
+            .buttonStyle(PrimaryButtonStyle(height: 35, backgroundColor: vpn.isConnected ? Color.red.opacity(0.25) : Color.blue.opacity(0.25)))
         }
     }
     

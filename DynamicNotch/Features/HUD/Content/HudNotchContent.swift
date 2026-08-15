@@ -58,7 +58,11 @@ struct HudNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     }
     
     func dynamicIslandCornerRadius(baseHeight: CGFloat) -> CGFloat {
-        return baseHeight * 0.5
+        if style == .expandedDetailed {
+            return baseHeight * 0.3
+        } else {
+            return baseHeight * 0.5
+        }
     }
 
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {

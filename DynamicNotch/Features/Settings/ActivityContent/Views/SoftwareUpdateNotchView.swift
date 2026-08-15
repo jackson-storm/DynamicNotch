@@ -68,7 +68,7 @@ struct SoftwareUpdateExpandedNotchView: View {
                         .font(.system(size: 24, weight: .semibold))
                         .foregroundStyle(.blue)
                 }
-                .buttonStyle(PrimaryButtonStyle(width: 45, height: 45, backgroundColor: .blue.opacity(0.2)))
+                .buttonStyle(PrimaryButtonStyle(width: 45, height: 45, backgroundColor: .blue.opacity(0.25)))
             }
         }
         .padding(.leading, isDynamicIsland ? 20 : 42)

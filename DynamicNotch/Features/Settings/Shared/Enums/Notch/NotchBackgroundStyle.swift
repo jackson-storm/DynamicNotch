@@ -10,7 +10,7 @@ enum NotchBackgroundStyle: String, CaseIterable {
     var title: LocalizedStringKey {
         switch self {
         case .black:
-            return "Black"
+            return "settings.notch.backgroundStyle.black"
         }
     }
 

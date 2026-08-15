@@ -10,11 +10,11 @@ enum CalendarTimeDisplayFormat: String, CaseIterable, Identifiable, Codable {
     var localizationKey: String {
         switch self {
         case .exact:
-            return "settings.activities.calendar.timeDisplayFormat.exact"
+            return "settings.calendar.timeDisplayFormat.exact"
         case .relative:
-            return "settings.activities.calendar.timeDisplayFormat.relative"
+            return "settings.calendar.timeDisplayFormat.relative"
         case .both:
-            return "settings.activities.calendar.timeDisplayFormat.both"
+            return "settings.calendar.timeDisplayFormat.both"
         }
     }
 }

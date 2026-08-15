@@ -13,10 +13,10 @@ struct CalendarSettingsView: View {
     }
 
     private var calendarActivityCard: some View {
-        SettingsCard(title: "settings.activities.calendar.title") {
+        SettingsCard(title: "settings.calendar.card.activity") {
             SettingsToggleRow(
-                title: "settings.activities.calendar.liveActivity",
-                description: "settings.activities.calendar.liveActivity.desc",
+                title: "settings.calendar.activity.title",
+                description: "settings.calendar.activity.desc",
                 systemImage: "29.calendar",
                 color: .blue,
                 stroke: true,
@@ -27,27 +27,27 @@ struct CalendarSettingsView: View {
     }
 
     private var displayOptionsCard: some View {
-        SettingsCard(title: "settings.activities.calendar.displayOptions.title") {
+        SettingsCard(title: "settings.calendar.card.displayOptions") {
             SettingsMenuRow(
-                title: "settings.activities.calendar.noticeMinutes",
-                description: "settings.activities.calendar.noticeMinutes.desc",
+                title: "settings.calendar.noticeMinutes.title",
+                description: "settings.calendar.noticeMinutes.desc",
                 options: [0, 5, 10, 15, 30, 60],
                 optionTitle: { minutes in
                     switch minutes {
                     case 0:
-                        return LocalizedStringKey("settings.activities.calendar.noticeMinutes.atStart")
+                        return LocalizedStringKey("settings.calendar.noticeMinutes.atStart")
                     case 5:
-                        return LocalizedStringKey("settings.activities.calendar.noticeMinutes.5m")
+                        return LocalizedStringKey("settings.calendar.noticeMinutes.5m")
                     case 10:
-                        return LocalizedStringKey("settings.activities.calendar.noticeMinutes.10m")
+                        return LocalizedStringKey("settings.calendar.noticeMinutes.10m")
                     case 15:
-                        return LocalizedStringKey("settings.activities.calendar.noticeMinutes.15m")
+                        return LocalizedStringKey("settings.calendar.noticeMinutes.15m")
                     case 30:
-                        return LocalizedStringKey("settings.activities.calendar.noticeMinutes.30m")
+                        return LocalizedStringKey("settings.calendar.noticeMinutes.30m")
                     case 60:
-                        return LocalizedStringKey("settings.activities.calendar.noticeMinutes.oneHour")
+                        return LocalizedStringKey("settings.calendar.noticeMinutes.oneHour")
                     default:
-                        return LocalizedStringKey("settings.activities.calendar.noticeMinutes.15m")
+                        return LocalizedStringKey("settings.calendar.noticeMinutes.15m")
                     }
                 },
                 accessibilityIdentifier: "settings.activities.calendar.noticeMinutes",
@@ -57,8 +57,8 @@ struct CalendarSettingsView: View {
             Divider().opacity(0.6)
 
             SettingsMenuRow(
-                title: "settings.activities.calendar.timeDisplayFormat",
-                description: "settings.activities.calendar.timeDisplayFormat.desc",
+                title: "settings.calendar.timeDisplayFormat.title",
+                description: "settings.calendar.timeDisplayFormat.desc",
                 options: CalendarTimeDisplayFormat.allCases,
                 optionTitle: { format in
                     LocalizedStringKey(format.localizationKey)
@@ -70,21 +70,21 @@ struct CalendarSettingsView: View {
             Divider().opacity(0.6)
 
             SettingsMenuRow(
-                title: "settings.activities.calendar.ongoingEventHideMinutes",
-                description: "settings.activities.calendar.ongoingEventHideMinutes.desc",
+                title: "settings.calendar.ongoingHide.title",
+                description: "settings.calendar.ongoingHide.desc",
                 options: [0, 5, 10, 15],
                 optionTitle: { minutes in
                     switch minutes {
                     case 0:
-                        return LocalizedStringKey("settings.activities.calendar.ongoing.untilEnd")
+                        return LocalizedStringKey("settings.calendar.ongoing.untilEnd")
                     case 5:
-                        return LocalizedStringKey("settings.activities.calendar.ongoing.5m")
+                        return LocalizedStringKey("settings.calendar.ongoing.5m")
                     case 10:
-                        return LocalizedStringKey("settings.activities.calendar.ongoing.10m")
+                        return LocalizedStringKey("settings.calendar.ongoing.10m")
                     case 15:
-                        return LocalizedStringKey("settings.activities.calendar.ongoing.15m")
+                        return LocalizedStringKey("settings.calendar.ongoing.15m")
                     default:
-                        return LocalizedStringKey("settings.activities.calendar.ongoing.untilEnd")
+                        return LocalizedStringKey("settings.calendar.ongoing.untilEnd")
                     }
                 },
                 accessibilityIdentifier: "settings.activities.calendar.ongoingEventHideMinutes",
@@ -94,10 +94,10 @@ struct CalendarSettingsView: View {
     }
 
     private var privacyAndSoundCard: some View {
-        SettingsCard(title: "settings.activities.calendar.privacyAndNotifications.title") {
+        SettingsCard(title: "settings.calendar.card.privacy") {
             SettingsToggleRow(
-                title: "settings.activities.calendar.privacyMode",
-                description: "settings.activities.calendar.privacyMode.desc",
+                title: "settings.calendar.privacyMode.title",
+                description: "settings.calendar.privacyMode.desc",
                 systemImage: "eye.slash",
                 color: .black,
                 stroke: true,
@@ -111,8 +111,8 @@ struct CalendarSettingsView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
 
             SettingsToggleRow(
-                title: "settings.activities.calendar.soundAlert",
-                description: "settings.activities.calendar.soundAlert.desc",
+                title: "settings.calendar.soundAlert.title",
+                description: "settings.calendar.soundAlert.desc",
                 systemImage: "speaker.wave.2",
                 color: .orange,
                 isOn: $settings.isSoundAlertEnabled,

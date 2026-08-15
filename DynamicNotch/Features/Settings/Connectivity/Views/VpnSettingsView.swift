@@ -53,10 +53,10 @@ struct VpnSettingsView: View {
     }
     
     private var vpnActivity: some View {
-        SettingsCard(title: "VPN activity") {
+        SettingsCard(title: "settings.vpn.card.activity") {
             SettingsToggleRow(
-                title: "VPN temporary activity",
-                description: "Show a short notification when a VPN connection becomes active.",
+                title: "settings.vpn.temporaryActivity.title",
+                description: "settings.vpn.temporaryActivity2.desc",
                 systemImage: "network.badge.shield.half.filled",
                 color: .blue,
                 isOn: $connectivitySettings.isVpnTemporaryActivityEnabled,
@@ -69,8 +69,8 @@ struct VpnSettingsView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
 
             SettingsToggleRow(
-                title: "VPN disconnected temporary activity",
-                description: "Show a short notification when a VPN connection becomes inactive.",
+                title: "settings.vpn.disconnectedActivity.title",
+                description: "settings.vpn.disconnectedActivity2.desc",
                 systemImage: "network.slash",
                 color: .red,
                 isOn: $connectivitySettings.isVpnDisconnectedTemporaryActivityEnabled,
@@ -80,10 +80,10 @@ struct VpnSettingsView: View {
     }
     
     private var vpnDuration: some View {
-        SettingsCard(title: "VPN duration") {
+        SettingsCard(title: "settings.vpn.card.duration") {
             SettingsSliderRow(
-                title: "VPN duration",
-                description: "Choose how long the VPN connection notification stays visible.",
+                title: "settings.vpn.duration.title",
+                description: "settings.vpn.duration2.desc",
                 range: temporaryActivityDurationRange,
                 step: 1,
                 fractionLength: 0,
@@ -101,8 +101,8 @@ struct VpnSettingsView: View {
                 .opacity(0.6)
 
             SettingsSliderRow(
-                title: "VPN disconnected duration",
-                description: "Choose how long the VPN disconnection notification stays visible.",
+                title: "settings.vpn.disconnectedDuration.title",
+                description: "settings.vpn.disconnectedDuration2.desc",
                 range: temporaryActivityDurationRange,
                 step: 1,
                 fractionLength: 0,
@@ -120,7 +120,7 @@ struct VpnSettingsView: View {
     
     @ViewBuilder
     private var preferredVpnCard: some View {
-        SettingsCard(title: "Preferred VPN") {
+        SettingsCard(title: "settings.vpn.card.preferred") {
             VStack(alignment: .leading, spacing: 12) {
                 if vpnViewModel.vpns.isEmpty {
                     Text("No VPN configurations found on this Mac. Please add a VPN connection in System Settings -> VPN first.")
@@ -194,13 +194,13 @@ struct VpnSettingsView: View {
     }
     
     private var vpnAppearance: some View {
-        SettingsCard(title: "VPN appearance") {
+        SettingsCard(title: "settings.vpn.card.appearance") {
             CustomPicker(
                 selection: vpnAppearanceStyle,
                 options: Array(VPNAppearanceStyle.allCases),
                 title: { $0.title },
-                headerTitle: "VPN style",
-                headerDescription: "Choose whether the VPN activity stays compact or shows tunnel details.",
+                headerTitle: "settings.vpn.style.headerTitle",
+                headerDescription: "settings.vpn.style.headerDesc",
                 itemHeight: 72,
                 lightBackgroundImage: Image("backgroundLight"),
                 darkBackgroundImage: Image("backgroundDark")

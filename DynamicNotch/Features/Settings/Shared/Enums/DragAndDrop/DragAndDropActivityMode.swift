@@ -8,11 +8,11 @@ enum DragAndDropActivityMode: String, CaseIterable {
     var title: LocalizedStringKey {
         switch self {
         case .airDrop:
-            return "AirDrop"
+            return "settings.drop.dragAndDropActivityMode.airDrop"
         case .tray:
-            return "Tray"
+            return "settings.drop.dragAndDropActivityMode.tray"
         case .combined:
-            return "Combined"
+            return "settings.drop.dragAndDropActivityMode.both"
         }
     }
 

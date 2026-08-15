@@ -7,9 +7,9 @@ enum DownloadProgressIndicatorStyle: String, CaseIterable {
     var title: LocalizedStringKey {
         switch self {
         case .percent:
-            return "Percent"
+            return "settings.downloads.progressIndicatorStyle.percent"
         case .circle:
-            return "Circle"
+            return "settings.downloads.progressIndicatorStyle.circle"
         }
     }
 

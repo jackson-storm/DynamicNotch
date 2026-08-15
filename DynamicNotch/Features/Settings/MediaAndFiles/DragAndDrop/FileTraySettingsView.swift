@@ -11,7 +11,7 @@ struct FileTraySettingsView: View {
     }
 
     private var trayAppearance: some View {
-        SettingsCard(title: "Tray appearance") {
+        SettingsCard(title: "settings.drop.card.trayAppearance") {
             SettingsNotchPreview(
                 width: 430,
                 height: 148,
@@ -32,8 +32,8 @@ struct FileTraySettingsView: View {
                 .opacity(0.6)
 
             SettingsMenuRow(
-                title: "Scroll direction",
-                description: "Choose how files scroll inside the expanded Tray.",
+                title: "settings.drop.scrollDirection.title",
+                description: "settings.drop.scrollDirection.desc",
                 options: Array(FileTrayScrollDirection.allCases),
                 optionTitle: { $0.title },
                 accessibilityIdentifier: "settings.activities.live.drop.trayScrollDirection",
@@ -44,8 +44,8 @@ struct FileTraySettingsView: View {
                 .opacity(0.6)
 
             SettingsMenuRow(
-                title: "Tray usage",
-                description: "Choose whether Tray keeps file copies or moves originals into Tray storage.",
+                title: "settings.drop.trayUsage.title",
+                description: "settings.drop.trayUsage.desc",
                 options: Array(FileTrayUsageMode.allCases),
                 optionTitle: { $0.title },
                 accessibilityIdentifier: "settings.activities.live.drop.trayUsage",
@@ -68,8 +68,8 @@ struct FileTraySettingsView: View {
                 .opacity(0.6)
 
             SettingsToggleRow(
-                title: "Hide remove button",
-                description: "Hide the x button on file cards in the expanded Tray.",
+                title: "settings.drop.hideRemoveButton.title",
+                description: "settings.drop.hideRemoveButton.desc",
                 systemImage: "xmark.circle.fill",
                 color: .red,
                 isOn: $mediaSettings.isFileTrayRemoveButtonHidden,

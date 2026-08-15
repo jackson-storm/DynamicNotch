@@ -28,8 +28,8 @@ struct DisplaySettingsView: View {
                 selection: $applicationSettings.displayLocation,
                 options: Array(NotchDisplayLocation.allCases),
                 title: { $0.title },
-                headerTitle: "Display",
-                headerDescription: "Choose which display Dynamic Notch should use.",
+                headerTitle: "settings.notch.display.headerTitle",
+                headerDescription: "settings.notch.display.headerDesc",
                 symbolName: { $0.symbolName }
             )
             .accessibilityIdentifier("settings.general.displayLocation")
@@ -74,8 +74,8 @@ struct DisplaySettingsView: View {
     private var hideNotchToggleCard: some View {
         SettingsCard {
             SettingsToggleRow(
-                title: "Hide live activity in full-screen mode",
-                description: "Automatically hide live activity while the selected display is showing a full-screen space.",
+                title: "settings.notch.display.hideInFullScreen.title",
+                description: "settings.notch.display.hideInFullScreen.desc",
                 systemImage: "arrow.up.left.and.arrow.down.right",
                 color: LinearGradient.blueGradient,
                 isOn: $applicationSettings.isNotchHiddenInFullscreenEnabled,

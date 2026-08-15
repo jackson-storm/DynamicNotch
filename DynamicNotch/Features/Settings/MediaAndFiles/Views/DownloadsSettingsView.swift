@@ -12,10 +12,10 @@ struct DownloadsSettingsView: View {
     }
     
     private var downloadActivity: some View {
-        SettingsCard(title: "Download activity") {
+        SettingsCard(title: "settings.downloads.card.activity") {
             SettingsToggleRow(
-                title: "Downloads live activity",
-                description: "Show a live activity while files are being downloaded to monitored folders like Downloads, Desktop, and Documents.",
+                title: "settings.downloads.liveActivity.title",
+                description: "settings.downloads.liveActivity.desc",
                 systemImage: "arrow.down.circle.fill",
                 color: .blue,
                 isOn: $mediaSettings.isDownloadsLiveActivityEnabled,
@@ -25,10 +25,10 @@ struct DownloadsSettingsView: View {
     }
     
     private var downloadAppearance: some View {
-        SettingsCard(title: "Download appearance") {
+        SettingsCard(title: "settings.downloads.card.appearance") {
             SettingsMenuRow(
-                title: "Progress indicator",
-                description: "Choose whether download progress uses a percentage label or a circular ring.",
+                title: "settings.downloads.progressIndicator.title",
+                description: "settings.downloads.progressIndicator.desc",
                 options: Array(DownloadProgressIndicatorStyle.allCases),
                 optionTitle: { $0.title },
                 accessibilityIdentifier: "settings.activities.live.downloads.progressIndicator",

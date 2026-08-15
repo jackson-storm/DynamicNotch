@@ -23,8 +23,8 @@ struct AppearanceSettingsView: View {
                 selection: $applicationSettings.appearanceMode,
                 options: Array(SettingsAppearanceMode.allCases),
                 title: { $0.title },
-                headerTitle: "Theme",
-                headerDescription: "Choose the interface appearance used by the app.",
+                headerTitle: "settings.appearance.theme.headerTitle",
+                headerDescription: "settings.appearance.theme.headerDesc",
                 itemHeight: 110,
                 lightBackgroundImage: Image("backgroundLight"),
                 darkBackgroundImage: Image("backgroundDark")

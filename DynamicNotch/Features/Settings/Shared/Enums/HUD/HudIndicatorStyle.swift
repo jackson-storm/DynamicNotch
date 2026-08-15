@@ -7,9 +7,9 @@ enum HudIndicatorStyle: String, CaseIterable {
     var title: LocalizedStringKey {
         switch self {
         case .bar:
-            return "Bar"
+            return "settings.hud.indicatorStyle.bar"
         case .circle:
-            return "Circle"
+            return "settings.hud.indicatorStyle.circle"
         }
     }
 
@@ -31,11 +31,11 @@ enum HudIndicatorTintStyle: String, CaseIterable {
     var title: LocalizedStringKey {
         switch self {
         case .plainWhite:
-            return "White"
+            return "settings.hud.indicatorTintStyle.plainWhite"
         case .levelColor:
-            return "Level color"
+            return "settings.hud.indicatorTintStyle.levelColor"
         case .accentColor:
-            return "System accent"
+            return "settings.hud.indicatorTintStyle.accentColor"
         }
     }
 }

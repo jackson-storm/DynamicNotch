@@ -24,10 +24,10 @@ struct BatterySettingsView: View {
     }
 
     private var batteryActivity: some View {
-        SettingsCard(title: "Battery activity") {
+        SettingsCard(title: "settings.battery.card.activity") {
             SettingsToggleRow(
-                title: "Charging",
-                description: "Show a temporary activity when your Mac starts charging.",
+                title: "settings.battery.charging.title",
+                description: "settings.battery.charging.desc",
                 systemImage: "bolt.fill",
                 color: .blue,
                 isOn: $batterySettings.isChargerTemporaryActivityEnabled,
@@ -40,8 +40,8 @@ struct BatterySettingsView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
 
             SettingsToggleRow(
-                title: "Low Power",
-                description: "Show a warning when Low Power Mode is enabled or the battery is critically low.",
+                title: "settings.battery.lowPower2.title",
+                description: "settings.battery.lowPower2.desc",
                 systemImage: "battery.25",
                 color: .red,
                 isOn: $batterySettings.isLowPowerTemporaryActivityEnabled,
@@ -54,8 +54,8 @@ struct BatterySettingsView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
 
             SettingsToggleRow(
-                title: "Fully Charged",
-                description: "Show a temporary activity when the battery reaches the selected full charge level.",
+                title: "settings.battery.fullyCharged.title",
+                description: "settings.battery.fullyCharged.desc",
                 systemImage: "battery.100",
                 color: .green,
                 isOn: $batterySettings.isFullPowerTemporaryActivityEnabled,
@@ -66,10 +66,10 @@ struct BatterySettingsView: View {
     }
 
     private var batteryDuration: some View {
-        SettingsCard(title: "Battery duration") {
+        SettingsCard(title: "settings.battery.card.duration") {
             SettingsSliderRow(
-                title: "Charging duration",
-                description: "Choose how long the charging notification stays visible.",
+                title: "settings.battery.chargingDuration.title",
+                description: "settings.battery.chargingDuration.desc",
                 range: temporaryActivityDurationRange,
                 step: 1,
                 fractionLength: 0,
@@ -86,8 +86,8 @@ struct BatterySettingsView: View {
             Divider().opacity(0.6)
 
             SettingsSliderRow(
-                title: "Low battery duration",
-                description: "Choose how long the low battery notification stays visible.",
+                title: "settings.battery.lowBatteryDuration.title",
+                description: "settings.battery.lowPowerDuration.desc",
                 range: temporaryActivityDurationRange,
                 step: 1,
                 fractionLength: 0,
@@ -104,8 +104,8 @@ struct BatterySettingsView: View {
             Divider().opacity(0.6)
 
             SettingsSliderRow(
-                title: "Full battery duration",
-                description: "Choose how long the full battery notification stays visible.",
+                title: "settings.battery.fullBatteryDuration.title",
+                description: "settings.battery.fullPowerDuration.desc",
                 range: temporaryActivityDurationRange,
                 step: 1,
                 fractionLength: 0,
@@ -122,13 +122,13 @@ struct BatterySettingsView: View {
     }
 
     private var lowBattery: some View {
-        SettingsCard(title: "Low battery") {
+        SettingsCard(title: "settings.battery.card.lowBattery") {
             CustomPicker(
                 selection: $batterySettings.lowPowerStyle,
                 options: Array(BatteryNotificationStyle.allCases),
                 title: { $0.title },
-                headerTitle: "Low battery style",
-                headerDescription: "Choose whether the alert uses the current detailed card or a compact charging-like layout.",
+                headerTitle: "settings.battery.lowBatteryStyle.headerTitle",
+                headerDescription: "settings.battery.lowBatteryStyle.headerDesc",
                 itemHeight: 82,
                 lightBackgroundImage: Image("backgroundLight"),
                 darkBackgroundImage: Image("backgroundDark")
@@ -143,8 +143,8 @@ struct BatterySettingsView: View {
             Divider().opacity(0.6)
             
             SettingsToggleRow(
-                title: "Low battery sound",
-                description: "Play audio when the battery is low.",
+                title: "settings.battery.lowBatterySound.title",
+                description: "settings.battery.lowBatterySound2.desc",
                 systemImage: "speaker.wave.2.fill",
                 color: .pink,
                 isOn: $batterySettings.lowBatterySound,
@@ -155,8 +155,8 @@ struct BatterySettingsView: View {
             Divider().opacity(0.6)
             
             SettingsSliderRow(
-                title: "Low battery threshold",
-                description: "Choose the battery percentage that triggers the low battery notification.",
+                title: "settings.battery.lowPowerThreshold.title",
+                description: "settings.battery.lowBatteryThreshold.desc",
                 range: Double(BatterySettingsStore.lowPowerThresholdRange.lowerBound)...Double(BatterySettingsStore.lowPowerThresholdRange.upperBound),
                 step: 1,
                 fractionLength: 0,
@@ -171,13 +171,13 @@ struct BatterySettingsView: View {
     }
 
     private var fullBattery: some View {
-        SettingsCard(title: "Full battery") {
+        SettingsCard(title: "settings.battery.card.fullBattery") {
             CustomPicker(
                 selection: $batterySettings.fullPowerStyle,
                 options: Array(BatteryNotificationStyle.allCases),
                 title: { $0.title },
-                headerTitle: "Full battery style",
-                headerDescription: "Choose whether the alert uses the current detailed card or a compact charging-like layout.",
+                headerTitle: "settings.battery.fullBatteryStyle.headerTitle",
+                headerDescription: "settings.battery.fullBatteryStyle.headerDesc",
                 itemHeight: 82,
                 lightBackgroundImage: Image("backgroundLight"),
                 darkBackgroundImage: Image("backgroundDark")
@@ -192,22 +192,19 @@ struct BatterySettingsView: View {
             Divider().opacity(0.6)
             
             SettingsToggleRow(
-                title: "Full battery sound",
-                description: "Play audio when the battery is fully charged.",
+                title: "settings.battery.fullBatterySound.title",
+                description: "settings.battery.fullBatterySound2.desc",
                 systemImage: "speaker.wave.2.fill",
                 color: .pink,
                 isOn: $batterySettings.fullBatterySound,
                 accessibilityIdentifier: "settings.activities.fullBatterySound"
             )
             
-            Divider()
-                .opacity(0.6)
-
             Divider().opacity(0.6)
             
             SettingsSliderRow(
-                title: "Full charge threshold",
-                description: "Choose the battery percentage that triggers the full charge notification.",
+                title: "settings.battery.fullChargeThreshold.title",
+                description: "settings.battery.fullChargeThreshold.desc",
                 range: Double(BatterySettingsStore.fullPowerThresholdRange.lowerBound)...Double(BatterySettingsStore.fullPowerThresholdRange.upperBound),
                 step: 1,
                 fractionLength: 0,

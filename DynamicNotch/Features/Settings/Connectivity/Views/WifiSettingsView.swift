@@ -29,10 +29,10 @@ struct WifiSettingsView: View {
     }
     
     private var wifiActivity: some View {
-        SettingsCard(title: "Wi-Fi activity") {
+        SettingsCard(title: "settings.wifi.card.activity") {
             SettingsToggleRow(
-                title: "Wi-Fi temporary activity",
-                description: "Show a short notification when Wi-Fi reconnects.",
+                title: "settings.wifi.temporaryActivity.title",
+                description: "settings.wifi.temporaryActivity.desc",
                 systemImage: "wifi",
                 color: .blue,
                 isOn: $connectivitySettings.isWifiTemporaryActivityEnabled,
@@ -45,8 +45,8 @@ struct WifiSettingsView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
             
             SettingsToggleRow(
-                title: "No internet temporary activity",
-                description: "Show a short notification when your Mac loses internet access.",
+                title: "settings.wifi.noInternet.title",
+                description: "settings.wifi.noInternet.desc",
                 systemImage: "wifi.slash",
                 color: .red,
                 isOn: $connectivitySettings.isNoInternetTemporaryActivityEnabled,
@@ -59,8 +59,8 @@ struct WifiSettingsView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
             
             SettingsToggleRow(
-                title: "Personal Hotspot live activity",
-                description: "Show a live activity while Personal Hotspot is enabled.",
+                title: "settings.wifi.hotspot.title",
+                description: "settings.wifi.hotspot.desc",
                 systemImage: "personalhotspot",
                 color: .green,
                 isOn: $connectivitySettings.isHotspotLiveActivityEnabled,
@@ -71,10 +71,10 @@ struct WifiSettingsView: View {
     }
     
     private var wifiDuration: some View {
-        SettingsCard(title: "Wi-Fi duration") {
+        SettingsCard(title: "settings.wifi.card.duration") {
             SettingsSliderRow(
-                title: "Wi-Fi duration",
-                description: "Choose how long the Wi-Fi reconnect notification stays visible.",
+                title: "settings.wifi.duration.title",
+                description: "settings.wifi.duration.desc",
                 range: temporaryActivityDurationRange,
                 step: 1,
                 fractionLength: 0,
@@ -91,13 +91,13 @@ struct WifiSettingsView: View {
     }
     
     private var hotspotAppearance: some View {
-        SettingsCard(title: "Hotspot appearance") {
+        SettingsCard(title: "settings.wifi.card.hotspotAppearance") {
             CustomPicker(
                 selection: $connectivitySettings.hotspotAppearanceStyle,
                 options: Array(HotspotAppearanceStyle.allCases),
                 title: { $0.title },
-                headerTitle: "Appearance",
-                headerDescription: "Choose whether the hotspot activity stays minimal or shows more status.",
+                headerTitle: "settings.wifi.appearance.headerTitle",
+                headerDescription: "settings.wifi.appearance.headerDesc",
                 itemHeight: 72,
                 lightBackgroundImage: Image("backgroundLight"),
                 darkBackgroundImage: Image("backgroundDark")

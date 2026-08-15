@@ -13,10 +13,10 @@ struct DragAndDropSettingsView: View {
     }
 
     private var dragAndDropActivity: some View {
-        SettingsCard(title: "Drag&Drop activity") {
+        SettingsCard(title: "settings.drop.card.activity") {
             SettingsToggleRow(
-                title: "Drag&Drop live activity",
-                description: "Show AirDrop and Tray targets when you drag files over the notch.",
+                title: "settings.drop.dragAndDrop.title",
+                description: "settings.drop.dragAndDrop.desc",
                 systemImage: "tray.and.arrow.down.fill",
                 color: .gray,
                 stroke: true,
@@ -30,8 +30,8 @@ struct DragAndDropSettingsView: View {
                 .frame(maxWidth: .infinity, alignment: .trailing)
 
             SettingsToggleRow(
-                title: "AirDrop live activity",
-                description: "Show live activity in notch when transferring files via AirDrop.",
+                title: "settings.drop.airDrop.title",
+                description: "settings.drop.airDrop.desc",
                 imageName: "airdrop.white",
                 color: .blue,
                 isOn: $mediaSettings.isAirDropLiveActivityEnabled,
@@ -44,8 +44,8 @@ struct DragAndDropSettingsView: View {
                 .frame(maxWidth: .infinity, alignment: .trailing)
 
             SettingsToggleRow(
-                title: "Tray live activity",
-                description: "Show the pinned file tray after files are dropped into Tray.",
+                title: "settings.drop.trayActivity.title",
+                description: "settings.drop.trayActivity.desc",
                 systemImage: "tray.full.fill",
                 color: .black,
                 stroke: true,
@@ -56,7 +56,7 @@ struct DragAndDropSettingsView: View {
     }
 
     private var dragAndDropMode: some View {
-        SettingsCard(title: "Drag&Drop target") {
+        SettingsCard(title: "settings.drop.card.target") {
             SettingsNotchPreview(
                 width: dragAndDropPreviewWidth,
                 height: 148,
@@ -76,8 +76,8 @@ struct DragAndDropSettingsView: View {
             Divider().opacity(0.6)
 
             SettingsMenuRow(
-                title: "Target mode",
-                description: "Choose which target appears while files are dragged over the notch.",
+                title: "settings.drop.targetMode.title",
+                description: "settings.drop.targetMode.desc",
                 options: Array(DragAndDropActivityMode.allCases),
                 optionTitle: { $0.title },
                 accessibilityIdentifier: "settings.activities.live.drop.mode",
@@ -89,8 +89,8 @@ struct DragAndDropSettingsView: View {
     private var subPageNavigation: some View {
         SettingsCard(spacing: 0, padding: 0) {
             SettingsNavigationRowView(
-                title: "settings.dragAndDrop.tray.title",
-                description: "settings.dragAndDrop.tray.subtitle",
+                title: "settings.drop.tray.title",
+                description: "settings.drop.tray.subtitle",
                 systemImage: "tray.full.fill",
                 color: .black,
                 stroke: true,

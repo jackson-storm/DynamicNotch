@@ -7,9 +7,9 @@ enum HotspotAppearanceStyle: String, CaseIterable {
     var title: LocalizedStringKey {
         switch self {
         case .minimal:
-            return "Minimal"
+            return "settings.wifi.hotspotAppearanceStyle.minimal"
         case .detailed:
-            return "Detailed"
+            return "settings.wifi.hotspotAppearanceStyle.detailed"
         }
     }
 }

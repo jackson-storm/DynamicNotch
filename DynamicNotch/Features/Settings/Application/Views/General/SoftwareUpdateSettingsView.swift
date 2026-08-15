@@ -30,7 +30,7 @@ struct SoftwareUpdateSettingsView: View {
                 imageName: "simplifiedLogo",
                 iconSize: 30,
                 color: .clear,
-                buttonTitle: "Check now",
+                buttonTitle: "settings.update.checkNow",
                 isButtonDisabled: !updater.canCheckForUpdates,
                 accessibilityIdentifier: "settings.update.versionCard"
             ) {
@@ -42,8 +42,8 @@ struct SoftwareUpdateSettingsView: View {
     private var optionsCard: some View {
         SettingsCard {
             SettingsToggleRow(
-                title: "Automatically check for updates",
-                description: "Let Dynamic Notch check for new versions automatically.",
+                title: "settings.update.autoCheck.title",
+                description: "settings.update.autoCheck.desc",
                 systemImage: "bell.badge.fill",
                 color: .red,
                 isOn: $updater.automaticallyChecksForUpdates,
@@ -56,8 +56,8 @@ struct SoftwareUpdateSettingsView: View {
                 .frame(maxWidth: .infinity, alignment: .trailing)
             
             SettingsToggleRow(
-                title: "Automatically download updates",
-                description: "Download updates in the background and notify you when ready.",
+                title: "settings.update.autoDownload.title",
+                description: "settings.update.autoDownload.desc",
                 systemImage: "arrow.down.circle.dotted",
                 color: .blue,
                 isOn: $updater.automaticallyDownloadsUpdates,

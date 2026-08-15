@@ -21,8 +21,8 @@ struct AnimationSettingsView: View {
                 selection: $applicationSettings.notchAnimationPreset,
                 options: Array(NotchAnimationPreset.allCases),
                 title: { $0.title },
-                headerTitle: "Animation speed",
-                headerDescription: "Set a global motion parameter that controls the speed of the animation.",
+                headerTitle: "settings.notch.animation.speed.headerTitle",
+                headerDescription: "settings.notch.animation.speed.headerDesc",
                 symbolName: { $0.symbolName }
             )
             .accessibilityIdentifier("settings.general.animationPreset")

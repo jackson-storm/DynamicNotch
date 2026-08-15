@@ -22,8 +22,8 @@ struct LanguageSettingsView: View {
                 AdaptiveCustomPicker(
                     selection: $applicationSettings.appLanguage,
                     options: Array(DynamicNotchLanguage.allCases),
-                    headerTitle: "Language",
-                    headerDescription: "Choose the language used by the app interface.",
+                    headerTitle: "settings.language.header.title",
+                    headerDescription: "settings.language.header.desc",
                     minimumItemWidth: 88,
                     maximumItemWidth: 104,
                     title: { $0.titleKey },
@@ -53,7 +53,7 @@ struct LanguageSettingsView: View {
                         .font(.system(size: 14, weight: .semibold))
                         .foregroundStyle(Color.yellow)
                     
-                    Text("Localization only works for settings, the notch remains in English.")
+                    Text(LocalizedStringKey("settings.language.notice"))
                         .font(.system(size: 10))
                         .foregroundStyle(Color.secondary)
                 }

@@ -7,9 +7,9 @@ enum LockScreenStyle: String, CaseIterable {
     var title: LocalizedStringKey {
         switch self {
         case .enlarged:
-            return "Enlarged"
+            return "settings.lockScreen.style.enlarged"
         case .compact:
-            return "Compact"
+            return "settings.lockScreen.style.compact"
         }
     }
 }

@@ -51,8 +51,8 @@ struct SupportSettingsView: View {
     private var supportServicesCard: some View {
         SettingsCard(spacing: 0, padding: 0) {
             SettingsUrlRowView(
-                title: "Boosty.to",
-                description: "Support development or subscribe",
+                title: "settings.support.boosty.title",
+                description: "settings.support.boosty.desc",
                 imageName: "boosty",
                 imageSize: 16,
                 color: .white,
@@ -63,8 +63,8 @@ struct SupportSettingsView: View {
             )
             
             SettingsUrlRowView(
-                title: "Donation Alerts",
-                description: "One-time donation via cards or crypto",
+                title: "settings.support.donationAlerts.title",
+                description: "settings.support.donationAlerts.desc",
                 imageName: "donationAlerts",
                 imageSize: 16,
                 color: .orange,
@@ -76,9 +76,9 @@ struct SupportSettingsView: View {
     }
     
     private var cryptoDonationCard: some View {
-        SettingsCard(title: "Cryptocurrency", spacing: 0, padding: 0) {
+        SettingsCard(title: "settings.support.card.cryptocurrency", spacing: 0, padding: 0) {
             SettingsCopyRowView(
-                title: "USDT (TRC-20)",
+                title: "settings.support.usdtTrc20.title",
                 description: "Address: \("TWYo42HQNuXSA5gmVoVV1973ScPqCtduvA")",
                 imageName: "trc-20",
                 color: .clear,
@@ -87,7 +87,7 @@ struct SupportSettingsView: View {
             )
             
             SettingsCopyRowView(
-                title: "USDT (ERC-20)",
+                title: "settings.support.usdtErc20.title",
                 description: "Address: \("0xd3261630d7EC2484A3fcf5315f194B58834ab891")",
                 imageName: "erc-20",
                 color: .clear,
@@ -97,7 +97,7 @@ struct SupportSettingsView: View {
             )
             
             SettingsCopyRowView(
-                title: "Bitcoin (BTC)",
+                title: "settings.support.bitcoin.title",
                 description: "Address: \("bc1qw29074zwlp600rhvjat2v7ks53h835tthfj7dx")",
                 imageName: "btc",
                 color: .clear,

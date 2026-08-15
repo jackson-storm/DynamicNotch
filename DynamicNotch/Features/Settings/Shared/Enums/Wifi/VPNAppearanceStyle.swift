@@ -7,9 +7,9 @@ enum VPNAppearanceStyle: String, CaseIterable {
     var title: LocalizedStringKey {
         switch self {
         case .compact:
-            return "Compact"
+            return "settings.vpn.appearanceStyle.compact"
         case .detailed:
-            return "Detailed"
+            return "settings.vpn.appearanceStyle.detailed"
         }
     }
 }

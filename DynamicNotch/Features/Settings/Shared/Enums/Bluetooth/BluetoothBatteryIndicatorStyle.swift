@@ -7,9 +7,9 @@ enum BluetoothBatteryIndicatorStyle: String, CaseIterable {
     var title: LocalizedStringKey {
         switch self {
         case .percent:
-            return "Percent"
+            return "settings.bluetooth.batteryIndicatorStyle.percent"
         case .circle:
-            return "Circle"
+            return "settings.bluetooth.batteryIndicatorStyle.circle"
         }
     }
 }

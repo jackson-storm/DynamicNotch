@@ -11,10 +11,10 @@ struct TimerSettingsView: View {
     }
 
     private var timerActivity: some View {
-        SettingsCard(title: "Timer activity") {
+        SettingsCard(title: "settings.timer.card.activity") {
             SettingsToggleRow(
-                title: "Timer live activity",
-                description: "Show the active Clock timer in the notch.",
+                title: "settings.timer.activity.title",
+                description: "settings.timer.activity.desc",
                 systemImage: "timer",
                 color: .orange,
                 isOn: $mediaSettings.isTimerLiveActivityEnabled,

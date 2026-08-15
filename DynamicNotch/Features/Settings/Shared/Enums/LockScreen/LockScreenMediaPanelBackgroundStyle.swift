@@ -7,9 +7,9 @@ enum LockScreenMediaPanelBackgroundStyle: String, CaseIterable {
     var title: LocalizedStringKey {
         switch self {
         case .staticArtwork:
-            return "Static background"
+            return "settings.lockScreen.mediaPanelBackgroundStyle.staticArtwork"
         case .black:
-            return "Black background"
+            return "settings.lockScreen.mediaPanelBackgroundStyle.black"
         }
     }
 }

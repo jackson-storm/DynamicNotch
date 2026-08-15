@@ -6,11 +6,11 @@ struct SettingsSearchEmptyState: View {
     
     var body: some View {
         ContentUnavailableView(
-            locale.dn("No Settings Found", fallback: "No Settings Found"),
+            locale.dn("settings.search.empty.title", fallback: "No Settings Found"),
             systemImage: "magnifyingglass",
             description: Text(
                 locale.dnFormat(
-                    "Try a different keyword for \"%@\".",
+                    "settings.search.empty.subtitle",
                     fallback: "Try a different keyword for \"%@\".",
                     query.trimmingCharacters(in: .whitespacesAndNewlines)
                 )

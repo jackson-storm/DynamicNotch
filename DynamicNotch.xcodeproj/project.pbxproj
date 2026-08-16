@@ -272,6 +272,7 @@
 				es,
 				Base,
 				ru,
+				tr,
 				"zh-Hans",
 			);
 			mainGroup = E2EF78482EDDB60E00F96D1E;

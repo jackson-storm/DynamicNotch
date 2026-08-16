@@ -146,6 +146,7 @@ The project currently includes localized app content for:
 - Russian
 - Spanish
 - Simplified Chinese
+- Turkish
 
 ## 💖 Support
 

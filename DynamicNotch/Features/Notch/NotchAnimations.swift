@@ -26,11 +26,12 @@ struct NotchAnimations {
     static let `default` = preset(.balanced)
 
     static func preset(_ preset: NotchAnimationPreset) -> Self {
-        let damping: Double = 0.75
+        let damping: Double = 0.77
         
         switch preset {
         case .snappy:
             let blend: Double = 0.12
+            
             return Self(
                 contentUpdate: .spring(response: 0.41, blendDuration: blend),
                 contentHide: .spring(response: 0.41, blendDuration: blend),
@@ -54,6 +55,7 @@ struct NotchAnimations {
 
         case .fast:
             let blend: Double = 0.15
+            
             return Self(
                 contentUpdate: .spring(response: 0.44, blendDuration: blend),
                 contentHide: .spring(response: 0.44, blendDuration: blend),
@@ -77,6 +79,7 @@ struct NotchAnimations {
 
         case .balanced:
             let blend: Double = 0.18
+            
             return Self(
                 contentUpdate: .spring(response: 0.47, blendDuration: blend),
                 contentHide: .spring(response: 0.47, blendDuration: blend),
@@ -100,6 +103,7 @@ struct NotchAnimations {
 
         case .slow:
             let blend: Double = 0.22
+            
             return Self(
                 contentUpdate: .spring(response: 0.50, blendDuration: blend),
                 contentHide: .spring(response: 0.50, blendDuration: blend),
@@ -123,6 +127,7 @@ struct NotchAnimations {
 
         case .relaxed:
             let blend: Double = 0.25
+            
             return Self(
                 contentUpdate: .spring(response: 0.53, blendDuration: blend),
                 contentHide: .spring(response: 0.53, blendDuration: blend),

@@ -147,6 +147,20 @@ The project currently includes localized app content for:
 - Spanish
 - Simplified Chinese
 - Turkish
+- German
+- French
+- Portuguese
+- Japanese
+- Korean
+- Italian
+- Polish
+- Vietnamese
+- Indonesian
+- Dutch
+- Traditional Chinese
+- Ukrainian
+- Swedish
+- Czech
 
 ## 💖 Support
 

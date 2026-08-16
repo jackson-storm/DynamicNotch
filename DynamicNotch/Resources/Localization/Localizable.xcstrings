@@ -50,7 +50,39 @@
       "extractionState": "manual"
     },
     "All": {
-      "extractionState": "manual"
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "All"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Все"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Todo"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "全部"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tümü"
+          }
+        }
+      }
     },
     "All Day": {
       "extractionState": "manual"
@@ -168,7 +200,39 @@
       "extractionState": "manual"
     },
     "If the original is moved to the tray and deleted from there, you can restore it in the system trash.": {
-      "extractionState": "manual"
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "If the original is moved to the tray and deleted from there, you can restore it in the system trash."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Если оригинал перемещён в Лоток и удалён оттуда, вы сможете восстановить его в Корзине системы."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Si el original se mueve a la Bandeja y se elimina desde allí, podrás recuperarlo en la papelera del sistema."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "如果原始文件被移到托盘并从那里删除，你可以在系统废纸篓中恢复它。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Orijinal dosya Tepsi'ye taşınıp oradan silinirse, sistem çöp kutusundan geri alabilirsiniz."
+          }
+        }
+      }
     },
     "Join Meeting": {
       "extractionState": "manual"
@@ -192,7 +256,39 @@
       "extractionState": "manual"
     },
     "No VPN configurations found on this Mac. Please add a VPN connection in System Settings -> VPN first.": {
-      "extractionState": "manual"
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No VPN configurations found on this Mac. Please add a VPN connection in System Settings -> VPN first."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "На этом Mac не найдено конфигураций VPN. Сначала добавьте VPN-подключение в Системных настройках -> VPN."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se encontraron configuraciones de VPN en este Mac. Primero añade una conexión VPN en Ajustes del Sistema -> VPN."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在此 Mac 上未找到 VPN 配置。请先在系统设置 -> VPN 中添加 VPN 连接。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu Mac'te VPN yapılandırması bulunamadı. Önce Sistem Ayarları -> VPN bölümünden bir VPN bağlantısı ekleyin."
+          }
+        }
+      }
     },
     "No upcoming events": {
       "extractionState": "manual"
@@ -255,7 +351,39 @@
       "extractionState": "manual"
     },
     "Select the VPN connection that you want to control from the notch.": {
-      "extractionState": "manual"
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select the VPN connection that you want to control from the notch."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выберите VPN-подключение, которым хотите управлять из выреза."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elige la conexión VPN que quieres controlar desde la muesca."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择你想从刘海中控制的 VPN 连接。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çentikten denetlemek istediğiniz VPN bağlantısını seçin."
+          }
+        }
+      }
     },
     "Send the Now Playing playback-state changed event for pause.": {
       "extractionState": "manual"
@@ -18944,7 +19072,39 @@
       }
     },
     "settings.title": {
-      "extractionState": "manual"
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settings"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Настройки"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajustes"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "设置"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayarlar"
+          }
+        }
+      }
     },
     "settings.toolbar.back": {
       "extractionState": "manual",

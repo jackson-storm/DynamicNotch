@@ -217,10 +217,7 @@ final class LockScreenLiveActivityWindowManager {
         let rootView = LockScreenLiveActivityOverlayView(
             notchViewModel: notchViewModel,
             settingsViewModel: settingsViewModel,
-            lockScreenManager: lockScreenManager,
-            animator: animator,
-            airDropViewModel: airDropViewModel,
-            airDropController: airDropController
+            animator: animator
         )
         
         if animatedIn {
@@ -331,10 +328,7 @@ final class LockScreenLiveActivityWindowManager {
         hostingView?.rootView = AnyView(LockScreenLiveActivityOverlayView(
             notchViewModel: notchViewModel,
             settingsViewModel: settingsViewModel,
-            lockScreenManager: lockScreenManager,
-            animator: animator,
-            airDropViewModel: airDropViewModel,
-            airDropController: airDropController
+            animator: animator
         ))
         
         window.orderFrontRegardless()
@@ -355,7 +349,10 @@ final class LockScreenLiveActivityWindowManager {
     }
     
     private func overlayFrame(on screen: NSScreen) -> NSRect {
-        OverlayWindowLayout.lockScreenCanvasFrame(on: screen)
+        OverlayWindowLayout.topAnchoredFrame(
+            on: screen,
+            size: OverlayWindowLayout.appCanvasSize
+        )
     }
     
     private func currentScreen() -> NSScreen? {
@@ -368,40 +365,16 @@ final class LockScreenLiveActivityWindowManager {
 private struct LockScreenLiveActivityOverlayView: View {
     @ObservedObject var notchViewModel: NotchViewModel
     @ObservedObject var settingsViewModel: SettingsViewModel
-    @ObservedObject var lockScreenManager: LockScreenManager
     @ObservedObject var animator: LockScreenLiveActivityAnimator
-    @ObservedObject var airDropViewModel: AirDropNotchViewModel
-    @ObservedObject var airDropController: NotchAirDropController
     
     var body: some View {
-        NotchSurfaceContainerView(
+        NotchInteractiveBodyView(
             notchViewModel: notchViewModel,
             settingsViewModel: settingsViewModel
         )
-        .overlay {
-            NotchDragAndDropDestinationOverlay(
-                airDropViewModel: airDropViewModel,
-                airDropController: airDropController,
-                settingsViewModel: settingsViewModel
-            )
-        }
-        .environment(\.colorScheme, .dark)
-        .frame(
-            width: notchViewModel.interactiveNotchSize.width,
-            height: notchViewModel.interactiveNotchSize.height
-        )
-        .customNotchPressable(
-            notchViewModel: notchViewModel,
-            isPressed: $notchViewModel.isPressed,
-            baseSize: notchViewModel.interactiveNotchSize
-        )
+        .environment(\.notchScale, notchViewModel.notchModel.scale)
         .scaleEffect(animator.scale)
         .opacity(animator.opacity)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-        .animation(notchViewModel.animations.strokeVisibility, value: settingsViewModel.isShowNotchStrokeEnabled)
-        .animation(notchViewModel.animations.notchVisibility, value: notchViewModel.showNotch)
-        .onChange(of: notchViewModel.notchModel.content?.id) {
-            notchViewModel.handleStrokeVisibility()
-        }
     }
 }

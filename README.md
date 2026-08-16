@@ -156,6 +156,11 @@ The project currently includes localized app content for:
 - Polish
 - Vietnamese
 - Indonesian
+- Dutch
+- Traditional Chinese
+- Ukrainian
+- Swedish
+- Czech
 
 ## 💖 Support
 

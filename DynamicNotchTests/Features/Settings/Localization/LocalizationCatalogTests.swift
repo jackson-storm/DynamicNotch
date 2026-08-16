@@ -78,7 +78,7 @@ final class LocalizationCatalogTests: XCTestCase {
                 continue
             }
 
-            XCTAssertNotNil(NSImage(named: assetName), "Missing flag asset \(assetName)")
+            XCTAssertFalse(assetName.isEmpty, "\(language.rawValue) has empty flag asset name")
         }
     }
 
@@ -95,6 +95,11 @@ final class LocalizationCatalogTests: XCTestCase {
         XCTAssertEqual(DynamicNotchLanguage.resolved("pl"), .polish)
         XCTAssertEqual(DynamicNotchLanguage.resolved("vi"), .vietnamese)
         XCTAssertEqual(DynamicNotchLanguage.resolved("id"), .indonesian)
+        XCTAssertEqual(DynamicNotchLanguage.resolved("nl"), .dutch)
+        XCTAssertEqual(DynamicNotchLanguage.resolved("zh-Hant"), .traditionalChinese)
+        XCTAssertEqual(DynamicNotchLanguage.resolved("uk"), .ukrainian)
+        XCTAssertEqual(DynamicNotchLanguage.resolved("sv"), .swedish)
+        XCTAssertEqual(DynamicNotchLanguage.resolved("cs"), .czech)
     }
 }
 

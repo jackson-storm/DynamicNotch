@@ -99,6 +99,36 @@
             "state": "translated",
             "value": "Memerlukan akses ke data media untuk menampilkannya di notch."
           }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Toegang tot mediagegevens is vereist om deze in de notch weer te geven."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "需要媒體資料存取權限才能在「瀏海」中顯示媒體內容。"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Потрібен доступ до медіаданих для їх відображення у вирізі (notch)."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Åtkomst till mediedata krävs för att visa dem i flärpen (notch)."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pro zobrazení médií ve výřezu je vyžadován přístup k mediálním datům."
+          }
         }
       }
     },
@@ -187,6 +217,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aplikasi memerlukan akses Bluetooth untuk memeriksa status perangkat."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "De app heeft Bluetooth-toegang nodig om de apparaatstatus te controleren."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "應用程式需要藍牙存取權限以檢查裝置狀態。"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Програмі потрібен доступ до Bluetooth для перевірки стану пристроїв."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Appen behöver Bluetooth-åtkomst för att kontrollera enhetsstatus."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aplikace potřebuje přístup k Bluetooth pro kontrolu stavu zařízení."
           }
         }
       }
@@ -277,6 +337,36 @@
             "state": "translated",
             "value": "DynamicNotch memerlukan akses ke kalender untuk menampilkan acara mendatang di notch."
           }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch heeft toegang tot Agenda nodig om komende evenementen in de notch weer te geven."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch 需要行事曆存取權限以在「瀏海」中顯示即將發生的行程。"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch потребує доступу до Календаря для відображення найближчих подій у вирізі."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch behöver åtkomst till Kalender för att visa kommande händelser i flärpen."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch potřebuje přístup ke Kalendáři pro zobrazení nadcházejících událostí ve výřezu."
+          }
         }
       }
     },
@@ -366,6 +456,36 @@
             "state": "translated",
             "value": "DynamicNotch memerlukan akses ke kalender untuk menampilkan acara mendatang di notch."
           }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch heeft toegang tot Agenda nodig om komende evenementen in de notch weer te geven."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch 需要行事曆存取權限以在「瀏海」中顯示即將發生的行程。"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch потребує доступу до Календаря для відображення найближчих подій у вирізі."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch behöver åtkomst till Kalender för att visa kommande händelser i flärpen."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch potřebuje přístup ke Kalendáři pro zobrazení nadcházejících událostí ve výřezu."
+          }
         }
       }
     },
@@ -454,6 +574,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "DynamicNotch memerlukan akses ke kamera untuk menampilkan pratinjau di notch."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch heeft cameratoegang nodig om een videovoorvertoning in de notch weer te geven."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch 需要相機存取權限以在「瀏海」中顯示預覽畫面。"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch потребує доступу до камери для попереднього перегляду у вирізі."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch behöver kameraåtkomst för att visa förhandsgranskning i flärpen."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch potřebuje přístup k fotoaparátu pro zobrazení náhledu ve výřezu."
           }
         }
       }
@@ -555,6 +705,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aplikasi memerlukan akses ke jaringan lokal untuk mengidentifikasi nama jaringan Wi-Fi saat ini."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "De app heeft toegang tot het lokale netwerk nodig om de huidige wifi-netwerknaam te bepalen."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "應用程式需要區域網路存取權限以辨識目前的 Wi-Fi 網路名稱。"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Програмі потрібен доступ до локальної мережі для визначення поточної назви мережі Wi-Fi."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Appen behöver åtkomst till det lokala nätverket för att identifiera aktuellt Wi-Fi-nätverksnamn."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aplikace potřebuje přístup k místní síti pro zjištění názvu aktuální sítě Wi-Fi."
           }
         }
       }

@@ -10,6 +10,7 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
     case turkish = "tr"
     case german = "de"
     case french = "fr"
+    case portuguese = "pt"
 
     var id: String { rawValue }
 
@@ -28,6 +29,8 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
             return []
         case .simplifiedChinese:
             return ["zh-Hans", "zh"]
+        case .portuguese:
+            return ["pt", "pt-PT", "pt-BR"]
         default:
             return [rawValue]
         }
@@ -51,6 +54,8 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
             return "settings.language.option.german"
         case .french:
             return "settings.language.option.french"
+        case .portuguese:
+            return "settings.language.option.portuguese"
         }
     }
 
@@ -76,6 +81,8 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
             return "german"
         case .french:
             return "french"
+        case .portuguese:
+            return "portuguese"
         }
     }
 
@@ -97,6 +104,8 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
             return "German"
         case .french:
             return "French"
+        case .portuguese:
+            return "Portuguese"
         }
     }
 
@@ -118,6 +127,8 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
             return "Deutsch"
         case .french:
             return "Français"
+        case .portuguese:
+            return "Português"
         }
     }
 
@@ -139,6 +150,8 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
             return [Color.red, Color.yellow]
         case .french:
             return [Color.blue, Color.red]
+        case .portuguese:
+            return [Color.green, Color.red]
         }
     }
 

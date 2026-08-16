@@ -149,6 +149,7 @@ The project currently includes localized app content for:
 - Turkish
 - German
 - French
+- Portuguese
 
 ## 💖 Support
 

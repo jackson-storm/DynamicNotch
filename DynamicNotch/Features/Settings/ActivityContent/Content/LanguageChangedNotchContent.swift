@@ -12,11 +12,11 @@ struct LanguageChangedNotchContent: NotchContentProtocol, DynamicIslandCustomiza
     let language: DynamicNotchLanguage
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        return .init(width: baseWidth + 140, height: baseHeight)
+        return .init(width: baseWidth + 160, height: baseHeight)
     }
     
     func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        return .init(width: baseWidth + 120, height: baseHeight)
+        return .init(width: baseWidth + 140, height: baseHeight)
     }
     
     @MainActor

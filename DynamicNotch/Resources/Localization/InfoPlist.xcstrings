@@ -57,6 +57,12 @@
             "state": "translated",
             "value": "Nous avons besoin d'accéder aux données multimédias pour les afficher dans l'encoche."
           }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Precisamos de acesso aos dados de reprodução multimédia para os apresentar no notch."
+          }
         }
       }
     },
@@ -103,6 +109,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "L'application a besoin de l'accès Bluetooth pour vérifier l'état des appareils."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A aplicação necessita de acesso Bluetooth para verificar o estado dos dispositivos."
           }
         }
       }
@@ -151,6 +163,12 @@
             "state": "translated",
             "value": "DynamicNotch a besoin d'accéder à votre calendrier pour afficher les événements à venir dans l'encoche."
           }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O DynamicNotch precisa de acesso ao seu calendário para apresentar os próximos eventos no notch."
+          }
         }
       }
     },
@@ -198,6 +216,12 @@
             "state": "translated",
             "value": "DynamicNotch a besoin d'accéder à votre calendrier pour afficher les événements à venir dans l'encoche."
           }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O DynamicNotch precisa de acesso ao seu calendário para apresentar os próximos eventos no notch."
+          }
         }
       }
     },
@@ -244,6 +268,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "DynamicNotch a besoin d'accéder à votre caméra pour afficher un aperçu de la caméra dans l'encoche."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O DynamicNotch precisa de acesso à câmara para mostrar a pré-visualização no notch."
           }
         }
       }
@@ -303,6 +333,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "L'application a besoin de l'accès au réseau local pour déterminer le nom de votre réseau Wi-Fi actuel."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A aplicação necessita de acesso à rede local para identificar o nome da sua rede Wi-Fi atual."
           }
         }
       }

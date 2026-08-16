@@ -34,8 +34,14 @@ struct LanguageSettingsView: View {
                         if let assetName = language.flagAssetName {
                             Image(assetName)
                                 .resizable()
+                                .interpolation(.high)
+                                .antialiased(true)
                                 .aspectRatio(contentMode: .fit)
-                                .clipShape(RoundedRectangle(cornerRadius: 6))
+                                .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous), style: FillStyle(antialiased: true))
+                                .overlay {
+                                    RoundedRectangle(cornerRadius: 6, style: .continuous)
+                                        .strokeBorder(Color.primary.opacity(0.12), lineWidth: 0.5)
+                                }
                                 .frame(width: 54, height: 54)
                             
                         } else {

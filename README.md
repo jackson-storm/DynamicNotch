@@ -147,6 +147,7 @@ The project currently includes localized app content for:
 - Spanish
 - Simplified Chinese
 - Turkish
+- German
 
 ## 💖 Support
 

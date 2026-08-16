@@ -63,6 +63,12 @@
             "state": "translated",
             "value": "Precisamos de acesso aos dados de reprodução multimédia para os apresentar no notch."
           }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ノッチにメディア再生情報を表示するためにメディアデータへのアクセスが必要です。"
+          }
         }
       }
     },
@@ -115,6 +121,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "A aplicação necessita de acesso Bluetooth para verificar o estado dos dispositivos."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "デバイスの状態を確認するためにBluetoothアクセスが必要です。"
           }
         }
       }
@@ -169,6 +181,12 @@
             "state": "translated",
             "value": "O DynamicNotch precisa de acesso ao seu calendário para apresentar os próximos eventos no notch."
           }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ノッチに予定を表示するためにカレンダーへのアクセスが必要です。"
+          }
         }
       }
     },
@@ -222,6 +240,12 @@
             "state": "translated",
             "value": "O DynamicNotch precisa de acesso ao seu calendário para apresentar os próximos eventos no notch."
           }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ノッチに予定を表示するためにカレンダーへのアクセスが必要です。"
+          }
         }
       }
     },
@@ -274,6 +298,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "O DynamicNotch precisa de acesso à câmara para mostrar a pré-visualização no notch."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ノッチにプレビューを表示するためにカメラへのアクセスが必要です。"
           }
         }
       }
@@ -339,6 +369,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "A aplicação necessita de acesso à rede local para identificar o nome da sua rede Wi-Fi atual."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "現在のWi-Fiネットワーク名を特定するためにローカルネットワークへのアクセスが必要です。"
           }
         }
       }

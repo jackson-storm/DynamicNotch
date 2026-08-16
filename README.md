@@ -150,6 +150,7 @@ The project currently includes localized app content for:
 - German
 - French
 - Portuguese
+- Japanese
 
 ## 💖 Support
 

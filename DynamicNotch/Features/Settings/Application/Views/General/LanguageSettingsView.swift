@@ -54,6 +54,8 @@ struct LanguageSettingsView: View {
                 }
                 .accessibilityIdentifier("settings.language.card")
                 
+                Divider().opacity(0.6)
+                
                 HStack {
                     Image(systemName: "exclamationmark.triangle.fill")
                         .font(.system(size: 14, weight: .semibold))

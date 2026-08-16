@@ -109,9 +109,10 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
 
         context.coordinator.handleHudEvent(.volume(72))
 
-        try? await Task.sleep(for: .milliseconds(100))
-        await MainActor.run {
-            XCTAssertNil(context.notchViewModel.notchModel.temporaryNotificationContent)
+        await assertEventually {
+            await MainActor.run {
+                context.notchViewModel.notchModel.temporaryNotificationContent?.id == NotchContentRegistry.HUD.system.id
+            }
         }
     }
 
@@ -127,9 +128,10 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
 
         context.coordinator.handlePowerEvent(.charger)
 
-        try? await Task.sleep(for: .milliseconds(100))
-        await MainActor.run {
-            XCTAssertNil(context.notchViewModel.notchModel.temporaryNotificationContent)
+        await assertEventually {
+            await MainActor.run {
+                context.notchViewModel.notchModel.temporaryNotificationContent?.id == NotchContentRegistry.Power.charger.id
+            }
         }
     }
 
@@ -495,7 +497,7 @@ private extension NotchEventCoordinatorIntegrationTests {
         UserDefaults.standard.set(nowPlayingPauseHideTimerEnabled, forKey: "settings.nowPlaying.pauseHideTimerEnabled")
         UserDefaults.standard.set(nowPlayingPauseHideDelay, forKey: "settings.nowPlaying.pauseHideDelay")
         UserDefaults.standard.set(true, forKey: "settings.live.downloads")
-        UserDefaults.standard.set(dragAndDropEnabled, forKey: "settings.live.airDrop")
+        UserDefaults.standard.set(dragAndDropEnabled, forKey: "settings.live.dragAndDrop")
         UserDefaults.standard.set(dragAndDropActivityMode.rawValue, forKey: "settings.live.dragAndDrop.mode")
         UserDefaults.standard.set(trayLiveActivityEnabled, forKey: "settings.live.tray")
         UserDefaults.standard.set(true, forKey: "settings.live.fileConverter")

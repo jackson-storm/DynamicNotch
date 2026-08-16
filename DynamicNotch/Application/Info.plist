@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Мы используем камеру для отображения превью</string>
+	<string>DynamicNotch needs access to your camera to display a camera preview in the notch.</string>
 	<key>NSCalendarsUsageDescription</key>
 	<string>DynamicNotch needs access to your calendar to display upcoming events in the notch.</string>
 	<key>NSCalendarsFullAccessUsageDescription</key>

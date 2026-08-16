@@ -117,7 +117,10 @@ final class LockScreenManager: ObservableObject {
     }
 
     private func handleSessionDidBecomeActive() {
-        guard !isLocked else { return }
+        if isLocked {
+            apply(lockState: false)
+            return
+        }
 
         if isPreparingLock {
             isPreparingLock = false

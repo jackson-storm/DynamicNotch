@@ -1,4 +1,5 @@
 import SwiftUI
+import UniformTypeIdentifiers
 
 extension AppDelegate {
     func createNotchWindow() {
@@ -48,6 +49,7 @@ extension AppDelegate {
         )
         SkyLightOperator.shared.delegateWindow(window, to: .notchSurface)
         updateWindowFrame()
+        reRegisterDragDestination(for: window)
     }
 
     @objc
@@ -81,11 +83,8 @@ extension AppDelegate {
         notchViewModel.isLocked = true
         airDropController.resetTargetState()
         clearNowPlayingPrimaryWindowPresentationState()
-        notchViewModel.setActivityPresentationHidden(false)
         
-        window.level = OverlayWindowLevel.lockScreenNotch
-        SkyLightOperator.shared.delegateWindow(window, to: .lockScreenNotchOverlay)
-        window.orderFrontRegardless()
+        window.orderOut(nil)
     }
 
     func restorePrimaryWindowForUnlockTransition() {
@@ -95,14 +94,16 @@ extension AppDelegate {
         notchViewModel.isLocked = false
         airDropController.resetTargetState()
         
-        window.level = OverlayWindowLevel.interactiveNotch
-        SkyLightOperator.shared.delegateWindow(window, to: .notchSurface)
         updateWindowFrame()
         reRegisterDragDestination(for: window)
     }
 
     func reRegisterDragDestination(for window: NSWindow) {
-        window.unregisterDraggedTypes()
+        let dragTypes: [NSPasteboard.PasteboardType] = [
+            .fileURL,
+            .URL,
+            NSPasteboard.PasteboardType(UTType.data.identifier)
+        ]
 
         func notifyViews(_ view: NSView) {
             if let dragView = view as? DragAndDropView {
@@ -113,14 +114,20 @@ extension AppDelegate {
             }
         }
 
-        if let contentView = window.contentView {
-            notifyViews(contentView)
-        }
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            window.unregisterDraggedTypes()
+        func performRegistration() {
+            window.registerForDraggedTypes(dragTypes)
             if let contentView = window.contentView {
                 notifyViews(contentView)
+            }
+        }
+
+        // Immediate pass
+        performRegistration()
+
+        // Staggered passes to ensure WindowServer space transition has finished
+        for delay in [0.2, 0.6, 1.0] {
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+                performRegistration()
             }
         }
     }

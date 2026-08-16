@@ -74,13 +74,14 @@ final class DragAndDropView: NSView {
     }
 
     func registerTypes() {
-        unregisterDraggedTypes()
-        window?.unregisterDraggedTypes()
-        registerForDraggedTypes([
+        let dragTypes: [NSPasteboard.PasteboardType] = [
             .fileURL,
             .URL,
             NSPasteboard.PasteboardType(UTType.data.identifier)
-        ])
+        ]
+        unregisterDraggedTypes()
+        registerForDraggedTypes(dragTypes)
+        window?.registerForDraggedTypes(dragTypes)
     }
 
     override func viewDidMoveToWindow() {
@@ -97,6 +98,12 @@ final class DragAndDropView: NSView {
             queue: .main
         ) { [weak self] _ in
             self?.registerTypes()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                self?.registerTypes()
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                self?.registerTypes()
+            }
         }
 
         screenUnlockObserver = DistributedNotificationCenter.default().addObserver(
@@ -105,6 +112,12 @@ final class DragAndDropView: NSView {
             queue: .main
         ) { [weak self] _ in
             self?.registerTypes()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                self?.registerTypes()
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                self?.registerTypes()
+            }
         }
     }
 

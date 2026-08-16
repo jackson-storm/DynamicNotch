@@ -148,6 +148,7 @@ The project currently includes localized app content for:
 - Simplified Chinese
 - Turkish
 - German
+- French
 
 ## 💖 Support
 

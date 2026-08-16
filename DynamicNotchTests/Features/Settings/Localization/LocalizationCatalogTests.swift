@@ -87,6 +87,7 @@ final class LocalizationCatalogTests: XCTestCase {
         XCTAssertEqual(DynamicNotchLanguage.resolved("klingon"), .system)
         XCTAssertEqual(DynamicNotchLanguage.resolved("tr"), .turkish)
         XCTAssertEqual(DynamicNotchLanguage.resolved("de"), .german)
+        XCTAssertEqual(DynamicNotchLanguage.resolved("fr"), .french)
     }
 }
 

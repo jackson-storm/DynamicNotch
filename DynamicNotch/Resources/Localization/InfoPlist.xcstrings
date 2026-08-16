@@ -51,6 +51,12 @@
             "state": "translated",
             "value": "Wir benötigen Zugriff auf Mediendaten zur Anzeige in der Notch."
           }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nous avons besoin d'accéder aux données multimédias pour les afficher dans l'encoche."
+          }
         }
       }
     },
@@ -91,6 +97,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Die App benötigt Bluetooth-Zugriff, um den Status von Geräten zu überprüfen."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L'application a besoin de l'accès Bluetooth pour vérifier l'état des appareils."
           }
         }
       }
@@ -133,6 +145,12 @@
             "state": "translated",
             "value": "DynamicNotch benötigt Zugriff auf Ihren Kalender, um anstehende Ereignisse in der Notch anzuzeigen."
           }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch a besoin d'accéder à votre calendrier pour afficher les événements à venir dans l'encoche."
+          }
         }
       }
     },
@@ -174,6 +192,12 @@
             "state": "translated",
             "value": "DynamicNotch benötigt Zugriff auf Ihren Kalender, um anstehende Ereignisse in der Notch anzuzeigen."
           }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch a besoin d'accéder à votre calendrier pour afficher les événements à venir dans l'encoche."
+          }
         }
       }
     },
@@ -214,6 +238,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "DynamicNotch benötigt Zugriff auf Ihre Kamera, um eine Kameravorschau in der Notch anzuzeigen."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch a besoin d'accéder à votre caméra pour afficher un aperçu de la caméra dans l'encoche."
           }
         }
       }
@@ -267,6 +297,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Die App benötigt Zugriff auf das lokale Netzwerk, um den Namen Ihres aktuellen WLAN-Netzwerks zu ermitteln."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L'application a besoin de l'accès au réseau local pour déterminer le nom de votre réseau Wi-Fi actuel."
           }
         }
       }

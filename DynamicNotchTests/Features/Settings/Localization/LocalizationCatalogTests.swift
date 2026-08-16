@@ -90,6 +90,11 @@ final class LocalizationCatalogTests: XCTestCase {
         XCTAssertEqual(DynamicNotchLanguage.resolved("fr"), .french)
         XCTAssertEqual(DynamicNotchLanguage.resolved("pt"), .portuguese)
         XCTAssertEqual(DynamicNotchLanguage.resolved("ja"), .japanese)
+        XCTAssertEqual(DynamicNotchLanguage.resolved("ko"), .korean)
+        XCTAssertEqual(DynamicNotchLanguage.resolved("it"), .italian)
+        XCTAssertEqual(DynamicNotchLanguage.resolved("pl"), .polish)
+        XCTAssertEqual(DynamicNotchLanguage.resolved("vi"), .vietnamese)
+        XCTAssertEqual(DynamicNotchLanguage.resolved("id"), .indonesian)
     }
 }
 

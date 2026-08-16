@@ -69,6 +69,36 @@
             "state": "translated",
             "value": "ノッチにメディア再生情報を表示するためにメディアデータへのアクセスが必要です。"
           }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "노치에 미디어 재생 정보를 표시하려면 미디어 데이터 접근 권한이 필요합니다."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "È necessario l'accesso ai dati multimediali per visualizzarli nel notch."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wymagany jest dostęp do danych multimediów w celu ich wyświetlania w notchu."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cần quyền truy cập dữ liệu phương tiện để hiển thị trên notch."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Memerlukan akses ke data media untuk menampilkannya di notch."
+          }
         }
       }
     },
@@ -127,6 +157,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "デバイスの状態を確認するためにBluetoothアクセスが必要です。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "기기 상태를 확인하려면 Bluetooth 접근 권한이 필요합니다."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L'app richiede l'accesso Bluetooth per verificare lo stato dei dispositivi."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aplikacja wymaga dostępu do Bluetooth, aby sprawdzać stan urządzeń."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ứng dụng cần quyền truy cập Bluetooth để kiểm tra trạng thái thiết bị."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aplikasi memerlukan akses Bluetooth untuk memeriksa status perangkat."
           }
         }
       }
@@ -187,6 +247,36 @@
             "state": "translated",
             "value": "ノッチに予定を表示するためにカレンダーへのアクセスが必要です。"
           }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch가 예정된 이벤트를 노치에 표시하려면 캘린더 접근 권한이 필요합니다."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch ha bisogno dell'accesso al calendario per mostrare i prossimi eventi nel notch."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch wymaga dostępu do kalendarza, aby wyświetlać nadchodzące wydarzenia w notchu."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch cần quyền truy cập lịch để hiển thị các sự kiện sắp tới trên notch."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch memerlukan akses ke kalender untuk menampilkan acara mendatang di notch."
+          }
         }
       }
     },
@@ -246,6 +336,36 @@
             "state": "translated",
             "value": "ノッチに予定を表示するためにカレンダーへのアクセスが必要です。"
           }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch가 예정된 이벤트를 노치에 표시하려면 캘린더 접근 권한이 필요합니다."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch ha bisogno dell'accesso al calendario per mostrare i prossimi eventi nel notch."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch wymaga dostępu do kalendarza, aby wyświetlać nadchodzące wydarzenia w notchu."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch cần quyền truy cập lịch để hiển thị các sự kiện sắp tới trên notch."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch memerlukan akses ke kalender untuk menampilkan acara mendatang di notch."
+          }
         }
       }
     },
@@ -304,6 +424,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "ノッチにプレビューを表示するためにカメラへのアクセスが必要です。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch가 노치에 카메라 미리보기를 표시하려면 카메라 접근 권한이 필요합니다."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch ha bisogno dell'accesso alla fotocamera per mostrare l'anteprima nel notch."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch wymaga dostępu do kamery, aby wyświetlać podgląd w notchu."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch cần quyền truy cập camera để hiển thị bản xem trước trên notch."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch memerlukan akses ke kamera untuk menampilkan pratinjau di notch."
           }
         }
       }
@@ -375,6 +525,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "現在のWi-Fiネットワーク名を特定するためにローカルネットワークへのアクセスが必要です。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "현재 Wi-Fi 네트워크 이름을 확인하려면 로컬 네트워크 접근 권한이 필요합니다."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L'app richiede l'accesso alla rete locale per identificare il nome della rete Wi-Fi attuale."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aplikacja wymaga dostępu do sieci lokalnej, aby określić nazwę bieżącej sieci Wi-Fi."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ứng dụng cần quyền truy cập mạng cục bộ để xác định tên mạng Wi-Fi hiện tại."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aplikasi memerlukan akses ke jaringan lokal untuk mengidentifikasi nama jaringan Wi-Fi saat ini."
           }
         }
       }

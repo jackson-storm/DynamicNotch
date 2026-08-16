@@ -151,6 +151,11 @@ The project currently includes localized app content for:
 - French
 - Portuguese
 - Japanese
+- Korean
+- Italian
+- Polish
+- Vietnamese
+- Indonesian
 
 ## 💖 Support
 

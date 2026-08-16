@@ -1,216 +1,240 @@
 {
-  "sourceLanguage": "en",
-  "strings": {
-    "NSAppleEventsUsageDescription": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "We need access to media data for display in Notch."
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Требуется доступ к медиаданным для отображения в вырезе."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Se necesita acceso a los datos multimedia para mostrarlos en la muesca."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "需要访问媒体数据，以便在刘海中显示。"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Çentikte gösterebilmek için ortam verilerine erişim gerekiyor."
+  "sourceLanguage" : "en",
+  "strings" : {
+    "CFBundleName" : {
+      "comment" : "Bundle name",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "DynamicNotch"
           }
         }
       }
     },
-    "NSBluetoothAlwaysUsageDescription": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "The app requires Bluetooth access to check the status of devices."
+    "NSAppleEventsUsageDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We need access to media data for display in Notch."
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Приложению требуется доступ к Bluetooth для проверки состояния устройств."
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se necesita acceso a los datos multimedia para mostrarlos en la muesca."
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "La aplicación necesita acceso a Bluetooth para comprobar el estado de los dispositivos."
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Требуется доступ к медиаданным для отображения в вырезе."
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "应用需要蓝牙访问权限，以检查设备状态。"
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Çentikte gösterebilmek için ortam verilerine erişim gerekiyor."
           }
         },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Uygulama, aygıtların durumunu denetlemek için Bluetooth erişimine ihtiyaç duyuyor."
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "需要访问媒体数据，以便在刘海中显示。"
           }
         }
       }
     },
-    "NSCalendarsFullAccessUsageDescription": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch needs access to your calendar to display upcoming events in the notch."
+    "NSBluetoothAlwaysUsageDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The app requires Bluetooth access to check the status of devices."
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch требуется доступ к календарю для отображения предстоящих событий в вырезе."
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La aplicación necesita acceso a Bluetooth para comprobar el estado de los dispositivos."
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch necesita acceder a tu calendario para mostrar los próximos eventos en la muesca."
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приложению требуется доступ к Bluetooth для проверки состояния устройств."
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch 需要访问你的日历，以便在刘海中显示即将到来的事件。"
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulama, aygıtların durumunu denetlemek için Bluetooth erişimine ihtiyaç duyuyor."
           }
         },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch, yaklaşan etkinlikleri çentikte göstermek için takviminize erişmek istiyor."
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "应用需要蓝牙访问权限，以检查设备状态。"
           }
         }
       }
     },
-    "NSCalendarsUsageDescription": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch needs access to your calendar to display upcoming events in the notch."
+    "NSCalendarsFullAccessUsageDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch needs access to your calendar to display upcoming events in the notch."
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch требуется доступ к календарю для отображения предстоящих событий в вырезе."
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch necesita acceder a tu calendario para mostrar los próximos eventos en la muesca."
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch necesita acceder a tu calendario para mostrar los próximos eventos en la muesca."
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch требуется доступ к календарю для отображения предстоящих событий в вырезе."
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch 需要访问你的日历，以便在刘海中显示即将到来的事件。"
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch, yaklaşan etkinlikleri çentikte göstermek için takviminize erişmek istiyor."
           }
         },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch, yaklaşan etkinlikleri çentikte göstermek için takviminize erişmek istiyor."
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch 需要访问你的日历，以便在刘海中显示即将到来的事件。"
           }
         }
       }
     },
-    "NSCameraUsageDescription": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch needs access to your camera to display a camera preview in the notch."
+    "NSCalendarsUsageDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch needs access to your calendar to display upcoming events in the notch."
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch требуется доступ к камере для отображения превью камеры в вырезе."
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch necesita acceder a tu calendario para mostrar los próximos eventos en la muesca."
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch necesita acceder a tu cámara para mostrar una vista previa en la muesca."
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch требуется доступ к календарю для отображения предстоящих событий в вырезе."
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch 需要访问你的相机，以便在刘海中显示相机预览。"
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch, yaklaşan etkinlikleri çentikte göstermek için takviminize erişmek istiyor."
           }
         },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch, çentikte kamera önizlemesi göstermek için kameranıza erişmek istiyor."
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch 需要访问你的日历，以便在刘海中显示即将到来的事件。"
           }
         }
       }
     },
-    "NSLocalNetworkUsageDescription": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "The app requires local network access to determine the name of your current Wi-Fi network."
+    "NSCameraUsageDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch needs access to your camera to display a camera preview in the notch."
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Приложению требуется доступ к локальной сети, чтобы определить название вашей текущей сети Wi-Fi."
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch necesita acceder a tu cámara para mostrar una vista previa en la muesca."
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "La aplicación necesita acceso a la red local para determinar el nombre de tu red Wi-Fi actual."
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch требуется доступ к камере для отображения превью камеры в вырезе."
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "应用需要本地网络访问权限，以确定你当前 Wi-Fi 网络的名称。"
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch, çentikte kamera önizlemesi göstermek için kameranıza erişmek istiyor."
           }
         },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Uygulama, geçerli Wi-Fi ağınızın adını belirlemek için yerel ağ erişimine ihtiyaç duyuyor."
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch 需要访问你的相机，以便在刘海中显示相机预览。"
+          }
+        }
+      }
+    },
+    "NSHumanReadableCopyright" : {
+      "comment" : "Copyright (human-readable)",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : ""
+          }
+        }
+      }
+    },
+    "NSLocalNetworkUsageDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The app requires local network access to determine the name of your current Wi-Fi network."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La aplicación necesita acceso a la red local para determinar el nombre de tu red Wi-Fi actual."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приложению требуется доступ к локальной сети, чтобы определить название вашей текущей сети Wi-Fi."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulama, geçerli Wi-Fi ağınızın adını belirlemek için yerel ağ erişimine ihtiyaç duyuyor."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "应用需要本地网络访问权限，以确定你当前 Wi-Fi 网络的名称。"
           }
         }
       }
     }
   },
-  "version": "1.1"
+  "version" : "1.1"
 }

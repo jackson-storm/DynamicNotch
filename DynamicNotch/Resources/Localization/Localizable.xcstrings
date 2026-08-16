@@ -50,7 +50,39 @@
       "extractionState": "manual"
     },
     "All": {
-      "extractionState": "manual"
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "All"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Все"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Todo"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "全部"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tümü"
+          }
+        }
+      }
     },
     "All Day": {
       "extractionState": "manual"
@@ -168,7 +200,39 @@
       "extractionState": "manual"
     },
     "If the original is moved to the tray and deleted from there, you can restore it in the system trash.": {
-      "extractionState": "manual"
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "If the original is moved to the tray and deleted from there, you can restore it in the system trash."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Если оригинал перемещён в Лоток и удалён оттуда, вы сможете восстановить его в Корзине системы."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Si el original se mueve a la Bandeja y se elimina desde allí, podrás recuperarlo en la papelera del sistema."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "如果原始文件被移到托盘并从那里删除，你可以在系统废纸篓中恢复它。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Orijinal dosya Tepsi'ye taşınıp oradan silinirse, sistem çöp kutusundan geri alabilirsiniz."
+          }
+        }
+      }
     },
     "Join Meeting": {
       "extractionState": "manual"
@@ -192,7 +256,39 @@
       "extractionState": "manual"
     },
     "No VPN configurations found on this Mac. Please add a VPN connection in System Settings -> VPN first.": {
-      "extractionState": "manual"
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No VPN configurations found on this Mac. Please add a VPN connection in System Settings -> VPN first."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "На этом Mac не найдено конфигураций VPN. Сначала добавьте VPN-подключение в Системных настройках -> VPN."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se encontraron configuraciones de VPN en este Mac. Primero añade una conexión VPN en Ajustes del Sistema -> VPN."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在此 Mac 上未找到 VPN 配置。请先在系统设置 -> VPN 中添加 VPN 连接。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu Mac'te VPN yapılandırması bulunamadı. Önce Sistem Ayarları -> VPN bölümünden bir VPN bağlantısı ekleyin."
+          }
+        }
+      }
     },
     "No upcoming events": {
       "extractionState": "manual"
@@ -255,7 +351,39 @@
       "extractionState": "manual"
     },
     "Select the VPN connection that you want to control from the notch.": {
-      "extractionState": "manual"
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select the VPN connection that you want to control from the notch."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выберите VPN-подключение, которым хотите управлять из выреза."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elige la conexión VPN que quieres controlar desde la muesca."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择你想从刘海中控制的 VPN 连接。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çentikten denetlemek istediğiniz VPN bağlantısını seçin."
+          }
+        }
+      }
     },
     "Send the Now Playing playback-state changed event for pause.": {
       "extractionState": "manual"
@@ -419,6 +547,12 @@
             "state": "translated",
             "value": "取消"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vazgeç"
+          }
         }
       }
     },
@@ -447,6 +581,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "退出"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çık"
           }
         }
       }
@@ -477,6 +617,12 @@
             "state": "translated",
             "value": "重新启动"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yeniden Başlat"
+          }
         }
       }
     },
@@ -505,6 +651,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "设置"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayarlar"
           }
         }
       }
@@ -535,6 +687,12 @@
             "state": "translated",
             "value": "版本: %@"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sürüm: %@"
+          }
         }
       }
     },
@@ -563,6 +721,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "联系我"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bana Ulaşın"
           }
         }
       }
@@ -593,6 +757,12 @@
             "state": "translated",
             "value": "将您的 MacBook 齐刘海转变为实时交互界面。通过流畅的动画控制媒体、跟踪下载、管理计时器并监控系统事件。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MacBook çentiğinizi canlı ve etkileşimli bir yüzeye dönüştürün. Akıcı animasyonlarla ortamı denetleyin, indirmeleri izleyin, zamanlayıcıları yönetin ve sistem olaylarını takip edin."
+          }
         }
       }
     },
@@ -621,6 +791,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "发送邮件"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "E-posta gönderin"
           }
         }
       }
@@ -651,6 +827,12 @@
             "state": "translated",
             "value": "邮箱地址"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "E-posta Adresi"
+          }
         }
       }
     },
@@ -679,6 +861,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "在 GitHub 上为项目加星"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Projeye GitHub'da yıldız verin"
           }
         }
       }
@@ -709,6 +897,12 @@
             "state": "translated",
             "value": "GitHub 仓库"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GitHub Deposu"
+          }
         }
       }
     },
@@ -737,6 +931,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "在 Telegram 上发送私信"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Telegram'dan doğrudan mesaj gönderin"
           }
         }
       }
@@ -767,6 +967,12 @@
             "state": "translated",
             "value": "Telegram 账号"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Telegram Hesabı"
+          }
         }
       }
     },
@@ -795,6 +1001,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "加入我们的 Telegram 频道"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Telegram kanalımıza katılın"
           }
         }
       }
@@ -825,6 +1037,12 @@
             "state": "translated",
             "value": "Telegram 频道"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Telegram Kanalı"
+          }
         }
       }
     },
@@ -853,6 +1071,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "打开 DynamicNotch 网站"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch web sitesini açın"
           }
         }
       }
@@ -883,6 +1107,12 @@
             "state": "translated",
             "value": "网站"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Web Sitesi"
+          }
         }
       }
     },
@@ -911,6 +1141,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "锁定声音"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kilitleme Sesi"
           }
         }
       }
@@ -941,6 +1177,12 @@
             "state": "translated",
             "value": "解锁声音"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kilit Açma Sesi"
+          }
         }
       }
     },
@@ -969,6 +1211,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "选择应用使用的界面外观。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulamanın kullandığı arayüz görünümünü seçin."
           }
         }
       }
@@ -999,6 +1247,12 @@
             "state": "translated",
             "value": "主题"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tema"
+          }
         }
       }
     },
@@ -1027,6 +1281,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "电池活动"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pil etkinliği"
           }
         }
       }
@@ -1057,6 +1317,12 @@
             "state": "translated",
             "value": "电池显示时长"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pil süresi"
+          }
         }
       }
     },
@@ -1085,6 +1351,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "充满电"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dolu pil"
           }
         }
       }
@@ -1115,6 +1387,12 @@
             "state": "translated",
             "value": "低电量"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Düşük pil"
+          }
         }
       }
     },
@@ -1143,6 +1421,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Mac 开始充电时显示临时活动。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac'iniz şarj olmaya başladığında geçici bir etkinlik göster."
           }
         }
       }
@@ -1173,6 +1457,12 @@
             "state": "translated",
             "value": "充电"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Şarj oluyor"
+          }
         }
       }
     },
@@ -1201,6 +1491,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "选择充电通知的显示时长。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Şarj bildiriminin ne kadar süre görünür kalacağını seçin."
           }
         }
       }
@@ -1231,6 +1527,12 @@
             "state": "translated",
             "value": "充电通知时长"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Şarj süresi"
+          }
         }
       }
     },
@@ -1259,6 +1561,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "满电通知时长"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dolu pil süresi"
           }
         }
       }
@@ -1289,6 +1597,12 @@
             "state": "translated",
             "value": "满电声音"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dolu pil sesi"
+          }
         }
       }
     },
@@ -1317,6 +1631,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "电池充满时播放音频。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pil tamamen dolduğunda ses çal."
           }
         }
       }
@@ -1347,6 +1667,12 @@
             "state": "translated",
             "value": "选择警报使用当前详细卡片还是紧凑的充电式布局。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uyarının ayrıntılı kartı mı yoksa şarj benzeri kompakt bir düzeni mi kullanacağını seçin."
+          }
         }
       }
     },
@@ -1375,6 +1701,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "满电样式"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dolu pil stili"
           }
         }
       }
@@ -1405,6 +1737,12 @@
             "state": "translated",
             "value": "选择触发满电通知的电池百分比。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tam şarj bildirimini tetikleyen pil yüzdesini seçin."
+          }
         }
       }
     },
@@ -1433,6 +1771,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "满电阈值"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tam şarj eşiği"
           }
         }
       }
@@ -1463,6 +1807,12 @@
             "state": "translated",
             "value": "选择满电通知的显示时长。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dolu pil bildiriminin ne kadar süre görünür kalacağını seçin."
+          }
         }
       }
     },
@@ -1491,6 +1841,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "电池达到选定的满电水平时显示临时活动。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pil, seçilen tam şarj düzeyine ulaştığında geçici bir etkinlik göster."
           }
         }
       }
@@ -1521,6 +1877,12 @@
             "state": "translated",
             "value": "已充满"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tamamen Doldu"
+          }
         }
       }
     },
@@ -1549,6 +1911,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "低电量通知时长"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Düşük pil süresi"
           }
         }
       }
@@ -1579,6 +1947,12 @@
             "state": "translated",
             "value": "低电量声音"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Düşük pil sesi"
+          }
         }
       }
     },
@@ -1607,6 +1981,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "电量低时播放音频。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pil azaldığında ses çal."
           }
         }
       }
@@ -1637,6 +2017,12 @@
             "state": "translated",
             "value": "选择警报使用当前详细卡片还是紧凑的充电式布局。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uyarının ayrıntılı kartı mı yoksa şarj benzeri kompakt bir düzeni mi kullanacağını seçin."
+          }
         }
       }
     },
@@ -1665,6 +2051,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "低电量样式"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Düşük pil stili"
           }
         }
       }
@@ -1695,6 +2087,12 @@
             "state": "translated",
             "value": "选择触发低电量通知的电池百分比。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Düşük pil bildirimini tetikleyen pil yüzdesini seçin."
+          }
         }
       }
     },
@@ -1723,6 +2121,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "低电量模式启用或电池电量严重不足时显示警告。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Düşük Güç Modu etkinleştirildiğinde veya pil kritik düzeyde azaldığında uyarı göster."
           }
         }
       }
@@ -1753,6 +2157,12 @@
             "state": "translated",
             "value": "低电量"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Düşük Güç"
+          }
         }
       }
     },
@@ -1781,6 +2191,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "选择低电量通知的显示时长。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Düşük pil bildiriminin ne kadar süre görünür kalacağını seçin."
           }
         }
       }
@@ -1811,6 +2227,12 @@
             "state": "translated",
             "value": "低电量阈值"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Düşük pil eşiği"
+          }
         }
       }
     },
@@ -1839,6 +2261,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "紧凑"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kompakt"
           }
         }
       }
@@ -1869,6 +2297,12 @@
             "state": "translated",
             "value": "标准"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Standart"
+          }
         }
       }
     },
@@ -1897,6 +2331,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "紧凑"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kompakt"
           }
         }
       }
@@ -1927,6 +2367,12 @@
             "state": "translated",
             "value": "详细"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayrıntılı"
+          }
         }
       }
     },
@@ -1955,6 +2401,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "使用当前电池电量颜色为蓝牙电池样式着色。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bluetooth pil stillerini geçerli pil düzeyi rengiyle renklendir."
           }
         }
       }
@@ -1985,6 +2437,12 @@
             "state": "translated",
             "value": "电池色描边"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pil renkli kenarlık"
+          }
         }
       }
     },
@@ -2013,6 +2471,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "电池指示器"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pil göstergesi"
           }
         }
       }
@@ -2043,6 +2507,12 @@
             "state": "translated",
             "value": "选择蓝牙电池信息以百分比还是圆形指示器显示。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bluetooth pil bilgisinin yüzde olarak mı yoksa dairesel gösterge olarak mı gösterileceğini seçin."
+          }
         }
       }
     },
@@ -2071,6 +2541,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "圆形"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daire"
           }
         }
       }
@@ -2101,6 +2577,12 @@
             "state": "translated",
             "value": "百分比"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yüzde"
+          }
         }
       }
     },
@@ -2129,6 +2611,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "蓝牙活动"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bluetooth etkinliği"
           }
         }
       }
@@ -2159,6 +2647,12 @@
             "state": "translated",
             "value": "蓝牙外观"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bluetooth görünümü"
+          }
         }
       }
     },
@@ -2187,6 +2681,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "蓝牙显示时长"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bluetooth süresi"
           }
         }
       }
@@ -2217,6 +2717,12 @@
             "state": "translated",
             "value": "蓝牙通知时长"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bluetooth süresi"
+          }
         }
       }
     },
@@ -2245,6 +2751,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "选择蓝牙连接通知的显示时长。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bluetooth bağlantı bildiriminin ne kadar süre görünür kalacağını seçin."
           }
         }
       }
@@ -2275,6 +2787,12 @@
             "state": "translated",
             "value": "在以设备为中心的布局或完整设备详情之间选择。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aygıt odaklı bir düzen ile tüm aygıt ayrıntıları arasında seçim yapın."
+          }
         }
       }
     },
@@ -2303,6 +2821,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "蓝牙样式"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bluetooth stili"
           }
         }
       }
@@ -2333,6 +2857,12 @@
             "state": "translated",
             "value": "蓝牙临时活动"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bluetooth geçici etkinliği"
+          }
         }
       }
     },
@@ -2361,6 +2891,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "蓝牙配件连接时显示临时活动。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir Bluetooth aksesuarı bağlandığında geçici bir etkinlik göster."
           }
         }
       }
@@ -2391,6 +2927,12 @@
             "state": "translated",
             "value": "在刘海中显示即将到来的日历事件。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yaklaşan takvim etkinliklerini çentikte göster."
+          }
         }
       }
     },
@@ -2419,6 +2961,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "日历实时活动"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Takvim canlı etkinliği"
           }
         }
       }
@@ -2449,6 +2997,12 @@
             "state": "translated",
             "value": "日历活动"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Takvim etkinliği"
+          }
         }
       }
     },
@@ -2477,6 +3031,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "显示选项"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Görüntüleme seçenekleri"
           }
         }
       }
@@ -2507,6 +3067,12 @@
             "state": "translated",
             "value": "隐私与通知"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gizlilik ve bildirimler"
+          }
         }
       }
     },
@@ -2535,6 +3101,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "提前 10 分钟"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10 dakika önce"
           }
         }
       }
@@ -2565,6 +3137,12 @@
             "state": "translated",
             "value": "提前 15 分钟"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "15 dakika önce"
+          }
         }
       }
     },
@@ -2593,6 +3171,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "提前 30 分钟"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "30 dakika önce"
           }
         }
       }
@@ -2623,6 +3207,12 @@
             "state": "translated",
             "value": "提前 5 分钟"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5 dakika önce"
+          }
         }
       }
     },
@@ -2651,6 +3241,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "事件开始时"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etkinlik saatinde"
           }
         }
       }
@@ -2681,6 +3277,12 @@
             "state": "translated",
             "value": "选择事件开始前多早显示提醒。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etkinlik uyarısının başlamadan ne kadar önce görüneceğini seçin."
+          }
         }
       }
     },
@@ -2709,6 +3311,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "提前 1 小时"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 saat önce"
           }
         }
       }
@@ -2739,6 +3347,12 @@
             "state": "translated",
             "value": "提醒时间"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uyarı zamanı"
+          }
         }
       }
     },
@@ -2767,6 +3381,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "开始 10 分钟后"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Başlangıçtan 10 dakika sonra"
           }
         }
       }
@@ -2797,6 +3417,12 @@
             "state": "translated",
             "value": "开始 15 分钟后"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Başlangıçtan 15 dakika sonra"
+          }
         }
       }
     },
@@ -2825,6 +3451,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "开始 5 分钟后"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Başlangıçtan 5 dakika sonra"
           }
         }
       }
@@ -2855,6 +3487,12 @@
             "state": "translated",
             "value": "直到事件结束"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etkinlik bitene kadar"
+          }
         }
       }
     },
@@ -2883,6 +3521,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "选择何时隐藏进行中的事件活动。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Devam eden bir etkinliğin ne zaman gizleneceğini seçin."
           }
         }
       }
@@ -2913,6 +3557,12 @@
             "state": "translated",
             "value": "进行中的事件隐藏时间"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Devam eden etkinliği gizleme zamanı"
+          }
         }
       }
     },
@@ -2941,6 +3591,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "隐藏事件标题，仅显示时间块。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etkinlik başlıklarını gizle, yalnızca zaman bloklarını göster."
           }
         }
       }
@@ -2971,6 +3627,12 @@
             "state": "translated",
             "value": "隐私模式"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gizlilik modu"
+          }
         }
       }
     },
@@ -2999,6 +3661,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "事件提醒出现时播放声音。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etkinlik uyarısı göründüğünde ses çal."
           }
         }
       }
@@ -3029,6 +3697,12 @@
             "state": "translated",
             "value": "声音提醒"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sesli uyarı"
+          }
         }
       }
     },
@@ -3057,6 +3731,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "精确与相对时间"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tam ve göreli zaman"
           }
         }
       }
@@ -3087,6 +3767,12 @@
             "state": "translated",
             "value": "选择事件时间在刘海中的显示方式。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etkinlik saatlerinin çentikte nasıl gösterileceğini seçin."
+          }
         }
       }
     },
@@ -3115,6 +3801,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "精确时间"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tam zaman"
           }
         }
       }
@@ -3145,6 +3837,12 @@
             "state": "translated",
             "value": "相对时间"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Göreli zaman"
+          }
         }
       }
     },
@@ -3173,6 +3871,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "时间显示格式"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zaman gösterim biçimi"
           }
         }
       }
@@ -3203,6 +3907,12 @@
             "state": "translated",
             "value": "更改"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Değiştir"
+          }
         }
       }
     },
@@ -3231,6 +3941,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "选择"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seç"
           }
         }
       }
@@ -3261,6 +3977,12 @@
             "state": "translated",
             "value": "选择"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seç"
+          }
         }
       }
     },
@@ -3289,6 +4011,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "持久事件"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kalıcı Olaylar"
           }
         }
       }
@@ -3319,6 +4047,12 @@
             "state": "translated",
             "value": "触发事件"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Olayları Tetikle"
+          }
         }
       }
     },
@@ -3347,6 +4081,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "实用工具"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Araçlar"
           }
         }
       }
@@ -3377,6 +4117,12 @@
             "state": "translated",
             "value": "下载活动"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İndirme etkinliği"
+          }
         }
       }
     },
@@ -3405,6 +4151,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "下载外观"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İndirme görünümü"
           }
         }
       }
@@ -3435,6 +4187,12 @@
             "state": "translated",
             "value": "在文件下载到监控文件夹（如下载、桌面和文稿）时显示实时活动。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İndirilenler, Masaüstü ve Belgeler gibi izlenen klasörlere dosya indirilirken canlı etkinlik göster."
+          }
         }
       }
     },
@@ -3463,6 +4221,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "下载实时活动"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İndirilenler canlı etkinliği"
           }
         }
       }
@@ -3493,6 +4257,12 @@
             "state": "translated",
             "value": "选择下载进度使用百分比标签还是圆环。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İndirme ilerlemesinin yüzde etiketi mi yoksa dairesel halka mı kullanacağını seçin."
+          }
         }
       }
     },
@@ -3521,6 +4291,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "进度指示器"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İlerleme göstergesi"
           }
         }
       }
@@ -3551,6 +4327,12 @@
             "state": "translated",
             "value": "圆形"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daire"
+          }
         }
       }
     },
@@ -3579,6 +4361,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "百分比"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yüzde"
           }
         }
       }
@@ -3609,6 +4397,12 @@
             "state": "translated",
             "value": "通过 AirDrop 传输文件时在刘海中显示实时活动。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AirDrop ile dosya aktarılırken çentikte canlı etkinlik göster."
+          }
         }
       }
     },
@@ -3637,6 +4431,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "AirDrop 实时活动"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AirDrop canlı etkinliği"
           }
         }
       }
@@ -3667,6 +4467,12 @@
             "state": "translated",
             "value": "Drag&Drop 活动"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sürükle&Bırak etkinliği"
+          }
         }
       }
     },
@@ -3695,6 +4501,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Drag&Drop 目标"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sürükle&Bırak hedefi"
           }
         }
       }
@@ -3725,6 +4537,12 @@
             "state": "translated",
             "value": "托盘外观"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tepsi görünümü"
+          }
         }
       }
     },
@@ -3753,6 +4571,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "将文件拖到刘海上方时显示 AirDrop 和托盘目标。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dosyaları çentiğin üzerine sürüklediğinizde AirDrop ve Tepsi hedeflerini göster."
           }
         }
       }
@@ -3783,6 +4607,12 @@
             "state": "translated",
             "value": "拖放实时活动"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sürükle&Bırak canlı etkinliği"
+          }
         }
       }
     },
@@ -3811,6 +4641,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "仅 AirDrop"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yalnızca AirDrop"
           }
         }
       }
@@ -3841,6 +4677,12 @@
             "state": "translated",
             "value": "AirDrop 与托盘"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AirDrop ve Tepsi"
+          }
         }
       }
     },
@@ -3869,6 +4711,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "仅托盘"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yalnızca Tepsi"
           }
         }
       }
@@ -3899,6 +4747,12 @@
             "state": "translated",
             "value": "水平"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yatay"
+          }
         }
       }
     },
@@ -3927,6 +4781,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "垂直"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dikey"
           }
         }
       }
@@ -3957,6 +4817,12 @@
             "state": "translated",
             "value": "复制"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kopyala"
+          }
         }
       }
     },
@@ -3985,6 +4851,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "移动原文件"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Orijinalleri taşı"
           }
         }
       }
@@ -4015,6 +4887,12 @@
             "state": "translated",
             "value": "在展开的托盘中隐藏文件卡片上的 x 按钮。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Genişletilmiş Tepsi'deki dosya kartlarında x düğmesini gizle."
+          }
         }
       }
     },
@@ -4043,6 +4921,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "隐藏删除按钮"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaldırma düğmesini gizle"
           }
         }
       }
@@ -4073,6 +4957,12 @@
             "state": "translated",
             "value": "选择文件在展开的托盘中的滚动方式。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dosyaların genişletilmiş Tepsi içinde nasıl kaydırılacağını seçin."
+          }
         }
       }
     },
@@ -4101,6 +4991,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "滚动方向"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydırma yönü"
           }
         }
       }
@@ -4131,6 +5027,12 @@
             "state": "translated",
             "value": "选择将文件拖到刘海上方时显示哪个目标。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dosyalar çentiğin üzerine sürüklenirken hangi hedefin görüneceğini seçin."
+          }
         }
       }
     },
@@ -4159,6 +5061,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "目标模式"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hedef modu"
           }
         }
       }
@@ -4189,6 +5097,12 @@
             "state": "translated",
             "value": "配置文件托盘行为、滚动方向和外观。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dosya tepsisi davranışını, kaydırma yönünü ve görünümünü yapılandırın."
+          }
         }
       }
     },
@@ -4217,6 +5131,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "托盘"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tepsi"
           }
         }
       }
@@ -4247,6 +5167,12 @@
             "state": "translated",
             "value": "将文件拖入托盘后显示固定的文件托盘。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dosyalar Tepsi'ye bırakıldıktan sonra sabitlenmiş dosya tepsisini göster."
+          }
         }
       }
     },
@@ -4275,6 +5201,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "托盘实时活动"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tepsi canlı etkinliği"
           }
         }
       }
@@ -4305,6 +5237,12 @@
             "state": "translated",
             "value": "选择托盘是保留文件副本还是将原始文件移到托盘存储。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tepsi'nin dosya kopyalarını mı saklayacağını yoksa orijinalleri Tepsi deposuna mı taşıyacağını seçin."
+          }
         }
       }
     },
@@ -4333,6 +5271,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "托盘用途"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tepsi kullanımı"
           }
         }
       }
@@ -4363,6 +5307,12 @@
             "state": "translated",
             "value": "拖放文件转换后显示文件转换器 Live Activity。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dönüştürmek üzere bir dosya bırakıldığında Dosya Dönüştürücü canlı etkinliğini göster."
+          }
         }
       }
     },
@@ -4391,6 +5341,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "文件转换器活动"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dosya Dönüştürücü etkinliği"
           }
         }
       }
@@ -4421,6 +5377,12 @@
             "state": "translated",
             "value": "文件转换器 Live Activity"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dosya Dönüştürücü canlı etkinliği"
+          }
         }
       }
     },
@@ -4449,6 +5411,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "选择压缩音频格式的目标比特率。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sıkıştırılmış ses biçimleri için hedef bit hızını seçin."
           }
         }
       }
@@ -4479,6 +5447,12 @@
             "state": "translated",
             "value": "源质量"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaynak"
+          }
         }
       }
     },
@@ -4507,6 +5481,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "音频质量"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ses kalitesi"
           }
         }
       }
@@ -4537,6 +5517,12 @@
             "state": "translated",
             "value": "询问"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sor"
+          }
         }
       }
     },
@@ -4565,6 +5551,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "创建唯一名称"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Benzersiz ad oluştur"
           }
         }
       }
@@ -4595,6 +5587,12 @@
             "state": "translated",
             "value": "替换"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Değiştir"
+          }
         }
       }
     },
@@ -4623,6 +5621,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "选择当转换后的文件名已存在时的处理方式。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dönüştürülen dosya adı zaten varsa ne olacağını seçin."
           }
         }
       }
@@ -4653,6 +5657,12 @@
             "state": "translated",
             "value": "已存在的文件"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Var olan dosyalar"
+          }
         }
       }
     },
@@ -4681,6 +5691,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "在转换后的文件扩展名之前添加此后缀。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu soneki, dönüştürülen dosyanın uzantısından önce ekle."
           }
         }
       }
@@ -4711,6 +5727,12 @@
             "state": "translated",
             "value": "文件名后缀"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dosya adı soneki"
+          }
         }
       }
     },
@@ -4739,6 +5761,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "转换器文件"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dosya Dönüştürücü dosyaları"
           }
         }
       }
@@ -4769,6 +5797,12 @@
             "state": "translated",
             "value": "用于 JPEG、HEIC、WEBP 和 AVIF 等有损图像格式。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "JPEG, HEIC, WEBP ve AVIF gibi kayıplı görüntü biçimleri için kullanılır."
+          }
         }
       }
     },
@@ -4797,6 +5831,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "图像质量"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Görüntü kalitesi"
           }
         }
       }
@@ -4827,6 +5867,12 @@
             "state": "translated",
             "value": "每次询问"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Her seferinde sor"
+          }
         }
       }
     },
@@ -4855,6 +5901,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "选择转换后文件的保存位置。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dönüştürülen dosyaların nereye kaydedileceğini seçin."
           }
         }
       }
@@ -4885,6 +5937,12 @@
             "state": "translated",
             "value": "下载"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İndirilenler"
+          }
         }
       }
     },
@@ -4913,6 +5971,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "相同文件夹"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aynı klasör"
           }
         }
       }
@@ -4943,6 +6007,12 @@
             "state": "translated",
             "value": "输出位置"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çıkış konumu"
+          }
         }
       }
     },
@@ -4971,6 +6041,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "文件转换器质量"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dosya Dönüştürücü kalitesi"
           }
         }
       }
@@ -5001,6 +6077,12 @@
             "state": "translated",
             "value": "配置文件输出位置、已存在文件处理和质量。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çıkış konumunu, var olan dosya davranışını ve kaliteyi yapılandırın."
+          }
         }
       }
     },
@@ -5029,6 +6111,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "文件转换器"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dosya Dönüştürücü"
           }
         }
       }
@@ -5059,6 +6147,12 @@
             "state": "translated",
             "value": "选择用于视频转换的导出预设。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Video dönüştürme için kullanılan dışa aktarma ayarını seçin."
+          }
         }
       }
     },
@@ -5087,6 +6181,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "高"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yüksek"
           }
         }
       }
@@ -5117,6 +6217,12 @@
             "state": "translated",
             "value": "中"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Orta"
+          }
         }
       }
     },
@@ -5145,6 +6251,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "直通"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aynen aktar"
           }
         }
       }
@@ -5175,6 +6287,12 @@
             "state": "translated",
             "value": "小"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Küçük"
+          }
         }
       }
     },
@@ -5203,6 +6321,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "视频质量"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Video kalitesi"
           }
         }
       }
@@ -5233,6 +6357,12 @@
             "state": "translated",
             "value": "仅图标"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yalnızca simgeler"
+          }
         }
       }
     },
@@ -5261,6 +6391,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "默认"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Varsayılan"
           }
         }
       }
@@ -5291,6 +6427,12 @@
             "state": "translated",
             "value": "专注模式开启时短暂显示活动，而非始终可见。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Odak etkinliğini sürekli göstermek yerine Odak açıldığında kısa süre göster."
+          }
         }
       }
     },
@@ -5319,6 +6461,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "自动隐藏专注模式活动"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Odak etkinliğini otomatik gizle"
           }
         }
       }
@@ -5349,6 +6497,12 @@
             "state": "translated",
             "value": "专注活动"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Odak etkinliği"
+          }
         }
       }
     },
@@ -5377,6 +6531,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "专注外观"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Odak görünümü"
           }
         }
       }
@@ -5407,6 +6567,12 @@
             "state": "translated",
             "value": "专注显示时长"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Odak süresi"
+          }
         }
       }
     },
@@ -5435,6 +6601,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "专注模式开启时显示实时活动。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Odak modu etkinken canlı etkinlik göster."
           }
         }
       }
@@ -5465,6 +6637,12 @@
             "state": "translated",
             "value": "专注模式实时活动"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Odak canlı etkinliği"
+          }
         }
       }
     },
@@ -5493,6 +6671,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "专注模式关闭时显示短暂通知。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Odak modu kapandığında kısa bir bildirim göster."
           }
         }
       }
@@ -5523,6 +6707,12 @@
             "state": "translated",
             "value": "专注模式关闭活动"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Odak kapandı etkinliği"
+          }
         }
       }
     },
@@ -5551,6 +6741,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "选择专注模式关闭通知的显示时长。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Odak kapandı bildiriminin ne kadar süre görünür kalacağını seçin."
           }
         }
       }
@@ -5581,6 +6777,12 @@
             "state": "translated",
             "value": "专注模式关闭时长"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Odak kapanma süresi"
+          }
         }
       }
     },
@@ -5609,6 +6811,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "选择专注模式开启通知的显示时长。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Odak açıldı bildiriminin ne kadar süre görünür kalacağını seçin."
           }
         }
       }
@@ -5639,6 +6847,12 @@
             "state": "translated",
             "value": "专注模式开启时长"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Odak açılma süresi"
+          }
         }
       }
     },
@@ -5667,6 +6881,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "选择专注模式是显示开/关标签还是仅显示月亮图标。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Odak'ın Açık ve Kapalı etiketlerini mi yoksa yalnızca ay simgesini mi göstereceğini seçin."
           }
         }
       }
@@ -5697,6 +6917,12 @@
             "state": "translated",
             "value": "专注模式样式"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Odak stili"
+          }
         }
       }
     },
@@ -5725,6 +6951,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "平衡"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dengeli"
           }
         }
       }
@@ -5755,6 +6987,12 @@
             "state": "translated",
             "value": "快"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hızlı"
+          }
         }
       }
     },
@@ -5783,6 +7021,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "更快"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daha hızlı"
           }
         }
       }
@@ -5813,6 +7057,12 @@
             "state": "translated",
             "value": "慢"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yavaş"
+          }
         }
       }
     },
@@ -5841,6 +7091,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "较慢"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daha yavaş"
           }
         }
       }
@@ -5871,6 +7127,12 @@
             "state": "translated",
             "value": "深色"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Koyu"
+          }
         }
       }
     },
@@ -5899,6 +7161,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "浅色"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Açık"
           }
         }
       }
@@ -5929,6 +7197,12 @@
             "state": "translated",
             "value": "主题和强调色偏好。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tema ve vurgu rengi tercihleri."
+          }
         }
       }
     },
@@ -5957,6 +7231,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "跟随系统"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem"
           }
         }
       }
@@ -5987,6 +7267,12 @@
             "state": "translated",
             "value": "外观"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Görünüm"
+          }
         }
       }
     },
@@ -6015,6 +7301,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "将深蓝色配色方案应用于设置界面。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayarlar arayüzüne koyu mavi bir renk şeması uygula."
           }
         }
       }
@@ -6045,6 +7337,12 @@
             "state": "translated",
             "value": "夜间模式"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gece Modu"
+          }
         }
       }
     },
@@ -6073,6 +7371,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "当所选显示屏不可用时使用主显示屏，并在其恢复后将 Dynamic Notch 移回去。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçilen ekran kullanılamazken ana ekranı kullan, ekran geri döndüğünde Dynamic Notch'u ona taşı."
           }
         }
       }
@@ -6103,6 +7407,12 @@
             "state": "translated",
             "value": "自动切换显示屏"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekranlar arasında otomatik geçiş yap"
+          }
         }
       }
     },
@@ -6131,6 +7441,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "内置"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dahili"
           }
         }
       }
@@ -6161,6 +7477,12 @@
             "state": "translated",
             "value": "外接显示屏"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Harici ekran"
+          }
         }
       }
     },
@@ -6189,6 +7511,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "主显示屏"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ana ekran"
           }
         }
       }
@@ -6219,6 +7547,12 @@
             "state": "translated",
             "value": "不可用"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kullanılamıyor"
+          }
         }
       }
     },
@@ -6247,6 +7581,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "在内置显示屏上显示"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dahili ekranda göster"
           }
         }
       }
@@ -6277,6 +7617,12 @@
             "state": "translated",
             "value": "当目标应用程序处于活动状态时隐藏实时活动显示。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hedef uygulama etkin hale geldiğinde canlı etkinlik göstergesini gizler."
+          }
         }
       }
     },
@@ -6305,6 +7651,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "窗口获得焦点时关闭显示"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pencere öne geldiğinde göstergeyi kapat"
           }
         }
       }
@@ -6335,6 +7687,12 @@
             "state": "translated",
             "value": "在主显示屏上显示"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ana ekranda göster"
+          }
         }
       }
     },
@@ -6363,6 +7721,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "在指定显示屏上显示"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Belirli bir ekranda göster"
           }
         }
       }
@@ -6393,6 +7757,12 @@
             "state": "translated",
             "value": "将 Dynamic Notch 固定到某个显示屏，而不是跟随系统主显示屏。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dynamic Notch'u sistemin ana ekranını izlemek yerine tek bir ekrana sabitleyin."
+          }
         }
       }
     },
@@ -6421,6 +7791,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "指定显示屏"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Belirli ekran"
           }
         }
       }
@@ -6451,6 +7827,12 @@
             "state": "translated",
             "value": "所选显示屏当前不可用。Dynamic Notch 会保持隐藏，直到该显示屏重新连接。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçilen ekran şu anda kullanılamıyor. O ekran geri dönene kadar Dynamic Notch gizli kalacak."
+          }
         }
       }
     },
@@ -6479,6 +7861,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "所选显示屏当前不可用。Dynamic Notch 正在临时跟随主显示屏。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçilen ekran şu anda kullanılamıyor. Dynamic Notch geçici olarak ana ekranı izliyor."
           }
         }
       }
@@ -6509,6 +7897,12 @@
             "state": "translated",
             "value": "支持项目开发与捐赠。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Proje geliştirmesine destek olun ve bağış yapın."
+          }
         }
       }
     },
@@ -6537,6 +7931,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "支持"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Destek"
           }
         }
       }
@@ -6567,6 +7967,12 @@
             "state": "translated",
             "value": "管理启动选项、Dock 和菜单栏图标的显示。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Başlatma seçeneklerini, Dock ve menü çubuğu simgesi görünürlüğünü yönetin."
+          }
         }
       }
     },
@@ -6595,6 +8001,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "系统"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem"
           }
         }
       }
@@ -6625,6 +8037,12 @@
             "state": "translated",
             "value": "应用"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama"
+          }
         }
       }
     },
@@ -6653,6 +8071,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "连接"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bağlantı"
           }
         }
       }
@@ -6683,6 +8107,12 @@
             "state": "translated",
             "value": "媒体与文件"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ortam ve Dosyalar"
+          }
         }
       }
     },
@@ -6711,6 +8141,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "系统"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem"
           }
         }
       }
@@ -6741,6 +8177,12 @@
             "state": "translated",
             "value": "主页活动"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ana Sayfa etkinliği"
+          }
         }
       }
     },
@@ -6769,6 +8211,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "主页外观"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ana Sayfa görünümü"
           }
         }
       }
@@ -6799,6 +8247,12 @@
             "state": "translated",
             "value": "选择页面指示器圆点尺寸。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sayfa gösterge noktalarının boyutunu seçin."
+          }
         }
       }
     },
@@ -6827,6 +8281,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "选择页面指示器点的大小。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sayfa gösterge noktalarının boyutunu seçin."
           }
         }
       }
@@ -6857,6 +8317,12 @@
             "state": "translated",
             "value": "大"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Büyük"
+          }
         }
       }
     },
@@ -6885,6 +8351,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "中"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Orta"
           }
         }
       }
@@ -6915,6 +8387,12 @@
             "state": "translated",
             "value": "小"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Küçük"
+          }
         }
       }
     },
@@ -6943,6 +8421,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "页面指示器尺寸"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sayfa göstergesi boyutu"
           }
         }
       }
@@ -6973,6 +8457,12 @@
             "state": "translated",
             "value": "在刘海中显示主页。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ana Sayfa'yı çentikte göster."
+          }
         }
       }
     },
@@ -7001,6 +8491,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "主页实时活动"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ana Sayfa canlı etkinliği"
           }
         }
       }
@@ -7031,6 +8527,12 @@
             "state": "translated",
             "value": "显示当前活动主页索引的圆点指示器。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etkin ana sayfa için nokta göstergesini göster."
+          }
         }
       }
     },
@@ -7059,6 +8561,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "浏览主页时在 notch 下方显示页面指示点。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ana sayfalar arasında gezinirken çentiğin altında sayfa noktalarını göster."
           }
         }
       }
@@ -7089,6 +8597,12 @@
             "state": "translated",
             "value": "页面指示器"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sayfa göstergesi"
+          }
         }
       }
     },
@@ -7117,6 +8631,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "快速访问相机。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kameraya hızlıca erişin."
           }
         }
       }
@@ -7147,6 +8667,12 @@
             "state": "translated",
             "value": "相机"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kamera"
+          }
         }
       }
     },
@@ -7175,6 +8701,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "将文件转换为多种格式。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dosyaları farklı biçimlere dönüştürün."
           }
         }
       }
@@ -7205,6 +8737,12 @@
             "state": "translated",
             "value": "转换器"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dönüştürücü"
+          }
         }
       }
     },
@@ -7233,6 +8771,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "拖动以重新排列页面。禁用的页面将被隐藏。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sayfaları yeniden sıralamak için sürükleyin. Kapatılan sayfalar gizlenir."
           }
         }
       }
@@ -7263,6 +8807,12 @@
             "state": "translated",
             "value": "监控系统资源。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem kaynaklarını izleyin."
+          }
         }
       }
     },
@@ -7291,6 +8841,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "统计数据"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İstatistikler"
           }
         }
       }
@@ -7321,6 +8877,12 @@
             "state": "translated",
             "value": "重新排序或启用/禁用主页卡片。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ana sayfa kartlarını yeniden sıralayın veya açıp kapatın."
+          }
         }
       }
     },
@@ -7349,6 +8911,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "设置快速计时器。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hızlı bir zamanlayıcı kurun."
           }
         }
       }
@@ -7379,6 +8947,12 @@
             "state": "translated",
             "value": "计时器"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zamanlayıcı"
+          }
         }
       }
     },
@@ -7407,6 +8981,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "页面"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sayfalar"
           }
         }
       }
@@ -7437,6 +9017,12 @@
             "state": "translated",
             "value": "管理 VPN 连接。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "VPN bağlantılarını yönetin."
+          }
         }
       }
     },
@@ -7462,6 +9048,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "VPN"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "VPN"
@@ -7495,6 +9087,12 @@
             "state": "translated",
             "value": "启动相机"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kamerayı Başlat"
+          }
         }
       }
     },
@@ -7523,6 +9121,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "选择主页项目之间的滚动方向。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ana sayfa öğeleri arasındaki kaydırma yönünü seçin."
           }
         }
       }
@@ -7553,6 +9157,12 @@
             "state": "translated",
             "value": "选择主页的滚动方向。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ana sayfalar için kaydırma yönünü seçin."
+          }
         }
       }
     },
@@ -7581,6 +9191,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "水平"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yatay"
           }
         }
       }
@@ -7611,6 +9227,12 @@
             "state": "translated",
             "value": "滚动方向"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydırma yönü"
+          }
         }
       }
     },
@@ -7639,6 +9261,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "垂直"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dikey"
           }
         }
       }
@@ -7669,6 +9297,12 @@
             "state": "translated",
             "value": "用刘海中的自定义 HUD 替换系统亮度叠加层。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem parlaklık göstergesini çentikteki özel HUD ile değiştir."
+          }
         }
       }
     },
@@ -7697,6 +9331,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "亮度 HUD"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parlaklık HUD'u"
           }
         }
       }
@@ -7727,6 +9367,12 @@
             "state": "translated",
             "value": "选择亮度 HUD 的显示时长。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parlaklık HUD'unun ne kadar süre görünür kalacağını seçin."
+          }
         }
       }
     },
@@ -7755,6 +9401,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "亮度显示时长"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parlaklık süresi"
           }
         }
       }
@@ -7785,6 +9437,12 @@
             "state": "translated",
             "value": "HUD 活动"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "HUD etkinliği"
+          }
         }
       }
     },
@@ -7813,6 +9471,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "HUD 外观"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "HUD görünümü"
           }
         }
       }
@@ -7843,6 +9507,12 @@
             "state": "translated",
             "value": "HUD 显示时长"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "HUD süresi"
+          }
         }
       }
     },
@@ -7871,6 +9541,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "在 HUD 进度指示器周围开启发光效果。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "HUD ilerleme göstergesinin çevresinde hafif ışıma efektini etkinleştir."
           }
         }
       }
@@ -7901,6 +9577,12 @@
             "state": "translated",
             "value": "指示器发光"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gösterge ışıması"
+          }
         }
       }
     },
@@ -7929,6 +9611,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "条形"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çubuk"
           }
         }
       }
@@ -7959,6 +9647,12 @@
             "state": "translated",
             "value": "圆形"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daire"
+          }
         }
       }
     },
@@ -7987,6 +9681,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "选择条形或圆形指示器。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çubuk ve dairesel gösterge arasında seçim yapın."
           }
         }
       }
@@ -8017,6 +9717,12 @@
             "state": "translated",
             "value": "指示器样式"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gösterge stili"
+          }
         }
       }
     },
@@ -8045,6 +9751,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "系统强调色"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem vurgusu"
           }
         }
       }
@@ -8075,6 +9787,12 @@
             "state": "translated",
             "value": "选择指示器等级的颜色样式。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gösterge düzeyi için renk tonu stilini seçin."
+          }
         }
       }
     },
@@ -8103,6 +9821,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "等级/电量颜色"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Düzey rengi"
           }
         }
       }
@@ -8133,6 +9857,12 @@
             "state": "translated",
             "value": "白色"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beyaz"
+          }
         }
       }
     },
@@ -8161,6 +9891,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "指示器颜色样式"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gösterge renk stili"
           }
         }
       }
@@ -8191,6 +9927,12 @@
             "state": "translated",
             "value": "用刘海中的自定义 HUD 替换系统键盘亮度叠加层。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem klavye parlaklığı göstergesini çentikteki özel HUD ile değiştir."
+          }
         }
       }
     },
@@ -8219,6 +9961,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "键盘亮度 HUD"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klavye parlaklığı HUD'u"
           }
         }
       }
@@ -8249,6 +9997,12 @@
             "state": "translated",
             "value": "选择键盘亮度 HUD 的显示时长。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klavye parlaklığı HUD'unun ne kadar süre görünür kalacağını seçin."
+          }
         }
       }
     },
@@ -8277,6 +10031,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "键盘亮度显示时长"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klavye parlaklığı süresi"
           }
         }
       }
@@ -8307,6 +10067,12 @@
             "state": "translated",
             "value": "紧凑"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kompakt"
+          }
         }
       }
     },
@@ -8335,6 +10101,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "展开"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Genişletilmiş"
           }
         }
       }
@@ -8365,6 +10137,12 @@
             "state": "translated",
             "value": "HUD 布局"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "HUD düzeni"
+          }
         }
       }
     },
@@ -8393,6 +10171,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "使用当前 HUD 等级颜色为刘海描边着色，而非默认的白色描边。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çentik kenarlığını varsayılan beyaz yerine geçerli HUD düzeyi rengiyle renklendir."
           }
         }
       }
@@ -8423,6 +10207,12 @@
             "state": "translated",
             "value": "基于等级的描边颜色"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Düzeye göre kenarlık rengi"
+          }
         }
       }
     },
@@ -8451,6 +10241,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "紧凑"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kompakt"
           }
         }
       }
@@ -8481,6 +10277,12 @@
             "state": "translated",
             "value": "选择音量、亮度和键盘 HUD 的视觉呈现样式。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ses düzeyi, parlaklık ve klavye HUD'ları için görsel sunum stilini seçin."
+          }
         }
       }
     },
@@ -8509,6 +10311,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "展开紧凑"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Genişletilmiş Kompakt"
           }
         }
       }
@@ -8539,6 +10347,12 @@
             "state": "translated",
             "value": "展开详细"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Genişletilmiş Ayrıntılı"
+          }
         }
       }
     },
@@ -8567,6 +10381,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "极简"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Minimal"
           }
         }
       }
@@ -8597,6 +10417,12 @@
             "state": "translated",
             "value": "标准"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Standart"
+          }
         }
       }
     },
@@ -8625,6 +10451,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "HUD 样式"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "HUD stili"
           }
         }
       }
@@ -8655,6 +10487,12 @@
             "state": "translated",
             "value": "用刘海中的自定义 HUD 替换系统音量叠加层。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem ses düzeyi göstergesini çentikteki özel HUD ile değiştir."
+          }
         }
       }
     },
@@ -8683,6 +10521,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "音量 HUD"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ses düzeyi HUD'u"
           }
         }
       }
@@ -8713,6 +10557,12 @@
             "state": "translated",
             "value": "选择音量 HUD 的显示时长。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ses düzeyi HUD'unun ne kadar süre görünür kalacağını seçin."
+          }
         }
       }
     },
@@ -8741,6 +10591,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "音量显示时长"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ses düzeyi süresi"
           }
         }
       }
@@ -8771,6 +10627,12 @@
             "state": "translated",
             "value": "调节音量时播放标准 macOS 音量更改音效。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ses düzeyini ayarlarken standart macOS ses değişim efektini çal."
+          }
         }
       }
     },
@@ -8799,6 +10661,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "播放音量调整音效"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ses düzeyi geri bildirimini çal"
           }
         }
       }
@@ -8829,6 +10697,12 @@
             "state": "translated",
             "value": "选择应用界面使用的语言。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama arayüzünde kullanılan dili seçin."
+          }
         }
       }
     },
@@ -8857,6 +10731,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "语言"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dil"
           }
         }
       }
@@ -8887,6 +10767,12 @@
             "state": "translated",
             "value": "本地化仅适用于设置，刘海区域保持英文。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yerelleştirme yalnızca ayarlarda geçerlidir; çentik İngilizce kalır."
+          }
         }
       }
     },
@@ -8915,6 +10801,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "简体中文"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Basitleştirilmiş Çince"
           }
         }
       }
@@ -8945,6 +10837,12 @@
             "state": "translated",
             "value": "英语"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İngilizce"
+          }
         }
       }
     },
@@ -8973,6 +10871,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "俄语"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rusça"
           }
         }
       }
@@ -9003,6 +10907,12 @@
             "state": "translated",
             "value": "西班牙语"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İspanyolca"
+          }
         }
       }
     },
@@ -9031,6 +10941,47 @@
           "stringUnit": {
             "state": "translated",
             "value": "系统"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem"
+          }
+        }
+      }
+    },
+    "settings.language.option.turkish": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turkish"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Турецкий"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turco"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "土耳其语"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Türkçe"
           }
         }
       }
@@ -9061,6 +11012,12 @@
             "state": "translated",
             "value": "在锁定和解锁转换期间显示锁屏实时活动。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kilitleme ve kilit açma geçişlerinde kilit ekranı canlı etkinliğini göster."
+          }
         }
       }
     },
@@ -9089,6 +11046,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "锁屏实时活动"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kilit ekranı canlı etkinliği"
           }
         }
       }
@@ -9119,6 +11082,12 @@
             "state": "translated",
             "value": "锁屏活动"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kilit ekranı etkinliği"
+          }
         }
       }
     },
@@ -9147,6 +11116,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "封面外观"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kapak görseli görünümü"
           }
         }
       }
@@ -9177,6 +11152,12 @@
             "state": "translated",
             "value": "刘海外观"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çentik görünümü"
+          }
         }
       }
     },
@@ -9205,6 +11186,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "小组件外观"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Widget görünümü"
           }
         }
       }
@@ -9235,6 +11222,12 @@
             "state": "translated",
             "value": "无法加载所选文件。请选择 MP3、WAV、AIFF 或 M4A 音频文件。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçilen dosya yüklenemedi. MP3, WAV, AIFF veya M4A ses dosyası seçin."
+          }
         }
       }
     },
@@ -9263,6 +11256,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "内置锁定音效"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dahili kilitleme sesi"
           }
         }
       }
@@ -9293,6 +11292,12 @@
             "state": "translated",
             "value": "Mac 锁定音效。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac'iniz kilitlendiğinde çalınır."
+          }
         }
       }
     },
@@ -9321,6 +11326,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "选择锁定音效"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kilitleme Sesini Seç"
           }
         }
       }
@@ -9351,6 +11362,12 @@
             "state": "translated",
             "value": "锁定音效"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kilitleme sesi"
+          }
         }
       }
     },
@@ -9379,6 +11396,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "%@ 不可用。将回退到 %@。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ kullanılamıyor. %@ sesine geri dönülüyor."
           }
         }
       }
@@ -9409,6 +11432,12 @@
             "state": "translated",
             "value": "内置解锁音效"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dahili kilit açma sesi"
+          }
         }
       }
     },
@@ -9437,6 +11466,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Mac 解锁音效。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac'inizin kilidi açıldığında çalınır."
           }
         }
       }
@@ -9467,6 +11502,12 @@
             "state": "translated",
             "value": "选择解锁音效"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kilit Açma Sesini Seç"
+          }
         }
       }
     },
@@ -9495,6 +11536,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "解锁音效"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kilit açma sesi"
           }
         }
       }
@@ -9525,6 +11572,12 @@
             "state": "translated",
             "value": "在锁屏上显示实时歌词。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kilit ekranında gerçek zamanlı şarkı sözlerini göster."
+          }
         }
       }
     },
@@ -9553,6 +11606,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "显示歌词"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Şarkı sözlerini göster"
           }
         }
       }
@@ -9583,6 +11642,12 @@
             "state": "translated",
             "value": "在锁屏上显示正在播放媒体面板。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kilit ekranında Çalınıyor ortam panelini göster."
+          }
         }
       }
     },
@@ -9611,6 +11676,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "媒体面板"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ortam paneli"
           }
         }
       }
@@ -9641,6 +11712,12 @@
             "state": "translated",
             "value": "选择播放媒体时显示的背景。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ortam çalınırken hangi arka planın gösterileceğini seçin."
+          }
         }
       }
     },
@@ -9669,6 +11746,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "媒体面板背景"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ortam paneli arka planı"
           }
         }
       }
@@ -9699,6 +11782,12 @@
             "state": "translated",
             "value": "黑色背景"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Siyah arka plan"
+          }
         }
       }
     },
@@ -9727,6 +11816,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "静态背景"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sabit arka plan"
           }
         }
       }
@@ -9757,6 +11852,12 @@
             "state": "translated",
             "value": "选择锁屏上媒体面板的位置。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ortam panelinin kilit ekranındaki konumunu seçin."
+          }
         }
       }
     },
@@ -9785,6 +11886,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "媒体面板位置"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ortam paneli konumu"
           }
         }
       }
@@ -9815,6 +11922,12 @@
             "state": "translated",
             "value": "锁定或解锁屏幕时播放声音。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran kilitlendiğinde veya kilidi açıldığında ses çal."
+          }
         }
       }
     },
@@ -9843,6 +11956,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "锁定 / 解锁声音"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kilitleme / kilit açma sesi"
           }
         }
       }
@@ -9873,6 +11992,12 @@
             "state": "translated",
             "value": "紧凑"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kompakt"
+          }
         }
       }
     },
@@ -9901,6 +12026,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "放大"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Büyütülmüş"
           }
         }
       }
@@ -9931,6 +12062,12 @@
             "state": "translated",
             "value": "流体玻璃"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Liquid Glass"
+          }
         }
       }
     },
@@ -9959,6 +12096,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "柔和"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yumuşak"
           }
         }
       }
@@ -9989,6 +12132,12 @@
             "state": "translated",
             "value": "纯色"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Düz"
+          }
         }
       }
     },
@@ -10017,6 +12166,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "调整锁屏上小组件的亮度。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kilit ekranındaki widget'ların parlaklığını ayarlayın."
           }
         }
       }
@@ -10047,6 +12202,12 @@
             "state": "translated",
             "value": "小组件亮度"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Widget parlaklığı"
+          }
         }
       }
     },
@@ -10075,6 +12236,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "强调色"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vurgu"
           }
         }
       }
@@ -10105,6 +12272,12 @@
             "state": "translated",
             "value": "默认"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Varsayılan"
+          }
         }
       }
     },
@@ -10133,6 +12306,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "返回"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geri"
           }
         }
       }
@@ -10163,6 +12342,12 @@
             "state": "translated",
             "value": "前进"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İleri"
+          }
         }
       }
     },
@@ -10191,6 +12376,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "动画"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Animasyon"
           }
         }
       }
@@ -10221,6 +12412,12 @@
             "state": "translated",
             "value": "设置控制动画速度的全局运动参数。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Animasyon hızını denetleyen genel hareket parametresini ayarlayın."
+          }
         }
       }
     },
@@ -10249,6 +12446,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "动画速度"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Animasyon hızı"
           }
         }
       }
@@ -10279,6 +12482,12 @@
             "state": "translated",
             "value": "设置运动参数和动画速度。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hareket parametrelerini ve animasyon hızını ayarlayın."
+          }
         }
       }
     },
@@ -10307,6 +12516,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "黑色"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Siyah"
           }
         }
       }
@@ -10337,6 +12552,12 @@
             "state": "translated",
             "value": "将标准白色描边应用于支持的活动，而非功能强调色。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desteklenen etkinliklerde özellik vurgu renkleri yerine standart beyaz kenarlığı uygula."
+          }
         }
       }
     },
@@ -10365,6 +12586,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "使用默认活动描边颜色"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Varsayılan etkinlik kenarlık rengini kullan"
           }
         }
       }
@@ -10395,6 +12622,12 @@
             "state": "translated",
             "value": "选择 Dynamic Notch 应使用的显示器。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dynamic Notch'un hangi ekranı kullanacağını seçin."
+          }
         }
       }
     },
@@ -10423,6 +12656,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "显示器"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran"
           }
         }
       }
@@ -10453,6 +12692,12 @@
             "state": "translated",
             "value": "当选定的显示器显示全屏空间时自动隐藏实时活动。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçilen ekranda tam ekran bir alan gösterilirken canlı etkinliği otomatik olarak gizle."
+          }
         }
       }
     },
@@ -10481,6 +12726,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "全屏模式下隐藏实时活动"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tam ekran modunda canlı etkinliği gizle"
           }
         }
       }
@@ -10511,6 +12762,12 @@
             "state": "translated",
             "value": "配置刘海显示的位置和方式。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çentiğin nerede ve nasıl gösterileceğini yapılandırın."
+          }
         }
       }
     },
@@ -10539,6 +12796,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "显示"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran"
           }
         }
       }
@@ -10569,6 +12832,12 @@
             "state": "translated",
             "value": "点击"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tıklama"
+          }
         }
       }
     },
@@ -10597,6 +12866,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "光标离开"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İmleç ayrılınca"
           }
         }
       }
@@ -10627,6 +12902,12 @@
             "state": "translated",
             "value": "选择展开内容是通过点击还是光标离开刘海时关闭。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Genişletilmiş içeriğin tıklamayla mı yoksa imleç çentikten ayrıldığında mı kapanacağını seçin."
+          }
         }
       }
     },
@@ -10655,6 +12936,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "收起手势"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daraltma hareketi"
           }
         }
       }
@@ -10685,6 +12972,12 @@
             "state": "translated",
             "value": "点击"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tıklama"
+          }
         }
       }
     },
@@ -10713,6 +13006,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "悬停"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Üzerine gelme"
           }
         }
       }
@@ -10743,6 +13042,12 @@
             "state": "translated",
             "value": "长按"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Basılı tutma"
+          }
         }
       }
     },
@@ -10771,6 +13076,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "允许选定的刘海手势打开展开的实时活动布局。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçilen çentik hareketinin, desteklendiğinde genişletilmiş canlı etkinlik düzenini açmasına izin ver."
           }
         }
       }
@@ -10801,6 +13112,12 @@
             "state": "translated",
             "value": "展开实时活动"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Canlı etkinliği genişlet"
+          }
         }
       }
     },
@@ -10829,6 +13146,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "选择展开内容是通过点击、长按刘海还是悬停打开。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Genişletilmiş içeriğin tıklamayla mı, çentik basılı tutulduğunda mı yoksa üzerine gelindiğinde mi açılacağını seçin."
           }
         }
       }
@@ -10859,6 +13182,12 @@
             "state": "translated",
             "value": "展开手势"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Genişletme hareketi"
+          }
         }
       }
     },
@@ -10887,6 +13216,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "光标进入收起的刘海时产生轻柔的触觉反馈。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İmleç daraltılmış çentiğe girdiğinde hafif bir dokunsal geri bildirim ver."
           }
         }
       }
@@ -10917,6 +13252,12 @@
             "state": "translated",
             "value": "悬停触觉反馈"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Üzerine gelme dokunsal geri bildirimi"
+          }
         }
       }
     },
@@ -10945,6 +13286,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "手势"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hareketler"
           }
         }
       }
@@ -10975,6 +13322,12 @@
             "state": "translated",
             "value": "调整长按和悬停展开的触发速度。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Basılı tutma ve üzerine gelme ile genişletmenin ne kadar hızlı tetikleneceğini ayarlayın."
+          }
         }
       }
     },
@@ -11003,6 +13356,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "长按时间"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Basılı tutma zamanlaması"
           }
         }
       }
@@ -11033,6 +13392,12 @@
             "state": "translated",
             "value": "配置点击、悬停和滚动手势。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tıklama, üzerine gelme ve kaydırma hareketlerini yapılandırın."
+          }
         }
       }
     },
@@ -11061,6 +13426,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "允许在刘海上进行垂直滑动以隐藏活动内容或恢复最近关闭的内容。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çentik üzerindeki dikey kaydırma hareketlerinin etkin etkinliği gizlemesine veya son kapatılanı geri getirmesine izin ver."
           }
         }
       }
@@ -11091,6 +13462,12 @@
             "state": "translated",
             "value": "上滑以隐藏 / 下滑以恢复"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gizlemek için yukarı, geri getirmek için aşağı kaydır"
+          }
         }
       }
     },
@@ -11119,6 +13496,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "手势"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hareketler"
           }
         }
       }
@@ -11149,6 +13532,12 @@
             "state": "translated",
             "value": "微调刘海或 Dynamic Island 的高度。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çentiğin veya Dynamic Island'ın yüksekliğine ince ayar yapın."
+          }
         }
       }
     },
@@ -11177,6 +13566,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "高度"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yükseklik"
           }
         }
       }
@@ -11207,6 +13602,12 @@
             "state": "translated",
             "value": "拖动项目以重新排列优先级。上面的项目具有更高的优先级。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Önceliği değiştirmek için öğeleri sürükleyin. Üstteki öğelerin önceliği daha yüksektir."
+          }
         }
       }
     },
@@ -11235,6 +13636,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "AirDrop 传输"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AirDrop Aktarımı"
           }
         }
       }
@@ -11265,6 +13672,12 @@
             "state": "translated",
             "value": "日历"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Takvim"
+          }
         }
       }
     },
@@ -11293,6 +13706,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "默认 %lld"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Varsayılan %lld"
           }
         }
       }
@@ -11323,6 +13742,12 @@
             "state": "translated",
             "value": "下载"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İndirilenler"
+          }
         }
       }
     },
@@ -11351,6 +13776,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "文件转换器"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dosya dönüştürücü"
           }
         }
       }
@@ -11381,6 +13812,12 @@
             "state": "translated",
             "value": "焦点"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Odak"
+          }
         }
       }
     },
@@ -11409,6 +13846,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "主页"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ana sayfa"
           }
         }
       }
@@ -11439,6 +13882,12 @@
             "state": "translated",
             "value": "热点"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erişim noktası"
+          }
         }
       }
     },
@@ -11467,6 +13916,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "正在播放"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çalınıyor"
           }
         }
       }
@@ -11497,6 +13952,12 @@
             "state": "translated",
             "value": "屏幕录制"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran Kaydı"
+          }
         }
       }
     },
@@ -11525,6 +13986,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "计时器"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zamanlayıcı"
           }
         }
       }
@@ -11555,6 +14022,12 @@
             "state": "translated",
             "value": "托盘"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tepsi"
+          }
         }
       }
     },
@@ -11583,6 +14056,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "配置每个活动的优先级。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Her etkinlik için öncelik düzeyini yapılandırın."
           }
         }
       }
@@ -11613,6 +14092,12 @@
             "state": "translated",
             "value": "活动优先级"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etkinlik öncelikleri"
+          }
         }
       }
     },
@@ -11641,6 +14126,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "显示自适应于活动内容颜色的细微轮廓。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etkin içerik rengine uyum sağlayan hafif bir kenarlık göster."
           }
         }
       }
@@ -11671,6 +14162,12 @@
             "state": "translated",
             "value": "显示描边"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kenarlığı göster"
+          }
         }
       }
     },
@@ -11699,6 +14196,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "调整轮廓的透明度。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kenarlığın saydamlığını ayarlayın."
           }
         }
       }
@@ -11729,6 +14232,12 @@
             "state": "translated",
             "value": "描边不透明度"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kenarlık saydamlığı"
+          }
         }
       }
     },
@@ -11757,6 +14266,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "调整轮廓的厚度。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kenarlığın kalınlığını ayarlayın."
           }
         }
       }
@@ -11787,6 +14302,12 @@
             "state": "translated",
             "value": "描边宽度"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kenarlık kalınlığı"
+          }
         }
       }
     },
@@ -11815,6 +14336,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "微调刘海或 Dynamic Island 的宽度。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çentiğin veya Dynamic Island'ın genişliğine ince ayar yapın."
           }
         }
       }
@@ -11845,6 +14372,12 @@
             "state": "translated",
             "value": "宽度"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Genişlik"
+          }
         }
       }
     },
@@ -11873,6 +14406,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "曲目封面更改时以 3D 翻转动画显示封面。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parça kapağı değiştiğinde kapak görselini 3B çevirme ile canlandır."
           }
         }
       }
@@ -11903,6 +14442,12 @@
             "state": "translated",
             "value": "封面 3D 效果"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kapak görseli 3B efekti"
+          }
         }
       }
     },
@@ -11931,6 +14476,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "暂停播放"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Duraklatılmış oynatma"
           }
         }
       }
@@ -11961,6 +14512,12 @@
             "state": "translated",
             "value": "播放活动"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oynatma etkinliği"
+          }
         }
       }
     },
@@ -11989,6 +14546,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "播放器外观"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oynatıcı görünümü"
           }
         }
       }
@@ -12019,6 +14582,12 @@
             "state": "translated",
             "value": "选择暂停的播放器在刘海关闭前保持可见的时长。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çentik kapanmadan önce duraklatılmış oynatıcının ne kadar süre görünür kalacağını seçin."
+          }
         }
       }
     },
@@ -12047,6 +14616,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "关闭延迟"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kapanma gecikmesi"
           }
         }
       }
@@ -12077,6 +14652,12 @@
             "state": "translated",
             "value": "从展开的播放器控件中移除收藏按钮。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Favori düğmesini genişletilmiş oynatıcı denetimlerinden kaldır."
+          }
         }
       }
     },
@@ -12105,6 +14686,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "隐藏收藏"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Favoriyi gizle"
           }
         }
       }
@@ -12135,6 +14722,12 @@
             "state": "translated",
             "value": "从展开的播放器控件中移除输出设备按钮。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çıkış aygıtı düğmesini genişletilmiş oynatıcı denetimlerinden kaldır."
+          }
         }
       }
     },
@@ -12163,6 +14756,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "隐藏输出设备"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çıkış aygıtını gizle"
           }
         }
       }
@@ -12193,6 +14792,12 @@
             "state": "translated",
             "value": "音频或视频播放时显示正在播放实时活动。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ses veya video oynatılırken Çalınıyor canlı etkinliğini göster."
+          }
         }
       }
     },
@@ -12221,6 +14826,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "正在播放实时活动"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çalınıyor canlı etkinliği"
           }
         }
       }
@@ -12251,6 +14862,12 @@
             "state": "translated",
             "value": "选择哪个媒体应用可以在刘海中显示正在播放。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çentikte Çalınıyor'u hangi ortam uygulamasının gösterebileceğini seçin."
+          }
         }
       }
     },
@@ -12279,6 +14896,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "播放来源"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oynatma kaynağı"
           }
         }
       }
@@ -12309,6 +14932,12 @@
             "state": "translated",
             "value": "选择进度条和计时器标签的着色方式。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İlerleme çubuğunun ve süre etiketlerinin nasıl renklendirileceğini seçin."
+          }
         }
       }
     },
@@ -12337,6 +14966,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "进度条色调"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İlerleme çubuğu rengi"
           }
         }
       }
@@ -12367,6 +15002,12 @@
             "state": "translated",
             "value": "系统强调色"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem vurgusu"
+          }
         }
       }
     },
@@ -12395,6 +15036,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "封面颜色"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kapak görseli"
           }
         }
       }
@@ -12425,6 +15072,12 @@
             "state": "translated",
             "value": "默认"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Varsayılan"
+          }
         }
       }
     },
@@ -12454,6 +15107,12 @@
             "state": "translated",
             "value": "任意来源"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tüm kaynaklar"
+          }
         }
       }
     },
@@ -12479,6 +15138,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple Music"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Apple Music"
@@ -12512,6 +15177,12 @@
             "state": "translated",
             "value": "Spotify"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Spotify"
+          }
         }
       }
     },
@@ -12537,6 +15208,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "YouTube Music"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "YouTube Music"
@@ -12570,6 +15247,12 @@
             "state": "translated",
             "value": "播放暂停时保持正在播放在刘海中可见。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oynatma duraklatıldığında Çalınıyor'u çentikte görünür tut."
+          }
         }
       }
     },
@@ -12598,6 +15281,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "无关闭计时器"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kapanma süresi olmadan"
           }
         }
       }
@@ -12628,6 +15317,12 @@
             "state": "translated",
             "value": "允许辅助功能权限以处理手势和监控活动应用。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hareketleri işlemek ve etkin uygulamaları izlemek için Erişilebilirlik erişimine izin verin."
+          }
         }
       }
     },
@@ -12656,6 +15351,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "辅助功能"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erişilebilirlik"
           }
         }
       }
@@ -12686,6 +15387,12 @@
             "state": "translated",
             "value": "授予权限"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erişim İzni Ver"
+          }
         }
       }
     },
@@ -12714,6 +15421,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "打开隐私设置"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gizlilik Ayarlarını Aç"
           }
         }
       }
@@ -12744,6 +15457,12 @@
             "state": "translated",
             "value": "允许控制 System Events 以在屏幕上自动居中显示截图和录制预览窗口。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran görüntüsü ve kayıt önizleme pencerelerini ekranda otomatik olarak ortalamak için System Events denetimine izin verin."
+          }
         }
       }
     },
@@ -12772,6 +15491,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "自动化 (System Events)"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otomasyon (System Events)"
           }
         }
       }
@@ -12802,6 +15527,12 @@
             "state": "translated",
             "value": "允许蓝牙权限以读取受支持配件的电量。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desteklenen aksesuarlardan pil düzeylerini okumak için Bluetooth erişimine izin verin."
+          }
         }
       }
     },
@@ -12830,6 +15561,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "蓝牙"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bluetooth"
           }
         }
       }
@@ -12860,6 +15597,12 @@
             "state": "translated",
             "value": "允许日历权限以显示即将到来的事件。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yaklaşan etkinliklerinizi göstermek için Takvim erişimine izin verin."
+          }
         }
       }
     },
@@ -12888,6 +15631,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "日历"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Takvim"
           }
         }
       }
@@ -12918,6 +15667,12 @@
             "state": "translated",
             "value": "允许相机权限以在刘海中显示相机预览。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çentikte kamera önizlemesi göstermek için Kamera erişimine izin verin."
+          }
         }
       }
     },
@@ -12946,6 +15701,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "相机"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kamera"
           }
         }
       }
@@ -12976,6 +15737,12 @@
             "state": "translated",
             "value": "允许完全磁盘访问权限以显示专注模式的真实名称和自定义图标。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Odak modlarının gerçek adlarını ve özel simgelerini göstermek için Tam Disk Erişimi'ne izin verin."
+          }
         }
       }
     },
@@ -13004,6 +15771,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "完全磁盘访问权限"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tam Disk Erişimi"
           }
         }
       }
@@ -13034,6 +15807,12 @@
             "state": "translated",
             "value": "允许媒体控制事件权限，以便在正在播放中使用播放、暂停和曲目按钮。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oynat, duraklat ve parça düğmelerinin Çalınıyor üzerinden çalışması için ortam denetimi olaylarına erişime izin verin."
+          }
         }
       }
     },
@@ -13062,6 +15841,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "媒体控制"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ortam Denetimleri"
           }
         }
       }
@@ -13092,6 +15877,12 @@
             "state": "translated",
             "value": "已授权"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verildi"
+          }
         }
       }
     },
@@ -13120,6 +15911,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Premiso requerido"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erişim gerekli"
           }
         }
       }
@@ -13150,6 +15947,12 @@
             "state": "translated",
             "value": "重置"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sıfırla"
+          }
         }
       }
     },
@@ -13178,6 +15981,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "这将仅恢复当前选项卡的默认值。此操作无法撤消。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu işlem yalnızca geçerli sekmedeki değerleri varsayılana döndürür. Bu işlem geri alınamaz."
           }
         }
       }
@@ -13208,6 +16017,12 @@
             "state": "translated",
             "value": "重置 %@ 设置？"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ ayarları sıfırlansın mı?"
+          }
         }
       }
     },
@@ -13236,6 +16051,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "延迟后自动关闭截图通知。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran görüntüsü bildirimini bir süre sonra otomatik olarak kapat."
           }
         }
       }
@@ -13266,6 +16087,12 @@
             "state": "translated",
             "value": "自动关闭截图"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran görüntüsünü otomatik kapat"
+          }
         }
       }
     },
@@ -13294,6 +16121,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "屏幕捕捉活动"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran Yakalama etkinliği"
           }
         }
       }
@@ -13324,6 +16157,12 @@
             "state": "translated",
             "value": "截图显示时长"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran görüntüsü süresi"
+          }
         }
       }
     },
@@ -13352,6 +16191,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "保存位置"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kayıt Konumları"
           }
         }
       }
@@ -13382,6 +16227,12 @@
             "state": "translated",
             "value": "桌面 (%@)"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Masaüstü (%@)"
+          }
         }
       }
     },
@@ -13410,6 +16261,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "调整录制通知的自动关闭时间。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kayıt bildiriminin otomatik kapanma zamanlamasını ayarlayın."
           }
         }
       }
@@ -13440,6 +16297,12 @@
             "state": "translated",
             "value": "录制时长"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kayıt süresi"
+          }
         }
       }
     },
@@ -13468,6 +16331,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "屏幕录制时显示实时活动。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran kaydedilirken canlı etkinlik göster."
           }
         }
       }
@@ -13498,6 +16367,12 @@
             "state": "translated",
             "value": "屏幕录制实时活动"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran kaydı canlı etkinliği"
+          }
         }
       }
     },
@@ -13526,6 +16401,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "选择屏幕录制的保存位置。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran kayıtlarının nereye kaydedileceğini seçin."
           }
         }
       }
@@ -13556,6 +16437,12 @@
             "state": "translated",
             "value": "录制文件夹"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kayıtlar klasörü"
+          }
         }
       }
     },
@@ -13584,6 +16471,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "截图时显示短暂通知。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran görüntüsü alındığında kısa bir bildirim göster."
           }
         }
       }
@@ -13614,6 +16507,12 @@
             "state": "translated",
             "value": "截图活动"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran görüntüsü etkinliği"
+          }
         }
       }
     },
@@ -13642,6 +16541,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "选择截图的保存位置。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran görüntülerinin nereye kaydedileceğini seçin."
           }
         }
       }
@@ -13672,6 +16577,12 @@
             "state": "translated",
             "value": "截图文件夹"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran görüntüleri klasörü"
+          }
         }
       }
     },
@@ -13700,6 +16611,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "尝试为“%@”使用不同的关键字。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\"%@\" için farklı bir anahtar sözcük deneyin."
           }
         }
       }
@@ -13730,6 +16647,12 @@
             "state": "translated",
             "value": "未找到设置"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayar Bulunamadı"
+          }
         }
       }
     },
@@ -13758,6 +16681,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "搜索"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ara"
           }
         }
       }
@@ -13788,6 +16717,12 @@
             "state": "translated",
             "value": "搜索"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arama"
+          }
         }
       }
     },
@@ -13816,6 +16751,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "项目详细信息、链接和发布信息。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Proje ayrıntıları, bağlantılar ve sürüm bilgileri."
           }
         }
       }
@@ -13846,6 +16787,12 @@
             "state": "translated",
             "value": "关于"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hakkında"
+          }
         }
       }
     },
@@ -13874,6 +16821,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "充电、低电量和满电通知。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Şarj, düşük pil ve dolu pil bildirimleri."
           }
         }
       }
@@ -13904,6 +16857,12 @@
             "state": "translated",
             "value": "电池"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pil"
+          }
         }
       }
     },
@@ -13932,6 +16891,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "蓝牙配件的连接反馈。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bluetooth aksesuarları için bağlantı geri bildirimi."
           }
         }
       }
@@ -13962,6 +16927,12 @@
             "state": "translated",
             "value": "蓝牙"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bluetooth"
+          }
         }
       }
     },
@@ -13990,6 +16961,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "配置即将到来的日历事件设置。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yaklaşan takvim etkinliği ayarlarını yapılandırın."
           }
         }
       }
@@ -14020,6 +16997,12 @@
             "state": "translated",
             "value": "日历"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Takvim"
+          }
         }
       }
     },
@@ -14048,6 +17031,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "用于测试的手动预览和事件触发器。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Test için elle önizlemeler ve olay tetikleyicileri."
           }
         }
       }
@@ -14078,6 +17067,12 @@
             "state": "translated",
             "value": "调试"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hata Ayıklama"
+          }
         }
       }
     },
@@ -14106,6 +17101,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "实时下载跟踪和传输预览。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Canlı indirme takibi ve aktarım önizlemeleri."
           }
         }
       }
@@ -14136,6 +17137,12 @@
             "state": "translated",
             "value": "下载"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İndirilenler"
+          }
         }
       }
     },
@@ -14164,6 +17171,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "通过刘海拖动文件的 AirDrop 和托盘目标。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çentiğe sürüklenen dosyalar için AirDrop ve Tepsi hedefleri."
           }
         }
       }
@@ -14194,6 +17207,12 @@
             "state": "translated",
             "value": "拖放"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sürükle&Bırak"
+          }
         }
       }
     },
@@ -14222,6 +17241,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "专注模式状态更改和快速状态更新。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Odak modu durum değişiklikleri ve hızlı durum güncellemeleri."
           }
         }
       }
@@ -14252,6 +17277,12 @@
             "state": "translated",
             "value": "专注模式"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Odak"
+          }
         }
       }
     },
@@ -14280,6 +17311,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "启动、显示位置和应用语言。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Başlangıç, ekran yerleşimi ve uygulama dili."
           }
         }
       }
@@ -14310,6 +17347,12 @@
             "state": "translated",
             "value": "通用"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Genel"
+          }
         }
       }
     },
@@ -14338,6 +17381,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "配置刘海主页上可见的页面。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çentiğin ana sayfasında görünen sayfaları yapılandırın."
           }
         }
       }
@@ -14368,6 +17417,12 @@
             "state": "translated",
             "value": "主页"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ana Sayfa"
+          }
         }
       }
     },
@@ -14397,6 +17452,12 @@
             "state": "translated",
             "value": "自定义音量、亮度和键盘 HUD 替换。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ses düzeyi, parlaklık ve klavye HUD'ları için özel alternatifler."
+          }
         }
       }
     },
@@ -14422,6 +17483,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "HUD"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "HUD"
@@ -14455,6 +17522,12 @@
             "state": "translated",
             "value": "选择应用界面的语言。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uygulama arayüzünün dilini seçin."
+          }
         }
       }
     },
@@ -14483,6 +17556,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "语言"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dil"
           }
         }
       }
@@ -14513,6 +17592,12 @@
             "state": "translated",
             "value": "锁定过渡、声音和锁屏媒体行为。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kilitleme geçişleri, ses ve kilit ekranı ortam davranışı."
+          }
         }
       }
     },
@@ -14541,6 +17626,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "锁屏"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kilit Ekranı"
           }
         }
       }
@@ -14571,6 +17662,12 @@
             "state": "translated",
             "value": "外观、动画和临时活动显示时长。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Görünüm, animasyon ve geçici etkinlik zamanlaması."
+          }
         }
       }
     },
@@ -14599,6 +17696,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "刘海"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çentik"
           }
         }
       }
@@ -14629,6 +17732,12 @@
             "state": "translated",
             "value": "在刘海中显示媒体播放控制。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çentikte gösterilen ortam oynatma denetimleri."
+          }
         }
       }
     },
@@ -14657,6 +17766,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "正在播放"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Çalınıyor"
           }
         }
       }
@@ -14687,6 +17802,12 @@
             "state": "translated",
             "value": "管理系统权限和访问设置。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem izinlerini ve erişim ayarlarını yönetin."
+          }
         }
       }
     },
@@ -14715,6 +17836,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "权限"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İzinler"
           }
         }
       }
@@ -14745,6 +17872,12 @@
             "state": "translated",
             "value": "截图和屏幕录制活动行为。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran görüntüsü ve ekran kaydı etkinliği davranışı."
+          }
         }
       }
     },
@@ -14773,6 +17906,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "屏幕截图"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran Yakalama"
           }
         }
       }
@@ -14803,6 +17942,12 @@
             "state": "translated",
             "value": "检查更新并管理更新偏好设置。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Güncellemeleri denetleyin ve güncelleme tercihlerini yönetin."
+          }
         }
       }
     },
@@ -14831,6 +17976,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "软件更新"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yazılım Güncellemesi"
           }
         }
       }
@@ -14861,6 +18012,12 @@
             "state": "translated",
             "value": "时钟计时器实时活动和描边外观。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saat zamanlayıcısı canlı etkinliği ve kenarlık görünümü."
+          }
         }
       }
     },
@@ -14889,6 +18046,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "计时器"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zamanlayıcı"
           }
         }
       }
@@ -14919,6 +18082,12 @@
             "state": "translated",
             "value": "选择首选 VPN 连接并配置行为。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tercih edilen VPN bağlantısını seçin ve davranışını yapılandırın."
+          }
         }
       }
     },
@@ -14944,6 +18113,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "VPN"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "VPN"
@@ -14977,6 +18152,12 @@
             "state": "translated",
             "value": "Wi-Fi 和个人热点活动。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wi-Fi ve Kişisel Erişim Noktası etkinliği."
+          }
         }
       }
     },
@@ -15002,6 +18183,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wi-Fi"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Wi-Fi"
@@ -15035,6 +18222,12 @@
             "state": "translated",
             "value": "Bitcoin (BTC)"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bitcoin (BTC)"
+          }
         }
       }
     },
@@ -15064,6 +18257,12 @@
             "state": "translated",
             "value": "支持开发或订阅"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geliştirmeye destek olun veya abone olun"
+          }
         }
       }
     },
@@ -15089,6 +18288,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Boosty.to"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Boosty.to"
@@ -15122,6 +18327,12 @@
             "state": "translated",
             "value": "加密货币"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kripto Para"
+          }
         }
       }
     },
@@ -15150,6 +18361,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "DynamicNotch 是一个免费且开源的项目。如果你喜欢这个应用，请支持它的开发！您的捐赠是继续开发该项目的动力。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch ücretsiz ve açık kaynaklı bir projedir. Uygulamayı beğendiyseniz geliştirilmesine destek olun! Bağışlar projeyi daha da ileri taşımak için motivasyon sağlar."
           }
         }
       }
@@ -15180,6 +18397,12 @@
             "state": "translated",
             "value": "通过银行卡或加密货币一次性捐赠"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kart veya kripto ile tek seferlik bağış"
+          }
         }
       }
     },
@@ -15205,6 +18428,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Donation Alerts"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Donation Alerts"
@@ -15238,6 +18467,12 @@
             "state": "translated",
             "value": "支持 DynamicNotch"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch'a Destek Ol"
+          }
         }
       }
     },
@@ -15263,6 +18498,12 @@
           }
         },
         "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "USDT (ERC-20)"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "USDT (ERC-20)"
@@ -15296,6 +18537,12 @@
             "state": "translated",
             "value": "USDT (TRC-20)"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "USDT (TRC-20)"
+          }
         }
       }
     },
@@ -15324,6 +18571,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "在 Dock 中显示应用以便快速切换和窗口访问。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daha hızlı geçiş ve pencere erişimi için uygulamayı Dock'ta görünür tut."
           }
         }
       }
@@ -15354,6 +18607,12 @@
             "state": "translated",
             "value": "在 Dock 中显示图标"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dock simgesini göster"
+          }
         }
       }
     },
@@ -15382,6 +18641,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "登录时自动启动 Dynamic Notch。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oturum açtığınızda Dynamic Notch'u otomatik olarak başlat."
           }
         }
       }
@@ -15412,6 +18677,12 @@
             "state": "translated",
             "value": "登录时启动"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Girişte başlat"
+          }
         }
       }
     },
@@ -15440,6 +18711,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "在菜单栏中显示快捷方式以快速访问设置和退出。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayarlar ve Çık'a hızlı erişim için menü çubuğu kısayolunu göster."
           }
         }
       }
@@ -15470,6 +18747,12 @@
             "state": "translated",
             "value": "在菜单栏中显示图标"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Menü çubuğu simgesini göster"
+          }
         }
       }
     },
@@ -15498,6 +18781,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "您可以通过右键点击刘海区域访问菜单。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Menüye, çentik alanına sağ tıklayarak erişebilirsiniz."
           }
         }
       }
@@ -15528,6 +18817,12 @@
             "state": "translated",
             "value": "在刘海中显示活动中的“时钟”计时器。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Etkin Saat zamanlayıcısını çentikte göster."
+          }
         }
       }
     },
@@ -15556,6 +18851,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "计时器实时活动"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zamanlayıcı canlı etkinliği"
           }
         }
       }
@@ -15586,6 +18887,12 @@
             "state": "translated",
             "value": "计时器活动"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zamanlayıcı etkinliği"
+          }
         }
       }
     },
@@ -15614,6 +18921,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "声音"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ses"
           }
         }
       }
@@ -15644,6 +18957,12 @@
             "state": "translated",
             "value": "计时器结束时播放提示音。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zamanlayıcı bittiğinde alarm sesi çal."
+          }
         }
       }
     },
@@ -15672,6 +18991,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "计时器声音"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zamanlayıcı sesi"
           }
         }
       }
@@ -15702,6 +19027,12 @@
             "state": "translated",
             "value": "选择计时器结束时的提示音。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zamanlayıcı tamamlandığında çalacak alarm sesini seçin."
+          }
         }
       }
     },
@@ -15731,11 +19062,49 @@
             "state": "translated",
             "value": "提示音"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ses"
+          }
         }
       }
     },
     "settings.title": {
-      "extractionState": "manual"
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settings"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Настройки"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajustes"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "设置"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayarlar"
+          }
+        }
+      }
     },
     "settings.toolbar.back": {
       "extractionState": "manual",
@@ -15762,6 +19131,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "返回"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geri"
           }
         }
       }
@@ -15792,6 +19167,12 @@
             "state": "translated",
             "value": "前进"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İleri"
+          }
         }
       }
     },
@@ -15820,6 +19201,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "重置当前标签页"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçerli sekmeyi varsayılanlara sıfırla"
           }
         }
       }
@@ -15850,6 +19237,12 @@
             "state": "translated",
             "value": "允许 Dynamic Notch 自动检查新版本。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dynamic Notch'un yeni sürümleri otomatik olarak denetlemesine izin verin."
+          }
         }
       }
     },
@@ -15878,6 +19271,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "自动检查更新"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Güncellemeleri otomatik olarak denetle"
           }
         }
       }
@@ -15908,6 +19307,12 @@
             "state": "translated",
             "value": "在后台下载更新，准备就绪时通知您。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Güncellemeleri arka planda indir ve hazır olduğunda bildir."
+          }
         }
       }
     },
@@ -15936,6 +19341,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "自动下载更新"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Güncellemeleri otomatik olarak indir"
           }
         }
       }
@@ -15966,6 +19377,12 @@
             "state": "translated",
             "value": "立即检查"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Şimdi denetle"
+          }
         }
       }
     },
@@ -15994,6 +19411,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "紧凑"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kompakt"
           }
         }
       }
@@ -16024,6 +19447,12 @@
             "state": "translated",
             "value": "详细"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayrıntılı"
+          }
         }
       }
     },
@@ -16052,6 +19481,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "VPN 活动"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "VPN etkinliği"
           }
         }
       }
@@ -16082,6 +19517,12 @@
             "state": "translated",
             "value": "VPN 外观"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "VPN görünümü"
+          }
         }
       }
     },
@@ -16110,6 +19551,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "VPN 显示时长"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "VPN süresi"
           }
         }
       }
@@ -16140,6 +19587,12 @@
             "state": "translated",
             "value": "首选 VPN"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tercih edilen VPN"
+          }
         }
       }
     },
@@ -16168,6 +19621,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "VPN 断开临时活动"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "VPN bağlantısı kesildi geçici etkinliği"
           }
         }
       }
@@ -16198,6 +19657,12 @@
             "state": "translated",
             "value": "VPN 连接停用时显示短暂通知。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir VPN bağlantısı pasif hale geldiğinde kısa bir bildirim göster."
+          }
         }
       }
     },
@@ -16226,6 +19691,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "VPN 断开通知时长"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "VPN bağlantı kesilme süresi"
           }
         }
       }
@@ -16256,6 +19727,12 @@
             "state": "translated",
             "value": "选择 VPN 断开通知的显示时长。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "VPN bağlantı kesilme bildiriminin ne kadar süre görünür kalacağını seçin."
+          }
         }
       }
     },
@@ -16284,6 +19761,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "VPN 通知时长"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "VPN süresi"
           }
         }
       }
@@ -16314,6 +19797,12 @@
             "state": "translated",
             "value": "选择 VPN 连接通知的显示时长。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "VPN bağlantı bildiriminin ne kadar süre görünür kalacağını seçin."
+          }
         }
       }
     },
@@ -16342,6 +19831,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "选择 VPN 活动是保持紧凑还是显示隧道详情。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "VPN etkinliğinin kompakt mı kalacağını yoksa tünel ayrıntılarını mı göstereceğini seçin."
           }
         }
       }
@@ -16372,6 +19867,12 @@
             "state": "translated",
             "value": "VPN 样式"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "VPN stili"
+          }
         }
       }
     },
@@ -16400,6 +19901,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "VPN 临时活动"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "VPN geçici etkinliği"
           }
         }
       }
@@ -16430,6 +19937,12 @@
             "state": "translated",
             "value": "VPN 连接激活时显示短暂通知。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir VPN bağlantısı etkin hale geldiğinde kısa bir bildirim göster."
+          }
         }
       }
     },
@@ -16458,6 +19971,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "选择热点活动是保持简约还是显示更多状态。"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erişim noktası etkinliğinin minimal mi kalacağını yoksa daha fazla durum mu göstereceğini seçin."
           }
         }
       }
@@ -16488,6 +20007,12 @@
             "state": "translated",
             "value": "外观"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Görünüm"
+          }
         }
       }
     },
@@ -16516,6 +20041,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Wi-Fi 活动"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wi-Fi etkinliği"
           }
         }
       }
@@ -16546,6 +20077,12 @@
             "state": "translated",
             "value": "Wi-Fi 显示时长"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wi-Fi süresi"
+          }
         }
       }
     },
@@ -16574,6 +20111,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "热点外观"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erişim noktası görünümü"
           }
         }
       }
@@ -16604,6 +20147,12 @@
             "state": "translated",
             "value": "选择 Wi-Fi 重连通知的显示时长。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wi-Fi yeniden bağlanma bildiriminin ne kadar süre görünür kalacağını seçin."
+          }
         }
       }
     },
@@ -16632,6 +20181,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Wi-Fi 通知时长"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wi-Fi süresi"
           }
         }
       }
@@ -16662,6 +20217,12 @@
             "state": "translated",
             "value": "个人热点开启时显示实时活动。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kişisel Erişim Noktası etkinken canlı etkinlik göster."
+          }
         }
       }
     },
@@ -16690,6 +20251,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "个人热点实时活动"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kişisel Erişim Noktası canlı etkinliği"
           }
         }
       }
@@ -16720,6 +20287,12 @@
             "state": "translated",
             "value": "详细"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayrıntılı"
+          }
         }
       }
     },
@@ -16748,6 +20321,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "极简"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Minimal"
           }
         }
       }
@@ -16778,6 +20357,12 @@
             "state": "translated",
             "value": "Mac 失去互联网连接时显示短暂通知。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac'iniz internet erişimini kaybettiğinde kısa bir bildirim göster."
+          }
         }
       }
     },
@@ -16806,6 +20391,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "无网络临时活动"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İnternet yok geçici etkinliği"
           }
         }
       }
@@ -16836,6 +20427,12 @@
             "state": "translated",
             "value": "Wi-Fi 重新连接时显示短暂通知。"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wi-Fi yeniden bağlandığında kısa bir bildirim göster."
+          }
         }
       }
     },
@@ -16864,6 +20461,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Wi-Fi 临时活动"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wi-Fi geçici etkinliği"
           }
         }
       }

@@ -272,6 +272,7 @@
 				es,
 				Base,
 				ru,
+				tr,
 				"zh-Hans",
 			);
 			mainGroup = E2EF78482EDDB60E00F96D1E;
@@ -538,7 +539,7 @@
 				INFOPLIST_KEY_NSAppleEventsUsageDescription = "We need access to media data for display in Notch.";
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "The app requires Bluetooth access to check the status of devices.";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "The app requires access to your location to determine the name of your current Wi-Fi network.";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "The app requires local network access to determine the name of your current Wi-Fi network.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -595,7 +596,7 @@
 				INFOPLIST_KEY_NSAppleEventsUsageDescription = "We need access to media data for display in Notch.";
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "The app requires Bluetooth access to check the status of devices.";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "The app requires access to your location to determine the name of your current Wi-Fi network.";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "The app requires local network access to determine the name of your current Wi-Fi network.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",

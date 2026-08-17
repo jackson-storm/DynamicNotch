@@ -169,6 +169,7 @@ The project currently includes localized app content for:
 - Greek
 - Danish
 - Finnish
+- Norwegian
 
 ## 💖 Support
 

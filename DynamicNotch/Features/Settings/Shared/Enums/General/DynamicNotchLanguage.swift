@@ -38,6 +38,8 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
 
     case finnish = "fi"
 
+    case norwegian = "nb"
+
     var id: String { rawValue }
 
     var locale: Locale {
@@ -95,6 +97,8 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
             return ["da", "da-DK"]
         case .finnish:
             return ["fi", "fi-FI"]
+        case .norwegian:
+            return ["nb", "no", "nb-NO", "nn-NO"]
         default:
             return [rawValue]
         }
@@ -158,6 +162,8 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
             return "settings.language.option.danish"
         case .finnish:
             return "settings.language.option.finnish"
+        case .norwegian:
+            return "settings.language.option.norwegian"
         }
     }
 
@@ -223,6 +229,8 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
             return "danish"
         case .finnish:
             return "finnish"
+        case .norwegian:
+            return "norwegian"
         }
     }
 
@@ -284,6 +292,8 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
             return "Danish"
         case .finnish:
             return "Finnish"
+        case .norwegian:
+            return "Norwegian"
         }
     }
 
@@ -345,6 +355,8 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
             return "Dansk."
         case .finnish:
             return "Suom."
+        case .norwegian:
+            return "Norsk."
         }
     }
 
@@ -406,6 +418,8 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
             return [Color.red, Color.white]
         case .finnish:
             return [Color.blue, Color.white]
+        case .norwegian:
+            return [Color.red, Color.blue]
         }
     }
 

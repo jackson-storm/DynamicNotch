@@ -108,6 +108,7 @@ final class LocalizationCatalogTests: XCTestCase {
         XCTAssertEqual(DynamicNotchLanguage.resolved("el"), .greek)
         XCTAssertEqual(DynamicNotchLanguage.resolved("da"), .danish)
         XCTAssertEqual(DynamicNotchLanguage.resolved("fi"), .finnish)
+        XCTAssertEqual(DynamicNotchLanguage.resolved("nb"), .norwegian)
     }
 }
 
@@ -140,5 +141,6 @@ private extension LocalizationCatalogTests {
         XCTAssertEqual(DynamicNotchLanguage.resolved("el"), .greek)
         XCTAssertEqual(DynamicNotchLanguage.resolved("da"), .danish)
         XCTAssertEqual(DynamicNotchLanguage.resolved("fi"), .finnish)
+        XCTAssertEqual(DynamicNotchLanguage.resolved("nb"), .norwegian)
     }
 }

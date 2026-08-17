@@ -172,6 +172,7 @@ The project currently includes localized app content for:
 - Norwegian
 - Malay
 - Hebrew
+- Bulgarian
 
 ## 💖 Support
 

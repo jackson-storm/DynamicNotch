@@ -162,6 +162,7 @@ The project currently includes localized app content for:
 - Swedish
 - Czech
 - Arabic
+- Hindi
 
 ## 💖 Support
 

@@ -16,6 +16,12 @@
             "state": "translated",
             "value": "DynamicNotch"
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch"
+          }
         }
       }
     },
@@ -140,6 +146,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "السماح بالتحكم في أحداث النظام لتوسيط نوافذ معاينة لقطات الشاشة والتسجيل تلقائياً على شاشة الشق."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "नॉच डिस्प्ले पर स्क्रीनशॉट और रिकॉर्डिंग पूर्वावलोकन विंडो को स्वचालित रूप से केंद्रित करने के लिए सिस्टम इवेंट्स को नियंत्रित करने की अनुमति दें।"
           }
         }
       }
@@ -266,6 +278,12 @@
             "state": "translated",
             "value": "يحتاج DynamicNotch للوصول إلى البلوتوث لعرض حالة البطارية والاتصال لملحقاتك اللاسلكية."
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch को आपके वायरलेस एक्सेसरीज़ के लिए बैटरी और कनेक्शन स्थिति प्रदर्शित करने के लिए ब्लूटूथ एक्सेस की आवश्यकता होती है।"
+          }
         }
       }
     },
@@ -390,6 +408,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "يحتاج DynamicNotch للوصول الكامل للتقويم لعرض أحداثك القادمة في الشق."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "नॉच में आपके आगामी ईवेंट प्रदर्शित करने के लिए DynamicNotch को पूर्ण कैलेंडर एक्सेस की आवश्यकता है।"
           }
         }
       }
@@ -516,6 +540,12 @@
             "state": "translated",
             "value": "يحتاج DynamicNotch للوصول للتقويم لعرض أحداثك القادمة في الشق."
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "नॉच में आपके आगामी ईवेंट प्रदर्शित करने के लिए DynamicNotch को कैलेंडर एक्सेस की आवश्यकता है।"
+          }
         }
       }
     },
@@ -641,6 +671,12 @@
             "state": "translated",
             "value": "يحتاج DynamicNotch للوصول للكاميرا لعرض معاينة الكاميرا مباشرة في الشق."
           }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch को सीधे नॉच में कैमरा पूर्वावलोकन प्रदर्शित करने के लिए कैमरा एक्सेस की आवश्यकता होती है।"
+          }
         }
       }
     },
@@ -658,6 +694,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "حقوق النشر © 2025 jackson-storm. جميع الحقوق محفوظة."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "कॉपीराइट © 2025 jackson-storm. सर्वाधिकार सुरक्षित।"
           }
         }
       }
@@ -783,6 +825,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "يحتاج DynamicNotch للوصول إلى الشبكة المحلية لاكتشاف أجهزة AirDrop القريبة لنقل الملفات عبر الشق."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "नॉच के माध्यम से फ़ाइल स्थानांतरण के लिए आस-पास के AirDrop उपकरणों को खोजने के लिए DynamicNotch को स्थानीय नेटवर्क एक्सेस की आवश्यकता है।"
           }
         }
       }

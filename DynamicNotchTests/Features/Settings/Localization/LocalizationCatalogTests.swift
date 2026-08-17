@@ -100,6 +100,7 @@ final class LocalizationCatalogTests: XCTestCase {
         XCTAssertEqual(DynamicNotchLanguage.resolved("uk"), .ukrainian)
         XCTAssertEqual(DynamicNotchLanguage.resolved("sv"), .swedish)
         XCTAssertEqual(DynamicNotchLanguage.resolved("cs"), .czech)
+        XCTAssertEqual(DynamicNotchLanguage.resolved("ar"), .arabic)
     }
 }
 

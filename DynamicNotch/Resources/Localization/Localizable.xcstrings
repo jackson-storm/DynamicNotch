@@ -470,6 +470,12 @@
             "state": "translated",
             "value": "%lld souborů"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld ملفات"
+          }
         }
       }
     },
@@ -2131,6 +2137,12 @@
             "state": "translated",
             "value": "Adresa: %@"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "العنوان: %@"
+          }
         }
       }
     },
@@ -2369,6 +2381,12 @@
             "state": "translated",
             "value": "Cíl AirDrop"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هدف AirDrop"
+          }
         }
       }
     },
@@ -2487,6 +2505,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Přenos AirDrop"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نقل AirDrop"
           }
         }
       }
@@ -2726,6 +2750,12 @@
             "state": "translated",
             "value": "Vše"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الكل"
+          }
         }
       }
     },
@@ -2844,6 +2874,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Celý den"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "طوال اليوم"
           }
         }
       }
@@ -2964,6 +3000,12 @@
             "state": "translated",
             "value": "Použít vzorek plné baterie a zobrazit oznámení o dokončení."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تطبيق عينة بطارية ممتلئة وإظهار إشعار الاكتمال."
+          }
         }
       }
     },
@@ -3082,6 +3124,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Použít vzorek slabé baterie a zobrazit upozornění na nízkou energii."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تطبيق عينة بطارية منخفضة وإظهار تنبيه الطاقة المنخفضة."
           }
         }
       }
@@ -3202,6 +3250,12 @@
             "state": "translated",
             "value": "Použít vzorek stavu nabíjení a zobrazit oznámení o nabíječce."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تطبيق حالة شحن تجريبية وإظهار إشعار الشاحن."
+          }
         }
       }
     },
@@ -3320,6 +3374,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Slabá baterie"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "البطارية منخفضة"
           }
         }
       }
@@ -3440,6 +3500,12 @@
             "state": "translated",
             "value": "Bluetooth připojeno"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "البلوتوث متصل"
+          }
         }
       }
     },
@@ -3558,6 +3624,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "HUD jasu"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض السطوع"
           }
         }
       }
@@ -3678,6 +3750,12 @@
             "state": "translated",
             "value": "Fotoaparát není k dispozici"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الكاميرا غير متاحة"
+          }
         }
       }
     },
@@ -3796,6 +3874,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Nabíjení"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جارٍ الشحن"
           }
         }
       }
@@ -3916,6 +4000,12 @@
             "state": "translated",
             "value": "Kombinované cíle"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أهداف مجمعة"
+          }
         }
       }
     },
@@ -4034,6 +4124,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Převodník převádí"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المحوّل يحوّل"
           }
         }
       }
@@ -4154,6 +4250,12 @@
             "state": "translated",
             "value": "Převodník selhal"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فشل التحويل"
+          }
         }
       }
     },
@@ -4272,6 +4374,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Převodník úspěšný"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نجح التحويل"
           }
         }
       }
@@ -4392,6 +4500,12 @@
             "state": "translated",
             "value": "Cíl převodníku"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هدف المحوّل"
+          }
         }
       }
     },
@@ -4510,6 +4624,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Sada ladění"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مجموعة التصحيح"
           }
         }
       }
@@ -4630,6 +4750,12 @@
             "state": "translated",
             "value": "Zavřít aktuálně viditelné dočasné oznámení."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إخفاء الإشعار المؤقت المرئي حالياً."
+          }
         }
       }
     },
@@ -4748,6 +4874,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Stahování zastaveno"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "توقف التنزيل"
           }
         }
       }
@@ -4868,6 +5000,12 @@
             "state": "translated",
             "value": "Stahování"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التنزيلات"
+          }
         }
       }
     },
@@ -4987,6 +5125,12 @@
             "state": "translated",
             "value": "Přetažení ukončeno"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "انتهى السحب"
+          }
         }
       }
     },
@@ -5105,6 +5249,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vložení dokončeno"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اكتمل الإسقاط"
           }
         }
       }
@@ -5344,6 +5494,12 @@
             "state": "translated",
             "value": "Prázdné místo"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "موقع فارغ"
+          }
         }
       }
     },
@@ -5462,6 +5618,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Převodník souborů aktivní"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "محوّل الملفات نشط"
           }
         }
       }
@@ -5582,6 +5744,12 @@
             "state": "translated",
             "value": "Přihrádka na soubory aktivní"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "درج الملفات نشط"
+          }
         }
       }
     },
@@ -5700,6 +5868,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Dokončit aktivní přetažení událostí vložení."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إنهاء سحب نشط بحدث الإسقاط."
           }
         }
       }
@@ -5820,6 +5994,12 @@
             "state": "translated",
             "value": "Soustředění vypnuto"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التركيز مغلق"
+          }
         }
       }
     },
@@ -5938,6 +6118,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Soustředění zapnuto"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التركيز مفعّل"
           }
         }
       }
@@ -6058,6 +6244,12 @@
             "state": "translated",
             "value": "Plná baterie"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بطارية ممتلئة"
+          }
         }
       }
     },
@@ -6176,6 +6368,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Skrýt aktuální dočasné"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إخفاء المؤقت الحالي"
           }
         }
       }
@@ -6296,6 +6494,12 @@
             "state": "translated",
             "value": "Skrýt aktivní cíle přetažení událostí ukončení přetažení."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إخفاء أهداف السحب النشطة بحدث انتهاء السحب."
+          }
         }
       }
     },
@@ -6413,6 +6617,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Skrýt živou aktivitu Soustředění a zobrazit krátké oznámení 'Vypnuto'."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إخفاء نشاط التركيز المباشر وإظهار إشعار \"مغلق\" القصير."
           }
         }
       }
@@ -6533,6 +6743,12 @@
             "state": "translated",
             "value": "Skrýt živou aktivitu 'Právě hraje' událostí zastavení."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إخفاء نشاط \"يُعرض الآن\" المباشر بحدث التوقف."
+          }
         }
       }
     },
@@ -6651,6 +6867,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Skrýt živou aktivitu stahování událostí zastavení."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إخفاء نشاط التنزيلات المباشر بحدث التوقف."
           }
         }
       }
@@ -6771,6 +6993,12 @@
             "state": "translated",
             "value": "Skrýt živou aktivitu hotspotu událostí skrytí hotspotu."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إخفاء نشاط نقطة الاتصال المباشر بحدث الإخفاء."
+          }
         }
       }
     },
@@ -6889,6 +7117,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Skrýt živou aktivitu zamčené obrazovky událostí zastavení."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إخفاء نشاط شاشة القفل المباشر بحدث التوقف."
           }
         }
       }
@@ -7009,6 +7243,12 @@
             "state": "translated",
             "value": "Skrýt živou aktivitu záznamu obrazovky."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إخفاء نشاط تسجيل الشاشة المباشر."
+          }
         }
       }
     },
@@ -7127,6 +7367,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Skrýt živou aktivitu minutky událostí zastavení."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إخفاء نشاط المؤقت المباشر بحدث التوقف."
           }
         }
       }
@@ -7247,6 +7493,12 @@
             "state": "translated",
             "value": "Hotspot aktivní"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نقطة الاتصال نشطة"
+          }
         }
       }
     },
@@ -7365,6 +7617,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Hotspot skrytý"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نقطة الاتصال مخفية"
           }
         }
       }
@@ -7485,6 +7743,12 @@
             "state": "translated",
             "value": "Pokud je originál přesunut do přihrádky a odtud smazán, můžete jej obnovit z koše."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إذا تم نقل الأصل إلى الدرج وحذفه من هناك، يمكنك استعادته من سلة المهملات."
+          }
         }
       }
     },
@@ -7603,6 +7867,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Připojit se ke schůzce"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الانضمام للاجتماع"
           }
         }
       }
@@ -7723,6 +7993,12 @@
             "state": "translated",
             "value": "Ponechat živou aktivitu hotspotu viditelnou, dokud ji nevypnete."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إبقاء نشاط نقطة الاتصال مرئياً حتى إيقافه."
+          }
         }
       }
     },
@@ -7841,6 +8117,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "HUD klávesnice"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض لوحة المفاتيح"
           }
         }
       }
@@ -7961,6 +8243,12 @@
             "state": "translated",
             "value": "Zamčená obrazovka"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شاشة القفل"
+          }
         }
       }
     },
@@ -8079,6 +8367,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zamčená obrazovka zastavena"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "توقفت شاشة القفل"
           }
         }
       }
@@ -8318,6 +8612,12 @@
             "state": "translated",
             "value": "Žádné připojení k internetu"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا يوجد اتصال بالإنترنت"
+          }
         }
       }
     },
@@ -8556,6 +8856,12 @@
             "state": "translated",
             "value": "Žádné nadcházející události"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا توجد أحداث قادمة"
+          }
         }
       }
     },
@@ -8674,6 +8980,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Výška výřezu změněna"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تغيّر ارتفاع الشق"
           }
         }
       }
@@ -8794,6 +9106,12 @@
             "state": "translated",
             "value": "Šířka výřezu změněna"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تغيّر عرض الشق"
+          }
         }
       }
     },
@@ -8912,6 +9230,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Právě hraje"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يُعرض الآن"
           }
         }
       }
@@ -9032,6 +9356,12 @@
             "state": "translated",
             "value": "Právě hraje pozastaveno"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يُعرض الآن - متوقف مؤقتاً"
+          }
         }
       }
     },
@@ -9150,6 +9480,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Právě hraje přehrává se"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يُعرض الآن - قيد التشغيل"
           }
         }
       }
@@ -9270,6 +9606,12 @@
             "state": "translated",
             "value": "Právě hraje zastaveno"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يُعرض الآن - متوقف"
+          }
         }
       }
     },
@@ -9388,6 +9730,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Úvodní průvodce"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإعداد الأولي"
           }
         }
       }
@@ -9508,6 +9856,12 @@
             "state": "translated",
             "value": "Přehrát všechny události"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تشغيل جميع الأحداث"
+          }
         }
       }
     },
@@ -9626,6 +9980,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Náhled živé aktivity uzamčení bez skutečného uzamčení macOS."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "معاينة نشاط القفل المباشر بدون قفل macOS فعلياً."
           }
         }
       }
@@ -9746,6 +10106,12 @@
             "state": "translated",
             "value": "Náhled trvalé živé aktivity Soustředění."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "معاينة نشاط التركيز المباشر المستمر."
+          }
         }
       }
     },
@@ -9864,6 +10230,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Náhled trvalého indikátoru záznamu obrazovky."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "معاينة مؤشر تسجيل الشاشة المستمر."
           }
         }
       }
@@ -9984,6 +10356,12 @@
             "state": "translated",
             "value": "Náhled živé aktivity dostupné aktualizace softwaru."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "معاينة نشاط تحديث البرنامج المتاح."
+          }
         }
       }
     },
@@ -10102,6 +10480,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Soukromá událost"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حدث خاص"
           }
         }
       }
@@ -10222,6 +10606,12 @@
             "state": "translated",
             "value": "Připraveno"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جاهز"
+          }
         }
       }
     },
@@ -10340,6 +10730,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Obnovit živou aktivitu minutky pomocí aktualizované události."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تحديث نشاط المؤقت المباشر بالحدث المحدّث."
           }
         }
       }
@@ -10460,6 +10856,12 @@
             "state": "translated",
             "value": "Obnovit všechny náhledy"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إعادة تعيين جميع المعاينات"
+          }
         }
       }
     },
@@ -10578,6 +10980,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Spustit každou událost ladění v pořadí, ponechat každou položku viditelnou po nastavenou dobu a čekat 1 sekundu mezi položkami."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تشغيل كل أحداث التصحيح بالتتابع، وإبقاء كل عنصر مرئياً للمدة المحددة، والانتظار ثانية واحدة بين العناصر."
           }
         }
       }
@@ -10698,6 +11106,12 @@
             "state": "translated",
             "value": "Záznam obrazovky"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تسجيل الشاشة"
+          }
         }
       }
     },
@@ -10816,6 +11230,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Záznam obrazovky zastaven"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "توقف تسجيل الشاشة"
           }
         }
       }
@@ -10936,6 +11356,12 @@
             "state": "translated",
             "value": "Vyberte připojení VPN, které chcete ovládat z výřezu."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر اتصال VPN الذي تريد التحكم به من الشق."
+          }
         }
       }
     },
@@ -11055,6 +11481,12 @@
             "state": "translated",
             "value": "Odeslat událost změny stavu přehrávání 'Právě hraje' pro pozastavení."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إرسال حدث تغيير حالة التشغيل للإيقاف المؤقت."
+          }
         }
       }
     },
@@ -11173,6 +11605,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Odeslat událost změny stavu přehrávání 'Právě hraje' pro přehrávání."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إرسال حدث تغيير حالة التشغيل للتشغيل."
           }
         }
       }
@@ -11412,6 +11850,12 @@
             "state": "translated",
             "value": "Zobrazit bezpečný náhled ladění živé aktivity úvodního průvodce."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض معاينة آمنة لنشاط الإعداد الأولي."
+          }
         }
       }
     },
@@ -11530,6 +11974,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zobrazit průběh a dokončení aktivního přenosu souborů AirDrop."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض تقدم واكتمال نقل ملفات AirDrop النشط."
           }
         }
       }
@@ -11650,6 +12100,12 @@
             "state": "translated",
             "value": "Zobrazit všechny cíle přetažení se zvýrazněným cílem převodníku."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض جميع أهداف السحب مع تمييز هدف المحوّل."
+          }
         }
       }
     },
@@ -11768,6 +12224,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zobrazit ve Finderu"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض في Finder"
           }
         }
       }
@@ -11888,6 +12350,12 @@
             "state": "translated",
             "value": "Zobrazit cíl přetažení AirDrop jako aktivní událost přetažení."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض هدف سحب AirDrop كحدث سحب نشط."
+          }
         }
       }
     },
@@ -12006,6 +12474,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zobrazit oznámení Bluetooth s ukázkovými daty AirPods."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض إشعار البلوتوث مع بيانات AirPods تجريبية."
           }
         }
       }
@@ -12126,6 +12600,12 @@
             "state": "translated",
             "value": "Zobrazit cíl přetažení převodníku souborů jako aktivní událost přetažení."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض هدف سحب محوّل الملفات كحدث سحب نشط."
+          }
         }
       }
     },
@@ -12244,6 +12724,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zobrazit cíl přetažení přihrádky jako aktivní událost přetažení."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض هدف سحب الدرج كحدث سحب نشط."
           }
         }
       }
@@ -12364,6 +12850,12 @@
             "state": "translated",
             "value": "Zobrazit oznámení o odpojení VPN s ukázkovými daty tunelu."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض إشعار قطع اتصال VPN مع بيانات نفق تجريبية."
+          }
         }
       }
     },
@@ -12482,6 +12974,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zobrazit oznámení VPN s ukázkovými daty tunelu."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض إشعار VPN مع بيانات نفق تجريبية."
           }
         }
       }
@@ -12602,6 +13100,12 @@
             "state": "translated",
             "value": "Zobrazit aktivní živou aktivitu přihrádky s ukázkovými soubory."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض نشاط الدرج المباشر النشط مع ملفات تجريبية."
+          }
         }
       }
     },
@@ -12720,6 +13224,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zobrazit náhled HUD jasu na 72 %."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض معاينة السطوع بنسبة 72%."
           }
         }
       }
@@ -12840,6 +13350,12 @@
             "state": "translated",
             "value": "Zobrazit sbalený stav převodníku při převodu."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض حالة التحويل المصغّرة للمحوّل."
+          }
         }
       }
     },
@@ -12958,6 +13474,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zobrazit sbalený stav selhání převodníku."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض حالة الفشل المصغّرة للمحوّل."
           }
         }
       }
@@ -13078,6 +13600,12 @@
             "state": "translated",
             "value": "Zobrazit sbalený stav úspěchu převodníku."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض حالة النجاح المصغّرة للمحوّل."
+          }
         }
       }
     },
@@ -13196,6 +13724,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zobrazit živou aktivitu převodníku s ukázkovým obrázkem."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض نشاط المحوّل المباشر مع صورة تجريبية."
           }
         }
       }
@@ -13316,6 +13850,12 @@
             "state": "translated",
             "value": "Zobrazit živou aktivitu stahování s ukázkovými daty přenosu."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض نشاط التنزيل المباشر مع بيانات نقل تجريبية."
+          }
         }
       }
     },
@@ -13434,6 +13974,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zobrazit pomocníka pro změnu výšky s aktuálním nastavením."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض مساعد تغيير الارتفاع باستخدام الإعدادات الحالية."
           }
         }
       }
@@ -13554,6 +14100,12 @@
             "state": "translated",
             "value": "Zobrazit náhled HUD podsvícení klávesnice na 64 %."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض معاينة إضاءة لوحة المفاتيح بنسبة 64%."
+          }
         }
       }
     },
@@ -13672,6 +14224,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zobrazit živou aktivitu hudby s ukázkovými daty skladby."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض نشاط الموسيقى المباشر مع بيانات مسار تجريبية."
           }
         }
       }
@@ -13792,6 +14350,12 @@
             "state": "translated",
             "value": "Zobrazit dočasné oznámení offline s jeho akcemi."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض الإشعار المؤقت لعدم الاتصال مع إجراءاته."
+          }
         }
       }
     },
@@ -13910,6 +14474,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zobrazit živou aktivitu minutky s ukázkovými daty."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض نشاط المؤقت المباشر مع بيانات تجريبية."
           }
         }
       }
@@ -14030,6 +14600,12 @@
             "state": "translated",
             "value": "Zobrazit náhled HUD hlasitosti na 42 %."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض معاينة مستوى الصوت بنسبة 42%."
+          }
         }
       }
     },
@@ -14148,6 +14724,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zobrazit pomocníka pro změnu šířky s aktuálním nastavením."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض مساعد تغيير العرض باستخدام الإعدادات الحالية."
           }
         }
       }
@@ -14268,6 +14850,12 @@
             "state": "translated",
             "value": "Zobrazuje dočasné oznámení Wi-Fi."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض إشعار Wi-Fi المؤقت."
+          }
         }
       }
     },
@@ -14386,6 +14974,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aktualizace softwaru"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تحديث البرنامج"
           }
         }
       }
@@ -14506,6 +15100,12 @@
             "state": "translated",
             "value": "Start"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بدء"
+          }
         }
       }
     },
@@ -14624,6 +15224,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zastavit"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إيقاف"
           }
         }
       }
@@ -14744,6 +15350,12 @@
             "state": "translated",
             "value": "Minutka"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مؤقت"
+          }
         }
       }
     },
@@ -14862,6 +15474,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Minutka zastavena"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "توقف المؤقت"
           }
         }
       }
@@ -14982,6 +15600,12 @@
             "state": "translated",
             "value": "Minutka aktualizována"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم تحديث المؤقت"
+          }
         }
       }
     },
@@ -15100,6 +15724,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Přenos dokončen"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اكتمل النقل"
           }
         }
       }
@@ -15220,6 +15850,12 @@
             "state": "translated",
             "value": "Přenos selhal"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فشل النقل"
+          }
         }
       }
     },
@@ -15338,6 +15974,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Přihrádka"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الدرج"
           }
         }
       }
@@ -15458,6 +16100,12 @@
             "state": "translated",
             "value": "Cíl přihrádky"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هدف الدرج"
+          }
         }
       }
     },
@@ -15576,6 +16224,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vypnout všechny trvalé náhledy a zavřít veškerý dočasný obsah."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إيقاف جميع المعاينات المستمرة وإغلاق أي محتوى مؤقت."
           }
         }
       }
@@ -15696,6 +16350,12 @@
             "state": "translated",
             "value": "Dostupná aktualizace"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يتوفر تحديث"
+          }
         }
       }
     },
@@ -15814,6 +16474,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "VPN připojeno"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "VPN متصل"
           }
         }
       }
@@ -15934,6 +16600,12 @@
             "state": "translated",
             "value": "VPN odpojeno"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "VPN غير متصل"
+          }
         }
       }
     },
@@ -16051,6 +16723,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Verze %@"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإصدار %@"
           }
         }
       }
@@ -16171,6 +16849,12 @@
             "state": "translated",
             "value": "HUD hlasitosti"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض مستوى الصوت"
+          }
         }
       }
     },
@@ -16289,6 +16973,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Wi-Fi připojeno"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wi-Fi متصل"
           }
         }
       }
@@ -16528,6 +17218,12 @@
             "state": "translated",
             "value": "Zrušit"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إلغاء"
+          }
         }
       }
     },
@@ -16646,6 +17342,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ukončit"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إنهاء"
           }
         }
       }
@@ -16766,6 +17468,12 @@
             "state": "translated",
             "value": "Restartovat"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إعادة التشغيل"
+          }
         }
       }
     },
@@ -16884,6 +17592,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Nastavení"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإعدادات"
           }
         }
       }
@@ -17004,6 +17718,12 @@
             "state": "translated",
             "value": "Verze: %@"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإصدار: %@"
+          }
         }
       }
     },
@@ -17122,6 +17842,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Kontakty a odkazy"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اتصل بي"
           }
         }
       }
@@ -17242,6 +17968,12 @@
             "state": "translated",
             "value": "DynamicNotch je open-source aplikace pro macOS, která promění výřez vašeho MacBooku v dynamický a interaktivní prostor."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حوّل شق MacBook الخاص بك إلى سطح تفاعلي حي. تحكم بالوسائط وتتبع التنزيلات واعرض الأحداث والمزيد — كل ذلك مباشرة من الشق."
+          }
         }
       }
     },
@@ -17360,6 +18092,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Poslat e-mail podpoře"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إرسال بريد إلكتروني"
           }
         }
       }
@@ -17480,6 +18218,12 @@
             "state": "translated",
             "value": "E-mail"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "البريد الإلكتروني"
+          }
         }
       }
     },
@@ -17598,6 +18342,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zobrazit zdrojový kód a přispět na GitHubu"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تقييم المشروع على GitHub"
           }
         }
       }
@@ -17718,6 +18468,12 @@
             "state": "translated",
             "value": "Repozitář GitHub"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مستودع GitHub"
+          }
         }
       }
     },
@@ -17836,6 +18592,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Napsat vývojáři přímo na Telegramu"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إرسال رسالة مباشرة على Telegram"
           }
         }
       }
@@ -17956,6 +18718,12 @@
             "state": "translated",
             "value": "Účet Telegram"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حساب Telegram"
+          }
         }
       }
     },
@@ -18074,6 +18842,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Připojte se k našemu kanálu Telegram pro novinky"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "انضم لقناتنا على Telegram"
           }
         }
       }
@@ -18194,6 +18968,12 @@
             "state": "translated",
             "value": "Kanál Telegram"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قناة Telegram"
+          }
         }
       }
     },
@@ -18312,6 +19092,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Otevřít oficiální web DynamicNotch"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فتح موقع DynamicNotch"
           }
         }
       }
@@ -18432,6 +19218,12 @@
             "state": "translated",
             "value": "Web"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الموقع الإلكتروني"
+          }
         }
       }
     },
@@ -18550,6 +19342,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zvuk uzamčení"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صوت القفل"
           }
         }
       }
@@ -18670,6 +19468,12 @@
             "state": "translated",
             "value": "Zvuk odemčení"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صوت إلغاء القفل"
+          }
         }
       }
     },
@@ -18788,6 +19592,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vyberte vzhled rozhraní používaný aplikací."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر مظهر الواجهة المستخدم في التطبيق."
           }
         }
       }
@@ -18908,6 +19718,12 @@
             "state": "translated",
             "value": "Motiv"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السمة"
+          }
         }
       }
     },
@@ -19026,6 +19842,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aktivita baterie"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نشاط البطارية"
           }
         }
       }
@@ -19146,6 +19968,12 @@
             "state": "translated",
             "value": "Doba zobrazení baterie"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مدة البطارية"
+          }
         }
       }
     },
@@ -19264,6 +20092,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Plná baterie"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بطارية ممتلئة"
           }
         }
       }
@@ -19384,6 +20218,12 @@
             "state": "translated",
             "value": "Slabá baterie"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بطارية منخفضة"
+          }
         }
       }
     },
@@ -19502,6 +20342,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zobrazit oznámení při připojení nabíječky."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار نشاط مؤقت عند بدء شحن Mac."
           }
         }
       }
@@ -19622,6 +20468,12 @@
             "state": "translated",
             "value": "Oznámení o nabíjení"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الشحن"
+          }
         }
       }
     },
@@ -19740,6 +20592,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zvolte, jak dlouho zůstane oznámení o nabíjení viditelné."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر مدة بقاء إشعار الشحن مرئياً."
           }
         }
       }
@@ -19860,6 +20718,12 @@
             "state": "translated",
             "value": "Doba trvání oznámení o nabíjení"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مدة الشحن"
+          }
         }
       }
     },
@@ -19978,6 +20842,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Doba trvání plné baterie"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مدة البطارية الممتلئة"
           }
         }
       }
@@ -20098,6 +20968,12 @@
             "state": "translated",
             "value": "Zvuk plné baterie"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صوت البطارية الممتلئة"
+          }
         }
       }
     },
@@ -20216,6 +21092,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Přehrát zvuk, když je baterie plně nabitá."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تشغيل صوت عند اكتمال شحن البطارية."
           }
         }
       }
@@ -20336,6 +21218,12 @@
             "state": "translated",
             "value": "Vyberte styl oznámení o plně nabité baterii."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر ما إذا كان التنبيه يستخدم البطاقة المفصلة الحالية أو نمط شحن مضغوط."
+          }
         }
       }
     },
@@ -20454,6 +21342,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Styl plné baterie"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نمط البطارية الممتلئة"
           }
         }
       }
@@ -20574,6 +21468,12 @@
             "state": "translated",
             "value": "Nastavte procentuální práh, od kterého je baterie považována za plnou."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر نسبة البطارية التي تُفعّل إشعار الشحن الكامل."
+          }
         }
       }
     },
@@ -20692,6 +21592,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Práh plného nabití"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حد الشحن الكامل"
           }
         }
       }
@@ -20812,6 +21718,12 @@
             "state": "translated",
             "value": "Zvolte, jak dlouho zůstane oznámení o plném nabití viditelné."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر مدة بقاء إشعار البطارية الممتلئة مرئياً."
+          }
         }
       }
     },
@@ -20930,6 +21842,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zobrazit oznámení, když je Mac plně nabitý."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار نشاط مؤقت عند وصول البطارية لمستوى الشحن الكامل المحدد."
           }
         }
       }
@@ -21050,6 +21968,12 @@
             "state": "translated",
             "value": "Plně nabito"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مشحونة بالكامل"
+          }
         }
       }
     },
@@ -21168,6 +22092,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Doba trvání slabé baterie"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مدة البطارية المنخفضة"
           }
         }
       }
@@ -21288,6 +22218,12 @@
             "state": "translated",
             "value": "Zvuk slabé baterie"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صوت البطارية المنخفضة"
+          }
         }
       }
     },
@@ -21406,6 +22342,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Přehrát zvukový signál při slabé baterii."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تشغيل صوت عند انخفاض البطارية."
           }
         }
       }
@@ -21526,6 +22468,12 @@
             "state": "translated",
             "value": "Vyberte styl upozornění na slabou baterii."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر ما إذا كان التنبيه يستخدم البطاقة المفصلة الحالية أو نمط شحن مضغوط."
+          }
         }
       }
     },
@@ -21644,6 +22592,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Styl slabé baterie"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نمط البطارية المنخفضة"
           }
         }
       }
@@ -21764,6 +22718,12 @@
             "state": "translated",
             "value": "Procentuální úroveň baterie, která spustí upozornění."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر نسبة البطارية التي تُفعّل إشعار البطارية المنخفضة."
+          }
         }
       }
     },
@@ -21882,6 +22842,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zobrazit upozornění, když baterie klesne pod stanovený práh."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار تحذير عند تفعيل وضع الطاقة المنخفضة أو عند انخفاض البطارية بشكل حرج."
           }
         }
       }
@@ -22002,6 +22968,12 @@
             "state": "translated",
             "value": "Nízká energie"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "طاقة منخفضة"
+          }
         }
       }
     },
@@ -22120,6 +23092,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zvolte, jak dlouho zůstane upozornění na nízkou energii viditelné."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر مدة بقاء إشعار البطارية المنخفضة مرئياً."
           }
         }
       }
@@ -22240,6 +23218,12 @@
             "state": "translated",
             "value": "Práh upozornění na nízkou energii"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حد البطارية المنخفضة"
+          }
         }
       }
     },
@@ -22358,6 +23342,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Kompaktní"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مضغوط"
           }
         }
       }
@@ -22478,6 +23468,12 @@
             "state": "translated",
             "value": "Standardní"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قياسي"
+          }
         }
       }
     },
@@ -22596,6 +23592,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Kompaktní"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مضغوط"
           }
         }
       }
@@ -22716,6 +23718,12 @@
             "state": "translated",
             "value": "Podrobný"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مفصّل"
+          }
         }
       }
     },
@@ -22834,6 +23842,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zbarvit ohraničení výřezu podle úrovně baterie příslušenství."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تلوين أنماط بطارية البلوتوث باستخدام لون مستوى البطارية الحالي."
           }
         }
       }
@@ -22954,6 +23968,12 @@
             "state": "translated",
             "value": "Barevné ohraničení baterie"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حد ملوّن بالبطارية"
+          }
         }
       }
     },
@@ -23072,6 +24092,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Indikátor baterie"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مؤشر البطارية"
           }
         }
       }
@@ -23192,6 +24218,12 @@
             "state": "translated",
             "value": "Zobrazit úroveň baterie připojených zařízení Bluetooth."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر ما إذا كانت معلومات بطارية البلوتوث تُعرض كنسبة مئوية أو مؤشر دائري."
+          }
         }
       }
     },
@@ -23310,6 +24342,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Kruh"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دائرة"
           }
         }
       }
@@ -23430,6 +24468,12 @@
             "state": "translated",
             "value": "Procenta"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نسبة مئوية"
+          }
         }
       }
     },
@@ -23548,6 +24592,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aktivita Bluetooth"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نشاط البلوتوث"
           }
         }
       }
@@ -23668,6 +24718,12 @@
             "state": "translated",
             "value": "Vzhled Bluetooth"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مظهر البلوتوث"
+          }
         }
       }
     },
@@ -23786,6 +24842,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Doba zobrazení Bluetooth"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مدة البلوتوث"
           }
         }
       }
@@ -23906,6 +24968,12 @@
             "state": "translated",
             "value": "Doba trvání Bluetooth"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مدة البلوتوث"
+          }
         }
       }
     },
@@ -24024,6 +25092,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zvolte, jak dlouho zůstane oznámení o připojení Bluetooth viditelné."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر مدة بقاء إشعار اتصال البلوتوث مرئياً."
           }
         }
       }
@@ -24144,6 +25218,12 @@
             "state": "translated",
             "value": "Vyberte si mezi čistým rozvržením nebo úplnými podrobnostmi o zařízení."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر بين تخطيط يركز على الجهاز أو تفاصيل الجهاز الكاملة."
+          }
         }
       }
     },
@@ -24262,6 +25342,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Styl Bluetooth"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نمط البلوتوث"
           }
         }
       }
@@ -24382,6 +25468,12 @@
             "state": "translated",
             "value": "Dočasná aktivita Bluetooth"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نشاط البلوتوث المؤقت"
+          }
         }
       }
     },
@@ -24500,6 +25592,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zobrazit dočasnou aktivitu při připojení příslušenství Bluetooth."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار نشاط مؤقت عند اتصال ملحق بلوتوث."
           }
         }
       }
@@ -24620,6 +25718,12 @@
             "state": "translated",
             "value": "Zobrazit nadcházející události kalendáře ve výřezu."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار أحداث التقويم القادمة في الشق."
+          }
         }
       }
     },
@@ -24738,6 +25842,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Živá aktivita Kalendáře"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نشاط التقويم المباشر"
           }
         }
       }
@@ -24858,6 +25968,12 @@
             "state": "translated",
             "value": "Aktivita kalendáře"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نشاط التقويم"
+          }
         }
       }
     },
@@ -24976,6 +26092,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Možnosti zobrazení"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "خيارات العرض"
           }
         }
       }
@@ -25096,6 +26218,12 @@
             "state": "translated",
             "value": "Soukromí a oznámení"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الخصوصية والإشعارات"
+          }
         }
       }
     },
@@ -25214,6 +26342,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "10 min předem"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قبل 10 دقائق"
           }
         }
       }
@@ -25334,6 +26468,12 @@
             "state": "translated",
             "value": "15 min předem"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قبل 15 دقيقة"
+          }
         }
       }
     },
@@ -25452,6 +26592,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "30 min předem"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قبل 30 دقيقة"
           }
         }
       }
@@ -25572,6 +26718,12 @@
             "state": "translated",
             "value": "5 min předem"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قبل 5 دقائق"
+          }
         }
       }
     },
@@ -25690,6 +26842,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Při zahájení"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عند وقت الحدث"
           }
         }
       }
@@ -25810,6 +26968,12 @@
             "state": "translated",
             "value": "Zvolte, s jakým předstihem zobrazit upozornění na událost."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر متى يظهر إشعار الحدث قبل بدايته."
+          }
         }
       }
     },
@@ -25929,6 +27093,12 @@
             "state": "translated",
             "value": "1 hodinu předem"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قبل ساعة واحدة"
+          }
         }
       }
     },
@@ -26047,6 +27217,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Doba předstihu"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وقت الإشعار"
           }
         }
       }
@@ -28665,6 +29841,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aktivita stahování"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نشاط التنزيلات"
           }
         }
       }
@@ -36282,6 +37464,12 @@
             "state": "translated",
             "value": "Pouze ikony"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أيقونات فقط"
+          }
         }
       }
     },
@@ -36400,6 +37588,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Standardní"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "افتراضي"
           }
         }
       }
@@ -36520,6 +37714,12 @@
             "state": "translated",
             "value": "Zobrazit aktivitu Soustředění krátce při aktivaci místo trvalého zobrazení."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار نشاط التركيز لفترة وجيزة عند تفعيله بدلاً من إبقائه مرئياً طوال الوقت."
+          }
         }
       }
     },
@@ -36638,6 +37838,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Automaticky skrýt Soustředění"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إخفاء نشاط التركيز تلقائياً"
           }
         }
       }
@@ -36758,6 +37964,12 @@
             "state": "translated",
             "value": "Aktivita soustředění"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نشاط التركيز"
+          }
         }
       }
     },
@@ -36876,6 +38088,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vzhled soustředění"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مظهر التركيز"
           }
         }
       }
@@ -36996,6 +38214,12 @@
             "state": "translated",
             "value": "Doba trvání soustředění"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مدة التركيز"
+          }
         }
       }
     },
@@ -37114,6 +38338,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zobrazit živou aktivitu, když je zapnutý režim Soustředění."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار نشاط مباشر أثناء تفعيل وضع التركيز."
           }
         }
       }
@@ -37234,6 +38464,12 @@
             "state": "translated",
             "value": "Živá aktivita Soustředění"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نشاط التركيز المباشر"
+          }
         }
       }
     },
@@ -37352,6 +38588,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zobrazit krátké oznámení při vypnutí režimu Soustředění."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار إشعار قصير عند إيقاف وضع التركيز."
           }
         }
       }
@@ -37472,6 +38714,12 @@
             "state": "translated",
             "value": "Aktivita vypnutí Soustředění"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نشاط إيقاف التركيز"
+          }
         }
       }
     },
@@ -37590,6 +38838,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zvolte, jak dlouho zůstane oznámení o vypnutí viditelné."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر مدة بقاء إشعار إيقاف التركيز مرئياً."
           }
         }
       }
@@ -37710,6 +38964,12 @@
             "state": "translated",
             "value": "Doba vypnutí"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مدة إيقاف التركيز"
+          }
         }
       }
     },
@@ -37828,6 +39088,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zvolte, jak dlouho zůstane oznámení o zapnutí viditelné."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر مدة بقاء إشعار تفعيل التركيز مرئياً."
           }
         }
       }
@@ -37948,6 +39214,12 @@
             "state": "translated",
             "value": "Doba zapnutí"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مدة تفعيل التركيز"
+          }
         }
       }
     },
@@ -38066,6 +39338,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zvolte, zda režim Soustředění zobrazuje štítky Zapnuto/Vypnuto, nebo pouze ikonu měsíce."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر ما إذا كان التركيز يعرض عبارات التشغيل والإيقاف أو أيقونة القمر فقط."
           }
         }
       }
@@ -38186,6 +39464,12 @@
             "state": "translated",
             "value": "Styl soustředění"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نمط التركيز"
+          }
         }
       }
     },
@@ -38304,6 +39588,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vyvážená"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "متوازن"
           }
         }
       }
@@ -38424,6 +39714,12 @@
             "state": "translated",
             "value": "Rychlá"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سريع"
+          }
         }
       }
     },
@@ -38542,6 +39838,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Rychlejší"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أسرع"
           }
         }
       }
@@ -38662,6 +39964,12 @@
             "state": "translated",
             "value": "Pomalá"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بطيء"
+          }
         }
       }
     },
@@ -38780,6 +40088,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Pomalejší"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أبطأ"
           }
         }
       }
@@ -38900,6 +40214,12 @@
             "state": "translated",
             "value": "Tmavý"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "داكن"
+          }
         }
       }
     },
@@ -39018,6 +40338,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Světlý"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فاتح"
           }
         }
       }
@@ -39138,6 +40464,12 @@
             "state": "translated",
             "value": "Vyberte si mezi světlým, tmavým nebo automatickým systémovým motivem."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تفضيلات السمة ولون التمييز."
+          }
         }
       }
     },
@@ -39256,6 +40588,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Systémový"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "النظام"
           }
         }
       }
@@ -39376,6 +40714,12 @@
             "state": "translated",
             "value": "Vzhled"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المظهر"
+          }
         }
       }
     },
@@ -39494,6 +40838,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zapněte teplejší tóny, abyste v noci snížili únavu očí."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تطبيق نظام ألوان أزرق داكن على واجهة الإعدادات."
           }
         }
       }
@@ -39614,6 +40964,12 @@
             "state": "translated",
             "value": "Noční režim"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الوضع الليلي"
+          }
         }
       }
     },
@@ -39732,6 +41088,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Automaticky přepínat na monitor obsahující aktivní okno."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استخدام الشاشة الرئيسية أثناء عدم توفر الشاشة المحددة، ثم نقل Dynamic Notch مرة أخرى عند توفرها."
           }
         }
       }
@@ -39852,6 +41214,12 @@
             "state": "translated",
             "value": "Automatické přepínání monitoru"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التبديل التلقائي للشاشات"
+          }
         }
       }
     },
@@ -39970,6 +41338,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vestavěný"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مدمجة"
           }
         }
       }
@@ -40090,6 +41464,12 @@
             "state": "translated",
             "value": "Externí"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شاشة خارجية"
+          }
         }
       }
     },
@@ -40208,6 +41588,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Hlavní"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الشاشة الرئيسية"
           }
         }
       }
@@ -40328,6 +41714,12 @@
             "state": "translated",
             "value": "Nedostupný"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "غير متاحة"
+          }
         }
       }
     },
@@ -40446,6 +41838,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vestavěný displej"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "العرض على الشاشة المدمجة"
           }
         }
       }
@@ -40566,6 +41964,12 @@
             "state": "translated",
             "value": "Zavřít výřez při přepnutí fokusu na jinou aplikaci."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إخفاء عرض النشاط المباشر عندما يصبح التطبيق المستهدف نشطاً."
+          }
         }
       }
     },
@@ -40684,6 +42088,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zavřít při ztrátě fokusu"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إغلاق العرض عند تركيز النافذة"
           }
         }
       }
@@ -40804,6 +42214,12 @@
             "state": "translated",
             "value": "Hlavní displej"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "العرض على الشاشة الرئيسية"
+          }
         }
       }
     },
@@ -40922,6 +42338,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Konkrétní displej"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "العرض على شاشة محددة"
           }
         }
       }
@@ -41042,6 +42464,12 @@
             "state": "translated",
             "value": "Vyberte konkrétní displej pro výřez."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تثبيت Dynamic Notch على شاشة واحدة بدلاً من متابعة الشاشة الرئيسية للنظام."
+          }
         }
       }
     },
@@ -41160,6 +42588,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Konkrétní displej"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شاشة محددة"
           }
         }
       }
@@ -41280,6 +42714,12 @@
             "state": "translated",
             "value": "Vybraný displej není momentálně k dispozici. Dynamic Notch zůstane skrytý, dokud se tento monitor znovu nepřipojí."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الشاشة المحددة غير متاحة حالياً. سيبقى Dynamic Notch مخفياً حتى عودة تلك الشاشة."
+          }
         }
       }
     },
@@ -41398,6 +42838,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vybraný displej není momentálně k dispozici. Dynamic Notch se dočasně zobrazuje na hlavním displeji."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الشاشة المحددة غير متاحة حالياً. Dynamic Notch يتبع الشاشة الرئيسية مؤقتاً."
           }
         }
       }
@@ -41518,6 +42964,12 @@
             "state": "translated",
             "value": "Podpořte vývoj projektu darem."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دعم تطوير المشروع والتبرعات."
+          }
         }
       }
     },
@@ -41636,6 +43088,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Podpora"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الدعم"
           }
         }
       }
@@ -41756,6 +43214,12 @@
             "state": "translated",
             "value": "Správa možností spouštění, viditelnosti v Docku a v řádku nabídek."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إدارة خيارات التشغيل والـ Dock ورؤية أيقونة شريط القوائم."
+          }
         }
       }
     },
@@ -41874,6 +43338,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Systém"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "النظام"
           }
         }
       }
@@ -41994,6 +43464,12 @@
             "state": "translated",
             "value": "Aplikace"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التطبيق"
+          }
         }
       }
     },
@@ -42112,6 +43588,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Konektivita"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الاتصال"
           }
         }
       }
@@ -42232,6 +43714,12 @@
             "state": "translated",
             "value": "Média a soubory"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الوسائط والملفات"
+          }
         }
       }
     },
@@ -42350,6 +43838,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Systém"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "النظام"
           }
         }
       }
@@ -42470,6 +43964,12 @@
             "state": "translated",
             "value": "Aktivita domovské stránky"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نشاط الصفحة الرئيسية"
+          }
         }
       }
     },
@@ -42588,6 +44088,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vzhled domovské stránky"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مظهر الصفحة الرئيسية"
           }
         }
       }
@@ -42708,6 +44214,12 @@
             "state": "translated",
             "value": "Upravte velikost tečkových indikátorů stránek."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر حجم نقاط مؤشر الصفحة."
+          }
         }
       }
     },
@@ -42826,6 +44338,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zvolte velikost teček stránek."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر حجم نقاط مؤشر الصفحة."
           }
         }
       }
@@ -42946,6 +44464,12 @@
             "state": "translated",
             "value": "Velká"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كبير"
+          }
         }
       }
     },
@@ -43064,6 +44588,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Střední"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "متوسط"
           }
         }
       }
@@ -43184,6 +44714,12 @@
             "state": "translated",
             "value": "Malá"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صغير"
+          }
         }
       }
     },
@@ -43302,6 +44838,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Velikost indikátorů"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حجم مؤشر الصفحة"
           }
         }
       }
@@ -43422,6 +44964,12 @@
             "state": "translated",
             "value": "Zobrazit interaktivní domovskou stránku ve výřezu."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار الصفحة الرئيسية في الشق."
+          }
         }
       }
     },
@@ -43540,6 +45088,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Živá aktivita domovské stránky"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نشاط الصفحة الرئيسية المباشر"
           }
         }
       }
@@ -43660,6 +45214,12 @@
             "state": "translated",
             "value": "Zobrazit tečkové indikátory pro aktivní stránku."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار مؤشر نقاط لفهرس الصفحة الرئيسية النشطة."
+          }
         }
       }
     },
@@ -43778,6 +45338,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zobrazit tečky stránek pod výřezem při procházení."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار نقاط الصفحة أسفل الشق عند تصفح الصفحات الرئيسية."
           }
         }
       }
@@ -43898,6 +45464,12 @@
             "state": "translated",
             "value": "Indikátor stránek"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مؤشر الصفحة"
+          }
         }
       }
     },
@@ -44016,6 +45588,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Rychlý přístup k fotoaparátu."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الوصول السريع للكاميرا."
           }
         }
       }
@@ -44136,6 +45714,12 @@
             "state": "translated",
             "value": "Fotoaparát"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الكاميرا"
+          }
         }
       }
     },
@@ -44254,6 +45838,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Převod souborů do více formátů."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تحويل الملفات إلى صيغ متعددة."
           }
         }
       }
@@ -44374,6 +45964,12 @@
             "state": "translated",
             "value": "Převodník"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المحوّل"
+          }
         }
       }
     },
@@ -44492,6 +46088,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Přetažením změňte pořadí stránek. Vypnuté stránky budou skryty."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اسحب لإعادة ترتيب الصفحات. الصفحات المعطّلة ستكون مخفية."
           }
         }
       }
@@ -44612,6 +46214,12 @@
             "state": "translated",
             "value": "Sledování systémových prostředků."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مراقبة موارد النظام."
+          }
         }
       }
     },
@@ -44730,6 +46338,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Statistika"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإحصائيات"
           }
         }
       }
@@ -44850,6 +46464,12 @@
             "state": "translated",
             "value": "Zapnutí, vypnutí nebo změna pořadí karet domovské stránky."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إعادة ترتيب أو تفعيل/تعطيل بطاقات الصفحة الرئيسية."
+          }
         }
       }
     },
@@ -44968,6 +46588,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Nastavení rychlé minutky."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعيين مؤقت سريع."
           }
         }
       }
@@ -45088,6 +46714,12 @@
             "state": "translated",
             "value": "Minutka"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المؤقت"
+          }
         }
       }
     },
@@ -45206,6 +46838,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Stránky"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الصفحات"
           }
         }
       }
@@ -45326,6 +46964,12 @@
             "state": "translated",
             "value": "Správa připojení VPN."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إدارة اتصالات VPN."
+          }
         }
       }
     },
@@ -45441,6 +47085,12 @@
           }
         },
         "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "VPN"
+          }
+        },
+        "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "VPN"
@@ -45564,6 +47214,12 @@
             "state": "translated",
             "value": "Spustit fotoaparát"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بدء الكاميرا"
+          }
         }
       }
     },
@@ -45682,6 +47338,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zvolte směr posouvání mezi prvky domovské stránky."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر اتجاه التمرير بين عناصر الصفحة الرئيسية."
           }
         }
       }
@@ -45802,6 +47464,12 @@
             "state": "translated",
             "value": "Zvolte směr posouvání pro domovské stránky."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر اتجاه التمرير للصفحات الرئيسية."
+          }
         }
       }
     },
@@ -45920,6 +47588,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vodorovně"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أفقي"
           }
         }
       }
@@ -46040,6 +47714,12 @@
             "state": "translated",
             "value": "Směr posouvání"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اتجاه التمرير"
+          }
         }
       }
     },
@@ -46158,6 +47838,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Svisle"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عمودي"
           }
         }
       }
@@ -46278,6 +47964,12 @@
             "state": "translated",
             "value": "Zobrazit nastavení jasu ve výřezu."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استبدال تراكب سطوع النظام بعرض مخصص في الشق."
+          }
         }
       }
     },
@@ -46396,6 +48088,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "HUD jasu"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض السطوع"
           }
         }
       }
@@ -46516,6 +48214,12 @@
             "state": "translated",
             "value": "Zvolte, jak dlouho zůstane HUD jasu viditelný."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر مدة بقاء عرض السطوع مرئياً."
+          }
         }
       }
     },
@@ -46634,6 +48338,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Doba jasu"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مدة السطوع"
           }
         }
       }
@@ -46754,6 +48464,12 @@
             "state": "translated",
             "value": "Aktivita HUD"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نشاط العرض"
+          }
         }
       }
     },
@@ -46872,6 +48588,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vzhled HUD"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مظهر العرض"
           }
         }
       }
@@ -46992,6 +48714,12 @@
             "state": "translated",
             "value": "Doba trvání HUD"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مدة العرض"
+          }
         }
       }
     },
@@ -47110,6 +48838,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zapněte jemný efekt záře kolem indikátoru průběhu HUD."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تفعيل تأثير توهج خفيف حول مؤشر تقدم العرض."
           }
         }
       }
@@ -47230,6 +48964,12 @@
             "state": "translated",
             "value": "Záře indikátoru"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "توهج المؤشر"
+          }
         }
       }
     },
@@ -47348,6 +49088,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Pruh"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شريط"
           }
         }
       }
@@ -47468,6 +49214,12 @@
             "state": "translated",
             "value": "Kruh"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دائرة"
+          }
         }
       }
     },
@@ -47586,6 +49338,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vyberte si mezi lineárním a kruhovým indikátorem."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر بين مؤشر شريطي ودائري."
           }
         }
       }
@@ -47706,6 +49464,12 @@
             "state": "translated",
             "value": "Styl indikátoru"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نمط المؤشر"
+          }
         }
       }
     },
@@ -47824,6 +49588,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Barva akcentu"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لون تمييز النظام"
           }
         }
       }
@@ -47944,6 +49714,12 @@
             "state": "translated",
             "value": "Vyberte styl barvy výplně úrovně indikátoru."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر نمط لون التلوين لمستوى المؤشر."
+          }
         }
       }
     },
@@ -48062,6 +49838,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Barva úrovně"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لون المستوى"
           }
         }
       }
@@ -48182,6 +49964,12 @@
             "state": "translated",
             "value": "Bílá"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أبيض"
+          }
         }
       }
     },
@@ -48300,6 +50088,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Styl tónování indikátoru"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نمط تلوين المؤشر"
           }
         }
       }
@@ -48420,6 +50214,12 @@
             "state": "translated",
             "value": "Nahradit systémový indikátor jasu klávesnice HUDem ve výřezu."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استبدال تراكب سطوع لوحة المفاتيح بعرض مخصص في الشق."
+          }
         }
       }
     },
@@ -48538,6 +50338,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "HUD jasu klávesnice"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض سطوع لوحة المفاتيح"
           }
         }
       }
@@ -48658,6 +50464,12 @@
             "state": "translated",
             "value": "Zvolte, jak dlouho zůstane HUD jasu klávesnice viditelný."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر مدة بقاء عرض سطوع لوحة المفاتيح مرئياً."
+          }
         }
       }
     },
@@ -48776,6 +50588,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Doba jasu klávesnice"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مدة سطوع لوحة المفاتيح"
           }
         }
       }
@@ -48896,6 +50714,12 @@
             "state": "translated",
             "value": "Kompaktní"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مضغوط"
+          }
         }
       }
     },
@@ -49014,6 +50838,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Rozbalené"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "موسّع"
           }
         }
       }
@@ -49134,6 +50964,12 @@
             "state": "translated",
             "value": "Rozvržení HUD"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تخطيط العرض"
+          }
         }
       }
     },
@@ -49252,6 +51088,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zbarvit ohraničení výřezu aktuální barvou úrovně HUD namísto výchozí bílé."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تلوين حد الشق باستخدام لون مستوى العرض الحالي بدلاً من الحد الأبيض الافتراضي."
           }
         }
       }
@@ -49372,6 +51214,12 @@
             "state": "translated",
             "value": "Barva ohraničení podle úrovně"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لون الحد حسب المستوى"
+          }
         }
       }
     },
@@ -49490,6 +51338,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Kompaktní"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مضغوط"
           }
         }
       }
@@ -49610,6 +51464,12 @@
             "state": "translated",
             "value": "Vyberte styl vzhledu HUD pro hlasitost, jas a klávesnici."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر نمط العرض المرئي لعروض مستوى الصوت والسطوع ولوحة المفاتيح."
+          }
         }
       }
     },
@@ -49728,6 +51588,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Rozbalené kompaktní"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "موسّع مضغوط"
           }
         }
       }
@@ -49848,6 +51714,12 @@
             "state": "translated",
             "value": "Rozbalené podrobné"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "موسّع مفصّل"
+          }
         }
       }
     },
@@ -49967,6 +51839,12 @@
             "state": "translated",
             "value": "Minimální"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مبسّط"
+          }
         }
       }
     },
@@ -50085,6 +51963,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Standardní"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قياسي"
           }
         }
       }
@@ -50324,6 +52208,12 @@
             "state": "translated",
             "value": "Nahradit systémový indikátor hlasitosti vlastním HUDem ve výřezu."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استبدال تراكب مستوى صوت النظام بعرض مخصص في الشق."
+          }
         }
       }
     },
@@ -50442,6 +52332,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "HUD hlasitosti"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض مستوى الصوت"
           }
         }
       }
@@ -50562,6 +52458,12 @@
             "state": "translated",
             "value": "Zvolte, jak dlouho zůstane HUD hlasitosti viditelný."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر مدة بقاء عرض مستوى الصوت مرئياً."
+          }
         }
       }
     },
@@ -50680,6 +52582,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Doba hlasitosti"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مدة مستوى الصوت"
           }
         }
       }
@@ -51395,6 +53303,12 @@
             "state": "translated",
             "value": "Zjednodušená čínština"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الصينية المبسطة"
+          }
         }
       }
     },
@@ -51513,6 +53427,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Angličtina"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإنجليزية"
           }
         }
       }
@@ -51633,6 +53553,12 @@
             "state": "translated",
             "value": "Ruština"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الروسية"
+          }
         }
       }
     },
@@ -51751,6 +53677,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Španělština"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإسبانية"
           }
         }
       }
@@ -51871,6 +53803,12 @@
             "state": "translated",
             "value": "Systémový"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "النظام"
+          }
         }
       }
     },
@@ -51989,6 +53927,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Turečtina"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التركية"
           }
         }
       }
@@ -52109,6 +54053,12 @@
             "state": "translated",
             "value": "Zobrazit živou aktivitu zamčené obrazovky při uzamčení a odemčení."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار نشاط القفل المباشر عند قفل Mac."
+          }
         }
       }
     },
@@ -52228,6 +54178,12 @@
             "state": "translated",
             "value": "Živá aktivita zamčené obrazovky"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نشاط شاشة القفل المباشر"
+          }
         }
       }
     },
@@ -52346,6 +54302,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aktivita zamčené obrazovky"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نشاط شاشة القفل"
           }
         }
       }
@@ -53417,6 +55379,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "%@ není k dispozici. Použije se %@."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الصوت المخصص غير متاح، يُستخدم الصوت الافتراضي. (%@)"
           }
         }
       }
@@ -59606,6 +61574,12 @@
             "state": "translated",
             "value": "Generovat jemnou haptickou odezvu, když ukazatel vstoupí do zavřeného výřezu."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تشغيل ردود اللمس عند تحريك المؤشر فوق الشق."
+          }
         }
       }
     },
@@ -59724,6 +61698,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Haptická odezva při najetí"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ردود التحويم اللمسية"
           }
         }
       }
@@ -59844,6 +61824,12 @@
             "state": "translated",
             "value": "Gesta"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإيماءات"
+          }
         }
       }
     },
@@ -59962,6 +61948,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Upravte odezvu stisknutí a podržení a najetí myší."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ضبط سرعة تفعيل الضغط المطوّل وتوسيع التحويم."
           }
         }
       }
@@ -60082,6 +62074,12 @@
             "state": "translated",
             "value": "Časování stisknutí a podržení"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "توقيت الضغط المطوّل"
+          }
         }
       }
     },
@@ -60200,6 +62198,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Konfigurace gest kliknutí, najetí myší a posouvání."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تكوين إيماءات النقر والتحويم والتمرير."
           }
         }
       }
@@ -60320,6 +62324,12 @@
             "state": "translated",
             "value": "Povolit svislá přejetí po výřezu pro skrytí aktivní aktivity nebo obnovení naposledy zavřené."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السماح بإيماءات السحب العمودية فوق الشق لإخفاء النشاط الحالي أو استعادة النشاط المُرفَض مؤخراً."
+          }
         }
       }
     },
@@ -60438,6 +62448,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Přejetí nahoru pro zavření / přejetí dolů pro obnovení"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اسحب للأعلى للإخفاء / للأسفل للاستعادة"
           }
         }
       }
@@ -60558,6 +62574,12 @@
             "state": "translated",
             "value": "Gesta"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإيماءات"
+          }
         }
       }
     },
@@ -60676,6 +62698,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Jemně dolaďte výšku výřezu nebo Dynamic Island."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ضبط ارتفاع الشق أو الجزيرة الديناميكية بدقة."
           }
         }
       }
@@ -60796,6 +62824,12 @@
             "state": "translated",
             "value": "Výška"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الارتفاع"
+          }
         }
       }
     },
@@ -60914,6 +62948,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Přetažením změňte pořadí priorit. Položky nahoře mají přednost."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اسحب العناصر لإعادة ترتيب الأولوية. العناصر العليا لها أولوية أعلى."
           }
         }
       }
@@ -61034,6 +63074,12 @@
             "state": "translated",
             "value": "Přenos AirDrop"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نقل AirDrop"
+          }
         }
       }
     },
@@ -61152,6 +63198,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Kalendář"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التقويم"
           }
         }
       }
@@ -61272,6 +63324,12 @@
             "state": "translated",
             "value": "Výchozí %lld"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "افتراضي %lld"
+          }
         }
       }
     },
@@ -61390,6 +63448,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Stahování"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التنزيلات"
           }
         }
       }
@@ -61510,6 +63574,12 @@
             "state": "translated",
             "value": "Převodník souborů"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "محوّل الملفات"
+          }
         }
       }
     },
@@ -61628,6 +63698,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Soustředění"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التركيز"
           }
         }
       }
@@ -61748,6 +63824,12 @@
             "state": "translated",
             "value": "Domovská stránka"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الصفحة الرئيسية"
+          }
         }
       }
     },
@@ -61866,6 +63948,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Hotspot"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نقطة الاتصال"
           }
         }
       }
@@ -61986,6 +64074,12 @@
             "state": "translated",
             "value": "Právě hraje"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يُعرض الآن"
+          }
         }
       }
     },
@@ -62104,6 +64198,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Záznam obrazovky"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تسجيل الشاشة"
           }
         }
       }
@@ -62224,6 +64324,12 @@
             "state": "translated",
             "value": "Minutka"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المؤقت"
+          }
         }
       }
     },
@@ -62342,6 +64448,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Přihrádka na soubory"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الدرج"
           }
         }
       }
@@ -62462,6 +64574,12 @@
             "state": "translated",
             "value": "Konfigurace úrovně priority pro každou aktivitu."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تكوين مستوى الأولوية لكل نشاط."
+          }
         }
       }
     },
@@ -62580,6 +64698,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Priority aktivit"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أولويات الأنشطة"
           }
         }
       }
@@ -62700,6 +64824,12 @@
             "state": "translated",
             "value": "Zobrazit tenké ohraničení, které se přizpůsobuje barvě aktivního obsahu."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار حد خفيف يتكيف مع لون المحتوى النشط."
+          }
         }
       }
     },
@@ -62818,6 +64948,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zobrazit ohraničení"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار الحد"
           }
         }
       }
@@ -62938,6 +65074,12 @@
             "state": "translated",
             "value": "Upravte průhlednost ohraničení."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ضبط شفافية الحد."
+          }
         }
       }
     },
@@ -63056,6 +65198,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Krytí ohraničení"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شفافية الحد"
           }
         }
       }
@@ -63176,6 +65324,12 @@
             "state": "translated",
             "value": "Upravte tloušťku ohraničení."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ضبط سمك الحد."
+          }
         }
       }
     },
@@ -63294,6 +65448,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tloušťka ohraničení"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سمك الحد"
           }
         }
       }
@@ -63414,6 +65574,12 @@
             "state": "translated",
             "value": "Jemně dolaďte šířku výřezu nebo Dynamic Island."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ضبط عرض الشق أو الجزيرة الديناميكية بدقة."
+          }
         }
       }
     },
@@ -63532,6 +65698,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Šířka"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "العرض"
           }
         }
       }
@@ -63652,6 +65824,12 @@
             "state": "translated",
             "value": "Animovat přebal alba s 3D efektem při změně skladby."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تحريك الغلاف بتأثير ثلاثي الأبعاد عند تغيير غلاف المسار."
+          }
         }
       }
     },
@@ -63770,6 +65948,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "3D efekt přebalu"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تأثير الغلاف ثلاثي الأبعاد"
           }
         }
       }
@@ -63890,6 +66074,12 @@
             "state": "translated",
             "value": "Pozastavené přehrávání"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تشغيل متوقف مؤقتاً"
+          }
         }
       }
     },
@@ -64008,6 +66198,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aktivita přehrávání"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نشاط التشغيل"
           }
         }
       }
@@ -64128,6 +66324,12 @@
             "state": "translated",
             "value": "Vzhled přehrávače"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مظهر المشغّل"
+          }
         }
       }
     },
@@ -64246,6 +66448,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zvolte, jak dlouho zůstane pozastavený přehrávač viditelný před zavřením výřezu."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر مدة بقاء المشغّل المتوقف مرئياً قبل إغلاق الشق."
           }
         }
       }
@@ -64366,6 +66574,12 @@
             "state": "translated",
             "value": "Zpoždění zavření"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تأخير الإغلاق"
+          }
         }
       }
     },
@@ -64484,6 +66698,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Skrýt tlačítko oblíbených v rozbalených ovládacích prvcích přehrávače."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إزالة زر المفضلة من عناصر تحكم المشغّل الموسّع."
           }
         }
       }
@@ -64604,6 +66824,12 @@
             "state": "translated",
             "value": "Skrýt oblíbené"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إخفاء المفضلة"
+          }
         }
       }
     },
@@ -64722,6 +66948,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Skrýt tlačítko výstupního zařízení v rozbalených ovládacích prvcích."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إزالة زر جهاز الإخراج من عناصر تحكم المشغّل الموسّع."
           }
         }
       }
@@ -64842,6 +67074,12 @@
             "state": "translated",
             "value": "Skrýt výstupní zařízení"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إخفاء جهاز الإخراج"
+          }
         }
       }
     },
@@ -64960,6 +67198,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zobrazit živou aktivitu 'Právě hraje' během přehrávání zvuku nebo videa."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار نشاط \"يُعرض الآن\" المباشر أثناء تشغيل الصوت أو الفيديو."
           }
         }
       }
@@ -65080,6 +67324,12 @@
             "state": "translated",
             "value": "Živá aktivita 'Právě hraje'"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نشاط يُعرض الآن المباشر"
+          }
         }
       }
     },
@@ -65198,6 +67448,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vyberte, která mediální aplikace může zobrazovat 'Právě hraje' ve výřezu."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر تطبيق الوسائط الذي يمكنه إظهار \"يُعرض الآن\" في الشق."
           }
         }
       }
@@ -65318,6 +67574,12 @@
             "state": "translated",
             "value": "Zdroj přehrávání"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مصدر التشغيل"
+          }
         }
       }
     },
@@ -65436,6 +67698,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zvolte barvu indikátoru průběhu a časových údajů."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر كيفية تلوين شريط التقدم وعبارات المؤقت."
           }
         }
       }
@@ -65556,6 +67824,12 @@
             "state": "translated",
             "value": "Tónování indikátoru průběhu"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تلوين شريط التقدم"
+          }
         }
       }
     },
@@ -65674,6 +67948,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Barva akcentu"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لون تمييز النظام"
           }
         }
       }
@@ -65794,6 +68074,12 @@
             "state": "translated",
             "value": "Barva přebalu"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لون الغلاف"
+          }
         }
       }
     },
@@ -65912,6 +68198,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Standardní"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "افتراضي"
           }
         }
       }
@@ -66032,6 +68324,12 @@
             "state": "translated",
             "value": "Libovolný zdroj"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أي مصدر"
+          }
         }
       }
     },
@@ -66147,6 +68445,12 @@
           }
         },
         "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple Music"
+          }
+        },
+        "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "Apple Music"
@@ -66270,6 +68574,12 @@
             "state": "translated",
             "value": "Spotify"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Spotify"
+          }
         }
       }
     },
@@ -66385,6 +68695,12 @@
           }
         },
         "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "YouTube Music"
+          }
+        },
+        "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "YouTube Music"
@@ -66508,6 +68824,12 @@
             "state": "translated",
             "value": "Ponechat 'Právě hraje' viditelné ve výřezu i při pozastavení přehrávání."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إبقاء \"يُعرض الآن\" مرئياً في الشق أثناء الإيقاف المؤقت."
+          }
         }
       }
     },
@@ -66626,6 +68948,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Bez časovače zavření"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بدون مؤقت إغلاق"
           }
         }
       }
@@ -66746,6 +69074,12 @@
             "state": "translated",
             "value": "Povolte přístup ke Zpřístupnění pro zpracování gest a sledování aktivních aplikací."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السماح بالوصول إلى إمكانية الوصول للتعامل مع الإيماءات ومراقبة التطبيقات النشطة."
+          }
         }
       }
     },
@@ -66864,6 +69198,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zpřístupnění"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إمكانية الوصول"
           }
         }
       }
@@ -66984,6 +69324,12 @@
             "state": "translated",
             "value": "Udělit přístup"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "منح الوصول"
+          }
         }
       }
     },
@@ -67102,6 +69448,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Otevřít Soukromí a zabezpečení"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فتح إعدادات الخصوصية"
           }
         }
       }
@@ -67222,6 +69574,12 @@
             "state": "translated",
             "value": "Povolte ovládání Systémových událostí pro automatické vystředění oken náhledu záznamů a snímků na obrazovce."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السماح بالتحكم في أحداث النظام لتوسيط نوافذ معاينة لقطات الشاشة والتسجيل تلقائياً."
+          }
         }
       }
     },
@@ -67340,6 +69698,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Automatizace (Systémové události)"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأتمتة (أحداث النظام)"
           }
         }
       }
@@ -67460,6 +69824,12 @@
             "state": "translated",
             "value": "Povolte přístup k Bluetooth pro čtení úrovně baterie podporovaného příslušenství."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السماح بالوصول للبلوتوث لقراءة مستويات بطارية الملحقات المدعومة."
+          }
         }
       }
     },
@@ -67578,6 +69948,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Bluetooth"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "البلوتوث"
           }
         }
       }
@@ -67698,6 +70074,12 @@
             "state": "translated",
             "value": "Povolte přístup ke Kalendáři pro zobrazení nadcházejících událostí."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السماح بالوصول للتقويم لعرض أحداثك القادمة."
+          }
         }
       }
     },
@@ -67816,6 +70198,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Kalendář"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التقويم"
           }
         }
       }
@@ -67936,6 +70324,12 @@
             "state": "translated",
             "value": "Povolte přístup k fotoaparátu pro zobrazení náhledu videa ve výřezu."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السماح بالوصول للكاميرا لعرض معاينة الكاميرا في الشق."
+          }
         }
       }
     },
@@ -68054,6 +70448,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Fotoaparát"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الكاميرا"
           }
         }
       }
@@ -68174,6 +70574,12 @@
             "state": "translated",
             "value": "Povolte plný přístup k disku pro zobrazení skutečných názvů a vlastních ikon režimů Soustředění."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السماح بالوصول الكامل للقرص لعرض الأسماء الحقيقية والأيقونات المخصصة لأوضاع التركيز."
+          }
         }
       }
     },
@@ -68292,6 +70698,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Plný přístup k disku"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الوصول الكامل للقرص"
           }
         }
       }
@@ -68412,6 +70824,12 @@
             "state": "translated",
             "value": "Povolte ovládání médií, aby v 'Právě hraje' fungovala tlačítka přehrávání, pozastavení a přeskakování skladeb."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السماح بالوصول لأحداث التحكم بالوسائط لتعمل أزرار التشغيل والإيقاف والمسار من \"يُعرض الآن\"."
+          }
         }
       }
     },
@@ -68530,6 +70948,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ovládání médií"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التحكم بالوسائط"
           }
         }
       }
@@ -68650,6 +71074,12 @@
             "state": "translated",
             "value": "Uděleno"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ممنوح"
+          }
         }
       }
     },
@@ -68768,6 +71198,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vyžaduje přístup"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يحتاج وصول"
           }
         }
       }
@@ -68888,6 +71324,12 @@
             "state": "translated",
             "value": "Obnovit"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إعادة تعيين"
+          }
         }
       }
     },
@@ -69006,6 +71448,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tato akce obnoví výchozí hodnoty pouze pro aktuálně aktivní kartu. Tuto akci nelze vrátit zpět."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سيؤدي هذا لاستعادة القيم الافتراضية للتبويب الحالي فقط. لا يمكن التراجع عن هذا الإجراء."
           }
         }
       }
@@ -69126,6 +71574,12 @@
             "state": "translated",
             "value": "Obnovit nastavení pro %@?"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إعادة تعيين إعدادات %@؟"
+          }
         }
       }
     },
@@ -69244,6 +71698,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Automaticky zavřít oznámení o snímku obrazovky po uplynutí časového limitu."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إغلاق إشعار لقطة الشاشة تلقائياً بعد فترة."
           }
         }
       }
@@ -69364,6 +71824,12 @@
             "state": "translated",
             "value": "Automaticky zavřít snímek obrazovky"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إخفاء لقطة الشاشة تلقائياً"
+          }
         }
       }
     },
@@ -69482,6 +71948,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aktivita snímků obrazovky"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نشاط التقاط الشاشة"
           }
         }
       }
@@ -69602,6 +72074,12 @@
             "state": "translated",
             "value": "Doba snímku obrazovky"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مدة لقطة الشاشة"
+          }
         }
       }
     },
@@ -69720,6 +72198,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Umístění pro uložení"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مواقع الحفظ"
           }
         }
       }
@@ -69840,6 +72324,12 @@
             "state": "translated",
             "value": "Plocha (%@)"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سطح المكتب (%@)"
+          }
         }
       }
     },
@@ -69958,6 +72448,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Upravte dobu před automatickým zavřením oznámení o nahrávání."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ضبط توقيت الإخفاء التلقائي لإشعار التسجيل."
           }
         }
       }
@@ -70078,6 +72574,12 @@
             "state": "translated",
             "value": "Doba nahrávání"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مدة التسجيل"
+          }
         }
       }
     },
@@ -70196,6 +72698,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zobrazit živou aktivitu během záznamu obrazovky."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار نشاط مباشر أثناء تسجيل الشاشة."
           }
         }
       }
@@ -70316,6 +72824,12 @@
             "state": "translated",
             "value": "Živá aktivita záznamu obrazovky"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نشاط تسجيل الشاشة المباشر"
+          }
         }
       }
     },
@@ -70434,6 +72948,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vyberte složku pro ukládání videozáznamů obrazovky."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر مكان حفظ تسجيلات الشاشة."
           }
         }
       }
@@ -70554,6 +73074,12 @@
             "state": "translated",
             "value": "Složka záznamů obrazovky"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مجلد التسجيلات"
+          }
         }
       }
     },
@@ -70672,6 +73198,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zobrazit krátké oznámení při pořízení snímku obrazovky."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار إشعار قصير عند التقاط لقطة شاشة."
           }
         }
       }
@@ -70792,6 +73324,12 @@
             "state": "translated",
             "value": "Aktivita snímku obrazovky"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نشاط لقطة الشاشة"
+          }
         }
       }
     },
@@ -70910,6 +73448,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vyberte složku pro ukládání snímků obrazovky."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر مكان حفظ لقطات الشاشة."
           }
         }
       }
@@ -71030,6 +73574,12 @@
             "state": "translated",
             "value": "Složka snímků obrazovky"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مجلد لقطات الشاشة"
+          }
         }
       }
     },
@@ -71148,6 +73698,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zkuste jiné klíčové slovo pro „%@“."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جرّب كلمة مفتاحية مختلفة لـ \"%@\"."
           }
         }
       }
@@ -71268,6 +73824,12 @@
             "state": "translated",
             "value": "Nebyla nalezena žádná nastavení"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم يتم العثور على إعدادات"
+          }
         }
       }
     },
@@ -71386,6 +73948,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Hledat"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بحث"
           }
         }
       }
@@ -71506,6 +74074,12 @@
             "state": "translated",
             "value": "Hledat"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بحث"
+          }
         }
       }
     },
@@ -71624,6 +74198,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Podrobnosti o projektu, odkazy a informace o verzi."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تفاصيل المشروع والروابط ومعلومات الإصدار."
           }
         }
       }
@@ -71744,6 +74324,12 @@
             "state": "translated",
             "value": "O aplikaci"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حول"
+          }
         }
       }
     },
@@ -71862,6 +74448,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Oznámení o nabíjení, slabé a plně nabité baterii."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إشعارات الشحن والبطارية المنخفضة والبطارية الممتلئة."
           }
         }
       }
@@ -71982,6 +74574,12 @@
             "state": "translated",
             "value": "Baterie"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "البطارية"
+          }
         }
       }
     },
@@ -72100,6 +74698,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zpětná vazba připojení pro příslušenství Bluetooth."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ملاحظات الاتصال لملحقات البلوتوث."
           }
         }
       }
@@ -72220,6 +74824,12 @@
             "state": "translated",
             "value": "Bluetooth"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "البلوتوث"
+          }
         }
       }
     },
@@ -72338,6 +74948,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Konfigurace nastavení nadcházejících událostí kalendáře."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تكوين إعدادات أحداث التقويم القادمة."
           }
         }
       }
@@ -72458,6 +75074,12 @@
             "state": "translated",
             "value": "Kalendář"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التقويم"
+          }
         }
       }
     },
@@ -72576,6 +75198,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ruční náhledy a spouštěče událostí pro testování."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "معاينات يدوية ومشغّلات أحداث للاختبار."
           }
         }
       }
@@ -72696,6 +75324,12 @@
             "state": "translated",
             "value": "Ladění"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التصحيح"
+          }
         }
       }
     },
@@ -72814,6 +75448,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Živé sledování stahování a náhledy přenosů."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تتبع التنزيلات المباشر ومعاينات النقل."
           }
         }
       }
@@ -72934,6 +75574,12 @@
             "state": "translated",
             "value": "Stahování"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التنزيلات"
+          }
         }
       }
     },
@@ -73052,6 +75698,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Cíle AirDrop a přihrádky pro soubory přetažené do výřezu."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أهداف AirDrop والدرج للملفات المسحوبة عبر الشق."
           }
         }
       }
@@ -73172,6 +75824,12 @@
             "state": "translated",
             "value": "Přetažení"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السحب والإفلات"
+          }
         }
       }
     },
@@ -73290,6 +75948,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Změny stavu soustředění a rychlé aktualizace."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تغييرات حالة وضع التركيز وتحديثات الحالة السريعة."
           }
         }
       }
@@ -73410,6 +76074,12 @@
             "state": "translated",
             "value": "Soustředění"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التركيز"
+          }
         }
       }
     },
@@ -73528,6 +76198,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Spouštění, umístění na displeji a jazyk aplikace."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التشغيل ووضع الشاشة ولغة التطبيق."
           }
         }
       }
@@ -73648,6 +76324,12 @@
             "state": "translated",
             "value": "Obecné"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عام"
+          }
         }
       }
     },
@@ -73766,6 +76448,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Konfigurace stránek viditelných na domovské stránce výřezu."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تكوين الصفحات المرئية في الصفحة الرئيسية للشق."
           }
         }
       }
@@ -73886,6 +76574,12 @@
             "state": "translated",
             "value": "Domovská stránka"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الصفحة الرئيسية"
+          }
         }
       }
     },
@@ -74004,6 +76698,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vlastní náhrady HUD pro hlasitost, jas a klávesnici."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بدائل مخصصة لعروض مستوى الصوت والسطوع ولوحة المفاتيح."
           }
         }
       }
@@ -74124,6 +76824,12 @@
             "state": "translated",
             "value": "HUD"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض المعلومات"
+          }
         }
       }
     },
@@ -74242,6 +76948,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vyberte jazyk rozhraní aplikace."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر لغة واجهة التطبيق."
           }
         }
       }
@@ -74362,6 +77074,12 @@
             "state": "translated",
             "value": "Jazyk"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اللغة"
+          }
         }
       }
     },
@@ -74480,6 +77198,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Přechody uzamčení, zvuky a chování médií na zamčené obrazovce."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "انتقالات القفل والصوت وسلوك الوسائط على شاشة القفل."
           }
         }
       }
@@ -74600,6 +77324,12 @@
             "state": "translated",
             "value": "Zamčená obrazovka"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شاشة القفل"
+          }
         }
       }
     },
@@ -74718,6 +77448,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vzhled, animace a doba trvání dočasných aktivit."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المظهر والحركة وتوقيت الأنشطة المؤقتة."
           }
         }
       }
@@ -74838,6 +77574,12 @@
             "state": "translated",
             "value": "Výřez (Notch)"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الشق"
+          }
         }
       }
     },
@@ -74956,6 +77698,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ovládací prvky přehrávání médií zobrazené ve výřezu."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عناصر تحكم تشغيل الوسائط المعروضة في الشق."
           }
         }
       }
@@ -75076,6 +77824,12 @@
             "state": "translated",
             "value": "Právě hraje"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يُعرض الآن"
+          }
         }
       }
     },
@@ -75194,6 +77948,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Správa systémových oprávnění a nastavení přístupu."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إدارة أذونات النظام وإعدادات الوصول."
           }
         }
       }
@@ -75314,6 +78074,12 @@
             "state": "translated",
             "value": "Oprávnění"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأذونات"
+          }
         }
       }
     },
@@ -75432,6 +78198,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Chování pro snímky obrazovky a záznamy obrazovky."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سلوك نشاط لقطة الشاشة وتسجيل الشاشة."
           }
         }
       }
@@ -75552,6 +78324,12 @@
             "state": "translated",
             "value": "Záznam obrazovky"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التقاط الشاشة"
+          }
         }
       }
     },
@@ -75670,6 +78448,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Kontrola aktualizací a správa předvoleb aktualizací."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التحقق من التحديثات وإدارة تفضيلات التحديث."
           }
         }
       }
@@ -75790,6 +78574,12 @@
             "state": "translated",
             "value": "Aktualizace softwaru"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تحديث البرنامج"
+          }
         }
       }
     },
@@ -75908,6 +78698,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Živá aktivita minutky a vzhled ohraničení."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نشاط المؤقت المباشر ومظهر الحد."
           }
         }
       }
@@ -76028,6 +78824,12 @@
             "state": "translated",
             "value": "Minutka"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المؤقت"
+          }
         }
       }
     },
@@ -76147,6 +78949,12 @@
             "state": "translated",
             "value": "Vyberte preferované připojení VPN a nakonfigurujte jeho chování."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختيار اتصال VPN المفضل وتكوين السلوك."
+          }
         }
       }
     },
@@ -76262,6 +79070,12 @@
           }
         },
         "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "VPN"
+          }
+        },
+        "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "VPN"
@@ -76385,6 +79199,12 @@
             "state": "translated",
             "value": "Aktivita Wi-Fi a osobní hotspot."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نشاط Wi-Fi ونقطة الاتصال الشخصية."
+          }
         }
       }
     },
@@ -76500,6 +79320,12 @@
           }
         },
         "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wi-Fi"
+          }
+        },
+        "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "Wi-Fi"
@@ -76623,6 +79449,12 @@
             "state": "translated",
             "value": "Bitcoin (BTC)"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بتكوين (BTC)"
+          }
         }
       }
     },
@@ -76742,6 +79574,12 @@
             "state": "translated",
             "value": "Podpořte vývoj nebo se přihlaste k odběru"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دعم التطوير أو الاشتراك"
+          }
         }
       }
     },
@@ -76857,6 +79695,12 @@
           }
         },
         "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Boosty.to"
+          }
+        },
+        "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "Boosty.to"
@@ -76980,6 +79824,12 @@
             "state": "translated",
             "value": "Kryptoměna"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "العملات المشفرة"
+          }
         }
       }
     },
@@ -77098,6 +79948,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "DynamicNotch je bezplatný open-source projekt. Pokud se vám aplikace líbí, podpořte její vývoj! Vaše dary motivují k vytváření nových funkcí."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch هو مشروع مجاني ومفتوح المصدر. إذا أعجبك التطبيق، ادعم تطويره! التبرعات تساعد في تغطية التطوير والصيانة."
           }
         }
       }
@@ -77218,6 +80074,12 @@
             "state": "translated",
             "value": "Jednorázový dar kartou nebo kryptoměnou"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تبرع لمرة واحدة عبر البطاقات أو العملات المشفرة"
+          }
         }
       }
     },
@@ -77336,6 +80198,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Donation Alerts"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تنبيهات التبرع"
           }
         }
       }
@@ -77456,6 +80324,12 @@
             "state": "translated",
             "value": "Podpořit DynamicNotch"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ادعم DynamicNotch"
+          }
         }
       }
     },
@@ -77571,6 +80445,12 @@
           }
         },
         "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "USDT (ERC-20)"
+          }
+        },
+        "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "USDT (ERC-20)"
@@ -77694,6 +80574,12 @@
             "state": "translated",
             "value": "USDT (TRC-20)"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "USDT (TRC-20)"
+          }
         }
       }
     },
@@ -77812,6 +80698,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ponechat aplikaci viditelnou v Docku pro rychlý přístup k oknům."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إبقاء التطبيق مرئياً في الـ Dock للتبديل السريع والوصول للنوافذ."
           }
         }
       }
@@ -77932,6 +80824,12 @@
             "state": "translated",
             "value": "Zobrazit v Docku"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار أيقونة الـ Dock"
+          }
         }
       }
     },
@@ -78050,6 +80948,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Automaticky spustit Dynamic Notch při přihlášení."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تشغيل Dynamic Notch تلقائياً عند تسجيل الدخول."
           }
         }
       }
@@ -78170,6 +81074,12 @@
             "state": "translated",
             "value": "Spustit při přihlášení"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التشغيل عند تسجيل الدخول"
+          }
         }
       }
     },
@@ -78288,6 +81198,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zobrazit ikonu v řádku nabídek pro rychlý přístup k nastavení a ukončení."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار اختصار في شريط القوائم للوصول السريع للإعدادات والإنهاء."
           }
         }
       }
@@ -78408,6 +81324,12 @@
             "state": "translated",
             "value": "Zobrazit v řádku nabídek"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار أيقونة شريط القوائم"
+          }
         }
       }
     },
@@ -78526,6 +81448,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "K nabídce máte přístup také kliknutím pravým tlačítkem myši na oblast výřezu."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يمكنك الوصول للقائمة بالنقر بزر الماوس الأيمن على منطقة الشق."
           }
         }
       }
@@ -78646,6 +81574,12 @@
             "state": "translated",
             "value": "Zobrazit aktivní minutku z aplikace Hodiny ve výřezu."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار مؤقت الساعة النشط في الشق."
+          }
         }
       }
     },
@@ -78764,6 +81698,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Živá aktivita minutky"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نشاط المؤقت المباشر"
           }
         }
       }
@@ -78884,6 +81824,12 @@
             "state": "translated",
             "value": "Aktivita minutky"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نشاط المؤقت"
+          }
         }
       }
     },
@@ -79002,6 +81948,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zvuk"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الصوت"
           }
         }
       }
@@ -79122,6 +82074,12 @@
             "state": "translated",
             "value": "Přehrát zvukový alarm po dokončení minutky."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تشغيل صوت تنبيه عند انتهاء المؤقت."
+          }
         }
       }
     },
@@ -79240,6 +82198,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zvuk minutky"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صوت المؤقت"
           }
         }
       }
@@ -79360,6 +82324,12 @@
             "state": "translated",
             "value": "Zvolte zvuk alarmu po dokončení minutky."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر صوت التنبيه لاكتمال المؤقت."
+          }
         }
       }
     },
@@ -79478,6 +82448,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Alarm"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الصوت"
           }
         }
       }
@@ -79598,6 +82574,12 @@
             "state": "translated",
             "value": "Nastavení"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإعدادات"
+          }
         }
       }
     },
@@ -79716,6 +82698,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zpět"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "رجوع"
           }
         }
       }
@@ -79836,6 +82824,12 @@
             "state": "translated",
             "value": "Vpřed"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تقدّم"
+          }
         }
       }
     },
@@ -79954,6 +82948,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Obnovit výchozí hodnoty pro aktivní kartu"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إعادة تعيين التبويب الحالي للافتراضي"
           }
         }
       }
@@ -80074,6 +83074,12 @@
             "state": "translated",
             "value": "Povolit aplikaci Dynamic Notch automaticky vyhledávat nové verze."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السماح لـ Dynamic Notch بالتحقق من الإصدارات الجديدة تلقائياً."
+          }
         }
       }
     },
@@ -80192,6 +83198,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Automaticky vyhledávat aktualizace"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التحقق من التحديثات تلقائياً"
           }
         }
       }
@@ -80312,6 +83324,12 @@
             "state": "translated",
             "value": "Stahovat aktualizace na pozadí a upozornit, když jsou připraveny."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تنزيل التحديثات في الخلفية وإشعارك عند الجاهزية."
+          }
         }
       }
     },
@@ -80430,6 +83448,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Automaticky stahovat aktualizace"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تنزيل التحديثات تلقائياً"
           }
         }
       }
@@ -80550,6 +83574,12 @@
             "state": "translated",
             "value": "Zkontrolovat nyní"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التحقق الآن"
+          }
         }
       }
     },
@@ -80668,6 +83698,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Kompaktní"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مضغوط"
           }
         }
       }
@@ -80788,6 +83824,12 @@
             "state": "translated",
             "value": "Podrobný"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مفصّل"
+          }
         }
       }
     },
@@ -80906,6 +83948,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aktivita VPN"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نشاط VPN"
           }
         }
       }
@@ -81026,6 +84074,12 @@
             "state": "translated",
             "value": "Vzhled VPN"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مظهر VPN"
+          }
         }
       }
     },
@@ -81144,6 +84198,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Doba trvání VPN"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مدة VPN"
           }
         }
       }
@@ -81264,6 +84324,12 @@
             "state": "translated",
             "value": "Preferovaná VPN"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "VPN المفضل"
+          }
         }
       }
     },
@@ -81382,6 +84448,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Dočasná aktivita odpojené VPN"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نشاط قطع اتصال VPN المؤقت"
           }
         }
       }
@@ -81502,6 +84574,12 @@
             "state": "translated",
             "value": "Zobrazit krátké oznámení při neaktivitě připojení VPN."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار إشعار قصير عند توقف اتصال VPN."
+          }
         }
       }
     },
@@ -81620,6 +84698,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Doba trvání odpojení VPN"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مدة قطع اتصال VPN"
           }
         }
       }
@@ -81740,6 +84824,12 @@
             "state": "translated",
             "value": "Zvolte, jak dlouho zůstane oznámení o odpojení VPN viditelné."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر مدة بقاء إشعار قطع اتصال VPN مرئياً."
+          }
         }
       }
     },
@@ -81858,6 +84948,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Doba trvání VPN"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مدة VPN"
           }
         }
       }
@@ -81978,6 +85074,12 @@
             "state": "translated",
             "value": "Zvolte, jak dlouho zůstane oznámení o připojení VPN viditelné."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر مدة بقاء إشعار اتصال VPN مرئياً."
+          }
         }
       }
     },
@@ -82096,6 +85198,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zvolte, zda aktivita VPN zůstane kompaktní, nebo zobrazí podrobnosti o tunelu."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر ما إذا كان نشاط VPN يبقى مضغوطاً أو يعرض تفاصيل النفق."
           }
         }
       }
@@ -82216,6 +85324,12 @@
             "state": "translated",
             "value": "Styl VPN"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نمط VPN"
+          }
         }
       }
     },
@@ -82334,6 +85448,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Dočasná aktivita VPN"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نشاط VPN المؤقت"
           }
         }
       }
@@ -82454,6 +85574,12 @@
             "state": "translated",
             "value": "Zobrazit krátké oznámení při aktivaci připojení VPN."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار إشعار قصير عند تفعيل اتصال VPN."
+          }
         }
       }
     },
@@ -82572,6 +85698,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zvolte, zda aktivita osobního hotspotu zůstane minimální, nebo zobrazí více podrobností."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر ما إذا كان نشاط نقطة الاتصال يبقى مبسّطاً أو يعرض حالة أكثر."
           }
         }
       }
@@ -82692,6 +85824,12 @@
             "state": "translated",
             "value": "Vzhled"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المظهر"
+          }
         }
       }
     },
@@ -82810,6 +85948,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aktivita Wi-Fi"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نشاط Wi-Fi"
           }
         }
       }
@@ -82930,6 +86074,12 @@
             "state": "translated",
             "value": "Doba trvání Wi-Fi"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مدة Wi-Fi"
+          }
         }
       }
     },
@@ -83048,6 +86198,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vzhled hotspotu"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مظهر نقطة الاتصال"
           }
         }
       }
@@ -83168,6 +86324,12 @@
             "state": "translated",
             "value": "Zvolte, jak dlouho zůstane oznámení o opětovném připojení k Wi-Fi viditelné."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر مدة بقاء إشعار إعادة اتصال Wi-Fi مرئياً."
+          }
         }
       }
     },
@@ -83286,6 +86448,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Doba trvání Wi-Fi"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مدة Wi-Fi"
           }
         }
       }
@@ -83406,6 +86574,12 @@
             "state": "translated",
             "value": "Zobrazit živou aktivitu při aktivním osobním hotspotu."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار نشاط مباشر أثناء تفعيل نقطة الاتصال الشخصية."
+          }
         }
       }
     },
@@ -83524,6 +86698,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Živá aktivita hotspotu"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نشاط نقطة الاتصال الشخصية المباشر"
           }
         }
       }
@@ -83644,6 +86824,12 @@
             "state": "translated",
             "value": "Podrobný"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مفصّل"
+          }
         }
       }
     },
@@ -83762,6 +86948,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Minimální"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مبسّط"
           }
         }
       }
@@ -83882,6 +87074,12 @@
             "state": "translated",
             "value": "Zobrazit krátké oznámení, když Mac ztratí připojení k internetu."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار إشعار قصير عند فقدان Mac الاتصال بالإنترنت."
+          }
         }
       }
     },
@@ -84000,6 +87198,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Oznámení Žádné připojení k internetu"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نشاط عدم الاتصال بالإنترنت المؤقت"
           }
         }
       }
@@ -84120,6 +87324,12 @@
             "state": "translated",
             "value": "Zobrazit krátké oznámení při opětovném připojení k Wi-Fi."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار إشعار قصير عند إعادة اتصال Wi-Fi."
+          }
         }
       }
     },
@@ -84238,6 +87448,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Dočasná aktivita Wi-Fi"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نشاط Wi-Fi المؤقت"
           }
         }
       }
@@ -84358,6 +87574,12 @@
             "state": "translated",
             "value": "Němčina"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الألمانية"
+          }
         }
       }
     },
@@ -84476,6 +87698,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Francouzština"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الفرنسية"
           }
         }
       }
@@ -84596,6 +87824,12 @@
             "state": "translated",
             "value": "Portugalština"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "البرتغالية"
+          }
         }
       }
     },
@@ -84714,6 +87948,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Japonština"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اليابانية"
           }
         }
       }
@@ -84834,6 +88074,12 @@
             "state": "translated",
             "value": "Korejština"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الكورية"
+          }
         }
       }
     },
@@ -84952,6 +88198,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Italština"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإيطالية"
           }
         }
       }
@@ -85072,6 +88324,12 @@
             "state": "translated",
             "value": "Polština"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "البولندية"
+          }
         }
       }
     },
@@ -85190,6 +88448,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vietnamština"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الفيتنامية"
           }
         }
       }
@@ -85310,6 +88574,12 @@
             "state": "translated",
             "value": "Indonéština"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإندونيسية"
+          }
         }
       }
     },
@@ -85428,6 +88698,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Nizozemština"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الهولندية"
           }
         }
       }
@@ -85548,6 +88824,12 @@
             "state": "translated",
             "value": "Tradiční čínština"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الصينية التقليدية"
+          }
         }
       }
     },
@@ -85666,6 +88948,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ukrajinština"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأوكرانية"
           }
         }
       }
@@ -85786,6 +89074,12 @@
             "state": "translated",
             "value": "Švédština"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السويدية"
+          }
         }
       }
     },
@@ -85904,6 +89198,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Čeština"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التشيكية"
           }
         }
       }

@@ -10,6 +10,12 @@
             "state": "new",
             "value": "DynamicNotch"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch"
+          }
         }
       }
     },
@@ -128,6 +134,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Pro zobrazení médií ve výřezu je vyžadován přístup k mediálním datům."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السماح بالتحكم في أحداث النظام لتوسيط نوافذ معاينة لقطات الشاشة والتسجيل تلقائياً على شاشة الشق."
           }
         }
       }
@@ -248,6 +260,12 @@
             "state": "translated",
             "value": "Aplikace potřebuje přístup k Bluetooth pro kontrolu stavu zařízení."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يحتاج DynamicNotch للوصول إلى البلوتوث لعرض حالة البطارية والاتصال لملحقاتك اللاسلكية."
+          }
         }
       }
     },
@@ -366,6 +384,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "DynamicNotch potřebuje přístup ke Kalendáři pro zobrazení nadcházejících událostí ve výřezu."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يحتاج DynamicNotch للوصول الكامل للتقويم لعرض أحداثك القادمة في الشق."
           }
         }
       }
@@ -486,6 +510,12 @@
             "state": "translated",
             "value": "DynamicNotch potřebuje přístup ke Kalendáři pro zobrazení nadcházejících událostí ve výřezu."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يحتاج DynamicNotch للوصول للتقويم لعرض أحداثك القادمة في الشق."
+          }
         }
       }
     },
@@ -605,6 +635,12 @@
             "state": "translated",
             "value": "DynamicNotch potřebuje přístup k fotoaparátu pro zobrazení náhledu ve výřezu."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يحتاج DynamicNotch للوصول للكاميرا لعرض معاينة الكاميرا مباشرة في الشق."
+          }
         }
       }
     },
@@ -616,6 +652,12 @@
           "stringUnit": {
             "state": "new",
             "value": ""
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حقوق النشر © 2025 jackson-storm. جميع الحقوق محفوظة."
           }
         }
       }
@@ -735,6 +777,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aplikace potřebuje přístup k místní síti pro zjištění názvu aktuální sítě Wi-Fi."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يحتاج DynamicNotch للوصول إلى الشبكة المحلية لاكتشاف أجهزة AirDrop القريبة لنقل الملفات عبر الشق."
           }
         }
       }

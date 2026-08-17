@@ -161,6 +161,7 @@ The project currently includes localized app content for:
 - Ukrainian
 - Swedish
 - Czech
+- Arabic
 
 ## 💖 Support
 

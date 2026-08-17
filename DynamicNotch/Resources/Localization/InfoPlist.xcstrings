@@ -28,6 +28,12 @@
             "state": "translated",
             "value": "DynamicNotch"
           }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch"
+          }
         }
       }
     },
@@ -164,6 +170,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "อนุญาตให้ควบคุม System Events เพื่อจัดหน้าต่างแสดงตัวอย่างภาพหน้าจอและการบันทึกให้อยู่ตรงกลางบนรอยบากโดยอัตโนมัติ"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permiteți controlul evenimentelor de sistem pentru a centra automat ferestrele de previzualizare ale capturilor de ecran și înregistrărilor pe afișajul notch."
           }
         }
       }
@@ -302,6 +314,12 @@
             "state": "translated",
             "value": "DynamicNotch จำเป็นต้องเข้าถึงบลูทูธเพื่อแสดงสถานะแบตเตอรี่และการเชื่อมต่อสำหรับอุปกรณ์เสริมไร้สายของคุณ"
           }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch are nevoie de acces Bluetooth pentru a afișa nivelul bateriei și starea conexiunii pentru accesoriile fără fir."
+          }
         }
       }
     },
@@ -438,6 +456,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "DynamicNotch จำเป็นต้องเข้าถึงปฏิทินแบบเต็มเพื่อแสดงกิจกรรมที่จะเกิดขึ้นในรอยบาก"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch are nevoie de acces complet la calendar pentru a afișa evenimentele viitoare în notch."
           }
         }
       }
@@ -576,6 +600,12 @@
             "state": "translated",
             "value": "DynamicNotch จำเป็นต้องเข้าถึงปฏิทินเพื่อแสดงกิจกรรมที่จะเกิดขึ้นในรอยบาก"
           }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch are nevoie de acces la calendar pentru a afișa evenimentele viitoare în notch."
+          }
         }
       }
     },
@@ -713,6 +743,12 @@
             "state": "translated",
             "value": "DynamicNotch จำเป็นต้องเข้าถึงกล้องเพื่อแสดงตัวอย่างกล้องในรอยบากโดยตรง"
           }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch are nevoie de acces la cameră pentru a afișa o previzualizare a camerei direct în notch."
+          }
         }
       }
     },
@@ -742,6 +778,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "ลิขสิทธิ์ © 2025 jackson-storm. สงวนลิขสิทธิ์ทั้งหมด"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drepturi de autor © 2025 jackson-storm. Toate drepturile rezervate."
           }
         }
       }
@@ -879,6 +921,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "DynamicNotch จำเป็นต้องเข้าถึงเครือข่ายท้องถิ่นเพื่อค้นหาอุปกรณ์ AirDrop ใกล้เคียงสำหรับการถ่ายโอนไฟล์ผ่านรอยบาก"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch are nevoie de acces la rețeaua locală pentru a descoperi dispozitive AirDrop din apropiere pentru transferul de fișiere prin notch."
           }
         }
       }

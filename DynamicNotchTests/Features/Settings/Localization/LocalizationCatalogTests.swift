@@ -103,6 +103,7 @@ final class LocalizationCatalogTests: XCTestCase {
         XCTAssertEqual(DynamicNotchLanguage.resolved("ar"), .arabic)
         XCTAssertEqual(DynamicNotchLanguage.resolved("hi"), .hindi)
         XCTAssertEqual(DynamicNotchLanguage.resolved("th"), .thai)
+        XCTAssertEqual(DynamicNotchLanguage.resolved("ro"), .romanian)
     }
 }
 
@@ -130,5 +131,6 @@ private extension LocalizationCatalogTests {
         return specifiers.sorted()
         XCTAssertEqual(DynamicNotchLanguage.resolved("hi"), .hindi)
         XCTAssertEqual(DynamicNotchLanguage.resolved("th"), .thai)
+        XCTAssertEqual(DynamicNotchLanguage.resolved("ro"), .romanian)
     }
 }

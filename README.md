@@ -164,6 +164,7 @@ The project currently includes localized app content for:
 - Arabic
 - Hindi
 - Thai
+- Romanian
 
 ## 💖 Support
 

@@ -70,6 +70,12 @@
             "state": "translated",
             "value": "DynamicNotch"
           }
+        },
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch"
+          }
         }
       }
     },
@@ -248,6 +254,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Benarkan kawalan Acara Sistem untuk memusatkan tetingkap pratonton tangkapan skrin dan rakaman secara automatik pada paparan notch."
+          }
+        },
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "אפשר שליטה באירועי מערכת כדי למרכז אוטומטית חלונות תצוגה מקדימה של צילומי מסך והקלטות בתצוגת המגרעת."
           }
         }
       }
@@ -428,6 +440,12 @@
             "state": "translated",
             "value": "DynamicNotch memerlukan akses Bluetooth untuk memaparkan status bateri dan sambungan bagi aksesori wayarles anda."
           }
+        },
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch זקוק לגישת Bluetooth כדי להציג את מצב הסוללה והחיבור של האביזרים האלחוטיים שלך."
+          }
         }
       }
     },
@@ -606,6 +624,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "DynamicNotch memerlukan akses kalendar penuh untuk memaparkan acara akan datang anda di notch."
+          }
+        },
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch זקוק לגישה מלאה ללוח השנה כדי להציג את האירועים הקרובים שלך במגרעת."
           }
         }
       }
@@ -786,6 +810,12 @@
             "state": "translated",
             "value": "DynamicNotch memerlukan akses kalendar untuk memaparkan acara akan datang anda di notch."
           }
+        },
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch זקוק לגישה ללוח השנה כדי להציג את האירועים הקרובים שלך במגרעת."
+          }
         }
       }
     },
@@ -965,6 +995,12 @@
             "state": "translated",
             "value": "DynamicNotch memerlukan akses kamera untuk memaparkan pratonton kamera langsung terus di notch."
           }
+        },
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch זקוק לגישה למצלמה כדי להציג תצוגה מקדימה ישירה של המצלמה במגרעת."
+          }
         }
       }
     },
@@ -1036,6 +1072,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Hak Cipta © 2025 jackson-storm. Hak cipta terpelihara."
+          }
+        },
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "זכויות יוצרים © 2025 jackson-storm. כל הזכויות שמורות."
           }
         }
       }
@@ -1215,6 +1257,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "DynamicNotch memerlukan akses rangkaian tempatan untuk menemui peranti AirDrop berdekatan bagi pemindahan fail melalui notch."
+          }
+        },
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch זקוק לגישה לרשת המקומית כדי לגלות מכשירי AirDrop סמוכים להעברת קבצים דרך המגרעת."
           }
         }
       }

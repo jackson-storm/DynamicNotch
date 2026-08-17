@@ -118,6 +118,7 @@ final class LocalizationCatalogTests: XCTestCase {
         XCTAssertEqual(DynamicNotchLanguage.resolved("sr"), .serbian)
         XCTAssertEqual(DynamicNotchLanguage.resolved("fil"), .filipino)
         XCTAssertEqual(DynamicNotchLanguage.resolved("kk"), .kazakh)
+        XCTAssertEqual(DynamicNotchLanguage.resolved("fa"), .persian)
     }
 }
 
@@ -151,6 +152,7 @@ private extension LocalizationCatalogTests {
         XCTAssertEqual(DynamicNotchLanguage.resolved("sr"), .serbian)
         XCTAssertEqual(DynamicNotchLanguage.resolved("fil"), .filipino)
         XCTAssertEqual(DynamicNotchLanguage.resolved("kk"), .kazakh)
+        XCTAssertEqual(DynamicNotchLanguage.resolved("fa"), .persian)
     }
 }
 

@@ -170,6 +170,7 @@ The project currently includes localized app content for:
 - Danish
 - Finnish
 - Norwegian
+- Malay
 
 ## 💖 Support
 

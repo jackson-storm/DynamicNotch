@@ -64,6 +64,12 @@
             "state": "translated",
             "value": "DynamicNotch"
           }
+        },
+        "ms": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch"
+          }
         }
       }
     },
@@ -236,6 +242,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tillat kontroll over Systemhendelser for automatisk å sentrere forhåndsvisningsvinduer for skjermbilder og opptak på notch-skjermen."
+          }
+        },
+        "ms": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Benarkan kawalan Acara Sistem untuk memusatkan tetingkap pratonton tangkapan skrin dan rakaman secara automatik pada paparan notch."
           }
         }
       }
@@ -410,6 +422,12 @@
             "state": "translated",
             "value": "DynamicNotch trenger Bluetooth-tilgang for å vise batteri- og tilkoblingsstatus for det trådløse tilbehøret ditt."
           }
+        },
+        "ms": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch memerlukan akses Bluetooth untuk memaparkan status bateri dan sambungan bagi aksesori wayarles anda."
+          }
         }
       }
     },
@@ -582,6 +600,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "DynamicNotch trenger full kalendertilgang for å vise dine kommende hendelser i notchen."
+          }
+        },
+        "ms": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch memerlukan akses kalendar penuh untuk memaparkan acara akan datang anda di notch."
           }
         }
       }
@@ -756,6 +780,12 @@
             "state": "translated",
             "value": "DynamicNotch trenger kalendertilgang for å vise dine kommende hendelser i notchen."
           }
+        },
+        "ms": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch memerlukan akses kalendar untuk memaparkan acara akan datang anda di notch."
+          }
         }
       }
     },
@@ -929,6 +959,12 @@
             "state": "translated",
             "value": "DynamicNotch trenger kameratilgang for å vise en direkte kameraforhåndsvisning i notchen."
           }
+        },
+        "ms": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch memerlukan akses kamera untuk memaparkan pratonton kamera langsung terus di notch."
+          }
         }
       }
     },
@@ -994,6 +1030,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Opphavsrett © 2025 jackson-storm. Alle rettigheter forbeholdt."
+          }
+        },
+        "ms": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hak Cipta © 2025 jackson-storm. Hak cipta terpelihara."
           }
         }
       }
@@ -1167,6 +1209,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "DynamicNotch trenger tilgang til lokalnettverket for å oppdage AirDrop-enheter i nærheten for filoverføring via notchen."
+          }
+        },
+        "ms": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch memerlukan akses rangkaian tempatan untuk menemui peranti AirDrop berdekatan bagi pemindahan fail melalui notch."
           }
         }
       }

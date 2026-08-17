@@ -18,9 +18,9 @@ struct LanguageChangedNotchView: View {
                     .resizable()
                     .interpolation(.high)
                     .antialiased(true)
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: isDynamicIsland ? 24 : 30, height: isDynamicIsland ? 14 : 20)
-                    .clipShape(RoundedRectangle(cornerRadius: isDynamicIsland ? 3 : 4, style: .continuous), style: FillStyle(antialiased: true))
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: isDynamicIsland ? 24 : 30, height: isDynamicIsland ? 16 : 20)
+                    .clipShape(RoundedRectangle(cornerRadius: isDynamicIsland ? 3 : 4, style: .continuous))
                     .overlay {
                         RoundedRectangle(cornerRadius: isDynamicIsland ? 3 : 4, style: .continuous)
                             .strokeBorder(Color.white.opacity(0.2), lineWidth: 0.5)

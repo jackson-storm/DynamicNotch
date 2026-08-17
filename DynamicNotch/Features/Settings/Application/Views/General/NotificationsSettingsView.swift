@@ -3,6 +3,7 @@ import SwiftUI
 struct NotificationsSettingsView: View {
     @ObservedObject var settings: NotificationsSettingsStore
     @ObservedObject var permissionController: SettingsPermissionController
+    @State private var isShowingFullDiskAccessAlert = false
 
     var body: some View {
         SettingsPageScrollView {
@@ -18,6 +19,21 @@ struct NotificationsSettingsView: View {
                     accessibilityIdentifier: "settings.notifications.appleMail.toggle"
                 )
             }
+        }
+        .alert(isPresented: $isShowingFullDiskAccessAlert) {
+            Alert(
+                title: Text("settings.notifications.appleMail.fullDiskAccess.title"),
+                message: Text("settings.notifications.appleMail.fullDiskAccess.description"),
+                primaryButton: .default(
+                    Text("settings.permissions.action.openPrivacySettings")
+                ) {
+                    settings.isAppleMailNotificationsPermissionPending = true
+                    permissionController.performAction(for: .fullDiskAccess)
+                },
+                secondaryButton: .cancel {
+                    settings.isAppleMailNotificationsPermissionPending = false
+                }
+            )
         }
     }
 
@@ -40,8 +56,7 @@ struct NotificationsSettingsView: View {
         }
 
         guard permissionController.isFullDiskAccessGranted else {
-            settings.isAppleMailNotificationsPermissionPending = true
-            permissionController.performAction(for: .fullDiskAccess)
+            isShowingFullDiskAccessAlert = true
             return
         }
 

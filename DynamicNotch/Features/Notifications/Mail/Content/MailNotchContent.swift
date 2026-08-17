@@ -14,9 +14,20 @@ struct MailNotchContent: NotchContentProtocol {
     var windowLink: (@MainActor () -> Void)? {
         onOpen
     }
+    
+    private var hasSummary: Bool {
+        guard let summary = message.summary else { return false }
 
+        return !summary.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+    
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        .init(width: baseWidth + Self.extraWidth, height: baseHeight + 85)
+        let extraHeight: CGFloat = hasSummary ? 85 : 65
+
+        return .init(
+            width: baseWidth + Self.extraWidth,
+            height: baseHeight + extraHeight
+        )
     }
 
     @MainActor

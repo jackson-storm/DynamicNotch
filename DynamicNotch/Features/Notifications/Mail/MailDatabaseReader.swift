@@ -70,7 +70,7 @@ final class MailDatabaseReader {
                 query: query,
                 errorMessage: "Could not prepare messages query"
             ) { statement in
-                //handleMailMessageBind the last processed RowID to the query placeholder
+                //Bind the last processed RowID to the query placeholder
                 guard sqlite3_bind_int64(statement, 1, rowID) == SQLITE_OK else {
                     logDatabaseError(database, message: "Could not bind the last processed RowID")
                     return nil

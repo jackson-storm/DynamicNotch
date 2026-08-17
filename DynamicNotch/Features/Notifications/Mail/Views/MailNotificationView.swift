@@ -23,17 +23,23 @@ struct MailNotificationView: View {
 
                     VStack(alignment: .leading, spacing: 2) {
                         Text(message.sender)
-                            .font(.system(size: 13, weight: .semibold))
+                            .font(.system(size: 12.5, weight: .semibold))
                             .lineLimit(1)
 
-                        Text(message.subject)
-                            .font(.system(size: 12, weight: .medium))
-                            .lineLimit(1)
-                            .padding(EdgeInsets(top: 2, leading: 0, bottom: 0, trailing: 0))
+                        Group {
+                            if message.subject.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                                Text("settings.notifications.appleMail.noSubject")
+                            } else {
+                                Text(message.subject)
+                            }
+                        }
+                        .font(.system(size: 11.5, weight: .medium))
+                        .lineLimit(1)
+                        .padding(.top, 2)
 
                         if let summary = message.summary, !summary.isEmpty {
                             Text(summary)
-                                .font(.system(size: 11, weight: .medium))
+                                .font(.system(size: 10.5, weight: .medium))
                                 .foregroundStyle(.secondary)
                                 .lineLimit(2)
                                 .multilineTextAlignment(.leading)
@@ -42,8 +48,8 @@ struct MailNotificationView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 .padding(.leading, 22)
-                .padding(.trailing, 14)
-                .padding(.bottom, 12)
+                .padding(.trailing, 17)
+                .padding(.bottom, 16)
             }
         }
         .contentShape(Rectangle())

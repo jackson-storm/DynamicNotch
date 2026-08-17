@@ -173,6 +173,7 @@ The project currently includes localized app content for:
 - Malay
 - Hebrew
 - Bulgarian
+- Catalan
 
 ## 💖 Support
 

@@ -46,6 +46,8 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
 
     case bulgarian = "bg"
 
+    case catalan = "ca"
+
     var id: String { rawValue }
 
     var locale: Locale {
@@ -111,6 +113,8 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
             return ["he", "he-IL"]
         case .bulgarian:
             return ["bg", "bg-BG"]
+        case .catalan:
+            return ["ca", "ca-ES"]
         default:
             return [rawValue]
         }
@@ -182,6 +186,8 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
             return "settings.language.option.hebrew"
         case .bulgarian:
             return "settings.language.option.bulgarian"
+        case .catalan:
+            return "settings.language.option.catalan"
         }
     }
 
@@ -255,6 +261,8 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
             return "hebrew"
         case .bulgarian:
             return "bulgarian"
+        case .catalan:
+            return "catalan"
         }
     }
 
@@ -324,6 +332,8 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
             return "Hebrew"
         case .bulgarian:
             return "Bulgarian"
+        case .catalan:
+            return "Catalan"
         }
     }
 
@@ -393,6 +403,8 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
             return "עִברִ."
         case .bulgarian:
             return "Бълг."
+        case .catalan:
+            return "Catal."
         }
     }
 
@@ -462,6 +474,8 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
             return [Color.blue, Color.white]
         case .bulgarian:
             return [Color.green, Color.red]
+        case .catalan:
+            return [Color.yellow, Color.red]
         }
     }
 

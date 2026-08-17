@@ -82,6 +82,12 @@
             "state": "translated",
             "value": "DynamicNotch"
           }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch"
+          }
         }
       }
     },
@@ -272,6 +278,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Разрешете контрол над Системни събития за автоматично центриране на прозорците за предварителен преглед на екранни снимки и записи върху дисплея на ноча."
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permet el control dels esdeveniments del sistema per centrar automàticament les finestres de previsualització de captures i gravacions a la pantalla del notch."
           }
         }
       }
@@ -464,6 +476,12 @@
             "state": "translated",
             "value": "DynamicNotch се нуждае от Bluetooth достъп, за да показва състоянието на батерията и връзката на вашите безжични аксесоари."
           }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch necessita accés al Bluetooth per mostrar l'estat de la bateria i la connexió dels accessoris sense fil."
+          }
         }
       }
     },
@@ -654,6 +672,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "DynamicNotch се нуждае от пълен достъп до календара, за да показва предстоящите ви събития в ноча."
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch necessita accés complet al calendari per mostrar els propers esdeveniments al notch."
           }
         }
       }
@@ -846,6 +870,12 @@
             "state": "translated",
             "value": "DynamicNotch се нуждае от достъп до календара, за да показва предстоящите ви събития в ноча."
           }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch necessita accés al calendari per mostrar els propers esdeveniments al notch."
+          }
         }
       }
     },
@@ -1037,6 +1067,12 @@
             "state": "translated",
             "value": "DynamicNotch се нуждае от достъп до камерата, за да показва предварителен преглед на камерата на живо в ноча."
           }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch necessita accés a la càmera per mostrar una previsualització de la càmera en directe al notch."
+          }
         }
       }
     },
@@ -1120,6 +1156,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Авторско право © 2025 jackson-storm. Всички права запазени."
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copyright © 2025 jackson-storm. Tots els drets reservats."
           }
         }
       }
@@ -1311,6 +1353,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "DynamicNotch се нуждае от достъп до локалната мрежа за откриване на близки AirDrop устройства за прехвърляне на файлове през ноча."
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch necessita accés a la xarxa local per descobrir dispositius AirDrop propers per a la transferència de fitxers mitjançant el notch."
           }
         }
       }

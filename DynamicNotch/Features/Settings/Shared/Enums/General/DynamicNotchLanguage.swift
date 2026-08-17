@@ -54,6 +54,8 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
 
     case serbian = "sr"
 
+    case filipino = "fil"
+
     var id: String { rawValue }
 
     var locale: Locale {
@@ -127,6 +129,8 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
             return ["hr", "hr-HR"]
         case .serbian:
             return ["sr", "sr-RS", "sr-Cyrl"]
+        case .filipino:
+            return ["fil", "fil-PH", "tl", "tl-PH"]
         default:
             return [rawValue]
         }
@@ -206,6 +210,8 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
             return "settings.language.option.croatian"
         case .serbian:
             return "settings.language.option.serbian"
+        case .filipino:
+            return "settings.language.option.filipino"
         }
     }
 
@@ -287,6 +293,8 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
             return "croatian"
         case .serbian:
             return "serbian"
+        case .filipino:
+            return "filipino"
         }
     }
 
@@ -364,6 +372,8 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
             return "Croatian"
         case .serbian:
             return "Serbian"
+        case .filipino:
+            return "Filipino"
         }
     }
 
@@ -441,6 +451,8 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
             return "Hrvat."
         case .serbian:
             return "Српск."
+        case .filipino:
+            return "Filip."
         }
     }
 
@@ -518,6 +530,8 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
             return [Color.red, Color.blue]
         case .serbian:
             return [Color.red, Color.blue]
+        case .filipino:
+            return [Color.blue, Color.red]
         }
     }
 

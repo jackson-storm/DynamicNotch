@@ -139,48 +139,7 @@ Then run the `DynamicNotch` scheme from Xcode. Swift Package Manager dependencie
 
 ## 🌍 Localization
 
-The project currently includes localized app content for:
-
-- System language fallback
-- English
-- Russian
-- Spanish
-- Simplified Chinese
-- Turkish
-- German
-- French
-- Portuguese
-- Japanese
-- Korean
-- Italian
-- Polish
-- Vietnamese
-- Indonesian
-- Dutch
-- Traditional Chinese
-- Ukrainian
-- Swedish
-- Czech
-- Arabic
-- Hindi
-- Thai
-- Romanian
-- Hungarian
-- Greek
-- Danish
-- Finnish
-- Norwegian
-- Malay
-- Hebrew
-- Bulgarian
-- Catalan
-- Slovak
-- Croatian
-- Serbian
-- Filipino
-- Kazakh
-- Persian
-- Bengali
+DynamicNotch features full native localization support for **38+ languages** across interface elements, notch activities, and settings. You can switch languages instantly in the app settings.
 
 ## 💖 Support
 

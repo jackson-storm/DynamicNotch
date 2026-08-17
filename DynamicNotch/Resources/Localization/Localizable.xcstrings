@@ -230,6 +230,12 @@
             "state": "translated",
             "value": ""
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": ""
+          }
         }
       }
     },
@@ -462,6 +468,12 @@
             "state": "translated",
             "value": "%@%%"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@%%"
+          }
         }
       }
     },
@@ -690,6 +702,12 @@
           }
         },
         "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld"
+          }
+        },
+        "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "%lld"
@@ -1164,6 +1182,12 @@
             "state": "translated",
             "value": "%lld%%"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld%%"
+          }
         }
       }
     },
@@ -1396,6 +1420,12 @@
             "state": "translated",
             "value": "---"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "---"
+          }
         }
       }
     },
@@ -1624,6 +1654,12 @@
           }
         },
         "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "--:--"
+          }
+        },
+        "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "--:--"
@@ -1861,6 +1897,12 @@
             "state": "translated",
             "value": "00"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "00"
+          }
         }
       }
     },
@@ -2090,6 +2132,12 @@
           }
         },
         "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "00:10"
+          }
+        },
+        "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "00:10"
@@ -2327,6 +2375,12 @@
             "state": "translated",
             "value": "01:21"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "01:21"
+          }
         }
       }
     },
@@ -2556,6 +2610,12 @@
           }
         },
         "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "03:34"
+          }
+        },
+        "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "03:34"
@@ -2793,6 +2853,12 @@
             "state": "translated",
             "value": "100%"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "100%"
+          }
         }
       }
     },
@@ -3022,6 +3088,12 @@
           }
         },
         "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1:21"
+          }
+        },
+        "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "1:21"
@@ -3259,6 +3331,12 @@
             "state": "translated",
             "value": "20%"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "20%"
+          }
         }
       }
     },
@@ -3488,6 +3566,12 @@
           }
         },
         "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3:34"
+          }
+        },
+        "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "3:34"
@@ -3725,6 +3809,12 @@
             "state": "translated",
             "value": "78%"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "78%"
+          }
         }
       }
     },
@@ -3953,6 +4043,12 @@
           }
         },
         "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": ":"
+          }
+        },
+        "ar": {
           "stringUnit": {
             "state": "translated",
             "value": ":"
@@ -4424,6 +4520,12 @@
           }
         },
         "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AirDrop"
+          }
+        },
+        "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "AirDrop"
@@ -5135,6 +5237,12 @@
           }
         },
         "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AirPods Pro"
+          }
+        },
+        "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "AirPods Pro"
@@ -10387,6 +10495,12 @@
           }
         },
         "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch"
+          }
+        },
+        "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "DynamicNotch"
@@ -16359,6 +16473,12 @@
             "state": "translated",
             "value": "Midnight Echoes"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Midnight Echoes"
+          }
         }
       }
     },
@@ -16827,6 +16947,12 @@
           }
         },
         "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No VPN configurations found on this Mac. Please add a VPN connection in System Settings -> VPN first."
+          }
+        },
+        "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "No VPN configurations found on this Mac. Please add a VPN connection in System Settings -> VPN first."
@@ -22557,6 +22683,12 @@
           }
         },
         "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sending items..."
+          }
+        },
+        "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "Sending items..."
@@ -32827,6 +32959,12 @@
           }
         },
         "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "WireGuard VPN"
+          }
+        },
+        "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "WireGuard VPN"
@@ -52423,6 +52561,12 @@
             "state": "translated",
             "value": "10 minutes after start"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "10 minutes after start"
+          }
         }
       }
     },
@@ -52652,6 +52796,12 @@
           }
         },
         "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "15 minutes after start"
+          }
+        },
+        "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "15 minutes after start"
@@ -52889,6 +53039,12 @@
             "state": "translated",
             "value": "5 minutes after start"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5 minutes after start"
+          }
         }
       }
     },
@@ -53118,6 +53274,12 @@
           }
         },
         "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Until event ends"
+          }
+        },
+        "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "Until event ends"
@@ -53355,6 +53517,12 @@
             "state": "translated",
             "value": "Choose when to hide the activity for an ongoing event."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose when to hide the activity for an ongoing event."
+          }
         }
       }
     },
@@ -53584,6 +53752,12 @@
           }
         },
         "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ongoing event hide time"
+          }
+        },
+        "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "Ongoing event hide time"
@@ -53821,6 +53995,12 @@
             "state": "translated",
             "value": "Hide event titles and show only time blocks."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hide event titles and show only time blocks."
+          }
         }
       }
     },
@@ -54050,6 +54230,12 @@
           }
         },
         "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Privacy mode"
+          }
+        },
+        "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "Privacy mode"
@@ -54287,6 +54473,12 @@
             "state": "translated",
             "value": "Play a sound when an event notice appears."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Play a sound when an event notice appears."
+          }
         }
       }
     },
@@ -54516,6 +54708,12 @@
           }
         },
         "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sound alert"
+          }
+        },
+        "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "Sound alert"
@@ -54753,6 +54951,12 @@
             "state": "translated",
             "value": "Exact and relative time"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exact and relative time"
+          }
         }
       }
     },
@@ -54982,6 +55186,12 @@
           }
         },
         "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose how event times are shown in the notch."
+          }
+        },
+        "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "Choose how event times are shown in the notch."
@@ -55219,6 +55429,12 @@
             "state": "translated",
             "value": "Exact time"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exact time"
+          }
         }
       }
     },
@@ -55448,6 +55664,12 @@
           }
         },
         "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Relative time"
+          }
+        },
+        "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "Relative time"
@@ -55685,6 +55907,12 @@
             "state": "translated",
             "value": "Time display format"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Time display format"
+          }
         }
       }
     },
@@ -55914,6 +56142,12 @@
           }
         },
         "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Change"
+          }
+        },
+        "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "Change"
@@ -56151,6 +56385,12 @@
             "state": "translated",
             "value": "Choose"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose"
+          }
         }
       }
     },
@@ -56380,6 +56620,12 @@
           }
         },
         "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select"
+          }
+        },
+        "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "Select"
@@ -56617,6 +56863,12 @@
             "state": "translated",
             "value": "Persistent Events"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Persistent Events"
+          }
         }
       }
     },
@@ -56850,6 +57102,12 @@
             "state": "translated",
             "value": "Trigger Events"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trigger Events"
+          }
         }
       }
     },
@@ -57079,6 +57337,12 @@
           }
         },
         "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Utilities"
+          }
+        },
+        "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "Utilities"
@@ -57555,6 +57819,12 @@
             "state": "translated",
             "value": "Download appearance"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Download appearance"
+          }
         }
       }
     },
@@ -57784,6 +58054,12 @@
           }
         },
         "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show a live activity while files are being downloaded to monitored folders like Downloads, Desktop, and Documents."
+          }
+        },
+        "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "Show a live activity while files are being downloaded to monitored folders like Downloads, Desktop, and Documents."
@@ -58021,6 +58297,12 @@
             "state": "translated",
             "value": "Downloads live activity"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Downloads live activity"
+          }
         }
       }
     },
@@ -58250,6 +58532,12 @@
           }
         },
         "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose whether download progress uses a percentage label or a circular ring."
+          }
+        },
+        "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "Choose whether download progress uses a percentage label or a circular ring."
@@ -58487,6 +58775,12 @@
             "state": "translated",
             "value": "Progress indicator"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Progress indicator"
+          }
         }
       }
     },
@@ -58716,6 +59010,12 @@
           }
         },
         "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Circle"
+          }
+        },
+        "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "Circle"
@@ -58953,6 +59253,12 @@
             "state": "translated",
             "value": "Percent"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Percent"
+          }
         }
       }
     },
@@ -59182,6 +59488,12 @@
           }
         },
         "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show live activity in notch when transferring files via AirDrop."
+          }
+        },
+        "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "Show live activity in notch when transferring files via AirDrop."
@@ -59419,6 +59731,12 @@
             "state": "translated",
             "value": "AirDrop live activity"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AirDrop live activity"
+          }
         }
       }
     },
@@ -59648,6 +59966,12 @@
           }
         },
         "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drag&Drop activity"
+          }
+        },
+        "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "Drag&Drop activity"
@@ -59885,6 +60209,12 @@
             "state": "translated",
             "value": "Drag&Drop target"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drag&Drop target"
+          }
         }
       }
     },
@@ -60114,6 +60444,12 @@
           }
         },
         "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tray appearance"
+          }
+        },
+        "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "Tray appearance"
@@ -60351,6 +60687,12 @@
             "state": "translated",
             "value": "Show AirDrop and Tray targets when you drag files over the notch."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show AirDrop and Tray targets when you drag files over the notch."
+          }
         }
       }
     },
@@ -60580,6 +60922,12 @@
           }
         },
         "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drag&Drop live activity"
+          }
+        },
+        "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "Drag&Drop live activity"
@@ -60817,6 +61165,12 @@
             "state": "translated",
             "value": "AirDrop only"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AirDrop only"
+          }
         }
       }
     },
@@ -61046,6 +61400,12 @@
           }
         },
         "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AirDrop and Tray"
+          }
+        },
+        "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "AirDrop and Tray"
@@ -61283,6 +61643,12 @@
             "state": "translated",
             "value": "Tray only"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tray only"
+          }
         }
       }
     },
@@ -61512,6 +61878,12 @@
           }
         },
         "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Horizontal"
+          }
+        },
+        "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "Horizontal"
@@ -61749,6 +62121,12 @@
             "state": "translated",
             "value": "Vertical"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vertical"
+          }
         }
       }
     },
@@ -61978,6 +62356,12 @@
           }
         },
         "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy"
+          }
+        },
+        "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "Copy"
@@ -62215,6 +62599,12 @@
             "state": "translated",
             "value": "Move originals"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Move originals"
+          }
         }
       }
     },
@@ -62444,6 +62834,12 @@
           }
         },
         "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hide the x button on file cards in the expanded Tray."
+          }
+        },
+        "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "Hide the x button on file cards in the expanded Tray."
@@ -62681,6 +63077,12 @@
             "state": "translated",
             "value": "Hide remove button"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إخفاء زر الحذف"
+          }
         }
       }
     },
@@ -62913,6 +63315,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Choose how files scroll inside the expanded Tray."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر كيفية تمرير الملفات داخل الدرج الموسع."
           }
         }
       }
@@ -63147,6 +63555,12 @@
             "state": "translated",
             "value": "Scroll direction"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اتجاه التمرير"
+          }
         }
       }
     },
@@ -63379,6 +63793,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Choose which target appears while files are dragged over the notch."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر الهدف الذي يظهر أثناء سحب الملفات فوق النوتش."
           }
         }
       }
@@ -63613,6 +64033,12 @@
             "state": "translated",
             "value": "Target mode"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وضع الهدف"
+          }
         }
       }
     },
@@ -63845,6 +64271,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Configure file tray behavior, scroll direction, and appearance."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تكوين سلوك درج الملفات واتجاه التمرير والمظهر."
           }
         }
       }
@@ -64079,6 +64511,12 @@
             "state": "translated",
             "value": "Tray"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الدرج"
+          }
         }
       }
     },
@@ -64311,6 +64749,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Show the pinned file tray after files are dropped into Tray."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار درج الملفات المثبت بعد إفلات الملفات في الدرج."
           }
         }
       }
@@ -64545,6 +64989,12 @@
             "state": "translated",
             "value": "Tray live activity"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "النشاط المباشر للدرج"
+          }
         }
       }
     },
@@ -64777,6 +65227,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Choose whether Tray keeps file copies or moves originals into Tray storage."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر ما إذا كان الدرج يحتفظ بنسخ من الملفات أو ينقل الأصول إلى تخزين الدرج."
           }
         }
       }
@@ -65011,6 +65467,12 @@
             "state": "translated",
             "value": "Tray usage"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استخدام الدرج"
+          }
         }
       }
     },
@@ -65243,6 +65705,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Show the File Converter live activity after a file is dropped for conversion."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار النشاط المباشر لمحول الملفات بعد إفلات ملف للتحويل."
           }
         }
       }
@@ -65477,6 +65945,12 @@
             "state": "translated",
             "value": "File Converter activity"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نشاط محول الملفات"
+          }
         }
       }
     },
@@ -65709,6 +66183,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "File Converter live activity"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "النشاط المباشر لمحول الملفات"
           }
         }
       }
@@ -65943,6 +66423,12 @@
             "state": "translated",
             "value": "Choose the bitrate target for compressed audio formats."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر معدل البت المستهدف لتنسيقات الصوت المضغوطة."
+          }
         }
       }
     },
@@ -66175,6 +66661,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Source"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المصدر"
           }
         }
       }
@@ -66409,6 +66901,12 @@
             "state": "translated",
             "value": "Audio quality"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جودة الصوت"
+          }
         }
       }
     },
@@ -66641,6 +67139,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ask"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سؤال"
           }
         }
       }
@@ -66875,6 +67379,12 @@
             "state": "translated",
             "value": "Create unique name"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إنشاء اسم فريد"
+          }
         }
       }
     },
@@ -67107,6 +67617,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Replace"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استبدال"
           }
         }
       }
@@ -67341,6 +67857,12 @@
             "state": "translated",
             "value": "Choose what happens when a converted filename already exists."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر ما يحدث عند وجود ملف محول بنفس الاسم مسبقاً."
+          }
         }
       }
     },
@@ -67573,6 +68095,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Existing files"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الملفات الموجودة"
           }
         }
       }
@@ -67807,6 +68335,12 @@
             "state": "translated",
             "value": "Add this suffix before the converted file extension."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أضف هذه اللاحقة قبل امتداد الملف المحول."
+          }
         }
       }
     },
@@ -68039,6 +68573,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Filename suffix"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لاحقة اسم الملف"
           }
         }
       }
@@ -68273,6 +68813,12 @@
             "state": "translated",
             "value": "File Converter files"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ملفات محول الملفات"
+          }
         }
       }
     },
@@ -68505,6 +69051,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Used for lossy image formats like JPEG, HEIC, WEBP, and AVIF."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تُستخدم لتنسيقات الصور ذات الضغط مثل JPEG و HEIC و WEBP و AVIF."
           }
         }
       }
@@ -68739,6 +69291,12 @@
             "state": "translated",
             "value": "Image quality"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جودة الصورة"
+          }
         }
       }
     },
@@ -68971,6 +69529,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ask every time"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سؤال في كل مرة"
           }
         }
       }
@@ -69205,6 +69769,12 @@
             "state": "translated",
             "value": "Choose where converted files are saved."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر مكان حفظ الملفات المحولة."
+          }
         }
       }
     },
@@ -69437,6 +70007,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Downloads"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التنزيلات"
           }
         }
       }
@@ -69671,6 +70247,12 @@
             "state": "translated",
             "value": "Same folder"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نفس المجلد"
+          }
         }
       }
     },
@@ -69903,6 +70485,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Output location"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "موقع الإخراج"
           }
         }
       }
@@ -70137,6 +70725,12 @@
             "state": "translated",
             "value": "File Converter quality"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جودة محول الملفات"
+          }
         }
       }
     },
@@ -70369,6 +70963,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Configure output location, existing file behavior, and quality."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تكوين موقع الإخراج وسلوك الملفات الموجودة والجودة."
           }
         }
       }
@@ -70603,6 +71203,12 @@
             "state": "translated",
             "value": "File Converter"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "محول الملفات"
+          }
         }
       }
     },
@@ -70835,6 +71441,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Choose the export preset used for video conversion."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر إعداد التصدير المسبق المستخدم لتحويل الفيديو."
           }
         }
       }
@@ -71069,6 +71681,12 @@
             "state": "translated",
             "value": "High"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عالية"
+          }
         }
       }
     },
@@ -71301,6 +71919,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Medium"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "متوسطة"
           }
         }
       }
@@ -71535,6 +72159,12 @@
             "state": "translated",
             "value": "Passthrough"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تمرير مباشر"
+          }
         }
       }
     },
@@ -71768,6 +72398,12 @@
             "state": "translated",
             "value": "Small"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صغيرة"
+          }
         }
       }
     },
@@ -72000,6 +72636,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Video quality"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جودة الفيديو"
           }
         }
       }
@@ -100197,6 +100839,12 @@
             "state": "translated",
             "value": "HUD style"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نمط HUD"
+          }
         }
       }
     },
@@ -101386,6 +102034,12 @@
             "state": "translated",
             "value": "Play standard macOS volume change sound effect when adjusting volume."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تشغيل تأثير صوت تغيير مستوى الصوت القياسي لنظام macOS عند ضبط مستوى الصوت."
+          }
         }
       }
     },
@@ -101618,6 +102272,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Play volume sound feedback"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تشغيل صوت استجابة مستوى الصوت"
           }
         }
       }
@@ -101852,6 +102512,12 @@
             "state": "translated",
             "value": "Choose the language used by the app interface."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر اللغة المستخدمة في واجهة التطبيق."
+          }
         }
       }
     },
@@ -102085,6 +102751,12 @@
             "state": "translated",
             "value": "Language"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اللغة"
+          }
         }
       }
     },
@@ -102317,6 +102989,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Localization only works for settings, the notch remains in English."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التعريب ينطبق فقط على الإعدادات، ويبقى النوتش باللغة الإنجليزية."
           }
         }
       }
@@ -104702,6 +105380,12 @@
             "state": "translated",
             "value": "Artwork appearance"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مظهر العمل الفني"
+          }
         }
       }
     },
@@ -104934,6 +105618,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Notch appearance"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مظهر النوتش"
           }
         }
       }
@@ -105168,6 +105858,12 @@
             "state": "translated",
             "value": "Widget appearance"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مظهر الأداة"
+          }
         }
       }
     },
@@ -105400,6 +106096,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "The selected file could not be loaded. Choose an MP3, WAV, AIFF, or M4A audio file."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذر تحميل الملف المحدد. اختر ملف صوتي بتنسيق MP3 أو WAV أو AIFF أو M4A."
           }
         }
       }
@@ -105634,6 +106336,12 @@
             "state": "translated",
             "value": "Built-in lock sound"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صوت القفل المدمج"
+          }
         }
       }
     },
@@ -105866,6 +106574,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Played when your Mac locks."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يتم تشغيله عند قفل جهاز Mac الخاص بك."
           }
         }
       }
@@ -106100,6 +106814,12 @@
             "state": "translated",
             "value": "Choose Lock Sound"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر صوت القفل"
+          }
         }
       }
     },
@@ -106332,6 +107052,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Lock sound"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صوت القفل"
           }
         }
       }
@@ -106805,6 +107531,12 @@
             "state": "translated",
             "value": "Built-in unlock sound"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صوت فتح القفل المدمج"
+          }
         }
       }
     },
@@ -107037,6 +107769,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Played when your Mac unlocks."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يتم تشغيله عند فتح قفل جهاز Mac الخاص بك."
           }
         }
       }
@@ -107271,6 +108009,12 @@
             "state": "translated",
             "value": "Choose Unlock Sound"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر صوت فتح القفل"
+          }
         }
       }
     },
@@ -107503,6 +108247,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Unlock sound"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صوت فتح القفل"
           }
         }
       }
@@ -107737,6 +108487,12 @@
             "state": "translated",
             "value": "Display real-time lyrics on the lock screen."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض كلمات الأغاني في الوقت الفعلي على شاشة القفل."
+          }
         }
       }
     },
@@ -107969,6 +108725,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Show lyrics"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار كلمات الأغاني"
           }
         }
       }
@@ -108203,6 +108965,12 @@
             "state": "translated",
             "value": "Show the Now Playing media panel on the lock screen."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار لوحة وسائط قيد التشغيل الآن على شاشة القفل."
+          }
         }
       }
     },
@@ -108435,6 +109203,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Media panel"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لوحة الوسائط"
           }
         }
       }
@@ -108669,6 +109443,12 @@
             "state": "translated",
             "value": "Choose which background will be displayed when playing media."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر الخلفية التي سيتم عرضها عند تشغيل الوسائط."
+          }
         }
       }
     },
@@ -108901,6 +109681,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Media panel background"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "خلفية لوحة الوسائط"
           }
         }
       }
@@ -109135,6 +109921,12 @@
             "state": "translated",
             "value": "Black background"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "خلفية سوداء"
+          }
         }
       }
     },
@@ -109367,6 +110159,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Static background"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "خلفية ثابتة"
           }
         }
       }
@@ -109601,6 +110399,12 @@
             "state": "translated",
             "value": "Choose the position of the media panel on the lock screen."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر موضع لوحة الوسائط على شاشة القفل."
+          }
         }
       }
     },
@@ -109833,6 +110637,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Media panel position"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "موضع لوحة الوسائط"
           }
         }
       }
@@ -110067,6 +110877,12 @@
             "state": "translated",
             "value": "Play a sound when the screen is locked or unlocked."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تشغيل صوت عند قفل الشاشة أو فتح قفلها."
+          }
         }
       }
     },
@@ -110299,6 +111115,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Lock / unlock sound"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صوت القفل / فتح القفل"
           }
         }
       }
@@ -110533,6 +111355,12 @@
             "state": "translated",
             "value": "Compact"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مدمج"
+          }
         }
       }
     },
@@ -110765,6 +111593,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Enlarged"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مكبر"
           }
         }
       }
@@ -110999,6 +111833,12 @@
             "state": "translated",
             "value": "Liquid Glass"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "زجاج سائل"
+          }
         }
       }
     },
@@ -111231,6 +112071,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Soft"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ناعم"
           }
         }
       }
@@ -111465,6 +112311,12 @@
             "state": "translated",
             "value": "Solid"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صلب"
+          }
         }
       }
     },
@@ -111697,6 +112549,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Adjust brightness for widgets on the lock screen."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ضبط سطوع الأدوات على شاشة القفل."
           }
         }
       }
@@ -111931,6 +112789,12 @@
             "state": "translated",
             "value": "Widget brightness"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سطوع الأداة"
+          }
         }
       }
     },
@@ -112163,6 +113027,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Accent"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لون التمييز"
           }
         }
       }
@@ -112397,6 +113267,12 @@
             "state": "translated",
             "value": "Default"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "افتراضي"
+          }
         }
       }
     },
@@ -112629,6 +113505,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Back"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "رجوع"
           }
         }
       }
@@ -112863,6 +113745,12 @@
             "state": "translated",
             "value": "Forward"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إلى الأمام"
+          }
         }
       }
     },
@@ -113095,6 +113983,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Animation"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الرسوم المتحركة"
           }
         }
       }
@@ -113329,6 +114223,12 @@
             "state": "translated",
             "value": "Set a global motion parameter that controls the speed of the animation."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعيين معلمة الحركة العامة التي تتحكم في سرعة الرسوم المتحركة."
+          }
         }
       }
     },
@@ -113561,6 +114461,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Animation speed"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سرعة الرسوم المتحركة"
           }
         }
       }
@@ -113795,6 +114701,12 @@
             "state": "translated",
             "value": "Set motion parameters and animation speed."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعيين معلمات الحركة وسرعة الرسوم المتحركة."
+          }
         }
       }
     },
@@ -114027,6 +114939,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Black"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أسود"
           }
         }
       }
@@ -114261,6 +115179,12 @@
             "state": "translated",
             "value": "Apply the standard white stroke to supported activities instead of feature accent colors."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تطبيق الحد الأبيض القياسي على الأنشطة المدعومة بدلاً من ألوان التمييز."
+          }
         }
       }
     },
@@ -114493,6 +115417,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Use default activity stroke color"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استخدام لون الحد الافتراضي للنشاط"
           }
         }
       }
@@ -114727,6 +115657,12 @@
             "state": "translated",
             "value": "Choose which display Dynamic Notch should use."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر الشاشة التي يجب أن يستخدمها Dynamic Notch."
+          }
         }
       }
     },
@@ -114959,6 +115895,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Display"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الشاشة"
           }
         }
       }
@@ -115193,6 +116135,12 @@
             "state": "translated",
             "value": "Automatically hide live activity while the selected display is showing a full-screen space."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إخفاء النشاط المباشر تلقائيًا أثناء عرض الشاشة المحددة لمساحة ملء الشاشة."
+          }
         }
       }
     },
@@ -115425,6 +116373,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Hide live activity in full-screen mode"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إخفاء النشاط المباشر في وضع ملء الشاشة"
           }
         }
       }
@@ -115659,6 +116613,12 @@
             "state": "translated",
             "value": "Configure where and how the notch is displayed."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تكوين مكان وكيفية عرض النوتش."
+          }
         }
       }
     },
@@ -115891,6 +116851,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Display"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الشاشة"
           }
         }
       }
@@ -116125,6 +117091,12 @@
             "state": "translated",
             "value": "Click"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نقر"
+          }
         }
       }
     },
@@ -116357,6 +117329,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Cursor leaves"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مغادرة المؤشر"
           }
         }
       }
@@ -116591,6 +117569,12 @@
             "state": "translated",
             "value": "Choose whether expanded content closes on click or when the cursor leaves the notch."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر ما إذا كان المحتوى الموسع يُغلق عند النقر أو عند مغادرة المؤشر للنوتش."
+          }
         }
       }
     },
@@ -116823,6 +117807,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Collapse gesture"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إيماءة الطي"
           }
         }
       }
@@ -117057,6 +118047,12 @@
             "state": "translated",
             "value": "Click"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نقر"
+          }
         }
       }
     },
@@ -117289,6 +118285,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Hover"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تمرير المؤشر"
           }
         }
       }
@@ -117523,6 +118525,12 @@
             "state": "translated",
             "value": "Press and hold"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ضغط مع الاستمرار"
+          }
         }
       }
     },
@@ -117755,6 +118763,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Allow the selected notch gesture to open the expanded live activity layout when supported."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "السماح لإيماءة النوتش المحددة بفتح تخطيط النشاط المباشر الموسع عند دعمه."
           }
         }
       }
@@ -117989,6 +119003,12 @@
             "state": "translated",
             "value": "Expand live activity"
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "توسيع النشاط المباشر"
+          }
         }
       }
     },
@@ -118222,6 +119242,12 @@
             "state": "translated",
             "value": "Choose whether expanded content opens on click, after holding the notch, or after hovering over it."
           }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر ما إذا كان المحتوى الموسع يفتح عند النقر أو بعد الضغط مع الاستمرار أو بعد التمرير فوقه."
+          }
         }
       }
     },
@@ -118454,6 +119480,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Expand gesture"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إيماءة التوسيع"
           }
         }
       }

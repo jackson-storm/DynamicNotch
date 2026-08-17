@@ -112,6 +112,12 @@
             "state": "translated",
             "value": "DynamicNotch"
           }
+        },
+        "kk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch"
+          }
         }
       }
     },
@@ -332,6 +338,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Pahintulutan ang kontrol sa mga kaganapan ng system upang awtomatikong i-center ang mga window ng preview ng screenshot at recording sa display ng notch."
+          }
+        },
+        "kk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Скриншоттар мен жазбалардың алдын ала қарау терезелерін ойық дисплейінде автоматты түрде ортаға келтіру үшін жүйелік оқиғаларды басқаруға рұқсат беріңіз."
           }
         }
       }
@@ -554,6 +566,12 @@
             "state": "translated",
             "value": "Kailangan ng DynamicNotch ng access sa Bluetooth upang ipakita ang baterya at katayuan ng koneksyon ng iyong mga wireless accessory."
           }
+        },
+        "kk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch сымсыз аксессуарлардың батареясы мен қосылым күйін көрсету үшін Bluetooth рұқсатын қажет етеді."
+          }
         }
       }
     },
@@ -774,6 +792,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Kailangan ng DynamicNotch ng buong access sa kalendaryo upang ipakita ang iyong mga paparating na kaganapan sa notch."
+          }
+        },
+        "kk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch ойықта алдағы оқиғаларды көрсету үшін күнтізбеге толық кіру рұқсатын қажет етеді."
           }
         }
       }
@@ -996,6 +1020,12 @@
             "state": "translated",
             "value": "Kailangan ng DynamicNotch ng access sa kalendaryo upang ipakita ang iyong mga paparating na kaganapan sa notch."
           }
+        },
+        "kk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch ойықта алдағы оқиғаларды көрсету үшін күнтізбеге кіру рұқсатын қажет етеді."
+          }
         }
       }
     },
@@ -1217,6 +1247,12 @@
             "state": "translated",
             "value": "Kailangan ng DynamicNotch ng access sa camera upang magpakita ng live na preview ng camera sa notch."
           }
+        },
+        "kk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch ойықта тікелей камераны алдын ала қарауды көрсету үшін камераға кіру рұқсатын қажет етеді."
+          }
         }
       }
     },
@@ -1330,6 +1366,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Karapatang-sipi © 2025 jackson-storm. Lahat ng karapatan ay nakalaan."
+          }
+        },
+        "kk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Авторлық құқық © 2025 jackson-storm. Барлық құқықтар қорғалған."
           }
         }
       }
@@ -1551,6 +1593,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Kailangan ng DynamicNotch ng access sa lokal na network upang matuklasan ang mga kalapit na AirDrop device para sa paglilipat ng file sa pamamagitan ng notch."
+          }
+        },
+        "kk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch ойық арқылы файлдарды тасымалдау үшін жақын маңдағы AirDrop құрылғыларын анықтау үшін жергілікті желіге кіру рұқсатын қажет етеді."
           }
         }
       }

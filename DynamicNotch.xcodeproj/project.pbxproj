@@ -298,6 +298,7 @@
 				fi,
 				nb,
 				ms,
+				he,
 			);
 			mainGroup = E2EF78482EDDB60E00F96D1E;
 			minimizedProjectReferenceProxies = 1;

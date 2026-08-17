@@ -52,6 +52,12 @@
             "state": "translated",
             "value": "DynamicNotch"
           }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch"
+          }
         }
       }
     },
@@ -212,6 +218,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tillad kontrol over Systemhændelser for automatisk at centrere skærmbillede- og optagelsesforhåndsvisningsvinduer på notch-skærmen."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salli järjestelmätapahtumien hallinta kuvakaappausten ja tallenteiden esikatseluikkunoiden automaattiseen keskittämiseen notch-näytölle."
           }
         }
       }
@@ -374,6 +386,12 @@
             "state": "translated",
             "value": "DynamicNotch har brug for Bluetooth-adgang til at vise batteri- og forbindelsesstatus for dit trådløse tilbehør."
           }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch tarvitsee Bluetooth-käyttöoikeuden näyttääkseen langattomien lisävarusteiden akun ja yhteyden tilan."
+          }
         }
       }
     },
@@ -534,6 +552,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "DynamicNotch har brug for fuld kalenderadgang for at vise dine kommende begivenheder i notchen."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch tarvitsee täydet kalenterin käyttöoikeudet tulevien tapahtumien näyttämiseen notchissa."
           }
         }
       }
@@ -696,6 +720,12 @@
             "state": "translated",
             "value": "DynamicNotch har brug for kalenderadgang for at vise dine kommende begivenheder i notchen."
           }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch tarvitsee kalenterin käyttöoikeuden tulevien tapahtumien näyttämiseen notchissa."
+          }
         }
       }
     },
@@ -857,6 +887,12 @@
             "state": "translated",
             "value": "DynamicNotch har brug for kameraadgang for at vise en live kameraforhåndsvisning direkte i notchen."
           }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch tarvitsee kameran käyttöoikeuden näyttääkseen kameran esikatselun suoraan notchissa."
+          }
         }
       }
     },
@@ -910,6 +946,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ophavsret © 2025 jackson-storm. Alle rettigheder forbeholdes."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tekijänoikeus © 2025 jackson-storm. Kaikki oikeudet pidätetään."
           }
         }
       }
@@ -1071,6 +1113,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "DynamicNotch har brug for adgang til det lokale netværk for at opdage AirDrop-enheder i nærheden til filoverførsel via notchen."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch tarvitsee paikallisverkon käyttöoikeuden lähellä olevien AirDrop-laitteiden löytämiseen tiedostojen siirtoa varten notchin kautta."
           }
         }
       }

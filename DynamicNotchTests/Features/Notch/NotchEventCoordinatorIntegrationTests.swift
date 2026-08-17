@@ -527,6 +527,7 @@ private extension NotchEventCoordinatorIntegrationTests {
         let lockScreenManager: LockScreenManager
         let lockScreenService: FakeLockScreenMonitoringService
         let cancellables: Set<AnyCancellable>
+        let mailManager: MailManager
     }
 
     func makeContext(
@@ -604,6 +605,7 @@ private extension NotchEventCoordinatorIntegrationTests {
         let screenRecordingViewModel = ScreenRecordingViewModel(monitor: FakeScreenRecordingMonitor())
         let homePageViewModel = HomePageViewModel()
         let localTimerViewModel = LocalTimerViewModel()
+        let mailManager = MailManager()
         let calendarViewModel = CalendarViewModel()
         let coordinator = NotchEventCoordinator(
             notchViewModel: notchViewModel,
@@ -622,7 +624,8 @@ private extension NotchEventCoordinatorIntegrationTests {
             lockScreenManager: lockScreenManager,
             homePageViewModel: homePageViewModel,
             localTimerViewModel: localTimerViewModel,
-            calendarViewModel: calendarViewModel
+            calendarViewModel: calendarViewModel,
+            mailManager: mailManager
         )
         var cancellables = Set<AnyCancellable>()
 
@@ -652,7 +655,8 @@ private extension NotchEventCoordinatorIntegrationTests {
             nowPlayingService: nowPlayingService,
             lockScreenManager: lockScreenManager,
             lockScreenService: lockScreenService,
-            cancellables: cancellables
+            cancellables: cancellables,
+            mailManager: mailManager
         )
     }
 }

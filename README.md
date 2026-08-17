@@ -179,6 +179,7 @@ The project currently includes localized app content for:
 - Serbian
 - Filipino
 - Kazakh
+- Persian
 
 ## 💖 Support
 

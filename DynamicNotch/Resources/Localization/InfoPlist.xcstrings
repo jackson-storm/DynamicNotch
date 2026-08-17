@@ -118,6 +118,12 @@
             "state": "translated",
             "value": "DynamicNotch"
           }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch"
+          }
         }
       }
     },
@@ -344,6 +350,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Скриншоттар мен жазбалардың алдын ала қарау терезелерін ойық дисплейінде автоматты түрде ортаға келтіру үшін жүйелік оқиғаларды басқаруға рұқсат беріңіз."
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اجازه کنترل رویدادهای سیستم را بدهید تا پنجره‌های پیش‌نمایش اسکرین‌شات و ضبط به‌طور خودکار در صفحه ناچ وسط‌چین شوند."
           }
         }
       }
@@ -572,6 +584,12 @@
             "state": "translated",
             "value": "DynamicNotch сымсыз аксессуарлардың батареясы мен қосылым күйін көрсету үшін Bluetooth рұқсатын қажет етеді."
           }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch برای نمایش وضعیت باتری و اتصال لوازم جانبی بی‌سیم به دسترسی بلوتوث نیاز دارد."
+          }
         }
       }
     },
@@ -798,6 +816,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "DynamicNotch ойықта алдағы оқиғаларды көрсету үшін күнтізбеге толық кіру рұқсатын қажет етеді."
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch برای نمایش رویدادهای آینده شما در ناچ به دسترسی کامل تقویم نیاز دارد."
           }
         }
       }
@@ -1026,6 +1050,12 @@
             "state": "translated",
             "value": "DynamicNotch ойықта алдағы оқиғаларды көрсету үшін күнтізбеге кіру рұқсатын қажет етеді."
           }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch برای نمایش رویدادهای آینده شما در ناچ به دسترسی تقویم نیاز دارد."
+          }
         }
       }
     },
@@ -1253,6 +1283,12 @@
             "state": "translated",
             "value": "DynamicNotch ойықта тікелей камераны алдын ала қарауды көрсету үшін камераға кіру рұқсатын қажет етеді."
           }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch برای نمایش پیش‌نمایش زنده دوربین در ناچ به دسترسی دوربین نیاز دارد."
+          }
         }
       }
     },
@@ -1372,6 +1408,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Авторлық құқық © 2025 jackson-storm. Барлық құқықтар қорғалған."
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حق نشر © 2025 jackson-storm. تمام حقوق محفوظ است."
           }
         }
       }
@@ -1599,6 +1641,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "DynamicNotch ойық арқылы файлдарды тасымалдау үшін жақын маңдағы AirDrop құрылғыларын анықтау үшін жергілікті желіге кіру рұқсатын қажет етеді."
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch برای کشف دستگاه‌های AirDrop مجاور جهت انتقال فایل از طریق ناچ به دسترسی به شبکه محلی نیاز دارد."
           }
         }
       }

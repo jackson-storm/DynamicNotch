@@ -58,6 +58,8 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
 
     case kazakh = "kk"
 
+    case persian = "fa"
+
     var id: String { rawValue }
 
     var locale: Locale {
@@ -135,6 +137,8 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
             return ["fil", "fil-PH", "tl", "tl-PH"]
         case .kazakh:
             return ["kk", "kk-KZ", "kk-Cyrl"]
+        case .persian:
+            return ["fa", "fa-IR"]
         default:
             return [rawValue]
         }
@@ -218,6 +222,8 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
             return "settings.language.option.filipino"
         case .kazakh:
             return "settings.language.option.kazakh"
+        case .persian:
+            return "settings.language.option.persian"
         }
     }
 
@@ -303,6 +309,8 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
             return "filipino"
         case .kazakh:
             return "kazakh"
+        case .persian:
+            return "persian"
         }
     }
 
@@ -384,6 +392,8 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
             return "Filipino"
         case .kazakh:
             return "Kazakh"
+        case .persian:
+            return "Persian"
         }
     }
 
@@ -465,6 +475,8 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
             return "Filip."
         case .kazakh:
             return "Қазақ."
+        case .persian:
+            return "فارسی."
         }
     }
 
@@ -546,6 +558,8 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
             return [Color.blue, Color.red]
         case .kazakh:
             return [Color.cyan, Color.yellow]
+        case .persian:
+            return [Color.green, Color.red]
         }
     }
 

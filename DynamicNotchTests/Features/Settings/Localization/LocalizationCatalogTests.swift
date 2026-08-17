@@ -135,14 +135,6 @@ private extension LocalizationCatalogTests {
         }
 
         return specifiers.sorted()
-        XCTAssertEqual(DynamicNotchLanguage.resolved("hi"), .hindi)
-        XCTAssertEqual(DynamicNotchLanguage.resolved("th"), .thai)
-        XCTAssertEqual(DynamicNotchLanguage.resolved("ro"), .romanian)
-        XCTAssertEqual(DynamicNotchLanguage.resolved("hu"), .hungarian)
-        XCTAssertEqual(DynamicNotchLanguage.resolved("el"), .greek)
-        XCTAssertEqual(DynamicNotchLanguage.resolved("da"), .danish)
-        XCTAssertEqual(DynamicNotchLanguage.resolved("fi"), .finnish)
-        XCTAssertEqual(DynamicNotchLanguage.resolved("nb"), .norwegian)
-        XCTAssertEqual(DynamicNotchLanguage.resolved("ms"), .malay)
     }
 }
+

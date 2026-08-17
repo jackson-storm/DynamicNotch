@@ -100,6 +100,16 @@ final class LocalizationCatalogTests: XCTestCase {
         XCTAssertEqual(DynamicNotchLanguage.resolved("uk"), .ukrainian)
         XCTAssertEqual(DynamicNotchLanguage.resolved("sv"), .swedish)
         XCTAssertEqual(DynamicNotchLanguage.resolved("cs"), .czech)
+        XCTAssertEqual(DynamicNotchLanguage.resolved("ar"), .arabic)
+        XCTAssertEqual(DynamicNotchLanguage.resolved("hi"), .hindi)
+        XCTAssertEqual(DynamicNotchLanguage.resolved("th"), .thai)
+        XCTAssertEqual(DynamicNotchLanguage.resolved("ro"), .romanian)
+        XCTAssertEqual(DynamicNotchLanguage.resolved("hu"), .hungarian)
+        XCTAssertEqual(DynamicNotchLanguage.resolved("el"), .greek)
+        XCTAssertEqual(DynamicNotchLanguage.resolved("da"), .danish)
+        XCTAssertEqual(DynamicNotchLanguage.resolved("fi"), .finnish)
+        XCTAssertEqual(DynamicNotchLanguage.resolved("nb"), .norwegian)
+        XCTAssertEqual(DynamicNotchLanguage.resolved("ms"), .malay)
     }
 }
 
@@ -127,3 +137,4 @@ private extension LocalizationCatalogTests {
         return specifiers.sorted()
     }
 }
+

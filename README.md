@@ -161,6 +161,16 @@ The project currently includes localized app content for:
 - Ukrainian
 - Swedish
 - Czech
+- Arabic
+- Hindi
+- Thai
+- Romanian
+- Hungarian
+- Greek
+- Danish
+- Finnish
+- Norwegian
+- Malay
 
 ## 💖 Support
 

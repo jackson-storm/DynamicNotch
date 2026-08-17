@@ -166,6 +166,7 @@ The project currently includes localized app content for:
 - Thai
 - Romanian
 - Hungarian
+- Greek
 
 ## 💖 Support
 

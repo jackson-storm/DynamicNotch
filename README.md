@@ -163,6 +163,7 @@ The project currently includes localized app content for:
 - Czech
 - Arabic
 - Hindi
+- Thai
 
 ## 💖 Support
 

@@ -26,6 +26,8 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
 
     case hindi = "hi"
 
+    case thai = "th"
+
     var id: String { rawValue }
 
     var locale: Locale {
@@ -71,6 +73,8 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
             return ["ar", "ar-SA"]
         case .hindi:
             return ["hi", "hi-IN"]
+        case .thai:
+            return ["th", "th-TH"]
         default:
             return [rawValue]
         }
@@ -122,6 +126,8 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
             return "settings.language.option.arabic"
         case .hindi:
             return "settings.language.option.hindi"
+        case .thai:
+            return "settings.language.option.thai"
         }
     }
 
@@ -175,6 +181,8 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
             return "arabic"
         case .hindi:
             return "hindi"
+        case .thai:
+            return "thai"
         }
     }
 
@@ -224,6 +232,8 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
             return "Arabic"
         case .hindi:
             return "Hindi"
+        case .thai:
+            return "Thai"
         }
     }
 
@@ -273,6 +283,8 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
             return "عرب."
         case .hindi:
             return "हिन्दी."
+        case .thai:
+            return "ไทย."
         }
     }
 
@@ -322,6 +334,8 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
             return [Color.green, Color.white]
         case .hindi:
             return [Color.orange, Color.green]
+        case .thai:
+            return [Color.red, Color.blue]
         }
     }
 

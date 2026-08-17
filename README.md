@@ -165,6 +165,7 @@ The project currently includes localized app content for:
 - Hindi
 - Thai
 - Romanian
+- Hungarian
 
 ## 💖 Support
 

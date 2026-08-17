@@ -34,6 +34,12 @@
             "state": "translated",
             "value": "DynamicNotch"
           }
+        },
+        "hu": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch"
+          }
         }
       }
     },
@@ -176,6 +182,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Permiteți controlul evenimentelor de sistem pentru a centra automat ferestrele de previzualizare ale capturilor de ecran și înregistrărilor pe afișajul notch."
+          }
+        },
+        "hu": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Engedélyezze a Rendszeresemények vezérlését a képernyőképek és felvételek előnézeti ablakainak automatikus középre igazításához a notch kijelzőn."
           }
         }
       }
@@ -320,6 +332,12 @@
             "state": "translated",
             "value": "DynamicNotch are nevoie de acces Bluetooth pentru a afișa nivelul bateriei și starea conexiunii pentru accesoriile fără fir."
           }
+        },
+        "hu": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A DynamicNotch-nak Bluetooth-hozzáférésre van szüksége a vezeték nélküli kiegészítők akkumulátorának és csatlakozási állapotának megjelenítéséhez."
+          }
         }
       }
     },
@@ -462,6 +480,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "DynamicNotch are nevoie de acces complet la calendar pentru a afișa evenimentele viitoare în notch."
+          }
+        },
+        "hu": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A DynamicNotch-nak teljes naptár-hozzáférésre van szüksége a közelgő események notch-ban való megjelenítéséhez."
           }
         }
       }
@@ -606,6 +630,12 @@
             "state": "translated",
             "value": "DynamicNotch are nevoie de acces la calendar pentru a afișa evenimentele viitoare în notch."
           }
+        },
+        "hu": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A DynamicNotch-nak naptár-hozzáférésre van szüksége a közelgő események notch-ban való megjelenítéséhez."
+          }
         }
       }
     },
@@ -749,6 +779,12 @@
             "state": "translated",
             "value": "DynamicNotch are nevoie de acces la cameră pentru a afișa o previzualizare a camerei direct în notch."
           }
+        },
+        "hu": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A DynamicNotch-nak kamerahozzáférésre van szüksége az élő kamera-előnézet közvetlenül a notch-ban való megjelenítéséhez."
+          }
         }
       }
     },
@@ -784,6 +820,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Drepturi de autor © 2025 jackson-storm. Toate drepturile rezervate."
+          }
+        },
+        "hu": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Szerzői jog © 2025 jackson-storm. Minden jog fenntartva."
           }
         }
       }
@@ -927,6 +969,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "DynamicNotch are nevoie de acces la rețeaua locală pentru a descoperi dispozitive AirDrop din apropiere pentru transferul de fișiere prin notch."
+          }
+        },
+        "hu": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A DynamicNotch-nak helyi hálózati hozzáférésre van szüksége a közeli AirDrop eszközök felfedezéséhez a notch-on keresztüli fájlátvitelhez."
           }
         }
       }

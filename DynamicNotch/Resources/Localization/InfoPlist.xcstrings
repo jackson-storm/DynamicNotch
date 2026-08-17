@@ -124,6 +124,12 @@
             "state": "translated",
             "value": "DynamicNotch"
           }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch"
+          }
         }
       }
     },
@@ -356,6 +362,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "اجازه کنترل رویدادهای سیستم را بدهید تا پنجره‌های پیش‌نمایش اسکرین‌شات و ضبط به‌طور خودکار در صفحه ناچ وسط‌چین شوند."
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "স্ক্রিনশট এবং রেকর্ডিং প্রিভিউ উইন্ডো নচ ডিসপ্লেতে স্বয়ংক্রিয়ভাবে কেন্দ্রে রাখার জন্য সিস্টেম ইভেন্টগুলির নিয়ন্ত্রণের অনুমতি দিন।"
           }
         }
       }
@@ -590,6 +602,12 @@
             "state": "translated",
             "value": "DynamicNotch برای نمایش وضعیت باتری و اتصال لوازم جانبی بی‌سیم به دسترسی بلوتوث نیاز دارد."
           }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch-এর ওয়্যারলেস আনুষাঙ্গিকগুলির ব্যাটারি এবং সংযোগের স্থিতি প্রদর্শন করতে ব্লুটুথ অ্যাক্সেস প্রয়োজন।"
+          }
         }
       }
     },
@@ -822,6 +840,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "DynamicNotch برای نمایش رویدادهای آینده شما در ناچ به دسترسی کامل تقویم نیاز دارد."
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch-এর নচে আপনার আসন্ন ইভেন্টগুলি প্রদর্শন করতে সম্পূর্ণ ক্যালেন্ডার অ্যাক্সেস প্রয়োজন।"
           }
         }
       }
@@ -1056,6 +1080,12 @@
             "state": "translated",
             "value": "DynamicNotch برای نمایش رویدادهای آینده شما در ناچ به دسترسی تقویم نیاز دارد."
           }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch-এর নচে আপনার আসন্ন ইভেন্টগুলি প্রদর্শন করতে ক্যালেন্ডার অ্যাক্সেস প্রয়োজন।"
+          }
         }
       }
     },
@@ -1289,6 +1319,12 @@
             "state": "translated",
             "value": "DynamicNotch برای نمایش پیش‌نمایش زنده دوربین در ناچ به دسترسی دوربین نیاز دارد."
           }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch-এর নচে সরাসরি লাইভ ক্যামেরা প্রিভিউ দেখাতে ক্যামেরা অ্যাক্সেস প্রয়োজন।"
+          }
         }
       }
     },
@@ -1414,6 +1450,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "حق نشر © 2025 jackson-storm. تمام حقوق محفوظ است."
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "কপিরাইট © 2025 jackson-storm. সর্বস্বত্ব সংরক্ষিত।"
           }
         }
       }
@@ -1647,6 +1689,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "DynamicNotch برای کشف دستگاه‌های AirDrop مجاور جهت انتقال فایل از طریق ناچ به دسترسی به شبکه محلی نیاز دارد."
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "নচের মাধ্যমে ফাইল স্থানান্তরের জন্য আশেপাশের AirDrop ডিভাইসগুলি আবিষ্কার করতে DynamicNotch-এর স্থানীয় নেটওয়ার্ক অ্যাক্সেস প্রয়োজন।"
           }
         }
       }

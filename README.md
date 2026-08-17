@@ -180,6 +180,7 @@ The project currently includes localized app content for:
 - Filipino
 - Kazakh
 - Persian
+- Bengali
 
 ## 💖 Support
 

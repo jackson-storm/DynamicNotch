@@ -100,6 +100,12 @@
             "state": "translated",
             "value": "DynamicNotch"
           }
+        },
+        "sr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch"
+          }
         }
       }
     },
@@ -308,6 +314,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Dozvolite kontrolu nad sistemskim događajima za automatsko centriranje prozora pretpregleda snimaka zaslona i snimanja na zaslonu ureza."
+          }
+        },
+        "sr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Дозволите контролу над системским догађајима за аутоматско центрирање прозора прегледа снимака екрана и снимака на екрану ноча."
           }
         }
       }
@@ -518,6 +530,12 @@
             "state": "translated",
             "value": "DynamicNotch treba pristup Bluetoothu za prikaz stanja baterije i veze vaših bežičnih dodataka."
           }
+        },
+        "sr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch захтева Bluetooth приступ за приказ статуса батерије и везе ваших бежичних додатака."
+          }
         }
       }
     },
@@ -726,6 +744,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "DynamicNotch treba potpuni pristup kalendaru za prikaz vaših nadolazećih događaja u urezu."
+          }
+        },
+        "sr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch захтева пун приступ календару за приказ ваших предстојећих догађаја у ночу."
           }
         }
       }
@@ -936,6 +960,12 @@
             "state": "translated",
             "value": "DynamicNotch treba pristup kalendaru za prikaz vaših nadolazećih događaja u urezu."
           }
+        },
+        "sr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch захтева приступ календару за приказ ваших предстојећих догађаја у ночу."
+          }
         }
       }
     },
@@ -1145,6 +1175,12 @@
             "state": "translated",
             "value": "DynamicNotch treba pristup kameri za prikaz pretpregleda kamere uživo izravno u urezu."
           }
+        },
+        "sr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch захтева приступ камери за приказ прегледа камере уживо директно у ночу."
+          }
         }
       }
     },
@@ -1246,6 +1282,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Autorska prava © 2025 jackson-storm. Sva prava pridržana."
+          }
+        },
+        "sr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ауторска права © 2025 jackson-storm. Сва права задржана."
           }
         }
       }
@@ -1455,6 +1497,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "DynamicNotch treba pristup lokalnoj mreži za pronalaženje obližnjih AirDrop uređaja za prijenos datoteka putem ureza."
+          }
+        },
+        "sr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch захтева приступ локалној мрежи за откривање оближњих AirDrop уређаја за пренос датотека преко ноча."
           }
         }
       }

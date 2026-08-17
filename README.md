@@ -175,6 +175,7 @@ The project currently includes localized app content for:
 - Bulgarian
 - Catalan
 - Slovak
+- Croatian
 
 ## 💖 Support
 

@@ -14,6 +14,11 @@ private struct LockScreenOverlayGeometry: Equatable {
     let scale: CGFloat
 }
 
+private struct LockScreenContentSyncKey: Equatable {
+    let contentID: String?
+    let hasTemporary: Bool
+}
+
 @MainActor
 final class LockScreenLiveActivityWindowManager {
     private let notchViewModel: NotchViewModel
@@ -85,7 +90,12 @@ final class LockScreenLiveActivityWindowManager {
             .store(in: &cancellables)
         
         notchViewModel.$notchModel
-            .map(\.content?.id)
+            .map { model in
+                LockScreenContentSyncKey(
+                    contentID: model.content?.id,
+                    hasTemporary: model.temporaryNotificationContent != nil
+                )
+            }
             .removeDuplicates()
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in
@@ -182,7 +192,8 @@ final class LockScreenLiveActivityWindowManager {
         isPreparingLock: Bool,
         isLockIdle: Bool
     ) {
-        guard LockScreenSettings.isLiveActivityEnabled() else {
+        let isTemporaryActive = notchViewModel.notchModel.temporaryNotificationContent != nil
+        guard LockScreenSettings.isLiveActivityEnabled() || isTemporaryActive else {
             hideOverlay(animated: true, releaseResources: true)
             return
         }
@@ -285,7 +296,8 @@ final class LockScreenLiveActivityWindowManager {
         DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self, weak window] in
             guard let self else { return }
             
-            let shouldRemainVisible = LockScreenSettings.isLiveActivityEnabled() &&
+            let isTemporaryActive = self.notchViewModel.notchModel.temporaryNotificationContent != nil
+            let shouldRemainVisible = (LockScreenSettings.isLiveActivityEnabled() || isTemporaryActive) &&
             (self.lockScreenManager.isLocked || !self.lockScreenManager.isLockIdle)
             
             guard !shouldRemainVisible else { return }

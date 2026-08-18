@@ -399,6 +399,65 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
         }
     }
 
+    func testLiveActivitiesSuppressedOnLockScreenExceptLockScreenActivityAndTemporaryNotification() async {
+        let context = makeContext(temporaryActivityDurationScale: 0.2)
+        context.nowPlayingService.publish(makeNowPlayingSnapshot())
+        context.coordinator.handleNowPlayingEvent(context.nowPlayingViewModel.event ?? .started)
+
+        await assertEventually {
+            await MainActor.run { context.notchViewModel.displayedContent?.id == NotchContentRegistry.Media.nowPlaying.id }
+        }
+
+        context.lockScreenService.publish(isLocked: true)
+
+        await assertEventually {
+            await MainActor.run { context.notchViewModel.displayedContent?.id == NotchContentRegistry.LockScreen.activity.id }
+        }
+
+        context.coordinator.handleHudEvent(.volume(80))
+
+        await assertEventually {
+            await MainActor.run { context.notchViewModel.displayedContent?.id == NotchContentRegistry.HUD.system.id }
+        }
+
+        await assertEventually(timeout: 1.5) {
+            await MainActor.run { context.notchViewModel.displayedContent?.id == NotchContentRegistry.LockScreen.activity.id }
+        }
+
+        context.lockScreenService.publish(isLocked: false)
+
+        await assertEventually(timeout: 0.5) {
+            await MainActor.run { context.notchViewModel.displayedContent?.id == NotchContentRegistry.Media.nowPlaying.id }
+        }
+    }
+
+    func testSwipeDismissOnLockScreenDoesNotDismissContent() async {
+        let context = makeContext()
+        context.nowPlayingService.publish(makeNowPlayingSnapshot())
+        context.coordinator.handleNowPlayingEvent(context.nowPlayingViewModel.event ?? .started)
+
+        context.lockScreenService.publish(isLocked: true)
+
+        await assertEventually {
+            await MainActor.run {
+                context.notchViewModel.isLocked &&
+                context.notchViewModel.displayedContent?.id == NotchContentRegistry.LockScreen.activity.id &&
+                context.notchViewModel.canDismissWithTrackpadSwipe
+            }
+        }
+
+        await MainActor.run {
+            context.notchViewModel.dismissActiveContent()
+        }
+
+        try? await Task.sleep(nanoseconds: 100_000_000)
+        await assertEventually {
+            await MainActor.run {
+                context.notchViewModel.displayedContent?.id == NotchContentRegistry.LockScreen.activity.id
+            }
+        }
+    }
+
     func testCheckFirstLaunchSyncsActiveNowPlayingSessionWhenOnboardingIsAlreadyCompleted() async {
         UserDefaults.standard.set(true, forKey: "hasSeenOnboarding")
 

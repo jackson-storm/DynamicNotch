@@ -1,5 +1,6 @@
 import SwiftUI
 internal import AppKit
+import CoreImage
 
 struct NowPlayingArtworkBackground: View {
     let artworkImage: NSImage?
@@ -8,8 +9,7 @@ struct NowPlayingArtworkBackground: View {
     let saturation: Double
     let scale: CGFloat
 
-    @State private var cachedResizedImage: NSImage?
-    @State private var lastSourceImage: NSImage?
+    @State private var bakedBlurredImage: NSImage?
 
     init(
         artworkImage: NSImage?,
@@ -28,20 +28,14 @@ struct NowPlayingArtworkBackground: View {
     var body: some View {
         GeometryReader { proxy in
             ZStack {
-                if let displayImage = cachedResizedImage ?? artworkImage {
+                if let displayImage = bakedBlurredImage {
                     Image(nsImage: displayImage)
                         .resizable()
-                        .interpolation(.low)
-                        .antialiased(false)
-                        .scaledToFill()
-                        .frame(
-                            width: proxy.size.width + blurRadius,
-                            height: proxy.size.height + blurRadius
-                        )
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: proxy.size.width, height: proxy.size.height)
                         .scaleEffect(scale)
-                        .blur(radius: blurRadius, opaque: true)
-                        .saturation(saturation)
                         .opacity(darkeningOpacity)
+                        .transition(.opacity)
 
                     LinearGradient(
                         colors: [
@@ -56,47 +50,103 @@ struct NowPlayingArtworkBackground: View {
             }
             .frame(width: proxy.size.width, height: proxy.size.height)
             .clipped()
-            .onAppear {
-                updateCachedImage()
-            }
-            .onChange(of: artworkImage) {
-                updateCachedImage()
+            .task(id: artworkImage) {
+                await processArtwork(artworkImage)
             }
         }
         .allowsHitTesting(false)
     }
 
-    private func updateCachedImage() {
-        guard let artworkImage else {
-            cachedResizedImage = nil
-            lastSourceImage = nil
+    @MainActor
+    private func processArtwork(_ sourceImage: NSImage?) async {
+        guard let sourceImage else {
+            bakedBlurredImage = nil
             return
         }
-        guard artworkImage !== lastSourceImage else { return }
-        lastSourceImage = artworkImage
-        
-        let maxDimension: CGFloat = 80
-        let targetSize: NSSize
-        if artworkImage.size.width > 0 && artworkImage.size.height > 0 {
-            let aspectRatio = artworkImage.size.width / artworkImage.size.height
-            if aspectRatio > 1 {
-                targetSize = NSSize(width: maxDimension, height: maxDimension / aspectRatio)
-            } else {
-                targetSize = NSSize(width: maxDimension * aspectRatio, height: maxDimension)
-            }
-        } else {
-            targetSize = NSSize(width: maxDimension, height: maxDimension)
+
+        let radius = blurRadius
+        let sat = saturation
+
+        let blurred = await Task.detached(priority: .userInitiated) {
+            await NowPlayingArtworkBlurProcessor.generateBlurredImage(
+                from: sourceImage,
+                blurRadius: radius,
+                saturation: sat
+            )
+        }.value
+
+        guard !Task.isCancelled else { return }
+
+        withAnimation(.easeInOut(duration: 0.35)) {
+            self.bakedBlurredImage = blurred
         }
-        
-        let resized = NSImage(size: targetSize)
-        resized.lockFocus()
-        artworkImage.draw(
-            in: NSRect(origin: .zero, size: targetSize),
-            from: NSRect(origin: .zero, size: artworkImage.size),
-            operation: .copy,
-            fraction: 1.0
+    }
+}
+
+private enum NowPlayingArtworkBlurProcessor {
+    private static let ciContext = CIContext(options: [
+        .useSoftwareRenderer: false,
+        .priorityRequestLow: false
+    ])
+
+    static func generateBlurredImage(
+        from image: NSImage,
+        blurRadius: CGFloat,
+        saturation: Double
+    ) -> NSImage? {
+        guard let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil) ?? createCGImageFallback(from: image) else {
+            return nil
+        }
+
+        let ciImage = CIImage(cgImage: cgImage)
+        let extent = ciImage.extent
+        guard extent.width > 0, extent.height > 0 else { return nil }
+
+        let maxDimension: CGFloat = 160
+        let scaleFactor = min(maxDimension / extent.width, maxDimension / extent.height)
+        let targetExtent = CGRect(
+            x: 0,
+            y: 0,
+            width: max(1, extent.width * scaleFactor),
+            height: max(1, extent.height * scaleFactor)
         )
-        resized.unlockFocus()
-        cachedResizedImage = resized
+
+        let downscaled = ciImage.transformed(by: CGAffineTransform(scaleX: scaleFactor, y: scaleFactor))
+        let clamped = downscaled.clampedToExtent()
+
+        // Blur radius proportional to downscaled resolution
+        let effectiveBlurRadius = max(8.0, blurRadius * (maxDimension / 1000.0))
+
+        var processedImage: CIImage = clamped
+        if let blurFilter = CIFilter(name: "CIGaussianBlur") {
+            blurFilter.setValue(clamped, forKey: kCIInputImageKey)
+            blurFilter.setValue(effectiveBlurRadius, forKey: kCIInputRadiusKey)
+            if let output = blurFilter.outputImage {
+                processedImage = output
+            }
+        }
+
+        if saturation != 1.0, let satFilter = CIFilter(name: "CIColorControls") {
+            satFilter.setValue(processedImage, forKey: kCIInputImageKey)
+            satFilter.setValue(saturation, forKey: kCIInputSaturationKey)
+            if let output = satFilter.outputImage {
+                processedImage = output
+            }
+        }
+
+        let cropped = processedImage.cropped(to: targetExtent)
+        guard let outputCGImage = ciContext.createCGImage(cropped, from: targetExtent) else {
+            return nil
+        }
+
+        return NSImage(cgImage: outputCGImage, size: targetExtent.size)
+    }
+
+    private static func createCGImageFallback(from image: NSImage) -> CGImage? {
+        guard let tiffData = image.tiffRepresentation,
+              let bitmap = NSBitmapImageRep(data: tiffData) else {
+            return nil
+        }
+        return bitmap.cgImage
     }
 }

@@ -30,17 +30,12 @@ struct AirDropDropZoneContent: View {
     let isTargeted: Bool
 
     private var fillColor: Color {
-        Color.blue.opacity(isTargeted ? 0.35 : 0.2)
-    }
-
-    private var strokeColor: Color {
-        Color.blue.opacity(0.6)
+        Color.blue.opacity(isTargeted ? 0.4 : 0.3)
     }
 
     var body: some View {
         RoundedRectangle(cornerRadius: AirDropDropZoneMetrics.cornerRadius)
             .fill(fillColor)
-            .stroke(strokeColor, style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
             .overlay {
                 HStack {
                     VStack(spacing: 4) {

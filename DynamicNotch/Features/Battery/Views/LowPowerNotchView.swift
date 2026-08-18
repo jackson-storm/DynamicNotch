@@ -86,7 +86,7 @@ struct LowPowerNotchView: View {
         ZStack {
             RoundedRectangle(cornerRadius: 30)
                 .fill(.red.opacity(0.2))
-                .frame(width: 70, height: 40)
+                .frame(width: 75, height: 45)
 
             HStack(spacing: 2) {
                 RoundedRectangle(cornerRadius: 10)
@@ -119,7 +119,7 @@ struct LowPowerNotchView: View {
         ZStack {
             RoundedRectangle(cornerRadius: 30)
                 .fill(.yellow.opacity(0.2))
-                .frame(width: 70, height: 40)
+                .frame(width: 75, height: 45)
 
             HStack(spacing: 2) {
                 RoundedRectangle(cornerRadius: 10)

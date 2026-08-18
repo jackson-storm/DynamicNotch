@@ -307,7 +307,6 @@ enum GeneralSettingsStorage {
         Keys.calendarPrivacyMode: false,
         Keys.calendarSoundAlert: false,
         Keys.appleMailNotificationsEnabled: false,
-        Keys.appleMailNotificationsEnabled: false,
         Keys.appleMailNotificationsPermissionPending: false
     ]
 }

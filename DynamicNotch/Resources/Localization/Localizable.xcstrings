@@ -136704,25 +136704,25 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Allow Full Disk Access to display real names and custom icons of Focus modes."
+            "value": "Allow Full Disk Access to display Mail notifications and real names and custom icons of Focus modes."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Разрешите полный доступ к диску для отображения настоящих названий и значков режимов Фокусирования."
+            "value": "Разрешите полный доступ к диску для отображения уведомлений Apple Mail, а также названий и пользовательских значков режимов фокусирования."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Permite el acceso total al disco para mostrar nombres reales e iconos personalizados del modo Enfoque."
+            "value": "Permitir acceso total al disco para mostrar notificaciones de Mail, así como los nombres reales y los iconos personalizados de los modos de concentración."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "允许完全磁盘访问权限以显示专注模式的真实名称和自定义图标。"
+            "value": "允许完全磁盘访问权限，以显示 Mail 通知以及专注模式的真实名称和自定义图标。"
           }
         },
         "tr": {
@@ -177324,6 +177324,238 @@
           "stringUnit": {
             "state": "translated",
             "value": "Bengálština"
+          }
+        }
+      }
+    },
+    "settings.notifications.appleMail.enabled": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mail notifications"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notificaciones de Mail"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Уведомления Почты"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "邮件通知"
+          }
+        }
+      }
+    },
+    "settings.notifications.appleMail.enabled.description": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show incoming Apple Mail notifications in the notch."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostrar los correos entrantes de Apple Mail en la Dynamic Notch."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Показывать входящие сообщения Apple Mail в вырезе."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在灵动刘海中显示 Apple 邮件的收件通知。"
+          }
+        }
+      }
+    },
+    "settings.notifications.appleMail.fullDiskAccess.description": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch needs Full Disk Access to read Apple Mail’s local message database and display incoming Mail notifications."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch necesita acceso total al disco para leer la base de datos local de Apple Mail y mostrar notificaciones de mensajes entrantes."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch требуется полный доступ к диску, чтобы читать локальную базу данных Apple Mail и показывать уведомления о входящих письмах."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch 需要完全磁盘访问权限，才能读取 Apple Mail 的本地邮件数据库并显示新邮件通知."
+          }
+        }
+      }
+    },
+    "settings.notifications.appleMail.fullDiskAccess.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Full Disk Access Required"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se requiere acceso total al disco"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Требуется полный доступ к диску"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "需要完全磁盘访问权限"
+          }
+        }
+      }
+    },
+    "settings.notifications.appleMail.noSubject": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No Subject"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sin asunto"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Без темы"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无主题"
+          }
+        }
+      }
+    },
+    "settings.notifications.appleMail.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple Mail"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple Mail"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple Mail"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple 邮件"
+          }
+        }
+      }
+    },
+    "settings.section.notifications.subtitle": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Configure notifications shown in the notch."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Configura las notificaciones que se muestran en la Dynamic Notch."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Настройка уведомлений, отображаемых в вырезе."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "配置在灵动刘海中显示的通知。"
+          }
+        }
+      }
+    },
+    "settings.section.notifications.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notifications"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notificaciones"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Уведомления"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "通知"
           }
         }
       }

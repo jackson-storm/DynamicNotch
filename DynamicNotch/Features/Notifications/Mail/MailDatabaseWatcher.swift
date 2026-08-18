@@ -91,13 +91,15 @@ final class MailDatabaseWatcher {
 
             scheduleDatabaseRead()
         }
-
+        
         source.setCancelHandler { [weak self] in
             guard let self else { return }
 
-            if fileDescriptor >= 0 {
-                close(fileDescriptor)
-                fileDescriptor = -1
+            let descriptor = self.fileDescriptor
+
+            if descriptor >= 0 {
+                close(descriptor)
+                self.fileDescriptor = -1
             }
         }
 

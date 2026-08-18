@@ -5,6 +5,11 @@ import SQLite3
 final class MailDatabaseReader {
 
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "DynamicNotch", category: "MailDatabaseReader")
+    private let databaseURLOverride: URL?
+    
+    init(databaseURL: URL? = nil) {
+        self.databaseURLOverride = databaseURL
+    }
 
     //Return the highest message RowID currently stored in Mail database
     func latestRowID() -> Int64? {
@@ -144,7 +149,10 @@ final class MailDatabaseReader {
                 query: query,
                 errorMessage: "Failed to prepare Mail message query"
             ) { statement in
-                sqlite3_bind_int64(statement, 1, rowID)
+                guard sqlite3_bind_int64(statement, 1, rowID) == SQLITE_OK else {
+                    logDatabaseError(database, message: "Could not bind Mail message RowID")
+                    return nil
+                }
 
                 guard sqlite3_step(statement) == SQLITE_ROW else { return nil }
 
@@ -171,11 +179,15 @@ final class MailDatabaseReader {
 
     //Locate Envelope Index database in Mail storage version
     func databaseURL() -> URL? {
+        if let databaseURLOverride {
+            guard FileManager.default.fileExists(atPath: databaseURLOverride.path) else { return nil }
+
+            return databaseURLOverride
+        }
+        
         let root = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("Library/Mail", isDirectory: true)
 
-        guard let versions = try? FileManager.default.contentsOfDirectory(at: root, includingPropertiesForKeys: nil) else {
-            return nil
-        }
+        guard let versions = try? FileManager.default.contentsOfDirectory(at: root, includingPropertiesForKeys: nil) else { return nil }
 
         let latestVersion = versions.filter { $0.lastPathComponent.hasPrefix("V") }
                                     .max {

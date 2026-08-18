@@ -44,9 +44,9 @@ struct NotchInteractiveBodyView: View {
         guard !notchViewModel.isActivityPresentationHidden || notchViewModel.notchModel.temporaryNotificationContent != nil else { return false }
         
         return !(
-            notchViewModel.notchModel.isPresentingExpandedLiveActivity &&
-            (notchViewModel.notchModel.content?.id == NotchContentRegistry.DragAndDrop.trayActive.id ||
-             (notchViewModel.notchModel.content?.id == NotchContentRegistry.HomePage.active.id && settingsViewModel.homePage.homePageScrollAxis == .vertical))
+            notchViewModel.isDisplayingExpandedLiveActivity &&
+            (notchViewModel.displayedContent?.id == NotchContentRegistry.DragAndDrop.trayActive.id ||
+             (notchViewModel.displayedContent?.id == NotchContentRegistry.HomePage.active.id && settingsViewModel.homePage.homePageScrollAxis == .vertical))
         )
     }
 }

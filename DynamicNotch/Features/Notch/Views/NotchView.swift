@@ -56,7 +56,7 @@ struct NotchView: View {
                     settingsViewModel: settingsViewModel
                 )
             }
-            .onChange(of: notchViewModel.notchModel.content?.id) {
+            .onChange(of: notchViewModel.displayedContent?.id) {
                 notchViewModel.handleStrokeVisibility()
             }
             .onChange(of: settingsViewModel.notchWidth) {

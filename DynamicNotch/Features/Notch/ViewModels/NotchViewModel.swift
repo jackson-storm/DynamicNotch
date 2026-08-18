@@ -76,6 +76,11 @@ final class NotchViewModel: ObservableObject {
     
     var canExpandActiveLiveActivity: Bool {
         guard !isActivityPresentationHidden || notchModel.temporaryNotificationContent != nil else { return false }
+        if isLocked {
+            guard notchModel.temporaryNotificationContent != nil || notchModel.liveActivityContent?.id == NotchContentRegistry.LockScreen.activity.id else {
+                return false
+            }
+        }
         return engine.canExpandActiveLiveActivity
     }
     
@@ -115,10 +120,12 @@ final class NotchViewModel: ObservableObject {
     }
     
     var canRestoreDismissedContent: Bool {
-        engine.canRestoreDismissedContent
+        guard !isLocked else { return false }
+        return engine.canRestoreDismissedContent
     }
 
     var canOpenActiveWindowLink: Bool {
+        guard !isLocked else { return false }
         guard !isActivityPresentationHidden || notchModel.temporaryNotificationContent != nil else { return false }
         return engine.canOpenActiveWindowLink
     }
@@ -127,12 +134,13 @@ final class NotchViewModel: ObservableObject {
         settings.isNotchMouseDragGesturesEnabled &&
         settings.isNotchSwipeDismissEnabled &&
         (!isActivityPresentationHidden || notchModel.temporaryNotificationContent != nil) &&
-        notchModel.content != nil &&
-        (notchModel.content?.id != NotchContentRegistry.HomePage.active.id || notchModel.isLiveActivityExpanded)
+        displayedContent != nil &&
+        (displayedContent?.id != NotchContentRegistry.HomePage.active.id || notchModel.isLiveActivityExpanded)
     }
     
     var canRestoreWithMouseDrag: Bool {
-        settings.isNotchMouseDragGesturesEnabled &&
+        guard !isLocked else { return false }
+        return settings.isNotchMouseDragGesturesEnabled &&
         settings.isNotchSwipeRestoreEnabled &&
         canRestoreDismissedContent
     }
@@ -141,12 +149,13 @@ final class NotchViewModel: ObservableObject {
         settings.isNotchTrackpadSwipeGesturesEnabled &&
         settings.isNotchSwipeDismissEnabled &&
         (!isActivityPresentationHidden || notchModel.temporaryNotificationContent != nil) &&
-        notchModel.content != nil &&
-        (notchModel.content?.id != NotchContentRegistry.HomePage.active.id || notchModel.isLiveActivityExpanded)
+        displayedContent != nil &&
+        (displayedContent?.id != NotchContentRegistry.HomePage.active.id || notchModel.isLiveActivityExpanded)
     }
     
     var canRestoreWithTrackpadSwipe: Bool {
-        settings.isNotchTrackpadSwipeGesturesEnabled &&
+        guard !isLocked else { return false }
+        return settings.isNotchTrackpadSwipeGesturesEnabled &&
         settings.isNotchSwipeRestoreEnabled &&
         canRestoreDismissedContent
     }
@@ -345,6 +354,11 @@ final class NotchViewModel: ObservableObject {
     }
     
     func dismissActiveContent() {
+        if isLocked {
+            resetSwipeStretch()
+            return
+        }
+
         if notchModel.isLiveActivityExpanded {
             engine.handleOutsideClick()
             return
@@ -358,6 +372,11 @@ final class NotchViewModel: ObservableObject {
     }
     
     func restoreDismissedContent() {
+        if isLocked {
+            resetSwipeStretch()
+            return
+        }
+
         engine.restoreDismissedContent()
     }
 

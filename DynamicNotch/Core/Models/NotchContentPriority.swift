@@ -146,18 +146,18 @@ enum NotchContentPriority {
     static let hotspot = 2
     static let download = 3
     static let trayActive = 4
-    static let airDropTransferActive = 4
-    static let nowPlaying = 5
-    static let timer = 6
-    static let calendar = 7
-    static let fileConverterActive = 8
-    static let screenRecording = 9
+    static let airDropTransferActive = 5
+    static let nowPlaying = 6
+    static let timer = 7
+    static let calendar = 8
+    static let fileConverterActive = 9
+    static let screenRecording = 10
 
     static let homePage = -10000
-    static let softwareUpdate = 10003
-    static let lockScreen = 10004
-    static let onboarding = 10005
-    static let dragAndDrop = 10006
+    static let dragAndDrop = 10001
+    static let softwareUpdate = 10002
+    static let lockScreen = 10003
+    static let onboarding = 10004
 
     static func resolvedValue(for key: Key, defaults: UserDefaults = .standard) -> Int {
         overrideValues(defaults: defaults)[key.rawValue] ?? key.defaultValue

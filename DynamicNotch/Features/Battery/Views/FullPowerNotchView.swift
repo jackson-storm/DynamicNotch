@@ -48,12 +48,13 @@ struct FullPowerNotchView: View {
                         } else {
                             magSafeIndicator
                                 .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .scale))
+                                .padding(.trailing, 5)
                         }
                     }
                 }
                 .padding(.leading, isDynamicIsland ? 25 : 40)
                 .padding(.trailing, isDynamicIsland ? 20 : 35)
-                .padding(.bottom, isDynamicIsland ? 23 : 20)
+                .padding(.bottom, isDynamicIsland ? 18 : 15)
                 .onAppear {
                     showBatteryIndicator = true
                     changeBatteryIndicator = true
@@ -106,7 +107,7 @@ struct FullPowerNotchView: View {
         ZStack {
             RoundedRectangle(cornerRadius: 30)
                 .fill(.green.opacity(0.2))
-                .frame(width: 70, height: 40)
+                .frame(width: 75, height: 45)
 
             HStack(spacing: 2) {
                 RoundedRectangle(cornerRadius: 10)
@@ -134,7 +135,7 @@ struct FullPowerNotchView: View {
         ZStack {
             RoundedRectangle(cornerRadius: 30)
                 .fill(.yellow.opacity(0.2))
-                .frame(width: 70, height: 40)
+                .frame(width: 75, height: 45)
 
             HStack(spacing: 2) {
                 RoundedRectangle(cornerRadius: 10)
@@ -162,22 +163,22 @@ struct FullPowerNotchView: View {
         HStack(spacing: 0) {
             Rectangle()
                 .fill(.gray.opacity(0.15))
-                .frame(width: 30, height: 5)
+                .frame(width: 30, height: 6)
 
             ZStack {
                 RoundedRectangle(cornerRadius: 2)
                     .fill(.gray.opacity(0.2).gradient)
-                    .frame(width: 30, height: 40)
+                    .frame(width: 35, height: 45)
 
                 Circle()
                     .fill(changeBatteryIndicator ? .orange : .green)
                     .shadow(color: changeBatteryIndicator ? .orange : .green, radius: 5)
                     .frame(width: 5, height: 5)
             }
-
+            
             Rectangle()
                 .fill(.white.opacity(0.4))
-                .frame(width: 3, height: 32)
+                .frame(width: 3, height: 35)
         }
     }
     

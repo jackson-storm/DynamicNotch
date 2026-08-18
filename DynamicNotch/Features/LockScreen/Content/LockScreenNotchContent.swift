@@ -24,9 +24,9 @@ struct LockScreenNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         switch style {
         case .enlarged:
-            .init(width: baseWidth + 110, height: baseHeight)
+            .init(width: baseWidth + 100, height: baseHeight)
         case .compact:
-            .init(width: baseWidth + 40, height: baseHeight)
+            .init(width: baseWidth + 30, height: baseHeight)
         }
     }
 

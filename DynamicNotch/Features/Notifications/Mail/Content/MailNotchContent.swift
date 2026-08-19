@@ -20,7 +20,7 @@ struct MailNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     }
 
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        let extraHeight: CGFloat = hasSummary ? 85 : 65
+        let extraHeight: CGFloat = hasSummary ? 80 : 60
         
         return .init(
             width: baseWidth + Self.extraWidth,
@@ -29,16 +29,16 @@ struct MailNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     }
 
     func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        let extraHeight: CGFloat = hasSummary ? 70 : 50
+        let extraHeight: CGFloat = hasSummary ? 80 : 60
         
         return .init(
-            width: baseWidth + (hasSummary ? 190 : 160),
+            width: baseWidth + (hasSummary ? 210 : 180),
             height: baseHeight + extraHeight
         )
     }
 
     func dynamicIslandCornerRadius(baseHeight: CGFloat) -> CGFloat {
-        32
+        return baseHeight * 0.3
     }
 
     @MainActor

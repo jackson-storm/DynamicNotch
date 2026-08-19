@@ -335,7 +335,23 @@ final class DebugSettingsViewModel: ObservableObject {
     }
     
     func triggerMailPreview() {
-        notchEventCoordinator.handleMailMessage(.debugPreview)
+        notchEventCoordinator.handleMailMessage(.debugPreviewStandard)
+    }
+
+    func triggerMailNoSummaryPreview() {
+        notchEventCoordinator.handleMailMessage(.debugPreviewNoSummary)
+    }
+
+    func triggerMailNoSubjectPreview() {
+        notchEventCoordinator.handleMailMessage(.debugPreviewNoSubject)
+    }
+
+    func triggerMailNoSubjectNoSummaryPreview() {
+        notchEventCoordinator.handleMailMessage(.debugPreviewNoSubjectNoSummary)
+    }
+
+    func triggerMailLongContentPreview() {
+        notchEventCoordinator.handleMailMessage(.debugPreviewLongContent)
     }
 
     func togglePreviewSequence() {

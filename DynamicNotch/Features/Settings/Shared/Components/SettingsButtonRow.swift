@@ -9,10 +9,11 @@ import SwiftUI
 
 struct SettingsButtonRow: View {
     let title: LocalizedStringKey
-    let description: LocalizedStringKey
+    let description: LocalizedStringKey?
     let systemImage: String?
     let imageName: String?
     let iconSize: CGFloat
+    let iconColor: Color
     let color: AnyShapeStyle
     let stroke: Bool
     let accessibilityIdentifier: String?
@@ -23,9 +24,32 @@ struct SettingsButtonRow: View {
     
     init(
         title: LocalizedStringKey,
+        description: LocalizedStringKey? = nil,
+        buttonTitle: LocalizedStringKey,
+        isButtonDisabled: Bool = false,
+        accessibilityIdentifier: String? = nil,
+        action: @escaping () -> Void
+    ) {
+        self.title = title
+        self.description = description
+        self.systemImage = nil
+        self.imageName = nil
+        self.iconSize = 14
+        self.iconColor = .white
+        self.color = AnyShapeStyle(Color.clear)
+        self.stroke = false
+        self.buttonTitle = buttonTitle
+        self.isButtonDisabled = isButtonDisabled
+        self.accessibilityIdentifier = accessibilityIdentifier
+        self.action = action
+    }
+    
+    init(
+        title: LocalizedStringKey,
         description: LocalizedStringKey,
         systemImage: String,
         iconSize: CGFloat = 14,
+        iconColor: Color = .white,
         color: Color,
         stroke: Bool = false,
         buttonTitle: LocalizedStringKey,
@@ -38,6 +62,7 @@ struct SettingsButtonRow: View {
         self.systemImage = systemImage
         self.imageName = nil
         self.iconSize = iconSize
+        self.iconColor = iconColor
         self.color = AnyShapeStyle(color.gradient)
         self.stroke = stroke
         self.buttonTitle = buttonTitle
@@ -51,6 +76,7 @@ struct SettingsButtonRow: View {
         description: LocalizedStringKey,
         imageName: String,
         iconSize: CGFloat = 14,
+        iconColor: Color = .white,
         color: Color,
         stroke: Bool = false,
         buttonTitle: LocalizedStringKey,
@@ -63,6 +89,7 @@ struct SettingsButtonRow: View {
         self.systemImage = nil
         self.imageName = imageName
         self.iconSize = iconSize
+        self.iconColor = iconColor
         self.color = AnyShapeStyle(color.gradient)
         self.stroke = stroke
         self.buttonTitle = buttonTitle
@@ -76,6 +103,7 @@ struct SettingsButtonRow: View {
         description: LocalizedStringKey,
         systemImage: String,
         iconSize: CGFloat = 14,
+        iconColor: Color = .white,
         color: LinearGradient,
         stroke: Bool = false,
         buttonTitle: LocalizedStringKey,
@@ -87,6 +115,7 @@ struct SettingsButtonRow: View {
         self.description = description
         self.systemImage = systemImage
         self.iconSize = iconSize
+        self.iconColor = iconColor
         self.imageName = nil
         self.color = AnyShapeStyle(color)
         self.stroke = stroke
@@ -101,6 +130,7 @@ struct SettingsButtonRow: View {
         description: LocalizedStringKey,
         imageName: String,
         iconSize: CGFloat = 14,
+        iconColor: Color = .white,
         color: LinearGradient,
         stroke: Bool = false,
         buttonTitle: LocalizedStringKey,
@@ -113,6 +143,7 @@ struct SettingsButtonRow: View {
         self.systemImage = nil
         self.imageName = imageName
         self.iconSize = iconSize
+        self.iconColor = iconColor
         self.color = AnyShapeStyle(color)
         self.stroke = stroke
         self.buttonTitle = buttonTitle
@@ -128,7 +159,8 @@ struct SettingsButtonRow: View {
                     systemImage: systemImage,
                     tint: color,
                     size: 30,
-                    iconSize: 14,
+                    iconColor: iconColor,
+                    iconSize: iconSize,
                     cornerRadius: 9,
                     stroke: stroke
                 )
@@ -137,6 +169,7 @@ struct SettingsButtonRow: View {
                     imageName: imageName,
                     tint: color,
                     size: 30,
+                    iconColor: iconColor,
                     iconSize: iconSize,
                     cornerRadius: 9,
                     stroke: stroke
@@ -145,10 +178,12 @@ struct SettingsButtonRow: View {
             
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
-                Text(description)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
+                if let description {
+                    Text(description)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
             }
             
             Spacer()

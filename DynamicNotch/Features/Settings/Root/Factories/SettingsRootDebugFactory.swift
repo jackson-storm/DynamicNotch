@@ -112,6 +112,7 @@ extension SettingsRootViewModel {
         let resolvedHomePageViewModel = homePageViewModel ?? HomePageViewModel()
         let resolvedLocalTimerViewModel = localTimerViewModel ?? LocalTimerViewModel()
         let resolvedCalendarViewModel = calendarViewModel ?? CalendarViewModel()
+        let resolvedMailManager = MailManager()
         let resolvedCoordinator = notchEventCoordinator ?? NotchEventCoordinator(
             notchViewModel: resolvedNotchViewModel,
             bluetoothViewModel: resolvedBluetoothViewModel,
@@ -129,7 +130,8 @@ extension SettingsRootViewModel {
             lockScreenManager: resolvedLockScreenManager,
             homePageViewModel: resolvedHomePageViewModel,
             localTimerViewModel: resolvedLocalTimerViewModel,
-            calendarViewModel: resolvedCalendarViewModel
+            calendarViewModel: resolvedCalendarViewModel,
+            mailManager: resolvedMailManager
         )
 
         return SettingsRootDebugDependencies(

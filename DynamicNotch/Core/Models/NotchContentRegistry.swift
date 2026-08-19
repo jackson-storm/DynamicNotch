@@ -136,6 +136,12 @@ enum NotchContentRegistry {
         )
     }
 
+    enum Notifications {
+        static let mail = NotchContentDescriptor(
+            id: "mail.message"
+        )
+    }
+
     enum Settings {
         static let language = NotchContentDescriptor(
             id: "settings.language"

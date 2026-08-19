@@ -33,6 +33,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     var lockScreenPanelManager: LockScreenPanelManager { container.lockScreenPanelManager }
     var lockScreenLiveActivityWindowManager: LockScreenLiveActivityWindowManager { container.lockScreenLiveActivityWindowManager }
     var homePageViewModel: HomePageViewModel { container.homePageViewModel }
+    var mailManager: MailManager { container.mailManager }
     
     var window: OverlayPanelWindow!
     var localClickMonitor: Any?
@@ -120,6 +121,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             lockScreenLiveActivityWindowManager.invalidate()
         }
         stopOutsideClickMonitoring()
+        mailManager.stopMonitoring()
     }
 
     func applyActivationPolicy(showsDockIcon: Bool) {

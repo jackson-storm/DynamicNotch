@@ -16,6 +16,8 @@ struct SettingsToggleRow: View {
     let iconColor: Color
     let stroke: Bool
     let accessibilityIdentifier: String?
+    let badgeSize: CGFloat
+    let iconSize: CGFloat
     
     @Binding var isOn: Bool
     
@@ -26,6 +28,8 @@ struct SettingsToggleRow: View {
         color: Color,
         iconColor: Color = .white,
         stroke: Bool = false,
+        badgeSize: CGFloat = 30,
+        iconSize: CGFloat = 14,
         isOn: Binding<Bool>,
         accessibilityIdentifier: String? = nil
     ) {
@@ -35,6 +39,8 @@ struct SettingsToggleRow: View {
         self.imageName = nil
         self.color = AnyShapeStyle(color.gradient)
         self.iconColor = iconColor
+        self.badgeSize = badgeSize
+        self.iconSize = iconSize
         self.stroke = stroke
         self._isOn = isOn
         self.accessibilityIdentifier = accessibilityIdentifier
@@ -47,6 +53,8 @@ struct SettingsToggleRow: View {
         color: Color,
         iconColor: Color = .white,
         stroke: Bool = false,
+        badgeSize: CGFloat = 30,
+        iconSize: CGFloat = 14,
         isOn: Binding<Bool>,
         accessibilityIdentifier: String? = nil
     ) {
@@ -56,6 +64,8 @@ struct SettingsToggleRow: View {
         self.imageName = imageName
         self.color = AnyShapeStyle(color.gradient)
         self.iconColor = iconColor
+        self.badgeSize = badgeSize
+        self.iconSize = iconSize
         self.stroke = stroke
         self._isOn = isOn
         self.accessibilityIdentifier = accessibilityIdentifier
@@ -68,6 +78,8 @@ struct SettingsToggleRow: View {
         color: LinearGradient,
         iconColor: Color = .white,
         stroke: Bool = false,
+        badgeSize: CGFloat = 30,
+        iconSize: CGFloat = 14,
         isOn: Binding<Bool>,
         accessibilityIdentifier: String? = nil
     ) {
@@ -77,6 +89,8 @@ struct SettingsToggleRow: View {
         self.imageName = nil
         self.color = AnyShapeStyle(color)
         self.iconColor = iconColor
+        self.badgeSize = badgeSize
+        self.iconSize = iconSize
         self.stroke = stroke
         self._isOn = isOn
         self.accessibilityIdentifier = accessibilityIdentifier
@@ -89,6 +103,8 @@ struct SettingsToggleRow: View {
         color: LinearGradient,
         iconColor: Color = .white,
         stroke: Bool = false,
+        badgeSize: CGFloat = 30,
+        iconSize: CGFloat = 14,
         isOn: Binding<Bool>,
         accessibilityIdentifier: String? = nil
     ) {
@@ -98,6 +114,8 @@ struct SettingsToggleRow: View {
         self.imageName = imageName
         self.color = AnyShapeStyle(color)
         self.iconColor = iconColor
+        self.badgeSize = badgeSize
+        self.iconSize = iconSize
         self.stroke = stroke
         self._isOn = isOn
         self.accessibilityIdentifier = accessibilityIdentifier
@@ -110,9 +128,9 @@ struct SettingsToggleRow: View {
                     SettingsIconBadge(
                         systemImage: systemImage,
                         tint: color,
-                        size: 30,
+                        size: badgeSize,
                         iconColor: iconColor,
-                        iconSize: 14,
+                        iconSize: iconSize,
                         cornerRadius: 9,
                         stroke: stroke
                     )
@@ -120,9 +138,9 @@ struct SettingsToggleRow: View {
                     SettingsIconBadge(
                         imageName: imageName,
                         tint: color,
-                        size: 30,
+                        size: badgeSize,
                         iconColor: iconColor,
-                        iconSize: 14,
+                        iconSize: iconSize,
                         cornerRadius: 9,
                         stroke: stroke
                     )

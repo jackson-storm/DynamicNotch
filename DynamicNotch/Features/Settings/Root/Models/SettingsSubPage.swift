@@ -20,6 +20,7 @@ enum SettingsSubPage: Hashable, Identifiable {
     case fileConverter
     case homePagePages
     case timer
+    case appleMail
     
     var id: Self { self }
     var titleKey: String {
@@ -43,6 +44,7 @@ enum SettingsSubPage: Hashable, Identifiable {
         case .fileConverter: return "settings.fileConverter.title"
         case .homePagePages: return "settings.homePage.pages.title"
         case .timer: return "settings.section.timer.title"
+        case .appleMail: return "settings.notifications.appleMail.title"
         }
     }
     
@@ -67,6 +69,7 @@ enum SettingsSubPage: Hashable, Identifiable {
         case .fileConverter: return "File Converter"
         case .homePagePages: return "Pages"
         case .timer: return "Timer"
+        case .appleMail: return "Apple Mail"
         }
     }
     
@@ -91,6 +94,7 @@ enum SettingsSubPage: Hashable, Identifiable {
         case .fileConverter: return "settings.fileConverter.subtitle"
         case .homePagePages: return "settings.homePage.pages.subtitle"
         case .timer: return "settings.section.timer.subtitle"
+        case .appleMail: return "settings.notifications.appleMail.subtitle"
         }
     }
     
@@ -115,12 +119,13 @@ enum SettingsSubPage: Hashable, Identifiable {
         case .fileConverter: return "Configure output location, existing file behavior, and quality."
         case .homePagePages: return "Reorder or enable/disable home page cards."
         case .timer: return "Clock timer live activity and stroke appearance."
+        case .appleMail: return "Incoming email notifications and duration."
         }
     }
     
     var canReset: Bool {
         switch self {
-        case .appearance, .notch, .language, .activityPriorities, .notchDisplay, .notchAnimation, .gestures, .fileTray, .fileConverter, .homePagePages, .timer:
+        case .appearance, .notch, .language, .activityPriorities, .notchDisplay, .notchAnimation, .gestures, .fileTray, .fileConverter, .homePagePages, .timer, .appleMail:
             return true
         default:
             return false

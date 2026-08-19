@@ -326,6 +326,71 @@ struct DebugSettingsView: View {
                 .opacity(0.6)
                 .padding(.leading, 43)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+
+            DebugActionRow(
+                title: "Mail (Standard)",
+                description: "Show standard Mail notification with sender, subject, and summary.",
+                systemImage: "envelope.fill",
+                color: .yellow,
+                action: viewModel.triggerMailPreview
+            )
+            
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+
+            DebugActionRow(
+                title: "Mail (No Summary)",
+                description: "Show compact Mail notification without body summary preview.",
+                systemImage: "envelope.fill",
+                color: .yellow,
+                action: viewModel.triggerMailNoSummaryPreview
+            )
+
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+
+            DebugActionRow(
+                title: "Mail (No Subject)",
+                description: "Show Mail notification with empty subject line.",
+                systemImage: "envelope.fill",
+                color: .yellow,
+                action: viewModel.triggerMailNoSubjectPreview
+            )
+
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+
+            DebugActionRow(
+                title: "Mail (No Subject & Summary)",
+                description: "Show minimal Mail notification with sender only.",
+                systemImage: "envelope.fill",
+                color: .yellow,
+                action: viewModel.triggerMailNoSubjectNoSummaryPreview
+            )
+
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+
+            DebugActionRow(
+                title: "Mail (Long Text)",
+                description: "Show Mail notification with long sender, subject, and summary.",
+                systemImage: "envelope.fill",
+                color: .yellow,
+                action: viewModel.triggerMailLongContentPreview
+            )
+            
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
             
             DebugActionRow(
                 title: "Wi-Fi Connected",

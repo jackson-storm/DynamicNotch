@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B9409DA3023B7F20092A512 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B9409D93023B7DA0092A512 /* libsqlite3.tbd */; };
 		E2761738300A66E900E79207 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = E2761737300A66E900E79207 /* Sparkle */; };
 		E2A100022F90000000000001 /* DynamicNotch/Resources/MediaRemoteAdapter/MediaRemoteAdapter.framework in Embed MediaRemote Adapter */ = {isa = PBXBuildFile; fileRef = E2A100012F90000000000001 /* DynamicNotch/Resources/MediaRemoteAdapter/MediaRemoteAdapter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E2C135B72F59FA8100348421 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = E2C135B62F59FA8100348421 /* Lottie */; };
@@ -44,6 +45,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0B9409D93023B7DA0092A512 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		E2A100012F90000000000001 /* DynamicNotch/Resources/MediaRemoteAdapter/MediaRemoteAdapter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DynamicNotch/Resources/MediaRemoteAdapter/MediaRemoteAdapter.framework; sourceTree = "<group>"; };
 		E2EF78512EDDB60E00F96D1E /* DynamicNotch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DynamicNotch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F10000000000000000000001 /* DynamicNotchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DynamicNotchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -115,6 +117,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B9409DA3023B7F20092A512 /* libsqlite3.tbd in Frameworks */,
 				E2761738300A66E900E79207 /* Sparkle in Frameworks */,
 				E2C135B72F59FA8100348421 /* Lottie in Frameworks */,
 			);
@@ -137,6 +140,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0B9409D83023B7DA0092A512 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0B9409D93023B7DA0092A512 /* libsqlite3.tbd */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		E259C11B2F9D265D0016657D /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
@@ -153,6 +164,7 @@
 				F20000000000000000000002 /* DynamicNotchUITests */,
 				E2EF78522EDDB60E00F96D1E /* Products */,
 				E259C11B2F9D265D0016657D /* Recovered References */,
+				0B9409D83023B7DA0092A512 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};

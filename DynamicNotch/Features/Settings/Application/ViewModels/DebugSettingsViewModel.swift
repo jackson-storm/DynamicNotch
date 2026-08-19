@@ -333,6 +333,26 @@ final class DebugSettingsViewModel: ObservableObject {
             fileConverterPreviewViewModel.showDebugFailedStatus()
         }
     }
+    
+    func triggerMailPreview() {
+        notchEventCoordinator.handleMailMessage(.debugPreviewStandard)
+    }
+
+    func triggerMailNoSummaryPreview() {
+        notchEventCoordinator.handleMailMessage(.debugPreviewNoSummary)
+    }
+
+    func triggerMailNoSubjectPreview() {
+        notchEventCoordinator.handleMailMessage(.debugPreviewNoSubject)
+    }
+
+    func triggerMailNoSubjectNoSummaryPreview() {
+        notchEventCoordinator.handleMailMessage(.debugPreviewNoSubjectNoSummary)
+    }
+
+    func triggerMailLongContentPreview() {
+        notchEventCoordinator.handleMailMessage(.debugPreviewLongContent)
+    }
 
     func togglePreviewSequence() {
         if isPreviewSequenceRunning {

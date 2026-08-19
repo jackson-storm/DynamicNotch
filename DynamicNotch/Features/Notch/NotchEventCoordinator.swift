@@ -40,6 +40,7 @@ final class NotchEventCoordinator: ObservableObject {
     private let calendarHandler: NotchCalendarEventsHandler
     private var cancellables = Set<AnyCancellable>()
     private var fileConverterExpansionTask: Task<Void, Never>?
+    private let mailManager: MailManager
     
     private var isOnboardingActive: Bool {
         OnboardingSteps.contains(id: notchViewModel.notchModel.liveActivityContent?.id) ||
@@ -77,7 +78,8 @@ final class NotchEventCoordinator: ObservableObject {
         homePageViewModel: HomePageViewModel,
         localTimerViewModel: LocalTimerViewModel,
         calendarViewModel: CalendarViewModel,
-        screenshotViewModel: ScreenshotViewModel? = nil
+        screenshotViewModel: ScreenshotViewModel? = nil,
+        mailManager: MailManager,
     ) {
         self.notchViewModel = notchViewModel
         self.wifiViewModel = wifiViewModel
@@ -94,6 +96,7 @@ final class NotchEventCoordinator: ObservableObject {
         self.homePageViewModel = homePageViewModel
         self.calendarViewModel = calendarViewModel
         self.screenshotViewModel = screenshotViewModel ?? ScreenshotViewModel()
+        self.mailManager = mailManager
         self.lockScreenManager = lockScreenManager
         self.systemHandler = NotchSystemEventsHandler(
             notchViewModel: notchViewModel,
@@ -158,6 +161,11 @@ final class NotchEventCoordinator: ObservableObject {
             timerViewModel: timerViewModel,
             settingsViewModel: settingsViewModel
         )
+        mailManager.onMessageReceived = { [weak self] message in
+            guard let self else { return }
+
+            handleMailMessage(message)
+        }
         self.fileTrayViewModel.onItemsChange = { [weak notchViewModel, weak settingsViewModel, weak fileTrayViewModel] items in
             guard let notchViewModel, let settingsViewModel, let fileTrayViewModel else {
                 return
@@ -451,6 +459,18 @@ final class NotchEventCoordinator: ObservableObject {
             notchViewModel.isLocked = false
             notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.LockScreen.activity.id))
         }
+    }
+    
+    func handleMailMessage(_ message: MailMessage) {
+        let duration = Double(settingsViewModel.notifications.appleMailNotificationDuration)
+        let content = MailNotchContent(
+            message: message,
+            onOpen: { [weak mailManager] in
+                mailManager?.open(message)
+            }
+        )
+
+        notchViewModel.send(.showTemporaryNotification(content, duration: duration))
     }
 
     private func syncAirDropTransferLiveActivity() {

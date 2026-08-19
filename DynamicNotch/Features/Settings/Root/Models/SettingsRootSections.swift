@@ -80,13 +80,14 @@ extension SettingsRootViewModel {
         case wifi
         case bluetooth
         case vpn
+        case focus
         case battery
         
-        case focus
         case nowPlaying
         case downloads
         case drop
         
+        case notifications
         case hud
         case calendar
         case screenRecording
@@ -314,6 +315,26 @@ private enum SettingsSectionCatalog {
                 stroke: true,
                 resetGroup: .calendar
             )
+            
+        case .notifications:
+            return .init(
+                sidebarGroup: .system,
+                titleKey: "settings.section.notifications.title",
+                fallbackTitle: "Notifications",
+                subtitleKey: "settings.section.notifications.subtitle",
+                fallbackSubtitle: "Configure notifications shown in the notch.",
+                searchKeywords: [
+                    "notifications",
+                    "mail",
+                    "apple mail",
+                    "email",
+                    "message"
+                ],
+                systemImage: "bell.badge.fill",
+                imageName: nil,
+                tint: .red,
+                resetGroup: .notifications
+            )
 
         case .downloads:
             return .init(
@@ -387,7 +408,7 @@ private enum SettingsSectionCatalog {
 
         case .focus:
             return .init(
-                sidebarGroup: .system,
+                sidebarGroup: .connectivity,
                 titleKey: "settings.section.focus.title",
                 fallbackTitle: "Focus",
                 subtitleKey: "settings.section.focus.subtitle",
@@ -536,8 +557,6 @@ private enum SettingsSectionCatalog {
                 tint: .black,
                 resetGroup: .lockScreen
             )
-
-
         }
     }
 }

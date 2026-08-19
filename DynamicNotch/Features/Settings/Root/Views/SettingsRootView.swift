@@ -104,7 +104,7 @@ struct SettingsRootView: View {
         NavigationSplitView {
             List(selection: selectionBinding) {
                 ForEach(groupedSections, id: \.group.id) { group in
-                    Section(header: Text(localized(group.group.titleKey ?? "", fallback: group.group.fallbackTitle))) {
+                    Section {
                         ForEach(group.sections) { section in
                             NavigationLink(value: section) {
                                 if let imageName = section.imageName {
@@ -442,6 +442,14 @@ struct SettingsRootView: View {
                 )
             }
 
+        case .notifications:
+            detailContainer(for: section) {
+                NotificationsSettingsView(
+                    settings: settingsViewModel.notifications,
+                    permissionController: permissionController
+                )
+            }
+            
         case .downloads:
             detailContainer(for: section) {
                 DownloadsSettingsView(
@@ -641,6 +649,11 @@ struct SettingsRootView: View {
                 mediaSettings: settingsViewModel.mediaAndFiles,
                 appearanceSettings: settingsViewModel.application
             )
+        case .appleMail:
+            AppleMailNotificationsSettingsView(
+                settings: settingsViewModel.notifications,
+                permissionController: permissionController
+            )
         }
     }
 
@@ -687,6 +700,8 @@ struct SettingsRootView: View {
             settingsViewModel.mediaAndFiles.resetFileConverter()
         case .homePagePages:
             settingsViewModel.homePage.resetHomePage()
+        case .appleMail:
+            settingsViewModel.notifications.reset()
         default:
             break
         }

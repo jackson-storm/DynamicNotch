@@ -386,7 +386,14 @@ final class NotchViewModel: ObservableObject {
             return
         }
         
-        if settings.isCloseAtFocusLiveActivityEnabled {
+        if notchModel.temporaryNotificationContent != nil {
+            engine.openActiveWindowLink()
+            engine.hideTemporaryNotification()
+            return
+        }
+        
+        let isFocus = content.id == NotchContentRegistry.Focus.active.id || content.id == NotchContentRegistry.Focus.inactive.id
+        if isFocus && settings.isCloseAtFocusLiveActivityEnabled {
             triggerFocusCloseAnimation(for: content.id) { [weak self] in
                 self?.engine.openActiveWindowLink()
                 self?.send(.hideLiveActivity(id: content.id))

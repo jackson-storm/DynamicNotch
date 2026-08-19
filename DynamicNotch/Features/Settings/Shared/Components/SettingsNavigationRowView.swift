@@ -26,6 +26,8 @@ struct SettingsNavigationRowView<Value: Hashable>: View {
     let accessibilityIdentifier: String?
     let position: RowPosition
     let showBadge: Bool
+    let badgeSize: CGFloat
+    let iconSize: CGFloat
     
     init(
         title: LocalizedStringKey,
@@ -34,6 +36,8 @@ struct SettingsNavigationRowView<Value: Hashable>: View {
         iconColor: Color = .white,
         color: Color = .blue,
         stroke: Bool = false,
+        badgeSize: CGFloat = 30,
+        iconSize: CGFloat = 14,
         accessibilityIdentifier: String? = nil,
         position: RowPosition = .single,
         showBadge: Bool = false,
@@ -46,6 +50,8 @@ struct SettingsNavigationRowView<Value: Hashable>: View {
         self.iconColor = iconColor
         self.color = AnyShapeStyle(color.gradient)
         self.stroke = stroke
+        self.badgeSize = badgeSize
+        self.iconSize = iconSize
         self.value = value
         self.accessibilityIdentifier = accessibilityIdentifier
         self.position = position
@@ -59,6 +65,8 @@ struct SettingsNavigationRowView<Value: Hashable>: View {
         iconColor: Color = .white,
         color: Color = .blue,
         stroke: Bool = false,
+        badgeSize: CGFloat = 30,
+        iconSize: CGFloat = 14,
         accessibilityIdentifier: String? = nil,
         position: RowPosition = .single,
         showBadge: Bool = false,
@@ -71,6 +79,8 @@ struct SettingsNavigationRowView<Value: Hashable>: View {
         self.iconColor = iconColor
         self.color = AnyShapeStyle(color.gradient)
         self.stroke = stroke
+        self.badgeSize = badgeSize
+        self.iconSize = iconSize
         self.value = value
         self.accessibilityIdentifier = accessibilityIdentifier
         self.position = position
@@ -84,6 +94,8 @@ struct SettingsNavigationRowView<Value: Hashable>: View {
         iconColor: Color = .white,
         color: LinearGradient,
         stroke: Bool = false,
+        badgeSize: CGFloat = 30,
+        iconSize: CGFloat = 14,
         accessibilityIdentifier: String? = nil,
         position: RowPosition = .single,
         showBadge: Bool = false,
@@ -96,6 +108,8 @@ struct SettingsNavigationRowView<Value: Hashable>: View {
         self.iconColor = iconColor
         self.color = AnyShapeStyle(color)
         self.stroke = stroke
+        self.badgeSize = badgeSize
+        self.iconSize = iconSize
         self.value = value
         self.accessibilityIdentifier = accessibilityIdentifier
         self.position = position
@@ -109,6 +123,8 @@ struct SettingsNavigationRowView<Value: Hashable>: View {
         iconColor: Color = .white,
         color: LinearGradient,
         stroke: Bool = false,
+        badgeSize: CGFloat = 30,
+        iconSize: CGFloat = 14,
         accessibilityIdentifier: String? = nil,
         position: RowPosition = .single,
         showBadge: Bool = false,
@@ -121,6 +137,8 @@ struct SettingsNavigationRowView<Value: Hashable>: View {
         self.iconColor = iconColor
         self.color = AnyShapeStyle(color)
         self.stroke = stroke
+        self.badgeSize = badgeSize
+        self.iconSize = iconSize
         self.value = value
         self.accessibilityIdentifier = accessibilityIdentifier
         self.position = position
@@ -142,9 +160,9 @@ struct SettingsNavigationRowView<Value: Hashable>: View {
                         SettingsIconBadge(
                             systemImage: systemImage,
                             tint: color,
-                            size: 30,
+                            size: badgeSize,
                             iconColor: iconColor,
-                            iconSize: 14,
+                            iconSize: iconSize,
                             cornerRadius: 9,
                             stroke: stroke
                         )
@@ -152,8 +170,8 @@ struct SettingsNavigationRowView<Value: Hashable>: View {
                         SettingsIconBadge(
                             imageName: imageName,
                             tint: color,
-                            size: 30,
-                            iconSize: 14,
+                            size: badgeSize,
+                            iconSize: iconSize,
                             cornerRadius: 9,
                             stroke: stroke
                         )

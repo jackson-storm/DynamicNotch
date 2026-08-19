@@ -80,16 +80,16 @@ extension SettingsRootViewModel {
         case wifi
         case bluetooth
         case vpn
+        case focus
         case battery
         
-        case focus
         case nowPlaying
         case downloads
         case drop
         
+        case notifications
         case hud
         case calendar
-        case notifications
         case screenRecording
         case lockScreen
 
@@ -332,7 +332,7 @@ private enum SettingsSectionCatalog {
                 ],
                 systemImage: "bell.badge.fill",
                 imageName: nil,
-                tint: .yellow,
+                tint: .red,
                 resetGroup: .notifications
             )
 
@@ -408,7 +408,7 @@ private enum SettingsSectionCatalog {
 
         case .focus:
             return .init(
-                sidebarGroup: .system,
+                sidebarGroup: .connectivity,
                 titleKey: "settings.section.focus.title",
                 fallbackTitle: "Focus",
                 subtitleKey: "settings.section.focus.subtitle",

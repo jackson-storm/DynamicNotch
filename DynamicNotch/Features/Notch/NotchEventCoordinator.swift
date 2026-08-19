@@ -462,6 +462,7 @@ final class NotchEventCoordinator: ObservableObject {
     }
     
     func handleMailMessage(_ message: MailMessage) {
+        let duration = Double(settingsViewModel.notifications.appleMailNotificationDuration)
         let content = MailNotchContent(
             message: message,
             onOpen: { [weak mailManager] in
@@ -469,7 +470,7 @@ final class NotchEventCoordinator: ObservableObject {
             }
         )
 
-        notchViewModel.send(.showTemporaryNotification(content, duration: 5))
+        notchViewModel.send(.showTemporaryNotification(content, duration: duration))
     }
 
     private func syncAirDropTransferLiveActivity() {

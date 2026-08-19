@@ -18,7 +18,6 @@ final class MailManager {
         stopMonitoring()
     }
     
-    //Subscribe to new Mail messages and start the database watcher.
     func startMonitoring() {
         guard observer == nil else { return }
 
@@ -36,7 +35,6 @@ final class MailManager {
         watcher.startMonitoring()
     }
     
-    //Stop database watcher and remove Mail notification observer.
     func stopMonitoring() {
         watcher.stopMonitoring()
 
@@ -46,7 +44,6 @@ final class MailManager {
         self.observer = nil
     }
     
-    //Open selected message in Apple Mail
     func open(_ message: MailMessage) {
         guard !message.messageIDHeader.isEmpty,
               let url = URL(string: "message:\(message.messageIDHeader)") else {

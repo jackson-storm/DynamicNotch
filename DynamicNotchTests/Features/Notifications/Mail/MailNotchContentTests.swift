@@ -68,4 +68,52 @@ final class MailNotchContentTests: XCTestCase {
         XCTAssertEqual(size.width, 360)
         XCTAssertEqual(size.height, 105)
     }
+
+    func testDynamicIslandSizeWhenSummaryExists() {
+        let message = MailMessage(
+            rowID: 3,
+            messageIDHeader: "",
+            sender: "sender@example.com",
+            subject: "Test",
+            summary: "Preview",
+            receivedDate: Date()
+        )
+
+        let content = MailNotchContent(
+            message: message,
+            onOpen: {}
+        )
+
+        let size = content.dynamicIslandSize(
+            baseWidth: 200,
+            baseHeight: 40
+        )
+
+        XCTAssertEqual(size.width, 390)
+        XCTAssertEqual(size.height, 110)
+    }
+
+    func testDynamicIslandSizeWhenSummaryIsMissing() {
+        let message = MailMessage(
+            rowID: 4,
+            messageIDHeader: "",
+            sender: "sender@example.com",
+            subject: "Test",
+            summary: nil,
+            receivedDate: Date()
+        )
+
+        let content = MailNotchContent(
+            message: message,
+            onOpen: {}
+        )
+
+        let size = content.dynamicIslandSize(
+            baseWidth: 200,
+            baseHeight: 40
+        )
+
+        XCTAssertEqual(size.width, 360)
+        XCTAssertEqual(size.height, 90)
+    }
 }

@@ -11,7 +11,6 @@ final class MailDatabaseReader {
         self.databaseURLOverride = databaseURL
     }
 
-    //Return the highest message RowID currently stored in Mail database
     func latestRowID() -> Int64? {
         inDatabase { database in
             let query = """
@@ -26,7 +25,6 @@ final class MailDatabaseReader {
                 errorMessage: "Could not prepare latest RowID query"
             ) { statement in
                 
-                //Read the single RowID value returned by the query
                 guard sqlite3_step(statement) == SQLITE_ROW else {
                     logDatabaseError(database, message: "Could not read latest RowID")
                     return nil
@@ -41,7 +39,6 @@ final class MailDatabaseReader {
         }
     }
 
-    //Return all messages added after the provided RowID
     func messages(after rowID: Int64) -> [MailMessage] {
         inDatabase { database in
             let query = """
@@ -75,7 +72,7 @@ final class MailDatabaseReader {
                 query: query,
                 errorMessage: "Could not prepare messages query"
             ) { statement in
-                //Bind the last processed RowID to the query placeholder
+                
                 guard sqlite3_bind_int64(statement, 1, rowID) == SQLITE_OK else {
                     logDatabaseError(database, message: "Could not bind the last processed RowID")
                     return nil
@@ -84,7 +81,6 @@ final class MailDatabaseReader {
                 var messages: [MailMessage] = []
                 var result = sqlite3_step(statement)
 
-                //Convert each returned database row into MailMessage
                 while result == SQLITE_ROW {
                     let messageRowID = sqlite3_column_int64(statement, 0)
                     let messageIDHeader = stringValue(from: statement, column: 1) ?? ""
@@ -114,8 +110,7 @@ final class MailDatabaseReader {
             }
         } ?? []
     }
-    
-    //Fetch a Mail message by its RowID
+
     func message(withRowID rowID: Int64) -> MailMessage? {
         let query = """
         SELECT
@@ -177,7 +172,6 @@ final class MailDatabaseReader {
         }
     }
 
-    //Locate Envelope Index database in Mail storage version
     func databaseURL() -> URL? {
         if let databaseURLOverride {
             guard FileManager.default.fileExists(atPath: databaseURLOverride.path) else { return nil }
@@ -205,7 +199,6 @@ final class MailDatabaseReader {
         return databaseURL
     }
 
-    //Open Mail database, execute the operation and close the connection
     private func inDatabase<T>(_ operation: (OpaquePointer) -> T?) -> T? {
         guard let databaseURL = databaseURL() else {
             logger.error("Mail database was not found")
@@ -225,13 +218,11 @@ final class MailDatabaseReader {
             sqlite3_close(database)
         }
 
-        //Wait if Mail is writing to the database
         sqlite3_busy_timeout(database, 1_000)
 
         return operation(database)
     }
 
-    //Prepare SQLite statement, execute the operation and finalize the statement
     private func inStatement<T>(database: OpaquePointer, query: String, errorMessage: String, operation: (OpaquePointer) -> T?) -> T? {
         var statement: OpaquePointer?
 
@@ -249,7 +240,6 @@ final class MailDatabaseReader {
         return operation(statement)
     }
 
-    //Convert a nullable SQLite text column into a Swift String
     private func stringValue(from statement: OpaquePointer?, column: Int32) -> String? {
         guard sqlite3_column_type(statement, column) != SQLITE_NULL,
               let value = sqlite3_column_text(statement, column) else {
@@ -259,7 +249,6 @@ final class MailDatabaseReader {
         return String(cString: value)
     }
 
-    //Write the current SQLite error to the system log
     private func logDatabaseError(_ database: OpaquePointer?, message: String) {
         let details = database.flatMap { sqlite3_errmsg($0) }.map(String.init(cString:)) ?? "Unknown SQLite error"
         logger.error("\(message, privacy: .public): \(details, privacy: .public)")

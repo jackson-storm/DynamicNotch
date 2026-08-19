@@ -3,7 +3,6 @@ import Darwin
 import OSLog
 
 extension Notification.Name {
-    //Posted when a new Mail message is available
     static let mailDatabaseDidReceiveMessage = Notification.Name("mailDatabaseDidReceiveMessage")
 }
 
@@ -27,7 +26,6 @@ final class MailDatabaseWatcher {
         stopMonitoring()
     }
     
-    //Store the latest RowID and start watching Mail database
     func startMonitoring() {
         queue.async { [weak self] in
             guard let self, source == nil else { return }
@@ -42,7 +40,6 @@ final class MailDatabaseWatcher {
         }
     }
     
-    //Stop watching Mail database and cancel any pending database read
     func stopMonitoring() {
         queue.async { [weak self] in
             guard let self else { return }
@@ -55,16 +52,12 @@ final class MailDatabaseWatcher {
         }
     }
     
-    //Start monitoring changes to Mail database WAL file
     private func startWatchingWriteAheadLog() {
         guard let databaseURL = reader.databaseURL() else {
             logger.error("Mail database was not found")
             return
         }
-
-        //Add -wal because Mail writes changes here
         let writeAheadLogURL = URL(fileURLWithPath: databaseURL.path + "-wal")
-        //Open file without read permission
         fileDescriptor = open(writeAheadLogURL.path, O_EVTONLY)
 
         guard fileDescriptor >= 0 else {
@@ -109,7 +102,6 @@ final class MailDatabaseWatcher {
         logger.info("Started watching Mail database WAL file")
     }
     
-    //Delay database read to merge multiple WAL events into one operation
     private func scheduleDatabaseRead() {
         debounceWorkItem?.cancel()
 
@@ -121,7 +113,6 @@ final class MailDatabaseWatcher {
         queue.asyncAfter(deadline: .now() + 0.25, execute: workItem)
     }
     
-    //Read all messages added after the last processed RowID
     private func readNewMessages() {
         let messages = reader.messages(after: lastRowID)
 
@@ -134,7 +125,6 @@ final class MailDatabaseWatcher {
         }
     }
     
-    //Cancel the current watcher and schedule its recreation
     private func restartMonitoring() {
         source?.cancel()
         source = nil
@@ -142,7 +132,6 @@ final class MailDatabaseWatcher {
         scheduleRestart()
     }
     
-    //Retry watcher creation after the WAL file becomes available again
     private func scheduleRestart() {
         queue.asyncAfter(deadline: .now() + 1) { [weak self] in
             guard let self, source == nil else { return }
@@ -150,8 +139,7 @@ final class MailDatabaseWatcher {
             startWatchingWriteAheadLog()
         }
     }
-    
-    //Post a new Mail message notification
+
     private func post(_ message: MailMessage) {
         DispatchQueue.main.async {
             NotificationCenter.default.post(
@@ -161,7 +149,6 @@ final class MailDatabaseWatcher {
         }
     }
     
-    //Retry reading a Mail message until its summary is available
     private func scheduleMessageRefresh(
         for message: MailMessage,
         attempt: Int = 1

@@ -225,7 +225,7 @@ final class LockScreenLiveActivityWindowManager {
             window.setFrame(targetFrame, display: true)
         }
         
-        let rootView = LockScreenLiveActivityOverlayView(
+        let rootView = LockScreenNotchOverlayView(
             notchViewModel: notchViewModel,
             settingsViewModel: settingsViewModel,
             animator: animator
@@ -337,7 +337,7 @@ final class LockScreenLiveActivityWindowManager {
         }
         
         hostingView?.frame = NSRect(origin: .zero, size: targetFrame.size)
-        hostingView?.rootView = AnyView(LockScreenLiveActivityOverlayView(
+        hostingView?.rootView = AnyView(LockScreenNotchOverlayView(
             notchViewModel: notchViewModel,
             settingsViewModel: settingsViewModel,
             animator: animator
@@ -371,22 +371,5 @@ final class LockScreenLiveActivityWindowManager {
         NSScreen.preferredLockScreen ??
         NSScreen.preferredNotchScreen(for: settingsViewModel) ??
         NSScreen.screens.first
-    }
-}
-
-private struct LockScreenLiveActivityOverlayView: View {
-    @ObservedObject var notchViewModel: NotchViewModel
-    @ObservedObject var settingsViewModel: SettingsViewModel
-    @ObservedObject var animator: LockScreenLiveActivityAnimator
-    
-    var body: some View {
-        NotchInteractiveBodyView(
-            notchViewModel: notchViewModel,
-            settingsViewModel: settingsViewModel
-        )
-        .environment(\.notchScale, notchViewModel.notchModel.scale)
-        .scaleEffect(animator.scale)
-        .opacity(animator.opacity)
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
 }

@@ -93,13 +93,13 @@ final class BatterySettingsStore: SettingsStoreBase {
 
     @Published var fullBatterySound: Bool {
         didSet {
-            persist(fullBatterySound, for: GeneralSettingsStorage.Keys.fullPowerNotificationStyle)
+                        persist(fullBatterySound, for: GeneralSettingsStorage.Keys.fullBatterySound)
         }
     }
     
     @Published var lowBatterySound: Bool {
         didSet {
-            persist(lowBatterySound, for: GeneralSettingsStorage.Keys.fullPowerNotificationStyle)
+                        persist(lowBatterySound, for: GeneralSettingsStorage.Keys.lowBatterySound)
         }
     }
     

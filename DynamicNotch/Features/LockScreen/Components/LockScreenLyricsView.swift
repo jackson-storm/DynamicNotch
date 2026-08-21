@@ -52,56 +52,21 @@ private struct LockScreenLyricsContentView: View, Equatable {
     }
     
     var body: some View {
-        let lyricsContent = content()
+        content()
             .frame(width: width, height: height, alignment: .leading)
             .clipped()
-        
-        ZStack {
-            lyricsContent
-                .mask {
-                    LinearGradient(
-                        stops: [
-                            .init(color: .clear, location: 0),
-                            .init(color: .clear, location: 0.10),
-                            .init(color: .black, location: 0.22),
-                            .init(color: .black, location: 0.78),
-                            .init(color: .clear, location: 0.90),
-                            .init(color: .clear, location: 1)
-                        ],
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
-                }
-            lyricsContent
-                .blur(radius: 3)
-                .mask {
-                    LinearGradient(
-                        stops: [
-                            .init(color: .black, location: 0),
-                            .init(color: .black, location: 0.10),
-                            .init(color: .clear, location: 0.26),
-                            .init(color: .clear, location: 0.74),
-                            .init(color: .black, location: 0.90),
-                            .init(color: .black, location: 1)
-                        ],
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
-                }
-        }
-        .mask {
-            LinearGradient(
-                stops: [
-                    .init(color: .clear, location: 0),
-                    .init(color: .black, location: 0.18),
-                    .init(color: .black, location: 0.78),
-                    .init(color: .clear, location: 1)
-                ],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-        }
-        .shadow(color: .black.opacity(0.34), radius: 16, x: 0, y: 10)
+            .mask {
+                LinearGradient(
+                    stops: [
+                        .init(color: .clear, location: 0),
+                        .init(color: .black, location: 0.16),
+                        .init(color: .black, location: 0.84),
+                        .init(color: .clear, location: 1)
+                    ],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+            }
     }
     
     @ViewBuilder
@@ -202,30 +167,29 @@ private struct LockScreenLyricLineView: View {
         min(CGFloat(abs(distanceFromActive)), 4)
     }
     
+    private var fontSize: CGFloat {
+        isActive ? 38 : 30
+    }
+    
     private var lineOpacity: Double {
         if isActive {
             return 0.98
         }
         
-        return max(0.12, 0.42 - (Double(clampedDistance) * 0.12))
+        return max(0.15, 0.45 - (Double(clampedDistance) * 0.07))
     }
     
     private var lineScale: CGFloat {
-        max(0.72, 1 - (clampedDistance * 0.085))
-    }
-    
-    private var blurRadius: CGFloat {
-        isActive ? 0 : clampedDistance * 0.18
+        max(0.82, 1 - (clampedDistance * 0.045))
     }
     
     var body: some View {
         Text(line.text)
-            .font(.system(size: 34, weight: .bold, design: .rounded))
+            .font(.system(size: fontSize, weight: .bold, design: .rounded))
             .foregroundStyle(.white.opacity(lineOpacity))
             .lineLimit(nil)
             .multilineTextAlignment(.leading)
             .fixedSize(horizontal: false, vertical: true)
-            .blur(radius: blurRadius)
             .scaleEffect(lineScale, anchor: .leading)
             .offset(x: isActive ? 0 : 10)
             .frame(maxWidth: .infinity, alignment: .leading)

@@ -124,6 +124,7 @@ final class BatterySettingsStore: SettingsStoreBase {
     override init(defaults: UserDefaults) {
         defaults.register(defaults: GeneralSettingsStorage.defaultValues)
         Self.migrateLegacyDefaultStrokeIfNeeded(defaults: defaults)
+        Self.migrateCorruptedFullPowerStyleIfNeeded(defaults: defaults)
         self.lowBatterySound = defaults.bool(forKey: GeneralSettingsStorage.Keys.lowBatterySound)
         self.fullBatterySound = defaults.bool(forKey: GeneralSettingsStorage.Keys.fullBatterySound)
         self.isChargerTemporaryActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.chargerTemporaryActivityEnabled)
@@ -211,5 +212,14 @@ final class BatterySettingsStore: SettingsStoreBase {
         }
 
         defaults.removeObject(forKey: legacyBatteryDefaultStrokeKey)
+    }
+    
+    private static func migrateCorruptedFullPowerStyleIfNeeded(defaults: UserDefaults) {
+        // Older versions wrote the battery sound Bool into this key,
+        // leaving a number where a BatteryNotificationStyle raw value is expected.
+        let key = GeneralSettingsStorage.Keys.fullPowerNotificationStyle
+        if let stored = defaults.object(forKey: key), !(stored is String) {
+            defaults.removeObject(forKey: key)
+        }
     }
 }

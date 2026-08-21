@@ -68,7 +68,7 @@ struct NowPlayingArtworkBackground: View {
         let sat = saturation
 
         let blurred = await Task.detached(priority: .userInitiated) {
-            await NowPlayingArtworkBlurProcessor.generateBlurredImage(
+            NowPlayingArtworkBlurProcessor.generateBlurredImage(
                 from: sourceImage,
                 blurRadius: radius,
                 saturation: sat
@@ -86,14 +86,20 @@ struct NowPlayingArtworkBackground: View {
 private enum NowPlayingArtworkBlurProcessor {
     private static let ciContext = CIContext(options: [
         .useSoftwareRenderer: false,
-        .priorityRequestLow: false
+        .priorityRequestLow: true
     ])
+    private static let cache = NSCache<NSString, NSImage>()
 
-    static func generateBlurredImage(
+    nonisolated static func generateBlurredImage(
         from image: NSImage,
         blurRadius: CGFloat,
         saturation: Double
     ) -> NSImage? {
+        let cacheKey = NSString(format: "%p_%.1f_%.2f", image, blurRadius, saturation)
+        if let cached = cache.object(forKey: cacheKey) {
+            return cached
+        }
+
         guard let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil) ?? createCGImageFallback(from: image) else {
             return nil
         }
@@ -139,7 +145,9 @@ private enum NowPlayingArtworkBlurProcessor {
             return nil
         }
 
-        return NSImage(cgImage: outputCGImage, size: targetExtent.size)
+        let result = NSImage(cgImage: outputCGImage, size: targetExtent.size)
+        cache.setObject(result, forKey: cacheKey)
+        return result
     }
 
     private static func createCGImageFallback(from image: NSImage) -> CGImage? {

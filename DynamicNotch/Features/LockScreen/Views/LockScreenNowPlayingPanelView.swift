@@ -33,6 +33,8 @@ struct LockScreenNowPlayingPanelView: View {
     
     @State private var scrubProgress: CGFloat?
     @State private var onTapArtwork: Bool
+    @State private var backgroundRotation: Double = 0
+    @State private var backgroundScale: CGFloat = 1
     
     private let animationTick: TimeInterval = 1.0 / 10.0
     
@@ -96,7 +98,7 @@ struct LockScreenNowPlayingPanelView: View {
         .opacity(animator.isPresented ? 1 : 0)
         .animation(.spring(response: 0.3), value: animator.isPresented)
         .animation(.spring(response: 0.58, dampingFraction: 0.86), value: onTapArtwork)
-        .animation(.spring(response: 0.58, dampingFraction: 0.86), value: shouldShowExpandedLyrics)
+        .animation(.spring(response: 0.58, dampingFraction: 0.86), value: settingsViewModel.lockScreen.isLockScreenLyricsEnabled)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
         .onAppear {
             if onTapArtwork != settingsViewModel.lockScreen.isLockScreenArtworkExpanded {
@@ -203,6 +205,7 @@ struct LockScreenNowPlayingPanelView: View {
 
     private var coverAndBackgroundPresentation: some View {
         GeometryReader { proxy in
+            let diagonal = hypot(proxy.size.width, proxy.size.height)
             ZStack {
                 Color.black
 
@@ -212,11 +215,46 @@ struct LockScreenNowPlayingPanelView: View {
                         blurRadius: 200,
                         darkeningOpacity: 0.6,
                         saturation: 1.45,
-                        scale: 1
+                        scale: mediaPanelBackgroundScale
                     )
+                    .frame(width: diagonal, height: diagonal)
+                    .rotationEffect(mediaPanelBackgroundRotation)
                 }
             }
             .frame(width: proxy.size.width, height: proxy.size.height)
+            .onAppear(perform: configureMediaPanelBackgroundAnimation)
+            .onChange(of: mediaPanelBackgroundStyle) {
+                configureMediaPanelBackgroundAnimation()
+            }
+        }
+    }
+
+    private var mediaPanelBackgroundScale: CGFloat {
+        mediaPanelBackgroundStyle == .animatedArtwork ? backgroundScale : 1
+    }
+
+    private var mediaPanelBackgroundRotation: Angle {
+        mediaPanelBackgroundStyle == .animatedArtwork ? .degrees(backgroundRotation) : .zero
+    }
+
+    private func configureMediaPanelBackgroundAnimation() {
+        var transaction = Transaction()
+        transaction.disablesAnimations = true
+        withTransaction(transaction) {
+            backgroundRotation = 0
+            backgroundScale = 1
+        }
+
+        guard mediaPanelBackgroundStyle == .animatedArtwork else {
+            return
+        }
+
+        withAnimation(.linear(duration: 10).repeatForever(autoreverses: false)) {
+            backgroundRotation = 360
+        }
+
+        withAnimation(.easeInOut(duration: 2).repeatForever(autoreverses: true)) {
+            backgroundScale = 2
         }
     }
 

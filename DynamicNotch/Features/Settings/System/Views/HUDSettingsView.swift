@@ -198,6 +198,17 @@ struct HUDSettingsView: View {
             
             Divider().opacity(0.6)
             
+            SettingsStrokeToggleRow(
+                title: "settings.hud.levelStrokeColor.title",
+                description: "settings.hud.levelStrokeColor.desc",
+                isOn: $settings.isColoredLevelStrokeEnabled,
+                accessibilityIdentifier: "settings.general.hud.coloredStroke"
+            )
+            .disabled(isLevelStrokeLocked)
+            .opacity(isLevelStrokeLocked ? 0.5 : 1)
+            
+            Divider().opacity(0.6)
+            
             SettingsToggleRow(
                 title: "settings.hud.volumeSoundFeedback.title",
                 description: "settings.hud.volumeSoundFeedback.desc",
@@ -222,20 +233,6 @@ struct HUDSettingsView: View {
                 isOn: $settings.isIndicatorGlowEnabled,
                 accessibilityIdentifier: "settings.general.hud.indicatorGlow"
             )
-
-            Divider()
-                .opacity(0.6)
-                .padding(.leading, 43)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
-
-            SettingsStrokeToggleRow(
-                title: "settings.hud.levelStrokeColor.title",
-                description: "settings.hud.levelStrokeColor.desc",
-                isOn: $settings.isColoredLevelStrokeEnabled,
-                accessibilityIdentifier: "settings.general.hud.coloredStroke"
-            )
-            .disabled(isLevelStrokeLocked)
-            .opacity(isLevelStrokeLocked ? 0.5 : 1)
         }
     }
 

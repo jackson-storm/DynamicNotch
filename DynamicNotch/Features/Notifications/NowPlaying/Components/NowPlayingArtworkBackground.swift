@@ -64,18 +64,11 @@ struct NowPlayingArtworkBackground: View {
             return
         }
 
-        let radius = blurRadius
-        let sat = saturation
-
-        let blurred = await Task.detached(priority: .userInitiated) {
-            NowPlayingArtworkBlurProcessor.generateBlurredImage(
-                from: sourceImage,
-                blurRadius: radius,
-                saturation: sat
-            )
-        }.value
-
-        guard !Task.isCancelled else { return }
+        let blurred = NowPlayingArtworkBlurProcessor.generateBlurredImage(
+            from: sourceImage,
+            blurRadius: blurRadius,
+            saturation: saturation
+        )
 
         withAnimation(.easeInOut(duration: 0.35)) {
             self.bakedBlurredImage = blurred
@@ -83,6 +76,7 @@ struct NowPlayingArtworkBackground: View {
     }
 }
 
+@MainActor
 private enum NowPlayingArtworkBlurProcessor {
     private static let ciContext = CIContext(options: [
         .useSoftwareRenderer: false,
@@ -90,7 +84,7 @@ private enum NowPlayingArtworkBlurProcessor {
     ])
     private static let cache = NSCache<NSString, NSImage>()
 
-    nonisolated static func generateBlurredImage(
+    static func generateBlurredImage(
         from image: NSImage,
         blurRadius: CGFloat,
         saturation: Double

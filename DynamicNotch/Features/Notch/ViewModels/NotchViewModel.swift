@@ -75,7 +75,7 @@ final class NotchViewModel: ObservableObject {
     }
     
     var canExpandActiveLiveActivity: Bool {
-        guard !isActivityPresentationHidden || notchModel.temporaryNotificationContent != nil else { return false }
+        guard (!isActivityPresentationHidden || isLocked) || notchModel.temporaryNotificationContent != nil else { return false }
         if isLocked {
             guard notchModel.temporaryNotificationContent != nil || notchModel.liveActivityContent?.id == NotchContentRegistry.LockScreen.activity.id else {
                 return false
@@ -133,7 +133,7 @@ final class NotchViewModel: ObservableObject {
     var canDismissWithMouseDrag: Bool {
         settings.isNotchMouseDragGesturesEnabled &&
         settings.isNotchSwipeDismissEnabled &&
-        (!isActivityPresentationHidden || notchModel.temporaryNotificationContent != nil) &&
+        (!isActivityPresentationHidden || isLocked || notchModel.temporaryNotificationContent != nil) &&
         displayedContent != nil &&
         (displayedContent?.id != NotchContentRegistry.HomePage.active.id || notchModel.isLiveActivityExpanded)
     }
@@ -148,7 +148,7 @@ final class NotchViewModel: ObservableObject {
     var canDismissWithTrackpadSwipe: Bool {
         settings.isNotchTrackpadSwipeGesturesEnabled &&
         settings.isNotchSwipeDismissEnabled &&
-        (!isActivityPresentationHidden || notchModel.temporaryNotificationContent != nil) &&
+        (!isActivityPresentationHidden || isLocked || notchModel.temporaryNotificationContent != nil) &&
         displayedContent != nil &&
         (displayedContent?.id != NotchContentRegistry.HomePage.active.id || notchModel.isLiveActivityExpanded)
     }
@@ -519,7 +519,7 @@ final class NotchViewModel: ObservableObject {
     }
 
     private var displayedNotchModel: NotchModel {
-        guard isActivityPresentationHidden else {
+        guard isActivityPresentationHidden, !isLocked else {
             return notchModel
         }
 

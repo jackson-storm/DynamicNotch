@@ -15,6 +15,7 @@ struct SettingsToggleRow: View {
     let color: AnyShapeStyle
     let iconColor: Color
     let stroke: Bool
+    let iconBadge: Bool
     let accessibilityIdentifier: String?
     let badgeSize: CGFloat
     let iconSize: CGFloat
@@ -28,6 +29,7 @@ struct SettingsToggleRow: View {
         color: Color,
         iconColor: Color = .white,
         stroke: Bool = false,
+        iconBadge: Bool = true,
         badgeSize: CGFloat = 30,
         iconSize: CGFloat = 14,
         isOn: Binding<Bool>,
@@ -42,6 +44,7 @@ struct SettingsToggleRow: View {
         self.badgeSize = badgeSize
         self.iconSize = iconSize
         self.stroke = stroke
+        self.iconBadge = iconBadge
         self._isOn = isOn
         self.accessibilityIdentifier = accessibilityIdentifier
     }
@@ -53,6 +56,7 @@ struct SettingsToggleRow: View {
         color: Color,
         iconColor: Color = .white,
         stroke: Bool = false,
+        iconBadge: Bool = true,
         badgeSize: CGFloat = 30,
         iconSize: CGFloat = 14,
         isOn: Binding<Bool>,
@@ -67,6 +71,7 @@ struct SettingsToggleRow: View {
         self.badgeSize = badgeSize
         self.iconSize = iconSize
         self.stroke = stroke
+        self.iconBadge = iconBadge
         self._isOn = isOn
         self.accessibilityIdentifier = accessibilityIdentifier
     }
@@ -78,6 +83,7 @@ struct SettingsToggleRow: View {
         color: LinearGradient,
         iconColor: Color = .white,
         stroke: Bool = false,
+        iconBadge: Bool = true,
         badgeSize: CGFloat = 30,
         iconSize: CGFloat = 14,
         isOn: Binding<Bool>,
@@ -92,6 +98,7 @@ struct SettingsToggleRow: View {
         self.badgeSize = badgeSize
         self.iconSize = iconSize
         self.stroke = stroke
+        self.iconBadge = iconBadge
         self._isOn = isOn
         self.accessibilityIdentifier = accessibilityIdentifier
     }
@@ -103,6 +110,7 @@ struct SettingsToggleRow: View {
         color: LinearGradient,
         iconColor: Color = .white,
         stroke: Bool = false,
+        iconBadge: Bool = true,
         badgeSize: CGFloat = 30,
         iconSize: CGFloat = 14,
         isOn: Binding<Bool>,
@@ -117,6 +125,7 @@ struct SettingsToggleRow: View {
         self.badgeSize = badgeSize
         self.iconSize = iconSize
         self.stroke = stroke
+        self.iconBadge = iconBadge
         self._isOn = isOn
         self.accessibilityIdentifier = accessibilityIdentifier
     }
@@ -124,28 +133,29 @@ struct SettingsToggleRow: View {
     var body: some View {
         Toggle(isOn: $isOn) {
             HStack(alignment: .center, spacing: 12) {
-                if let systemImage {
-                    SettingsIconBadge(
-                        systemImage: systemImage,
-                        tint: color,
-                        size: badgeSize,
-                        iconColor: iconColor,
-                        iconSize: iconSize,
-                        cornerRadius: 9,
-                        stroke: stroke
-                    )
-                } else if let imageName {
-                    SettingsIconBadge(
-                        imageName: imageName,
-                        tint: color,
-                        size: badgeSize,
-                        iconColor: iconColor,
-                        iconSize: iconSize,
-                        cornerRadius: 9,
-                        stroke: stroke
-                    )
+                if iconBadge == true {
+                    if let systemImage {
+                        SettingsIconBadge(
+                            systemImage: systemImage,
+                            tint: color,
+                            size: badgeSize,
+                            iconColor: iconColor,
+                            iconSize: iconSize,
+                            cornerRadius: 9,
+                            stroke: stroke
+                        )
+                    } else if let imageName {
+                        SettingsIconBadge(
+                            imageName: imageName,
+                            tint: color,
+                            size: badgeSize,
+                            iconColor: iconColor,
+                            iconSize: iconSize,
+                            cornerRadius: 9,
+                            stroke: stroke
+                        )
+                    }
                 }
-                
                 VStack(alignment: .leading, spacing: 2) {
                     Text(title)
                     Text(description)
@@ -153,7 +163,6 @@ struct SettingsToggleRow: View {
                         .foregroundStyle(.secondary)
                         .fixedSize(horizontal: false, vertical: true)
                 }
-                
                 Spacer()
             }
         }

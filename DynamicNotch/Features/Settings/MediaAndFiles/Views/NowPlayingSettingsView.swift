@@ -105,6 +105,7 @@ struct NowPlayingSettingsView: View {
                 description: "settings.nowPlaying.artwork3D.desc",
                 systemImage: "rotate.3d.fill",
                 color: .blue,
+                iconBadge: false,
                 isOn: $settings.isNowPlayingArtwork3DEffectEnabled,
                 accessibilityIdentifier: "settings.activities.live.nowPlaying.artwork3DEffect"
             )
@@ -116,6 +117,7 @@ struct NowPlayingSettingsView: View {
                 description: "settings.nowPlaying.hideFavorite.desc",
                 systemImage: "star.slash.fill",
                 color: .red,
+                iconBadge: false,
                 isOn: Binding(
                     get: { !settings.isNowPlayingFavoriteButtonVisible },
                     set: { settings.isNowPlayingFavoriteButtonVisible = !$0 }
@@ -133,6 +135,7 @@ struct NowPlayingSettingsView: View {
                 description: "settings.nowPlaying.hideOutputDevice.desc",
                 systemImage: "airplay.audio",
                 color: .red,
+                iconBadge: false,
                 isOn: Binding(
                     get: { !settings.isNowPlayingOutputDeviceButtonVisible },
                     set: { settings.isNowPlayingOutputDeviceButtonVisible = !$0 }

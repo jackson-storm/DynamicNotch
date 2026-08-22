@@ -113,8 +113,8 @@ struct CalendarSettingsView: View {
             SettingsToggleRow(
                 title: "settings.calendar.soundAlert.title",
                 description: "settings.calendar.soundAlert.desc",
-                systemImage: "speaker.wave.2",
-                color: .orange,
+                systemImage: "speaker.wave.2.fill",
+                color: .red,
                 isOn: $settings.isSoundAlertEnabled,
                 accessibilityIdentifier: "settings.activities.calendar.soundAlert"
             )

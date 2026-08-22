@@ -431,6 +431,29 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
         }
     }
 
+    func testLockScreenShowsLiveActivityWhenActivityPresentationHiddenIsTrue() async {
+        let context = makeContext()
+        context.notchViewModel.setActivityPresentationHidden(true)
+
+        context.lockScreenService.publish(isLocked: true)
+
+        await assertEventually {
+            await MainActor.run {
+                context.notchViewModel.isLocked &&
+                context.notchViewModel.displayedContent?.id == NotchContentRegistry.LockScreen.activity.id
+            }
+        }
+
+        context.lockScreenService.publish(isLocked: false)
+
+        await assertEventually(timeout: 0.5) {
+            await MainActor.run {
+                !context.notchViewModel.isLocked &&
+                context.notchViewModel.displayedContent == nil
+            }
+        }
+    }
+
     func testSwipeDismissOnLockScreenDoesNotDismissContent() async {
         let context = makeContext()
         context.nowPlayingService.publish(makeNowPlayingSnapshot())

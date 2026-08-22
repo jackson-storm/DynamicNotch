@@ -39,7 +39,7 @@ struct HomePageSettingsView: View {
                 description: "settings.homePage.pageIndicator.description",
                 systemImage: "ellipsis.rectangle.fill",
                 color: .black,
-                stroke: true,
+                iconBadge: false,
                 isOn: $homePageSettings.isHomePagePageIndicatorEnabled,
                 accessibilityIdentifier: "settings.homePage.pageIndicator"
             )

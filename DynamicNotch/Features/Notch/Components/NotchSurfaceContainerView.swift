@@ -110,7 +110,7 @@ struct NotchSurfaceContainerView: View {
     
     private var shouldApplyPressScale: Bool {
         let isExpandedPresentation = notchViewModel.isDisplayingExpandedLiveActivity
-        let isPresentationHidden = (notchViewModel.isActivityPresentationHidden || notchViewModel.isLocked) && notchViewModel.displayedContent == nil
+        let isPresentationHidden = (notchViewModel.isActivityPresentationHidden && !notchViewModel.isLocked) && notchViewModel.displayedContent == nil
         let isScreenshotContent = notchViewModel.displayedContent?.id == NotchContentRegistry.Screenshot.active.id
         return !isExpandedPresentation && !isPresentationHidden && !isScreenshotContent
     }

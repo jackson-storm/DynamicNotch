@@ -95,6 +95,7 @@ struct LockScreenSettingsView: View {
                 description: "settings.lockScreen.lyrics.desc",
                 systemImage: "text.quote",
                 color: .purple,
+                iconBadge: false,
                 isOn: $settings.isLockScreenLyricsEnabled,
                 accessibilityIdentifier: "settings.activities.lockScreen.lyrics"
             )

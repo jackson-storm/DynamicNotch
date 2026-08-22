@@ -72,6 +72,7 @@ struct FileTraySettingsView: View {
                 description: "settings.drop.hideRemoveButton.desc",
                 systemImage: "xmark.circle.fill",
                 color: .red,
+                iconBadge: false,
                 isOn: $mediaSettings.isFileTrayRemoveButtonHidden,
                 accessibilityIdentifier: "settings.activities.live.drop.tray.hideRemoveButton"
             )

@@ -245,6 +245,59 @@ final class NotchViewModelIntegrationTests: XCTestCase {
     }
 
     @MainActor
+    func testActivityPresentationHiddenDisplaysLiveActivityWhenLocked() async {
+        let viewModel = NotchViewModel(
+            settings: TestNotchSettings(),
+            hideDelay: 0.01,
+            queueDelay: 0
+        )
+        TestLifetime.retain(viewModel)
+
+        viewModel.send(.showLiveActivity(TestNotchContent(id: "live", priority: 10, collapsedWidthOffset: 60)))
+        await assertEventually {
+            await MainActor.run { viewModel.notchModel.liveActivityContent?.id == "live" }
+        }
+
+        viewModel.setActivityPresentationHidden(true)
+
+        let hiddenState = await MainActor.run {
+            (
+                displayedContentID: viewModel.displayedContent?.id,
+                presentedSize: viewModel.presentedNotchSize,
+                baseWidth: viewModel.notchModel.baseWidth
+            )
+        }
+        XCTAssertNil(hiddenState.displayedContentID)
+        XCTAssertEqual(hiddenState.presentedSize.width, hiddenState.baseWidth, accuracy: 0.001)
+
+        // Lock screen engages
+        viewModel.isLocked = true
+
+        let lockedState = await MainActor.run {
+            (
+                displayedContentID: viewModel.displayedContent?.id,
+                presentedSize: viewModel.presentedNotchSize,
+                baseWidth: viewModel.notchModel.baseWidth
+            )
+        }
+        XCTAssertEqual(lockedState.displayedContentID, "live")
+        XCTAssertGreaterThan(lockedState.presentedSize.width, lockedState.baseWidth)
+
+        // Unlock screen
+        viewModel.isLocked = false
+
+        let unlockedState = await MainActor.run {
+            (
+                displayedContentID: viewModel.displayedContent?.id,
+                presentedSize: viewModel.presentedNotchSize,
+                baseWidth: viewModel.notchModel.baseWidth
+            )
+        }
+        XCTAssertNil(unlockedState.displayedContentID)
+        XCTAssertEqual(unlockedState.presentedSize.width, unlockedState.baseWidth, accuracy: 0.001)
+    }
+
+    @MainActor
     func testStrokeRemainsVisibleUntilCloseAnimationFinishes() async {
         let animations = NotchAnimations(
             contentUpdate: .linear(duration: 0.01),

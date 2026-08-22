@@ -41,6 +41,7 @@ struct AppearanceSettingsView: View {
                     description: "settings.general.blueNightMode.description",
                     systemImage: "powersleep",
                     color: LinearGradient.darkBlueGradient,
+                    iconBadge: false,
                     isOn: $applicationSettings.isBlueNightMode,
                     accessibilityIdentifier: "settings.general.blueNightMode"
                 )

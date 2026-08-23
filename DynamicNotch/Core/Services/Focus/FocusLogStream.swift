@@ -32,7 +32,7 @@ final class FocusLogStream {
                 "--level",
                 "info",
                 "--predicate",
-                "process == \"duetexpertd\" AND eventMessage CONTAINS \"semanticModeIdentifier\""
+                "process == \"duetexpertd\" AND (eventMessage CONTAINS \"semanticModeIdentifier\" || eventMessage CONTAINS \"active mode assertion\" || eventMessage CONTAINS \"activeModeIdentifier\")"
             ]
 
             let pipe = Pipe()
@@ -126,7 +126,7 @@ final class FocusLogStream {
         }
     }
 
-    private func processLine(_ line: String) {
+    func processLine(_ line: String) {
         let trimmed = line.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return }
 
@@ -134,7 +134,22 @@ final class FocusLogStream {
             return
         }
 
-        if trimmed.contains("active mode assertion: (null)") || trimmed.contains("activeModeIdentifier: (null)") {
+        let lowercased = trimmed.lowercased()
+
+        let isDeactivation = lowercased.contains("starting: 0") ||
+            lowercased.contains("starting:0") ||
+            lowercased.contains("starting: false") ||
+            lowercased.contains("active mode assertion: (null)") ||
+            lowercased.contains("activemodeidentifier: (null)") ||
+            lowercased.contains("activemodeidentifier: '(null)'") ||
+            lowercased.contains("semanticmodeidentifier: (null)") ||
+            lowercased.contains("semanticmodeidentifier: '(null)'") ||
+            lowercased.contains("semanticmodeidentifier: \"(null)\"") ||
+            lowercased.contains("activemodeuuid: (null)") ||
+            lowercased.contains("modeidentifier: (null)") ||
+            lowercased.contains("modeidentifier: '(null)'")
+
+        if isDeactivation {
             clearMetadata()
             return
         }

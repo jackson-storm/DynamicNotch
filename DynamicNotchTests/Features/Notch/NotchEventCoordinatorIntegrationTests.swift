@@ -44,6 +44,25 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
         }
     }
 
+    func testSleepFocusOnAndOffLiveActivityDismissal() async {
+        let context = makeContext()
+
+        context.coordinator.handleFocusEvent(.FocusOn(.sleep))
+
+        await assertEventually {
+            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id == NotchContentRegistry.Focus.active.id }
+        }
+
+        context.coordinator.handleFocusEvent(.FocusOff(.sleep))
+
+        await assertEventually {
+            await MainActor.run {
+                context.notchViewModel.notchModel.liveActivityContent == nil &&
+                context.notchViewModel.notchModel.temporaryNotificationContent?.id == NotchContentRegistry.Focus.inactive.id
+            }
+        }
+    }
+
     func testHotspotEventsShowAndHideLiveActivity() async {
         let context = makeContext()
 

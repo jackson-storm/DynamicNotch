@@ -135,6 +135,15 @@ final class DoNotDisturbManager: ObservableObject {
                         self.isDoNotDisturbActive = isActive
                     }
                     debugPrint("[DoNotDisturbManager] Focus active-only update -> source: \(source) | isActive: \(isActive)")
+
+                    if !isActive {
+                        self.currentFocusModeIdentifier = previousIdentifier
+                        self.currentFocusModeName = previousName
+                        self.scheduleMetadataClear()
+                    } else {
+                        self.metadataClearTask?.cancel()
+                        self.metadataClearTask = nil
+                    }
                 }
                 return
             }
@@ -313,7 +322,7 @@ final class DoNotDisturbManager: ObservableObject {
             self.publishMetadata(
                 identifier: trimmedIdentifier,
                 name: trimmedName,
-                isActive: nil,
+                isActive: true,
                 source: "log-stream"
             )
         }

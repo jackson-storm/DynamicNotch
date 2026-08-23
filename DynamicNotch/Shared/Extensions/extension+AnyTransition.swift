@@ -65,8 +65,8 @@ extension AnyTransition {
                 active: NotchTransitionModifier(
                     blur: 20,
                     opacity: 0,
-                    offsetY: verticalOffset / 3,
-                    scaleX: 0.4,
+                    offsetY: verticalOffset / 4,
+                    scaleX: 0.6,
                     scaleY: 0.2,
                     anchor: .top
                 ),
@@ -76,7 +76,7 @@ extension AnyTransition {
                 active: NotchTransitionModifier(
                     blur: 20,
                     opacity: 0,
-                    offsetY: verticalOffset / 3,
+                    offsetY: verticalOffset / 4,
                     scaleX: 0.4,
                     scaleY: 0.2,
                     anchor: .top

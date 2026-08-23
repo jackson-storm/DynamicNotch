@@ -116,7 +116,7 @@ struct PlayerControlButton: View {
                 width: width,
                 height: height,
                 cornerRadius: min(width, height) * 0.5,
-                hoverBackground: .white.opacity(0.09)
+                hoverBackground: .white.opacity(0.12)
             )
         )
     }

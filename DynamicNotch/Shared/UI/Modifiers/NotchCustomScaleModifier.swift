@@ -132,6 +132,7 @@ private extension NotchCustomScaleModifier {
     private func startPressAnimation() {
         let token = UUID()
         let pressPeakDuration = notchViewModel.notchPressHoldDuration
+        
         pressAnimationToken = token
         notchViewModel.pressScale = 1
 
@@ -144,7 +145,7 @@ private extension NotchCustomScaleModifier {
 
             pressAnimationToken = nil
 
-            withAnimation(.spring(response: 0.30, dampingFraction: 0.5)) {
+            withAnimation(.easeOut(duration: 0.25)) {
                 notchViewModel.pressScale = 1
             }
         }
@@ -153,7 +154,7 @@ private extension NotchCustomScaleModifier {
     private func startHoverAnimation() {
         pressAnimationToken = nil
 
-        withAnimation(.easeOut(duration: min(0.18, notchViewModel.notchHoverExpandDelay))) {
+        withAnimation(.easeOut(duration: min(0.25, notchViewModel.notchHoverExpandDelay))) {
             notchViewModel.pressScale = scaleFactor
         }
     }

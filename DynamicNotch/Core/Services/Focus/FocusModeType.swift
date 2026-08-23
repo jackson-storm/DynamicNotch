@@ -82,7 +82,12 @@ extension FocusModeType {
             return
         }
 
-        if normalizedLowercased == "com.apple.sleep.sleep-mode" {
+        if normalizedLowercased == "com.apple.sleep.sleep-mode" ||
+           normalizedLowercased == "com.apple.focus.sleep" ||
+           normalizedLowercased == "com.apple.sleep" ||
+           normalizedLowercased == "com.apple.donotdisturb.mode.sleep" ||
+           normalizedLowercased.hasPrefix("com.apple.sleep") ||
+           normalizedLowercased.hasSuffix(".sleep") {
             self = .sleep
             return
         }

@@ -25,6 +25,17 @@ struct NotchSettingsView: View {
     
     private var appearanceCard: some View {
         SettingsCard() {
+            CustomPicker(
+                selection: $applicationSettings.notchShapeStyle,
+                title: { $0.title },
+                headerTitle: "settings.notch.shapeStyle.title",
+                headerDescription: "settings.notch.shapeStyle.desc",
+                symbolName: { $0.symbolName }
+            )
+            .accessibilityIdentifier("settings.general.notchShapeStyle")
+            
+            Divider().opacity(0.6)
+            
             SettingsToggleRow(
                 title: "settings.notch.showStroke.title",
                 description: "settings.notch.showStroke.desc",

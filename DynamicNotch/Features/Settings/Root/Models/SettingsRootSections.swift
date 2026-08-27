@@ -402,7 +402,7 @@ private enum SettingsSectionCatalog {
                 ],
                 systemImage: "camera.viewfinder",
                 imageName: nil,
-                tint: .red,
+                tint: .gray,
                 resetGroup: .screenRecording
             )
 

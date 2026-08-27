@@ -38,13 +38,13 @@ struct NotchModel: Equatable {
         guard let content else { return .init(width: baseWidth, height: baseHeight) }
 
         if isPresentingExpandedLiveActivity {
-            if isDynamicIsland, let customizable = content as? DynamicIslandCustomizable {
+            if let customizable = content as? DynamicIslandCustomizable {
                 return customizable.expandedDynamicIslandSize(baseWidth: baseWidth, baseHeight: baseHeight)
             }
             return content.expandedSize(baseWidth: baseWidth, baseHeight: baseHeight)
         }
 
-        if isDynamicIsland, let customizable = content as? DynamicIslandCustomizable {
+        if let customizable = content as? DynamicIslandCustomizable {
             return customizable.dynamicIslandSize(baseWidth: baseWidth, baseHeight: baseHeight)
         }
         return content.size(baseWidth: baseWidth, baseHeight: baseHeight)

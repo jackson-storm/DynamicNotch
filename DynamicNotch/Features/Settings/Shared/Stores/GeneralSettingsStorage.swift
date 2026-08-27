@@ -146,6 +146,7 @@ enum GeneralSettingsStorage {
         static let homePagePageIndicator = "settings.homePage.pageIndicator"
         static let homePageIndicatorSize = "settings.homePage.indicatorSize"
         static let homePageScrollAxis = "settings.homePage.scrollAxis"
+        static let notchShapeStyle = "settings.notch.shapeStyle"
         static let selectedVPNID = "settings.vpn.selectedID"
     }
 
@@ -156,6 +157,7 @@ enum GeneralSettingsStorage {
         Keys.appearanceMode: SettingsAppearanceMode.system.rawValue,
 
         Keys.notchBackgroundStyle: NotchBackgroundStyle.black.rawValue,
+        Keys.notchShapeStyle: NotchShapeStyle.capsule.rawValue,
         Keys.notchWidth: 0,
         Keys.notchHeight: 0,
         Keys.menuBarIcon: true,

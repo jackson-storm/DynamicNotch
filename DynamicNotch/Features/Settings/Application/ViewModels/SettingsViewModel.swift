@@ -101,6 +101,11 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
 
 
 
+    var notchShapeStyle: NotchShapeStyle {
+        get { application.notchShapeStyle }
+        set { application.notchShapeStyle = newValue }
+    }
+
     var notchWidth: Int {
         get { application.notchWidth }
         set { application.notchWidth = newValue }

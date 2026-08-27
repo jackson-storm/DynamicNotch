@@ -44,12 +44,6 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         }
     }
 
-    @Published var notchShapeStyle: NotchShapeStyle {
-        didSet {
-            persist(notchShapeStyle.rawValue, for: GeneralSettingsStorage.Keys.notchShapeStyle)
-        }
-    }
-
 
 
     @Published var notchWidth: Int {
@@ -295,10 +289,6 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
             defaults.string(forKey: GeneralSettingsStorage.Keys.notchBackgroundStyle)
         )
 
-        self.notchShapeStyle = NotchShapeStyle.resolved(
-            defaults.string(forKey: GeneralSettingsStorage.Keys.notchShapeStyle)
-        )
-
         self.notchWidth = defaults.integer(forKey: GeneralSettingsStorage.Keys.notchWidth)
         self.notchHeight = defaults.integer(forKey: GeneralSettingsStorage.Keys.notchHeight)
         self.isMenuBarIconVisible = defaults.bool(forKey: GeneralSettingsStorage.Keys.menuBarIcon)
@@ -460,9 +450,6 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         notchStrokeOpacity = defaultDouble(for: GeneralSettingsStorage.Keys.notchStrokeOpacity)
         notchBackgroundStyle = NotchBackgroundStyle.resolved(
             defaultString(for: GeneralSettingsStorage.Keys.notchBackgroundStyle)
-        )
-        notchShapeStyle = NotchShapeStyle.resolved(
-            defaultString(for: GeneralSettingsStorage.Keys.notchShapeStyle)
         )
         notchWidth = defaultInt(for: GeneralSettingsStorage.Keys.notchWidth)
         notchHeight = defaultInt(for: GeneralSettingsStorage.Keys.notchHeight)

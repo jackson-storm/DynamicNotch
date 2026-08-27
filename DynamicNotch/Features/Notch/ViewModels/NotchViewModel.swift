@@ -291,15 +291,6 @@ final class NotchViewModel: ObservableObject {
         )
         updateDimensions()
         bindEngine()
-
-        if let appSettings = settings as? ApplicationSettingsStore {
-            appSettings.$notchShapeStyle
-                .dropFirst()
-                .sink { [weak self] _ in
-                    self?.updateDimensions()
-                }
-                .store(in: &cancellables)
-        }
     }
 
     func updateDimensions() {
@@ -314,7 +305,7 @@ final class NotchViewModel: ObservableObject {
         let scale = max(0.35, screenWidth / baseScreenWidth)
         let widthScale = scale > 1.0 ? 1.0 + (scale - 1.0) * 0.35 : scale
         
-        let isDynamicIsland = screenMetrics.topInset == 0 && settings.notchShapeStyle == .capsule
+        let isDynamicIsland = screenMetrics.topInset == 0
         let widthOffset = CGFloat(settings.notchWidth)
         let heightOffset = CGFloat(settings.notchHeight)
         let baseHeightAdjustment: CGFloat = isDynamicIsland ? -1 : 0
@@ -331,15 +322,13 @@ final class NotchViewModel: ObservableObject {
             )
             
         } else {
-            let baseWidthValue: CGFloat = isDynamicIsland ? 120 : 160
-            let baseHeightValue: CGFloat = isDynamicIsland ? 26 : 30
-            
+            let baseWidthValue: CGFloat = isDynamicIsland ? 120 : 190
             let baseWidth = (baseWidthValue * widthScale) + widthOffset
             let finalWidth = isDynamicIsland ? baseWidth * 0.85 : baseWidth
             
             engine.updateBaseGeometry(
                 width: finalWidth,
-                height: baseHeightValue + heightOffset + baseHeightAdjustment,
+                height: 26 + heightOffset + baseHeightAdjustment,
                 scale: scale,
                 isDynamicIsland: isDynamicIsland
             )

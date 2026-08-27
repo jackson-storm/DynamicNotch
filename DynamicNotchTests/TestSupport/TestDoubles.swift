@@ -3,7 +3,6 @@ import SwiftUI
 @testable import DynamicNotch
 
 final class TestNotchSettings: NotchSettingsProviding {
-    var notchShapeStyle: NotchShapeStyle
     var notchWidth: Int
     var notchHeight: Int
     var displayLocation: NotchDisplayLocation {
@@ -31,7 +30,6 @@ final class TestNotchSettings: NotchSettingsProviding {
     init(
         notchWidth: Int = 0,
         notchHeight: Int = 0,
-        notchShapeStyle: NotchShapeStyle = .capsule,
         displayLocation: NotchDisplayLocation = .main,
         screenSelectionPreferences: NotchScreenSelectionPreferences? = nil,
         notchAnimationPreset: NotchAnimationPreset = .balanced,
@@ -48,7 +46,6 @@ final class TestNotchSettings: NotchSettingsProviding {
     ) {
         self.notchWidth = notchWidth
         self.notchHeight = notchHeight
-        self.notchShapeStyle = notchShapeStyle
         self.displayLocation = displayLocation
         self.screenSelectionPreferences = screenSelectionPreferences ?? NotchScreenSelectionPreferences(
             displayLocation: displayLocation,

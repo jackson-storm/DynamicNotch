@@ -65,9 +65,6 @@ struct NotchView: View {
             .onChange(of: settingsViewModel.notchHeight) {
                 notchViewModel.updateDimensions()
             }
-            .onChange(of: settingsViewModel.application.notchShapeStyle) {
-                notchViewModel.updateDimensions()
-            }
             
             HomePagePageIndicatorView(
                 notchViewModel: notchViewModel,

@@ -21,6 +21,15 @@ final class ScreenRecordingSettingsStore: SettingsStoreBase {
         }
     }
 
+    @Published var screenRecordingStyle: ScreenRecordingStyle {
+        didSet {
+            persist(
+                screenRecordingStyle.rawValue,
+                for: GeneralSettingsStorage.Keys.screenRecordingStyle
+            )
+        }
+    }
+
     @Published var isScreenshotActivityEnabled: Bool {
         didSet {
             persist(
@@ -85,6 +94,9 @@ final class ScreenRecordingSettingsStore: SettingsStoreBase {
             defaults: defaults,
             key: GeneralSettingsStorage.Keys.screenRecordingDefaultStrokeEnabled
         )
+        self.screenRecordingStyle = ScreenRecordingStyle.resolved(
+            defaults.string(forKey: GeneralSettingsStorage.Keys.screenRecordingStyle)
+        )
         self.isScreenshotActivityEnabled = Self.resolvedBool(
             defaults: defaults,
             key: GeneralSettingsStorage.Keys.screenshotActivityEnabled
@@ -118,6 +130,9 @@ final class ScreenRecordingSettingsStore: SettingsStoreBase {
         )
         isScreenRecordingDefaultStrokeEnabled = defaultBool(
             for: GeneralSettingsStorage.Keys.screenRecordingDefaultStrokeEnabled
+        )
+        screenRecordingStyle = ScreenRecordingStyle.resolved(
+            defaultString(for: GeneralSettingsStorage.Keys.screenRecordingStyle)
         )
         isScreenshotActivityEnabled = defaultBool(
             for: GeneralSettingsStorage.Keys.screenshotActivityEnabled

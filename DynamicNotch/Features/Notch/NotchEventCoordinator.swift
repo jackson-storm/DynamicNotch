@@ -25,6 +25,7 @@ final class NotchEventCoordinator: ObservableObject {
     private let homePageViewModel: HomePageViewModel
     private let calendarViewModel: CalendarViewModel
     private let screenshotViewModel: ScreenshotViewModel
+    private let screenRecordingResultViewModel: ScreenRecordingResultViewModel
     private let lockScreenManager: LockScreenManager
     private let systemHandler: NotchSystemEventsHandler
     private let focusHandler: NotchFocusEventsHandler
@@ -81,6 +82,7 @@ final class NotchEventCoordinator: ObservableObject {
         localTimerViewModel: LocalTimerViewModel,
         calendarViewModel: CalendarViewModel,
         screenshotViewModel: ScreenshotViewModel? = nil,
+        screenRecordingResultViewModel: ScreenRecordingResultViewModel? = nil,
         mailManager: MailManager,
         messagesManager: MessagesManager,
         externalDrivesMonitor: ExternalDrivesMonitor
@@ -100,6 +102,7 @@ final class NotchEventCoordinator: ObservableObject {
         self.homePageViewModel = homePageViewModel
         self.calendarViewModel = calendarViewModel
         self.screenshotViewModel = screenshotViewModel ?? ScreenshotViewModel()
+        self.screenRecordingResultViewModel = screenRecordingResultViewModel ?? ScreenRecordingResultViewModel()
         self.mailManager = mailManager
         self.messagesManager = messagesManager
         self.externalDrivesMonitor = externalDrivesMonitor
@@ -243,8 +246,43 @@ final class NotchEventCoordinator: ObservableObject {
             self.notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Screenshot.active.id))
             self.notchViewModel.hideTemporaryNotification()
         }
-        if settingsViewModel.screenRecording.isScreenshotActivityEnabled {
-            self.screenshotViewModel.startMonitoring(disableSystemThumbnail: true)
+
+        self.screenshotViewModel.onScreenRecordingCaptured = { [weak self] fileURL, thumbnail, fileName in
+            guard let self else { return }
+            guard self.settingsViewModel.isLiveActivityEnabled(.screenRecording) else { return }
+
+            self.screenRecordingResultViewModel.setRecordingResult(
+                fileURL: fileURL,
+                thumbnail: thumbnail,
+                fileName: fileName
+            )
+        }
+
+        self.screenRecordingResultViewModel.onResultReady = { [weak self] _ in
+            guard let self else { return }
+            guard self.settingsViewModel.isLiveActivityEnabled(.screenRecording) else { return }
+
+            let content = ScreenRecordingResultNotchContent(viewModel: self.screenRecordingResultViewModel)
+            if self.settingsViewModel.screenRecording.isScreenshotAutoHideEnabled {
+                let duration = TimeInterval(self.settingsViewModel.screenRecording.screenshotTemporaryActivityDuration)
+                self.notchViewModel.send(.showTemporaryNotification(content, duration: duration))
+            } else {
+                self.notchViewModel.send(.showLiveActivity(content))
+            }
+        }
+
+        self.screenRecordingResultViewModel.onResultDismissed = { [weak self] in
+            guard let self else { return }
+            self.notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.ScreenRecording.result.id))
+            self.notchViewModel.hideTemporaryNotification()
+        }
+
+        let isCaptureMonitoringNeeded = settingsViewModel.screenRecording.isScreenshotActivityEnabled ||
+            settingsViewModel.isLiveActivityEnabled(.screenRecording)
+        if isCaptureMonitoringNeeded {
+            self.screenshotViewModel.startMonitoring(
+                disableSystemThumbnail: settingsViewModel.screenRecording.isScreenshotActivityEnabled
+            )
         } else {
             ScreenshotMonitorService.setSystemFloatingThumbnailEnabled(true)
         }
@@ -451,6 +489,16 @@ final class NotchEventCoordinator: ObservableObject {
 
         case .stopped:
             notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.ScreenRecording.active.id))
+            screenshotViewModel.scanNow()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+                self?.screenshotViewModel.scanNow()
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) { [weak self] in
+                self?.screenshotViewModel.scanNow()
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { [weak self] in
+                self?.screenshotViewModel.scanNow()
+            }
         }
     }
 
@@ -839,18 +887,59 @@ final class NotchEventCoordinator: ObservableObject {
             }
             .store(in: &cancellables)
 
-        settingsViewModel.screenRecording.$isScreenshotActivityEnabled
+        settingsViewModel.screenRecording.$screenRecordingStyle
             .removeDuplicates()
-            .sink { [weak self] isEnabled in
+            .dropFirst()
+            .sink { [weak self] _ in
                 guard let self else { return }
-                if isEnabled {
-                    self.screenshotViewModel.startMonitoring(disableSystemThumbnail: true)
-                } else {
-                    self.screenshotViewModel.stopMonitoring()
-                    ScreenshotMonitorService.setSystemFloatingThumbnailEnabled(true)
+                if self.screenRecordingViewModel.isRecording,
+                   self.settingsViewModel.isLiveActivityEnabled(.screenRecording) {
+                    self.notchViewModel.send(
+                        .showLiveActivity(
+                            ScreenRecordingContent(
+                                screenRecordingViewModel: self.screenRecordingViewModel,
+                                settingsViewModel: self.settingsViewModel
+                            )
+                        )
+                    )
                 }
             }
             .store(in: &cancellables)
+
+        settingsViewModel.screenRecording.$isScreenRecordingDefaultStrokeEnabled
+            .removeDuplicates()
+            .dropFirst()
+            .sink { [weak self] _ in
+                guard let self else { return }
+                if self.screenRecordingViewModel.isRecording,
+                   self.settingsViewModel.isLiveActivityEnabled(.screenRecording) {
+                    self.notchViewModel.send(
+                        .showLiveActivity(
+                            ScreenRecordingContent(
+                                screenRecordingViewModel: self.screenRecordingViewModel,
+                                settingsViewModel: self.settingsViewModel
+                            )
+                        )
+                    )
+                }
+            }
+            .store(in: &cancellables)
+
+        Publishers.CombineLatest(
+            settingsViewModel.screenRecording.$isScreenshotActivityEnabled,
+            settingsViewModel.screenRecording.$isScreenRecordingLiveActivityEnabled
+        )
+        .removeDuplicates { $0 == $1 }
+        .sink { [weak self] isScreenshotEnabled, isScreenRecordingEnabled in
+            guard let self else { return }
+            if isScreenshotEnabled || isScreenRecordingEnabled {
+                self.screenshotViewModel.startMonitoring(disableSystemThumbnail: isScreenshotEnabled)
+            } else {
+                self.screenshotViewModel.stopMonitoring()
+                ScreenshotMonitorService.setSystemFloatingThumbnailEnabled(true)
+            }
+        }
+        .store(in: &cancellables)
 
         notchViewModel.$notchModel
             .map(\.isLiveActivityExpanded)

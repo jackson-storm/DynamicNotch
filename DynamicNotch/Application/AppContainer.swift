@@ -21,6 +21,7 @@ final class AppContainer {
     let nowPlayingViewModel: NowPlayingViewModel
     let timerViewModel: TimerViewModel
     let screenRecordingViewModel: ScreenRecordingViewModel
+    let screenRecordingResultViewModel = ScreenRecordingResultViewModel()
     let lockScreenManager: LockScreenManager
     let clockTimerController: any ClockTimerControlling
     let mailManager: MailManager
@@ -67,6 +68,7 @@ final class AppContainer {
         localTimerViewModel: localTimerViewModel,
         calendarViewModel: calendarViewModel,
         screenshotViewModel: screenshotViewModel,
+        screenRecordingResultViewModel: screenRecordingResultViewModel,
         mailManager: mailManager,
         messagesManager: messagesManager,
         externalDrivesMonitor: externalDrivesMonitor

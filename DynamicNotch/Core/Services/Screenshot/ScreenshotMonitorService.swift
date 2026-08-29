@@ -1,9 +1,11 @@
 internal import AppKit
 import Foundation
 import Combine
+import AVFoundation
 
 final class ScreenshotMonitorService {
     var onScreenshotCaptured: ((NSImage, URL?, String) -> Void)?
+    var onScreenRecordingCaptured: ((URL, NSImage, String) -> Void)?
     
     private(set) var userTargetDirectoryURL: URL = FileManager.default.urls(for: .desktopDirectory, in: .userDomainMask).first ?? URL(fileURLWithPath: NSHomeDirectory())
     
@@ -44,6 +46,7 @@ final class ScreenshotMonitorService {
         
         fileWatcherTimer = Timer.scheduledTimer(withTimeInterval: 0.25, repeats: true) { [weak self] _ in
             self?.scanForNewScreenshots()
+            self?.scanTargetDirectoryForRecordings()
         }
         
         pasteboardTimer = Timer.scheduledTimer(withTimeInterval: 0.25, repeats: true) { [weak self] _ in
@@ -121,14 +124,23 @@ final class ScreenshotMonitorService {
         let dir = rawStagingDirectoryURL()
         if let urls = try? fileManager.contentsOfDirectory(at: dir, includingPropertiesForKeys: [.contentModificationDateKey], options: [.skipsHiddenFiles]) {
             for url in urls {
-                let lower = url.lastPathComponent.lowercased()
-                if !lower.hasSuffix(".mov") && !lower.hasSuffix(".mp4") {
-                    knownFilePaths.insert(url.path)
-                }
+                knownFilePaths.insert(url.path)
+            }
+        }
+
+        let targetDir = computeScreenRecordingTargetDirectoryURL()
+        if let urls = try? fileManager.contentsOfDirectory(at: targetDir, includingPropertiesForKeys: [.contentModificationDateKey], options: [.skipsHiddenFiles]) {
+            for url in urls {
+                knownFilePaths.insert(url.path)
             }
         }
     }
     
+    func scanNow() {
+        scanForNewScreenshots()
+        scanTargetDirectoryForRecordings()
+    }
+
     private func scanForNewScreenshots() {
         let dir = rawStagingDirectoryURL()
         guard let urls = try? fileManager.contentsOfDirectory(
@@ -156,6 +168,13 @@ final class ScreenshotMonitorService {
                     try fileManager.moveItem(at: url, to: destinationURL)
                     knownFilePaths.insert(path)
                     knownFilePaths.insert(destinationURL.path)
+
+                    DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+                        let thumbnail = Self.generateVideoThumbnail(for: destinationURL) ?? NSWorkspace.shared.icon(forFile: destinationURL.path)
+                        DispatchQueue.main.async {
+                            self?.onScreenRecordingCaptured?(destinationURL, thumbnail, filename)
+                        }
+                    }
                 } catch {
                     // File might be currently open/being written by screencapture, try again on next timer tick
                 }
@@ -182,6 +201,72 @@ final class ScreenshotMonitorService {
                 }
             }
         }
+    }
+
+    private func scanTargetDirectoryForRecordings() {
+        let targetDir = computeScreenRecordingTargetDirectoryURL()
+        guard targetDir != rawStagingDirectoryURL() else { return }
+        guard let urls = try? fileManager.contentsOfDirectory(
+            at: targetDir,
+            includingPropertiesForKeys: [.contentModificationDateKey, .isRegularFileKey],
+            options: [.skipsHiddenFiles]
+        ) else { return }
+
+        let now = Date()
+        for url in urls {
+            let path = url.path
+            guard !knownFilePaths.contains(path) else { continue }
+
+            let filename = url.lastPathComponent
+            let lower = filename.lowercased()
+            guard lower.hasSuffix(".mov") || lower.hasSuffix(".mp4") || lower.contains("screen recording") || lower.contains("запись экрана") else {
+                continue
+            }
+
+            guard let resourceValues = try? url.resourceValues(forKeys: [.contentModificationDateKey, .isRegularFileKey]),
+                  resourceValues.isRegularFile == true,
+                  let modDate = resourceValues.contentModificationDate,
+                  now.timeIntervalSince(modDate) < 15.0 else {
+                knownFilePaths.insert(path)
+                continue
+            }
+
+            // Ensure the file is not currently locked/open for exclusive writing
+            guard let fileHandle = try? FileHandle(forReadingFrom: url) else {
+                continue
+            }
+            try? fileHandle.close()
+
+            knownFilePaths.insert(path)
+
+            DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+                let thumbnail = Self.generateVideoThumbnail(for: url) ?? NSWorkspace.shared.icon(forFile: url.path)
+                DispatchQueue.main.async {
+                    self?.onScreenRecordingCaptured?(url, thumbnail, filename)
+                }
+            }
+        }
+    }
+
+    static func generateVideoThumbnail(for url: URL) -> NSImage? {
+        let asset = AVURLAsset(url: url)
+        let generator = AVAssetImageGenerator(asset: asset)
+        generator.appliesPreferredTrackTransform = true
+        generator.maximumSize = CGSize(width: 800, height: 800)
+
+        let times = [
+            CMTime(seconds: 0.5, preferredTimescale: 600),
+            CMTime.zero,
+            CMTime(seconds: 0.1, preferredTimescale: 600)
+        ]
+
+        for time in times {
+            if let cgImage = try? generator.copyCGImage(at: time, actualTime: nil) {
+                return NSImage(cgImage: cgImage, size: NSSize(width: cgImage.width, height: cgImage.height))
+            }
+        }
+
+        return nil
     }
     
     private func checkPasteboard() {

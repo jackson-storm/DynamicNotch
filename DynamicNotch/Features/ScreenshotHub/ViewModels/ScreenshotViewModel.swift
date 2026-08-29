@@ -8,6 +8,14 @@ final class ScreenshotViewModel: ObservableObject {
     
     var onScreenshotReady: ((ScreenshotModel) -> Void)?
     var onScreenshotDismissed: (() -> Void)?
+    var onScreenRecordingCaptured: ((URL, NSImage, String) -> Void)? {
+        get { monitorService.onScreenRecordingCaptured }
+        set { monitorService.onScreenRecordingCaptured = newValue }
+    }
+    
+    func scanNow() {
+        monitorService.scanNow()
+    }
     
     private(set) var isDropped = false
     private(set) var isDeleted = false

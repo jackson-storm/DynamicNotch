@@ -15,8 +15,8 @@ struct ScreenRecordingExpandedNotchView: View {
                 leftContent
             }
         }
-        .padding(.leading, isDynamicIsland ? 24 : 44)
-        .padding(.trailing, isDynamicIsland ? 14 : 34)
+        .padding(.leading, isDynamicIsland ? 25 : 44)
+        .padding(.trailing, isDynamicIsland ? 15 : 34)
         .padding(.bottom, isDynamicIsland ? 15 : 14)
         .onAppear {
             withAnimation(.easeInOut(duration: 1).repeatForever(autoreverses: true)) {

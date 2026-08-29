@@ -33,6 +33,10 @@ enum NotchContentRegistry {
             priorityKey: .screenRecording
         )
         static let inactive = NotchContentDescriptor(id: "screen.recording.inactive")
+        static let result = NotchContentDescriptor(
+            id: "screen.recording.result",
+            priority: NotchContentPriority.dragAndDrop
+        )
     }
 
     enum Wifi {

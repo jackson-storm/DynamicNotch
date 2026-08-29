@@ -9,22 +9,30 @@ struct ScreenRecordingContent: NotchContentProtocol, DynamicIslandCustomizable {
     let id = NotchContentRegistry.ScreenRecording.active.id
     let screenRecordingViewModel: ScreenRecordingViewModel
     let usesDefaultStroke: Bool
+    let style: ScreenRecordingStyle
 
-    init(screenRecordingViewModel: ScreenRecordingViewModel, usesDefaultStroke: Bool = false) {
+    init(
+        screenRecordingViewModel: ScreenRecordingViewModel,
+        usesDefaultStroke: Bool = false,
+        style: ScreenRecordingStyle = .detailed
+    ) {
         self.screenRecordingViewModel = screenRecordingViewModel
         self.usesDefaultStroke = usesDefaultStroke
+        self.style = style
     }
 
     @MainActor
     init(settingsViewModel: SettingsViewModel) {
         self.screenRecordingViewModel = ScreenRecordingViewModel(monitor: InactiveScreenRecordingMonitor())
-        self.usesDefaultStroke = settingsViewModel.isDefaultActivityStrokeEnabled
+        self.usesDefaultStroke = settingsViewModel.isDefaultActivityStrokeEnabled || settingsViewModel.screenRecording.isScreenRecordingDefaultStrokeEnabled
+        self.style = settingsViewModel.screenRecording.screenRecordingStyle
     }
 
     @MainActor
     init(screenRecordingViewModel: ScreenRecordingViewModel, settingsViewModel: SettingsViewModel) {
         self.screenRecordingViewModel = screenRecordingViewModel
-        self.usesDefaultStroke = settingsViewModel.isDefaultActivityStrokeEnabled
+        self.usesDefaultStroke = settingsViewModel.isDefaultActivityStrokeEnabled || settingsViewModel.screenRecording.isScreenRecordingDefaultStrokeEnabled
+        self.style = settingsViewModel.screenRecording.screenRecordingStyle
     }
 
     var priority: Int { NotchContentRegistry.ScreenRecording.active.priority }
@@ -32,7 +40,12 @@ struct ScreenRecordingContent: NotchContentProtocol, DynamicIslandCustomizable {
     var strokeColor: Color { usesDefaultStroke ? .white.opacity(0.2) : .red.opacity(0.3) }
 
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        return .init(width: baseWidth + 60, height: baseHeight)
+        switch style {
+        case .compact:
+            return .init(width: baseWidth + 60, height: baseHeight)
+        case .detailed:
+            return .init(width: baseWidth + 115, height: baseHeight)
+        }
     }
 
     func expandedSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
@@ -44,7 +57,12 @@ struct ScreenRecordingContent: NotchContentProtocol, DynamicIslandCustomizable {
     }
 
     func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        return .init(width: baseWidth + 30, height: baseHeight)
+        switch style {
+        case .compact:
+            return .init(width: baseWidth + 30, height: baseHeight)
+        case .detailed:
+            return .init(width: baseWidth + 90, height: baseHeight)
+        }
     }
 
     func expandedDynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
@@ -57,7 +75,7 @@ struct ScreenRecordingContent: NotchContentProtocol, DynamicIslandCustomizable {
 
     @MainActor
     func makeView() -> AnyView {
-        AnyView(ScreenRecordingView())
+        AnyView(ScreenRecordingView(style: style, viewModel: screenRecordingViewModel))
     }
 
     @MainActor

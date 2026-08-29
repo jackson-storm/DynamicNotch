@@ -7,8 +7,9 @@ struct ScreenCaptureSettingsView: View {
     var body: some View {
         SettingsPageScrollView {
             screenCaptureActivity
-            saveLocationSection
             screenshotDuration
+            saveLocationSection
+            screenRecordingAppearance
         }
     }
     
@@ -41,6 +42,97 @@ struct ScreenCaptureSettingsView: View {
                 accessibilityIdentifier: "settings.activities.live.screenshot"
             )
         }
+    }
+
+    private var screenRecordingAppearance: some View {
+        SettingsCard(title: "settings.screenRecording.card.appearance") {
+            CustomPicker(
+                selection: $settings.screenRecordingStyle,
+                options: Array(ScreenRecordingStyle.allCases),
+                title: { $0.title },
+                headerTitle: "settings.screenRecording.style.headerTitle",
+                headerDescription: "settings.screenRecording.style.headerDesc",
+                itemHeight: 72,
+                lightBackgroundImage: Image("backgroundLight"),
+                darkBackgroundImage: Image("backgroundDark")
+            ) { style, isSelected in
+                screenRecordingAppearancePickerContent(for: style, isSelected: isSelected)
+            }
+            .accessibilityIdentifier("settings.activities.live.screenRecording.style")
+            
+            Divider().opacity(0.6)
+
+            SettingsStrokeToggleRow(
+                title: "settings.notch.defaultStrokeColor.title",
+                description: "settings.notch.defaultStrokeColor.desc",
+                isOn: $settings.isScreenRecordingDefaultStrokeEnabled,
+                accessibilityIdentifier: "settings.activities.live.screenRecording.defaultStroke"
+            )
+            .disabled(!settings.isScreenRecordingLiveActivityEnabled)
+            .opacity(settings.isScreenRecordingLiveActivityEnabled ? 1 : 0.5)
+        }
+    }
+
+    @ViewBuilder
+    private func screenRecordingAppearancePickerContent(for style: ScreenRecordingStyle, isSelected: Bool) -> some View {
+        switch style {
+        case .compact:
+            ZStack {
+                Capsule()
+                    .fill(.black)
+                    .overlay {
+                        Capsule()
+                            .stroke(screenRecordingPreviewStrokeColor, lineWidth: 1)
+                    }
+                HStack {
+                    Circle()
+                        .fill(Color.red)
+                        .frame(width: 10, height: 10)
+                    
+                    Spacer()
+                }
+                .padding(.horizontal, 10)
+            }
+            .frame(width: 120, height: 28)
+            .scaleEffect(isSelected ? 1 : 0.97)
+
+        case .detailed:
+            ZStack {
+                Capsule()
+                    .fill(.black)
+                    .overlay {
+                        Capsule()
+                            .stroke(screenRecordingPreviewStrokeColor, lineWidth: 1)
+                    }
+                HStack {
+                    Circle()
+                        .fill(Color.red)
+                        .frame(width: 10, height: 10)
+                    
+                    Spacer()
+                    
+                    Text("00:10")
+                        .font(.system(size: 11, design: .rounded))
+                        .foregroundStyle(.red)
+                        .monospacedDigit()
+                }
+                .padding(.horizontal, 10)
+            }
+            .frame(width: 140, height: 28)
+            .scaleEffect(isSelected ? 1 : 0.97)
+        }
+    }
+
+    private var screenRecordingPreviewStrokeColor: Color {
+        guard appearanceSettings.isShowNotchStrokeEnabled else {
+            return .clear
+        }
+
+        if appearanceSettings.isDefaultActivityStrokeEnabled || settings.isScreenRecordingDefaultStrokeEnabled {
+            return .white.opacity(0.2)
+        }
+
+        return .red.opacity(0.3)
     }
     
     private var saveLocationSection: some View {

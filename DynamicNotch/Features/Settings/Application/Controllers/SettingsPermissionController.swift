@@ -1,4 +1,5 @@
 import Combine
+import Contacts
 import CoreBluetooth
 import Foundation
 internal import AppKit
@@ -16,6 +17,7 @@ enum Kind: String {
     case bluetooth
     case mediaControls
     case camera
+    case contacts
     case calendar
     case fullDiskAccess
     case automation
@@ -75,6 +77,7 @@ final class SettingsPermissionController: NSObject, ObservableObject, CBCentralM
     @Published private(set) var bluetoothAuthorization: CBManagerAuthorization
     @Published private(set) var canPostMediaKeyEvents: Bool
     @Published private(set) var cameraAuthorization: AVAuthorizationStatus
+    @Published private(set) var contactsAuthorization: CNAuthorizationStatus
     @Published private(set) var calendarAuthorization: EKAuthorizationStatus
     @Published private(set) var isFullDiskAccessGranted: Bool
     @Published private(set) var isAutomationAccessGranted: Bool
@@ -85,6 +88,7 @@ final class SettingsPermissionController: NSObject, ObservableObject, CBCentralM
     private var didPromptForCalendarAccess = false
     private var didPromptForAutomationAccess = false
     private var bluetoothPermissionRequester: CBCentralManager?
+    private let contactsStore = CNContactStore()
     private var cancellables = Set<AnyCancellable>()
 
     private static let privacySettingsURL = URL(
@@ -95,6 +99,9 @@ final class SettingsPermissionController: NSObject, ObservableObject, CBCentralM
     )
     private static let cameraPrivacySettingsURL = URL(
         string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Camera"
+    )
+    private static let contactsPrivacySettingsURL = URL(
+        string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Contacts"
     )
     private static let calendarPrivacySettingsURL = URL(
         string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Calendars"
@@ -111,6 +118,7 @@ final class SettingsPermissionController: NSObject, ObservableObject, CBCentralM
         self.isAccessibilityTrusted = Self.currentAccessibilityTrustState()
         self.canPostMediaKeyEvents = Self.currentPostEventAccessState()
         self.cameraAuthorization = AVCaptureDevice.authorizationStatus(for: .video)
+        self.contactsAuthorization = CNContactStore.authorizationStatus(for: .contacts)
         self.calendarAuthorization = EKEventStore.authorizationStatus(for: .event)
         self.isFullDiskAccessGranted = FullDiskAccessAuthorization.hasPermission()
         self.isAutomationAccessGranted = Self.currentAutomationAccessState()
@@ -130,6 +138,7 @@ final class SettingsPermissionController: NSObject, ObservableObject, CBCentralM
         isAccessibilityTrusted = Self.currentAccessibilityTrustState()
         canPostMediaKeyEvents = Self.currentPostEventAccessState()
         cameraAuthorization = AVCaptureDevice.authorizationStatus(for: .video)
+        contactsAuthorization = CNContactStore.authorizationStatus(for: .contacts)
         calendarAuthorization = EKEventStore.authorizationStatus(for: .event)
         isFullDiskAccessGranted = FullDiskAccessAuthorization.hasPermission()
         isAutomationAccessGranted = Self.currentAutomationAccessState()
@@ -184,6 +193,20 @@ final class SettingsPermissionController: NSObject, ObservableObject, CBCentralM
                 actionTitleKey: cameraActionTitleKey,
                 fallbackActionTitle: cameraFallbackActionTitle,
                 accessibilityIdentifier: "settings.permissions.camera"
+            ),
+            PermissionItem(
+                kind: .contacts,
+                titleKey: "settings.permissions.contacts.title",
+                fallbackTitle: "Contacts",
+                descriptionKey: "settings.permissions.contacts.description",
+                fallbackDescription: "Allow Contacts access to show sender names and photos in Messages notifications.",
+                assetImageName: nil,
+                systemImage: "person.crop.circle.fill",
+                tintColor: .blue,
+                isGranted: contactsAuthorization == .authorized,
+                actionTitleKey: contactsActionTitleKey,
+                fallbackActionTitle: contactsFallbackActionTitle,
+                accessibilityIdentifier: "settings.permissions.contacts"
             ),
             PermissionItem(
                 kind: .mediaControls,
@@ -264,6 +287,8 @@ final class SettingsPermissionController: NSObject, ObservableObject, CBCentralM
             requestPostEventAccess()
         case .camera:
             requestCameraAccess()
+        case .contacts:
+            requestContactsAccess()
         case .calendar:
             requestCalendarAccess()
         case .fullDiskAccess:
@@ -369,6 +394,32 @@ final class SettingsPermissionController: NSObject, ObservableObject, CBCentralM
         }
     }
 
+    private var contactsActionTitleKey: String? {
+        switch contactsAuthorization {
+        case .authorized:
+            return nil
+        case .notDetermined:
+            return "settings.permissions.action.grantAccess"
+        case .restricted, .denied:
+            return "settings.permissions.action.openPrivacySettings"
+        @unknown default:
+            return "settings.permissions.action.openPrivacySettings"
+        }
+    }
+
+    private var contactsFallbackActionTitle: String? {
+        switch contactsAuthorization {
+        case .authorized:
+            return nil
+        case .notDetermined:
+            return "Grant Access"
+        case .restricted, .denied:
+            return "Open Privacy Settings"
+        @unknown default:
+            return "Open Privacy Settings"
+        }
+    }
+
     private var calendarActionTitleKey: String? {
         switch calendarAuthorization {
         case .fullAccess, .writeOnly:
@@ -409,6 +460,23 @@ final class SettingsPermissionController: NSObject, ObservableObject, CBCentralM
             Self.openCameraPrivacySettings()
         @unknown default:
             Self.openCameraPrivacySettings()
+        }
+    }
+
+    private func requestContactsAccess() {
+        switch contactsAuthorization {
+        case .authorized:
+            Self.openContactsPrivacySettings()
+        case .notDetermined:
+            contactsStore.requestAccess(for: .contacts) { [weak self] _, _ in
+                DispatchQueue.main.async {
+                    self?.refresh()
+                }
+            }
+        case .restricted, .denied:
+            Self.openContactsPrivacySettings()
+        @unknown default:
+            Self.openContactsPrivacySettings()
         }
     }
 
@@ -465,6 +533,11 @@ final class SettingsPermissionController: NSObject, ObservableObject, CBCentralM
     private static func openBluetoothPrivacySettings() {
         guard let bluetoothPrivacySettingsURL else { return }
         NSWorkspace.shared.open(bluetoothPrivacySettingsURL)
+    }
+
+    private static func openContactsPrivacySettings() {
+        guard let contactsPrivacySettingsURL else { return }
+        NSWorkspace.shared.open(contactsPrivacySettingsURL)
     }
 
     private static func openCameraPrivacySettings() {

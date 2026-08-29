@@ -76,7 +76,7 @@ extension AppDelegate {
             }
             .store(in: &cancellables)
 
-        settingsViewModel.notifications.$isAppleMessagesNotificationsEnabled
+        settingsViewModel.notifications.$isMessagesNotificationsEnabled
             .removeDuplicates()
             .sink { [weak self] _ in
                 self?.updateMessagesMonitoringState()
@@ -226,7 +226,7 @@ extension AppDelegate {
     }
 
     private func updateMessagesMonitoringState() {
-        let isEnabled = settingsViewModel.notifications.isAppleMessagesNotificationsEnabled
+        let isEnabled = settingsViewModel.notifications.isMessagesNotificationsEnabled
         let hasFullDiskAccess = FullDiskAccessAuthorization.hasPermission()
 
         if isEnabled && hasFullDiskAccess {
@@ -241,13 +241,13 @@ extension AppDelegate {
         let settings = settingsViewModel.notifications
 
         if hasFullDiskAccess {
-            if settings.isAppleMessagesNotificationsPermissionPending {
-                settings.isAppleMessagesNotificationsPermissionPending = false
-                settings.isAppleMessagesNotificationsEnabled = true
+            if settings.isMessagesNotificationsPermissionPending {
+                settings.isMessagesNotificationsPermissionPending = false
+                settings.isMessagesNotificationsEnabled = true
             }
         } else {
-            settings.isAppleMessagesNotificationsPermissionPending = false
-            settings.isAppleMessagesNotificationsEnabled = false
+            settings.isMessagesNotificationsPermissionPending = false
+            settings.isMessagesNotificationsEnabled = false
         }
 
         updateMessagesMonitoringState()

@@ -9,6 +9,7 @@ struct DebugSettingsView: View {
         SettingsPageScrollView {
             persistentPreviewsCard
             triggerEventsCard
+            messagesPreviewsCard
             utilitiesCard
         }
         .accessibilityIdentifier("settings.debug.root")
@@ -419,84 +420,6 @@ struct DebugSettingsView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
 
             DebugActionRow(
-                title: "Messages (Multiple - Sequence)",
-                description: "Simulate 3 consecutive messages arriving with 1.5s delay to test in-place view update.",
-                systemImage: "bubble.left.and.bubble.right.fill",
-                color: .green,
-                action: viewModel.triggerMessagesSequencePreview
-            )
-
-            Divider()
-                .opacity(0.6)
-                .padding(.leading, 43)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
-
-            DebugActionRow(
-                title: "Messages (Multiple - Immediate)",
-                description: "Simulate rapid incoming messages arriving in quick succession (0.4s delay).",
-                systemImage: "bubble.left.and.exclamationmark.bubble.right.fill",
-                color: .green,
-                action: viewModel.triggerMessagesRapidPreview
-            )
-
-            Divider()
-                .opacity(0.6)
-                .padding(.leading, 43)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
-
-            DebugActionRow(
-                title: "Messages (Standard)",
-                description: "Show standard Messages notification with sender and text.",
-                systemImage: "message.fill",
-                color: .green,
-                action: viewModel.triggerMessagesPreview
-            )
-
-            Divider()
-                .opacity(0.6)
-                .padding(.leading, 43)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
-
-            DebugActionRow(
-                title: "Messages (Short)",
-                description: "Show compact Messages notification with short reply.",
-                systemImage: "message.fill",
-                color: .green,
-                action: viewModel.triggerMessagesShortPreview
-            )
-
-            Divider()
-                .opacity(0.6)
-                .padding(.leading, 43)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
-
-            DebugActionRow(
-                title: "Messages (No Text)",
-                description: "Show compact Messages notification without text (e.g. attachment).",
-                systemImage: "message.fill",
-                color: .green,
-                action: viewModel.triggerMessagesNoTextPreview
-            )
-
-            Divider()
-                .opacity(0.6)
-                .padding(.leading, 43)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
-
-            DebugActionRow(
-                title: "Messages (Long Text)",
-                description: "Show Messages notification with longer text body.",
-                systemImage: "message.fill",
-                color: .green,
-                action: viewModel.triggerMessagesLongContentPreview
-            )
-
-            Divider()
-                .opacity(0.6)
-                .padding(.leading, 43)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
-
-            DebugActionRow(
                 title: "External Drive (Connected SSD)",
                 description: "Show notification for connected external SSD with capacity.",
                 systemImage: "externaldrive.fill",
@@ -778,6 +701,98 @@ struct DebugSettingsView: View {
         }
     }
     
+    private var messagesPreviewsCard: some View {
+        SettingsCard(title: "Messages Previews") {
+            DebugActionRow(
+                title: "Messages (Text)",
+                description: "Show a standard incoming text message.",
+                systemImage: "message.fill",
+                color: .green,
+                action: viewModel.triggerMessagesTextPreview
+            )
+
+            debugDivider
+
+            DebugActionRow(
+                title: "Messages (Text & Photo)",
+                description: "Show an incoming message containing text and a photo.",
+                systemImage: "message.fill",
+                color: .green,
+                action: viewModel.triggerMessagesTextAndImagePreview
+            )
+
+            debugDivider
+
+            DebugActionRow(
+                title: "Messages (Audio)",
+                description: "Show an incoming audio message without text.",
+                systemImage: "message.fill",
+                color: .green,
+                action: viewModel.triggerMessagesAudioPreview
+            )
+
+            debugDivider
+
+            DebugActionRow(
+                title: "Messages (Video)",
+                description: "Show an incoming video attachment without text.",
+                systemImage: "message.fill",
+                color: .green,
+                action: viewModel.triggerMessagesVideoPreview
+            )
+
+            debugDivider
+
+            DebugActionRow(
+                title: "Messages (File)",
+                description: "Show an incoming file attachment with its filename.",
+                systemImage: "message.fill",
+                color: .green,
+                action: viewModel.triggerMessagesFilePreview
+            )
+
+            debugDivider
+
+            DebugActionRow(
+                title: "Messages (Multiple Attachments)",
+                description: "Show a message containing several image attachments.",
+                systemImage: "message.fill",
+                color: .green,
+                action: viewModel.triggerMessagesMultipleAttachmentsPreview
+            )
+
+            debugDivider
+
+            DebugActionRow(
+                title: "Messages (Unknown Sender)",
+                description: "Show an SMS from a sender without a resolved contact.",
+                systemImage: "message.fill",
+                color: .green,
+                action: viewModel.triggerMessagesUnknownSenderPreview
+            )
+
+            debugDivider
+
+            DebugActionRow(
+                title: "Messages (Long Text)",
+                description: "Show a long message to verify wrapping and truncation.",
+                systemImage: "message.fill",
+                color: .green,
+                action: viewModel.triggerMessagesLongContentPreview
+            )
+
+            debugDivider
+
+            DebugActionRow(
+                title: "Messages (Three Message Queue)",
+                description: "Show three messages in sequence and animate the two-item queue.",
+                systemImage: "message.fill",
+                color: .green,
+                action: viewModel.triggerMessagesQueuePreview
+            )
+        }
+    }
+
     private var utilitiesCard: some View {
         SettingsCard(title: "settings.debug.card.utilities") {
             DebugActionRow(

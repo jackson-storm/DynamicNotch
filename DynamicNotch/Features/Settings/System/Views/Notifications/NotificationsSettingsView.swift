@@ -24,14 +24,14 @@ struct NotificationsSettingsView: View {
             )
 
             SettingsNavigationRowView(
-                title: "settings.notifications.appleMessages.title",
-                description: "settings.notifications.appleMessages.subtitle",
-                imageName: "appleMessages",
+                title: "settings.notifications.messages.title",
+                description: "settings.notifications.messages.subtitle",
+                imageName: "messages",
                 color: .clear,
                 iconSize: 34,
-                accessibilityIdentifier: "settings.notifications.appleMessages",
+                accessibilityIdentifier: "settings.notifications.messages",
                 position: .middle,
-                value: SettingsSubPage.appleMessages
+                value: SettingsSubPage.messages
             )
 
             SettingsNavigationRowView(

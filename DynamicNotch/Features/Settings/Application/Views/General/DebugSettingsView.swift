@@ -412,6 +412,136 @@ struct DebugSettingsView: View {
                 color: .yellow,
                 action: viewModel.triggerMailLongContentPreview
             )
+
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+
+            DebugActionRow(
+                title: "Messages (Multiple - Sequence)",
+                description: "Simulate 3 consecutive messages arriving with 1.5s delay to test in-place view update.",
+                systemImage: "bubble.left.and.bubble.right.fill",
+                color: .green,
+                action: viewModel.triggerMessagesSequencePreview
+            )
+
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+
+            DebugActionRow(
+                title: "Messages (Multiple - Immediate)",
+                description: "Simulate rapid incoming messages arriving in quick succession (0.4s delay).",
+                systemImage: "bubble.left.and.exclamationmark.bubble.right.fill",
+                color: .green,
+                action: viewModel.triggerMessagesRapidPreview
+            )
+
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+
+            DebugActionRow(
+                title: "Messages (Standard)",
+                description: "Show standard Messages notification with sender and text.",
+                systemImage: "message.fill",
+                color: .green,
+                action: viewModel.triggerMessagesPreview
+            )
+
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+
+            DebugActionRow(
+                title: "Messages (Short)",
+                description: "Show compact Messages notification with short reply.",
+                systemImage: "message.fill",
+                color: .green,
+                action: viewModel.triggerMessagesShortPreview
+            )
+
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+
+            DebugActionRow(
+                title: "Messages (No Text)",
+                description: "Show compact Messages notification without text (e.g. attachment).",
+                systemImage: "message.fill",
+                color: .green,
+                action: viewModel.triggerMessagesNoTextPreview
+            )
+
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+
+            DebugActionRow(
+                title: "Messages (Long Text)",
+                description: "Show Messages notification with longer text body.",
+                systemImage: "message.fill",
+                color: .green,
+                action: viewModel.triggerMessagesLongContentPreview
+            )
+
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+
+            DebugActionRow(
+                title: "External Drive (Connected SSD)",
+                description: "Show notification for connected external SSD with capacity.",
+                systemImage: "externaldrive.fill",
+                color: .blue,
+                action: viewModel.triggerExternalDriveConnectedPreview
+            )
+
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+
+            DebugActionRow(
+                title: "External Drive (USB Flash)",
+                description: "Show notification for connected USB flash drive.",
+                systemImage: "externaldrive.fill",
+                color: .cyan,
+                action: viewModel.triggerExternalDriveUSBPreview
+            )
+
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+
+            DebugActionRow(
+                title: "External Drive (DMG Image)",
+                description: "Show notification for mounted DMG disk image.",
+                systemImage: "opticaldiscdrive.fill",
+                color: .purple,
+                action: viewModel.triggerExternalDriveDiskImagePreview
+            )
+
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+
+            DebugActionRow(
+                title: "External Drive (Safely Ejected)",
+                description: "Show notification for safely ejected drive.",
+                systemImage: "checkmark.circle.fill",
+                color: .orange,
+                action: viewModel.triggerExternalDriveEjectedPreview
+            )
             
             Divider()
                 .opacity(0.6)

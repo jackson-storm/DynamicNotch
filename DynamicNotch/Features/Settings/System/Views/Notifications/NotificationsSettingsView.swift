@@ -19,8 +19,30 @@ struct NotificationsSettingsView: View {
                 color: .clear,
                 iconSize: 34,
                 accessibilityIdentifier: "settings.notifications.appleMail",
-                position: .single,
+                position: .first,
                 value: SettingsSubPage.appleMail
+            )
+
+            SettingsNavigationRowView(
+                title: "settings.notifications.appleMessages.title",
+                description: "settings.notifications.appleMessages.subtitle",
+                imageName: "appleMessages",
+                color: .clear,
+                iconSize: 34,
+                accessibilityIdentifier: "settings.notifications.appleMessages",
+                position: .middle,
+                value: SettingsSubPage.appleMessages
+            )
+
+            SettingsNavigationRowView(
+                title: "settings.notifications.externalDrives.title",
+                description: "settings.notifications.externalDrives.subtitle",
+                systemImage: "externaldrive.fill",
+                iconColor: .white,
+                color: .gray,
+                accessibilityIdentifier: "settings.notifications.externalDrives",
+                position: .last,
+                value: SettingsSubPage.externalDrives
             )
         }
     }

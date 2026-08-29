@@ -76,10 +76,34 @@ extension AppDelegate {
             }
             .store(in: &cancellables)
 
+        settingsViewModel.notifications.$isAppleMessagesNotificationsEnabled
+            .removeDuplicates()
+            .sink { [weak self] _ in
+                self?.updateMessagesMonitoringState()
+            }
+            .store(in: &cancellables)
+
+        settingsViewModel.notifications.$isExternalDrivesNotificationsEnabled
+            .removeDuplicates()
+            .sink { [weak self] _ in
+                self?.updateExternalDrivesMonitoringState()
+            }
+            .store(in: &cancellables)
+
+        settingsViewModel.notifications.$isExternalDrivesIncludeDiskImagesEnabled
+            .removeDuplicates()
+            .sink { [weak self] isInclude in
+                self?.externalDrivesMonitor.includeDiskImages = isInclude
+            }
+            .store(in: &cancellables)
+
+        updateExternalDrivesMonitoringState()
+
         NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in
                 self?.reconcileMailPermissionState()
+                self?.reconcileMessagesPermissionState()
             }
             .store(in: &cancellables)
     }
@@ -199,6 +223,47 @@ extension AppDelegate {
         }
 
         updateMailMonitoringState()
+    }
+
+    private func updateMessagesMonitoringState() {
+        let isEnabled = settingsViewModel.notifications.isAppleMessagesNotificationsEnabled
+        let hasFullDiskAccess = FullDiskAccessAuthorization.hasPermission()
+
+        if isEnabled && hasFullDiskAccess {
+            messagesManager.startMonitoring()
+        } else {
+            messagesManager.stopMonitoring()
+        }
+    }
+
+    private func reconcileMessagesPermissionState() {
+        let hasFullDiskAccess = FullDiskAccessAuthorization.hasPermission()
+        let settings = settingsViewModel.notifications
+
+        if hasFullDiskAccess {
+            if settings.isAppleMessagesNotificationsPermissionPending {
+                settings.isAppleMessagesNotificationsPermissionPending = false
+                settings.isAppleMessagesNotificationsEnabled = true
+            }
+        } else {
+            settings.isAppleMessagesNotificationsPermissionPending = false
+            settings.isAppleMessagesNotificationsEnabled = false
+        }
+
+        updateMessagesMonitoringState()
+    }
+
+    func updateExternalDrivesMonitoringState() {
+        guard !isRunningUITests else { return }
+
+        let isEnabled = settingsViewModel.notifications.isExternalDrivesNotificationsEnabled
+        externalDrivesMonitor.includeDiskImages = settingsViewModel.notifications.isExternalDrivesIncludeDiskImagesEnabled
+
+        if isEnabled {
+            externalDrivesMonitor.startMonitoring()
+        } else {
+            externalDrivesMonitor.stopMonitoring()
+        }
     }
 
     @objc

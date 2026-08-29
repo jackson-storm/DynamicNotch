@@ -141,6 +141,13 @@ enum GeneralSettingsStorage {
         static let appleMailNotificationsEnabled = "settings.notifications.appleMail.enabled"
         static let appleMailNotificationDuration = "settings.notifications.appleMail.duration"
         static let appleMailNotificationsPermissionPending = "appleMailNotificationsPermissionPending"
+        static let appleMessagesNotificationsEnabled = "settings.notifications.appleMessages.enabled"
+        static let appleMessagesNotificationDuration = "settings.notifications.appleMessages.duration"
+        static let appleMessagesNotificationsPermissionPending = "appleMessagesNotificationsPermissionPending"
+        static let externalDrivesNotificationsEnabled = "settings.notifications.externalDrives.enabled"
+        static let externalDrivesNotificationDuration = "settings.notifications.externalDrives.duration"
+        static let externalDrivesIncludeDiskImages = "settings.notifications.externalDrives.includeDiskImages"
+        static let externalDrivesShowEjected = "settings.notifications.externalDrives.showEjected"
         static let homePageOrder = "settings.homePage.order"
         static let homePageDisabled = "settings.homePage.disabled"
         static let homePagePageIndicator = "settings.homePage.pageIndicator"
@@ -309,6 +316,13 @@ enum GeneralSettingsStorage {
         Keys.calendarSoundAlert: false,
         Keys.appleMailNotificationsEnabled: false,
         Keys.appleMailNotificationDuration: 5,
-        Keys.appleMailNotificationsPermissionPending: false
+        Keys.appleMailNotificationsPermissionPending: false,
+        Keys.appleMessagesNotificationsEnabled: false,
+        Keys.appleMessagesNotificationDuration: 5,
+        Keys.appleMessagesNotificationsPermissionPending: false,
+        Keys.externalDrivesNotificationsEnabled: true,
+        Keys.externalDrivesNotificationDuration: 5,
+        Keys.externalDrivesIncludeDiskImages: true,
+        Keys.externalDrivesShowEjected: true
     ]
 }

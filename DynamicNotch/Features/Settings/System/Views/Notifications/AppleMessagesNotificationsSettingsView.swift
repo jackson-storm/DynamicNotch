@@ -1,7 +1,7 @@
 import SwiftUI
 internal import AppKit
 
-struct AppleMailNotificationsSettingsView: View {
+struct AppleMessagesNotificationsSettingsView: View {
     @ObservedObject var settings: NotificationsSettingsStore
     @ObservedObject var permissionController: SettingsPermissionController
     @State private var isShowingFullDiskAccessAlert = false
@@ -12,36 +12,36 @@ struct AppleMailNotificationsSettingsView: View {
 
     var body: some View {
         SettingsPageScrollView {
-            appleMailActivity
-            appleMailDuration
+            appleMessagesActivity
+            appleMessagesDuration
         }
         .alert(isPresented: $isShowingFullDiskAccessAlert) {
             Alert(
-                title: Text("settings.notifications.appleMail.fullDiskAccess.title"),
-                message: Text("settings.notifications.appleMail.fullDiskAccess.description"),
+                title: Text("settings.notifications.appleMessages.fullDiskAccess.title"),
+                message: Text("settings.notifications.appleMessages.fullDiskAccess.description"),
                 primaryButton: .default(
                     Text("settings.permissions.action.openPrivacySettings")
                 ) {
-                    settings.isAppleMailNotificationsPermissionPending = true
+                    settings.isAppleMessagesNotificationsPermissionPending = true
                     permissionController.performAction(for: .fullDiskAccess)
                 },
                 secondaryButton: .cancel {
-                    settings.isAppleMailNotificationsPermissionPending = false
+                    settings.isAppleMessagesNotificationsPermissionPending = false
                 }
             )
         }
     }
-    
-    private var appleMailActivity: some View {
+
+    private var appleMessagesActivity: some View {
         SettingsCard(title: "settings.notifications.card.activity") {
             SettingsToggleRow(
-                title: "settings.notifications.appleMail.enabled",
-                description: "settings.notifications.appleMail.enabled.description",
-                imageName: "appleMail",
+                title: "settings.notifications.appleMessages.enabled",
+                description: "settings.notifications.appleMessages.enabled.description",
+                imageName: "appleMessages",
                 color: .clear,
                 iconSize: 34,
-                isOn: appleMailNotificationsBinding,
-                accessibilityIdentifier: "settings.notifications.appleMail.toggle"
+                isOn: appleMessagesNotificationsBinding,
+                accessibilityIdentifier: "settings.notifications.appleMessages.toggle"
             )
 
             Divider()
@@ -50,54 +50,54 @@ struct AppleMailNotificationsSettingsView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
 
             SettingsButtonRow(
-                title: "settings.notifications.appleMail.systemNotifications.title",
-                description: "settings.notifications.appleMail.systemNotifications.desc",
+                title: "settings.notifications.appleMessages.systemNotifications.title",
+                description: "settings.notifications.appleMessages.systemNotifications.desc",
                 systemImage: "exclamationmark.triangle.fill",
                 iconSize: 20,
                 iconColor: .yellow,
                 color: .clear,
-                buttonTitle: "settings.notifications.appleMail.systemNotifications.button",
-                accessibilityIdentifier: "settings.notifications.appleMail.systemNotifications",
+                buttonTitle: "settings.notifications.appleMessages.systemNotifications.button",
+                accessibilityIdentifier: "settings.notifications.appleMessages.systemNotifications",
                 action: openSystemNotificationSettings
             )
         }
     }
 
-    private var appleMailDuration: some View {
+    private var appleMessagesDuration: some View {
         SettingsCard(title: "settings.notifications.card.duration") {
             SettingsSliderRow(
-                title: "settings.notifications.appleMail.duration.title",
-                description: "settings.notifications.appleMail.duration.desc",
+                title: "settings.notifications.appleMessages.duration.title",
+                description: "settings.notifications.appleMessages.duration.desc",
                 range: temporaryActivityDurationRange,
                 step: 1,
                 fractionLength: 0,
                 suffix: "s",
-                accessibilityIdentifier: "settings.notifications.appleMail.duration",
+                accessibilityIdentifier: "settings.notifications.appleMessages.duration",
                 value: Binding(
-                    get: { Double(settings.appleMailNotificationDuration) },
-                    set: { settings.appleMailNotificationDuration = Int($0.rounded()) }
+                    get: { Double(settings.appleMessagesNotificationDuration) },
+                    set: { settings.appleMessagesNotificationDuration = Int($0.rounded()) }
                 )
             )
-            .disabled(!settings.isAppleMailNotificationsEnabled)
-            .opacity(settings.isAppleMailNotificationsEnabled ? 1 : 0.5)
+            .disabled(!settings.isAppleMessagesNotificationsEnabled)
+            .opacity(settings.isAppleMessagesNotificationsEnabled ? 1 : 0.5)
         }
     }
 
-    private var appleMailNotificationsBinding: Binding<Bool> {
+    private var appleMessagesNotificationsBinding: Binding<Bool> {
         Binding(
             get: {
-                settings.isAppleMailNotificationsEnabled
+                settings.isAppleMessagesNotificationsEnabled
             },
             set: { isEnabled in
-                handleMailNotificationsToggle(isEnabled)
+                handleMessagesNotificationsToggle(isEnabled)
             }
         )
     }
 
-    private func handleMailNotificationsToggle(_ isEnabled: Bool) {
+    private func handleMessagesNotificationsToggle(_ isEnabled: Bool) {
         guard isEnabled else {
-            settings.isAppleMailNotificationsPermissionPending = false
-            settings.isAppleMailNotificationsEnabled = false
+            settings.isAppleMessagesNotificationsPermissionPending = false
+            settings.isAppleMessagesNotificationsEnabled = false
             return
         }
 
@@ -106,12 +106,12 @@ struct AppleMailNotificationsSettingsView: View {
             return
         }
 
-        settings.isAppleMailNotificationsPermissionPending = false
-        settings.isAppleMailNotificationsEnabled = true
+        settings.isAppleMessagesNotificationsPermissionPending = false
+        settings.isAppleMessagesNotificationsEnabled = true
     }
 
     private func openSystemNotificationSettings() {
-        if let url = URL(string: "x-apple.systempreferences:com.apple.Notifications-Settings.extension?id=com.apple.mail"),
+        if let url = URL(string: "x-apple.systempreferences:com.apple.Notifications-Settings.extension?id=com.apple.MobileSMS"),
            NSWorkspace.shared.open(url) {
             return
         }

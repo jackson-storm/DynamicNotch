@@ -111,6 +111,7 @@ final class DebugSettingsViewModel: ObservableObject {
     private var isReady = false
     private var previewSequenceTask: Task<Void, Never>?
     private var mailBatchTask: Task<Void, Never>?
+    private var messagesBatchTask: Task<Void, Never>?
 
     init(
         notchViewModel: NotchViewModel,
@@ -379,6 +380,62 @@ final class DebugSettingsViewModel: ObservableObject {
         }
     }
 
+    func triggerMessagesPreview() {
+        notchEventCoordinator.handleMessagesMessage(.debugPreviewStandard)
+    }
+
+    func triggerMessagesShortPreview() {
+        notchEventCoordinator.handleMessagesMessage(.debugPreviewShort)
+    }
+
+    func triggerMessagesNoTextPreview() {
+        notchEventCoordinator.handleMessagesMessage(.debugPreviewNoText)
+    }
+
+    func triggerMessagesLongContentPreview() {
+        notchEventCoordinator.handleMessagesMessage(.debugPreviewLongContent)
+    }
+
+    func triggerMessagesSequencePreview() {
+        triggerMessagesBatch(interval: 1.5)
+    }
+
+    func triggerMessagesRapidPreview() {
+        triggerMessagesBatch(interval: 0.4)
+    }
+
+    private func triggerMessagesBatch(interval: TimeInterval) {
+        messagesBatchTask?.cancel()
+        messagesBatchTask = Task { @MainActor [weak self] in
+            guard let self else { return }
+
+            for (index, message) in MessagesMessage.debugPreviewBatch.enumerated() {
+                if Task.isCancelled { break }
+                if index > 0 {
+                    try? await Task.sleep(nanoseconds: UInt64(interval * 1_000_000_000))
+                }
+                if Task.isCancelled { break }
+                self.notchEventCoordinator.handleMessagesMessage(message)
+            }
+        }
+    }
+
+    func triggerExternalDriveConnectedPreview() {
+        notchEventCoordinator.handleExternalDriveEvent(.debugPreviewConnected)
+    }
+
+    func triggerExternalDriveUSBPreview() {
+        notchEventCoordinator.handleExternalDriveEvent(.debugPreviewUSB)
+    }
+
+    func triggerExternalDriveDiskImagePreview() {
+        notchEventCoordinator.handleExternalDriveEvent(.debugPreviewDiskImage)
+    }
+
+    func triggerExternalDriveEjectedPreview() {
+        notchEventCoordinator.handleExternalDriveEvent(.debugPreviewEjected)
+    }
+
     func togglePreviewSequence() {
         if isPreviewSequenceRunning {
             stopPreviewSequence()
@@ -390,12 +447,16 @@ final class DebugSettingsViewModel: ObservableObject {
     func hideCurrentTemporaryPreview() {
         mailBatchTask?.cancel()
         mailBatchTask = nil
+        messagesBatchTask?.cancel()
+        messagesBatchTask = nil
         notchViewModel.hideTemporaryNotification()
     }
 
     func resetAllPreviews() {
         mailBatchTask?.cancel()
         mailBatchTask = nil
+        messagesBatchTask?.cancel()
+        messagesBatchTask = nil
         stopPreviewSequence()
         isOnboardingPreviewEnabled = false
         isFocusLivePreviewEnabled = false

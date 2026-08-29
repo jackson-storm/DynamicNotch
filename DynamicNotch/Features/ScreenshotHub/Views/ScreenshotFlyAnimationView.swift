@@ -22,8 +22,8 @@ struct ScreenshotFlyAnimationView: View {
                     LinearGradient(
                         stops: [
                             .init(color: .clear, location: 0.0),
-                            .init(color: .black, location: 0.22),
-                            .init(color: .black, location: 0.78),
+                            .init(color: .black, location: 0.15),
+                            .init(color: .black, location: 0.85),
                             .init(color: .clear, location: 1.0)
                         ],
                         startPoint: .top,
@@ -34,8 +34,8 @@ struct ScreenshotFlyAnimationView: View {
                     LinearGradient(
                         stops: [
                             .init(color: .clear, location: 0.0),
-                            .init(color: .black, location: 0.22),
-                            .init(color: .black, location: 0.78),
+                            .init(color: .black, location: 0.15),
+                            .init(color: .black, location: 0.85),
                             .init(color: .clear, location: 1.0)
                         ],
                         startPoint: .leading,
@@ -66,7 +66,7 @@ final class ScreenshotFlyAnimationService {
         let screenFrame = targetScreen.frame
         
         let initialWidth: CGFloat = 450
-        let initialHeight: CGFloat = 350
+        let initialHeight: CGFloat = 450
         let rawX = mouseLoc.x - (initialWidth / 2)
         let rawY = mouseLoc.y - (initialHeight / 2)
         
@@ -80,7 +80,7 @@ final class ScreenshotFlyAnimationService {
         let middleY = screenFrame.maxY - (middleHeight + 30)
         let middleFrame = NSRect(x: middleX, y: middleY, width: middleWidth, height: middleHeight)
         
-        let finalWidth: CGFloat = 100
+        let finalWidth: CGFloat = 250
         let finalHeight: CGFloat = 30
         let finalX = screenFrame.midX - (finalWidth / 2)
         let finalY = screenFrame.maxY + 15
@@ -108,7 +108,7 @@ final class ScreenshotFlyAnimationService {
         
         // Stage 1: Fly towards target point near notch
         NSAnimationContext.runAnimationGroup { context in
-            context.duration = 0.3
+            context.duration = 0.25
             context.timingFunction = CAMediaTimingFunction(name: .easeIn)
             panel.animator().setFrame(middleFrame, display: true)
         }

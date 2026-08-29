@@ -36,12 +36,21 @@ struct MessagesNotificationView: View {
                         .foregroundStyle(.secondary)
                 }
 
-                Text(message.text)
-                    .font(.system(size: 12, weight: .medium))
-                    .foregroundStyle(.white)
-                    .lineLimit(2)
-                    .multilineTextAlignment(.leading)
-                    .padding(.top, 1)
+                if !message.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    Text(message.text)
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundStyle(.secondary)
+                        .lineLimit(2)
+                        .multilineTextAlignment(.leading)
+                        .padding(.top, 1)
+                } else {
+                    Text("Empty message")
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundStyle(.secondary)
+                        .lineLimit(2)
+                        .multilineTextAlignment(.leading)
+                        .padding(.top, 1)
+                }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         }

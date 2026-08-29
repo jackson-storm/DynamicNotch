@@ -22,6 +22,7 @@ enum SettingsSubPage: Hashable, Identifiable {
     case timer
     case appleMail
     case appleMessages
+    case externalDrives
     
     var id: Self { self }
     var titleKey: String {
@@ -47,6 +48,7 @@ enum SettingsSubPage: Hashable, Identifiable {
         case .timer: return "settings.section.timer.title"
         case .appleMail: return "settings.notifications.appleMail.title"
         case .appleMessages: return "settings.notifications.appleMessages.title"
+        case .externalDrives: return "settings.notifications.externalDrives.title"
         }
     }
     
@@ -73,6 +75,7 @@ enum SettingsSubPage: Hashable, Identifiable {
         case .timer: return "Timer"
         case .appleMail: return "Apple Mail"
         case .appleMessages: return "Apple Messages"
+        case .externalDrives: return "External Drives"
         }
     }
     
@@ -99,6 +102,7 @@ enum SettingsSubPage: Hashable, Identifiable {
         case .timer: return "settings.section.timer.subtitle"
         case .appleMail: return "settings.notifications.appleMail.subtitle"
         case .appleMessages: return "settings.notifications.appleMessages.subtitle"
+        case .externalDrives: return "settings.notifications.externalDrives.subtitle"
         }
     }
     
@@ -125,12 +129,13 @@ enum SettingsSubPage: Hashable, Identifiable {
         case .timer: return "Clock timer live activity and stroke appearance."
         case .appleMail: return "Incoming email notifications and duration."
         case .appleMessages: return "Incoming message notifications and duration."
+        case .externalDrives: return "Notifications for connected external disks and flash drives."
         }
     }
     
     var canReset: Bool {
         switch self {
-        case .appearance, .notch, .language, .activityPriorities, .notchDisplay, .notchAnimation, .gestures, .fileTray, .fileConverter, .homePagePages, .timer, .appleMail, .appleMessages:
+        case .appearance, .notch, .language, .activityPriorities, .notchDisplay, .notchAnimation, .gestures, .fileTray, .fileConverter, .homePagePages, .timer, .appleMail, .appleMessages, .externalDrives:
             return true
         default:
             return false

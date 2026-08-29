@@ -83,6 +83,22 @@ extension AppDelegate {
             }
             .store(in: &cancellables)
 
+        settingsViewModel.notifications.$isExternalDrivesNotificationsEnabled
+            .removeDuplicates()
+            .sink { [weak self] _ in
+                self?.updateExternalDrivesMonitoringState()
+            }
+            .store(in: &cancellables)
+
+        settingsViewModel.notifications.$isExternalDrivesIncludeDiskImagesEnabled
+            .removeDuplicates()
+            .sink { [weak self] isInclude in
+                self?.externalDrivesMonitor.includeDiskImages = isInclude
+            }
+            .store(in: &cancellables)
+
+        updateExternalDrivesMonitoringState()
+
         NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in
@@ -235,6 +251,19 @@ extension AppDelegate {
         }
 
         updateMessagesMonitoringState()
+    }
+
+    func updateExternalDrivesMonitoringState() {
+        guard !isRunningUITests else { return }
+
+        let isEnabled = settingsViewModel.notifications.isExternalDrivesNotificationsEnabled
+        externalDrivesMonitor.includeDiskImages = settingsViewModel.notifications.isExternalDrivesIncludeDiskImagesEnabled
+
+        if isEnabled {
+            externalDrivesMonitor.startMonitoring()
+        } else {
+            externalDrivesMonitor.stopMonitoring()
+        }
     }
 
     @objc

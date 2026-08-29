@@ -19,7 +19,7 @@ struct MessagesNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     }
 
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        let extraHeight: CGFloat = hasText ? 80 : 60
+        let extraHeight: CGFloat = hasText ? 70 : 60
 
         return .init(
             width: baseWidth + Self.extraWidth,
@@ -28,7 +28,7 @@ struct MessagesNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     }
 
     func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        let extraHeight: CGFloat = hasText ? 80 : 60
+        let extraHeight: CGFloat = hasText ? 70 : 60
 
         return .init(
             width: baseWidth + (hasText ? 210 : 180),

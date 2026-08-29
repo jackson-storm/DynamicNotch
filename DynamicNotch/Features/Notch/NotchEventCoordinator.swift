@@ -42,6 +42,7 @@ final class NotchEventCoordinator: ObservableObject {
     private var fileConverterExpansionTask: Task<Void, Never>?
     private let mailManager: MailManager
     private let messagesManager: MessagesManager
+    private let externalDrivesMonitor: ExternalDrivesMonitor
     
     private var isOnboardingActive: Bool {
         OnboardingSteps.contains(id: notchViewModel.notchModel.liveActivityContent?.id) ||
@@ -81,7 +82,8 @@ final class NotchEventCoordinator: ObservableObject {
         calendarViewModel: CalendarViewModel,
         screenshotViewModel: ScreenshotViewModel? = nil,
         mailManager: MailManager,
-        messagesManager: MessagesManager = MessagesManager()
+        messagesManager: MessagesManager,
+        externalDrivesMonitor: ExternalDrivesMonitor
     ) {
         self.notchViewModel = notchViewModel
         self.wifiViewModel = wifiViewModel
@@ -100,6 +102,7 @@ final class NotchEventCoordinator: ObservableObject {
         self.screenshotViewModel = screenshotViewModel ?? ScreenshotViewModel()
         self.mailManager = mailManager
         self.messagesManager = messagesManager
+        self.externalDrivesMonitor = externalDrivesMonitor
         self.lockScreenManager = lockScreenManager
         self.systemHandler = NotchSystemEventsHandler(
             notchViewModel: notchViewModel,
@@ -173,6 +176,11 @@ final class NotchEventCoordinator: ObservableObject {
             guard let self else { return }
 
             handleMessagesMessage(message)
+        }
+        externalDrivesMonitor.onDriveEvent = { [weak self] drive in
+            guard let self else { return }
+
+            handleExternalDriveEvent(drive)
         }
         self.fileTrayViewModel.onItemsChange = { [weak notchViewModel, weak settingsViewModel, weak fileTrayViewModel] items in
             guard let notchViewModel, let settingsViewModel, let fileTrayViewModel else {
@@ -487,6 +495,32 @@ final class NotchEventCoordinator: ObservableObject {
             message: message,
             onOpen: { [weak messagesManager] in
                 messagesManager?.open(message)
+            }
+        )
+
+        notchViewModel.send(.showTemporaryNotification(content, duration: duration))
+    }
+
+    func handleExternalDriveEvent(_ drive: ExternalDriveModel) {
+        guard settingsViewModel.notifications.isExternalDrivesNotificationsEnabled else { return }
+
+        if drive.eventType == .ejected && !settingsViewModel.notifications.isExternalDrivesShowEjectedEnabled {
+            return
+        }
+
+        let duration = Double(settingsViewModel.notifications.externalDrivesNotificationDuration)
+        let volumeURL = drive.volumeURL
+        let content = ExternalDriveNotchContent(
+            drive: drive,
+            onOpen: {
+                if let volumeURL {
+                    NSWorkspace.shared.open(volumeURL)
+                }
+            },
+            onEject: { [weak externalDrivesMonitor] in
+                if let volumeURL {
+                    externalDrivesMonitor?.ejectDrive(at: volumeURL)
+                }
             }
         )
 

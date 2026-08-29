@@ -35,6 +35,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     var homePageViewModel: HomePageViewModel { container.homePageViewModel }
     var mailManager: MailManager { container.mailManager }
     var messagesManager: MessagesManager { container.messagesManager }
+    var externalDrivesMonitor: ExternalDrivesMonitor { container.externalDrivesMonitor }
     
     var window: OverlayPanelWindow!
     var localClickMonitor: Any?
@@ -124,6 +125,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         stopOutsideClickMonitoring()
         mailManager.stopMonitoring()
         messagesManager.stopMonitoring()
+        externalDrivesMonitor.stopMonitoring()
     }
 
     func applyActivationPolicy(showsDockIcon: Bool) {

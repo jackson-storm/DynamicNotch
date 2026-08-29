@@ -44,6 +44,16 @@ extension MessagesMessage {
         isFromMe: false
     )
 
+    static let debugPreviewNoText = MessagesMessage(
+        rowID: -10,
+        guid: "debug-messages-no-text",
+        sender: "Jane Doe",
+        senderHandle: "+1 (555) 019-2834",
+        text: "",
+        receivedDate: Date(),
+        isFromMe: false
+    )
+
     static let debugPreviewBatch: [MessagesMessage] = [
         debugPreviewStandard,
         debugPreviewShort,

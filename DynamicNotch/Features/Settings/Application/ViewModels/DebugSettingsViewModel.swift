@@ -388,6 +388,10 @@ final class DebugSettingsViewModel: ObservableObject {
         notchEventCoordinator.handleMessagesMessage(.debugPreviewShort)
     }
 
+    func triggerMessagesNoTextPreview() {
+        notchEventCoordinator.handleMessagesMessage(.debugPreviewNoText)
+    }
+
     func triggerMessagesLongContentPreview() {
         notchEventCoordinator.handleMessagesMessage(.debugPreviewLongContent)
     }
@@ -414,6 +418,22 @@ final class DebugSettingsViewModel: ObservableObject {
                 self.notchEventCoordinator.handleMessagesMessage(message)
             }
         }
+    }
+
+    func triggerExternalDriveConnectedPreview() {
+        notchEventCoordinator.handleExternalDriveEvent(.debugPreviewConnected)
+    }
+
+    func triggerExternalDriveUSBPreview() {
+        notchEventCoordinator.handleExternalDriveEvent(.debugPreviewUSB)
+    }
+
+    func triggerExternalDriveDiskImagePreview() {
+        notchEventCoordinator.handleExternalDriveEvent(.debugPreviewDiskImage)
+    }
+
+    func triggerExternalDriveEjectedPreview() {
+        notchEventCoordinator.handleExternalDriveEvent(.debugPreviewEjected)
     }
 
     func togglePreviewSequence() {

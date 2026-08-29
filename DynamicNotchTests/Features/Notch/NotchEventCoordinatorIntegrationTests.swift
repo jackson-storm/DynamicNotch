@@ -668,7 +668,8 @@ private extension NotchEventCoordinatorIntegrationTests {
             localTimerViewModel: localTimerViewModel,
             calendarViewModel: calendarViewModel,
             mailManager: mailManager,
-            messagesManager: MessagesManager()
+            messagesManager: MessagesManager(),
+            externalDrivesMonitor: ExternalDrivesMonitor()
         )
         var cancellables = Set<AnyCancellable>()
 

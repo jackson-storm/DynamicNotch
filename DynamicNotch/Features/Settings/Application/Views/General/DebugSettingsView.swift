@@ -471,11 +471,76 @@ struct DebugSettingsView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
 
             DebugActionRow(
+                title: "Messages (No Text)",
+                description: "Show compact Messages notification without text (e.g. attachment).",
+                systemImage: "message.fill",
+                color: .green,
+                action: viewModel.triggerMessagesNoTextPreview
+            )
+
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+
+            DebugActionRow(
                 title: "Messages (Long Text)",
                 description: "Show Messages notification with longer text body.",
                 systemImage: "message.fill",
                 color: .green,
                 action: viewModel.triggerMessagesLongContentPreview
+            )
+
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+
+            DebugActionRow(
+                title: "External Drive (Connected SSD)",
+                description: "Show notification for connected external SSD with capacity.",
+                systemImage: "externaldrive.fill",
+                color: .blue,
+                action: viewModel.triggerExternalDriveConnectedPreview
+            )
+
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+
+            DebugActionRow(
+                title: "External Drive (USB Flash)",
+                description: "Show notification for connected USB flash drive.",
+                systemImage: "externaldrive.fill",
+                color: .cyan,
+                action: viewModel.triggerExternalDriveUSBPreview
+            )
+
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+
+            DebugActionRow(
+                title: "External Drive (DMG Image)",
+                description: "Show notification for mounted DMG disk image.",
+                systemImage: "opticaldiscdrive.fill",
+                color: .purple,
+                action: viewModel.triggerExternalDriveDiskImagePreview
+            )
+
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+
+            DebugActionRow(
+                title: "External Drive (Safely Ejected)",
+                description: "Show notification for safely ejected drive.",
+                systemImage: "checkmark.circle.fill",
+                color: .orange,
+                action: viewModel.triggerExternalDriveEjectedPreview
             )
             
             Divider()

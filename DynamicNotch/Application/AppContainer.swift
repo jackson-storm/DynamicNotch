@@ -25,6 +25,7 @@ final class AppContainer {
     let clockTimerController: any ClockTimerControlling
     let mailManager: MailManager
     let messagesManager: MessagesManager
+    let externalDrivesMonitor: ExternalDrivesMonitor
 
     lazy var hardwareHUDMonitor: HardwareHUDMonitor = {
         MainActor.assumeIsolated {
@@ -67,7 +68,8 @@ final class AppContainer {
         calendarViewModel: calendarViewModel,
         screenshotViewModel: screenshotViewModel,
         mailManager: mailManager,
-        messagesManager: messagesManager
+        messagesManager: messagesManager,
+        externalDrivesMonitor: externalDrivesMonitor
     )
 
     lazy var lockScreenPanelManager = LockScreenPanelManager(
@@ -133,5 +135,6 @@ final class AppContainer {
         )
         self.mailManager = MailManager()
         self.messagesManager = MessagesManager()
+        self.externalDrivesMonitor = ExternalDrivesMonitor()
     }
 }

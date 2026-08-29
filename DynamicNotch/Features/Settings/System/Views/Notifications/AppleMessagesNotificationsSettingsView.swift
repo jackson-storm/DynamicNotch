@@ -108,6 +108,10 @@ struct AppleMessagesNotificationsSettingsView: View {
     }
 
     private func openSystemNotificationSettings() {
+        if let url = URL(string: "x-apple.systempreferences:com.apple.Notifications-Settings.extension?id=com.apple.MobileSMS"),
+           NSWorkspace.shared.open(url) {
+            return
+        }
         if let url = URL(string: "x-apple.systempreferences:com.apple.Notifications-Settings.extension"),
            NSWorkspace.shared.open(url) {
             return

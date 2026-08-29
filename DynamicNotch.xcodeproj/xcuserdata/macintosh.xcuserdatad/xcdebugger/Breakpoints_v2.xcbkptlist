@@ -14,12 +14,12 @@
             symbolName = "*0x1920edd4c">
             <Locations>
                <Location
-                  uuid = "AEFBC119-E5CB-4712-BFCB-7C770BAC2773 - a9a5d78b34e81c0e"
+                  uuid = "AEFBC119-E5CB-4712-BFCB-7C770BAC2773 - 1411bd0a18d84b62"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "_NSSharedKeySetS_keys"
-                  moduleName = "Foundation"
+                  symbolName = "CGESVX"
+                  moduleName = "libLAPACK.dylib"
                   usesParentBreakpointCondition = "Yes">
                </Location>
             </Locations>

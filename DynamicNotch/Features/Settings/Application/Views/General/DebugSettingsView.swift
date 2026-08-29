@@ -790,6 +790,16 @@ struct DebugSettingsView: View {
                 color: .green,
                 action: viewModel.triggerMessagesQueuePreview
             )
+
+            debugDivider
+
+            DebugActionRow(
+                title: "Mixed Queue (Mail + Message)",
+                description: "Show an incoming email followed by a text message in the unified queue.",
+                systemImage: "bell.badge.fill",
+                color: .indigo,
+                action: viewModel.triggerMixedNotificationsQueuePreview
+            )
         }
     }
 

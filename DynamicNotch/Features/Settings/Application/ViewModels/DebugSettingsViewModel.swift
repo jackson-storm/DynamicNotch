@@ -415,6 +415,27 @@ final class DebugSettingsViewModel: ObservableObject {
         }
     }
 
+    func triggerMixedNotificationsQueuePreview() {
+        messagesQueuePreviewTask?.cancel()
+
+        messagesQueuePreviewTask = Task { @MainActor [weak self] in
+            guard let self else { return }
+
+            notchViewModel.hideTemporaryNotification()
+
+            try? await Task.sleep(nanoseconds: Self.messagesPreviewDelay)
+            guard !Task.isCancelled else { return }
+
+            notchEventCoordinator.handleMailMessage(.debugPreviewStandard)
+
+            try? await Task.sleep(nanoseconds: Self.messagesPreviewDelay)
+            guard !Task.isCancelled else { return }
+
+            notchEventCoordinator.handleMessagesMessage(.debugText)
+            messagesQueuePreviewTask = nil
+        }
+    }
+
     func triggerMailSequencePreview() {
         triggerMailBatch(interval: 1.5)
     }

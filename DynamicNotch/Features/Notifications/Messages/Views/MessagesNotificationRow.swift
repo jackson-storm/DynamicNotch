@@ -2,61 +2,13 @@ internal import AppKit
 import SwiftUI
 
 @MainActor
-struct MessagesNotificationView: View {
-    let messages: [MessagesMessage]
-    let onAudioPlaybackStateChanged: (Bool) -> Void
-    let onOpen: (MessagesMessage) -> Void
-
-    @Environment(\.isDynamicIsland) private var isDynamicIsland
-
-    init(messages: [MessagesMessage], onAudioPlaybackStateChanged: @escaping (Bool) -> Void = { _ in }, onOpen: @escaping (MessagesMessage) -> Void = { _ in }) {
-        self.messages = messages
-        self.onAudioPlaybackStateChanged = onAudioPlaybackStateChanged
-        self.onOpen = onOpen
-    }
-
-    var body: some View {
-        VStack(spacing: 0) {
-            Spacer(minLength: 0)
-            messageList
-        }
-        .padding(.leading, isDynamicIsland ? 12 : 35)
-        .padding(.trailing, isDynamicIsland ? 20 : 40)
-        .padding(.bottom, isDynamicIsland ? MessagesNotchContent.dynamicIslandBottomPadding : MessagesNotchContent.standardBottomPadding)
-    }
-
-    private var messageList: some View {
-        VStack(spacing: MessagesNotchContent.rowSpacing) {
-            ForEach(messages) { message in
-                MessagesNotificationRow(message: message, onAudioPlaybackStateChanged: onAudioPlaybackStateChanged, onOpen: onOpen)
-                    .frame(height: messages.count > 1 ? MessagesNotchContent.rowHeight(for: message) : nil)
-                    .transition(messageTransition)
-            }
-        }
-        .animation(.spring(response: 0.46, dampingFraction: 0.86, blendDuration: 0.12), value: messages.map(\.id))
-    }
-
-    private var messageTransition: AnyTransition {
-        .asymmetric(
-            insertion: .move(edge: .bottom)
-                .combined(with: .opacity)
-                .combined(with: .scale(scale: 0.96, anchor: .bottom)),
-            removal: .move(edge: .top)
-                .combined(with: .blurAndFade)
-                .combined(with: .scale(scale: 0.94, anchor: .top))
-        )
-    }
-}
-
-@MainActor
-private struct MessagesNotificationRow: View {
+struct MessagesNotificationRow: View {
     let message: MessagesMessage
     let onAudioPlaybackStateChanged: (Bool) -> Void
     let onOpen: (MessagesMessage) -> Void
 
-    private let avatarSize: CGFloat = 33
-    private let avatarSpacing: CGFloat = 21
-    private let contentSpacing: CGFloat = 3.5
+    private let avatarSize: CGFloat = 45
+    private let avatarSpacing: CGFloat = 15
 
     var body: some View {
         Group {
@@ -75,7 +27,7 @@ private struct MessagesNotificationRow: View {
             HStack(alignment: .center, spacing: avatarSpacing) {
                 avatar
 
-                VStack(alignment: .leading, spacing: contentSpacing) {
+                VStack(alignment: .leading, spacing: 3) {
                     header
                     previewText(lineLimit: 2)
                 }
@@ -88,13 +40,13 @@ private struct MessagesNotificationRow: View {
 
     private var attachmentContent: some View {
         Button(action: openMessage) {
-            VStack(alignment: .trailing, spacing: contentSpacing) {
+            VStack(alignment: .trailing, spacing: 3) {
                 timestamp
 
                 HStack(alignment: .center, spacing: avatarSpacing) {
                     avatar
 
-                    VStack(alignment: .leading, spacing: contentSpacing) {
+                    VStack(alignment: .leading, spacing: 3) {
                         titleText
                         previewText(lineLimit: 1)
                     }
@@ -119,7 +71,7 @@ private struct MessagesNotificationRow: View {
             }
             .buttonStyle(PlaybackSourceButtonStyle())
 
-            VStack(alignment: .leading, spacing: contentSpacing) {
+            VStack(alignment: .leading, spacing: 6) {
                 Button(action: openMessage) {
                     header
                         .contentShape(Rectangle())
@@ -187,10 +139,10 @@ private struct MessagesNotificationRow: View {
             } else {
                 ZStack {
                     Circle()
-                        .fill(.white.opacity(0.12))
+                        .fill(.white.opacity(0.14))
 
                     Text(initials.isEmpty ? "?" : initials)
-                        .font(.system(size: 12, weight: .semibold))
+                        .font(.system(size: 14, weight: .semibold))
                         .foregroundStyle(.white)
                 }
             }
@@ -198,21 +150,13 @@ private struct MessagesNotificationRow: View {
         .frame(width: avatarSize, height: avatarSize)
         .clipShape(Circle())
         .overlay(alignment: .bottomTrailing) {
-            messagesBadge
-                .offset(x: 6)
+            Image("messages")
+                .resizable()
+                .interpolation(.high)
+                .scaledToFit()
+                .frame(width: 20, height: 20)
+                .offset(x: 6, y: 2)
         }
-    }
-
-    private var messagesBadge: some View {
-        Image(systemName: "message.fill")
-            .font(.system(size: 6, weight: .semibold))
-            .foregroundStyle(.white)
-            .frame(width: 14, height: 14)
-            .background(Color.green, in: RoundedRectangle(cornerRadius: 4, style: .continuous))
-            .overlay {
-                RoundedRectangle(cornerRadius: 4, style: .continuous)
-                    .strokeBorder(.black.opacity(0.3), lineWidth: 1)
-            }
     }
 
     private var attachments: [MessagesAttachment] {

@@ -43,7 +43,7 @@ final class NotchEventCoordinator: ObservableObject {
     private let mailManager: MailManager
     private let messagesManager: MessagesManager
     private let externalDrivesMonitor: ExternalDrivesMonitor
-    private var recentMessages: [MessagesMessage] = []
+    private var recentNotifications: [AppNotificationItem] = []
     
     private var isOnboardingActive: Bool {
         OnboardingSteps.contains(id: notchViewModel.notchModel.liveActivityContent?.id) ||
@@ -478,23 +478,23 @@ final class NotchEventCoordinator: ObservableObject {
     }
     
     func handleMailMessage(_ message: MailMessage) {
-        let duration = Double(settingsViewModel.notifications.appleMailNotificationDuration)
-        let content = MailNotchContent(
-            message: message,
-            onOpen: { [weak mailManager] in
-                mailManager?.open(message)
-            }
-        )
+        guard settingsViewModel.notifications.isAppleMailNotificationsEnabled else { return }
 
-        notchViewModel.send(.showTemporaryNotification(content, duration: duration))
+        recentNotifications.removeAll { $0.id == "mail-\(message.rowID)" }
+        recentNotifications.append(.mail(message))
+        recentNotifications = Array(recentNotifications.suffix(2))
+
+        showNotificationsNotification(duration: Double(settingsViewModel.notifications.appleMailNotificationDuration))
     }
 
     func handleMessagesMessage(_ message: MessagesMessage) {
-        recentMessages.removeAll { $0.id == message.id }
-        recentMessages.append(message)
-        recentMessages = Array(recentMessages.suffix(2))
+        guard settingsViewModel.notifications.isMessagesNotificationsEnabled else { return }
 
-        showMessagesNotification()
+        recentNotifications.removeAll { $0.id == "msg-\(message.id)" }
+        recentNotifications.append(.message(message))
+        recentNotifications = Array(recentNotifications.suffix(2))
+
+        showNotificationsNotification(duration: Double(settingsViewModel.notifications.messagesNotificationDuration))
     }
 
     private func handleMessagesAudioPlaybackStateChanged(_ isPlaying: Bool) {
@@ -508,32 +508,38 @@ final class NotchEventCoordinator: ObservableObject {
         guard isMessagesAudioPlaying != isPlaying else { return }
 
         isMessagesAudioPlaying = isPlaying
-        showMessagesNotification()
+        showNotificationsNotification()
     }
 
-    private func showMessagesNotification() {
-        guard !recentMessages.isEmpty else { return }
+    private func showNotificationsNotification(duration: Double? = nil) {
+        guard !recentNotifications.isEmpty else { return }
 
-        let duration: TimeInterval = isMessagesAudioPlaying
+        let effectiveDuration: TimeInterval = isMessagesAudioPlaying
             ? .infinity
-            : Double(settingsViewModel.notifications.messagesNotificationDuration)
+            : (duration ?? Double(settingsViewModel.notifications.messagesNotificationDuration))
 
-        let content = MessagesNotchContent(
-            messages: recentMessages,
+        let content = NotificationsNotchContent(
+            items: recentNotifications,
             onAudioPlaybackStateChanged: { [weak self] isPlaying in
                 Task { @MainActor [weak self] in
                     self?.handleMessagesAudioPlaybackStateChanged(isPlaying)
                 }
             },
-            onOpen: { [weak self] selectedMessage in
+            onOpenMessage: { [weak self] selectedMessage in
                 guard let self else { return }
 
                 messagesManager.open(selectedMessage)
                 notchViewModel.hideTemporaryNotification()
+            },
+            onOpenMail: { [weak self] selectedMail in
+                guard let self else { return }
+
+                mailManager.open(selectedMail)
+                notchViewModel.hideTemporaryNotification()
             }
         )
 
-        notchViewModel.send(.showTemporaryNotification(content, duration: duration))
+        notchViewModel.send(.showTemporaryNotification(content, duration: effectiveDuration))
     }
 
     func handleExternalDriveEvent(_ drive: ExternalDriveModel) {
@@ -572,7 +578,7 @@ final class NotchEventCoordinator: ObservableObject {
             .sink { [weak self] isShowingMessages in
                 guard let self, !isShowingMessages else { return }
 
-                recentMessages.removeAll()
+                recentNotifications.removeAll()
                 isMessagesAudioPlaying = false
             }
             .store(in: &cancellables)

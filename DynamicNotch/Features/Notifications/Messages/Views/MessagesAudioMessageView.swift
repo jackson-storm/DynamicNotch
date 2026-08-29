@@ -35,7 +35,7 @@ struct MessagesAudioMessageView: View {
             ) {
                 player.togglePlayback()
             }
-            .opacity(player.isAvailable ? 1 : 0.45)
+            .opacity(player.isAvailable ? 1 : 0.5)
             .disabled(!player.isAvailable)
 
             MessagesAudioWaveformView(
@@ -53,7 +53,7 @@ struct MessagesAudioMessageView: View {
             .frame(minWidth: 110, maxWidth: 180)
             .frame(height: 20)
 
-            Spacer(minLength: 0)
+            Spacer()
 
             Text(formattedTime(player.duration))
                 .font(.system(size: 11, weight: .medium, design: .rounded))
@@ -62,11 +62,12 @@ struct MessagesAudioMessageView: View {
                 .frame(minWidth: 32, alignment: .trailing)
         }
         .frame(maxWidth: .infinity)
-        .padding(.horizontal, 10)
+        .padding(.trailing, 10)
+        .padding(.leading, 7)
         .padding(.vertical, 7)
         .background {
-            RoundedRectangle(cornerRadius: 14, style: .continuous)
-                .fill(.white.opacity(0.06))
+            RoundedRectangle(cornerRadius: 30, style: .continuous)
+                .fill(.white.opacity(0.1))
         }
     }
 
@@ -103,7 +104,7 @@ private struct MessagesAudioWaveformView: View {
 
             ZStack(alignment: .leading) {
                 MessagesAudioWaveformBars(samples: displayedSamples, color: .white.opacity(0.2))
-
+                
                 MessagesAudioWaveformBars(samples: displayedSamples, color: .white.opacity(0.88))
                     .mask(alignment: .leading) {
                         Rectangle()

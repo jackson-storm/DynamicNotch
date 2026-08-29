@@ -40,6 +40,7 @@ final class SystemMessagesContactStore: MessagesContactStoring {
 }
 
 final class MessagesContactResolver {
+    static let shared = MessagesContactResolver()
 
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "DynamicNotch", category: "MessagesContactResolver")
 

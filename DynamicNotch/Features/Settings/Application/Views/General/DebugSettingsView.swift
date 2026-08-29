@@ -328,6 +328,32 @@ struct DebugSettingsView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
 
             DebugActionRow(
+                title: "Mail (Multiple - Sequence)",
+                description: "Simulate 3 consecutive emails arriving with 1.5s delay to test in-place view update.",
+                systemImage: "envelope.badge.fill",
+                color: .yellow,
+                action: viewModel.triggerMailSequencePreview
+            )
+
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+
+            DebugActionRow(
+                title: "Mail (Multiple - Immediate)",
+                description: "Simulate rapid incoming emails arriving in quick succession (0.4s delay).",
+                systemImage: "envelope.badge",
+                color: .yellow,
+                action: viewModel.triggerMailRapidPreview
+            )
+
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+
+            DebugActionRow(
                 title: "Mail (Standard)",
                 description: "Show standard Mail notification with sender, subject, and summary.",
                 systemImage: "envelope.fill",

@@ -17,7 +17,7 @@ struct CalendarSettingsView: View {
             SettingsToggleRow(
                 title: "settings.calendar.activity.title",
                 description: "settings.calendar.activity.desc",
-                systemImage: "29.calendar",
+                systemImage: "calendar",
                 color: .blue,
                 stroke: true,
                 isOn: $settings.isCalendarLiveActivityEnabled,

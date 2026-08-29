@@ -4,11 +4,11 @@ struct MailNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     let message: MailMessage
     let onOpen: @MainActor () -> Void
     
-    static let extraWidth: CGFloat = 160
-
-    var id: String { "mail.message.\(message.rowID)" }
+    var id: String { NotchContentRegistry.Notifications.mail.id }
     var priority: Int { NotchContentRegistry.Notifications.mail.priority }
     var windowLink: (@MainActor () -> Void)? { onOpen }
+    
+    static let extraWidth: CGFloat = 160
 
     private var hasSummary: Bool {
         guard let summary = message.summary else { return false }

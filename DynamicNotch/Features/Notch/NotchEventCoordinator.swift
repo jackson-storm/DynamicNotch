@@ -839,6 +839,44 @@ final class NotchEventCoordinator: ObservableObject {
             }
             .store(in: &cancellables)
 
+        settingsViewModel.screenRecording.$screenRecordingStyle
+            .removeDuplicates()
+            .dropFirst()
+            .sink { [weak self] _ in
+                guard let self else { return }
+                if self.screenRecordingViewModel.isRecording,
+                   self.settingsViewModel.isLiveActivityEnabled(.screenRecording) {
+                    self.notchViewModel.send(
+                        .showLiveActivity(
+                            ScreenRecordingContent(
+                                screenRecordingViewModel: self.screenRecordingViewModel,
+                                settingsViewModel: self.settingsViewModel
+                            )
+                        )
+                    )
+                }
+            }
+            .store(in: &cancellables)
+
+        settingsViewModel.screenRecording.$isScreenRecordingDefaultStrokeEnabled
+            .removeDuplicates()
+            .dropFirst()
+            .sink { [weak self] _ in
+                guard let self else { return }
+                if self.screenRecordingViewModel.isRecording,
+                   self.settingsViewModel.isLiveActivityEnabled(.screenRecording) {
+                    self.notchViewModel.send(
+                        .showLiveActivity(
+                            ScreenRecordingContent(
+                                screenRecordingViewModel: self.screenRecordingViewModel,
+                                settingsViewModel: self.settingsViewModel
+                            )
+                        )
+                    )
+                }
+            }
+            .store(in: &cancellables)
+
         settingsViewModel.screenRecording.$isScreenshotActivityEnabled
             .removeDuplicates()
             .sink { [weak self] isEnabled in

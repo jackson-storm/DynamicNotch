@@ -83,6 +83,7 @@ enum GeneralSettingsStorage {
         static let timerSound = "settings.timer.sound"
         static let screenRecordingLiveActivityEnabled = "settings.live.screenRecording"
         static let screenRecordingDefaultStrokeEnabled = "settings.live.screenRecording.defaultStroke"
+        static let screenRecordingStyle = "settings.screenRecording.style"
         static let screenshotActivityEnabled = "settings.live.screenshot"
         static let screenshotDisableSystemThumbnail = "settings.screenshot.disableSystemThumbnail"
         static let screenshotTemporaryActivityDuration = "settings.temporary.screenshot.duration"
@@ -240,6 +241,7 @@ enum GeneralSettingsStorage {
         Keys.timerSound: TimerSound.radar.rawValue,
         Keys.screenRecordingLiveActivityEnabled: true,
         Keys.screenRecordingDefaultStrokeEnabled: false,
+        Keys.screenRecordingStyle: ScreenRecordingStyle.detailed.rawValue,
         Keys.screenshotActivityEnabled: true,
         Keys.screenshotDisableSystemThumbnail: true,
         Keys.screenshotTemporaryActivityDuration: 4,

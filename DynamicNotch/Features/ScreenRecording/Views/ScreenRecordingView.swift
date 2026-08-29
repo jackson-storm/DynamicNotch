@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct ScreenRecordingView: View {
+    var style: ScreenRecordingStyle = .detailed
+    
+    @ObservedObject var viewModel: ScreenRecordingViewModel
     @Environment(\.notchScale) private var scale
     @Environment(\.isDynamicIsland) private var isDynamicIsland
     @State private var isBlinking = false
@@ -20,6 +23,13 @@ struct ScreenRecordingView: View {
                 .opacity(isBlinking ? 0.5 : 1)
 
             Spacer()
+            
+            if style == .detailed {
+                Text(viewModel.formattedDuration)
+                    .font(.system(size: 14, design: .rounded))
+                    .foregroundStyle(.red)
+                    .monospacedDigit()
+            }
         }
         .padding(.horizontal, isDynamicIsland ? 7.scaled(by: scale) : 16.scaled(by: scale))
         .onAppear {

@@ -110,6 +110,7 @@ final class DebugSettingsViewModel: ObservableObject {
 
     private var isReady = false
     private var previewSequenceTask: Task<Void, Never>?
+    private var mailBatchTask: Task<Void, Never>?
 
     init(
         notchViewModel: NotchViewModel,
@@ -354,6 +355,30 @@ final class DebugSettingsViewModel: ObservableObject {
         notchEventCoordinator.handleMailMessage(.debugPreviewLongContent)
     }
 
+    func triggerMailSequencePreview() {
+        triggerMailBatch(interval: 1.5)
+    }
+
+    func triggerMailRapidPreview() {
+        triggerMailBatch(interval: 0.4)
+    }
+
+    private func triggerMailBatch(interval: TimeInterval) {
+        mailBatchTask?.cancel()
+        mailBatchTask = Task { @MainActor [weak self] in
+            guard let self else { return }
+
+            for (index, message) in MailMessage.debugPreviewBatch.enumerated() {
+                if Task.isCancelled { break }
+                if index > 0 {
+                    try? await Task.sleep(nanoseconds: UInt64(interval * 1_000_000_000))
+                }
+                if Task.isCancelled { break }
+                self.notchEventCoordinator.handleMailMessage(message)
+            }
+        }
+    }
+
     func togglePreviewSequence() {
         if isPreviewSequenceRunning {
             stopPreviewSequence()
@@ -363,10 +388,14 @@ final class DebugSettingsViewModel: ObservableObject {
     }
 
     func hideCurrentTemporaryPreview() {
+        mailBatchTask?.cancel()
+        mailBatchTask = nil
         notchViewModel.hideTemporaryNotification()
     }
 
     func resetAllPreviews() {
+        mailBatchTask?.cancel()
+        mailBatchTask = nil
         stopPreviewSequence()
         isOnboardingPreviewEnabled = false
         isFocusLivePreviewEnabled = false

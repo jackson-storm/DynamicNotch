@@ -57,5 +57,18 @@ extension MailMessage {
         summary: "This is an extremely long email preview summary text designed to verify multiple lines wrapping, graceful font rendering, bounds protection, and truncation across standard notch and dynamic island modes.",
         receivedDate: Date()
     )
+
+    static let debugPreviewBatch: [MailMessage] = [
+        debugPreviewStandard,
+        debugPreviewNoSummary,
+        MailMessage(
+            rowID: -6,
+            messageIDHeader: "<debug-batch-3@mail.preview>",
+            sender: "GitHub <notifications@github.com>",
+            subject: "Pull request merged into main",
+            summary: "dynamicnotch: Mail notification smooth in-place update has been merged.",
+            receivedDate: Date()
+        )
+    ]
 }
 #endif

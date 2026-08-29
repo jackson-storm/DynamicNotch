@@ -58,5 +58,7 @@ struct MailNotificationView: View {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         }
+        .id(message.rowID)
+        .transition(.blurAndFade.combined(with: .opacity).animation(.spring(response: 0.6)))
     }
 }

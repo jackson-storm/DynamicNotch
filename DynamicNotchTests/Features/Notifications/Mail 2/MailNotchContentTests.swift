@@ -3,7 +3,7 @@ import XCTest
 
 final class MailNotchContentTests: XCTestCase {
 
-    func testIDUsesMessageRowID() {
+    func testIDUsesRegistryID() {
         let message = MailMessage(
             rowID: 123,
             messageIDHeader: "",
@@ -18,7 +18,7 @@ final class MailNotchContentTests: XCTestCase {
             onOpen: {}
         )
 
-        XCTAssertEqual(content.id, "mail.message.123")
+        XCTAssertEqual(content.id, NotchContentRegistry.Notifications.mail.id)
     }
     
     func testSizeUsesExpandedHeightWhenSummaryExists() {
@@ -42,7 +42,7 @@ final class MailNotchContentTests: XCTestCase {
         )
 
         XCTAssertEqual(size.width, 360)
-        XCTAssertEqual(size.height, 125)
+        XCTAssertEqual(size.height, 120)
     }
 
     func testSizeUsesCompactHeightWhenSummaryIsMissing() {
@@ -66,7 +66,7 @@ final class MailNotchContentTests: XCTestCase {
         )
 
         XCTAssertEqual(size.width, 360)
-        XCTAssertEqual(size.height, 105)
+        XCTAssertEqual(size.height, 100)
     }
 
     func testDynamicIslandSizeWhenSummaryExists() {
@@ -89,8 +89,8 @@ final class MailNotchContentTests: XCTestCase {
             baseHeight: 40
         )
 
-        XCTAssertEqual(size.width, 390)
-        XCTAssertEqual(size.height, 110)
+        XCTAssertEqual(size.width, 410)
+        XCTAssertEqual(size.height, 120)
     }
 
     func testDynamicIslandSizeWhenSummaryIsMissing() {
@@ -113,7 +113,7 @@ final class MailNotchContentTests: XCTestCase {
             baseHeight: 40
         )
 
-        XCTAssertEqual(size.width, 360)
-        XCTAssertEqual(size.height, 90)
+        XCTAssertEqual(size.width, 380)
+        XCTAssertEqual(size.height, 100)
     }
 }

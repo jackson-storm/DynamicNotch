@@ -309,7 +309,7 @@ private enum SettingsSectionCatalog {
                     "Calendar",
                     "Events"
                 ],
-                systemImage: "29.calendar",
+                systemImage: "calendar",
                 imageName: nil,
                 tint: .blue,
                 stroke: true,

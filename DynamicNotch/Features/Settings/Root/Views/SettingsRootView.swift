@@ -654,6 +654,11 @@ struct SettingsRootView: View {
                 settings: settingsViewModel.notifications,
                 permissionController: permissionController
             )
+        case .appleMessages:
+            AppleMessagesNotificationsSettingsView(
+                settings: settingsViewModel.notifications,
+                permissionController: permissionController
+            )
         }
     }
 
@@ -700,7 +705,7 @@ struct SettingsRootView: View {
             settingsViewModel.mediaAndFiles.resetFileConverter()
         case .homePagePages:
             settingsViewModel.homePage.resetHomePage()
-        case .appleMail:
+        case .appleMail, .appleMessages:
             settingsViewModel.notifications.reset()
         default:
             break

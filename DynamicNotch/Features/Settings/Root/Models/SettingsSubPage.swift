@@ -21,6 +21,7 @@ enum SettingsSubPage: Hashable, Identifiable {
     case homePagePages
     case timer
     case appleMail
+    case appleMessages
     
     var id: Self { self }
     var titleKey: String {
@@ -45,6 +46,7 @@ enum SettingsSubPage: Hashable, Identifiable {
         case .homePagePages: return "settings.homePage.pages.title"
         case .timer: return "settings.section.timer.title"
         case .appleMail: return "settings.notifications.appleMail.title"
+        case .appleMessages: return "settings.notifications.appleMessages.title"
         }
     }
     
@@ -70,6 +72,7 @@ enum SettingsSubPage: Hashable, Identifiable {
         case .homePagePages: return "Pages"
         case .timer: return "Timer"
         case .appleMail: return "Apple Mail"
+        case .appleMessages: return "Apple Messages"
         }
     }
     
@@ -95,6 +98,7 @@ enum SettingsSubPage: Hashable, Identifiable {
         case .homePagePages: return "settings.homePage.pages.subtitle"
         case .timer: return "settings.section.timer.subtitle"
         case .appleMail: return "settings.notifications.appleMail.subtitle"
+        case .appleMessages: return "settings.notifications.appleMessages.subtitle"
         }
     }
     
@@ -120,12 +124,13 @@ enum SettingsSubPage: Hashable, Identifiable {
         case .homePagePages: return "Reorder or enable/disable home page cards."
         case .timer: return "Clock timer live activity and stroke appearance."
         case .appleMail: return "Incoming email notifications and duration."
+        case .appleMessages: return "Incoming message notifications and duration."
         }
     }
     
     var canReset: Bool {
         switch self {
-        case .appearance, .notch, .language, .activityPriorities, .notchDisplay, .notchAnimation, .gestures, .fileTray, .fileConverter, .homePagePages, .timer, .appleMail:
+        case .appearance, .notch, .language, .activityPriorities, .notchDisplay, .notchAnimation, .gestures, .fileTray, .fileConverter, .homePagePages, .timer, .appleMail, .appleMessages:
             return true
         default:
             return false

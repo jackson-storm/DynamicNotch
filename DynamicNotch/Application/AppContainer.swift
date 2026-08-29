@@ -24,6 +24,7 @@ final class AppContainer {
     let lockScreenManager: LockScreenManager
     let clockTimerController: any ClockTimerControlling
     let mailManager: MailManager
+    let messagesManager: MessagesManager
 
     lazy var hardwareHUDMonitor: HardwareHUDMonitor = {
         MainActor.assumeIsolated {
@@ -65,7 +66,8 @@ final class AppContainer {
         localTimerViewModel: localTimerViewModel,
         calendarViewModel: calendarViewModel,
         screenshotViewModel: screenshotViewModel,
-        mailManager: mailManager
+        mailManager: mailManager,
+        messagesManager: messagesManager
     )
 
     lazy var lockScreenPanelManager = LockScreenPanelManager(
@@ -130,5 +132,6 @@ final class AppContainer {
                 LockScreenSoundPlayer()
         )
         self.mailManager = MailManager()
+        self.messagesManager = MessagesManager()
     }
 }

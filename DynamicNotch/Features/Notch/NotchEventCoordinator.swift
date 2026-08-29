@@ -41,6 +41,7 @@ final class NotchEventCoordinator: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     private var fileConverterExpansionTask: Task<Void, Never>?
     private let mailManager: MailManager
+    private let messagesManager: MessagesManager
     
     private var isOnboardingActive: Bool {
         OnboardingSteps.contains(id: notchViewModel.notchModel.liveActivityContent?.id) ||
@@ -80,6 +81,7 @@ final class NotchEventCoordinator: ObservableObject {
         calendarViewModel: CalendarViewModel,
         screenshotViewModel: ScreenshotViewModel? = nil,
         mailManager: MailManager,
+        messagesManager: MessagesManager = MessagesManager()
     ) {
         self.notchViewModel = notchViewModel
         self.wifiViewModel = wifiViewModel
@@ -97,6 +99,7 @@ final class NotchEventCoordinator: ObservableObject {
         self.calendarViewModel = calendarViewModel
         self.screenshotViewModel = screenshotViewModel ?? ScreenshotViewModel()
         self.mailManager = mailManager
+        self.messagesManager = messagesManager
         self.lockScreenManager = lockScreenManager
         self.systemHandler = NotchSystemEventsHandler(
             notchViewModel: notchViewModel,
@@ -165,6 +168,11 @@ final class NotchEventCoordinator: ObservableObject {
             guard let self else { return }
 
             handleMailMessage(message)
+        }
+        messagesManager.onMessageReceived = { [weak self] message in
+            guard let self else { return }
+
+            handleMessagesMessage(message)
         }
         self.fileTrayViewModel.onItemsChange = { [weak notchViewModel, weak settingsViewModel, weak fileTrayViewModel] items in
             guard let notchViewModel, let settingsViewModel, let fileTrayViewModel else {
@@ -467,6 +475,18 @@ final class NotchEventCoordinator: ObservableObject {
             message: message,
             onOpen: { [weak mailManager] in
                 mailManager?.open(message)
+            }
+        )
+
+        notchViewModel.send(.showTemporaryNotification(content, duration: duration))
+    }
+
+    func handleMessagesMessage(_ message: MessagesMessage) {
+        let duration = Double(settingsViewModel.notifications.appleMessagesNotificationDuration)
+        let content = MessagesNotchContent(
+            message: message,
+            onOpen: { [weak messagesManager] in
+                messagesManager?.open(message)
             }
         )
 

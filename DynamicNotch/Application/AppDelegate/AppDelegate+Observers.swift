@@ -76,10 +76,18 @@ extension AppDelegate {
             }
             .store(in: &cancellables)
 
+        settingsViewModel.notifications.$isAppleMessagesNotificationsEnabled
+            .removeDuplicates()
+            .sink { [weak self] _ in
+                self?.updateMessagesMonitoringState()
+            }
+            .store(in: &cancellables)
+
         NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in
                 self?.reconcileMailPermissionState()
+                self?.reconcileMessagesPermissionState()
             }
             .store(in: &cancellables)
     }
@@ -199,6 +207,34 @@ extension AppDelegate {
         }
 
         updateMailMonitoringState()
+    }
+
+    private func updateMessagesMonitoringState() {
+        let isEnabled = settingsViewModel.notifications.isAppleMessagesNotificationsEnabled
+        let hasFullDiskAccess = FullDiskAccessAuthorization.hasPermission()
+
+        if isEnabled && hasFullDiskAccess {
+            messagesManager.startMonitoring()
+        } else {
+            messagesManager.stopMonitoring()
+        }
+    }
+
+    private func reconcileMessagesPermissionState() {
+        let hasFullDiskAccess = FullDiskAccessAuthorization.hasPermission()
+        let settings = settingsViewModel.notifications
+
+        if hasFullDiskAccess {
+            if settings.isAppleMessagesNotificationsPermissionPending {
+                settings.isAppleMessagesNotificationsPermissionPending = false
+                settings.isAppleMessagesNotificationsEnabled = true
+            }
+        } else {
+            settings.isAppleMessagesNotificationsPermissionPending = false
+            settings.isAppleMessagesNotificationsEnabled = false
+        }
+
+        updateMessagesMonitoringState()
     }
 
     @objc

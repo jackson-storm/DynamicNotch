@@ -19,8 +19,19 @@ struct NotificationsSettingsView: View {
                 color: .clear,
                 iconSize: 34,
                 accessibilityIdentifier: "settings.notifications.appleMail",
-                position: .single,
+                position: .first,
                 value: SettingsSubPage.appleMail
+            )
+
+            SettingsNavigationRowView(
+                title: "settings.notifications.appleMessages.title",
+                description: "settings.notifications.appleMessages.subtitle",
+                imageName: "appleMessages",
+                color: .clear,
+                iconSize: 34,
+                accessibilityIdentifier: "settings.notifications.appleMessages",
+                position: .last,
+                value: SettingsSubPage.appleMessages
             )
         }
     }

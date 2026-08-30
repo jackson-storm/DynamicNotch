@@ -57,6 +57,45 @@ final class NotchViewModelIntegrationTests: XCTestCase {
     }
 
     @MainActor
+    func testTemporaryNotificationTimerPausesDuringDirectInteraction() async {
+        let viewModel = NotchViewModel(
+            settings: TestNotchSettings(),
+            hideDelay: 0.01,
+            queueDelay: 0
+        )
+        TestLifetime.retain(viewModel)
+
+        viewModel.send(
+            .showTemporaryNotification(
+                TestNotchContent(id: "temporary", priority: 0),
+                duration: 0.08
+            )
+        )
+
+        await assertEventually {
+            await MainActor.run {
+                viewModel.notchModel.temporaryNotificationContent?.id == "temporary"
+            }
+        }
+
+        viewModel.setTemporaryNotificationTimerPaused(true)
+        try? await Task.sleep(nanoseconds: 160_000_000)
+
+        XCTAssertEqual(
+            viewModel.notchModel.temporaryNotificationContent?.id,
+            "temporary"
+        )
+
+        viewModel.setTemporaryNotificationTimerPaused(false)
+
+        await assertEventually(timeout: 1) {
+            await MainActor.run {
+                viewModel.notchModel.temporaryNotificationContent == nil
+            }
+        }
+    }
+
+    @MainActor
     func testTemporaryNotificationAppearsImmediatelyWhenNotchIsEmpty() async {
         let viewModel = NotchViewModel(
             settings: TestNotchSettings(),

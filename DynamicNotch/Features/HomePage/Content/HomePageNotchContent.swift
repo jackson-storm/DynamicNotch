@@ -15,6 +15,7 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     let homePages: HomePages
     let localTimerViewModel: LocalTimerViewModel
     let nowPlayingViewModel: NowPlayingViewModel
+    let clipboardHistoryViewModel: ClipboardHistoryViewModel
     let fileConverterViewModel: FileConverterViewModel
     let mediaAndFilesSettings: MediaAndFilesSettingsStore
     let applicationSettings: ApplicationSettingsStore
@@ -31,6 +32,12 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     
     private var activePageContent: any NotchContentProtocol {
         switch homePages {
+        case .mediaPlayer:
+            return NowPlayingNotchContent(
+                nowPlayingViewModel: nowPlayingViewModel,
+                settings: mediaAndFilesSettings,
+                applicationSettings: applicationSettings
+            )
         case .camera:
             return CameraActiveNotchContent()
         case .localTimer:
@@ -50,7 +57,7 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     }
 
     func expandedCornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
-        activePageContent.expandedCornerRadius(baseRadius: baseRadius)
+        (top: 30, bottom: 38)
     }
     
     func dynamicIslandCornerRadius(baseHeight: CGFloat) -> CGFloat {
@@ -66,21 +73,15 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     }
     
     func expandedDynamicIslandCornerRadius(baseHeight: CGFloat) -> CGFloat {
-        if let custom = activePageContent as? DynamicIslandCustomizable {
-            return custom.expandedDynamicIslandCornerRadius(baseHeight: baseHeight)
-        }
-        return baseHeight * 0.2
+        baseHeight * 0.28
     }
 
     func expandedSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        activePageContent.expandedSize(baseWidth: baseWidth, baseHeight: baseHeight)
+        .init(width: baseWidth + 260, height: baseHeight + 230)
     }
 
     func expandedDynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        if let custom = activePageContent as? DynamicIslandCustomizable {
-            return custom.expandedDynamicIslandSize(baseWidth: baseWidth, baseHeight: baseHeight)
-        }
-        return .init(width: baseWidth + 180, height: baseHeight + 125)
+        .init(width: baseWidth + 280, height: baseHeight + 230)
     }
     
     @MainActor
@@ -91,6 +92,7 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
                 settings: settings,
                 localTimerViewModel: localTimerViewModel,
                 nowPlayingViewModel: nowPlayingViewModel,
+                clipboardHistoryViewModel: clipboardHistoryViewModel,
                 fileConverterViewModel: fileConverterViewModel,
                 mediaAndFilesSettings: mediaAndFilesSettings,
                 applicationSettings: applicationSettings,
@@ -101,6 +103,14 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     
     @MainActor
     func makeView() -> AnyView {
-        AnyView(EmptyView())
+        if nowPlayingViewModel.hasActiveSession {
+            return AnyView(
+                NowPlayingMinimalNotchView(
+                    nowPlayingViewModel: nowPlayingViewModel,
+                    settings: mediaAndFilesSettings
+                )
+            )
+        }
+        return AnyView(EmptyView())
     }
 }

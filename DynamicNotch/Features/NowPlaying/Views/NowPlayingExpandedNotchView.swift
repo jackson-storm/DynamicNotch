@@ -16,9 +16,24 @@ struct NowPlayingExpandedNotchView: View {
     @ObservedObject var applicationSettings: ApplicationSettingsStore
     
     let onOpenPlaybackSource: @MainActor () -> Void
+    let isEmbeddedInHome: Bool
     
     @State private var scrubProgress: CGFloat?
     private let detailedPresentationSource = "nowPlaying.notch.expanded"
+
+    init(
+        nowPlayingViewModel: NowPlayingViewModel,
+        settings: MediaAndFilesSettingsStore,
+        applicationSettings: ApplicationSettingsStore,
+        onOpenPlaybackSource: @escaping @MainActor () -> Void,
+        isEmbeddedInHome: Bool = false
+    ) {
+        self.nowPlayingViewModel = nowPlayingViewModel
+        self.settings = settings
+        self.applicationSettings = applicationSettings
+        self.onOpenPlaybackSource = onOpenPlaybackSource
+        self.isEmbeddedInHome = isEmbeddedInHome
+    }
     
     private var resolvedSnapshot: NowPlayingSnapshot {
         nowPlayingViewModel.snapshot ?? NowPlayingSnapshot(
@@ -66,12 +81,8 @@ struct NowPlayingExpandedNotchView: View {
             isDefaultActivityStrokeEnabled: applicationSettings.isDefaultActivityStrokeEnabled
         )
 
-        return VStack {
-            Spacer()
-
+        return VStack(spacing: 14) {
             headerSection(snapshot: snapshot, appearance: appearance)
-            
-            Spacer()
 
             PlayerProgressBar(
                 progress: displayedProgress,
@@ -103,13 +114,11 @@ struct NowPlayingExpandedNotchView: View {
                 }
             )
 
-            Spacer()
-
             controlsSection(snapshot: snapshot, appearance: appearance)
         }
-        .padding(.horizontal, isDynamicIsland ? 25 : 55)
-        .padding(.top, isDynamicIsland ? 15 : 25)
-        .padding(.bottom, 15)
+        .padding(.horizontal, playerHorizontalPadding)
+        .padding(.top, playerTopPadding)
+        .padding(.bottom, playerBottomPadding)
     }
 
     @ViewBuilder
@@ -130,37 +139,39 @@ struct NowPlayingExpandedNotchView: View {
             .buttonStyle(PlaybackSourceButtonStyle())
             .disabled(!nowPlayingViewModel.canOpenPlaybackSource)
 
-            HStack(alignment: .top, spacing: 10) {
-                Button(action: {
-                    openPlaybackSource()
-                }) {
-                    VStack(alignment: .leading, spacing: 2) {
-                        MarqueeText(
-                            .constant(displayTitle(for: snapshot)),
-                            font: .system(size: 16, weight: .medium),
-                            nsFont: .headline,
-                            textColor: .white.opacity(0.8),
-                            backgroundColor: .clear,
-                            minDuration: 2.0,
-                            frameWidth: 170
-                        )
+            HStack(alignment: .center, spacing: 10) {
+                GeometryReader { geometry in
+                    Button(action: {
+                        openPlaybackSource()
+                    }) {
+                        VStack(alignment: .leading, spacing: 2) {
+                            MarqueeText(
+                                .constant(displayTitle(for: snapshot)),
+                                font: .system(size: 16, weight: .medium),
+                                nsFont: .headline,
+                                textColor: .white.opacity(0.8),
+                                backgroundColor: .clear,
+                                minDuration: 2.0,
+                                frameWidth: max(0, geometry.size.width)
+                            )
 
-                        MarqueeText(
-                            .constant(displayArtist(for: snapshot)),
-                            font: .system(size: 14),
-                            nsFont: .headline,
-                            textColor: .white.opacity(0.5),
-                            backgroundColor: .clear,
-                            minDuration: 3.0,
-                            frameWidth: 170
-                        )
+                            MarqueeText(
+                                .constant(displayArtist(for: snapshot)),
+                                font: .system(size: 14),
+                                nsFont: .headline,
+                                textColor: .white.opacity(0.5),
+                                backgroundColor: .clear,
+                                minDuration: 3.0,
+                                frameWidth: max(0, geometry.size.width)
+                            )
+                        }
+                        .contentShape(Rectangle())
                     }
-                    .contentShape(Rectangle())
+                    .buttonStyle(PlaybackSourceButtonStyle())
+                    .disabled(!nowPlayingViewModel.canOpenPlaybackSource)
                 }
-                .buttonStyle(PlaybackSourceButtonStyle())
-                .disabled(!nowPlayingViewModel.canOpenPlaybackSource)
-
-                Spacer()
+                .frame(maxWidth: .infinity, minHeight: 38, maxHeight: 38)
+                .layoutPriority(1)
 
                 LightweightNowPlayingEqualizerView(
                     isPlaying: snapshot.isPlaying,
@@ -294,6 +305,27 @@ struct NowPlayingExpandedNotchView: View {
 
     private func progressTick(for snapshot: NowPlayingSnapshot) -> TimeInterval {
         snapshot.isPlaying ? 1.0 : 30.0
+    }
+
+    private var playerHorizontalPadding: CGFloat {
+        if isEmbeddedInHome {
+            // Added to the home's shared shell inset without affecting Focus.
+            return 10
+        }
+
+        return isDynamicIsland ? 36 : 64
+    }
+
+    private var playerTopPadding: CGFloat {
+        if isEmbeddedInHome {
+            return 4
+        }
+
+        return isDynamicIsland ? 20 : 30
+    }
+
+    private var playerBottomPadding: CGFloat {
+        isEmbeddedInHome ? 8 : 24
     }
 
     private func openPlaybackSource() {

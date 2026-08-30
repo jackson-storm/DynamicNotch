@@ -35,6 +35,7 @@ extension AppDelegate {
                 airDropController: airDropController,
                 settingsViewModel: settingsViewModel,
                 nowPlayingViewModel: nowPlayingViewModel,
+                clipboardHistoryViewModel: clipboardHistoryViewModel,
                 timerViewModel: timerViewModel,
                 screenRecordingViewModel: screenRecordingViewModel,
                 lockScreenManager: lockScreenManager,

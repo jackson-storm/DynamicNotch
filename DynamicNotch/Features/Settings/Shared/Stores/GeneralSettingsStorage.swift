@@ -58,6 +58,9 @@ enum GeneralSettingsStorage {
         static let nowPlayingPauseHideTimerEnabled = "settings.nowPlaying.pauseHideTimerEnabled"
         static let nowPlayingPauseHideDelay = "settings.nowPlaying.pauseHideDelay"
         static let nowPlayingSourceFilter = "settings.nowPlaying.sourceFilter"
+        static let clipboardHistoryEnabled = "settings.clipboard.historyEnabled"
+        static let clipboardFeedbackEnabled = "settings.clipboard.feedbackEnabled"
+        static let clipboardHistoryLimit = "settings.clipboard.historyLimit"
         static let downloadsLiveActivityEnabled = "settings.live.downloads"
         static let downloadsDefaultStrokeEnabled = "settings.live.downloads.defaultStroke"
         static let downloadsProgressIndicatorStyle = "settings.live.downloads.progressIndicatorStyle"
@@ -203,6 +206,9 @@ enum GeneralSettingsStorage {
         Keys.nowPlayingPauseHideTimerEnabled: true,
         Keys.nowPlayingPauseHideDelay: 5,
         Keys.nowPlayingSourceFilter: NowPlayingSourceFilter.any.rawValue,
+        Keys.clipboardHistoryEnabled: true,
+        Keys.clipboardFeedbackEnabled: true,
+        Keys.clipboardHistoryLimit: 20,
         Keys.downloadsLiveActivityEnabled: true,
         Keys.downloadsDefaultStrokeEnabled: false,
         Keys.downloadsProgressIndicatorStyle: DownloadProgressIndicatorStyle.percent.rawValue,

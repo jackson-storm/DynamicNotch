@@ -9,6 +9,7 @@ final class AppContainer {
     let fileTrayViewModel = FileTrayViewModel()
     let fileConverterViewModel = FileConverterViewModel()
     let settingsViewModel: SettingsViewModel
+    let clipboardHistoryViewModel: ClipboardHistoryViewModel
     let wifiViewModel: WifiViewModel
     let vpnViewModel: VpnViewModel
     let homePageViewModel = HomePageViewModel()
@@ -63,7 +64,8 @@ final class AppContainer {
         homePageViewModel: homePageViewModel,
         localTimerViewModel: localTimerViewModel,
         calendarViewModel: calendarViewModel,
-        screenshotViewModel: screenshotViewModel
+        screenshotViewModel: screenshotViewModel,
+        clipboardHistoryViewModel: clipboardHistoryViewModel
     )
 
     lazy var lockScreenPanelManager = LockScreenPanelManager(
@@ -82,6 +84,10 @@ final class AppContainer {
 
     init(isRunningUITests: Bool = ProcessInfo.processInfo.arguments.contains("-ui-testing")) {
         self.settingsViewModel = SettingsViewModel()
+        self.clipboardHistoryViewModel = ClipboardHistoryViewModel(
+            monitor: isRunningUITests ? InactiveClipboardMonitor() : SystemClipboardMonitor(),
+            historyLimit: settingsViewModel.mediaAndFiles.clipboardHistoryLimit
+        )
         self.wifiViewModel = WifiViewModel(settings: settingsViewModel.connectivity)
         self.vpnViewModel = VpnViewModel(settings: settingsViewModel.connectivity)
         self.powerViewModel = PowerViewModel(
@@ -127,5 +133,13 @@ final class AppContainer {
                 InactiveLockScreenSoundPlayer() :
                 LockScreenSoundPlayer()
         )
+        self.clipboardHistoryViewModel.onWillRestore = { [weak screenshotViewModel = self.screenshotViewModel] in
+            screenshotViewModel?.suppressClipboardCapture()
+        }
+        self.clipboardHistoryViewModel.onDidCapture = { [weak screenshotViewModel = self.screenshotViewModel] item in
+            if case .image = item.payload {
+                screenshotViewModel?.suppressClipboardCapture()
+            }
+        }
     }
 }

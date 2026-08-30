@@ -19,6 +19,7 @@ struct NotchEventHandlersView: View {
     let airDropViewModel: AirDropNotchViewModel
     let settingsViewModel: SettingsViewModel
     let nowPlayingViewModel: NowPlayingViewModel
+    let clipboardHistoryViewModel: ClipboardHistoryViewModel
     let timerViewModel: TimerViewModel
     let screenRecordingViewModel: ScreenRecordingViewModel
     let lockScreenManager: LockScreenManager
@@ -52,6 +53,9 @@ struct NotchEventHandlersView: View {
             }
             .onReceive(nowPlayingViewModel.$event.compactMap { $0 }) { event in
                 notchEventCoordinator.handleNowPlayingEvent(event)
+            }
+            .onReceive(clipboardHistoryViewModel.$event.compactMap { $0 }) { event in
+                notchEventCoordinator.handleClipboardEvent(event)
             }
             .onReceive(timerViewModel.$event.compactMap { $0 }) { event in
                 notchEventCoordinator.handleTimerEvent(event)

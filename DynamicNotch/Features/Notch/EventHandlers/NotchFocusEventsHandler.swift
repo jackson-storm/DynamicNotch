@@ -19,6 +19,21 @@ final class NotchFocusEventsHandler {
     }
 
     func handleFocus(_ event: FocusEvent) {
+        if settingsViewModel.homePage.isHomePageLiveActivityEnabled {
+            switch event {
+            case .FocusOn(let modeType):
+                lastShownFocusMode = modeType
+            case .FocusOff:
+                lastShownFocusMode = nil
+            }
+
+            if notchViewModel.notchModel.temporaryNotificationContent?.id == NotchContentRegistry.Focus.active.id {
+                notchViewModel.hideTemporaryNotification()
+            }
+            notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Focus.active.id))
+            return
+        }
+
         switch event {
         case .FocusOn(let modeType):
             guard settingsViewModel.isLiveActivityEnabled(.focus) else { return }

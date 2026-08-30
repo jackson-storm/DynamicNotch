@@ -115,14 +115,7 @@ struct HomePagePageIndicatorView: View {
     }
     
     private var shouldShowPageIndicator: Bool {
-        guard let homePageContent = homePageContent else { return false }
-        guard settingsViewModel.homePage.isHomePagePageIndicatorEnabled else { return false }
-        guard notchViewModel.isDisplayingExpandedLiveActivity else { return false }
-        
-        let active = homePageContent.settings.homePageOrder.filter { 
-            !homePageContent.settings.homePageDisabled.contains($0) 
-        }
-        return active.count > 1
+        false
     }
     
     private var activePages: [HomePages] {
@@ -203,6 +196,7 @@ struct HomePagePageIndicatorView: View {
                     homePages: page,
                     localTimerViewModel: homePageContent.localTimerViewModel,
                     nowPlayingViewModel: homePageContent.nowPlayingViewModel,
+                    clipboardHistoryViewModel: homePageContent.clipboardHistoryViewModel,
                     fileConverterViewModel: homePageContent.fileConverterViewModel,
                     mediaAndFilesSettings: settingsViewModel.mediaAndFiles,
                     applicationSettings: settingsViewModel.application

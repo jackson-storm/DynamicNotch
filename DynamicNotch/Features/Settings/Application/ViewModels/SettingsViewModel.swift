@@ -8,6 +8,7 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
         case notch
         case homePage
         case nowPlaying
+        case clipboard
         case downloads
         case drop
         case timer
@@ -468,6 +469,8 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
             homePage.resetHomePage()
         case .nowPlaying:
             mediaAndFiles.resetNowPlaying()
+        case .clipboard:
+            mediaAndFiles.resetClipboard()
         case .downloads:
             mediaAndFiles.resetDownloads()
         case .drop:

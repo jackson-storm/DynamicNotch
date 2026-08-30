@@ -29,6 +29,13 @@ final class NotchMediaEventsHandler {
     }
 
     func handleNowPlaying(_ event: NowPlayingEvent) {
+        if settingsViewModel.homePage.isHomePageLiveActivityEnabled {
+            cancelDeferredNowPlayingHide()
+            isNowPlayingHiddenForPauseTimer = false
+            notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Media.nowPlaying.id))
+            return
+        }
+
         switch event {
         case .started:
             cancelDeferredNowPlayingHide()
@@ -103,6 +110,13 @@ final class NotchMediaEventsHandler {
     }
 
     func syncNowPlayingPlaybackState() {
+        guard !settingsViewModel.homePage.isHomePageLiveActivityEnabled else {
+            cancelDeferredNowPlayingHide()
+            isNowPlayingHiddenForPauseTimer = false
+            notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Media.nowPlaying.id))
+            return
+        }
+
         guard settingsViewModel.isLiveActivityEnabled(.nowPlaying) else {
             cancelDeferredNowPlayingHide()
             return
@@ -174,6 +188,7 @@ final class NotchMediaEventsHandler {
     }
 
     private func showNowPlayingLiveActivity() {
+        guard !settingsViewModel.homePage.isHomePageLiveActivityEnabled else { return }
         guard nowPlayingViewModel.hasActiveSession else { return }
         
         if settingsViewModel.application.isCloseAtFocusLiveActivityEnabled {

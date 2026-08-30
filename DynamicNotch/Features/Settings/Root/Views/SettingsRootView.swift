@@ -25,6 +25,7 @@ struct SettingsRootView: View {
     let vpnViewModel: VpnViewModel
     let downloadViewModel: DownloadViewModel
     let nowPlayingViewModel: NowPlayingViewModel
+    let clipboardHistoryViewModel: ClipboardHistoryViewModel
     let timerViewModel: TimerViewModel
     let lockScreenManager: LockScreenManager
 
@@ -63,6 +64,7 @@ struct SettingsRootView: View {
         vpnViewModel: VpnViewModel,
         downloadViewModel: DownloadViewModel,
         nowPlayingViewModel: NowPlayingViewModel,
+        clipboardHistoryViewModel: ClipboardHistoryViewModel,
         timerViewModel: TimerViewModel,
         lockScreenManager: LockScreenManager
     ) {
@@ -75,6 +77,7 @@ struct SettingsRootView: View {
         self.vpnViewModel = vpnViewModel
         self.downloadViewModel = downloadViewModel
         self.nowPlayingViewModel = nowPlayingViewModel
+        self.clipboardHistoryViewModel = clipboardHistoryViewModel
         self.timerViewModel = timerViewModel
         self.lockScreenManager = lockScreenManager
         let rootViewModel = SettingsRootViewModel(
@@ -417,6 +420,14 @@ struct SettingsRootView: View {
                 NowPlayingSettingsView(
                     settings: settingsViewModel.mediaAndFiles,
                     applicationSettings: settingsViewModel.application
+                )
+            }
+
+        case .clipboard:
+            detailContainer(for: section) {
+                ClipboardSettingsView(
+                    settings: settingsViewModel.mediaAndFiles,
+                    viewModel: clipboardHistoryViewModel
                 )
             }
 

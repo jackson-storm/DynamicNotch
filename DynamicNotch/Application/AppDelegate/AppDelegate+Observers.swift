@@ -4,6 +4,49 @@ import Combine
 
 extension AppDelegate {
     func observeFeatureMonitoringChanges() {
+        Publishers.CombineLatest3(
+            settingsViewModel.mediaAndFiles.$isClipboardHistoryEnabled.removeDuplicates(),
+            lockScreenManager.$isLocked.removeDuplicates(),
+            lockScreenManager.$isPreparingLock.removeDuplicates()
+        )
+        .sink { [weak self] isEnabled, isLocked, isPreparingLock in
+            guard let self else { return }
+
+            if isEnabled && !isLocked && !isPreparingLock {
+                clipboardHistoryViewModel.startMonitoring()
+            } else {
+                clipboardHistoryViewModel.stopMonitoring()
+                clipboardHistoryViewModel.clearHistory()
+            }
+        }
+        .store(in: &cancellables)
+
+        settingsViewModel.mediaAndFiles.$clipboardHistoryLimit
+            .removeDuplicates()
+            .sink { [weak self] limit in
+                self?.clipboardHistoryViewModel.updateHistoryLimit(limit)
+            }
+            .store(in: &cancellables)
+
+        NSWorkspace.shared.notificationCenter.publisher(for: NSWorkspace.willSleepNotification)
+            .sink { [weak self] _ in
+                self?.clipboardHistoryViewModel.stopMonitoring()
+                self?.clipboardHistoryViewModel.clearHistory()
+            }
+            .store(in: &cancellables)
+
+        NSWorkspace.shared.notificationCenter.publisher(for: NSWorkspace.didWakeNotification)
+            .sink { [weak self] _ in
+                guard let self,
+                      settingsViewModel.mediaAndFiles.isClipboardHistoryEnabled,
+                      !lockScreenManager.isLocked,
+                      !lockScreenManager.isPreparingLock else {
+                    return
+                }
+                clipboardHistoryViewModel.startMonitoring()
+            }
+            .store(in: &cancellables)
+
         settingsViewModel.mediaAndFiles.$nowPlayingSourceFilter
             .removeDuplicates()
             .sink { [weak self] sourceFilter in

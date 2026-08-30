@@ -23,6 +23,7 @@ final class NotchEngine: ObservableObject {
     private var suspendedActivity: NotchContentProtocol?
     private var lastDismissedContent: RestorableDismissedContent?
     private var currentTemporaryNotificationDuration: TimeInterval?
+    private var isTemporaryNotificationTimerPaused = false
     private var eventQueue: [NotchState] = []
     private var isProcessingQueue = false
     private var isTransitioning = false
@@ -150,15 +151,19 @@ final class NotchEngine: ObservableObject {
     }
 
     func hideTemporaryNotification() {
-        guard notchModel.temporaryNotificationContent != nil,
-              !notchModel.isLiveActivityExpanded else { return }
+        guard notchModel.temporaryNotificationContent != nil else { return }
 
         cancelTemporary()
         let contentToRestore = highestPriorityVisibleActivity
 
         transition(
             hide: {
-                withAnimation(self.animations.contentHide) {
+                let animation = self.notchModel.isLiveActivityExpanded ?
+                self.animations.closeLiveActivity :
+                self.animations.contentHide
+
+                withAnimation(animation) {
+                    self.notchModel.isLiveActivityExpanded = false
                     self.notchModel.temporaryNotificationContent = nil
                     self.currentTemporaryNotificationDuration = nil
                 }
@@ -170,6 +175,26 @@ final class NotchEngine: ObservableObject {
                 }
             }
         )
+    }
+
+    func setTemporaryNotificationTimerPaused(_ isPaused: Bool) {
+        guard isTemporaryNotificationTimerPaused != isPaused else { return }
+
+        isTemporaryNotificationTimerPaused = isPaused
+
+        if isPaused {
+            cancelTemporary()
+            return
+        }
+
+        guard notchModel.temporaryNotificationContent != nil,
+              !notchModel.isLiveActivityExpanded,
+              let duration = currentTemporaryNotificationDuration,
+              !duration.isInfinite else {
+            return
+        }
+
+        restartTemporaryTimer(duration: duration)
     }
 
     func dismissActiveContent() {
@@ -515,6 +540,7 @@ final class NotchEngine: ObservableObject {
     }
 
     private func cancelTemporary() {
+        temporaryTimerID = UUID()
         temporaryTask?.cancel()
         temporaryTask = nil
     }
@@ -523,13 +549,20 @@ final class NotchEngine: ObservableObject {
         cancelTemporary()
 
         guard !notchModel.isLiveActivityExpanded else { return }
+        guard !isTemporaryNotificationTimerPaused else { return }
         if duration.isInfinite { return }
 
         let timerID = UUID()
         temporaryTimerID = timerID
 
         temporaryTask = Task {
-            try? await Task.sleep(nanoseconds: UInt64(duration * 1_000_000_000))
+            do {
+                try await Task.sleep(nanoseconds: UInt64(duration * 1_000_000_000))
+            } catch {
+                return
+            }
+
+            guard !Task.isCancelled else { return }
 
             await MainActor.run {
                 guard self.temporaryTimerID == timerID,

@@ -7,6 +7,15 @@ enum LocalTimerState {
     case paused
 }
 
+enum LocalTimerPreset: Int, CaseIterable, Identifiable {
+    case minutes25 = 25
+    case minutes45 = 45
+    case minutes60 = 60
+
+    var id: Int { rawValue }
+    var title: String { "\(rawValue)" }
+}
+
 class LocalTimerViewModel: ObservableObject {
     @Published var state: LocalTimerState = .stopped
     @Published var remainingTime: TimeInterval = 0
@@ -24,6 +33,10 @@ class LocalTimerViewModel: ObservableObject {
         pausedRemaining = nil
         endDate = Date().addingTimeInterval(totalTime)
         resume()
+    }
+
+    func start(preset: LocalTimerPreset) {
+        start(hours: 0, minutes: preset.rawValue, seconds: 0)
     }
     
     func pause() {

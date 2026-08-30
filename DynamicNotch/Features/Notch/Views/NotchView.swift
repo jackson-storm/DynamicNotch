@@ -17,6 +17,7 @@ struct NotchView: View {
     @ObservedObject var airDropController: NotchAirDropController
     @ObservedObject var settingsViewModel: SettingsViewModel
     @ObservedObject var nowPlayingViewModel: NowPlayingViewModel
+    @ObservedObject var clipboardHistoryViewModel: ClipboardHistoryViewModel
     @ObservedObject var timerViewModel: TimerViewModel
     @ObservedObject var screenRecordingViewModel: ScreenRecordingViewModel
     @ObservedObject var lockScreenManager: LockScreenManager
@@ -38,6 +39,7 @@ struct NotchView: View {
                         airDropViewModel: airDropViewModel,
                         settingsViewModel: settingsViewModel,
                         nowPlayingViewModel: nowPlayingViewModel,
+                        clipboardHistoryViewModel: clipboardHistoryViewModel,
                         timerViewModel: timerViewModel,
                         screenRecordingViewModel: screenRecordingViewModel,
                         lockScreenManager: lockScreenManager,
@@ -95,6 +97,8 @@ struct NotchView: View {
 private extension NotchView {
     @ViewBuilder
     var notchBody: some View {
+        let isScreenshotContent = notchViewModel.displayedContent?.id == NotchContentRegistry.Screenshot.active.id
+
         notchSurface
             .overlay {
                 contentOverlayWrapped
@@ -110,7 +114,8 @@ private extension NotchView {
             .customNotchPressable(
                 notchViewModel: notchViewModel,
                 isPressed: $notchViewModel.isPressed,
-                baseSize: notchViewModel.presentedNotchSize
+                baseSize: notchViewModel.presentedNotchSize,
+                isEnabled: !isScreenshotContent
             )
             .offset(y: notchViewModel.topInset == 0 ? 3 : 1)
             .customNotchMouseSwipeable(
@@ -250,6 +255,7 @@ private extension NotchView {
     
     private var shouldEnableNotchSwipeGestures: Bool {
         guard !notchViewModel.isActivityPresentationHidden || notchViewModel.notchModel.temporaryNotificationContent != nil else { return false }
+        guard notchViewModel.displayedContent?.id != NotchContentRegistry.Screenshot.active.id else { return false }
         
         return !(
             notchViewModel.notchModel.isPresentingExpandedLiveActivity &&

@@ -61,6 +61,7 @@ class SettingsWindowController: NSWindowController {
             vpnViewModel: appDelegate.vpnViewModel,
             downloadViewModel: appDelegate.downloadViewModel,
             nowPlayingViewModel: appDelegate.nowPlayingViewModel,
+            clipboardHistoryViewModel: appDelegate.clipboardHistoryViewModel,
             timerViewModel: appDelegate.timerViewModel,
             lockScreenManager: appDelegate.lockScreenManager
         )

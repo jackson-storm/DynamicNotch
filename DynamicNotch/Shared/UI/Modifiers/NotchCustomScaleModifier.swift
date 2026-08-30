@@ -23,12 +23,22 @@ struct NotchCustomScaleModifier: ViewModifier {
     @State private var lastExpansionTime: Date = .distantPast
     
     let baseSize: CGSize
+    let isEnabled: Bool
     
     private let scaleFactor: CGFloat = 1.07
     private let tapMovementTolerance: CGFloat = 8
     
+    @ViewBuilder
     func body(content: Content) -> some View {
-        pressableContent(content)
+        if isEnabled {
+            pressableContent(content)
+        } else {
+            content
+                .onAppear {
+                    resetInteractionState(cancelScaleAnimation: true)
+                    isHovering = false
+                }
+        }
     }
 }
 

@@ -61,6 +61,29 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         }
     }
 
+    @Published var isClipboardHistoryEnabled: Bool {
+        didSet {
+            persist(isClipboardHistoryEnabled, for: GeneralSettingsStorage.Keys.clipboardHistoryEnabled)
+        }
+    }
+
+    @Published var isClipboardFeedbackEnabled: Bool {
+        didSet {
+            persist(isClipboardFeedbackEnabled, for: GeneralSettingsStorage.Keys.clipboardFeedbackEnabled)
+        }
+    }
+
+    @Published var clipboardHistoryLimit: Int {
+        didSet {
+            let clampedValue = Self.clampClipboardHistoryLimit(clipboardHistoryLimit)
+            if clampedValue != clipboardHistoryLimit {
+                clipboardHistoryLimit = clampedValue
+                return
+            }
+            persist(clipboardHistoryLimit, for: GeneralSettingsStorage.Keys.clipboardHistoryLimit)
+        }
+    }
+
     @Published var isDownloadsLiveActivityEnabled: Bool {
         didSet {
             persist(isDownloadsLiveActivityEnabled, for: GeneralSettingsStorage.Keys.downloadsLiveActivityEnabled)
@@ -237,6 +260,18 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         self.nowPlayingSourceFilter = NowPlayingSourceFilter.resolved(
             defaults.string(forKey: GeneralSettingsStorage.Keys.nowPlayingSourceFilter)
         )
+        self.isClipboardHistoryEnabled = Self.resolvedBool(
+            defaults: defaults,
+            key: GeneralSettingsStorage.Keys.clipboardHistoryEnabled
+        )
+        self.isClipboardFeedbackEnabled = Self.resolvedBool(
+            defaults: defaults,
+            key: GeneralSettingsStorage.Keys.clipboardFeedbackEnabled
+        )
+        self.clipboardHistoryLimit = Self.clampClipboardHistoryLimit(
+            defaults.object(forKey: GeneralSettingsStorage.Keys.clipboardHistoryLimit) as? Int ??
+            (GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.clipboardHistoryLimit] as? Int ?? 20)
+        )
         let hasLegacyDownloadsValue = defaults.object(forKey: GeneralSettingsStorage.Keys.legacyFileTransfersLiveActivityEnabled) != nil
         let downloadsSettingValue = defaults.object(forKey: GeneralSettingsStorage.Keys.downloadsLiveActivityEnabled) as? Bool
         self.isDownloadsLiveActivityEnabled = downloadsSettingValue ?? (
@@ -338,6 +373,14 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         )
     }
 
+    func resetClipboard() {
+        isClipboardHistoryEnabled = defaultBool(for: GeneralSettingsStorage.Keys.clipboardHistoryEnabled)
+        isClipboardFeedbackEnabled = defaultBool(for: GeneralSettingsStorage.Keys.clipboardFeedbackEnabled)
+        clipboardHistoryLimit = Self.clampClipboardHistoryLimit(
+            defaultInt(for: GeneralSettingsStorage.Keys.clipboardHistoryLimit)
+        )
+    }
+
     func resetDragAndDrop() {
         isDragAndDropLiveActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.dragAndDropLiveActivityEnabled)
         isAirDropLiveActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.airDropLiveActivityEnabled)
@@ -404,6 +447,10 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
 
     static func clampFileConverterImageQuality(_ value: Double) -> Double {
         min(max(value, 0.1), 1.0)
+    }
+
+    static func clampClipboardHistoryLimit(_ value: Int) -> Int {
+        min(max(value, ClipboardHistoryViewModel.historyLimitRange.lowerBound), ClipboardHistoryViewModel.historyLimitRange.upperBound)
     }
 
     private static func defaultFileConverterImageQuality() -> Double {

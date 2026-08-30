@@ -20488,25 +20488,25 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Temporary copied-content feedback in the notch."
+            "value" : "Recent copied items available directly from the notch."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Avisos temporales de contenido copiado en la muesca."
+            "value" : "Elementos copiados recientemente disponibles directamente desde la muesca."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Временная индикация скопированного содержимого в вырезе."
+            "value" : "Недавние скопированные элементы доступны прямо из выреза."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "刘海中的临时复制内容反馈。"
+            "value" : "可直接从刘海访问最近复制的项目。"
           }
         }
       }

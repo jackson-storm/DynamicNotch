@@ -81,6 +81,7 @@ extension SettingsRootViewModel {
         
         case focus
         case nowPlaying
+        case clipboard
         case downloads
         case drop
         
@@ -158,6 +159,8 @@ extension SettingsRootViewModel {
                 return .homePage
             case "activities", "liveActivity":
                 return .nowPlaying
+            case "clipboard":
+                return .clipboard
             case "airDrop", "dragAndDrop":
                 return .drop
             case "temporaryActivity":
@@ -249,6 +252,27 @@ private enum SettingsSectionCatalog {
                 imageName: nil,
                 tint: .red,
                 resetGroup: .nowPlaying
+            )
+
+        case .clipboard:
+            return .init(
+                sidebarGroup: .mediaAndFiles,
+                titleKey: "settings.section.clipboard.title",
+                fallbackTitle: "Clipboard",
+                subtitleKey: "settings.section.clipboard.subtitle",
+                fallbackSubtitle: "Recent copied items available directly from the notch.",
+                searchKeywords: [
+                    "clipboard",
+                    "copy",
+                    "paste",
+                    "history",
+                    "recent clips",
+                    "privacy"
+                ],
+                systemImage: "doc.on.clipboard.fill",
+                imageName: nil,
+                tint: .mint,
+                resetGroup: .clipboard
             )
 
         case .homePage:

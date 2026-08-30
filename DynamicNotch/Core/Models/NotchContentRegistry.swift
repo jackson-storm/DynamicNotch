@@ -72,6 +72,10 @@ enum NotchContentRegistry {
         )
     }
 
+    enum Clipboard {
+        static let recent = NotchContentDescriptor(id: "clipboard.recent")
+    }
+
     enum HomePage {
         static let active = NotchContentDescriptor(
             id: "home.active",

@@ -25,6 +25,7 @@ final class NotchEventCoordinator: ObservableObject {
     private let homePageViewModel: HomePageViewModel
     private let calendarViewModel: CalendarViewModel
     private let screenshotViewModel: ScreenshotViewModel
+    private let clipboardHistoryViewModel: ClipboardHistoryViewModel
     private let lockScreenManager: LockScreenManager
     private let systemHandler: NotchSystemEventsHandler
     private let focusHandler: NotchFocusEventsHandler
@@ -77,7 +78,8 @@ final class NotchEventCoordinator: ObservableObject {
         homePageViewModel: HomePageViewModel,
         localTimerViewModel: LocalTimerViewModel,
         calendarViewModel: CalendarViewModel,
-        screenshotViewModel: ScreenshotViewModel? = nil
+        screenshotViewModel: ScreenshotViewModel? = nil,
+        clipboardHistoryViewModel: ClipboardHistoryViewModel? = nil
     ) {
         self.notchViewModel = notchViewModel
         self.wifiViewModel = wifiViewModel
@@ -94,6 +96,9 @@ final class NotchEventCoordinator: ObservableObject {
         self.homePageViewModel = homePageViewModel
         self.calendarViewModel = calendarViewModel
         self.screenshotViewModel = screenshotViewModel ?? ScreenshotViewModel()
+        self.clipboardHistoryViewModel = clipboardHistoryViewModel ?? ClipboardHistoryViewModel(
+            monitor: InactiveClipboardMonitor()
+        )
         self.lockScreenManager = lockScreenManager
         self.systemHandler = NotchSystemEventsHandler(
             notchViewModel: notchViewModel,
@@ -145,6 +150,7 @@ final class NotchEventCoordinator: ObservableObject {
             settingsViewModel: settingsViewModel,
             localTimerViewModel: localTimerViewModel,
             nowPlayingViewModel: nowPlayingViewModel,
+            clipboardHistoryViewModel: self.clipboardHistoryViewModel,
             fileConverterViewModel: fileConverterViewModel
         )
         self.calendarHandler = NotchCalendarEventsHandler(
@@ -216,7 +222,12 @@ final class NotchEventCoordinator: ObservableObject {
         self.screenshotViewModel.onScreenshotDismissed = { [weak self] in
             guard let self else { return }
             self.notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Screenshot.active.id))
-            self.notchViewModel.hideTemporaryNotification()
+            if self.notchViewModel.notchModel.temporaryNotificationContent?.id == NotchContentRegistry.Screenshot.active.id {
+                self.notchViewModel.hideTemporaryNotification()
+            }
+        }
+        self.screenshotViewModel.onScreenshotDragStateChanged = { [weak self] isDragging in
+            self?.notchViewModel.setTemporaryNotificationTimerPaused(isDragging)
         }
         if settingsViewModel.screenRecording.isScreenshotActivityEnabled {
             self.screenshotViewModel.startMonitoring(disableSystemThumbnail: true)
@@ -392,6 +403,36 @@ final class NotchEventCoordinator: ObservableObject {
         guard !isOnboardingActive else { return }
 
         mediaHandler.handleNowPlaying(event)
+    }
+
+    func handleClipboardEvent(_ event: ClipboardEvent) {
+        defer { clipboardHistoryViewModel.event = nil }
+
+        guard !isOnboardingActive,
+              !isLockScreenTransitionActive,
+              settingsViewModel.mediaAndFiles.isClipboardFeedbackEnabled,
+              !notchViewModel.notchModel.isLiveActivityExpanded else {
+            return
+        }
+
+        let temporaryID = notchViewModel.notchModel.temporaryNotificationContent?.id
+        guard temporaryID == nil || temporaryID == NotchContentRegistry.Clipboard.recent.id else {
+            return
+        }
+
+        switch event {
+        case .captured(let item):
+            notchViewModel.send(
+                .showTemporaryNotification(
+                    ClipboardNotchContent(
+                        item: item,
+                        viewModel: clipboardHistoryViewModel,
+                        notchViewModel: notchViewModel
+                    ),
+                    duration: 2.5
+                )
+            )
+        }
     }
 
     func handleTimerEvent(_ event: TimerEvent) {

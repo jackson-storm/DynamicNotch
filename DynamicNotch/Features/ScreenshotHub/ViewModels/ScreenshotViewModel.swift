@@ -2,19 +2,79 @@ internal import AppKit
 import Combine
 import QuickLookUI
 
+private struct ActiveScreenshotDrag {
+    let screenshotID: UUID
+    let fileURL: URL?
+}
+
+final class ScreenshotPasteboardWriter: NSObject, NSPasteboardWriting {
+    private let fileURL: URL?
+    private let pngData: Data?
+    private let tiffData: Data?
+
+    init(fileURL: URL?, image: NSImage) {
+        self.fileURL = fileURL?.standardizedFileURL
+        self.tiffData = image.tiffRepresentation
+
+        if let tiffData = image.tiffRepresentation,
+           let bitmap = NSBitmapImageRep(data: tiffData) {
+            self.pngData = bitmap.representation(using: .png, properties: [:])
+        } else {
+            self.pngData = nil
+        }
+    }
+
+    var isUsable: Bool {
+        fileURL != nil || pngData != nil || tiffData != nil
+    }
+
+    func writableTypes(for pasteboard: NSPasteboard) -> [NSPasteboard.PasteboardType] {
+        var types: [NSPasteboard.PasteboardType] = []
+
+        if fileURL != nil {
+            types.append(contentsOf: [.fileURL, .URL])
+        }
+        if pngData != nil {
+            types.append(.png)
+        }
+        if tiffData != nil {
+            types.append(.tiff)
+        }
+
+        return types
+    }
+
+    func pasteboardPropertyList(forType type: NSPasteboard.PasteboardType) -> Any? {
+        switch type {
+        case .fileURL, .URL:
+            return fileURL?.absoluteString
+        case .png:
+            return pngData
+        case .tiff:
+            return tiffData
+        default:
+            return nil
+        }
+    }
+}
+
 @MainActor
 final class ScreenshotViewModel: ObservableObject {
     @Published var activeScreenshot: ScreenshotModel?
     
     var onScreenshotReady: ((ScreenshotModel) -> Void)?
     var onScreenshotDismissed: (() -> Void)?
+    var onScreenshotDragStateChanged: ((Bool) -> Void)?
     
     private(set) var isDropped = false
     private(set) var isDeleted = false
     private(set) var isSavedToDisk = false
     private(set) var isCopied = false
+    private(set) var isDragging = false
     
     private var lastProcessedDate: Date?
+    private var activeDrag: ActiveScreenshotDrag?
+    private var pendingSaveScreenshotID: UUID?
     private let monitorService: ScreenshotMonitorService
     private let ocrService: OCRService
     private let fileManager = FileManager.default
@@ -33,6 +93,10 @@ final class ScreenshotViewModel: ObservableObject {
     
     func stopMonitoring() {
         monitorService.stopMonitoring()
+    }
+
+    func suppressClipboardCapture() {
+        monitorService.suppressMonitoring(for: 1.5)
     }
     
     func processNewScreenshot(image: NSImage, fileURL: URL?, fileName: String) {
@@ -87,8 +151,47 @@ final class ScreenshotViewModel: ObservableObject {
         }
     }
     
-    func markAsDropped() {
-        isDropped = true
+    func beginDragging(screenshot: ScreenshotModel) -> NSPasteboardWriting? {
+        guard activeScreenshot?.id == screenshot.id,
+              activeDrag == nil else {
+            return nil
+        }
+
+        let dragFileURL = makeStableDragFile(for: screenshot)
+        let writer = ScreenshotPasteboardWriter(fileURL: dragFileURL, image: screenshot.image)
+        guard writer.isUsable else { return nil }
+
+        activeDrag = ActiveScreenshotDrag(
+            screenshotID: screenshot.id,
+            fileURL: dragFileURL
+        )
+        pendingSaveScreenshotID = nil
+        isDragging = true
+        onScreenshotDragStateChanged?(true)
+        return writer
+    }
+
+    func finishDragging(screenshotID: UUID, didDrop: Bool) {
+        guard let activeDrag,
+              activeDrag.screenshotID == screenshotID else {
+            return
+        }
+
+        let shouldSaveAfterCancelledDrag = pendingSaveScreenshotID == screenshotID
+        self.activeDrag = nil
+        pendingSaveScreenshotID = nil
+        isDragging = false
+        onScreenshotDragStateChanged?(false)
+        scheduleDragFileCleanup(activeDrag.fileURL)
+
+        guard activeScreenshot?.id == screenshotID else { return }
+
+        if didDrop {
+            isDropped = true
+            dismiss()
+        } else if shouldSaveAfterCancelledDrag {
+            saveToDiskIfNeeded()
+        }
     }
     
     func copyImageToClipboard() {
@@ -163,37 +266,6 @@ final class ScreenshotViewModel: ObservableObject {
         }
     }
     
-    func makeItemProvider(for screenshot: ScreenshotModel) -> NSItemProvider {
-        if let url = getFileURL(for: screenshot) {
-            let provider = NSItemProvider(object: url as NSURL)
-            provider.registerObject(screenshot.image, visibility: .all)
-            return provider
-        } else {
-            return NSItemProvider(object: screenshot.image)
-        }
-    }
-    
-    func makePasteboardWriter(for screenshot: ScreenshotModel) -> NSPasteboardWriting {
-        if let url = getFileURL(for: screenshot) {
-            return url as NSURL
-        } else {
-            return screenshot.image
-        }
-    }
-    
-    private func getFileURL(for screenshot: ScreenshotModel) -> URL? {
-        if let tempURL = screenshot.tempFileURL, fileManager.fileExists(atPath: tempURL.path) {
-            return tempURL
-        }
-        if let fileURL = screenshot.fileURL, fileManager.fileExists(atPath: fileURL.path) {
-            return fileURL
-        }
-        let tempDir = fileManager.temporaryDirectory
-        let tempURL = tempDir.appendingPathComponent("Screenshot_\(Int(Date().timeIntervalSince1970)).png")
-        writePNG(image: screenshot.image, to: tempURL)
-        return tempURL
-    }
-    
     func deleteScreenshot() {
         isDeleted = true
         if let tempURL = activeScreenshot?.tempFileURL {
@@ -225,6 +297,12 @@ final class ScreenshotViewModel: ObservableObject {
     }
     
     func saveToDiskIfNeeded() {
+        if let screenshotID = activeScreenshot?.id,
+           activeDrag?.screenshotID == screenshotID {
+            pendingSaveScreenshotID = screenshotID
+            return
+        }
+
         guard !isSavedToDisk, !isDeleted, !isDropped, !isCopied else { return }
         guard let screenshot = activeScreenshot else { return }
         
@@ -253,6 +331,45 @@ final class ScreenshotViewModel: ObservableObject {
         }
         
         writePNG(image: screenshot.image, to: finalTargetURL)
+    }
+
+    private func makeStableDragFile(for screenshot: ScreenshotModel) -> URL? {
+        let dragDirectory = fileManager.temporaryDirectory
+            .appendingPathComponent("com.Jackson.DynamicNotch", isDirectory: true)
+            .appendingPathComponent("ScreenshotDrag", isDirectory: true)
+
+        do {
+            try fileManager.createDirectory(
+                at: dragDirectory,
+                withIntermediateDirectories: true
+            )
+        } catch {
+            return nil
+        }
+
+        let rawBaseName = URL(fileURLWithPath: screenshot.fileName)
+            .deletingPathExtension()
+            .lastPathComponent
+        let sanitizedBaseName = rawBaseName
+            .components(separatedBy: CharacterSet(charactersIn: "/:"))
+            .filter { !$0.isEmpty }
+            .joined(separator: "-")
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        let baseName = sanitizedBaseName.isEmpty ? "Screenshot" : sanitizedBaseName
+        let targetURL = uniqueURL(
+            for: dragDirectory.appendingPathComponent("\(baseName).png")
+        )
+
+        writePNG(image: screenshot.image, to: targetURL)
+        return fileManager.fileExists(atPath: targetURL.path) ? targetURL : nil
+    }
+
+    private func scheduleDragFileCleanup(_ url: URL?) {
+        guard let url else { return }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            try? self?.fileManager.removeItem(at: url)
+        }
     }
     
     private func uniqueURL(for targetURL: URL) -> URL {

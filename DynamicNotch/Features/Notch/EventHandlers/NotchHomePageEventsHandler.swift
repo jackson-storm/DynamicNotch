@@ -18,6 +18,7 @@ final class NotchHomePageEventsHandler {
     private let settingsViewModel: SettingsViewModel
     private let localTimerViewModel: LocalTimerViewModel
     private let nowPlayingViewModel: NowPlayingViewModel
+    private let clipboardHistoryViewModel: ClipboardHistoryViewModel
     private let fileConverterViewModel: FileConverterViewModel
 
     init(
@@ -25,26 +26,32 @@ final class NotchHomePageEventsHandler {
         settingsViewModel: SettingsViewModel,
         localTimerViewModel: LocalTimerViewModel,
         nowPlayingViewModel: NowPlayingViewModel,
+        clipboardHistoryViewModel: ClipboardHistoryViewModel,
         fileConverterViewModel: FileConverterViewModel
     ) {
         self.notchViewModel = notchViewModel
         self.settingsViewModel = settingsViewModel
         self.localTimerViewModel = localTimerViewModel
         self.nowPlayingViewModel = nowPlayingViewModel
+        self.clipboardHistoryViewModel = clipboardHistoryViewModel
         self.fileConverterViewModel = fileConverterViewModel
     }
     
     func handleHomePage(_ event: HomePageEvent) {
         switch event {
         case .homePageOn:
-            let activePages = settingsViewModel.homePage.homePageOrder.filter { !settingsViewModel.homePage.homePageDisabled.contains($0) }
-            let activePage = activePages.first ?? .camera
+            if notchViewModel.notchModel.temporaryNotificationContent?.id == NotchContentRegistry.Focus.active.id {
+                notchViewModel.hideTemporaryNotification()
+            }
+            notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Media.nowPlaying.id))
+            notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Focus.active.id))
             notchViewModel.send(.showLiveActivity(HomePageNotchContent(
                 notchViewModel: notchViewModel,
                 settings: settingsViewModel.homePage,
-                homePages: activePage,
+                homePages: .mediaPlayer,
                 localTimerViewModel: localTimerViewModel,
                 nowPlayingViewModel: nowPlayingViewModel,
+                clipboardHistoryViewModel: clipboardHistoryViewModel,
                 fileConverterViewModel: fileConverterViewModel,
                 mediaAndFilesSettings: settingsViewModel.mediaAndFiles,
                 applicationSettings: settingsViewModel.application

@@ -343,6 +343,10 @@ final class NotchViewModel: ObservableObject {
     func hideTemporaryNotification() {
         engine.hideTemporaryNotification()
     }
+
+    func setTemporaryNotificationTimerPaused(_ isPaused: Bool) {
+        engine.setTemporaryNotificationTimerPaused(isPaused)
+    }
     
     func dismissActiveContent() {
         if notchModel.isLiveActivityExpanded {

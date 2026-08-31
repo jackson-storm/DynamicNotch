@@ -36,35 +36,35 @@ final class NotificationsSettingsStore: SettingsStoreBase {
         }
     }
 
-    @Published var isAppleMessagesNotificationsEnabled: Bool {
+    @Published var isMessagesNotificationsEnabled: Bool {
         didSet {
             persist(
-                isAppleMessagesNotificationsEnabled,
-                for: GeneralSettingsStorage.Keys.appleMessagesNotificationsEnabled
+                isMessagesNotificationsEnabled,
+                for: GeneralSettingsStorage.Keys.messagesNotificationsEnabled
             )
         }
     }
 
-    @Published var appleMessagesNotificationDuration: Int {
+    @Published var messagesNotificationDuration: Int {
         didSet {
-            let clampedValue = Self.clampTemporaryActivityDuration(appleMessagesNotificationDuration)
-            if clampedValue != appleMessagesNotificationDuration {
-                appleMessagesNotificationDuration = clampedValue
+            let clampedValue = Self.clampTemporaryActivityDuration(messagesNotificationDuration)
+            if clampedValue != messagesNotificationDuration {
+                messagesNotificationDuration = clampedValue
                 return
             }
 
             persist(
-                appleMessagesNotificationDuration,
-                for: GeneralSettingsStorage.Keys.appleMessagesNotificationDuration
+                messagesNotificationDuration,
+                for: GeneralSettingsStorage.Keys.messagesNotificationDuration
             )
         }
     }
 
-    var isAppleMessagesNotificationsPermissionPending: Bool {
+    var isMessagesNotificationsPermissionPending: Bool {
         didSet {
             persist(
-                isAppleMessagesNotificationsPermissionPending,
-                for: GeneralSettingsStorage.Keys.appleMessagesNotificationsPermissionPending
+                isMessagesNotificationsPermissionPending,
+                for: GeneralSettingsStorage.Keys.messagesNotificationsPermissionPending
             )
         }
     }
@@ -130,20 +130,20 @@ final class NotificationsSettingsStore: SettingsStoreBase {
             forKey: GeneralSettingsStorage.Keys.appleMailNotificationsPermissionPending
         ) as? Bool ?? false
 
-        self.isAppleMessagesNotificationsEnabled = defaults.object(
-            forKey: GeneralSettingsStorage.Keys.appleMessagesNotificationsEnabled
+        self.isMessagesNotificationsEnabled = defaults.object(
+            forKey: GeneralSettingsStorage.Keys.messagesNotificationsEnabled
         ) as? Bool ?? false
 
-        if let storedDuration = defaults.object(forKey: GeneralSettingsStorage.Keys.appleMessagesNotificationDuration) as? Int {
-            self.appleMessagesNotificationDuration = Self.clampTemporaryActivityDuration(storedDuration)
+        if let storedDuration = defaults.object(forKey: GeneralSettingsStorage.Keys.messagesNotificationDuration) as? Int {
+            self.messagesNotificationDuration = Self.clampTemporaryActivityDuration(storedDuration)
         } else {
-            self.appleMessagesNotificationDuration = Self.defaultTemporaryActivityDuration(
-                for: GeneralSettingsStorage.Keys.appleMessagesNotificationDuration
+            self.messagesNotificationDuration = Self.defaultTemporaryActivityDuration(
+                for: GeneralSettingsStorage.Keys.messagesNotificationDuration
             )
         }
 
-        self.isAppleMessagesNotificationsPermissionPending = defaults.object(
-            forKey: GeneralSettingsStorage.Keys.appleMessagesNotificationsPermissionPending
+        self.isMessagesNotificationsPermissionPending = defaults.object(
+            forKey: GeneralSettingsStorage.Keys.messagesNotificationsPermissionPending
         ) as? Bool ?? false
 
         self.isExternalDrivesNotificationsEnabled = defaults.object(
@@ -180,15 +180,15 @@ final class NotificationsSettingsStore: SettingsStoreBase {
         
         isAppleMailNotificationsPermissionPending = false
 
-        isAppleMessagesNotificationsEnabled = defaultBool(
-            for: GeneralSettingsStorage.Keys.appleMessagesNotificationsEnabled
+        isMessagesNotificationsEnabled = defaultBool(
+            for: GeneralSettingsStorage.Keys.messagesNotificationsEnabled
         )
 
-        appleMessagesNotificationDuration = Self.defaultTemporaryActivityDuration(
-            for: GeneralSettingsStorage.Keys.appleMessagesNotificationDuration
+        messagesNotificationDuration = Self.defaultTemporaryActivityDuration(
+            for: GeneralSettingsStorage.Keys.messagesNotificationDuration
         )
 
-        isAppleMessagesNotificationsPermissionPending = false
+        isMessagesNotificationsPermissionPending = false
 
         isExternalDrivesNotificationsEnabled = defaultBool(
             for: GeneralSettingsStorage.Keys.externalDrivesNotificationsEnabled

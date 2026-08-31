@@ -76,6 +76,7 @@ final class DebugSettingsViewModel: ObservableObject {
     private static let previewGapDuration: TimeInterval = 1
     private static let transitionBufferDuration: TimeInterval = 0.35
     private static let waitPollInterval: UInt64 = 50_000_000
+    private static let messagesPreviewDelay: UInt64 = 700_000_000
     private static let sequenceLiveActivityIDs = [
         sequenceFocusID,
         sequenceScreenRecordingID,
@@ -111,7 +112,7 @@ final class DebugSettingsViewModel: ObservableObject {
     private var isReady = false
     private var previewSequenceTask: Task<Void, Never>?
     private var mailBatchTask: Task<Void, Never>?
-    private var messagesBatchTask: Task<Void, Never>?
+    private var messagesQueuePreviewTask: Task<Void, Never>?
 
     init(
         notchViewModel: NotchViewModel,
@@ -356,6 +357,148 @@ final class DebugSettingsViewModel: ObservableObject {
         notchEventCoordinator.handleMailMessage(.debugPreviewLongContent)
     }
 
+    func triggerMessagesTextPreview() {
+        notchEventCoordinator.handleMessagesMessage(.debugText)
+    }
+
+    func triggerMessagesTextAndImagePreview() {
+        notchEventCoordinator.handleMessagesMessage(.debugTextAndImage)
+    }
+
+    func triggerMessagesAudioPreview() {
+        notchEventCoordinator.handleMessagesMessage(.debugAudio)
+    }
+
+    func triggerMessagesVideoPreview() {
+        notchEventCoordinator.handleMessagesMessage(.debugVideo)
+    }
+
+    func triggerMessagesFilePreview() {
+        notchEventCoordinator.handleMessagesMessage(.debugFile)
+    }
+
+    func triggerMessagesMultipleAttachmentsPreview() {
+        notchEventCoordinator.handleMessagesMessage(.debugMultipleAttachments)
+    }
+
+    func triggerMessagesUnknownSenderPreview() {
+        notchEventCoordinator.handleMessagesMessage(.debugUnknownSender)
+    }
+
+    func triggerMessagesLongContentPreview() {
+        notchEventCoordinator.handleMessagesMessage(.debugLongContent)
+    }
+
+    func triggerMessagesQueuePreview() {
+        messagesQueuePreviewTask?.cancel()
+
+        messagesQueuePreviewTask = Task { @MainActor [weak self] in
+            guard let self else { return }
+
+            notchViewModel.hideTemporaryNotification()
+
+            try? await Task.sleep(nanoseconds: Self.messagesPreviewDelay)
+            guard !Task.isCancelled else { return }
+
+            notchEventCoordinator.handleMessagesMessage(.debugText)
+
+            try? await Task.sleep(nanoseconds: Self.messagesPreviewDelay)
+            guard !Task.isCancelled else { return }
+
+            notchEventCoordinator.handleMessagesMessage(.debugLongContent)
+
+            try? await Task.sleep(nanoseconds: Self.messagesPreviewDelay)
+            guard !Task.isCancelled else { return }
+
+            notchEventCoordinator.handleMessagesMessage(.debugUnknownSender)
+            messagesQueuePreviewTask = nil
+        }
+    }
+
+    func triggerMixedNotificationsQueuePreview() {
+        messagesQueuePreviewTask?.cancel()
+
+        messagesQueuePreviewTask = Task { @MainActor [weak self] in
+            guard let self else { return }
+
+            notchViewModel.hideTemporaryNotification()
+
+            try? await Task.sleep(nanoseconds: Self.messagesPreviewDelay)
+            guard !Task.isCancelled else { return }
+
+            notchEventCoordinator.handleMailMessage(.debugPreviewStandard)
+
+            try? await Task.sleep(nanoseconds: Self.messagesPreviewDelay)
+            guard !Task.isCancelled else { return }
+
+            notchEventCoordinator.handleMessagesMessage(.debugText)
+            messagesQueuePreviewTask = nil
+        }
+    }
+
+    func triggerMixedAttachmentQueuePreview() {
+        messagesQueuePreviewTask?.cancel()
+
+        messagesQueuePreviewTask = Task { @MainActor [weak self] in
+            guard let self else { return }
+
+            notchViewModel.hideTemporaryNotification()
+
+            try? await Task.sleep(nanoseconds: Self.messagesPreviewDelay)
+            guard !Task.isCancelled else { return }
+
+            notchEventCoordinator.handleMessagesMessage(.debugText)
+
+            try? await Task.sleep(nanoseconds: Self.messagesPreviewDelay)
+            guard !Task.isCancelled else { return }
+
+            notchEventCoordinator.handleMessagesMessage(.debugTextAndImage)
+            messagesQueuePreviewTask = nil
+        }
+    }
+
+    func triggerMixedAudioQueuePreview() {
+        messagesQueuePreviewTask?.cancel()
+
+        messagesQueuePreviewTask = Task { @MainActor [weak self] in
+            guard let self else { return }
+
+            notchViewModel.hideTemporaryNotification()
+
+            try? await Task.sleep(nanoseconds: Self.messagesPreviewDelay)
+            guard !Task.isCancelled else { return }
+
+            notchEventCoordinator.handleMessagesMessage(.debugText)
+
+            try? await Task.sleep(nanoseconds: Self.messagesPreviewDelay)
+            guard !Task.isCancelled else { return }
+
+            notchEventCoordinator.handleMessagesMessage(.debugAudio)
+            messagesQueuePreviewTask = nil
+        }
+    }
+
+    func triggerMixedMailAndAttachmentQueuePreview() {
+        messagesQueuePreviewTask?.cancel()
+
+        messagesQueuePreviewTask = Task { @MainActor [weak self] in
+            guard let self else { return }
+
+            notchViewModel.hideTemporaryNotification()
+
+            try? await Task.sleep(nanoseconds: Self.messagesPreviewDelay)
+            guard !Task.isCancelled else { return }
+
+            notchEventCoordinator.handleMailMessage(.debugPreviewStandard)
+
+            try? await Task.sleep(nanoseconds: Self.messagesPreviewDelay)
+            guard !Task.isCancelled else { return }
+
+            notchEventCoordinator.handleMessagesMessage(.debugTextAndImage)
+            messagesQueuePreviewTask = nil
+        }
+    }
+
     func triggerMailSequencePreview() {
         triggerMailBatch(interval: 1.5)
     }
@@ -376,46 +519,6 @@ final class DebugSettingsViewModel: ObservableObject {
                 }
                 if Task.isCancelled { break }
                 self.notchEventCoordinator.handleMailMessage(message)
-            }
-        }
-    }
-
-    func triggerMessagesPreview() {
-        notchEventCoordinator.handleMessagesMessage(.debugPreviewStandard)
-    }
-
-    func triggerMessagesShortPreview() {
-        notchEventCoordinator.handleMessagesMessage(.debugPreviewShort)
-    }
-
-    func triggerMessagesNoTextPreview() {
-        notchEventCoordinator.handleMessagesMessage(.debugPreviewNoText)
-    }
-
-    func triggerMessagesLongContentPreview() {
-        notchEventCoordinator.handleMessagesMessage(.debugPreviewLongContent)
-    }
-
-    func triggerMessagesSequencePreview() {
-        triggerMessagesBatch(interval: 1.5)
-    }
-
-    func triggerMessagesRapidPreview() {
-        triggerMessagesBatch(interval: 0.4)
-    }
-
-    private func triggerMessagesBatch(interval: TimeInterval) {
-        messagesBatchTask?.cancel()
-        messagesBatchTask = Task { @MainActor [weak self] in
-            guard let self else { return }
-
-            for (index, message) in MessagesMessage.debugPreviewBatch.enumerated() {
-                if Task.isCancelled { break }
-                if index > 0 {
-                    try? await Task.sleep(nanoseconds: UInt64(interval * 1_000_000_000))
-                }
-                if Task.isCancelled { break }
-                self.notchEventCoordinator.handleMessagesMessage(message)
             }
         }
     }
@@ -447,17 +550,15 @@ final class DebugSettingsViewModel: ObservableObject {
     func hideCurrentTemporaryPreview() {
         mailBatchTask?.cancel()
         mailBatchTask = nil
-        messagesBatchTask?.cancel()
-        messagesBatchTask = nil
         notchViewModel.hideTemporaryNotification()
     }
 
     func resetAllPreviews() {
         mailBatchTask?.cancel()
         mailBatchTask = nil
-        messagesBatchTask?.cancel()
-        messagesBatchTask = nil
         stopPreviewSequence()
+        messagesQueuePreviewTask?.cancel()
+        messagesQueuePreviewTask = nil
         isOnboardingPreviewEnabled = false
         isFocusLivePreviewEnabled = false
         isScreenRecordingPreviewEnabled = false

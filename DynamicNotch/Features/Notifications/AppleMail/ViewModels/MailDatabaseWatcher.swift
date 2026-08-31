@@ -11,7 +11,7 @@ final class MailDatabaseWatcher {
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "DynamicNotch", category: "MailDatabaseWatcher")
 
     private let reader: MailDatabaseReader
-    private let queue = DispatchQueue(label: "com.dynamicnotch.mail-database-watcher")
+    private let queue = DispatchQueue(label: "com.dynamicnotch.mail-database-watcher", qos: .utility)
 
     private var source: DispatchSourceFileSystemObject?
     private var fileDescriptor: Int32 = -1

@@ -1698,6 +1698,245 @@
           }
         }
       }
+    },
+    "NSContactsUsageDescription": {
+      "comment": "Privacy - Contacts Usage Description",
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يحتاج DynamicNotch إلى الوصول إلى جهات اتصالك لإظهار أسماء المرسلين وصورهم في إشعارات الرسائل."
+          }
+        },
+        "bg": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch се нуждае от достъп до контактите ви, за да показва имената и снимките на подателите в известията от Messages."
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Messages বিজ্ঞপ্তিতে প্রেরকের নাম ও ছবি দেখাতে DynamicNotch-এর আপনার পরিচিতিতে অ্যাক্সেস প্রয়োজন।"
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch necessita accedir als teus contactes per mostrar els noms i les fotos dels remitents a les notificacions de Missatges."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch potřebuje přístup k vašim kontaktům, aby mohl v oznámeních ze Zpráv zobrazovat jména a fotky odesílatelů."
+          }
+        },
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch skal have adgang til dine kontakter for at vise afsendernes navne og billeder i notifikationer fra Beskeder."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch benötigt Zugriff auf deine Kontakte, um Namen und Fotos von Absendern in Mitteilungen von Nachrichten anzuzeigen."
+          }
+        },
+        "el": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Το DynamicNotch χρειάζεται πρόσβαση στις επαφές σας για εμφάνιση των ονομάτων και των φωτογραφιών των αποστολέων στις γνωστοποιήσεις των Μηνυμάτων."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch needs access to your contacts to show sender names and photos in Messages notifications."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch necesita acceder a tus contactos para mostrar los nombres y las fotos de los remitentes en las notificaciones de Mensajes."
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch برای نمایش نام و عکس فرستندگان در اعلان‌های Messages به مخاطبین شما نیاز دارد."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch tarvitsee pääsyn yhteystietoihisi, jotta lähettäjien nimet ja kuvat voidaan näyttää Viestit-ilmoituksissa."
+          }
+        },
+        "fil": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kailangan ng DynamicNotch ng access sa iyong mga contact upang ipakita ang mga pangalan at larawan ng nagpadala sa mga notification ng Messages."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch doit accéder à vos contacts pour afficher les noms et les photos des expéditeurs dans les notifications de Messages."
+          }
+        },
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch זקוק לגישה לאנשי הקשר שלך כדי להציג שמות ותמונות של שולחים בעדכוני Messages."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Messages सूचनाओं में भेजने वालों के नाम और फ़ोटो दिखाने के लिए DynamicNotch को आपके संपर्कों का ऐक्सेस चाहिए।"
+          }
+        },
+        "hr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch treba pristup vašim kontaktima za prikaz imena i fotografija pošiljatelja u obavijestima aplikacije Poruke."
+          }
+        },
+        "hu": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A DynamicNotch hozzáférést kér a kontaktjaihoz, hogy megjelenítse a feladók nevét és fotóját az Üzenetek értesítéseiben."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch memerlukan akses ke kontak Anda untuk menampilkan nama dan foto pengirim di pemberitahuan Pesan."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch deve accedere ai tuoi contatti per mostrare i nomi e le foto dei mittenti nelle notifiche di Messaggi."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "「メッセージ」の通知に送信者の名前と写真を表示するために、DynamicNotchが連絡先にアクセスします。"
+          }
+        },
+        "kk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Messages хабарландыруларында жіберушілердің аттары мен фотосуреттерін көрсету үшін DynamicNotch қолданбасына контактілеріңізге кіру қажет."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "메시지 알림에 보낸 사람의 이름과 사진을 표시하려면 DynamicNotch가 사용자의 연락처에 접근해야 합니다."
+          }
+        },
+        "ms": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch memerlukan akses kepada kenalan anda untuk memaparkan nama dan foto pengirim dalam pemberitahuan Mesej."
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch trenger tilgang til kontaktene dine for å vise avsendernes navn og bilder i varslinger fra Meldinger."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch heeft toegang tot je contacten nodig om namen en foto’s van afzenders in meldingen van Berichten weer te geven."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch potrzebuje dostępu do Twoich kontaktów, aby wyświetlać nazwy i zdjęcia nadawców w powiadomieniach z Wiadomości."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O DynamicNotch necessita de acesso aos seus contactos para mostrar os nomes e as fotografias dos remetentes nas notificações de Mensagens."
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch are nevoie de acces la contactele dvs. pentru a afișa numele și pozele expeditorilor în notificările Mesaje."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch требуется доступ к вашим контактам, чтобы показывать имена и фотографии отправителей в уведомлениях «Сообщений»."
+          }
+        },
+        "sk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch potrebuje prístup k vašim kontaktom, aby mohol v hláseniach zo Správ zobrazovať mená a fotky odosielateľov."
+          }
+        },
+        "sr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch захтева приступ вашим контактима за приказ имена и фотографија пошиљалаца у обавештењима апликације Поруке."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch behöver åtkomst till dina kontakter för att visa avsändarnas namn och bilder i notiser från Meddelanden."
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch ต้องการเข้าถึงรายชื่อของคุณเพื่อแสดงชื่อและรูปภาพของผู้ส่งในการแจ้งเตือนแอปข้อความ"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch, Mesajlar bildirimlerinde gönderenlerin adlarını ve fotoğraflarını göstermek için kişilerinize erişmek istiyor."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch потрібен доступ до ваших контактів, щоб показувати імена та фотографії відправників у сповіщеннях Повідомлень."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch cần truy cập vào danh bạ của bạn để hiển thị tên và ảnh của người gửi trong thông báo Tin nhắn."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch 需要访问你的通讯录，以便在“信息”通知中显示发件人姓名和照片。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DynamicNotch 需要取用你的聯絡人，以便在「訊息」通知中顯示傳送者姓名和照片。"
+          }
+        }
+      }
     }
   },
   "version": "1.1"

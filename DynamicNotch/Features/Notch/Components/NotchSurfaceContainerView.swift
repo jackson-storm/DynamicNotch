@@ -82,6 +82,7 @@ struct NotchSurfaceContainerView: View {
                 .resizeAwareBlur(
                     size: notchViewModel.interactiveNotchSize,
                     baseHeight: notchViewModel.notchModel.baseHeight,
+                    isResizeEffectEnabled: content.usesContentResizeEffect,
                     interactiveBlur: notchViewModel.contentResizeBlurRadius,
                     interactiveOpacity: notchViewModel.contentResizeOpacity,
                     swipeProgress: notchViewModel.easedSwipeStretchProgress,

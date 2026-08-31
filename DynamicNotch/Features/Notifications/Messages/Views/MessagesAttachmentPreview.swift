@@ -41,7 +41,7 @@ struct MessagesAttachmentPreview: View {
     }
 
     private var remainingAttachmentsView: some View {
-        Text("+\(remainingCount)")
+        Text(verbatim: "+\(remainingCount)")
             .font(.system(size: 10, weight: .semibold))
             .foregroundStyle(.white.opacity(0.7))
             .frame(width: Self.thumbnailSize, height: Self.thumbnailSize)

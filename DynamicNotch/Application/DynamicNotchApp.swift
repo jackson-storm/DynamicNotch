@@ -16,6 +16,7 @@ struct NotchApp: App {
 }
 
 private struct MenuBarMenu: View {
+    @ObservedObject private var updater = SparkleUpdater.shared
     @AppStorage(GeneralSettingsStorage.Keys.appLanguage) private var appLanguageRaw: String = DynamicNotchLanguage.system.rawValue
 
     private var locale: Locale {
@@ -35,6 +36,14 @@ private struct MenuBarMenu: View {
             Text(verbatim: localizedVersionText)
             
             Divider()
+            
+            Button {
+                updater.checkForUpdates()
+            } label: {
+                Image(systemName: "arrow.triangle.2.circlepath")
+                Text(locale.dn("menuBar.checkForUpdates", fallback: "Check for Updates…"))
+            }
+            .disabled(!updater.canCheckForUpdates)
             
             Button {
                 SettingsWindowController.shared.showWindow()

@@ -32,7 +32,7 @@ struct DebugSettingsView: View {
 
         var id: String { rawValue }
 
-        var title: LocalizedStringKey {
+        var title: String {
             switch self {
             case .system: return "System"
             case .media: return "Media"
@@ -57,7 +57,7 @@ struct DebugSettingsView: View {
 
         var id: String { rawValue }
 
-        var title: LocalizedStringKey {
+        var title: String {
             switch self {
             case .dragAndDrop: return "Drag & Drop"
             case .connectivity: return "Connectivity"
@@ -80,8 +80,12 @@ struct DebugSettingsView: View {
         SettingsCard(title: "settings.debug.card.persistentEvents") {
             Picker("", selection: $selectedPersistentCategory) {
                 ForEach(PersistentDebugCategory.allCases) { category in
-                    Label(category.title, systemImage: category.icon)
-                        .tag(category)
+                    Label {
+                        Text(verbatim: category.title)
+                    } icon: {
+                        Image(systemName: category.icon)
+                    }
+                    .tag(category)
                 }
             }
             .pickerStyle(.segmented)
@@ -231,7 +235,7 @@ struct DebugSettingsView: View {
                 description: "Run every debug event in sequence, keep each item visible for its configured duration, and wait 1 second between items.",
                 systemImage: viewModel.isPreviewSequenceRunning ? "stop.circle.fill" : "play.circle.fill",
                 color: .accentColor,
-                buttonTitle: viewModel.isPreviewSequenceRunning ? LocalizedStringKey("Stop") : LocalizedStringKey("Start"),
+                buttonTitle: viewModel.isPreviewSequenceRunning ? "Stop" : "Start",
                 action: viewModel.togglePreviewSequence
             )
             
@@ -239,8 +243,12 @@ struct DebugSettingsView: View {
 
             Picker("", selection: $selectedTriggerCategory) {
                 ForEach(TriggerDebugCategory.allCases) { category in
-                    Label(category.title, systemImage: category.icon)
-                        .tag(category)
+                    Label {
+                        Text(verbatim: category.title)
+                    } icon: {
+                        Image(systemName: category.icon)
+                    }
+                    .tag(category)
                 }
             }
             .pickerStyle(.segmented)
@@ -603,7 +611,7 @@ struct DebugSettingsView: View {
 
         var id: String { rawValue }
 
-        var title: LocalizedStringKey {
+        var title: String {
             switch self {
             case .messages: return "Messages"
             case .mail: return "Mail"
@@ -623,11 +631,15 @@ struct DebugSettingsView: View {
     }
 
     private var notificationsPreviewsCard: some View {
-        SettingsCard(title: "Notifications Previews") {
+        SettingsCard(verbatimTitle: "Notifications Previews") {
             Picker("", selection: $selectedNotificationCategory) {
                 ForEach(NotificationDebugCategory.allCases) { category in
-                    Label(category.title, systemImage: category.icon)
-                        .tag(category)
+                    Label {
+                        Text(verbatim: category.title)
+                    } icon: {
+                        Image(systemName: category.icon)
+                    }
+                    .tag(category)
                 }
             }
             .pickerStyle(.segmented)
@@ -916,20 +928,20 @@ struct DebugSettingsView: View {
 }
 
 struct DebugActionRow: View {
-    let title: LocalizedStringKey
-    let description: LocalizedStringKey
+    let title: String
+    let description: String
     let systemImage: String?
     let imageName: String?
     let color: Color
-    let buttonTitle: LocalizedStringKey
+    let buttonTitle: String
     let action: () -> Void
     
     init(
-        title: LocalizedStringKey,
-        description: LocalizedStringKey,
+        title: String,
+        description: String,
         systemImage: String,
         color: Color,
-        buttonTitle: LocalizedStringKey = "Start",
+        buttonTitle: String = "Start",
         action: @escaping () -> Void
     ) {
         self.title = title
@@ -942,11 +954,11 @@ struct DebugActionRow: View {
     }
 
     init(
-        title: LocalizedStringKey,
-        description: LocalizedStringKey,
+        title: String,
+        description: String,
         imageName: String,
         color: Color,
-        buttonTitle: LocalizedStringKey = "Start",
+        buttonTitle: String = "Start",
         action: @escaping () -> Void
     ) {
         self.title = title
@@ -980,10 +992,10 @@ struct DebugActionRow: View {
             }
             
             VStack(alignment: .leading, spacing: 3) {
-                Text(title)
+                Text(verbatim: title)
                     .font(.system(size: 13, weight: .medium))
                 
-                Text(description)
+                Text(verbatim: description)
                     .font(.system(size: 11))
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
@@ -991,8 +1003,10 @@ struct DebugActionRow: View {
             
             Spacer(minLength: 16)
             
-            Button(buttonTitle, action: action)
-                .controlSize(.small)
+            Button(action: action) {
+                Text(verbatim: buttonTitle)
+            }
+            .controlSize(.small)
         }
     }
 }

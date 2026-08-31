@@ -10,7 +10,6 @@ struct ExternalDrivesNotificationsSettingsView: View {
     var body: some View {
         SettingsPageScrollView {
             drivesActivity
-            drivesOptions
             drivesDuration
         }
     }
@@ -30,6 +29,31 @@ struct ExternalDrivesNotificationsSettingsView: View {
                 .opacity(0.6)
                 .padding(.leading, 43)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+            
+            SettingsToggleRow(
+                title: "settings.notifications.externalDrives.includeDiskImages.title",
+                description: "settings.notifications.externalDrives.includeDiskImages.desc",
+                systemImage: "opticaldiscdrive.fill",
+                color: .gray,
+                isOn: $settings.isExternalDrivesIncludeDiskImagesEnabled,
+                accessibilityIdentifier: "settings.notifications.externalDrives.includeDiskImages"
+            )
+
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+
+            SettingsToggleRow(
+                title: "settings.notifications.externalDrives.showEjected.title",
+                description: "settings.notifications.externalDrives.showEjected.desc",
+                systemImage: "eject.circle.fill",
+                color: .blue,
+                isOn: $settings.isExternalDrivesShowEjectedEnabled,
+                accessibilityIdentifier: "settings.notifications.externalDrives.showEjected"
+            )
+            
+            Divider().opacity(0.6)
 
             SettingsButtonRow(
                 title: "settings.notifications.externalDrives.systemNotifications.title",
@@ -42,37 +66,6 @@ struct ExternalDrivesNotificationsSettingsView: View {
                 accessibilityIdentifier: "settings.notifications.externalDrives.systemNotifications",
                 action: openSystemNotificationSettings
             )
-        }
-    }
-
-    private var drivesOptions: some View {
-        SettingsCard(title: "settings.notifications.externalDrives.options.title") {
-            SettingsToggleRow(
-                title: "settings.notifications.externalDrives.showEjected.title",
-                description: "settings.notifications.externalDrives.showEjected.desc",
-                systemImage: "eject.circle.fill",
-                color: .blue,
-                isOn: $settings.isExternalDrivesShowEjectedEnabled,
-                accessibilityIdentifier: "settings.notifications.externalDrives.showEjected"
-            )
-            .disabled(!settings.isExternalDrivesNotificationsEnabled)
-            .opacity(settings.isExternalDrivesNotificationsEnabled ? 1 : 0.5)
-
-            Divider()
-                .opacity(0.6)
-                .padding(.leading, 43)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
-
-            SettingsToggleRow(
-                title: "settings.notifications.externalDrives.includeDiskImages.title",
-                description: "settings.notifications.externalDrives.includeDiskImages.desc",
-                systemImage: "opticaldiscdrive.fill",
-                color: .gray,
-                isOn: $settings.isExternalDrivesIncludeDiskImagesEnabled,
-                accessibilityIdentifier: "settings.notifications.externalDrives.includeDiskImages"
-            )
-            .disabled(!settings.isExternalDrivesNotificationsEnabled)
-            .opacity(settings.isExternalDrivesNotificationsEnabled ? 1 : 0.5)
         }
     }
 

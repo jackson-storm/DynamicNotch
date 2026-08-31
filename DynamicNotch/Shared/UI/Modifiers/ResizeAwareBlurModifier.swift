@@ -13,6 +13,7 @@ struct ResizeAwareBlurModifier: AnimatableModifier {
     private let targetWidth: CGFloat
     private let targetHeight: CGFloat
     private let baseHeight: CGFloat
+    private let isResizeEffectEnabled: Bool
     private let interactiveBlur: CGFloat
     private let interactiveOpacity: Double
     private var animatedProgress: CGFloat
@@ -24,12 +25,13 @@ struct ResizeAwareBlurModifier: AnimatableModifier {
         static let maxOpacityReduction: Double = 0.9
     }
 
-    init(size: CGSize, baseHeight: CGFloat = 38, interactiveBlur: CGFloat, interactiveOpacity: Double, swipeProgress: CGFloat, swipeInteraction: SwipeInteraction?) {
+    init(size: CGSize, baseHeight: CGFloat = 38, isResizeEffectEnabled: Bool = true, interactiveBlur: CGFloat, interactiveOpacity: Double, swipeProgress: CGFloat, swipeInteraction: SwipeInteraction?) {
         animatedWidth = size.width
         animatedHeight = size.height
         targetWidth = size.width
         targetHeight = size.height
         self.baseHeight = baseHeight
+        self.isResizeEffectEnabled = isResizeEffectEnabled
         self.interactiveBlur = interactiveBlur
         self.interactiveOpacity = interactiveOpacity
         self.animatedProgress = swipeProgress
@@ -50,7 +52,7 @@ struct ResizeAwareBlurModifier: AnimatableModifier {
     func body(content: Content) -> some View {
         let widthDelta = normalizedDelta(abs(targetWidth - animatedWidth), relativeTo: targetWidth)
         let heightDelta = normalizedDelta(abs(targetHeight - animatedHeight), relativeTo: targetHeight)
-        let normalizedProgress = max(widthDelta, heightDelta)
+        let normalizedProgress = isResizeEffectEnabled ? max(widthDelta, heightDelta) : 0
         let transitionBlur = normalizedProgress * Metrics.maxBlurRadius
         let blurRadius = max(transitionBlur, interactiveBlur)
         let transitionOpacity = max(0, 1 - (Double(normalizedProgress) * Metrics.maxOpacityReduction))
@@ -79,9 +81,12 @@ struct ResizeAwareBlurModifier: AnimatableModifier {
                     xScale = 1.0
                 }
             }
-        } else {
+        } else if isResizeEffectEnabled {
             xScale = targetWidth > 0 ? (animatedWidth / targetWidth) : 1.0
             yScale = targetHeight > 0 ? (animatedHeight / targetHeight) : 1.0
+        } else {
+            xScale = 1
+            yScale = 1
         }
 
         return content
@@ -101,6 +106,7 @@ extension View {
     func resizeAwareBlur(
         size: CGSize,
         baseHeight: CGFloat = 38,
+        isResizeEffectEnabled: Bool = true,
         interactiveBlur: CGFloat,
         interactiveOpacity: Double,
         swipeProgress: CGFloat,
@@ -109,6 +115,7 @@ extension View {
             ResizeAwareBlurModifier(
                 size: size,
                 baseHeight: baseHeight,
+                isResizeEffectEnabled: isResizeEffectEnabled,
                 interactiveBlur: interactiveBlur,
                 interactiveOpacity: interactiveOpacity,
                 swipeProgress: swipeProgress,

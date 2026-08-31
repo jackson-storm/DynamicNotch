@@ -536,6 +536,7 @@ final class NotchEngine: ObservableObject {
 
         temporaryTask = Task {
             try? await Task.sleep(nanoseconds: UInt64(duration * 1_000_000_000))
+            guard !Task.isCancelled else { return }
 
             await MainActor.run {
                 guard self.temporaryTimerID == timerID,

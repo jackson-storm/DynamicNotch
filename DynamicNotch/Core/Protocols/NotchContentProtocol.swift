@@ -15,6 +15,7 @@ protocol NotchContentProtocol {
     var isExpandable: Bool { get }
     var expandsOnTap: Bool { get }
     var isRestorable: Bool { get }
+    var usesContentResizeEffect: Bool { get }
     var windowLink: (@MainActor () -> Void)? { get }
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize
@@ -33,6 +34,7 @@ extension NotchContentProtocol {
     var isExpandable: Bool { false }
     var expandsOnTap: Bool { isExpandable }
     var isRestorable: Bool { true }
+    var usesContentResizeEffect: Bool { true }
     var windowLink: (@MainActor () -> Void)? { nil }
     
     func cornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {

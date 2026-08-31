@@ -13,12 +13,12 @@ final class MailNotchContentTests: XCTestCase {
             receivedDate: Date()
         )
 
-        let content = MailNotchContent(
-            message: message,
-            onOpen: {}
+        let content = NotificationsNotchContent(
+            items: [.mail(message)],
+            onOpenMail: { _ in }
         )
 
-        XCTAssertEqual(content.id, NotchContentRegistry.Notifications.mail.id)
+        XCTAssertEqual(content.id, NotchContentRegistry.Notifications.messages.id)
     }
     
     func testSizeUsesExpandedHeightWhenSummaryExists() {
@@ -31,9 +31,9 @@ final class MailNotchContentTests: XCTestCase {
             receivedDate: Date()
         )
 
-        let content = MailNotchContent(
-            message: message,
-            onOpen: {}
+        let content = NotificationsNotchContent(
+            items: [.mail(message)],
+            onOpenMail: { _ in }
         )
 
         let size = content.size(
@@ -42,7 +42,7 @@ final class MailNotchContentTests: XCTestCase {
         )
 
         XCTAssertEqual(size.width, 360)
-        XCTAssertEqual(size.height, 120)
+        XCTAssertEqual(size.height, 115)
     }
 
     func testSizeUsesCompactHeightWhenSummaryIsMissing() {
@@ -55,9 +55,9 @@ final class MailNotchContentTests: XCTestCase {
             receivedDate: Date()
         )
 
-        let content = MailNotchContent(
-            message: message,
-            onOpen: {}
+        let content = NotificationsNotchContent(
+            items: [.mail(message)],
+            onOpenMail: { _ in }
         )
 
         let size = content.size(
@@ -79,9 +79,9 @@ final class MailNotchContentTests: XCTestCase {
             receivedDate: Date()
         )
 
-        let content = MailNotchContent(
-            message: message,
-            onOpen: {}
+        let content = NotificationsNotchContent(
+            items: [.mail(message)],
+            onOpenMail: { _ in }
         )
 
         let size = content.dynamicIslandSize(
@@ -90,7 +90,7 @@ final class MailNotchContentTests: XCTestCase {
         )
 
         XCTAssertEqual(size.width, 410)
-        XCTAssertEqual(size.height, 120)
+        XCTAssertEqual(size.height, 112)
     }
 
     func testDynamicIslandSizeWhenSummaryIsMissing() {
@@ -103,9 +103,9 @@ final class MailNotchContentTests: XCTestCase {
             receivedDate: Date()
         )
 
-        let content = MailNotchContent(
-            message: message,
-            onOpen: {}
+        let content = NotificationsNotchContent(
+            items: [.mail(message)],
+            onOpenMail: { _ in }
         )
 
         let size = content.dynamicIslandSize(

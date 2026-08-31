@@ -130,6 +130,12 @@ private extension NotchCustomScaleModifier {
     }
 
     private func startPressAnimation() {
+        guard notchViewModel.canOpenActiveWindowLink ||
+              notchViewModel.shouldExpandActiveContentOnClick ||
+              notchViewModel.shouldExpandActiveContentOnPressAndHold else {
+            return
+        }
+
         let token = UUID()
         let pressPeakDuration = notchViewModel.notchPressHoldDuration
         

@@ -145,7 +145,7 @@ enum NotchContentRegistry {
             id: "mail.message"
         )
         static let messages = NotchContentDescriptor(
-            id: "messages.message"
+            id: "messages.notification"
         )
         static let externalDrive = NotchContentDescriptor(
             id: "externalDrives.drive"

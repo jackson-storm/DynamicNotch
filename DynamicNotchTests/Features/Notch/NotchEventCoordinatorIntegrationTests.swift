@@ -540,6 +540,234 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
         }
     }
 
+    func testMessagesMessageShowsTemporaryNotification() async {
+        let context = makeContext()
+        let message = makeMessagesMessage(rowID: 1, text: "First message")
+
+        defer {
+            context.notchViewModel.hideTemporaryNotification()
+        }
+
+        context.coordinator.handleMessagesMessage(message)
+
+        await assertEventually {
+            await MainActor.run {
+                guard let content = context.notchViewModel.notchModel.temporaryNotificationContent as? MessagesNotchContent else {
+                    return false
+                }
+
+                return content.messages == [message]
+            }
+        }
+    }
+
+    func testSecondMessagesMessageUpdatesExistingPresentation() async {
+        let context = makeContext()
+        let firstMessage = makeMessagesMessage(rowID: 1, text: "First message")
+        let secondMessage = makeMessagesMessage(rowID: 2, text: "Second message")
+
+        defer {
+            context.notchViewModel.hideTemporaryNotification()
+        }
+
+        context.coordinator.handleMessagesMessage(firstMessage)
+
+        await assertEventually {
+            await MainActor.run {
+                context.notchViewModel.notchModel.temporaryNotificationContent?.id == NotchContentRegistry.Notifications.messages.id
+            }
+        }
+
+        let firstUpdateToken = context.notchViewModel.notchModel.updateToken
+
+        context.coordinator.handleMessagesMessage(secondMessage)
+
+        XCTAssertEqual(
+            context.notchViewModel.notchModel.temporaryNotificationContent?.id,
+            NotchContentRegistry.Notifications.messages.id
+        )
+
+        await assertEventually {
+            await MainActor.run {
+                guard let content = context.notchViewModel.notchModel.temporaryNotificationContent as? MessagesNotchContent else {
+                    return false
+                }
+
+                return content.messages.map(\.rowID) == [1, 2] &&
+                context.notchViewModel.notchModel.updateToken != firstUpdateToken
+            }
+        }
+    }
+
+    func testThirdMessagesMessageKeepsOnlyTwoNewestMessages() async {
+        let context = makeContext()
+
+        defer {
+            context.notchViewModel.hideTemporaryNotification()
+        }
+
+        context.coordinator.handleMessagesMessage(makeMessagesMessage(rowID: 1, text: "First message"))
+
+        await assertEventually {
+            await MainActor.run {
+                context.notchViewModel.notchModel.temporaryNotificationContent?.id == NotchContentRegistry.Notifications.messages.id
+            }
+        }
+
+        context.coordinator.handleMessagesMessage(makeMessagesMessage(rowID: 2, text: "Second message"))
+        context.coordinator.handleMessagesMessage(makeMessagesMessage(rowID: 3, text: "Third message"))
+
+        await assertEventually {
+            await MainActor.run {
+                guard let content = context.notchViewModel.notchModel.temporaryNotificationContent as? MessagesNotchContent else {
+                    return false
+                }
+
+                return content.messages.map(\.rowID) == [2, 3]
+            }
+        }
+    }
+
+    func testRepeatedMessagesRowReplacesExistingQueueItem() async {
+        let context = makeContext()
+
+        defer {
+            context.notchViewModel.hideTemporaryNotification()
+        }
+
+        context.coordinator.handleMessagesMessage(makeMessagesMessage(rowID: 1, text: "First message"))
+
+        await assertEventually {
+            await MainActor.run {
+                context.notchViewModel.notchModel.temporaryNotificationContent?.id == NotchContentRegistry.Notifications.messages.id
+            }
+        }
+
+        context.coordinator.handleMessagesMessage(makeMessagesMessage(rowID: 2, text: "Original text"))
+        context.coordinator.handleMessagesMessage(makeMessagesMessage(rowID: 2, text: "Updated text"))
+
+        await assertEventually {
+            await MainActor.run {
+                guard let content = context.notchViewModel.notchModel.temporaryNotificationContent as? MessagesNotchContent else {
+                    return false
+                }
+
+                guard content.messages.map(\.rowID) == [1, 2] else {
+                    return false
+                }
+
+                return content.messages.last?.parts == [.text("Updated text")]
+            }
+        }
+    }
+
+    func testMessagesQueueClearsAfterNotificationIsHidden() async {
+        let context = makeContext()
+
+        defer {
+            context.notchViewModel.hideTemporaryNotification()
+        }
+
+        context.coordinator.handleMessagesMessage(makeMessagesMessage(rowID: 1, text: "First message"))
+
+        await assertEventually {
+            await MainActor.run {
+                context.notchViewModel.notchModel.temporaryNotificationContent?.id == NotchContentRegistry.Notifications.messages.id
+            }
+        }
+
+        context.notchViewModel.hideTemporaryNotification()
+
+        await assertEventually {
+            await MainActor.run {
+                context.notchViewModel.notchModel.temporaryNotificationContent == nil
+            }
+        }
+
+        context.coordinator.handleMessagesMessage(makeMessagesMessage(rowID: 2, text: "Second message"))
+
+        await assertEventually {
+            await MainActor.run {
+                guard let content = context.notchViewModel.notchModel.temporaryNotificationContent as? MessagesNotchContent else {
+                    return false
+                }
+
+                return content.messages.map(\.rowID) == [2]
+            }
+        }
+    }
+
+    func testMessagesNotificationHidesAfterConfiguredDuration() async {
+        let context = makeContext(messagesNotificationDuration: 1)
+
+        context.coordinator.handleMessagesMessage(makeMessagesMessage(rowID: 1, text: "Temporary message"))
+
+        await assertEventually {
+            await MainActor.run {
+                context.notchViewModel.notchModel.temporaryNotificationContent?.id == NotchContentRegistry.Notifications.messages.id
+            }
+        }
+
+        await assertEventually(timeout: 1.4) {
+            await MainActor.run {
+                context.notchViewModel.notchModel.temporaryNotificationContent == nil
+            }
+        }
+    }
+
+    func testMessagesAudioPlaybackSuspendsAndRestartsAutoHideTimer() async throws {
+        let context = makeContext(messagesNotificationDuration: 1)
+
+        context.coordinator.handleMessagesMessage(makeMessagesAudioMessage(rowID: 1))
+
+        await assertEventually {
+            await MainActor.run {
+                context.notchViewModel.notchModel.temporaryNotificationContent?.id == NotchContentRegistry.Notifications.messages.id
+            }
+        }
+
+        let initialContent = try XCTUnwrap(
+            context.notchViewModel.notchModel.temporaryNotificationContent as? MessagesNotchContent
+        )
+
+        let initialUpdateToken = context.notchViewModel.notchModel.updateToken
+
+        initialContent.onAudioPlaybackStateChanged(true)
+
+        await assertEventually {
+            await MainActor.run {
+                context.notchViewModel.notchModel.updateToken != initialUpdateToken
+            }
+        }
+
+        try? await Task.sleep(nanoseconds: 1_200_000_000)
+
+        XCTAssertEqual(
+            context.notchViewModel.notchModel.temporaryNotificationContent?.id,
+            NotchContentRegistry.Notifications.messages.id
+        )
+
+        let playingContent = try XCTUnwrap(
+            context.notchViewModel.notchModel.temporaryNotificationContent as? MessagesNotchContent
+        )
+
+        let playingUpdateToken = context.notchViewModel.notchModel.updateToken
+
+        playingContent.onAudioPlaybackStateChanged(false)
+
+        await assertEventually {
+            await MainActor.run {
+                context.notchViewModel.notchModel.updateToken != playingUpdateToken
+            }
+        }
+
+        await assertEventually(timeout: 1.4) {
+            await MainActor.run {
+                context.notchViewModel.notchModel.temporaryNotificationContent == nil
+            }
+        }
+    }
+
     func testLanguageChangeShowsTemporaryNotification() async {
         let context = makeContext()
 
@@ -583,7 +811,8 @@ private extension NotchEventCoordinatorIntegrationTests {
         dragAndDropActivityMode: DragAndDropActivityMode = .airDrop,
         trayLiveActivityEnabled: Bool = true,
         noInternetTemporaryActivityEnabled: Bool = true,
-        homePageLiveActivityEnabled: Bool = false
+        homePageLiveActivityEnabled: Bool = false,
+        messagesNotificationDuration: Int = 5
     ) -> TestContext {
         UserDefaults.standard.set(false, forKey: "isLaunchAtLoginEnabled")
         UserDefaults.standard.set(0, forKey: "notchWidth")
@@ -595,6 +824,7 @@ private extension NotchEventCoordinatorIntegrationTests {
         UserDefaults.standard.set(temporaryActivityDurationScale, forKey: "settings.temporary.durationScale")
         UserDefaults.standard.set(true, forKey: "settings.live.hotspot")
         UserDefaults.standard.set(true, forKey: "settings.live.focus")
+        UserDefaults.standard.set(false, forKey: "settings.live.focus.autoHide")
         UserDefaults.standard.set(true, forKey: "settings.live.nowPlaying")
         UserDefaults.standard.set(nowPlayingPauseHideTimerEnabled, forKey: "settings.nowPlaying.pauseHideTimerEnabled")
         UserDefaults.standard.set(nowPlayingPauseHideDelay, forKey: "settings.nowPlaying.pauseHideDelay")
@@ -612,9 +842,11 @@ private extension NotchEventCoordinatorIntegrationTests {
         UserDefaults.standard.set(true, forKey: "settings.temporary.wifi")
         UserDefaults.standard.set(true, forKey: "settings.temporary.vpn")
         UserDefaults.standard.set(noInternetTemporaryActivityEnabled, forKey: "settings.temporary.noInternet")
+        UserDefaults.standard.set(false, forKey: "settings.temporary.focusOn")
         UserDefaults.standard.set(true, forKey: "settings.temporary.focusOff")
         UserDefaults.standard.set(true, forKey: "settings.temporary.notchSize")
         UserDefaults.standard.set(homePageLiveActivityEnabled, forKey: "settings.homePage.liveActivity")
+        UserDefaults.standard.set(messagesNotificationDuration, forKey: "settings.notifications.messages.duration")
 
         let settingsViewModel = SettingsViewModel()
         let notchViewModel = NotchViewModel(
@@ -648,6 +880,7 @@ private extension NotchEventCoordinatorIntegrationTests {
         let homePageViewModel = HomePageViewModel()
         let localTimerViewModel = LocalTimerViewModel()
         let mailManager = MailManager()
+        let messagesManager = MessagesManager()
         let calendarViewModel = CalendarViewModel()
         let coordinator = NotchEventCoordinator(
             notchViewModel: notchViewModel,
@@ -668,7 +901,7 @@ private extension NotchEventCoordinatorIntegrationTests {
             localTimerViewModel: localTimerViewModel,
             calendarViewModel: calendarViewModel,
             mailManager: mailManager,
-            messagesManager: MessagesManager(),
+            messagesManager: messagesManager,
             externalDrivesMonitor: ExternalDrivesMonitor()
         )
         var cancellables = Set<AnyCancellable>()
@@ -701,6 +934,40 @@ private extension NotchEventCoordinatorIntegrationTests {
             lockScreenService: lockScreenService,
             cancellables: cancellables,
             mailManager: mailManager
+        )
+    }
+
+    func makeMessagesMessage(rowID: Int64, text: String) -> MessagesMessage {
+        MessagesMessage(
+            rowID: rowID,
+            guid: "message-\(rowID)",
+            sender: MessagesSender(identifier: "+123456789", displayName: "Tim Cook", avatarData: nil),
+            service: .iMessage,
+            conversation: nil,
+            receivedDate: Date(timeIntervalSinceReferenceDate: Double(rowID)),
+            parts: [.text(text)]
+        )
+    }
+
+    func makeMessagesAudioMessage(rowID: Int64) -> MessagesMessage {
+        MessagesMessage(
+            rowID: rowID,
+            guid: "audio-message-\(rowID)",
+            sender: MessagesSender(identifier: "+123456789", displayName: "Tim Cook", avatarData: nil),
+            service: .iMessage,
+            conversation: nil,
+            receivedDate: Date(timeIntervalSinceReferenceDate: Double(rowID)),
+            parts: [
+                .attachment(
+                    .audio(
+                        MessagesAudioAttachment(
+                            id: "audio-\(rowID)",
+                            fileURL: URL(fileURLWithPath: "/tmp/messages-audio.caf"),
+                            duration: 40
+                        )
+                    )
+                )
+            ]
         )
     }
 }

@@ -23,12 +23,12 @@ struct NotificationsListView: View {
     }
     
     var body: some View {
-        VStack {
-            Spacer()
+        VStack(spacing: 0) {
+            Spacer(minLength: 0)
             itemList
         }
-        .padding(.leading, isDynamicIsland ? 12 : 45)
-        .padding(.trailing, isDynamicIsland ? 20 : 45)
+        .padding(.leading, isDynamicIsland ? 12 : 35)
+        .padding(.trailing, isDynamicIsland ? 20 : 40)
         .padding(.bottom, isDynamicIsland ? NotificationsNotchContent.dynamicIslandBottomPadding : NotificationsNotchContent.standardBottomPadding)
     }
     

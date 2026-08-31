@@ -43,6 +43,7 @@ final class MessagesContactResolver {
     static let shared = MessagesContactResolver()
 
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "DynamicNotch", category: "MessagesContactResolver")
+    private let lock = NSLock()
 
     private let contactStore: any MessagesContactStoring
     private var cachedSenders: [String: MessagesSender] = [:]
@@ -64,10 +65,30 @@ final class MessagesContactResolver {
 
         let cacheKey = normalizedIdentifier.lowercased()
 
+        lock.lock()
         if let cachedSender = cachedSenders[cacheKey] {
+            lock.unlock()
             return cachedSender
         }
+        lock.unlock()
 
+        // Guard against priority inversion: if invoked on the User-Interactive main thread
+        // with the real system contact store, do not block the UI thread waiting on contactsd.
+        // Return fallback immediately and resolve contact asynchronously on a background queue.
+        if Thread.isMainThread && contactStore is SystemMessagesContactStore {
+            let fallback = fallbackSender(for: normalizedIdentifier)
+            DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+                guard let self else { return }
+                _ = self.resolveAndCacheContact(for: normalizedIdentifier, cacheKey: cacheKey)
+            }
+            return fallback
+        }
+
+        return resolveAndCacheContact(for: normalizedIdentifier, cacheKey: cacheKey)
+    }
+
+    @discardableResult
+    private func resolveAndCacheContact(for normalizedIdentifier: String, cacheKey: String) -> MessagesSender {
         do {
             guard let contact = try contactStore.contact(matching: normalizedIdentifier) else {
                 return fallbackSender(for: normalizedIdentifier)
@@ -83,7 +104,9 @@ final class MessagesContactResolver {
                 isKnownContact: true
             )
 
+            lock.lock()
             cachedSenders[cacheKey] = sender
+            lock.unlock()
 
             return sender
         } catch {

@@ -7,8 +7,8 @@ struct MessagesNotificationRow: View {
     let onAudioPlaybackStateChanged: (Bool) -> Void
     let onOpen: (MessagesMessage) -> Void
 
-    private let avatarSize: CGFloat = 45
-    private let avatarSpacing: CGFloat = 15
+    private let avatarSize: CGFloat = 50
+    private let avatarSpacing: CGFloat = 12
 
     var body: some View {
         Group {
@@ -115,6 +115,7 @@ struct MessagesNotificationRow: View {
             .lineLimit(lineLimit)
             .multilineTextAlignment(.leading)
             .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.trailing, 5)
     }
 
     @ViewBuilder

@@ -44,10 +44,7 @@ struct AppleMailNotificationsSettingsView: View {
                 accessibilityIdentifier: "settings.notifications.appleMail.toggle"
             )
 
-            Divider()
-                .opacity(0.6)
-                .padding(.leading, 43)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+            Divider().opacity(0.6)
 
             SettingsButtonRow(
                 title: "settings.notifications.appleMail.systemNotifications.title",

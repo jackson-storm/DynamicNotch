@@ -137273,235 +137273,235 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "فتح إعدادات النظام"
+            "value" : "فتح الإعدادات"
           }
         },
         "bg" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Отваряне на Системни настройки"
+            "value" : "Настройки"
           }
         },
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "সিস্টেম সেটিংস খুলুন"
+            "value" : "সেটিংস খুলুন"
           }
         },
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Obre la configuració del sistema"
+            "value" : "Obrir Paràmetres"
           }
         },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Otevřít Nastavení systému"
+            "value" : "Otevřít nastavení"
           }
         },
         "da" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Åbn Systemindstillinger"
+            "value" : "Åbn indstillinger"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Systemeinstellungen öffnen"
+            "value" : "Einstellungen öffnen"
           }
         },
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Άνοιγμα Ρυθμίσεων συστήματος"
+            "value" : "Άνοιγμα ρυθμίσεων"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open System Settings"
+            "value" : "Open Settings"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Abrir Ajustes del Sistema"
+            "value" : "Abrir Ajustes"
           }
         },
         "fa" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "باز کردن تنظیمات سیستم"
+            "value" : "باز کردن تنظیمات"
           }
         },
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Avaa Järjestelmäasetukset"
+            "value" : "Avaa asetukset"
           }
         },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Buksan ang Mga Setting ng System"
+            "value" : "Buksan ang Mga Setting"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ouvrir Réglages Système"
+            "value" : "Ouvrir les Réglages"
           }
         },
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "פתיחת הגדרות המערכת"
+            "value" : "פתח הגדרות"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "सिस्टम सेटिंग्स खोलें"
+            "value" : "सेटिंग्स खोलें"
           }
         },
         "hr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Otvori Postavke sustava"
+            "value" : "Otvori Postavke"
           }
         },
         "hu" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rendszerbeállítások megnyitása"
+            "value" : "Beállítások megnyitása"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Buka Pengaturan Sistem"
+            "value" : "Buka Pengaturan"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apri Impostazioni di Sistema"
+            "value" : "Apri Impostazioni"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "システム設定を開く"
+            "value" : "設定を開く"
           }
         },
         "kk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Жүйе параметрлерін ашу"
+            "value" : "Параметрлерді ашу"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "시스템 설정 열기"
+            "value" : "설정 열기"
           }
         },
         "ms" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Buka Seting Sistem"
+            "value" : "Buka Tetapan"
           }
         },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Åpne Systeminnstillinger"
+            "value" : "Åpne Innstillinger"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open Systeeminstellingen"
+            "value" : "Open Instellingen"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Otwórz Ustawienia systemowe"
+            "value" : "Otwórz Ustawienia"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Abrir Definições do Sistema"
+            "value" : "Abrir Definições"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deschide Configurări sistem"
+            "value" : "Deschideți configurările"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Открыть Системные настройки"
+            "value" : "Настройки"
           }
         },
         "sk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Otvoriť Systémové nastavenia"
+            "value" : "Otvoriť nastavenia"
           }
         },
         "sr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Отвори Подешавања система"
+            "value" : "Отвори подешавања"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Öppna Systeminställningar"
+            "value" : "Öppna Inställningar"
           }
         },
         "th" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "เปิดการตั้งค่าระบบ"
+            "value" : "เปิดการตั้งค่า"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sistem Ayarları’nı Aç"
+            "value" : "Ayarları Aç"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Відкрити Системні параметри"
+            "value" : "Відкрити параметри"
           }
         },
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mở Cài đặt hệ thống"
+            "value" : "Mở Cài đặt"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "打开“系统设置”"
+            "value" : "打开设置"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "打開「系統設定」"
+            "value" : "打開設定"
           }
         }
       }

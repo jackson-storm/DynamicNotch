@@ -144,8 +144,8 @@ final class MessagesNotchContentTests: XCTestCase {
         let standardSize = content.size(baseWidth: 200, baseHeight: 40)
         let dynamicIslandSize = content.dynamicIslandSize(baseWidth: 200, baseHeight: 40)
 
-        XCTAssertEqual(standardSize, CGSize(width: 360, height: 167))
-        XCTAssertEqual(dynamicIslandSize, CGSize(width: 410, height: 164))
+        XCTAssertEqual(standardSize, CGSize(width: 360, height: 179))
+        XCTAssertEqual(dynamicIslandSize, CGSize(width: 410, height: 176))
     }
 
     func testEmptyContentUsesSafeFallbackSize() {

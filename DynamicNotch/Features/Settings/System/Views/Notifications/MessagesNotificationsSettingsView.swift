@@ -61,7 +61,10 @@ struct MessagesNotificationsSettingsView: View {
                 action: requestContactsAccess
             )
 
-            Divider().opacity(0.6)
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
 
             SettingsButtonRow(
                 title: "settings.notifications.messages.systemNotifications.title",

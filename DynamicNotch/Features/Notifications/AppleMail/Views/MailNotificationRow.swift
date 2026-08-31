@@ -6,11 +6,11 @@ struct MailNotificationRow: View {
     let mail: MailMessage
     let onOpen: (MailMessage) -> Void
 
-    private let avatarSize: CGFloat = 45
-    private let avatarSpacing: CGFloat = 15
+    private let avatarSize: CGFloat = 50
+    private let avatarSpacing: CGFloat = 12
 
     private var senderInfo: MailSenderInfo {
-        MailSenderFormatter.format(rawSender: mail.sender)
+        mail.senderInfo
     }
 
     var body: some View {
@@ -63,6 +63,8 @@ struct MailNotificationRow: View {
                     .foregroundStyle(.secondary)
                     .lineLimit(1)
             }
+            .padding(.trailing, 5)
+            
         } else {
             let displayText = !trimmedSubject.isEmpty
                 ? trimmedSubject
@@ -73,6 +75,7 @@ struct MailNotificationRow: View {
                 .foregroundStyle(trimmedSubject.isEmpty && !hasSummary ? Color.secondary : Color.white)
                 .lineLimit(2)
                 .multilineTextAlignment(.leading)
+                .padding(.trailing, 5)
         }
     }
 

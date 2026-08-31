@@ -17,7 +17,8 @@ struct NotificationsNotchContent: NotchContentProtocol, DynamicIslandCustomizabl
     static let extraWidth: CGFloat = 160
     static let rowSpacing: CGFloat = 10
     static let regularRowHeight: CGFloat = 50
-    static let attachmentRowHeight: CGFloat = 52
+    static let attachmentRowHeight: CGFloat = 64
+    static let mailSummaryRowHeight: CGFloat = 52
     static let audioRowHeight: CGFloat = 64
     static let standardBottomPadding: CGFloat = 15
     static let dynamicIslandBottomPadding: CGFloat = 12
@@ -77,7 +78,7 @@ struct NotificationsNotchContent: NotchContentProtocol, DynamicIslandCustomizabl
         let hasSummary = mail.summary?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false
         let hasSubject = mail.subject.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false
         if hasSummary && hasSubject {
-            return attachmentRowHeight
+            return mailSummaryRowHeight
         }
 
         return regularRowHeight
@@ -265,7 +266,7 @@ struct NotificationsNotchContent: NotchContentProtocol, DynamicIslandCustomizabl
     }
 
     func cornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
-        (top: 28, bottom: 38)
+        (top: 20, bottom: 38)
     }
 
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {

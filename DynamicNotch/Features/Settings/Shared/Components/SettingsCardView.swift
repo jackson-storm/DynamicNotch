@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SettingsCard<Content: View>: View {
     let title: LocalizedStringKey?
+    let titleText: Text?
     let spacing: CGFloat
     let padding: CGFloat
     
@@ -21,6 +22,20 @@ struct SettingsCard<Content: View>: View {
         @ViewBuilder content: () -> Content
     ) {
         self.title = title
+        self.titleText = title.map { Text($0) }
+        self.spacing = spacing
+        self.padding = padding
+        self.content = content()
+    }
+
+    init(
+        verbatimTitle: String,
+        spacing: CGFloat = 10,
+        padding: CGFloat = 6,
+        @ViewBuilder content: () -> Content
+    ) {
+        self.title = nil
+        self.titleText = Text(verbatim: verbatimTitle)
         self.spacing = spacing
         self.padding = padding
         self.content = content()
@@ -35,9 +50,9 @@ struct SettingsCard<Content: View>: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             
         } label: {
-            if let title {
+            if let titleText {
                 VStack(alignment: .leading) {
-                    Text(title)
+                    titleText
                         .font(.headline)
                 }
                 .padding(.bottom, 5)

@@ -8,6 +8,7 @@
 import Foundation
 import Sparkle
 import Combine
+internal import AppKit
 
 final class SparkleUpdater: NSObject, ObservableObject, SPUUpdaterDelegate {
     static let shared = SparkleUpdater()
@@ -104,6 +105,7 @@ final class SparkleUpdater: NSObject, ObservableObject, SPUUpdaterDelegate {
     }
     
     func checkForUpdates() {
+        NSApp.activate(ignoringOtherApps: true)
         updaterController.checkForUpdates(nil)
     }
   

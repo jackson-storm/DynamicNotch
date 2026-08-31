@@ -1,1943 +1,2157 @@
 {
-  "sourceLanguage": "en",
-  "strings": {
-    "CFBundleName": {
-      "comment": "Bundle name",
-      "extractionState": "extracted_with_value",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "DynamicNotch"
+  "sourceLanguage" : "en",
+  "strings" : {
+    "CFBundleName" : {
+      "comment" : "Bundle name",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch"
           }
         },
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch"
+        "bg" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch"
           }
         },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch"
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch"
           }
         },
-        "th": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch"
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch"
           }
         },
-        "ro": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch"
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch"
           }
         },
-        "hu": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch"
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch"
           }
         },
-        "el": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch"
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch"
           }
         },
-        "da": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch"
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch"
           }
         },
-        "fi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch"
           }
         },
-        "nb": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch"
           }
         },
-        "ms": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch"
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch"
           }
         },
-        "he": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch"
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch"
           }
         },
-        "bg": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch"
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch"
           }
         },
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch"
           }
         },
-        "sk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch"
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch"
           }
         },
-        "hr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch"
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch"
           }
         },
-        "sr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch"
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch"
           }
         },
-        "fil": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch"
+        "hu" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch"
           }
         },
-        "kk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch"
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch"
           }
         },
-        "fa": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch"
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch"
           }
         },
-        "bn": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch"
-          }
-        }
-      }
-    },
-    "NSAppleEventsUsageDescription": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "We need access to media data for display in Notch."
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Se necesita acceso a los datos multimedia para mostrarlos en la muesca."
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Требуется доступ к медиаданным для отображения в вырезе."
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch"
           }
         },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Çentikte gösterebilmek için ortam verilerine erişim gerekiyor."
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "需要访问媒体数据，以便在刘海中显示。"
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wir benötigen Zugriff auf Mediendaten zur Anzeige in der Notch."
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nous avons besoin d'accéder aux données multimédias pour les afficher dans l'encoche."
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch"
           }
         },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Precisamos de acesso aos dados de reprodução multimédia para os apresentar no notch."
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ノッチにメディア再生情報を表示するためにメディアデータへのアクセスが必要です。"
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "노치에 미디어 재생 정보를 표시하려면 미디어 데이터 접근 권한이 필요합니다."
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch"
           }
         },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "È necessario l'accesso ai dati multimediali per visualizzarli nel notch."
+        "sk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch"
           }
         },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wymagany jest dostęp do danych multimediów w celu ich wyświetlania w notchu."
+        "sr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch"
           }
         },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cần quyền truy cập dữ liệu phương tiện để hiển thị trên notch."
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch"
           }
         },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Memerlukan akses ke data media untuk menampilkannya di notch."
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Toegang tot mediagegevens is vereist om deze in de notch weer te geven."
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "需要媒體資料存取權限才能在「瀏海」中顯示媒體內容。"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Потрібен доступ до медіаданих для їх відображення у вирізі (notch)."
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch"
           }
         },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Åtkomst till mediedata krävs för att visa dem i flärpen (notch)."
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pro zobrazení médií ve výřezu je vyžadován přístup k mediálním datům."
-          }
-        },
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "السماح بالتحكم في أحداث النظام لتوسيط نوافذ معاينة لقطات الشاشة والتسجيل تلقائياً على شاشة الشق."
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "नॉच डिस्प्ले पर स्क्रीनशॉट और रिकॉर्डिंग पूर्वावलोकन विंडो को स्वचालित रूप से केंद्रित करने के लिए सिस्टम इवेंट्स को नियंत्रित करने की अनुमति दें।"
-          }
-        },
-        "th": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "อนุญาตให้ควบคุม System Events เพื่อจัดหน้าต่างแสดงตัวอย่างภาพหน้าจอและการบันทึกให้อยู่ตรงกลางบนรอยบากโดยอัตโนมัติ"
-          }
-        },
-        "ro": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Permiteți controlul evenimentelor de sistem pentru a centra automat ferestrele de previzualizare ale capturilor de ecran și înregistrărilor pe afișajul notch."
-          }
-        },
-        "hu": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Engedélyezze a Rendszeresemények vezérlését a képernyőképek és felvételek előnézeti ablakainak automatikus középre igazításához a notch kijelzőn."
-          }
-        },
-        "el": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Επιτρέψτε τον έλεγχο των Συμβάντων Συστήματος για αυτόματο κεντράρισμα των παραθύρων προεπισκόπησης στιγμιότυπων οθόνης και εγγραφών στην οθόνη notch."
-          }
-        },
-        "da": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tillad kontrol over Systemhændelser for automatisk at centrere skærmbillede- og optagelsesforhåndsvisningsvinduer på notch-skærmen."
-          }
-        },
-        "fi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Salli järjestelmätapahtumien hallinta kuvakaappausten ja tallenteiden esikatseluikkunoiden automaattiseen keskittämiseen notch-näytölle."
-          }
-        },
-        "nb": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tillat kontroll over Systemhendelser for automatisk å sentrere forhåndsvisningsvinduer for skjermbilder og opptak på notch-skjermen."
-          }
-        },
-        "ms": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Benarkan kawalan Acara Sistem untuk memusatkan tetingkap pratonton tangkapan skrin dan rakaman secara automatik pada paparan notch."
-          }
-        },
-        "he": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "אפשר שליטה באירועי מערכת כדי למרכז אוטומטית חלונות תצוגה מקדימה של צילומי מסך והקלטות בתצוגת המגרעת."
-          }
-        },
-        "bg": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Разрешете контрол над Системни събития за автоматично центриране на прозорците за предварителен преглед на екранни снимки и записи върху дисплея на ноча."
-          }
-        },
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Permet el control dels esdeveniments del sistema per centrar automàticament les finestres de previsualització de captures i gravacions a la pantalla del notch."
-          }
-        },
-        "sk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Povoľte ovládanie systémových udalostí na automatické centrovanie okien náhľadov snímok obrazovky a záznamov na displeji výrezu."
-          }
-        },
-        "hr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dozvolite kontrolu nad sistemskim događajima za automatsko centriranje prozora pretpregleda snimaka zaslona i snimanja na zaslonu ureza."
-          }
-        },
-        "sr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Дозволите контролу над системским догађајима за аутоматско центрирање прозора прегледа снимака екрана и снимака на екрану ноча."
-          }
-        },
-        "fil": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pahintulutan ang kontrol sa mga kaganapan ng system upang awtomatikong i-center ang mga window ng preview ng screenshot at recording sa display ng notch."
-          }
-        },
-        "kk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Скриншоттар мен жазбалардың алдын ала қарау терезелерін ойық дисплейінде автоматты түрде ортаға келтіру үшін жүйелік оқиғаларды басқаруға рұқсат беріңіз."
-          }
-        },
-        "fa": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "اجازه کنترل رویدادهای سیستم را بدهید تا پنجره‌های پیش‌نمایش اسکرین‌شات و ضبط به‌طور خودکار در صفحه ناچ وسط‌چین شوند."
-          }
-        },
-        "bn": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "স্ক্রিনশট এবং রেকর্ডিং প্রিভিউ উইন্ডো নচ ডিসপ্লেতে স্বয়ংক্রিয়ভাবে কেন্দ্রে রাখার জন্য সিস্টেম ইভেন্টগুলির নিয়ন্ত্রণের অনুমতি দিন।"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch"
           }
         }
       }
     },
-    "NSBluetoothAlwaysUsageDescription": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "The app requires Bluetooth access to check the status of devices."
+    "NSAppleEventsUsageDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "السماح بالتحكم في أحداث النظام لتوسيط نوافذ معاينة لقطات الشاشة والتسجيل تلقائياً على شاشة الشق."
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "La aplicación necesita acceso a Bluetooth para comprobar el estado de los dispositivos."
+        "bg" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Разрешете контрол над Системни събития за автоматично центриране на прозорците за предварителен преглед на екранни снимки и записи върху дисплея на ноча."
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Приложению требуется доступ к Bluetooth для проверки состояния устройств."
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "স্ক্রিনশট এবং রেকর্ডিং প্রিভিউ উইন্ডো নচ ডিসপ্লেতে স্বয়ংক্রিয়ভাবে কেন্দ্রে রাখার জন্য সিস্টেম ইভেন্টগুলির নিয়ন্ত্রণের অনুমতি দিন।"
           }
         },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Uygulama, aygıtların durumunu denetlemek için Bluetooth erişimine ihtiyaç duyuyor."
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permet el control dels esdeveniments del sistema per centrar automàticament les finestres de previsualització de captures i gravacions a la pantalla del notch."
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "应用需要蓝牙访问权限，以检查设备状态。"
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pro zobrazení médií ve výřezu je vyžadován přístup k mediálním datům."
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Die App benötigt Bluetooth-Zugriff, um den Status von Geräten zu überprüfen."
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tillad kontrol over Systemhændelser for automatisk at centrere skærmbillede- og optagelsesforhåndsvisningsvinduer på notch-skærmen."
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "L'application a besoin de l'accès Bluetooth pour vérifier l'état des appareils."
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wir benötigen Zugriff auf Mediendaten zur Anzeige in der Notch."
           }
         },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "A aplicação necessita de acesso Bluetooth para verificar o estado dos dispositivos."
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Επιτρέψτε τον έλεγχο των Συμβάντων Συστήματος για αυτόματο κεντράρισμα των παραθύρων προεπισκόπησης στιγμιότυπων οθόνης και εγγραφών στην οθόνη notch."
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "デバイスの状態を確認するためにBluetoothアクセスが必要です。"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We need access to media data for display in Notch."
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "기기 상태를 확인하려면 Bluetooth 접근 권한이 필요합니다."
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se necesita acceso a los datos multimedia para mostrarlos en la muesca."
           }
         },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "L'app richiede l'accesso Bluetooth per verificare lo stato dei dispositivi."
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اجازه کنترل رویدادهای سیستم را بدهید تا پنجره‌های پیش‌نمایش اسکرین‌شات و ضبط به‌طور خودکار در صفحه ناچ وسط‌چین شوند."
           }
         },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aplikacja wymaga dostępu do Bluetooth, aby sprawdzać stan urządzeń."
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salli järjestelmätapahtumien hallinta kuvakaappausten ja tallenteiden esikatseluikkunoiden automaattiseen keskittämiseen notch-näytölle."
           }
         },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ứng dụng cần quyền truy cập Bluetooth để kiểm tra trạng thái thiết bị."
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pahintulutan ang kontrol sa mga kaganapan ng system upang awtomatikong i-center ang mga window ng preview ng screenshot at recording sa display ng notch."
           }
         },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aplikasi memerlukan akses Bluetooth untuk memeriksa status perangkat."
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nous avons besoin d'accéder aux données multimédias pour les afficher dans l'encoche."
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "De app heeft Bluetooth-toegang nodig om de apparaatstatus te controleren."
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "אפשר שליטה באירועי מערכת כדי למרכז אוטומטית חלונות תצוגה מקדימה של צילומי מסך והקלטות בתצוגת המגרעת."
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "應用程式需要藍牙存取權限以檢查裝置狀態。"
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "नॉच डिस्प्ले पर स्क्रीनशॉट और रिकॉर्डिंग पूर्वावलोकन विंडो को स्वचालित रूप से केंद्रित करने के लिए सिस्टम इवेंट्स को नियंत्रित करने की अनुमति दें।"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Програмі потрібен доступ до Bluetooth для перевірки стану пристроїв."
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dozvolite kontrolu nad sistemskim događajima za automatsko centriranje prozora pretpregleda snimaka zaslona i snimanja na zaslonu ureza."
           }
         },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Appen behöver Bluetooth-åtkomst för att kontrollera enhetsstatus."
+        "hu" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Engedélyezze a Rendszeresemények vezérlését a képernyőképek és felvételek előnézeti ablakainak automatikus középre igazításához a notch kijelzőn."
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aplikace potřebuje přístup k Bluetooth pro kontrolu stavu zařízení."
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Memerlukan akses ke data media untuk menampilkannya di notch."
           }
         },
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "يحتاج DynamicNotch للوصول إلى البلوتوث لعرض حالة البطارية والاتصال لملحقاتك اللاسلكية."
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "È necessario l'accesso ai dati multimediali per visualizzarli nel notch."
           }
         },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch को आपके वायरलेस एक्सेसरीज़ के लिए बैटरी और कनेक्शन स्थिति प्रदर्शित करने के लिए ब्लूटूथ एक्सेस की आवश्यकता होती है।"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ノッチにメディア再生情報を表示するためにメディアデータへのアクセスが必要です。"
           }
         },
-        "th": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch จำเป็นต้องเข้าถึงบลูทูธเพื่อแสดงสถานะแบตเตอรี่และการเชื่อมต่อสำหรับอุปกรณ์เสริมไร้สายของคุณ"
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скриншоттар мен жазбалардың алдын ала қарау терезелерін ойық дисплейінде автоматты түрде ортаға келтіру үшін жүйелік оқиғаларды басқаруға рұқсат беріңіз."
           }
         },
-        "ro": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch are nevoie de acces Bluetooth pentru a afișa nivelul bateriei și starea conexiunii pentru accesoriile fără fir."
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "노치에 미디어 재생 정보를 표시하려면 미디어 데이터 접근 권한이 필요합니다."
           }
         },
-        "hu": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "A DynamicNotch-nak Bluetooth-hozzáférésre van szüksége a vezeték nélküli kiegészítők akkumulátorának és csatlakozási állapotának megjelenítéséhez."
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Benarkan kawalan Acara Sistem untuk memusatkan tetingkap pratonton tangkapan skrin dan rakaman secara automatik pada paparan notch."
           }
         },
-        "el": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Το DynamicNotch χρειάζεται πρόσβαση Bluetooth για να εμφανίζει την κατάσταση μπαταρίας και σύνδεσης για τα ασύρματα αξεσουάρ σας."
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tillat kontroll over Systemhendelser for automatisk å sentrere forhåndsvisningsvinduer for skjermbilder og opptak på notch-skjermen."
           }
         },
-        "da": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch har brug for Bluetooth-adgang til at vise batteri- og forbindelsesstatus for dit trådløse tilbehør."
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toegang tot mediagegevens is vereist om deze in de notch weer te geven."
           }
         },
-        "fi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch tarvitsee Bluetooth-käyttöoikeuden näyttääkseen langattomien lisävarusteiden akun ja yhteyden tilan."
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wymagany jest dostęp do danych multimediów w celu ich wyświetlania w notchu."
           }
         },
-        "nb": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch trenger Bluetooth-tilgang for å vise batteri- og tilkoblingsstatus for det trådløse tilbehøret ditt."
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Precisamos de acesso aos dados de reprodução multimédia para os apresentar no notch."
           }
         },
-        "ms": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch memerlukan akses Bluetooth untuk memaparkan status bateri dan sambungan bagi aksesori wayarles anda."
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permiteți controlul evenimentelor de sistem pentru a centra automat ferestrele de previzualizare ale capturilor de ecran și înregistrărilor pe afișajul notch."
           }
         },
-        "he": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch זקוק לגישת Bluetooth כדי להציג את מצב הסוללה והחיבור של האביזרים האלחוטיים שלך."
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Требуется доступ к медиаданным для отображения в вырезе."
           }
         },
-        "bg": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch се нуждае от Bluetooth достъп, за да показва състоянието на батерията и връзката на вашите безжични аксесоари."
+        "sk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Povoľte ovládanie systémových udalostí na automatické centrovanie okien náhľadov snímok obrazovky a záznamov na displeji výrezu."
           }
         },
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch necessita accés al Bluetooth per mostrar l'estat de la bateria i la connexió dels accessoris sense fil."
+        "sr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дозволите контролу над системским догађајима за аутоматско центрирање прозора прегледа снимака екрана и снимака на екрану ноча."
           }
         },
-        "sk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch potrebuje prístup k Bluetooth na zobrazenie stavu batérie a pripojenia bezdrôtového príslušenstva."
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Åtkomst till mediedata krävs för att visa dem i flärpen (notch)."
           }
         },
-        "hr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch treba pristup Bluetoothu za prikaz stanja baterije i veze vaših bežičnih dodataka."
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "อนุญาตให้ควบคุม System Events เพื่อจัดหน้าต่างแสดงตัวอย่างภาพหน้าจอและการบันทึกให้อยู่ตรงกลางบนรอยบากโดยอัตโนมัติ"
           }
         },
-        "sr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch захтева Bluetooth приступ за приказ статуса батерије и везе ваших бежичних додатака."
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Çentikte gösterebilmek için ortam verilerine erişim gerekiyor."
           }
         },
-        "fil": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kailangan ng DynamicNotch ng access sa Bluetooth upang ipakita ang baterya at katayuan ng koneksyon ng iyong mga wireless accessory."
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Потрібен доступ до медіаданих для їх відображення у вирізі (notch)."
           }
         },
-        "kk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch сымсыз аксессуарлардың батареясы мен қосылым күйін көрсету үшін Bluetooth рұқсатын қажет етеді."
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cần quyền truy cập dữ liệu phương tiện để hiển thị trên notch."
           }
         },
-        "fa": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch برای نمایش وضعیت باتری و اتصال لوازم جانبی بی‌سیم به دسترسی بلوتوث نیاز دارد."
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "需要访问媒体数据，以便在刘海中显示。"
           }
         },
-        "bn": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch-এর ওয়্যারলেস আনুষাঙ্গিকগুলির ব্যাটারি এবং সংযোগের স্থিতি প্রদর্শন করতে ব্লুটুথ অ্যাক্সেস প্রয়োজন।"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "需要媒體資料存取權限才能在「瀏海」中顯示媒體內容。"
           }
         }
       }
     },
-    "NSCalendarsFullAccessUsageDescription": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch needs access to your calendar to display upcoming events in the notch."
+    "NSBluetoothAlwaysUsageDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يحتاج DynamicNotch للوصول إلى البلوتوث لعرض حالة البطارية والاتصال لملحقاتك اللاسلكية."
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch necesita acceder a tu calendario para mostrar los próximos eventos en la muesca."
+        "bg" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch се нуждае от Bluetooth достъп, за да показва състоянието на батерията и връзката на вашите безжични аксесоари."
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch требуется доступ к календарю для отображения предстоящих событий в вырезе."
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch-এর ওয়্যারলেস আনুষাঙ্গিকগুলির ব্যাটারি এবং সংযোগের স্থিতি প্রদর্শন করতে ব্লুটুথ অ্যাক্সেস প্রয়োজন।"
           }
         },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch, yaklaşan etkinlikleri çentikte göstermek için takviminize erişmek istiyor."
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch necessita accés al Bluetooth per mostrar l'estat de la bateria i la connexió dels accessoris sense fil."
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch 需要访问你的日历，以便在刘海中显示即将到来的事件。"
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikace potřebuje přístup k Bluetooth pro kontrolu stavu zařízení."
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch benötigt Zugriff auf Ihren Kalender, um anstehende Ereignisse in der Notch anzuzeigen."
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch har brug for Bluetooth-adgang til at vise batteri- og forbindelsesstatus for dit trådløse tilbehør."
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch a besoin d'accéder à votre calendrier pour afficher les événements à venir dans l'encoche."
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die App benötigt Bluetooth-Zugriff, um den Status von Geräten zu überprüfen."
           }
         },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "O DynamicNotch precisa de acesso ao seu calendário para apresentar os próximos eventos no notch."
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Το DynamicNotch χρειάζεται πρόσβαση Bluetooth για να εμφανίζει την κατάσταση μπαταρίας και σύνδεσης για τα ασύρματα αξεσουάρ σας."
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ノッチに予定を表示するためにカレンダーへのアクセスが必要です。"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The app requires Bluetooth access to check the status of devices."
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch가 예정된 이벤트를 노치에 표시하려면 캘린더 접근 권한이 필요합니다."
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La aplicación necesita acceso a Bluetooth para comprobar el estado de los dispositivos."
           }
         },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch ha bisogno dell'accesso al calendario per mostrare i prossimi eventi nel notch."
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch برای نمایش وضعیت باتری و اتصال لوازم جانبی بی‌سیم به دسترسی بلوتوث نیاز دارد."
           }
         },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch wymaga dostępu do kalendarza, aby wyświetlać nadchodzące wydarzenia w notchu."
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch tarvitsee Bluetooth-käyttöoikeuden näyttääkseen langattomien lisävarusteiden akun ja yhteyden tilan."
           }
         },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch cần quyền truy cập lịch để hiển thị các sự kiện sắp tới trên notch."
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kailangan ng DynamicNotch ng access sa Bluetooth upang ipakita ang baterya at katayuan ng koneksyon ng iyong mga wireless accessory."
           }
         },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch memerlukan akses ke kalender untuk menampilkan acara mendatang di notch."
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'application a besoin de l'accès Bluetooth pour vérifier l'état des appareils."
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch heeft toegang tot Agenda nodig om komende evenementen in de notch weer te geven."
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch זקוק לגישת Bluetooth כדי להציג את מצב הסוללה והחיבור של האביזרים האלחוטיים שלך."
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch 需要行事曆存取權限以在「瀏海」中顯示即將發生的行程。"
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch को आपके वायरलेस एक्सेसरीज़ के लिए बैटरी और कनेक्शन स्थिति प्रदर्शित करने के लिए ब्लूटूथ एक्सेस की आवश्यकता होती है।"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch потребує доступу до Календаря для відображення найближчих подій у вирізі."
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch treba pristup Bluetoothu za prikaz stanja baterije i veze vaših bežičnih dodataka."
           }
         },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch behöver åtkomst till Kalender för att visa kommande händelser i flärpen."
+        "hu" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A DynamicNotch-nak Bluetooth-hozzáférésre van szüksége a vezeték nélküli kiegészítők akkumulátorának és csatlakozási állapotának megjelenítéséhez."
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch potřebuje přístup ke Kalendáři pro zobrazení nadcházejících událostí ve výřezu."
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikasi memerlukan akses Bluetooth untuk memeriksa status perangkat."
           }
         },
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "يحتاج DynamicNotch للوصول الكامل للتقويم لعرض أحداثك القادمة في الشق."
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'app richiede l'accesso Bluetooth per verificare lo stato dei dispositivi."
           }
         },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "नॉच में आपके आगामी ईवेंट प्रदर्शित करने के लिए DynamicNotch को पूर्ण कैलेंडर एक्सेस की आवश्यकता है।"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "デバイスの状態を確認するためにBluetoothアクセスが必要です。"
           }
         },
-        "th": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch จำเป็นต้องเข้าถึงปฏิทินแบบเต็มเพื่อแสดงกิจกรรมที่จะเกิดขึ้นในรอยบาก"
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch сымсыз аксессуарлардың батареясы мен қосылым күйін көрсету үшін Bluetooth рұқсатын қажет етеді."
           }
         },
-        "ro": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch are nevoie de acces complet la calendar pentru a afișa evenimentele viitoare în notch."
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "기기 상태를 확인하려면 Bluetooth 접근 권한이 필요합니다."
           }
         },
-        "hu": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "A DynamicNotch-nak teljes naptár-hozzáférésre van szüksége a közelgő események notch-ban való megjelenítéséhez."
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch memerlukan akses Bluetooth untuk memaparkan status bateri dan sambungan bagi aksesori wayarles anda."
           }
         },
-        "el": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Το DynamicNotch χρειάζεται πλήρη πρόσβαση στο ημερολόγιο για να εμφανίζει τα επερχόμενα συμβάντα σας στο notch."
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch trenger Bluetooth-tilgang for å vise batteri- og tilkoblingsstatus for det trådløse tilbehøret ditt."
           }
         },
-        "da": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch har brug for fuld kalenderadgang for at vise dine kommende begivenheder i notchen."
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De app heeft Bluetooth-toegang nodig om de apparaatstatus te controleren."
           }
         },
-        "fi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch tarvitsee täydet kalenterin käyttöoikeudet tulevien tapahtumien näyttämiseen notchissa."
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikacja wymaga dostępu do Bluetooth, aby sprawdzać stan urządzeń."
           }
         },
-        "nb": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch trenger full kalendertilgang for å vise dine kommende hendelser i notchen."
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A aplicação necessita de acesso Bluetooth para verificar o estado dos dispositivos."
           }
         },
-        "ms": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch memerlukan akses kalendar penuh untuk memaparkan acara akan datang anda di notch."
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch are nevoie de acces Bluetooth pentru a afișa nivelul bateriei și starea conexiunii pentru accesoriile fără fir."
           }
         },
-        "he": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch זקוק לגישה מלאה ללוח השנה כדי להציג את האירועים הקרובים שלך במגרעת."
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приложению требуется доступ к Bluetooth для проверки состояния устройств."
           }
         },
-        "bg": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch се нуждае от пълен достъп до календара, за да показва предстоящите ви събития в ноча."
+        "sk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch potrebuje prístup k Bluetooth na zobrazenie stavu batérie a pripojenia bezdrôtového príslušenstva."
           }
         },
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch necessita accés complet al calendari per mostrar els propers esdeveniments al notch."
+        "sr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch захтева Bluetooth приступ за приказ статуса батерије и везе ваших бежичних додатака."
           }
         },
-        "sk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch potrebuje úplný prístup ku kalendáru na zobrazenie nadchádzajúcich udalostí vo výreze."
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appen behöver Bluetooth-åtkomst för att kontrollera enhetsstatus."
           }
         },
-        "hr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch treba potpuni pristup kalendaru za prikaz vaših nadolazećih događaja u urezu."
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch จำเป็นต้องเข้าถึงบลูทูธเพื่อแสดงสถานะแบตเตอรี่และการเชื่อมต่อสำหรับอุปกรณ์เสริมไร้สายของคุณ"
           }
         },
-        "sr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch захтева пун приступ календару за приказ ваших предстојећих догађаја у ночу."
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulama, aygıtların durumunu denetlemek için Bluetooth erişimine ihtiyaç duyuyor."
           }
         },
-        "fil": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kailangan ng DynamicNotch ng buong access sa kalendaryo upang ipakita ang iyong mga paparating na kaganapan sa notch."
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Програмі потрібен доступ до Bluetooth для перевірки стану пристроїв."
           }
         },
-        "kk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch ойықта алдағы оқиғаларды көрсету үшін күнтізбеге толық кіру рұқсатын қажет етеді."
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ứng dụng cần quyền truy cập Bluetooth để kiểm tra trạng thái thiết bị."
           }
         },
-        "fa": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch برای نمایش رویدادهای آینده شما در ناچ به دسترسی کامل تقویم نیاز دارد."
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "应用需要蓝牙访问权限，以检查设备状态。"
           }
         },
-        "bn": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch-এর নচে আপনার আসন্ন ইভেন্টগুলি প্রদর্শন করতে সম্পূর্ণ ক্যালেন্ডার অ্যাক্সেস প্রয়োজন।"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "應用程式需要藍牙存取權限以檢查裝置狀態。"
           }
         }
       }
     },
-    "NSCalendarsUsageDescription": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch needs access to your calendar to display upcoming events in the notch."
+    "NSCalendarsFullAccessUsageDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يحتاج DynamicNotch للوصول الكامل للتقويم لعرض أحداثك القادمة في الشق."
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch necesita acceder a tu calendario para mostrar los próximos eventos en la muesca."
+        "bg" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch се нуждае от пълен достъп до календара, за да показва предстоящите ви събития в ноча."
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch требуется доступ к календарю для отображения предстоящих событий в вырезе."
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch-এর নচে আপনার আসন্ন ইভেন্টগুলি প্রদর্শন করতে সম্পূর্ণ ক্যালেন্ডার অ্যাক্সেস প্রয়োজন।"
           }
         },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch, yaklaşan etkinlikleri çentikte göstermek için takviminize erişmek istiyor."
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch necessita accés complet al calendari per mostrar els propers esdeveniments al notch."
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch 需要访问你的日历，以便在刘海中显示即将到来的事件。"
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch potřebuje přístup ke Kalendáři pro zobrazení nadcházejících událostí ve výřezu."
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch benötigt Zugriff auf Ihren Kalender, um anstehende Ereignisse in der Notch anzuzeigen."
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch har brug for fuld kalenderadgang for at vise dine kommende begivenheder i notchen."
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch a besoin d'accéder à votre calendrier pour afficher les événements à venir dans l'encoche."
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch benötigt Zugriff auf Ihren Kalender, um anstehende Ereignisse in der Notch anzuzeigen."
           }
         },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "O DynamicNotch precisa de acesso ao seu calendário para apresentar os próximos eventos no notch."
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Το DynamicNotch χρειάζεται πλήρη πρόσβαση στο ημερολόγιο για να εμφανίζει τα επερχόμενα συμβάντα σας στο notch."
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ノッチに予定を表示するためにカレンダーへのアクセスが必要です。"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch needs access to your calendar to display upcoming events in the notch."
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch가 예정된 이벤트를 노치에 표시하려면 캘린더 접근 권한이 필요합니다."
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch necesita acceder a tu calendario para mostrar los próximos eventos en la muesca."
           }
         },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch ha bisogno dell'accesso al calendario per mostrare i prossimi eventi nel notch."
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch برای نمایش رویدادهای آینده شما در ناچ به دسترسی کامل تقویم نیاز دارد."
           }
         },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch wymaga dostępu do kalendarza, aby wyświetlać nadchodzące wydarzenia w notchu."
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch tarvitsee täydet kalenterin käyttöoikeudet tulevien tapahtumien näyttämiseen notchissa."
           }
         },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch cần quyền truy cập lịch để hiển thị các sự kiện sắp tới trên notch."
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kailangan ng DynamicNotch ng buong access sa kalendaryo upang ipakita ang iyong mga paparating na kaganapan sa notch."
           }
         },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch memerlukan akses ke kalender untuk menampilkan acara mendatang di notch."
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch a besoin d'accéder à votre calendrier pour afficher les événements à venir dans l'encoche."
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch heeft toegang tot Agenda nodig om komende evenementen in de notch weer te geven."
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch זקוק לגישה מלאה ללוח השנה כדי להציג את האירועים הקרובים שלך במגרעת."
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch 需要行事曆存取權限以在「瀏海」中顯示即將發生的行程。"
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "नॉच में आपके आगामी ईवेंट प्रदर्शित करने के लिए DynamicNotch को पूर्ण कैलेंडर एक्सेस की आवश्यकता है।"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch потребує доступу до Календаря для відображення найближчих подій у вирізі."
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch treba potpuni pristup kalendaru za prikaz vaših nadolazećih događaja u urezu."
           }
         },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch behöver åtkomst till Kalender för att visa kommande händelser i flärpen."
+        "hu" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A DynamicNotch-nak teljes naptár-hozzáférésre van szüksége a közelgő események notch-ban való megjelenítéséhez."
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch potřebuje přístup ke Kalendáři pro zobrazení nadcházejících událostí ve výřezu."
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch memerlukan akses ke kalender untuk menampilkan acara mendatang di notch."
           }
         },
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "يحتاج DynamicNotch للوصول للتقويم لعرض أحداثك القادمة في الشق."
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch ha bisogno dell'accesso al calendario per mostrare i prossimi eventi nel notch."
           }
         },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "नॉच में आपके आगामी ईवेंट प्रदर्शित करने के लिए DynamicNotch को कैलेंडर एक्सेस की आवश्यकता है।"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ノッチに予定を表示するためにカレンダーへのアクセスが必要です。"
           }
         },
-        "th": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch จำเป็นต้องเข้าถึงปฏิทินเพื่อแสดงกิจกรรมที่จะเกิดขึ้นในรอยบาก"
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch ойықта алдағы оқиғаларды көрсету үшін күнтізбеге толық кіру рұқсатын қажет етеді."
           }
         },
-        "ro": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch are nevoie de acces la calendar pentru a afișa evenimentele viitoare în notch."
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch가 예정된 이벤트를 노치에 표시하려면 캘린더 접근 권한이 필요합니다."
           }
         },
-        "hu": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "A DynamicNotch-nak naptár-hozzáférésre van szüksége a közelgő események notch-ban való megjelenítéséhez."
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch memerlukan akses kalendar penuh untuk memaparkan acara akan datang anda di notch."
           }
         },
-        "el": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Το DynamicNotch χρειάζεται πρόσβαση στο ημερολόγιο για να εμφανίζει τα επερχόμενα συμβάντα σας στο notch."
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch trenger full kalendertilgang for å vise dine kommende hendelser i notchen."
           }
         },
-        "da": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch har brug for kalenderadgang for at vise dine kommende begivenheder i notchen."
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch heeft toegang tot Agenda nodig om komende evenementen in de notch weer te geven."
           }
         },
-        "fi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch tarvitsee kalenterin käyttöoikeuden tulevien tapahtumien näyttämiseen notchissa."
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch wymaga dostępu do kalendarza, aby wyświetlać nadchodzące wydarzenia w notchu."
           }
         },
-        "nb": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch trenger kalendertilgang for å vise dine kommende hendelser i notchen."
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O DynamicNotch precisa de acesso ao seu calendário para apresentar os próximos eventos no notch."
           }
         },
-        "ms": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch memerlukan akses kalendar untuk memaparkan acara akan datang anda di notch."
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch are nevoie de acces complet la calendar pentru a afișa evenimentele viitoare în notch."
           }
         },
-        "he": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch זקוק לגישה ללוח השנה כדי להציג את האירועים הקרובים שלך במגרעת."
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch требуется доступ к календарю для отображения предстоящих событий в вырезе."
           }
         },
-        "bg": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch се нуждае от достъп до календара, за да показва предстоящите ви събития в ноча."
+        "sk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch potrebuje úplný prístup ku kalendáru na zobrazenie nadchádzajúcich udalostí vo výreze."
           }
         },
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch necessita accés al calendari per mostrar els propers esdeveniments al notch."
+        "sr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch захтева пун приступ календару за приказ ваших предстојећих догађаја у ночу."
           }
         },
-        "sk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch potrebuje prístup ku kalendáru na zobrazenie nadchádzajúcich udalostí vo výreze."
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch behöver åtkomst till Kalender för att visa kommande händelser i flärpen."
           }
         },
-        "hr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch treba pristup kalendaru za prikaz vaših nadolazećih događaja u urezu."
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch จำเป็นต้องเข้าถึงปฏิทินแบบเต็มเพื่อแสดงกิจกรรมที่จะเกิดขึ้นในรอยบาก"
           }
         },
-        "sr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch захтева приступ календару за приказ ваших предстојећих догађаја у ночу."
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch, yaklaşan etkinlikleri çentikte göstermek için takviminize erişmek istiyor."
           }
         },
-        "fil": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kailangan ng DynamicNotch ng access sa kalendaryo upang ipakita ang iyong mga paparating na kaganapan sa notch."
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch потребує доступу до Календаря для відображення найближчих подій у вирізі."
           }
         },
-        "kk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch ойықта алдағы оқиғаларды көрсету үшін күнтізбеге кіру рұқсатын қажет етеді."
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch cần quyền truy cập lịch để hiển thị các sự kiện sắp tới trên notch."
           }
         },
-        "fa": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch برای نمایش رویدادهای آینده شما در ناچ به دسترسی تقویم نیاز دارد."
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch 需要访问你的日历，以便在刘海中显示即将到来的事件。"
           }
         },
-        "bn": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch-এর নচে আপনার আসন্ন ইভেন্টগুলি প্রদর্শন করতে ক্যালেন্ডার অ্যাক্সেস প্রয়োজন।"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch 需要行事曆存取權限以在「瀏海」中顯示即將發生的行程。"
           }
         }
       }
     },
-    "NSCameraUsageDescription": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch needs access to your camera to display a camera preview in the notch."
+    "NSCalendarsUsageDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يحتاج DynamicNotch للوصول للتقويم لعرض أحداثك القادمة في الشق."
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch necesita acceder a tu cámara para mostrar una vista previa en la muesca."
+        "bg" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch се нуждае от достъп до календара, за да показва предстоящите ви събития в ноча."
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch требуется доступ к камере для отображения превью камеры в вырезе."
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch-এর নচে আপনার আসন্ন ইভেন্টগুলি প্রদর্শন করতে ক্যালেন্ডার অ্যাক্সেস প্রয়োজন।"
           }
         },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch, çentikte kamera önizlemesi göstermek için kameranıza erişmek istiyor."
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch necessita accés al calendari per mostrar els propers esdeveniments al notch."
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch 需要访问你的相机，以便在刘海中显示相机预览。"
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch potřebuje přístup ke Kalendáři pro zobrazení nadcházejících událostí ve výřezu."
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch benötigt Zugriff auf Ihre Kamera, um eine Kameravorschau in der Notch anzuzeigen."
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch har brug for kalenderadgang for at vise dine kommende begivenheder i notchen."
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch a besoin d'accéder à votre caméra pour afficher un aperçu de la caméra dans l'encoche."
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch benötigt Zugriff auf Ihren Kalender, um anstehende Ereignisse in der Notch anzuzeigen."
           }
         },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "O DynamicNotch precisa de acesso à câmara para mostrar a pré-visualização no notch."
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Το DynamicNotch χρειάζεται πρόσβαση στο ημερολόγιο για να εμφανίζει τα επερχόμενα συμβάντα σας στο notch."
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ノッチにプレビューを表示するためにカメラへのアクセスが必要です。"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch needs access to your calendar to display upcoming events in the notch."
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch가 노치에 카메라 미리보기를 표시하려면 카메라 접근 권한이 필요합니다."
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch necesita acceder a tu calendario para mostrar los próximos eventos en la muesca."
           }
         },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch ha bisogno dell'accesso alla fotocamera per mostrare l'anteprima nel notch."
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch برای نمایش رویدادهای آینده شما در ناچ به دسترسی تقویم نیاز دارد."
           }
         },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch wymaga dostępu do kamery, aby wyświetlać podgląd w notchu."
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch tarvitsee kalenterin käyttöoikeuden tulevien tapahtumien näyttämiseen notchissa."
           }
         },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch cần quyền truy cập camera để hiển thị bản xem trước trên notch."
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kailangan ng DynamicNotch ng access sa kalendaryo upang ipakita ang iyong mga paparating na kaganapan sa notch."
           }
         },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch memerlukan akses ke kamera untuk menampilkan pratinjau di notch."
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch a besoin d'accéder à votre calendrier pour afficher les événements à venir dans l'encoche."
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch heeft cameratoegang nodig om een videovoorvertoning in de notch weer te geven."
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch זקוק לגישה ללוח השנה כדי להציג את האירועים הקרובים שלך במגרעת."
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch 需要相機存取權限以在「瀏海」中顯示預覽畫面。"
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "नॉच में आपके आगामी ईवेंट प्रदर्शित करने के लिए DynamicNotch को कैलेंडर एक्सेस की आवश्यकता है।"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch потребує доступу до камери для попереднього перегляду у вирізі."
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch treba pristup kalendaru za prikaz vaših nadolazećih događaja u urezu."
           }
         },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch behöver kameraåtkomst för att visa förhandsgranskning i flärpen."
+        "hu" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A DynamicNotch-nak naptár-hozzáférésre van szüksége a közelgő események notch-ban való megjelenítéséhez."
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch potřebuje přístup k fotoaparátu pro zobrazení náhledu ve výřezu."
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch memerlukan akses ke kalender untuk menampilkan acara mendatang di notch."
           }
         },
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "يحتاج DynamicNotch للوصول للكاميرا لعرض معاينة الكاميرا مباشرة في الشق."
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch ha bisogno dell'accesso al calendario per mostrare i prossimi eventi nel notch."
           }
         },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch को सीधे नॉच में कैमरा पूर्वावलोकन प्रदर्शित करने के लिए कैमरा एक्सेस की आवश्यकता होती है।"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ノッチに予定を表示するためにカレンダーへのアクセスが必要です。"
           }
         },
-        "th": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch จำเป็นต้องเข้าถึงกล้องเพื่อแสดงตัวอย่างกล้องในรอยบากโดยตรง"
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch ойықта алдағы оқиғаларды көрсету үшін күнтізбеге кіру рұқсатын қажет етеді."
           }
         },
-        "ro": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch are nevoie de acces la cameră pentru a afișa o previzualizare a camerei direct în notch."
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch가 예정된 이벤트를 노치에 표시하려면 캘린더 접근 권한이 필요합니다."
           }
         },
-        "hu": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "A DynamicNotch-nak kamerahozzáférésre van szüksége az élő kamera-előnézet közvetlenül a notch-ban való megjelenítéséhez."
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch memerlukan akses kalendar untuk memaparkan acara akan datang anda di notch."
           }
         },
-        "el": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Το DynamicNotch χρειάζεται πρόσβαση στην κάμερα για να εμφανίζει ζωντανή προεπισκόπηση κάμερας απευθείας στο notch."
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch trenger kalendertilgang for å vise dine kommende hendelser i notchen."
           }
         },
-        "da": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch har brug for kameraadgang for at vise en live kameraforhåndsvisning direkte i notchen."
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch heeft toegang tot Agenda nodig om komende evenementen in de notch weer te geven."
           }
         },
-        "fi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch tarvitsee kameran käyttöoikeuden näyttääkseen kameran esikatselun suoraan notchissa."
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch wymaga dostępu do kalendarza, aby wyświetlać nadchodzące wydarzenia w notchu."
           }
         },
-        "nb": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch trenger kameratilgang for å vise en direkte kameraforhåndsvisning i notchen."
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O DynamicNotch precisa de acesso ao seu calendário para apresentar os próximos eventos no notch."
           }
         },
-        "ms": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch memerlukan akses kamera untuk memaparkan pratonton kamera langsung terus di notch."
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch are nevoie de acces la calendar pentru a afișa evenimentele viitoare în notch."
           }
         },
-        "he": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch זקוק לגישה למצלמה כדי להציג תצוגה מקדימה ישירה של המצלמה במגרעת."
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch требуется доступ к календарю для отображения предстоящих событий в вырезе."
           }
         },
-        "bg": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch се нуждае от достъп до камерата, за да показва предварителен преглед на камерата на живо в ноча."
+        "sk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch potrebuje prístup ku kalendáru na zobrazenie nadchádzajúcich udalostí vo výreze."
           }
         },
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch necessita accés a la càmera per mostrar una previsualització de la càmera en directe al notch."
+        "sr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch захтева приступ календару за приказ ваших предстојећих догађаја у ночу."
           }
         },
-        "sk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch potrebuje prístup ku kamere na zobrazenie živého náhľadu kamery priamo vo výreze."
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch behöver åtkomst till Kalender för att visa kommande händelser i flärpen."
           }
         },
-        "hr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch treba pristup kameri za prikaz pretpregleda kamere uživo izravno u urezu."
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch จำเป็นต้องเข้าถึงปฏิทินเพื่อแสดงกิจกรรมที่จะเกิดขึ้นในรอยบาก"
           }
         },
-        "sr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch захтева приступ камери за приказ прегледа камере уживо директно у ночу."
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch, yaklaşan etkinlikleri çentikte göstermek için takviminize erişmek istiyor."
           }
         },
-        "fil": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kailangan ng DynamicNotch ng access sa camera upang magpakita ng live na preview ng camera sa notch."
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch потребує доступу до Календаря для відображення найближчих подій у вирізі."
           }
         },
-        "kk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch ойықта тікелей камераны алдын ала қарауды көрсету үшін камераға кіру рұқсатын қажет етеді."
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch cần quyền truy cập lịch để hiển thị các sự kiện sắp tới trên notch."
           }
         },
-        "fa": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch برای نمایش پیش‌نمایش زنده دوربین در ناچ به دسترسی دوربین نیاز دارد."
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch 需要访问你的日历，以便在刘海中显示即将到来的事件。"
           }
         },
-        "bn": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch-এর নচে সরাসরি লাইভ ক্যামেরা প্রিভিউ দেখাতে ক্যামেরা অ্যাক্সেস প্রয়োজন।"
-          }
-        }
-      }
-    },
-    "NSHumanReadableCopyright": {
-      "comment": "Copyright (human-readable)",
-      "extractionState": "extracted_with_value",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": ""
-          }
-        },
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "حقوق النشر © 2025 jackson-storm. جميع الحقوق محفوظة."
-          }
-        },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "कॉपीराइट © 2025 jackson-storm. सर्वाधिकार सुरक्षित।"
-          }
-        },
-        "th": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ลิขสิทธิ์ © 2025 jackson-storm. สงวนลิขสิทธิ์ทั้งหมด"
-          }
-        },
-        "ro": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Drepturi de autor © 2025 jackson-storm. Toate drepturile rezervate."
-          }
-        },
-        "hu": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Szerzői jog © 2025 jackson-storm. Minden jog fenntartva."
-          }
-        },
-        "el": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Πνευματικά δικαιώματα © 2025 jackson-storm. Με επιφύλαξη παντός δικαιώματος."
-          }
-        },
-        "da": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ophavsret © 2025 jackson-storm. Alle rettigheder forbeholdes."
-          }
-        },
-        "fi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tekijänoikeus © 2025 jackson-storm. Kaikki oikeudet pidätetään."
-          }
-        },
-        "nb": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Opphavsrett © 2025 jackson-storm. Alle rettigheter forbeholdt."
-          }
-        },
-        "ms": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hak Cipta © 2025 jackson-storm. Hak cipta terpelihara."
-          }
-        },
-        "he": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "זכויות יוצרים © 2025 jackson-storm. כל הזכויות שמורות."
-          }
-        },
-        "bg": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Авторско право © 2025 jackson-storm. Всички права запазени."
-          }
-        },
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Copyright © 2025 jackson-storm. Tots els drets reservats."
-          }
-        },
-        "sk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Autorské práva © 2025 jackson-storm. Všetky práva vyhradené."
-          }
-        },
-        "hr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Autorska prava © 2025 jackson-storm. Sva prava pridržana."
-          }
-        },
-        "sr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ауторска права © 2025 jackson-storm. Сва права задржана."
-          }
-        },
-        "fil": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Karapatang-sipi © 2025 jackson-storm. Lahat ng karapatan ay nakalaan."
-          }
-        },
-        "kk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Авторлық құқық © 2025 jackson-storm. Барлық құқықтар қорғалған."
-          }
-        },
-        "fa": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "حق نشر © 2025 jackson-storm. تمام حقوق محفوظ است."
-          }
-        },
-        "bn": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "কপিরাইট © 2025 jackson-storm. সর্বস্বত্ব সংরক্ষিত।"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch 需要行事曆存取權限以在「瀏海」中顯示即將發生的行程。"
           }
         }
       }
     },
-    "NSLocalNetworkUsageDescription": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "The app requires local network access to determine the name of your current Wi-Fi network."
+    "NSCameraUsageDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يحتاج DynamicNotch للوصول للكاميرا لعرض معاينة الكاميرا مباشرة في الشق."
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "La aplicación necesita acceso a la red local para determinar el nombre de tu red Wi-Fi actual."
+        "bg" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch се нуждае от достъп до камерата, за да показва предварителен преглед на камерата на живо в ноча."
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Приложению требуется доступ к локальной сети, чтобы определить название вашей текущей сети Wi-Fi."
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch-এর নচে সরাসরি লাইভ ক্যামেরা প্রিভিউ দেখাতে ক্যামেরা অ্যাক্সেস প্রয়োজন।"
           }
         },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Uygulama, geçerli Wi-Fi ağınızın adını belirlemek için yerel ağ erişimine ihtiyaç duyuyor."
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch necessita accés a la càmera per mostrar una previsualització de la càmera en directe al notch."
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "应用需要本地网络访问权限，以确定你当前 Wi-Fi 网络的名称。"
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch potřebuje přístup k fotoaparátu pro zobrazení náhledu ve výřezu."
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Die App benötigt Zugriff auf das lokale Netzwerk, um den Namen Ihres aktuellen WLAN-Netzwerks zu ermitteln."
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch har brug for kameraadgang for at vise en live kameraforhåndsvisning direkte i notchen."
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "L'application a besoin de l'accès au réseau local pour déterminer le nom de votre réseau Wi-Fi actuel."
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch benötigt Zugriff auf Ihre Kamera, um eine Kameravorschau in der Notch anzuzeigen."
           }
         },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "A aplicação necessita de acesso à rede local para identificar o nome da sua rede Wi-Fi atual."
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Το DynamicNotch χρειάζεται πρόσβαση στην κάμερα για να εμφανίζει ζωντανή προεπισκόπηση κάμερας απευθείας στο notch."
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "現在のWi-Fiネットワーク名を特定するためにローカルネットワークへのアクセスが必要です。"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch needs access to your camera to display a camera preview in the notch."
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "현재 Wi-Fi 네트워크 이름을 확인하려면 로컬 네트워크 접근 권한이 필요합니다."
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch necesita acceder a tu cámara para mostrar una vista previa en la muesca."
           }
         },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "L'app richiede l'accesso alla rete locale per identificare il nome della rete Wi-Fi attuale."
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch برای نمایش پیش‌نمایش زنده دوربین در ناچ به دسترسی دوربین نیاز دارد."
           }
         },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aplikacja wymaga dostępu do sieci lokalnej, aby określić nazwę bieżącej sieci Wi-Fi."
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch tarvitsee kameran käyttöoikeuden näyttääkseen kameran esikatselun suoraan notchissa."
           }
         },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ứng dụng cần quyền truy cập mạng cục bộ để xác định tên mạng Wi-Fi hiện tại."
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kailangan ng DynamicNotch ng access sa camera upang magpakita ng live na preview ng camera sa notch."
           }
         },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aplikasi memerlukan akses ke jaringan lokal untuk mengidentifikasi nama jaringan Wi-Fi saat ini."
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch a besoin d'accéder à votre caméra pour afficher un aperçu de la caméra dans l'encoche."
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "De app heeft toegang tot het lokale netwerk nodig om de huidige wifi-netwerknaam te bepalen."
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch זקוק לגישה למצלמה כדי להציג תצוגה מקדימה ישירה של המצלמה במגרעת."
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "應用程式需要區域網路存取權限以辨識目前的 Wi-Fi 網路名稱。"
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch को सीधे नॉच में कैमरा पूर्वावलोकन प्रदर्शित करने के लिए कैमरा एक्सेस की आवश्यकता होती है।"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Програмі потрібен доступ до локальної мережі для визначення поточної назви мережі Wi-Fi."
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch treba pristup kameri za prikaz pretpregleda kamere uživo izravno u urezu."
           }
         },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Appen behöver åtkomst till det lokala nätverket för att identifiera aktuellt Wi-Fi-nätverksnamn."
+        "hu" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A DynamicNotch-nak kamerahozzáférésre van szüksége az élő kamera-előnézet közvetlenül a notch-ban való megjelenítéséhez."
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aplikace potřebuje přístup k místní síti pro zjištění názvu aktuální sítě Wi-Fi."
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch memerlukan akses ke kamera untuk menampilkan pratinjau di notch."
           }
         },
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "يحتاج DynamicNotch للوصول إلى الشبكة المحلية لاكتشاف أجهزة AirDrop القريبة لنقل الملفات عبر الشق."
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch ha bisogno dell'accesso alla fotocamera per mostrare l'anteprima nel notch."
           }
         },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "नॉच के माध्यम से फ़ाइल स्थानांतरण के लिए आस-पास के AirDrop उपकरणों को खोजने के लिए DynamicNotch को स्थानीय नेटवर्क एक्सेस की आवश्यकता है।"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ノッチにプレビューを表示するためにカメラへのアクセスが必要です。"
           }
         },
-        "th": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch จำเป็นต้องเข้าถึงเครือข่ายท้องถิ่นเพื่อค้นหาอุปกรณ์ AirDrop ใกล้เคียงสำหรับการถ่ายโอนไฟล์ผ่านรอยบาก"
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch ойықта тікелей камераны алдын ала қарауды көрсету үшін камераға кіру рұқсатын қажет етеді."
           }
         },
-        "ro": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch are nevoie de acces la rețeaua locală pentru a descoperi dispozitive AirDrop din apropiere pentru transferul de fișiere prin notch."
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch가 노치에 카메라 미리보기를 표시하려면 카메라 접근 권한이 필요합니다."
           }
         },
-        "hu": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "A DynamicNotch-nak helyi hálózati hozzáférésre van szüksége a közeli AirDrop eszközök felfedezéséhez a notch-on keresztüli fájlátvitelhez."
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch memerlukan akses kamera untuk memaparkan pratonton kamera langsung terus di notch."
           }
         },
-        "el": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Το DynamicNotch χρειάζεται πρόσβαση στο τοπικό δίκτυο για την ανακάλυψη κοντινών συσκευών AirDrop για μεταφορά αρχείων μέσω του notch."
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch trenger kameratilgang for å vise en direkte kameraforhåndsvisning i notchen."
           }
         },
-        "da": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch har brug for adgang til det lokale netværk for at opdage AirDrop-enheder i nærheden til filoverførsel via notchen."
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch heeft cameratoegang nodig om een videovoorvertoning in de notch weer te geven."
           }
         },
-        "fi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch tarvitsee paikallisverkon käyttöoikeuden lähellä olevien AirDrop-laitteiden löytämiseen tiedostojen siirtoa varten notchin kautta."
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch wymaga dostępu do kamery, aby wyświetlać podgląd w notchu."
           }
         },
-        "nb": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch trenger tilgang til lokalnettverket for å oppdage AirDrop-enheter i nærheten for filoverføring via notchen."
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O DynamicNotch precisa de acesso à câmara para mostrar a pré-visualização no notch."
           }
         },
-        "ms": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch memerlukan akses rangkaian tempatan untuk menemui peranti AirDrop berdekatan bagi pemindahan fail melalui notch."
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch are nevoie de acces la cameră pentru a afișa o previzualizare a camerei direct în notch."
           }
         },
-        "he": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch זקוק לגישה לרשת המקומית כדי לגלות מכשירי AirDrop סמוכים להעברת קבצים דרך המגרעת."
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch требуется доступ к камере для отображения превью камеры в вырезе."
           }
         },
-        "bg": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch се нуждае от достъп до локалната мрежа за откриване на близки AirDrop устройства за прехвърляне на файлове през ноча."
+        "sk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch potrebuje prístup ku kamere na zobrazenie živého náhľadu kamery priamo vo výreze."
           }
         },
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch necessita accés a la xarxa local per descobrir dispositius AirDrop propers per a la transferència de fitxers mitjançant el notch."
+        "sr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch захтева приступ камери за приказ прегледа камере уживо директно у ночу."
           }
         },
-        "sk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch potrebuje prístup k lokálnej sieti na vyhľadávanie okolitých zariadení AirDrop na prenos súborov cez výrez."
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch behöver kameraåtkomst för att visa förhandsgranskning i flärpen."
           }
         },
-        "hr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch treba pristup lokalnoj mreži za pronalaženje obližnjih AirDrop uređaja za prijenos datoteka putem ureza."
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch จำเป็นต้องเข้าถึงกล้องเพื่อแสดงตัวอย่างกล้องในรอยบากโดยตรง"
           }
         },
-        "sr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch захтева приступ локалној мрежи за откривање оближњих AirDrop уређаја за пренос датотека преко ноча."
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch, çentikte kamera önizlemesi göstermek için kameranıza erişmek istiyor."
           }
         },
-        "fil": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kailangan ng DynamicNotch ng access sa lokal na network upang matuklasan ang mga kalapit na AirDrop device para sa paglilipat ng file sa pamamagitan ng notch."
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch потребує доступу до камери для попереднього перегляду у вирізі."
           }
         },
-        "kk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch ойық арқылы файлдарды тасымалдау үшін жақын маңдағы AirDrop құрылғыларын анықтау үшін жергілікті желіге кіру рұқсатын қажет етеді."
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch cần quyền truy cập camera để hiển thị bản xem trước trên notch."
           }
         },
-        "fa": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch برای کشف دستگاه‌های AirDrop مجاور جهت انتقال فایل از طریق ناچ به دسترسی به شبکه محلی نیاز دارد."
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch 需要访问你的相机，以便在刘海中显示相机预览。"
           }
         },
-        "bn": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "নচের মাধ্যমে ফাইল স্থানান্তরের জন্য আশেপাশের AirDrop ডিভাইসগুলি আবিষ্কার করতে DynamicNotch-এর স্থানীয় নেটওয়ার্ক অ্যাক্সেস প্রয়োজন।"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch 需要相機存取權限以在「瀏海」中顯示預覽畫面。"
           }
         }
       }
     },
-    "NSContactsUsageDescription": {
-      "comment": "Privacy - Contacts Usage Description",
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "يحتاج DynamicNotch إلى الوصول إلى جهات اتصالك لإظهار أسماء المرسلين وصورهم في إشعارات الرسائل."
+    "NSContactsUsageDescription" : {
+      "comment" : "Privacy - Contacts Usage Description",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يحتاج DynamicNotch إلى الوصول إلى جهات اتصالك لإظهار أسماء المرسلين وصورهم في إشعارات الرسائل."
           }
         },
-        "bg": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch се нуждае от достъп до контактите ви, за да показва имената и снимките на подателите в известията от Messages."
+        "bg" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch се нуждае от достъп до контактите ви, за да показва имената и снимките на подателите в известията от Messages."
           }
         },
-        "bn": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Messages বিজ্ঞপ্তিতে প্রেরকের নাম ও ছবি দেখাতে DynamicNotch-এর আপনার পরিচিতিতে অ্যাক্সেস প্রয়োজন।"
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Messages বিজ্ঞপ্তিতে প্রেরকের নাম ও ছবি দেখাতে DynamicNotch-এর আপনার পরিচিতিতে অ্যাক্সেস প্রয়োজন।"
           }
         },
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch necessita accedir als teus contactes per mostrar els noms i les fotos dels remitents a les notificacions de Missatges."
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch necessita accedir als teus contactes per mostrar els noms i les fotos dels remitents a les notificacions de Missatges."
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch potřebuje přístup k vašim kontaktům, aby mohl v oznámeních ze Zpráv zobrazovat jména a fotky odesílatelů."
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch potřebuje přístup k vašim kontaktům, aby mohl v oznámeních ze Zpráv zobrazovat jména a fotky odesílatelů."
           }
         },
-        "da": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch skal have adgang til dine kontakter for at vise afsendernes navne og billeder i notifikationer fra Beskeder."
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch skal have adgang til dine kontakter for at vise afsendernes navne og billeder i notifikationer fra Beskeder."
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch benötigt Zugriff auf deine Kontakte, um Namen und Fotos von Absendern in Mitteilungen von Nachrichten anzuzeigen."
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch benötigt Zugriff auf deine Kontakte, um Namen und Fotos von Absendern in Mitteilungen von Nachrichten anzuzeigen."
           }
         },
-        "el": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Το DynamicNotch χρειάζεται πρόσβαση στις επαφές σας για εμφάνιση των ονομάτων και των φωτογραφιών των αποστολέων στις γνωστοποιήσεις των Μηνυμάτων."
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Το DynamicNotch χρειάζεται πρόσβαση στις επαφές σας για εμφάνιση των ονομάτων και των φωτογραφιών των αποστολέων στις γνωστοποιήσεις των Μηνυμάτων."
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch needs access to your contacts to show sender names and photos in Messages notifications."
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch needs access to your contacts to show sender names and photos in Messages notifications."
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch necesita acceder a tus contactos para mostrar los nombres y las fotos de los remitentes en las notificaciones de Mensajes."
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch necesita acceder a tus contactos para mostrar los nombres y las fotos de los remitentes en las notificaciones de Mensajes."
           }
         },
-        "fa": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch برای نمایش نام و عکس فرستندگان در اعلان‌های Messages به مخاطبین شما نیاز دارد."
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch برای نمایش نام و عکس فرستندگان در اعلان‌های Messages به مخاطبین شما نیاز دارد."
           }
         },
-        "fi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch tarvitsee pääsyn yhteystietoihisi, jotta lähettäjien nimet ja kuvat voidaan näyttää Viestit-ilmoituksissa."
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch tarvitsee pääsyn yhteystietoihisi, jotta lähettäjien nimet ja kuvat voidaan näyttää Viestit-ilmoituksissa."
           }
         },
-        "fil": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kailangan ng DynamicNotch ng access sa iyong mga contact upang ipakita ang mga pangalan at larawan ng nagpadala sa mga notification ng Messages."
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kailangan ng DynamicNotch ng access sa iyong mga contact upang ipakita ang mga pangalan at larawan ng nagpadala sa mga notification ng Messages."
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch doit accéder à vos contacts pour afficher les noms et les photos des expéditeurs dans les notifications de Messages."
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch doit accéder à vos contacts pour afficher les noms et les photos des expéditeurs dans les notifications de Messages."
           }
         },
-        "he": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch זקוק לגישה לאנשי הקשר שלך כדי להציג שמות ותמונות של שולחים בעדכוני Messages."
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch זקוק לגישה לאנשי הקשר שלך כדי להציג שמות ותמונות של שולחים בעדכוני Messages."
           }
         },
-        "hi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Messages सूचनाओं में भेजने वालों के नाम और फ़ोटो दिखाने के लिए DynamicNotch को आपके संपर्कों का ऐक्सेस चाहिए।"
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Messages सूचनाओं में भेजने वालों के नाम और फ़ोटो दिखाने के लिए DynamicNotch को आपके संपर्कों का ऐक्सेस चाहिए।"
           }
         },
-        "hr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch treba pristup vašim kontaktima za prikaz imena i fotografija pošiljatelja u obavijestima aplikacije Poruke."
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch treba pristup vašim kontaktima za prikaz imena i fotografija pošiljatelja u obavijestima aplikacije Poruke."
           }
         },
-        "hu": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "A DynamicNotch hozzáférést kér a kontaktjaihoz, hogy megjelenítse a feladók nevét és fotóját az Üzenetek értesítéseiben."
+        "hu" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A DynamicNotch hozzáférést kér a kontaktjaihoz, hogy megjelenítse a feladók nevét és fotóját az Üzenetek értesítéseiben."
           }
         },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch memerlukan akses ke kontak Anda untuk menampilkan nama dan foto pengirim di pemberitahuan Pesan."
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch memerlukan akses ke kontak Anda untuk menampilkan nama dan foto pengirim di pemberitahuan Pesan."
           }
         },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch deve accedere ai tuoi contatti per mostrare i nomi e le foto dei mittenti nelle notifiche di Messaggi."
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch deve accedere ai tuoi contatti per mostrare i nomi e le foto dei mittenti nelle notifiche di Messaggi."
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "「メッセージ」の通知に送信者の名前と写真を表示するために、DynamicNotchが連絡先にアクセスします。"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「メッセージ」の通知に送信者の名前と写真を表示するために、DynamicNotchが連絡先にアクセスします。"
           }
         },
-        "kk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Messages хабарландыруларында жіберушілердің аттары мен фотосуреттерін көрсету үшін DynamicNotch қолданбасына контактілеріңізге кіру қажет."
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Messages хабарландыруларында жіберушілердің аттары мен фотосуреттерін көрсету үшін DynamicNotch қолданбасына контактілеріңізге кіру қажет."
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "메시지 알림에 보낸 사람의 이름과 사진을 표시하려면 DynamicNotch가 사용자의 연락처에 접근해야 합니다."
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "메시지 알림에 보낸 사람의 이름과 사진을 표시하려면 DynamicNotch가 사용자의 연락처에 접근해야 합니다."
           }
         },
-        "ms": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch memerlukan akses kepada kenalan anda untuk memaparkan nama dan foto pengirim dalam pemberitahuan Mesej."
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch memerlukan akses kepada kenalan anda untuk memaparkan nama dan foto pengirim dalam pemberitahuan Mesej."
           }
         },
-        "nb": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch trenger tilgang til kontaktene dine for å vise avsendernes navn og bilder i varslinger fra Meldinger."
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch trenger tilgang til kontaktene dine for å vise avsendernes navn og bilder i varslinger fra Meldinger."
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch heeft toegang tot je contacten nodig om namen en foto’s van afzenders in meldingen van Berichten weer te geven."
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch heeft toegang tot je contacten nodig om namen en foto’s van afzenders in meldingen van Berichten weer te geven."
           }
         },
-        "pl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch potrzebuje dostępu do Twoich kontaktów, aby wyświetlać nazwy i zdjęcia nadawców w powiadomieniach z Wiadomości."
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch potrzebuje dostępu do Twoich kontaktów, aby wyświetlać nazwy i zdjęcia nadawców w powiadomieniach z Wiadomości."
           }
         },
-        "pt": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "O DynamicNotch necessita de acesso aos seus contactos para mostrar os nomes e as fotografias dos remetentes nas notificações de Mensagens."
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O DynamicNotch necessita de acesso aos seus contactos para mostrar os nomes e as fotografias dos remetentes nas notificações de Mensagens."
           }
         },
-        "ro": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch are nevoie de acces la contactele dvs. pentru a afișa numele și pozele expeditorilor în notificările Mesaje."
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch are nevoie de acces la contactele dvs. pentru a afișa numele și pozele expeditorilor în notificările Mesaje."
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch требуется доступ к вашим контактам, чтобы показывать имена и фотографии отправителей в уведомлениях «Сообщений»."
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch требуется доступ к вашим контактам, чтобы показывать имена и фотографии отправителей в уведомлениях «Сообщений»."
           }
         },
-        "sk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch potrebuje prístup k vašim kontaktom, aby mohol v hláseniach zo Správ zobrazovať mená a fotky odosielateľov."
+        "sk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch potrebuje prístup k vašim kontaktom, aby mohol v hláseniach zo Správ zobrazovať mená a fotky odosielateľov."
           }
         },
-        "sr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch захтева приступ вашим контактима за приказ имена и фотографија пошиљалаца у обавештењима апликације Поруке."
+        "sr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch захтева приступ вашим контактима за приказ имена и фотографија пошиљалаца у обавештењима апликације Поруке."
           }
         },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch behöver åtkomst till dina kontakter för att visa avsändarnas namn och bilder i notiser från Meddelanden."
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch behöver åtkomst till dina kontakter för att visa avsändarnas namn och bilder i notiser från Meddelanden."
           }
         },
-        "th": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch ต้องการเข้าถึงรายชื่อของคุณเพื่อแสดงชื่อและรูปภาพของผู้ส่งในการแจ้งเตือนแอปข้อความ"
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch ต้องการเข้าถึงรายชื่อของคุณเพื่อแสดงชื่อและรูปภาพของผู้ส่งในการแจ้งเตือนแอปข้อความ"
           }
         },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch, Mesajlar bildirimlerinde gönderenlerin adlarını ve fotoğraflarını göstermek için kişilerinize erişmek istiyor."
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch, Mesajlar bildirimlerinde gönderenlerin adlarını ve fotoğraflarını göstermek için kişilerinize erişmek istiyor."
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch потрібен доступ до ваших контактів, щоб показувати імена та фотографії відправників у сповіщеннях Повідомлень."
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch потрібен доступ до ваших контактів, щоб показувати імена та фотографії відправників у сповіщеннях Повідомлень."
           }
         },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch cần truy cập vào danh bạ của bạn để hiển thị tên và ảnh của người gửi trong thông báo Tin nhắn."
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch cần truy cập vào danh bạ của bạn để hiển thị tên và ảnh của người gửi trong thông báo Tin nhắn."
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch 需要访问你的通讯录，以便在“信息”通知中显示发件人姓名和照片。"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch 需要访问你的通讯录，以便在“信息”通知中显示发件人姓名和照片。"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DynamicNotch 需要取用你的聯絡人，以便在「訊息」通知中顯示傳送者姓名和照片。"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch 需要取用你的聯絡人，以便在「訊息」通知中顯示傳送者姓名和照片。"
+          }
+        }
+      }
+    },
+    "NSHumanReadableCopyright" : {
+      "comment" : "Copyright (human-readable)",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حقوق النشر © 2025 jackson-storm. جميع الحقوق محفوظة."
+          }
+        },
+        "bg" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Авторско право © 2025 jackson-storm. Всички права запазени."
+          }
+        },
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "কপিরাইট © 2025 jackson-storm. সর্বস্বত্ব সংরক্ষিত।"
+          }
+        },
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2025 jackson-storm. Tots els drets reservats."
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2025 jackson-storm. Všechna práva vyhrazena."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ophavsret © 2025 jackson-storm. Alle rettigheder forbeholdes."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2025 jackson-storm. Alle Rechte vorbehalten."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Πνευματικά δικαιώματα © 2025 jackson-storm. Με επιφύλαξη παντός δικαιώματος."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2025 jackson-storm. All rights reserved."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2025 jackson-storm. Todos los derechos reservados."
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حق نشر © 2025 jackson-storm. تمام حقوق محفوظ است."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tekijänoikeus © 2025 jackson-storm. Kaikki oikeudet pidätetään."
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Karapatang-sipi © 2025 jackson-storm. Lahat ng karapatan ay nakalaan."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2025 jackson-storm. Tous droits réservés."
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "זכויות יוצרים © 2025 jackson-storm. כל הזכויות שמורות."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "कॉपीराइट © 2025 jackson-storm. सर्वाधिकार सुरक्षित।"
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autorska prava © 2025 jackson-storm. Sva prava pridržana."
+          }
+        },
+        "hu" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Szerzői jog © 2025 jackson-storm. Minden jog fenntartva."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hak Cipta © 2025 jackson-storm. Hak cipta dilindungi undang-undang."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2025 jackson-storm. Tutti i diritti riservati."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2025 jackson-storm. All rights reserved."
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Авторлық құқық © 2025 jackson-storm. Барлық құқықтар қорғалған."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2025 jackson-storm. 모든 권리 보유."
+          }
+        },
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hak Cipta © 2025 jackson-storm. Hak cipta terpelihara."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opphavsrett © 2025 jackson-storm. Alle rettigheter forbeholdt."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2025 jackson-storm. Alle rechten voorbehouden."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2025 jackson-storm. Wszelkie prawa zastrzeżone."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2025 jackson-storm. Todos os direitos reservados."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Drepturi de autor © 2025 jackson-storm. Toate drepturile rezervate."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2025 jackson-storm. Все права защищены."
+          }
+        },
+        "sk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autorské práva © 2025 jackson-storm. Všetky práva vyhradené."
+          }
+        },
+        "sr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ауторска права © 2025 jackson-storm. Сва права задржана."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright © 2025 jackson-storm. Alla rättigheter förbehållna."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ลิขสิทธิ์ © 2025 jackson-storm. สงวนลิขสิทธิ์ทั้งหมด"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Telif Hakkı © 2025 jackson-storm. Tüm hakları saklıdır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Авторське право © 2025 jackson-storm. Усі права захищені."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bản quyền © 2025 jackson-storm. Bảo lưu mọi quyền."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "版权所有 © 2025 jackson-storm。保留所有权利。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "版權所有 © 2025 jackson-storm。保留一切權利。"
+          }
+        }
+      }
+    },
+    "NSLocalNetworkUsageDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يحتاج DynamicNotch للوصول إلى الشبكة المحلية لاكتشاف أجهزة AirDrop القريبة لنقل الملفات عبر الشق."
+          }
+        },
+        "bg" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch се нуждае от достъп до локалната мрежа за откриване на близки AirDrop устройства за прехвърляне на файлове през ноча."
+          }
+        },
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "নচের মাধ্যমে ফাইল স্থানান্তরের জন্য আশেপাশের AirDrop ডিভাইসগুলি আবিষ্কার করতে DynamicNotch-এর স্থানীয় নেটওয়ার্ক অ্যাক্সেস প্রয়োজন।"
+          }
+        },
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch necessita accés a la xarxa local per descobrir dispositius AirDrop propers per a la transferència de fitxers mitjançant el notch."
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikace potřebuje přístup k místní síti pro zjištění názvu aktuální sítě Wi-Fi."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch har brug for adgang til det lokale netværk for at opdage AirDrop-enheder i nærheden til filoverførsel via notchen."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die App benötigt Zugriff auf das lokale Netzwerk, um den Namen Ihres aktuellen WLAN-Netzwerks zu ermitteln."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Το DynamicNotch χρειάζεται πρόσβαση στο τοπικό δίκτυο για την ανακάλυψη κοντινών συσκευών AirDrop για μεταφορά αρχείων μέσω του notch."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The app requires local network access to determine the name of your current Wi-Fi network."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La aplicación necesita acceso a la red local para determinar el nombre de tu red Wi-Fi actual."
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch برای کشف دستگاه‌های AirDrop مجاور جهت انتقال فایل از طریق ناچ به دسترسی به شبکه محلی نیاز دارد."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch tarvitsee paikallisverkon käyttöoikeuden lähellä olevien AirDrop-laitteiden löytämiseen tiedostojen siirtoa varten notchin kautta."
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kailangan ng DynamicNotch ng access sa lokal na network upang matuklasan ang mga kalapit na AirDrop device para sa paglilipat ng file sa pamamagitan ng notch."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'application a besoin de l'accès au réseau local pour déterminer le nom de votre réseau Wi-Fi actuel."
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch זקוק לגישה לרשת המקומית כדי לגלות מכשירי AirDrop סמוכים להעברת קבצים דרך המגרעת."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "नॉच के माध्यम से फ़ाइल स्थानांतरण के लिए आस-पास के AirDrop उपकरणों को खोजने के लिए DynamicNotch को स्थानीय नेटवर्क एक्सेस की आवश्यकता है।"
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch treba pristup lokalnoj mreži za pronalaženje obližnjih AirDrop uređaja za prijenos datoteka putem ureza."
+          }
+        },
+        "hu" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A DynamicNotch-nak helyi hálózati hozzáférésre van szüksége a közeli AirDrop eszközök felfedezéséhez a notch-on keresztüli fájlátvitelhez."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikasi memerlukan akses ke jaringan lokal untuk mengidentifikasi nama jaringan Wi-Fi saat ini."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'app richiede l'accesso alla rete locale per identificare il nome della rete Wi-Fi attuale."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "現在のWi-Fiネットワーク名を特定するためにローカルネットワークへのアクセスが必要です。"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch ойық арқылы файлдарды тасымалдау үшін жақын маңдағы AirDrop құрылғыларын анықтау үшін жергілікті желіге кіру рұқсатын қажет етеді."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "현재 Wi-Fi 네트워크 이름을 확인하려면 로컬 네트워크 접근 권한이 필요합니다."
+          }
+        },
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch memerlukan akses rangkaian tempatan untuk menemui peranti AirDrop berdekatan bagi pemindahan fail melalui notch."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch trenger tilgang til lokalnettverket for å oppdage AirDrop-enheter i nærheten for filoverføring via notchen."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De app heeft toegang tot het lokale netwerk nodig om de huidige wifi-netwerknaam te bepalen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikacja wymaga dostępu do sieci lokalnej, aby określić nazwę bieżącej sieci Wi-Fi."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A aplicação necessita de acesso à rede local para identificar o nome da sua rede Wi-Fi atual."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch are nevoie de acces la rețeaua locală pentru a descoperi dispozitive AirDrop din apropiere pentru transferul de fișiere prin notch."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приложению требуется доступ к локальной сети, чтобы определить название вашей текущей сети Wi-Fi."
+          }
+        },
+        "sk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch potrebuje prístup k lokálnej sieti na vyhľadávanie okolitých zariadení AirDrop na prenos súborov cez výrez."
+          }
+        },
+        "sr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch захтева приступ локалној мрежи за откривање оближњих AirDrop уређаја за пренос датотека преко ноча."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appen behöver åtkomst till det lokala nätverket för att identifiera aktuellt Wi-Fi-nätverksnamn."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DynamicNotch จำเป็นต้องเข้าถึงเครือข่ายท้องถิ่นเพื่อค้นหาอุปกรณ์ AirDrop ใกล้เคียงสำหรับการถ่ายโอนไฟล์ผ่านรอยบาก"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulama, geçerli Wi-Fi ağınızın adını belirlemek için yerel ağ erişimine ihtiyaç duyuyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Програмі потрібен доступ до локальної мережі для визначення поточної назви мережі Wi-Fi."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ứng dụng cần quyền truy cập mạng cục bộ để xác định tên mạng Wi-Fi hiện tại."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "应用需要本地网络访问权限，以确定你当前 Wi-Fi 网络的名称。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "應用程式需要區域網路存取權限以辨識目前的 Wi-Fi 網路名稱。"
           }
         }
       }
     }
   },
-  "version": "1.1"
+  "version" : "1.1"
 }

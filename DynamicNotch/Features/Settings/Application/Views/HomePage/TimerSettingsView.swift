@@ -22,10 +22,7 @@ struct TimerSettingsView: View {
                 accessibilityIdentifier: "settings.activities.live.timer"
             )
 
-            Divider()
-                .opacity(0.6)
-                .padding(.leading, 43)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+            Divider().opacity(0.6)
 
             SettingsStrokeToggleRow(
                 title: "settings.notch.defaultStrokeColor.title",

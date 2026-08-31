@@ -8122,6 +8122,9 @@
         }
       }
     },
+    "Connectivity" : {
+
+    },
     "Converter Converting" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -10034,6 +10037,9 @@
         }
       }
     },
+    "Drag & Drop" : {
+
+    },
     "Drag Ended" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -10272,6 +10278,9 @@
           }
         }
       }
+    },
+    "Drives" : {
+
     },
     "Drop Completed" : {
       "extractionState" : "manual",
@@ -11479,6 +11488,9 @@
           }
         }
       }
+    },
+    "Files" : {
+
     },
     "Finish an active drag with the dropped event." : {
       "extractionState" : "manual",
@@ -16498,6 +16510,9 @@
         }
       }
     },
+    "Mail" : {
+
+    },
     "Mail (Long Text)" : {
 
     },
@@ -16757,6 +16772,12 @@
           }
         }
       }
+    },
+    "Media" : {
+
+    },
+    "Media & State" : {
+
     },
     "menuBar.quit" : {
       "extractionState" : "manual",
@@ -17714,6 +17735,9 @@
         }
       }
     },
+    "Messages" : {
+
+    },
     "Messages (Audio)" : {
 
     },
@@ -17732,16 +17756,13 @@
     "Messages (Text)" : {
 
     },
-    "Messages (Three Message Queue)" : {
-
-    },
     "Messages (Unknown Sender)" : {
 
     },
     "Messages (Video)" : {
 
     },
-    "Messages Previews" : {
+    "Messages Queue (3 Messages)" : {
 
     },
     "messages.notification.audio" : {
@@ -18939,7 +18960,16 @@
         }
       }
     },
-    "Mixed Queue (Mail + Message)" : {
+    "Mixed Queue (Mail + Photo)" : {
+
+    },
+    "Mixed Queue (Mail + Text)" : {
+
+    },
+    "Mixed Queue (Text + Audio)" : {
+
+    },
+    "Mixed Queue (Text + Photo)" : {
 
     },
     "No Internet Connection" : {
@@ -20136,6 +20166,9 @@
           }
         }
       }
+    },
+    "Notifications Previews" : {
+
     },
     "Now Playing" : {
       "extractionState" : "manual",
@@ -22765,6 +22798,9 @@
           }
         }
       }
+    },
+    "Queues" : {
+
     },
     "Ready" : {
       "extractionState" : "manual",
@@ -181013,6 +181049,12 @@
     "Show a standard incoming text message." : {
 
     },
+    "Show a text message followed by a photo attachment to verify bottom padding and row height." : {
+
+    },
+    "Show a text message followed by a playable audio voice note in the queue." : {
+
+    },
     "Show active AirDrop file transfer progress and completion." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -181491,7 +181533,7 @@
         }
       }
     },
-    "Show an incoming audio message without text." : {
+    "Show an email followed by a photo attachment message in the queue." : {
 
     },
     "Show an incoming email followed by a text message in the unified queue." : {
@@ -181501,6 +181543,9 @@
 
     },
     "Show an incoming message containing text and a photo." : {
+
+    },
+    "Show an incoming playable audio message." : {
 
     },
     "Show an incoming video attachment without text." : {
@@ -186794,7 +186839,7 @@
         }
       }
     },
-    "Show three messages in sequence and animate the two-item queue." : {
+    "Show three messages in sequence and animate the two-item queue transition." : {
 
     },
     "Shows the Wi-Fi temporary notification." : {
@@ -187758,6 +187803,12 @@
           }
         }
       }
+    },
+    "System" : {
+
+    },
+    "System & HUD" : {
+
     },
     "Timer" : {
       "extractionState" : "manual",

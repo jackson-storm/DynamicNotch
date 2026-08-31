@@ -266,7 +266,7 @@ struct NotificationsNotchContent: NotchContentProtocol, DynamicIslandCustomizabl
     }
 
     func cornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
-        (top: 20, bottom: 38)
+        (top: 28, bottom: 38)
     }
 
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {

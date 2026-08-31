@@ -19,7 +19,7 @@ final class MessagesNotchContentTests: XCTestCase {
         let content = makeContent(messages: [makeTextMessage(rowID: 1)])
         let cornerRadius = content.cornerRadius(baseRadius: 15)
 
-        XCTAssertEqual(cornerRadius.top, 20)
+        XCTAssertEqual(cornerRadius.top, 28)
         XCTAssertEqual(cornerRadius.bottom, 38)
         XCTAssertEqual(content.dynamicIslandCornerRadius(baseHeight: 40), 12)
     }

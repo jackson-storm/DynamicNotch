@@ -436,6 +436,69 @@ final class DebugSettingsViewModel: ObservableObject {
         }
     }
 
+    func triggerMixedAttachmentQueuePreview() {
+        messagesQueuePreviewTask?.cancel()
+
+        messagesQueuePreviewTask = Task { @MainActor [weak self] in
+            guard let self else { return }
+
+            notchViewModel.hideTemporaryNotification()
+
+            try? await Task.sleep(nanoseconds: Self.messagesPreviewDelay)
+            guard !Task.isCancelled else { return }
+
+            notchEventCoordinator.handleMessagesMessage(.debugText)
+
+            try? await Task.sleep(nanoseconds: Self.messagesPreviewDelay)
+            guard !Task.isCancelled else { return }
+
+            notchEventCoordinator.handleMessagesMessage(.debugTextAndImage)
+            messagesQueuePreviewTask = nil
+        }
+    }
+
+    func triggerMixedAudioQueuePreview() {
+        messagesQueuePreviewTask?.cancel()
+
+        messagesQueuePreviewTask = Task { @MainActor [weak self] in
+            guard let self else { return }
+
+            notchViewModel.hideTemporaryNotification()
+
+            try? await Task.sleep(nanoseconds: Self.messagesPreviewDelay)
+            guard !Task.isCancelled else { return }
+
+            notchEventCoordinator.handleMessagesMessage(.debugText)
+
+            try? await Task.sleep(nanoseconds: Self.messagesPreviewDelay)
+            guard !Task.isCancelled else { return }
+
+            notchEventCoordinator.handleMessagesMessage(.debugAudio)
+            messagesQueuePreviewTask = nil
+        }
+    }
+
+    func triggerMixedMailAndAttachmentQueuePreview() {
+        messagesQueuePreviewTask?.cancel()
+
+        messagesQueuePreviewTask = Task { @MainActor [weak self] in
+            guard let self else { return }
+
+            notchViewModel.hideTemporaryNotification()
+
+            try? await Task.sleep(nanoseconds: Self.messagesPreviewDelay)
+            guard !Task.isCancelled else { return }
+
+            notchEventCoordinator.handleMailMessage(.debugPreviewStandard)
+
+            try? await Task.sleep(nanoseconds: Self.messagesPreviewDelay)
+            guard !Task.isCancelled else { return }
+
+            notchEventCoordinator.handleMessagesMessage(.debugTextAndImage)
+            messagesQueuePreviewTask = nil
+        }
+    }
+
     func triggerMailSequencePreview() {
         triggerMailBatch(interval: 1.5)
     }

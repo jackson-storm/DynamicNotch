@@ -3,6 +3,14 @@ import Foundation
 internal import AppKit
 import ServiceManagement
 
+extension SettingsAppearanceMode: StoredSettingValue {}
+extension NotchBackgroundStyle: StoredSettingValue {}
+extension NotchDisplayLocation: StoredSettingValue {}
+extension DynamicNotchLanguage: StoredSettingValue {}
+extension NotchAnimationPreset: StoredSettingValue {}
+extension NotchExpandInteraction: StoredSettingValue {}
+extension NotchCollapseInteraction: StoredSettingValue {}
+
 @MainActor
 final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding {
     static let notchPressHoldDurationRange: ClosedRange<Double> = 0.20...0.60
@@ -18,33 +26,17 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         }
     }
 
-    @Published var isDockIconVisible: Bool {
-        didSet {
-            persist(isDockIconVisible, for: GeneralSettingsStorage.Keys.dockIcon)
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.dockIcon, defaultValue: false)
+    var isDockIconVisible: Bool
 
-    @Published var appearanceMode: SettingsAppearanceMode {
-        didSet {
-            persist(appearanceMode.rawValue, for: GeneralSettingsStorage.Keys.appearanceMode)
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.appearanceMode, defaultValue: .system)
+    var appearanceMode: SettingsAppearanceMode
 
+    @StoredDefault(key: GeneralSettingsStorage.Keys.isBlueNightMode, defaultValue: false)
+    var isBlueNightMode: Bool
 
-
-    @Published var isBlueNightMode: Bool {
-        didSet {
-            persist(isBlueNightMode, for: GeneralSettingsStorage.Keys.isBlueNightMode)
-        }
-    }
-
-    @Published var notchBackgroundStyle: NotchBackgroundStyle {
-        didSet {
-            persist(notchBackgroundStyle.rawValue, for: GeneralSettingsStorage.Keys.notchBackgroundStyle)
-        }
-    }
-
-
+    @StoredDefault(key: GeneralSettingsStorage.Keys.notchBackgroundStyle, defaultValue: .black)
+    var notchBackgroundStyle: NotchBackgroundStyle
 
     @Published var notchWidth: Int {
         didSet {
@@ -61,51 +53,28 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         }
     }
 
-    @Published var isMenuBarIconVisible: Bool {
-        didSet {
-            persist(isMenuBarIconVisible, for: GeneralSettingsStorage.Keys.menuBarIcon)
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.menuBarIcon, defaultValue: true)
+    var isMenuBarIconVisible: Bool
 
-    @Published var isShowNotchStrokeEnabled: Bool {
-        didSet {
-            persist(isShowNotchStrokeEnabled, for: GeneralSettingsStorage.Keys.notchStrokeEnabled)
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.notchStrokeEnabled, defaultValue: false)
+    var isShowNotchStrokeEnabled: Bool
 
-    @Published var isDefaultActivityStrokeEnabled: Bool {
-        didSet {
-            persist(isDefaultActivityStrokeEnabled, for: GeneralSettingsStorage.Keys.defaultActivityStrokeEnabled)
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.defaultActivityStrokeEnabled, defaultValue: true)
+    var isDefaultActivityStrokeEnabled: Bool
 
-    @Published var notchStrokeWidth: Double {
-        didSet {
-            let clampedValue = Self.clampNotchStrokeWidth(notchStrokeWidth)
+    @StoredDefault(
+        key: GeneralSettingsStorage.Keys.notchStrokeWidth,
+        defaultValue: 1.5,
+        transform: ApplicationSettingsStore.clampNotchStrokeWidth
+    )
+    var notchStrokeWidth: Double
 
-            if clampedValue != notchStrokeWidth {
-                notchStrokeWidth = clampedValue
-                return
-            }
-
-            persist(notchStrokeWidth, for: GeneralSettingsStorage.Keys.notchStrokeWidth)
-        }
-    }
-
-    @Published var notchStrokeOpacity: Double {
-        didSet {
-            let clampedValue = Self.clampNotchStrokeOpacity(notchStrokeOpacity)
-
-            if clampedValue != notchStrokeOpacity {
-                notchStrokeOpacity = clampedValue
-                return
-            }
-
-            persist(notchStrokeOpacity, for: GeneralSettingsStorage.Keys.notchStrokeOpacity)
-        }
-    }
-
-
+    @StoredDefault(
+        key: GeneralSettingsStorage.Keys.notchStrokeOpacity,
+        defaultValue: 1.0,
+        transform: ApplicationSettingsStore.clampNotchStrokeOpacity
+    )
+    var notchStrokeOpacity: Double
 
     @Published var displayLocation: NotchDisplayLocation {
         didSet {
@@ -117,78 +86,39 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         }
     }
 
-    @Published var preferredDisplayUUID: String {
-        didSet {
-            persist(preferredDisplayUUID, for: GeneralSettingsStorage.Keys.preferredDisplayUUID)
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.preferredDisplayUUID, defaultValue: "")
+    var preferredDisplayUUID: String
 
-    @Published var preferredDisplayName: String {
-        didSet {
-            persist(preferredDisplayName, for: GeneralSettingsStorage.Keys.preferredDisplayName)
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.preferredDisplayName, defaultValue: "")
+    var preferredDisplayName: String
 
-    @Published var isDisplayAutoSwitchEnabled: Bool {
-        didSet {
-            persist(
-                isDisplayAutoSwitchEnabled,
-                for: GeneralSettingsStorage.Keys.displayAutoSwitchEnabled
-            )
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.displayAutoSwitchEnabled, defaultValue: true)
+    var isDisplayAutoSwitchEnabled: Bool
 
-    @Published var appLanguage: DynamicNotchLanguage {
-        didSet {
-            persist(appLanguage.rawValue, for: GeneralSettingsStorage.Keys.appLanguage)
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.appLanguage, defaultValue: .system)
+    var appLanguage: DynamicNotchLanguage
 
-    @Published var isNotchHiddenInFullscreenEnabled: Bool {
-        didSet {
-            persist(
-                isNotchHiddenInFullscreenEnabled,
-                for: GeneralSettingsStorage.Keys.hideNotchInFullscreenEnabled
-            )
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.hideNotchInFullscreenEnabled, defaultValue: false)
+    var isNotchHiddenInFullscreenEnabled: Bool
 
-    @Published var notchAnimationPreset: NotchAnimationPreset {
-        didSet {
-            persist(notchAnimationPreset.rawValue, for: GeneralSettingsStorage.Keys.notchAnimationPreset)
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.notchAnimationPreset, defaultValue: .balanced)
+    var notchAnimationPreset: NotchAnimationPreset
 
-    @Published var isNotchTapToExpandEnabled: Bool {
-        didSet {
-            persist(isNotchTapToExpandEnabled, for: GeneralSettingsStorage.Keys.notchTapToExpandEnabled)
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.notchTapToExpandEnabled, defaultValue: true)
+    var isNotchTapToExpandEnabled: Bool
 
-    @Published var notchExpandInteraction: NotchExpandInteraction {
-        didSet {
-            persist(notchExpandInteraction.rawValue, for: GeneralSettingsStorage.Keys.notchExpandInteraction)
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.notchExpandInteraction, defaultValue: .hover)
+    var notchExpandInteraction: NotchExpandInteraction
 
-    @Published var notchCollapseInteraction: NotchCollapseInteraction {
-        didSet {
-            persist(notchCollapseInteraction.rawValue, for: GeneralSettingsStorage.Keys.notchCollapseInteraction)
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.notchCollapseInteraction, defaultValue: .click)
+    var notchCollapseInteraction: NotchCollapseInteraction
 
-    @Published var notchPressHoldDuration: TimeInterval {
-        didSet {
-            let clampedValue = Self.clampNotchPressHoldDuration(notchPressHoldDuration)
-
-            if clampedValue != notchPressHoldDuration {
-                notchPressHoldDuration = clampedValue
-                return
-            }
-
-            persist(notchPressHoldDuration, for: GeneralSettingsStorage.Keys.notchPressHoldDuration)
-        }
-    }
+    @StoredDefault(
+        key: GeneralSettingsStorage.Keys.notchPressHoldDuration,
+        defaultValue: 0.25,
+        transform: ApplicationSettingsStore.clampNotchPressHoldDuration
+    )
+    var notchPressHoldDuration: TimeInterval
 
     var isNotchMouseDragGesturesEnabled: Bool {
         get { true }
@@ -200,29 +130,17 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         set {}
     }
 
-    @Published var isNotchSwipeDismissEnabled: Bool {
-        didSet {
-            persist(isNotchSwipeDismissEnabled, for: GeneralSettingsStorage.Keys.notchSwipeDismissEnabled)
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.notchSwipeDismissEnabled, defaultValue: true)
+    var isNotchSwipeDismissEnabled: Bool
 
-    @Published var isNotchSwipeRestoreEnabled: Bool {
-        didSet {
-            persist(isNotchSwipeRestoreEnabled, for: GeneralSettingsStorage.Keys.notchSwipeRestoreEnabled)
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.notchSwipeRestoreEnabled, defaultValue: true)
+    var isNotchSwipeRestoreEnabled: Bool
 
-    @Published var isNotchHoverHapticEnabled: Bool {
-        didSet {
-            persist(isNotchHoverHapticEnabled, for: GeneralSettingsStorage.Keys.notchHoverHapticEnabled)
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.notchHoverHapticEnabled, defaultValue: true)
+    var isNotchHoverHapticEnabled: Bool
 
-    @Published var isCloseAtFocusLiveActivityEnabled: Bool {
-        didSet {
-            persist(isCloseAtFocusLiveActivityEnabled, for: GeneralSettingsStorage.Keys.closeAtFocusLiveActivityEnabled)
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.closeAtFocusLiveActivityEnabled, defaultValue: false)
+    var isCloseAtFocusLiveActivityEnabled: Bool
 
     @Published var notchContentPriorityOverrides: [String: Int] {
         didSet {
@@ -241,29 +159,15 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         }
     }
 
-    @Published var isNotchSizeTemporaryActivityEnabled: Bool {
-        didSet {
-            persist(
-                isNotchSizeTemporaryActivityEnabled,
-                for: GeneralSettingsStorage.Keys.notchSizeTemporaryActivityEnabled
-            )
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.notchSizeTemporaryActivityEnabled, defaultValue: true)
+    var isNotchSizeTemporaryActivityEnabled: Bool
 
-    @Published var notchSizeTemporaryActivityDuration: Int {
-        didSet {
-            let clampedValue = Self.clampTemporaryActivityDuration(notchSizeTemporaryActivityDuration)
-            if clampedValue != notchSizeTemporaryActivityDuration {
-                notchSizeTemporaryActivityDuration = clampedValue
-                return
-            }
-
-            persist(
-                notchSizeTemporaryActivityDuration,
-                for: GeneralSettingsStorage.Keys.notchSizeTemporaryActivityDuration
-            )
-        }
-    }
+    @StoredDefault(
+        key: GeneralSettingsStorage.Keys.notchSizeTemporaryActivityDuration,
+        defaultValue: 2,
+        transform: SettingsStoreBase.clampTemporaryActivityDuration
+    )
+    var notchSizeTemporaryActivityDuration: Int
 
     let notchSizeEvent = PassthroughSubject<NotchSizeEvent, Never>()
 
@@ -276,85 +180,14 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
     }
 
     override init(defaults: UserDefaults) {
-        defaults.register(defaults: GeneralSettingsStorage.defaultValues)
-
         self.isLaunchAtLoginEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.launchAtLogin)
-        self.isDockIconVisible = defaults.bool(forKey: GeneralSettingsStorage.Keys.dockIcon)
-        self.isBlueNightMode = defaults.bool(forKey: GeneralSettingsStorage.Keys.isBlueNightMode)
-        self.appearanceMode = SettingsAppearanceMode.resolved(
-            defaults.string(forKey: GeneralSettingsStorage.Keys.appearanceMode)
-        )
-
-        self.notchBackgroundStyle = NotchBackgroundStyle.resolved(
-            defaults.string(forKey: GeneralSettingsStorage.Keys.notchBackgroundStyle)
-        )
-
         self.notchWidth = defaults.integer(forKey: GeneralSettingsStorage.Keys.notchWidth)
         self.notchHeight = defaults.integer(forKey: GeneralSettingsStorage.Keys.notchHeight)
-        self.isMenuBarIconVisible = defaults.bool(forKey: GeneralSettingsStorage.Keys.menuBarIcon)
-        self.isShowNotchStrokeEnabled = Self.resolvedBool(
-            defaults: defaults,
-            key: GeneralSettingsStorage.Keys.notchStrokeEnabled
-        )
-        self.isDefaultActivityStrokeEnabled = Self.resolvedDefaultActivityStrokeEnabled(defaults: defaults)
-        self.notchStrokeWidth = Self.resolvedNotchStrokeWidth(defaults: defaults)
-        self.notchStrokeOpacity = Self.resolvedNotchStrokeOpacity(defaults: defaults)
         self.displayLocation = NotchDisplayLocation(
             rawValue: defaults.string(forKey: GeneralSettingsStorage.Keys.displayLocation) ?? NotchDisplayLocation.main.rawValue
         ) ?? .main
-        self.preferredDisplayUUID = defaults.string(
-            forKey: GeneralSettingsStorage.Keys.preferredDisplayUUID
-        ) ?? ""
-        self.preferredDisplayName = defaults.string(
-            forKey: GeneralSettingsStorage.Keys.preferredDisplayName
-        ) ?? ""
-        self.isDisplayAutoSwitchEnabled = Self.resolvedBool(
-            defaults: defaults,
-            key: GeneralSettingsStorage.Keys.displayAutoSwitchEnabled
-        )
-        self.appLanguage = DynamicNotchLanguage.resolved(
-            defaults.string(forKey: GeneralSettingsStorage.Keys.appLanguage)
-        )
-        self.isNotchHiddenInFullscreenEnabled = Self.resolvedBool(
-            defaults: defaults,
-            key: GeneralSettingsStorage.Keys.hideNotchInFullscreenEnabled
-        )
-        self.notchAnimationPreset = NotchAnimationPreset(
-            rawValue: defaults.string(forKey: GeneralSettingsStorage.Keys.notchAnimationPreset) ?? NotchAnimationPreset.balanced.rawValue
-        ) ?? .balanced
-        self.isNotchTapToExpandEnabled = Self.resolvedBool(
-            defaults: defaults,
-            key: GeneralSettingsStorage.Keys.notchTapToExpandEnabled
-        )
-        self.notchExpandInteraction = NotchExpandInteraction.resolved(
-            defaults.string(forKey: GeneralSettingsStorage.Keys.notchExpandInteraction)
-        )
-        self.notchCollapseInteraction = NotchCollapseInteraction.resolved(
-            defaults.string(forKey: GeneralSettingsStorage.Keys.notchCollapseInteraction)
-        )
-        self.notchPressHoldDuration = Self.clampNotchPressHoldDuration(
-            defaults.object(forKey: GeneralSettingsStorage.Keys.notchPressHoldDuration) as? Double ??
-            Self.defaultNotchPressHoldDuration
-        )
-        self.isNotchSwipeDismissEnabled = Self.resolvedBool(
-            defaults: defaults,
-            key: GeneralSettingsStorage.Keys.notchSwipeDismissEnabled
-        )
-        self.isNotchSwipeRestoreEnabled = Self.resolvedBool(
-            defaults: defaults,
-            key: GeneralSettingsStorage.Keys.notchSwipeRestoreEnabled
-        )
-        self.isNotchHoverHapticEnabled = Self.resolvedBool(
-            defaults: defaults,
-            key: GeneralSettingsStorage.Keys.notchHoverHapticEnabled
-        )
-        self.isCloseAtFocusLiveActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.closeAtFocusLiveActivityEnabled)
         self.notchContentPriorityOverrides = NotchContentPriority.overrideValues(defaults: defaults)
-        self.isNotchSizeTemporaryActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.notchSizeTemporaryActivityEnabled)
-        self.notchSizeTemporaryActivityDuration = Self.clampTemporaryActivityDuration(
-            defaults.object(forKey: GeneralSettingsStorage.Keys.notchSizeTemporaryActivityDuration) as? Int ??
-            Self.defaultTemporaryActivityDuration(for: GeneralSettingsStorage.Keys.notchSizeTemporaryActivityDuration)
-        )
+
         super.init(defaults: defaults)
         persistSanitizedNotchStrokeSettingsIfNeeded()
         ensureSpecificDisplaySelection(previousLocation: .main)
@@ -523,14 +356,14 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         (GeneralSettingsStorage.defaultValues[key] as? Double) ?? 0
     }
 
-    private static func clampNotchStrokeWidth(_ value: Double) -> Double {
+    static func clampNotchStrokeWidth(_ value: Double) -> Double {
         min(
             max(value, notchStrokeWidthRange.lowerBound),
             notchStrokeWidthRange.upperBound
         )
     }
 
-    private static func clampNotchStrokeOpacity(_ value: Double) -> Double {
+    static func clampNotchStrokeOpacity(_ value: Double) -> Double {
         min(
             max(value, notchStrokeOpacityRange.lowerBound),
             notchStrokeOpacityRange.upperBound
@@ -569,7 +402,7 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
 
     }
 
-    private static func clampNotchPressHoldDuration(_ value: TimeInterval) -> TimeInterval {
+    static func clampNotchPressHoldDuration(_ value: TimeInterval) -> TimeInterval {
         min(
             max(value, notchPressHoldDurationRange.lowerBound),
             notchPressHoldDurationRange.upperBound

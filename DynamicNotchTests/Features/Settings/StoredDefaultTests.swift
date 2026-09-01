@@ -119,4 +119,56 @@ final class StoredDefaultTests: XCTestCase {
         defaults1.removePersistentDomain(forName: suite1)
         defaults2.removePersistentDomain(forName: suite2)
     }
+
+    func testHUDSettingsStoreDefaultsAndClamping() {
+        let store = HUDSettingsStore(defaults: testDefaults)
+
+        XCTAssertTrue(store.isBrightnessHUDEnabled)
+        XCTAssertEqual(store.brightnessHUDDuration, 2)
+        XCTAssertEqual(store.hudStyle, .compact)
+        XCTAssertEqual(store.indicatorTintStyle, .levelColor)
+
+        store.brightnessHUDDuration = 100 // Should clamp to max duration (5)
+        XCTAssertEqual(store.brightnessHUDDuration, 5)
+        XCTAssertEqual(testDefaults.integer(forKey: GeneralSettingsStorage.Keys.brightnessHUDDuration), 5)
+
+        store.hudStyle = .minimal
+        XCTAssertEqual(testDefaults.string(forKey: GeneralSettingsStorage.Keys.hudStyle), HudStyle.minimal.rawValue)
+    }
+
+    func testBatterySettingsStoreDefaultsAndClamping() {
+        let store = BatterySettingsStore(defaults: testDefaults)
+
+        XCTAssertTrue(store.isChargerTemporaryActivityEnabled)
+        XCTAssertEqual(store.chargerTemporaryActivityDuration, 4)
+        XCTAssertEqual(store.lowPowerNotificationThreshold, 20)
+        XCTAssertEqual(store.fullPowerNotificationThreshold, 100)
+        XCTAssertEqual(store.lowPowerStyle, .standard)
+
+        store.lowPowerNotificationThreshold = 2 // Should clamp to range 5...50
+        XCTAssertEqual(store.lowPowerNotificationThreshold, 5)
+        XCTAssertEqual(testDefaults.integer(forKey: GeneralSettingsStorage.Keys.lowPowerNotificationThreshold), 5)
+
+        store.fullPowerNotificationThreshold = 150 // Should clamp to range 50...100
+        XCTAssertEqual(store.fullPowerNotificationThreshold, 100)
+    }
+
+    func testApplicationSettingsStoreDefaultsAndClamping() {
+        let store = ApplicationSettingsStore(defaults: testDefaults)
+
+        XCTAssertFalse(store.isDockIconVisible)
+        XCTAssertEqual(store.appearanceMode, .system)
+        XCTAssertEqual(store.notchStrokeWidth, 1.5)
+        XCTAssertEqual(store.notchStrokeOpacity, 1.0)
+        XCTAssertEqual(store.notchAnimationPreset, .balanced)
+
+        store.notchStrokeWidth = 5.0 // Range: 1.0...3.0
+        XCTAssertEqual(store.notchStrokeWidth, 3.0)
+
+        store.notchStrokeOpacity = 2.0 // Range: 0.0...1.0
+        XCTAssertEqual(store.notchStrokeOpacity, 1.0)
+
+        store.appearanceMode = .dark
+        XCTAssertEqual(testDefaults.string(forKey: GeneralSettingsStorage.Keys.appearanceMode), SettingsAppearanceMode.dark.rawValue)
+    }
 }

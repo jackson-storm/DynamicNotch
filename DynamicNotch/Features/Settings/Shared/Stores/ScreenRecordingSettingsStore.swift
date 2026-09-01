@@ -1,180 +1,54 @@
 import Combine
 import Foundation
 
+extension ScreenRecordingStyle: StoredSettingValue {}
+
 @MainActor
 final class ScreenRecordingSettingsStore: SettingsStoreBase {
-    @Published var isScreenRecordingLiveActivityEnabled: Bool {
-        didSet {
-            persist(
-                isScreenRecordingLiveActivityEnabled,
-                for: GeneralSettingsStorage.Keys.screenRecordingLiveActivityEnabled
-            )
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.screenRecordingLiveActivityEnabled, defaultValue: true)
+    var isScreenRecordingLiveActivityEnabled: Bool
 
-    @Published var isScreenRecordingDefaultStrokeEnabled: Bool {
-        didSet {
-            persist(
-                isScreenRecordingDefaultStrokeEnabled,
-                for: GeneralSettingsStorage.Keys.screenRecordingDefaultStrokeEnabled
-            )
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.screenRecordingDefaultStrokeEnabled, defaultValue: false)
+    var isScreenRecordingDefaultStrokeEnabled: Bool
 
-    @Published var screenRecordingStyle: ScreenRecordingStyle {
-        didSet {
-            persist(
-                screenRecordingStyle.rawValue,
-                for: GeneralSettingsStorage.Keys.screenRecordingStyle
-            )
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.screenRecordingStyle, defaultValue: .detailed)
+    var screenRecordingStyle: ScreenRecordingStyle
 
-    @Published var isScreenshotActivityEnabled: Bool {
-        didSet {
-            persist(
-                isScreenshotActivityEnabled,
-                for: GeneralSettingsStorage.Keys.screenshotActivityEnabled
-            )
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.screenshotActivityEnabled, defaultValue: true)
+    var isScreenshotActivityEnabled: Bool
 
-    @Published var isScreenshotDisableSystemThumbnailEnabled: Bool {
-        didSet {
-            persist(
-                isScreenshotDisableSystemThumbnailEnabled,
-                for: GeneralSettingsStorage.Keys.screenshotDisableSystemThumbnail
-            )
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.screenshotDisableSystemThumbnail, defaultValue: true)
+    var isScreenshotDisableSystemThumbnailEnabled: Bool
 
-    @Published var isScreenshotAutoHideEnabled: Bool {
-        didSet {
-            persist(
-                isScreenshotAutoHideEnabled,
-                for: GeneralSettingsStorage.Keys.screenshotAutoHideEnabled
-            )
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.screenshotAutoHideEnabled, defaultValue: true)
+    var isScreenshotAutoHideEnabled: Bool
 
-    @Published var screenshotTemporaryActivityDuration: Int {
-        didSet {
-            persist(
-                screenshotTemporaryActivityDuration,
-                for: GeneralSettingsStorage.Keys.screenshotTemporaryActivityDuration
-            )
-        }
-    }
+    @StoredDefault(
+        key: GeneralSettingsStorage.Keys.screenshotTemporaryActivityDuration,
+        defaultValue: 4,
+        transform: SettingsStoreBase.clampTemporaryActivityDuration
+    )
+    var screenshotTemporaryActivityDuration: Int
 
-    @Published var screenshotSavePath: String {
-        didSet {
-            persist(
-                screenshotSavePath,
-                for: GeneralSettingsStorage.Keys.screenshotSavePath
-            )
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.screenshotSavePath, defaultValue: "")
+    var screenshotSavePath: String
 
-    @Published var screenRecordingSavePath: String {
-        didSet {
-            persist(
-                screenRecordingSavePath,
-                for: GeneralSettingsStorage.Keys.screenRecordingSavePath
-            )
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.screenRecordingSavePath, defaultValue: "")
+    var screenRecordingSavePath: String
 
     override init(defaults: UserDefaults) {
-        defaults.register(defaults: GeneralSettingsStorage.defaultValues)
-        self.isScreenRecordingLiveActivityEnabled = Self.resolvedBool(
-            defaults: defaults,
-            key: GeneralSettingsStorage.Keys.screenRecordingLiveActivityEnabled
-        )
-        self.isScreenRecordingDefaultStrokeEnabled = Self.resolvedBool(
-            defaults: defaults,
-            key: GeneralSettingsStorage.Keys.screenRecordingDefaultStrokeEnabled
-        )
-        self.screenRecordingStyle = ScreenRecordingStyle.resolved(
-            defaults.string(forKey: GeneralSettingsStorage.Keys.screenRecordingStyle)
-        )
-        self.isScreenshotActivityEnabled = Self.resolvedBool(
-            defaults: defaults,
-            key: GeneralSettingsStorage.Keys.screenshotActivityEnabled
-        )
-        self.isScreenshotDisableSystemThumbnailEnabled = Self.resolvedBool(
-            defaults: defaults,
-            key: GeneralSettingsStorage.Keys.screenshotDisableSystemThumbnail
-        )
-        self.isScreenshotAutoHideEnabled = Self.resolvedBool(
-            defaults: defaults,
-            key: GeneralSettingsStorage.Keys.screenshotAutoHideEnabled
-        )
-        self.screenshotTemporaryActivityDuration = Self.resolvedInt(
-            defaults: defaults,
-            key: GeneralSettingsStorage.Keys.screenshotTemporaryActivityDuration
-        )
-        self.screenshotSavePath = Self.resolvedString(
-            defaults: defaults,
-            key: GeneralSettingsStorage.Keys.screenshotSavePath
-        )
-        self.screenRecordingSavePath = Self.resolvedString(
-            defaults: defaults,
-            key: GeneralSettingsStorage.Keys.screenRecordingSavePath
-        )
         super.init(defaults: defaults)
     }
 
     func reset() {
-        isScreenRecordingLiveActivityEnabled = defaultBool(
-            for: GeneralSettingsStorage.Keys.screenRecordingLiveActivityEnabled
-        )
-        isScreenRecordingDefaultStrokeEnabled = defaultBool(
-            for: GeneralSettingsStorage.Keys.screenRecordingDefaultStrokeEnabled
-        )
-        screenRecordingStyle = ScreenRecordingStyle.resolved(
-            defaultString(for: GeneralSettingsStorage.Keys.screenRecordingStyle)
-        )
-        isScreenshotActivityEnabled = defaultBool(
-            for: GeneralSettingsStorage.Keys.screenshotActivityEnabled
-        )
-        isScreenshotDisableSystemThumbnailEnabled = defaultBool(
-            for: GeneralSettingsStorage.Keys.screenshotDisableSystemThumbnail
-        )
-        isScreenshotAutoHideEnabled = defaultBool(
-            for: GeneralSettingsStorage.Keys.screenshotAutoHideEnabled
-        )
-        screenshotTemporaryActivityDuration = defaultInt(
-            for: GeneralSettingsStorage.Keys.screenshotTemporaryActivityDuration
-        )
-        screenshotSavePath = defaultString(
-            for: GeneralSettingsStorage.Keys.screenshotSavePath
-        )
-        screenRecordingSavePath = defaultString(
-            for: GeneralSettingsStorage.Keys.screenRecordingSavePath
-        )
-    }
-
-    private static func resolvedBool(defaults: UserDefaults, key: String) -> Bool {
-        if let currentValue = defaults.object(forKey: key) as? Bool {
-            return currentValue
-        }
-
-        return (GeneralSettingsStorage.defaultValues[key] as? Bool) ?? false
-    }
-
-    private static func resolvedInt(defaults: UserDefaults, key: String) -> Int {
-        if let currentValue = defaults.object(forKey: key) as? Int {
-            return currentValue
-        }
-
-        return (GeneralSettingsStorage.defaultValues[key] as? Int) ?? 4
-    }
-
-    private static func resolvedString(defaults: UserDefaults, key: String) -> String {
-        if let currentValue = defaults.object(forKey: key) as? String {
-            return currentValue
-        }
-
-        return (GeneralSettingsStorage.defaultValues[key] as? String) ?? ""
+        isScreenRecordingLiveActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.screenRecordingLiveActivityEnabled)
+        isScreenRecordingDefaultStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.screenRecordingDefaultStrokeEnabled)
+        screenRecordingStyle = .detailed
+        isScreenshotActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.screenshotActivityEnabled)
+        isScreenshotDisableSystemThumbnailEnabled = defaultBool(for: GeneralSettingsStorage.Keys.screenshotDisableSystemThumbnail)
+        isScreenshotAutoHideEnabled = defaultBool(for: GeneralSettingsStorage.Keys.screenshotAutoHideEnabled)
+        screenshotTemporaryActivityDuration = defaultInt(for: GeneralSettingsStorage.Keys.screenshotTemporaryActivityDuration)
+        screenshotSavePath = defaultString(for: GeneralSettingsStorage.Keys.screenshotSavePath)
+        screenRecordingSavePath = defaultString(for: GeneralSettingsStorage.Keys.screenRecordingSavePath)
     }
 }

@@ -22,7 +22,7 @@ extension Int: StoredSettingValue {
 
 extension Double: StoredSettingValue {
     static func read(from defaults: UserDefaults, key: String, defaultValue: Double) -> Double {
-        defaults.object(forKey: key) as? Double ?? defaultValue
+        (defaults.object(forKey: key) as? NSNumber)?.doubleValue ?? defaultValue
     }
     func write(to defaults: UserDefaults, key: String) { defaults.set(self, forKey: key) }
 }
@@ -58,11 +58,13 @@ struct StoredDefault<Value: StoredSettingValue> {
     final class Storage: @unchecked Sendable {
         let key: String
         let defaultValue: Value
+        let transform: (@Sendable (Value) -> Value)?
         let subject = PassthroughSubject<Value, Never>()
 
-        init(key: String, defaultValue: Value) {
+        init(key: String, defaultValue: Value, transform: (@Sendable (Value) -> Value)? = nil) {
             self.key = key
             self.defaultValue = defaultValue
+            self.transform = transform
         }
     }
 
@@ -79,8 +81,8 @@ struct StoredDefault<Value: StoredSettingValue> {
         get { fatalError() }
     }
 
-    init(key: String, defaultValue: Value) {
-        self.storage = Storage(key: key, defaultValue: defaultValue)
+    init(key: String, defaultValue: Value, transform: (@Sendable (Value) -> Value)? = nil) {
+        self.storage = Storage(key: key, defaultValue: defaultValue, transform: transform)
     }
 
     @MainActor
@@ -91,13 +93,15 @@ struct StoredDefault<Value: StoredSettingValue> {
     ) -> Value {
         get {
             let storage = instance[keyPath: storageKeyPath].storage
-            return Value.read(from: instance.defaults, key: storage.key, defaultValue: storage.defaultValue)
+            let rawValue = Value.read(from: instance.defaults, key: storage.key, defaultValue: storage.defaultValue)
+            return storage.transform?(rawValue) ?? rawValue
         }
         set {
             (instance.objectWillChange as ObservableObjectPublisher).send()
             let storage = instance[keyPath: storageKeyPath].storage
-            newValue.write(to: instance.defaults, key: storage.key)
-            storage.subject.send(newValue)
+            let finalValue = storage.transform?(newValue) ?? newValue
+            finalValue.write(to: instance.defaults, key: storage.key)
+            storage.subject.send(finalValue)
         }
     }
 
@@ -108,7 +112,8 @@ struct StoredDefault<Value: StoredSettingValue> {
         storage storageKeyPath: ReferenceWritableKeyPath<Enclosing, StoredDefault<Value>>
     ) -> AnyPublisher<Value, Never> {
         let storage = instance[keyPath: storageKeyPath].storage
-        let current = Value.read(from: instance.defaults, key: storage.key, defaultValue: storage.defaultValue)
+        let rawCurrent = Value.read(from: instance.defaults, key: storage.key, defaultValue: storage.defaultValue)
+        let current = storage.transform?(rawCurrent) ?? rawCurrent
         return storage.subject
             .prepend(current)
             .eraseToAnyPublisher()

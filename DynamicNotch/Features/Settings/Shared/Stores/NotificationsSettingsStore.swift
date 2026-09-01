@@ -3,207 +3,62 @@ import Foundation
 
 @MainActor
 final class NotificationsSettingsStore: SettingsStoreBase {
-    @Published var isAppleMailNotificationsEnabled: Bool {
-        didSet {
-            persist(
-                isAppleMailNotificationsEnabled,
-                for: GeneralSettingsStorage.Keys.appleMailNotificationsEnabled
-            )
-        }
-    }
-    
-    @Published var appleMailNotificationDuration: Int {
-        didSet {
-            let clampedValue = Self.clampTemporaryActivityDuration(appleMailNotificationDuration)
-            if clampedValue != appleMailNotificationDuration {
-                appleMailNotificationDuration = clampedValue
-                return
-            }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.appleMailNotificationsEnabled, defaultValue: false)
+    var isAppleMailNotificationsEnabled: Bool
 
-            persist(
-                appleMailNotificationDuration,
-                for: GeneralSettingsStorage.Keys.appleMailNotificationDuration
-            )
-        }
-    }
+    @StoredDefault(
+        key: GeneralSettingsStorage.Keys.appleMailNotificationDuration,
+        defaultValue: 5,
+        transform: SettingsStoreBase.clampTemporaryActivityDuration
+    )
+    var appleMailNotificationDuration: Int
 
-    var isAppleMailNotificationsPermissionPending: Bool {
-        didSet {
-            persist(
-                isAppleMailNotificationsPermissionPending,
-                for: GeneralSettingsStorage.Keys.appleMailNotificationsPermissionPending
-            )
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.appleMailNotificationsPermissionPending, defaultValue: false)
+    var isAppleMailNotificationsPermissionPending: Bool
 
-    @Published var isMessagesNotificationsEnabled: Bool {
-        didSet {
-            persist(
-                isMessagesNotificationsEnabled,
-                for: GeneralSettingsStorage.Keys.messagesNotificationsEnabled
-            )
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.messagesNotificationsEnabled, defaultValue: false)
+    var isMessagesNotificationsEnabled: Bool
 
-    @Published var messagesNotificationDuration: Int {
-        didSet {
-            let clampedValue = Self.clampTemporaryActivityDuration(messagesNotificationDuration)
-            if clampedValue != messagesNotificationDuration {
-                messagesNotificationDuration = clampedValue
-                return
-            }
+    @StoredDefault(
+        key: GeneralSettingsStorage.Keys.messagesNotificationDuration,
+        defaultValue: 5,
+        transform: SettingsStoreBase.clampTemporaryActivityDuration
+    )
+    var messagesNotificationDuration: Int
 
-            persist(
-                messagesNotificationDuration,
-                for: GeneralSettingsStorage.Keys.messagesNotificationDuration
-            )
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.messagesNotificationsPermissionPending, defaultValue: false)
+    var isMessagesNotificationsPermissionPending: Bool
 
-    var isMessagesNotificationsPermissionPending: Bool {
-        didSet {
-            persist(
-                isMessagesNotificationsPermissionPending,
-                for: GeneralSettingsStorage.Keys.messagesNotificationsPermissionPending
-            )
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.externalDrivesNotificationsEnabled, defaultValue: true)
+    var isExternalDrivesNotificationsEnabled: Bool
 
-    @Published var isExternalDrivesNotificationsEnabled: Bool {
-        didSet {
-            persist(
-                isExternalDrivesNotificationsEnabled,
-                for: GeneralSettingsStorage.Keys.externalDrivesNotificationsEnabled
-            )
-        }
-    }
+    @StoredDefault(
+        key: GeneralSettingsStorage.Keys.externalDrivesNotificationDuration,
+        defaultValue: 5,
+        transform: SettingsStoreBase.clampTemporaryActivityDuration
+    )
+    var externalDrivesNotificationDuration: Int
 
-    @Published var externalDrivesNotificationDuration: Int {
-        didSet {
-            let clampedValue = Self.clampTemporaryActivityDuration(externalDrivesNotificationDuration)
-            if clampedValue != externalDrivesNotificationDuration {
-                externalDrivesNotificationDuration = clampedValue
-                return
-            }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.externalDrivesIncludeDiskImages, defaultValue: true)
+    var isExternalDrivesIncludeDiskImagesEnabled: Bool
 
-            persist(
-                externalDrivesNotificationDuration,
-                for: GeneralSettingsStorage.Keys.externalDrivesNotificationDuration
-            )
-        }
-    }
-
-    @Published var isExternalDrivesIncludeDiskImagesEnabled: Bool {
-        didSet {
-            persist(
-                isExternalDrivesIncludeDiskImagesEnabled,
-                for: GeneralSettingsStorage.Keys.externalDrivesIncludeDiskImages
-            )
-        }
-    }
-
-    @Published var isExternalDrivesShowEjectedEnabled: Bool {
-        didSet {
-            persist(
-                isExternalDrivesShowEjectedEnabled,
-                for: GeneralSettingsStorage.Keys.externalDrivesShowEjected
-            )
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.externalDrivesShowEjected, defaultValue: true)
+    var isExternalDrivesShowEjectedEnabled: Bool
 
     override init(defaults: UserDefaults) {
-        defaults.register(defaults: GeneralSettingsStorage.defaultValues)
-
-        self.isAppleMailNotificationsEnabled = defaults.object(
-            forKey: GeneralSettingsStorage.Keys.appleMailNotificationsEnabled
-        ) as? Bool ?? false
-
-        if let storedDuration = defaults.object(forKey: GeneralSettingsStorage.Keys.appleMailNotificationDuration) as? Int {
-            self.appleMailNotificationDuration = Self.clampTemporaryActivityDuration(storedDuration)
-        } else {
-            self.appleMailNotificationDuration = Self.defaultTemporaryActivityDuration(
-                for: GeneralSettingsStorage.Keys.appleMailNotificationDuration
-            )
-        }
-        
-        self.isAppleMailNotificationsPermissionPending = defaults.object(
-            forKey: GeneralSettingsStorage.Keys.appleMailNotificationsPermissionPending
-        ) as? Bool ?? false
-
-        self.isMessagesNotificationsEnabled = defaults.object(
-            forKey: GeneralSettingsStorage.Keys.messagesNotificationsEnabled
-        ) as? Bool ?? false
-
-        if let storedDuration = defaults.object(forKey: GeneralSettingsStorage.Keys.messagesNotificationDuration) as? Int {
-            self.messagesNotificationDuration = Self.clampTemporaryActivityDuration(storedDuration)
-        } else {
-            self.messagesNotificationDuration = Self.defaultTemporaryActivityDuration(
-                for: GeneralSettingsStorage.Keys.messagesNotificationDuration
-            )
-        }
-
-        self.isMessagesNotificationsPermissionPending = defaults.object(
-            forKey: GeneralSettingsStorage.Keys.messagesNotificationsPermissionPending
-        ) as? Bool ?? false
-
-        self.isExternalDrivesNotificationsEnabled = defaults.object(
-            forKey: GeneralSettingsStorage.Keys.externalDrivesNotificationsEnabled
-        ) as? Bool ?? true
-
-        if let storedDuration = defaults.object(forKey: GeneralSettingsStorage.Keys.externalDrivesNotificationDuration) as? Int {
-            self.externalDrivesNotificationDuration = Self.clampTemporaryActivityDuration(storedDuration)
-        } else {
-            self.externalDrivesNotificationDuration = Self.defaultTemporaryActivityDuration(
-                for: GeneralSettingsStorage.Keys.externalDrivesNotificationDuration
-            )
-        }
-
-        self.isExternalDrivesIncludeDiskImagesEnabled = defaults.object(
-            forKey: GeneralSettingsStorage.Keys.externalDrivesIncludeDiskImages
-        ) as? Bool ?? true
-
-        self.isExternalDrivesShowEjectedEnabled = defaults.object(
-            forKey: GeneralSettingsStorage.Keys.externalDrivesShowEjected
-        ) as? Bool ?? true
-
         super.init(defaults: defaults)
     }
 
     func reset() {
-        isAppleMailNotificationsEnabled = defaultBool(
-            for: GeneralSettingsStorage.Keys.appleMailNotificationsEnabled
-        )
-
-        appleMailNotificationDuration = Self.defaultTemporaryActivityDuration(
-            for: GeneralSettingsStorage.Keys.appleMailNotificationDuration
-        )
-        
+        isAppleMailNotificationsEnabled = defaultBool(for: GeneralSettingsStorage.Keys.appleMailNotificationsEnabled)
+        appleMailNotificationDuration = Self.defaultTemporaryActivityDuration(for: GeneralSettingsStorage.Keys.appleMailNotificationDuration)
         isAppleMailNotificationsPermissionPending = false
-
-        isMessagesNotificationsEnabled = defaultBool(
-            for: GeneralSettingsStorage.Keys.messagesNotificationsEnabled
-        )
-
-        messagesNotificationDuration = Self.defaultTemporaryActivityDuration(
-            for: GeneralSettingsStorage.Keys.messagesNotificationDuration
-        )
-
+        isMessagesNotificationsEnabled = defaultBool(for: GeneralSettingsStorage.Keys.messagesNotificationsEnabled)
+        messagesNotificationDuration = Self.defaultTemporaryActivityDuration(for: GeneralSettingsStorage.Keys.messagesNotificationDuration)
         isMessagesNotificationsPermissionPending = false
-
-        isExternalDrivesNotificationsEnabled = defaultBool(
-            for: GeneralSettingsStorage.Keys.externalDrivesNotificationsEnabled
-        )
-
-        externalDrivesNotificationDuration = Self.defaultTemporaryActivityDuration(
-            for: GeneralSettingsStorage.Keys.externalDrivesNotificationDuration
-        )
-
-        isExternalDrivesIncludeDiskImagesEnabled = defaultBool(
-            for: GeneralSettingsStorage.Keys.externalDrivesIncludeDiskImages
-        )
-
-        isExternalDrivesShowEjectedEnabled = defaultBool(
-            for: GeneralSettingsStorage.Keys.externalDrivesShowEjected
-        )
+        isExternalDrivesNotificationsEnabled = defaultBool(for: GeneralSettingsStorage.Keys.externalDrivesNotificationsEnabled)
+        externalDrivesNotificationDuration = Self.defaultTemporaryActivityDuration(for: GeneralSettingsStorage.Keys.externalDrivesNotificationDuration)
+        isExternalDrivesIncludeDiskImagesEnabled = defaultBool(for: GeneralSettingsStorage.Keys.externalDrivesIncludeDiskImages)
+        isExternalDrivesShowEjectedEnabled = defaultBool(for: GeneralSettingsStorage.Keys.externalDrivesShowEjected)
     }
 }

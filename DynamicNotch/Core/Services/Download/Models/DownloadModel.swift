@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct DownloadModel: Equatable, Identifiable {
+struct DownloadModel: Equatable, Identifiable, Sendable {
     let url: URL
     let displayName: String
     let directoryName: String

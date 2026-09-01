@@ -95,6 +95,7 @@ final class WifiViewModel: ObservableObject {
             
             self.wifiConnected = wifi
             self.hotspotActive = hotspot
+            self.isInternetAvailable = nextInternetAvailable
             print("[WifiViewModel] onStatusChange: wifi=\(wifi), hotspot=\(hotspot), isInitial=\(self.isInitialCheck)")
             if hotspot {
                 self.hotspotBatteryLevel = self.monitor.currentHotspotBatteryLevel ?? HotspotBatteryMonitor.shared.currentBatteryLevel

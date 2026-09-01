@@ -3,7 +3,20 @@ internal import AppKit
 import Foundation
 
 @MainActor
-final class TimerSoundPlayer: NSObject, AVAudioPlayerDelegate {
+protocol TimerSoundPlaying: AnyObject {
+    var isPlaying: Bool { get }
+    func play(sound: TimerSound, isSoundEnabled: Bool, loop: Bool)
+    func stop()
+}
+
+extension TimerSoundPlaying {
+    func play(sound: TimerSound, isSoundEnabled: Bool = true, loop: Bool = true) {
+        play(sound: sound, isSoundEnabled: isSoundEnabled, loop: loop)
+    }
+}
+
+@MainActor
+final class TimerSoundPlayer: NSObject, AVAudioPlayerDelegate, TimerSoundPlaying {
     static let shared = TimerSoundPlayer()
 
     private var audioPlayer: AVAudioPlayer?

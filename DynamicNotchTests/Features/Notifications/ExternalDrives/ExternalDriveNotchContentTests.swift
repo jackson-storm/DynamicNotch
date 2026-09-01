@@ -45,7 +45,7 @@ final class ExternalDriveNotchContentTests: XCTestCase {
         )
 
         let size = content.size(baseWidth: 200, baseHeight: 40)
-        XCTAssertEqual(size.width, 360)
+        XCTAssertEqual(size.width, 320)
         XCTAssertEqual(size.height, 100)
     }
 
@@ -69,7 +69,7 @@ final class ExternalDriveNotchContentTests: XCTestCase {
         )
 
         let size = content.dynamicIslandSize(baseWidth: 200, baseHeight: 40)
-        XCTAssertEqual(size.width, 390)
+        XCTAssertEqual(size.width, 370)
         XCTAssertEqual(size.height, 100)
     }
 

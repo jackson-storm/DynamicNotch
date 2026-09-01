@@ -6,17 +6,20 @@ final class NotchLocalTimerEventsHandler {
     private let localTimerViewModel: LocalTimerViewModel
     private let timerViewModel: TimerViewModel
     private let settingsViewModel: SettingsViewModel
+    private let timerSoundPlayer: any TimerSoundPlaying
 
     init(
         notchViewModel: NotchViewModel,
         localTimerViewModel: LocalTimerViewModel,
         timerViewModel: TimerViewModel,
-        settingsViewModel: SettingsViewModel
+        settingsViewModel: SettingsViewModel,
+        timerSoundPlayer: any TimerSoundPlaying = TimerSoundPlayer.shared
     ) {
         self.notchViewModel = notchViewModel
         self.localTimerViewModel = localTimerViewModel
         self.timerViewModel = timerViewModel
         self.settingsViewModel = settingsViewModel
+        self.timerSoundPlayer = timerSoundPlayer
 
         self.localTimerViewModel.onTimerFinished = { [weak self] in
             guard let self else { return }
@@ -46,7 +49,7 @@ final class NotchLocalTimerEventsHandler {
     }
 
     func handleLocalTimerFinished() {
-        TimerSoundPlayer.shared.play(
+        timerSoundPlayer.play(
             sound: settingsViewModel.mediaAndFiles.timerSound,
             isSoundEnabled: settingsViewModel.mediaAndFiles.isTimerSoundEnabled,
             loop: true
@@ -56,12 +59,13 @@ final class NotchLocalTimerEventsHandler {
             .showLiveActivity(
                 TimerFinishedNotchContent(
                     onDismiss: { [weak self] in
-                        TimerSoundPlayer.shared.stop()
-                        self?.notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Media.timerFinished.id))
+                        guard let self else { return }
+                        self.timerSoundPlayer.stop()
+                        self.notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Media.timerFinished.id))
                     },
                     onRestart: { [weak self] in
                         guard let self else { return }
-                        TimerSoundPlayer.shared.stop()
+                        self.timerSoundPlayer.stop()
                         self.notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Media.timerFinished.id))
                         self.localTimerViewModel.restart()
                     }

@@ -12,6 +12,29 @@ struct HotspotActiveNotchView: View {
     @Environment(\.isDynamicIsland) var isDynamicIsland
     
     let style: HotspotAppearanceStyle
+    @ObservedObject var wifiViewModel: WifiViewModel
+    var batteryLevel: Int? = nil
+    
+    init(style: HotspotAppearanceStyle, wifiViewModel: WifiViewModel? = nil, batteryLevel: Int? = nil) {
+        self.style = style
+        self._wifiViewModel = ObservedObject(wrappedValue: wifiViewModel ?? WifiViewModel())
+        self.batteryLevel = batteryLevel
+    }
+    
+    private var displayBatteryLevel: Int {
+        let level = wifiViewModel.hotspotBatteryLevel ?? HotspotBatteryMonitor.shared.currentBatteryLevel ?? batteryLevel
+        print("[HotspotActiveNotchView] displayBatteryLevel: vm=\(String(describing: wifiViewModel.hotspotBatteryLevel)), shared=\(String(describing: HotspotBatteryMonitor.shared.currentBatteryLevel)), static=\(String(describing: batteryLevel)) -> resolved: \(String(describing: level ?? 100))")
+        if let level {
+            return max(0, min(100, level))
+        }
+        return 100
+    }
+    
+    private func tint(for level: Int) -> Color {
+        if level < 20 { return .red }
+        if level < 50 { return .yellow }
+        return .green
+    }
     
     var body: some View {
         HStack {
@@ -21,8 +44,12 @@ struct HotspotActiveNotchView: View {
                 
             case .detailed:
                 detailed
+
+            case .battery:
+                batteryView
             }
         }
+        .font(.system(size: 14))
         .padding(.leading, isDynamicIsland ? 4.scaled(by: scale) : 14.scaled(by: scale))
         .padding(.trailing, isDynamicIsland ? 6.scaled(by: scale) : 14.scaled(by: scale))
     }
@@ -47,7 +74,21 @@ struct HotspotActiveNotchView: View {
             
             Text(verbatim: "On")
                 .font(.system(size: 14))
-                .foregroundStyle(.green.opacity(0.8))
+                .foregroundStyle(.green)
+        }
+    }
+
+    private var batteryView: some View {
+        HStack {
+            Image(systemName: "personalhotspot")
+                .font(.system(size: 16, weight: .bold))
+                .foregroundStyle(.green)
+            
+            Spacer()
+            
+            Text("\(displayBatteryLevel)%")
+                .font(.system(size: 14))
+                .foregroundStyle(tint(for: displayBatteryLevel).gradient)
         }
     }
 }

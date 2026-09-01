@@ -181635,6 +181635,23 @@
         }
       }
     },
+    "settings.wifi.hotspotAppearanceStyle.battery" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Battery"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Батарея"
+          }
+        }
+      }
+    },
     "settings.wifi.hotspotAppearanceStyle.detailed" : {
       "extractionState" : "manual",
       "localizations" : {

@@ -598,8 +598,13 @@ final class DebugSettingsViewModel: ObservableObject {
     }
 
     private func updateHotspotPreview() {
+        print("[DebugSettingsViewModel] updateHotspotPreview: isHotspotPreviewEnabled=\(isHotspotPreviewEnabled)")
         if isHotspotPreviewEnabled {
             wifiViewModel.hotspotActive = true
+            if wifiViewModel.hotspotBatteryLevel == nil {
+                wifiViewModel.hotspotBatteryLevel = HotspotBatteryMonitor.shared.currentBatteryLevel
+                print("[DebugSettingsViewModel] Assigned hotspotBatteryLevel = \(String(describing: wifiViewModel.hotspotBatteryLevel))")
+            }
             notchEventCoordinator.handleWifiEvent(.hotspotActive)
         } else {
             wifiViewModel.hotspotActive = false
@@ -713,7 +718,10 @@ final class DebugSettingsViewModel: ObservableObject {
                     duration: 3
                 )
                 try await self.playLivePreview(
-                    HotspotActiveContent(settingsViewModel: settingsViewModel),
+                    HotspotActiveContent(
+                        settingsViewModel: settingsViewModel,
+                        wifiViewModel: wifiViewModel
+                    ),
                     id: Self.sequenceHotspotID
                 )
                 try await self.playNowPlayingPreview()

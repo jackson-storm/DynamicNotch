@@ -904,21 +904,7 @@ private extension NotchEventCoordinatorIntegrationTests {
             messagesManager: messagesManager,
             externalDrivesMonitor: ExternalDrivesMonitor()
         )
-        var cancellables = Set<AnyCancellable>()
-
-        lockScreenManager.$event
-            .compactMap { $0 }
-            .sink { event in
-                coordinator.handleLockScreenEvent(event)
-            }
-            .store(in: &cancellables)
-
-        downloadViewModel.$event
-            .compactMap { $0 }
-            .sink { event in
-                coordinator.handleDownloadEvent(event)
-            }
-            .store(in: &cancellables)
+        let cancellables = Set<AnyCancellable>()
 
         return TestContext(
             notchViewModel: notchViewModel,

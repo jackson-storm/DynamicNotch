@@ -15,13 +15,10 @@ final class BluetoothViewModel: ObservableObject {
     @Published var deviceName: String = "Unknown"
     @Published var batteryLevel: Int? = nil
     
-    var notchViewModel: NotchViewModel?
-    
     private var cancellables = Set<AnyCancellable>()
     private let bluetoothService: BluetoothService
     
-    init(notchViewModel: NotchViewModel? = nil, bluetoothService: BluetoothService = .shared) {
-        self.notchViewModel = notchViewModel
+    init(bluetoothService: BluetoothService = .shared) {
         self.bluetoothService = bluetoothService
         bindToService()
     }

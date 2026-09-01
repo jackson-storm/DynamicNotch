@@ -1,47 +1,38 @@
 internal import AppKit
 internal import Vision
 
-final class OCRService {
+final class OCRService: Sendable {
     static let shared = OCRService()
     
     private init() {}
     
     /// Recognizes text from an NSImage asynchronously using Apple's Vision framework.
-    func recognizeText(in image: NSImage, languages: [String] = ["ru-RU", "en-US"], completion: @escaping (String) -> Void) {
+    func recognizeText(in image: NSImage, languages: [String] = ["ru-RU", "en-US"]) async -> String {
         guard let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil) else {
-            completion("")
-            return
+            return ""
         }
         
-        let request = VNRecognizeTextRequest { request, error in
-            guard error == nil,
-                  let observations = request.results as? [VNRecognizedTextObservation] else {
-                completion("")
-                return
-            }
+        return await Task.detached(priority: .userInitiated) {
+            let request = VNRecognizeTextRequest()
+            request.recognitionLevel = .accurate
+            request.usesLanguageCorrection = true
+            request.recognitionLanguages = languages
             
-            let recognizedLines = observations.compactMap { observation in
-                observation.topCandidates(1).first?.string
-            }
-            
-            let resultText = recognizedLines.joined(separator: "\n").trimmingCharacters(in: .whitespacesAndNewlines)
-            completion(resultText)
-        }
-        
-        request.recognitionLevel = .accurate
-        request.usesLanguageCorrection = true
-        request.recognitionLanguages = languages
-        
-        let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
-        
-        DispatchQueue.global(qos: .userInitiated).async {
+            let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
             do {
                 try handler.perform([request])
-            } catch {
-                DispatchQueue.main.async {
-                    completion("")
+                guard let observations = request.results else {
+                    return ""
                 }
+                
+                let recognizedLines = observations.compactMap { observation in
+                    observation.topCandidates(1).first?.string
+                }
+                
+                return recognizedLines.joined(separator: "\n").trimmingCharacters(in: .whitespacesAndNewlines)
+            } catch {
+                return ""
             }
-        }
+        }.value
     }
 }

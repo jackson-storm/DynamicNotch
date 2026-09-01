@@ -24,8 +24,6 @@ final class NotchEventCoordinator: ObservableObject {
     private let localTimerViewModel: LocalTimerViewModel
     private let homePageViewModel: HomePageViewModel
     private let calendarViewModel: CalendarViewModel
-    private let screenshotViewModel: ScreenshotViewModel
-    private let screenRecordingResultViewModel: ScreenRecordingResultViewModel
     private let lockScreenManager: LockScreenManager
     private let systemHandler: NotchSystemEventsHandler
     private let focusHandler: NotchFocusEventsHandler
@@ -39,12 +37,10 @@ final class NotchEventCoordinator: ObservableObject {
     private let homePageHandler: NotchHomePageEventsHandler
     private let localTimerHandler: NotchLocalTimerEventsHandler
     private let calendarHandler: NotchCalendarEventsHandler
+    private let notificationsHandler: NotchNotificationsEventsHandler
+    private let screenshotHandler: NotchScreenshotEventsHandler
     private var cancellables = Set<AnyCancellable>()
     private var fileConverterExpansionTask: Task<Void, Never>?
-    private let mailManager: MailManager
-    private let messagesManager: MessagesManager
-    private let externalDrivesMonitor: ExternalDrivesMonitor
-    private var recentNotifications: [AppNotificationItem] = []
     
     private var isOnboardingActive: Bool {
         OnboardingSteps.contains(id: notchViewModel.notchModel.liveActivityContent?.id) ||
@@ -68,6 +64,8 @@ final class NotchEventCoordinator: ObservableObject {
     
     init (
         notchViewModel: NotchViewModel,
+        powerViewModel: PowerViewModel? = nil,
+        focusViewModel: FocusViewModel? = nil,
         bluetoothViewModel: BluetoothViewModel,
         powerService: PowerService,
         wifiViewModel: WifiViewModel,
@@ -104,11 +102,6 @@ final class NotchEventCoordinator: ObservableObject {
         self.localTimerViewModel = localTimerViewModel
         self.homePageViewModel = homePageViewModel
         self.calendarViewModel = calendarViewModel
-        self.screenshotViewModel = screenshotViewModel ?? ScreenshotViewModel()
-        self.screenRecordingResultViewModel = screenRecordingResultViewModel ?? ScreenRecordingResultViewModel()
-        self.mailManager = mailManager
-        self.messagesManager = messagesManager
-        self.externalDrivesMonitor = externalDrivesMonitor
         self.lockScreenManager = lockScreenManager
         self.systemHandler = NotchSystemEventsHandler(
             notchViewModel: notchViewModel,
@@ -173,17 +166,24 @@ final class NotchEventCoordinator: ObservableObject {
             timerViewModel: timerViewModel,
             settingsViewModel: settingsViewModel
         )
-        mailManager.onMessageReceived = { [weak self] message in
-            guard let self else { return }
-
-            handleMailMessage(message)
-        }
-        messagesManager.onMessageReceived = { [weak self] message in
-            self?.handleMessagesMessage(message)
-        }
-        externalDrivesMonitor.onDriveEvent = { [weak self] drive in
-            self?.handleExternalDriveEvent(drive)
-        }
+        self.notificationsHandler = NotchNotificationsEventsHandler(
+            notchViewModel: notchViewModel,
+            settingsViewModel: settingsViewModel,
+            mailManager: mailManager,
+            messagesManager: messagesManager,
+            externalDrivesMonitor: externalDrivesMonitor
+        )
+        self.screenshotHandler = NotchScreenshotEventsHandler(
+            notchViewModel: notchViewModel,
+            settingsViewModel: settingsViewModel,
+            screenshotViewModel: screenshotViewModel ?? ScreenshotViewModel(),
+            screenRecordingResultViewModel: screenRecordingResultViewModel ?? ScreenRecordingResultViewModel()
+        )
+        setupEventSubscriptions(
+            powerViewModel: powerViewModel,
+            focusViewModel: focusViewModel,
+            bluetoothViewModel: bluetoothViewModel
+        )
         self.fileTrayViewModel.onItemsChange = { [weak notchViewModel, weak settingsViewModel, weak fileTrayViewModel] items in
             guard let notchViewModel, let settingsViewModel, let fileTrayViewModel else {
                 return
@@ -225,84 +225,8 @@ final class NotchEventCoordinator: ObservableObject {
             self.scheduleFileConverterExpansion()
         }
 
-        self.screenshotViewModel.onScreenshotReady = { [weak self] screenshot in
-            guard let self else { return }
-            guard self.settingsViewModel.screenRecording.isScreenshotActivityEnabled else { return }
-            
-            ScreenshotFlyAnimationService.shared.playFlyToNotchAnimation(image: screenshot.image) { [weak self] in
-                guard let self else { return }
-                let content = ScreenshotNotchContent(viewModel: self.screenshotViewModel)
-                if self.settingsViewModel.screenRecording.isScreenshotAutoHideEnabled {
-                    let duration = TimeInterval(self.settingsViewModel.screenRecording.screenshotTemporaryActivityDuration)
-                    self.notchViewModel.send(.showTemporaryNotification(content, duration: duration))
-                } else {
-                    self.notchViewModel.send(.showLiveActivity(content))
-                }
-            }
-        }
-        self.screenshotViewModel.onScreenshotDismissed = { [weak self] in
-            guard let self else { return }
-            self.notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Screenshot.active.id))
-            self.notchViewModel.hideTemporaryNotification()
-        }
-
-        self.screenshotViewModel.onScreenRecordingCaptured = { [weak self] fileURL, thumbnail, fileName in
-            guard let self else { return }
-            guard self.settingsViewModel.isLiveActivityEnabled(.screenRecording) else { return }
-
-            self.screenRecordingResultViewModel.setRecordingResult(
-                fileURL: fileURL,
-                thumbnail: thumbnail,
-                fileName: fileName
-            )
-        }
-
-        self.screenRecordingResultViewModel.onResultReady = { [weak self] _ in
-            guard let self else { return }
-            guard self.settingsViewModel.isLiveActivityEnabled(.screenRecording) else { return }
-
-            let content = ScreenRecordingResultNotchContent(viewModel: self.screenRecordingResultViewModel)
-            if self.settingsViewModel.screenRecording.isScreenshotAutoHideEnabled {
-                let duration = TimeInterval(self.settingsViewModel.screenRecording.screenshotTemporaryActivityDuration)
-                self.notchViewModel.send(.showTemporaryNotification(content, duration: duration))
-            } else {
-                self.notchViewModel.send(.showLiveActivity(content))
-            }
-        }
-
-        self.screenRecordingResultViewModel.onResultDismissed = { [weak self] in
-            guard let self else { return }
-            self.notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.ScreenRecording.result.id))
-            self.notchViewModel.hideTemporaryNotification()
-        }
-
-        let isCaptureMonitoringNeeded = settingsViewModel.screenRecording.isScreenshotActivityEnabled ||
-            settingsViewModel.isLiveActivityEnabled(.screenRecording)
-        if isCaptureMonitoringNeeded {
-            self.screenshotViewModel.startMonitoring(
-                disableSystemThumbnail: settingsViewModel.screenRecording.isScreenshotActivityEnabled
-            )
-        } else {
-            ScreenshotMonitorService.setSystemFloatingThumbnailEnabled(true)
-        }
-
-        notchViewModel.$notchModel
-            .map { model in
-                model.temporaryNotificationContent?.id == NotchContentRegistry.Screenshot.active.id ||
-                model.liveActivityContent?.id == NotchContentRegistry.Screenshot.active.id
-            }
-            .removeDuplicates()
-            .dropFirst()
-            .sink { [weak self] isShowingScreenshot in
-                if !isShowingScreenshot {
-                    self?.screenshotViewModel.saveToDiskIfNeeded()
-                }
-            }
-            .store(in: &cancellables)
-
         observeCalendarEvents()
         observeSettingsChanges()
-        observeMessagesPresentation()
     }
     
     func checkFirstLaunch() {
@@ -382,6 +306,90 @@ final class NotchEventCoordinator: ObservableObject {
         guard settingsViewModel.isTemporaryActivityEnabled(.notchSize) else { return }
 
         systemHandler.handleNotchSize(event)
+    }
+
+    private func setupEventSubscriptions(
+        powerViewModel: PowerViewModel?,
+        focusViewModel: FocusViewModel?,
+        bluetoothViewModel: BluetoothViewModel
+    ) {
+        powerViewModel?.$event.compactMap { $0 }
+            .sink { [weak self] event in
+                self?.handlePowerEvent(event)
+            }
+            .store(in: &cancellables)
+
+        bluetoothViewModel.$event.compactMap { $0 }
+            .sink { [weak self] event in
+                self?.handleBluetoothEvent(event)
+            }
+            .store(in: &cancellables)
+
+        wifiViewModel.$wifiEvent.compactMap { $0 }
+            .sink { [weak self] event in
+                self?.handleWifiEvent(event)
+            }
+            .store(in: &cancellables)
+
+        vpnViewModel.$vpnEvent.compactMap { $0 }
+            .sink { [weak self] event in
+                self?.handleVpnEvent(event)
+            }
+            .store(in: &cancellables)
+
+        downloadViewModel.$event.compactMap { $0 }
+            .sink { [weak self] event in
+                self?.handleDownloadEvent(event)
+            }
+            .store(in: &cancellables)
+
+        focusViewModel?.$focusEvent.compactMap { $0 }
+            .sink { [weak self] event in
+                self?.handleFocusEvent(event)
+            }
+            .store(in: &cancellables)
+
+        airDropViewModel.$event.compactMap { $0 }
+            .sink { [weak self] event in
+                self?.handleAirDropEvent(event)
+            }
+            .store(in: &cancellables)
+
+        settingsViewModel.notchSizeEvent
+            .sink { [weak self] event in
+                self?.handleNotchWidthEvent(event)
+            }
+            .store(in: &cancellables)
+
+        nowPlayingViewModel.$event.compactMap { $0 }
+            .sink { [weak self] event in
+                self?.handleNowPlayingEvent(event)
+            }
+            .store(in: &cancellables)
+
+        timerViewModel.$event.compactMap { $0 }
+            .sink { [weak self] event in
+                self?.handleTimerEvent(event)
+            }
+            .store(in: &cancellables)
+
+        screenRecordingViewModel.$event.compactMap { $0 }
+            .sink { [weak self] event in
+                self?.handleScreenRecordingEvent(event)
+            }
+            .store(in: &cancellables)
+
+        lockScreenManager.$event.compactMap { $0 }
+            .sink { [weak self] event in
+                self?.handleLockScreenEvent(event)
+            }
+            .store(in: &cancellables)
+
+        homePageViewModel.$event.compactMap { $0 }
+            .sink { [weak self] event in
+                self?.handleHomePageEvent(event)
+            }
+            .store(in: &cancellables)
     }
     
     func handleFocusEvent(_ event: FocusEvent) {
@@ -489,16 +497,7 @@ final class NotchEventCoordinator: ObservableObject {
 
         case .stopped:
             notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.ScreenRecording.active.id))
-            screenshotViewModel.scanNow()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
-                self?.screenshotViewModel.scanNow()
-            }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) { [weak self] in
-                self?.screenshotViewModel.scanNow()
-            }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { [weak self] in
-                self?.screenshotViewModel.scanNow()
-            }
+            screenshotHandler.handleScreenRecordingStopped()
         }
     }
 
@@ -526,110 +525,15 @@ final class NotchEventCoordinator: ObservableObject {
     }
     
     func handleMailMessage(_ message: MailMessage) {
-        guard settingsViewModel.notifications.isAppleMailNotificationsEnabled else { return }
-
-        recentNotifications.removeAll { $0.id == "mail-\(message.rowID)" }
-        recentNotifications.append(.mail(message))
-        recentNotifications = Array(recentNotifications.suffix(2))
-
-        showNotificationsNotification(duration: Double(settingsViewModel.notifications.appleMailNotificationDuration))
+        notificationsHandler.handleMailMessage(message)
     }
 
     func handleMessagesMessage(_ message: MessagesMessage) {
-        guard settingsViewModel.notifications.isMessagesNotificationsEnabled else { return }
-
-        recentNotifications.removeAll { $0.id == "msg-\(message.id)" }
-        recentNotifications.append(.message(message))
-        recentNotifications = Array(recentNotifications.suffix(2))
-
-        showNotificationsNotification(duration: Double(settingsViewModel.notifications.messagesNotificationDuration))
-    }
-
-    private func handleMessagesAudioPlaybackStateChanged(_ isPlaying: Bool) {
-        let isShowingMessages = notchViewModel.notchModel.temporaryNotificationContent?.id == NotchContentRegistry.Notifications.messages.id
-
-        guard isShowingMessages else {
-            isMessagesAudioPlaying = false
-            return
-        }
-
-        guard isMessagesAudioPlaying != isPlaying else { return }
-
-        isMessagesAudioPlaying = isPlaying
-        showNotificationsNotification()
-    }
-
-    private func showNotificationsNotification(duration: Double? = nil) {
-        guard !recentNotifications.isEmpty else { return }
-
-        let effectiveDuration: TimeInterval = isMessagesAudioPlaying
-            ? .infinity
-            : (duration ?? Double(settingsViewModel.notifications.messagesNotificationDuration))
-
-        let content = NotificationsNotchContent(
-            items: recentNotifications,
-            onAudioPlaybackStateChanged: { [weak self] isPlaying in
-                Task { @MainActor [weak self] in
-                    self?.handleMessagesAudioPlaybackStateChanged(isPlaying)
-                }
-            },
-            onOpenMessage: { [weak self] selectedMessage in
-                guard let self else { return }
-
-                messagesManager.open(selectedMessage)
-                notchViewModel.hideTemporaryNotification()
-            },
-            onOpenMail: { [weak self] selectedMail in
-                guard let self else { return }
-
-                mailManager.open(selectedMail)
-                notchViewModel.hideTemporaryNotification()
-            }
-        )
-
-        notchViewModel.send(.showTemporaryNotification(content, duration: effectiveDuration))
+        notificationsHandler.handleMessagesMessage(message)
     }
 
     func handleExternalDriveEvent(_ drive: ExternalDriveModel) {
-        guard settingsViewModel.notifications.isExternalDrivesNotificationsEnabled else { return }
-
-        if drive.eventType == .ejected && !settingsViewModel.notifications.isExternalDrivesShowEjectedEnabled {
-            return
-        }
-
-        let duration = Double(settingsViewModel.notifications.externalDrivesNotificationDuration)
-        let volumeURL = drive.volumeURL
-        let content = ExternalDriveNotchContent(
-            drive: drive,
-            onOpen: {
-                if let volumeURL {
-                    NSWorkspace.shared.open(volumeURL)
-                }
-            },
-            onEject: { [weak externalDrivesMonitor] in
-                if let volumeURL {
-                    externalDrivesMonitor?.ejectDrive(at: volumeURL)
-                }
-            }
-        )
-
-        notchViewModel.send(.showTemporaryNotification(content, duration: duration))
-    }
-
-    private func observeMessagesPresentation() {
-        notchViewModel.$notchModel
-            .map { model in
-                model.temporaryNotificationContent?.id == NotchContentRegistry.Notifications.messages.id
-            }
-            .removeDuplicates()
-            .dropFirst()
-            .sink { [weak self] isShowingMessages in
-                guard let self, !isShowingMessages else { return }
-
-                recentNotifications.removeAll()
-                isMessagesAudioPlaying = false
-            }
-            .store(in: &cancellables)
+        notificationsHandler.handleExternalDriveEvent(drive)
     }
 
     private func syncAirDropTransferLiveActivity() {
@@ -981,22 +885,6 @@ final class NotchEventCoordinator: ObservableObject {
                 }
             }
             .store(in: &cancellables)
-
-        Publishers.CombineLatest(
-            settingsViewModel.screenRecording.$isScreenshotActivityEnabled,
-            settingsViewModel.screenRecording.$isScreenRecordingLiveActivityEnabled
-        )
-        .removeDuplicates { $0 == $1 }
-        .sink { [weak self] isScreenshotEnabled, isScreenRecordingEnabled in
-            guard let self else { return }
-            if isScreenshotEnabled || isScreenRecordingEnabled {
-                self.screenshotViewModel.startMonitoring(disableSystemThumbnail: isScreenshotEnabled)
-            } else {
-                self.screenshotViewModel.stopMonitoring()
-                ScreenshotMonitorService.setSystemFloatingThumbnailEnabled(true)
-            }
-        }
-        .store(in: &cancellables)
 
         notchViewModel.$notchModel
             .map(\.isLiveActivityExpanded)

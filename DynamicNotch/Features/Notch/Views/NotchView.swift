@@ -5,17 +5,6 @@ import UniformTypeIdentifiers
 
 struct NotchView: View {
     let notchEventCoordinator: NotchEventCoordinator
-    let powerViewModel: PowerViewModel
-    let bluetoothViewModel: BluetoothViewModel
-    let wifiViewModel: WifiViewModel
-    let vpnViewModel: VpnViewModel
-    let downloadViewModel: DownloadViewModel
-    let focusViewModel: FocusViewModel
-    let nowPlayingViewModel: NowPlayingViewModel
-    let timerViewModel: TimerViewModel
-    let screenRecordingViewModel: ScreenRecordingViewModel
-    let lockScreenManager: LockScreenManager
-    let homePageViewModel: HomePageViewModel
     
     @ObservedObject var notchViewModel: NotchViewModel
     @ObservedObject var airDropViewModel: AirDropNotchViewModel
@@ -31,24 +20,6 @@ struct NotchView: View {
                 settingsViewModel: settingsViewModel
             )
             .environment(\.notchScale, notchViewModel.notchModel.scale)
-            .background(
-                NotchEventHandlersView(
-                    notchEventCoordinator: notchEventCoordinator,
-                    powerViewModel: powerViewModel,
-                    bluetoothViewModel: bluetoothViewModel,
-                    wifiViewModel: wifiViewModel,
-                    vpnViewModel: vpnViewModel,
-                    downloadViewModel: downloadViewModel,
-                    focusViewModel: focusViewModel,
-                    airDropViewModel: airDropViewModel,
-                    settingsViewModel: settingsViewModel,
-                    nowPlayingViewModel: nowPlayingViewModel,
-                    timerViewModel: timerViewModel,
-                    screenRecordingViewModel: screenRecordingViewModel,
-                    lockScreenManager: lockScreenManager,
-                    homePageViewModel: homePageViewModel
-                )
-            )
             .overlay {
                 NotchDragAndDropDestinationOverlay(
                     airDropViewModel: airDropViewModel,

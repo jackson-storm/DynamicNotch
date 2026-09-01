@@ -51,6 +51,8 @@ final class AppContainer {
 
     lazy var notchEventCoordinator = NotchEventCoordinator(
         notchViewModel: notchViewModel,
+        powerViewModel: powerViewModel,
+        focusViewModel: focusViewModel,
         bluetoothViewModel: bluetoothViewModel,
         powerService: powerService,
         wifiViewModel: wifiViewModel,

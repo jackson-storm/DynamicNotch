@@ -130,7 +130,7 @@ struct WifiSettingsView: View {
                 }
                 .padding(.horizontal, 7)
             }
-            .frame(width: 160, height: 30)
+            .frame(width: 130, height: 30)
             .scaleEffect(isSelected ? 1 : 0.97)
             
         case .detailed:
@@ -150,12 +150,38 @@ struct WifiSettingsView: View {
                     Spacer()
                     
                     Text(verbatim: "On")
-                        .foregroundStyle(.green.opacity(0.8))
+                        .foregroundStyle(.green)
                 }
                 .padding(.leading, 7)
                 .padding(.trailing, 10)
             }
-            .frame(width: 160, height: 30)
+            .frame(width: 130, height: 30)
+            .scaleEffect(isSelected ? 1 : 0.97)
+            
+        case .battery:
+            ZStack {
+                Capsule()
+                    .fill(.black)
+                    .overlay {
+                        Capsule()
+                            .stroke(hotspotPreviewStrokeColor, lineWidth: 1)
+                    }
+                
+                HStack {
+                    Image(systemName: "personalhotspot")
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundStyle(.green)
+                    
+                    Spacer()
+                    
+                    Text("78%")
+                        .foregroundStyle(.green.gradient)
+                        .font(.system(size: 12))
+                }
+                .padding(.leading, 7)
+                .padding(.trailing, 10)
+            }
+            .frame(width: 130, height: 30)
             .scaleEffect(isSelected ? 1 : 0.97)
         }
     }

@@ -13,18 +13,32 @@ import SystemConfiguration
 final class WifiMonitor: WifiMonitoring {
     private let monitor = NWPathMonitor()
     private let queue = DispatchQueue(label: "WifiMonitorQueue")
+    private let hotspotBatteryMonitor = HotspotBatteryMonitor.shared
     
     var onStatusChange: ((_ wifi: Bool, _ hotspot: Bool, _ vpn: Bool) -> Void)?
+    var onHotspotBatteryChange: ((Int) -> Void)?
     private(set) var currentWiFiName: String?
     private(set) var currentVPNName: String?
     private(set) var isInternetAvailable = true
     private(set) var currentWiFiSignalLevel: Double = 1
+    var currentHotspotBatteryLevel: Int? {
+        hotspotBatteryMonitor.currentBatteryLevel
+    }
+
+    init() {
+        hotspotBatteryMonitor.onBatteryLevelChange = { [weak self] level in
+            print("[WifiMonitor] Received onBatteryLevelChange: \(level)%")
+            self?.onHotspotBatteryChange?(level)
+        }
+    }
 
     deinit {
         stopMonitoring()
     }
 
     func startMonitoring() {
+        print("[WifiMonitor] startMonitoring called")
+        hotspotBatteryMonitor.startBrowsing()
         monitor.pathUpdateHandler = { [weak self] path in
             self?.updateStatus(path: path)
         }
@@ -36,6 +50,11 @@ final class WifiMonitor: WifiMonitoring {
         let isWifi = hasInternetConnection && path.usesInterfaceType(.wifi)
         
         let isHotspot = isWifi && path.isExpensive
+        print("[WifiMonitor] updateStatus: isWifi=\(isWifi), isExpensive=\(path.isExpensive), isHotspot=\(isHotspot), battery=\(String(describing: hotspotBatteryMonitor.currentBatteryLevel))")
+        
+        if isHotspot {
+            hotspotBatteryMonitor.startBrowsing()
+        }
         
         let isVpn = hasInternetConnection && path.availableInterfaces.contains { interface in
             let name = interface.name.lowercased()
@@ -56,6 +75,7 @@ final class WifiMonitor: WifiMonitoring {
     }
 
     func stopMonitoring() {
+        hotspotBatteryMonitor.stopBrowsing()
         monitor.pathUpdateHandler = nil
         monitor.cancel()
     }

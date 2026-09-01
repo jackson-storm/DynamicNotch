@@ -10,8 +10,8 @@ struct NotchContextMenu: View {
         Button {
             updater.checkForUpdates()
         } label: {
-            Image(systemName: "arrow.triangle.2.circlepath")
-            Text(locale.dn("menuBar.checkForUpdates", fallback: "Check for Updates…"))
+            Image(systemName: "arrow.down.circle")
+            Text(locale.dn("menuBar.checkForUpdates", fallback: "Check for Updates"))
         }
         .disabled(!updater.canCheckForUpdates)
         

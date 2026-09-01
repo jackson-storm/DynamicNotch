@@ -66,10 +66,14 @@ final class NotchConnectivityEventsHandler {
             )
 
         case .hotspotActive:
+            print("[NotchConnectivityEventsHandler] handleWifi(.hotspotActive), wifiViewModel.hotspotBatteryLevel=\(String(describing: wifiViewModel.hotspotBatteryLevel))")
             guard settingsViewModel.isLiveActivityEnabled(.hotspot) else { return }
             notchViewModel.send(
                 .showLiveActivity(
-                    HotspotActiveContent(settingsViewModel: settingsViewModel)
+                    HotspotActiveContent(
+                        settingsViewModel: settingsViewModel,
+                        wifiViewModel: wifiViewModel
+                    )
                 )
             )
 

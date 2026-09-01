@@ -23,6 +23,7 @@ final class WifiViewModel: ObservableObject {
     @Published var isInternetAvailable: Bool = true
     @Published var wifiName: String = ""
     @Published var wifiSignalLevel: Double = 1
+    @Published var hotspotBatteryLevel: Int? = nil
     @Published var wifiEvent: WifiEvent? = nil
     
     private let monitor: any WifiMonitoring
@@ -94,9 +95,19 @@ final class WifiViewModel: ObservableObject {
             
             self.wifiConnected = wifi
             self.hotspotActive = hotspot
-            self.isInternetAvailable = nextInternetAvailable
+            print("[WifiViewModel] onStatusChange: wifi=\(wifi), hotspot=\(hotspot), isInitial=\(self.isInitialCheck)")
+            if hotspot {
+                self.hotspotBatteryLevel = self.monitor.currentHotspotBatteryLevel ?? HotspotBatteryMonitor.shared.currentBatteryLevel
+                print("[WifiViewModel] Hotspot active, set hotspotBatteryLevel = \(String(describing: self.hotspotBatteryLevel))")
+            } else {
+                self.hotspotBatteryLevel = nil
+            }
             
             if self.isInitialCheck { self.isInitialCheck = false }
+        }
+        monitor.onHotspotBatteryChange = { [weak self] level in
+            print("[WifiViewModel] onHotspotBatteryChange received: \(level)%")
+            self?.hotspotBatteryLevel = level
         }
         monitor.startMonitoring()
     }

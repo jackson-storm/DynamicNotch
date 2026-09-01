@@ -10,6 +10,7 @@ import SwiftUI
 struct HotspotActiveContent: NotchContentProtocol, DynamicIslandCustomizable {
     let id = NotchContentRegistry.Wifi.hotspot.id
     let settingsViewModel: SettingsViewModel
+    var wifiViewModel: WifiViewModel? = nil
     
     var appearanceStyle: HotspotAppearanceStyle { settingsViewModel.connectivity.hotspotAppearanceStyle}
     var priority: Int { NotchContentRegistry.Wifi.hotspot.priority }
@@ -20,7 +21,8 @@ struct HotspotActiveContent: NotchContentProtocol, DynamicIslandCustomizable {
     }
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        return .init(width: baseWidth + 80, height: baseHeight)
+        let extraWidth: CGFloat = appearanceStyle == .battery ? 100 : 80
+        return .init(width: baseWidth + extraWidth, height: baseHeight)
     }
     
     func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
@@ -29,6 +31,12 @@ struct HotspotActiveContent: NotchContentProtocol, DynamicIslandCustomizable {
     
     @MainActor
     func makeView() -> AnyView {
-        AnyView(HotspotActiveNotchView(style: appearanceStyle))
+        AnyView(
+            HotspotActiveNotchView(
+                style: appearanceStyle,
+                wifiViewModel: wifiViewModel,
+                batteryLevel: wifiViewModel?.hotspotBatteryLevel
+            )
+        )
     }
 }

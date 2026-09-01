@@ -89,9 +89,11 @@ final class FakePowerStateProvider: PowerStateProviding {
 
 final class FakeWifiMonitor: WifiMonitoring {
     var onStatusChange: ((_ wifi: Bool, _ hotspot: Bool, _ vpn: Bool) -> Void)?
+    var onHotspotBatteryChange: ((Int) -> Void)?
     var currentWiFiName: String?
     var currentVPNName: String?
     var currentWiFiSignalLevel: Double = 0.0
+    var currentHotspotBatteryLevel: Int?
     var isInternetAvailable = true
 
     private(set) var startCalls = 0

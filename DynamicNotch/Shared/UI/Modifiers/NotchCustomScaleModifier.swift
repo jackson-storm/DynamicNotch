@@ -86,7 +86,8 @@ private extension NotchCustomScaleModifier {
                         isPressValidForTap &&
                         !didCompleteExpandAction
 
-                        resetInteractionState(cancelScaleAnimation: !shouldMaintainHoverScaleAfterRelease)
+                        let shouldCancelScale = !isValidPress && !shouldMaintainHoverScaleAfterRelease
+                        resetInteractionState(cancelScaleAnimation: shouldCancelScale)
 
                         if notchViewModel.shouldExpandActiveContentOnClick && isValidPress {
                             notchViewModel.handleActiveContentTap()
@@ -130,12 +131,6 @@ private extension NotchCustomScaleModifier {
     }
 
     private func startPressAnimation() {
-        guard notchViewModel.canOpenActiveWindowLink ||
-              notchViewModel.shouldExpandActiveContentOnClick ||
-              notchViewModel.shouldExpandActiveContentOnPressAndHold else {
-            return
-        }
-
         let token = UUID()
         let pressPeakDuration = notchViewModel.notchPressHoldDuration
         

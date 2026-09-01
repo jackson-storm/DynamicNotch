@@ -3,8 +3,8 @@ import Foundation
 import Dispatch
 import CoreServices
 
-final class FolderFileDownloadMonitor: DownloadMonitoring {
-    var onSnapshotChange: (([DownloadModel]) -> Void)?
+nonisolated final class FolderFileDownloadMonitor: DownloadMonitoring, @unchecked Sendable {
+    var onSnapshotChange: (@Sendable ([DownloadModel]) -> Void)?
 
     private struct ObservedFile {
         let url: URL
@@ -574,7 +574,7 @@ private extension FolderFileDownloadMonitor {
     }
 }
 
-private final class DirectoryWatcher {
+private nonisolated final class DirectoryWatcher {
     private var stream: FSEventStreamRef?
     private let onChange: () -> Void
 
@@ -630,7 +630,7 @@ private final class DirectoryWatcher {
 }
 
 private extension Array where Element == URL {
-    func removingDuplicatePaths() -> [URL] {
+    nonisolated func removingDuplicatePaths() -> [URL] {
         var seenPaths = Set<String>()
 
         return filter { url in

@@ -1,7 +1,7 @@
 import Foundation
 
-final class InactiveDownloadMonitor: DownloadMonitoring {
-    var onSnapshotChange: (([DownloadModel]) -> Void)?
+nonisolated final class InactiveDownloadMonitor: DownloadMonitoring, @unchecked Sendable {
+    var onSnapshotChange: (@Sendable ([DownloadModel]) -> Void)?
 
     func startMonitoring() {
         onSnapshotChange?([])

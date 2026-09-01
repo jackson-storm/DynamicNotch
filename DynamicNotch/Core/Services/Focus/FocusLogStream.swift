@@ -1,6 +1,6 @@
 import Foundation
 
-final class FocusLogStream {
+nonisolated final class FocusLogStream: @unchecked Sendable {
     private let queue = DispatchQueue(
         label: "com.dynamicisland.focus.logstream",
         qos: .utility
@@ -56,7 +56,7 @@ final class FocusLogStream {
             }
 
             process.terminationHandler = { [weak self] _ in
-                self?.queue.async {
+                self?.queue.async { [weak self] in
                     self?.handleTermination()
                 }
             }

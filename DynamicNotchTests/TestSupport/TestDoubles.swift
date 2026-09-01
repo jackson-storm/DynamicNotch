@@ -201,8 +201,8 @@ final class FakeAudioOutputRoutingService: AudioOutputRouting {
     }
 }
 
-final class FakeFileDownloadMonitor: DownloadMonitoring {
-    var onSnapshotChange: (([DownloadModel]) -> Void)?
+final class FakeFileDownloadMonitor: DownloadMonitoring, @unchecked Sendable {
+    var onSnapshotChange: (@Sendable ([DownloadModel]) -> Void)?
 
     private(set) var startCalls = 0
     private(set) var stopCalls = 0

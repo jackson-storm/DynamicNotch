@@ -33,7 +33,8 @@ final class DoNotDisturbManager: ObservableObject {
     }
 
     deinit {
-        stopMonitoring()
+        assertionsSource?.cancel()
+        focusLogStream.stop()
     }
 
     func startMonitoring() {
@@ -89,16 +90,17 @@ final class DoNotDisturbManager: ObservableObject {
     }
 
     private func apply(notification: Notification, isActive: Bool) {
+        let sourceName = notification.name.rawValue
+        let metadata = extractMetadata(from: notification)
         metadataExtractionQueue.async { [weak self] in
-            guard let self else { return }
-
-            let metadata = self.extractMetadata(from: notification)
-            self.publishMetadata(
-                identifier: metadata.identifier,
-                name: metadata.name,
-                isActive: isActive,
-                source: notification.name.rawValue
-            )
+            Task { @MainActor [weak self] in
+                self?.publishMetadata(
+                    identifier: metadata.identifier,
+                    name: metadata.name,
+                    isActive: isActive,
+                    source: sourceName
+                )
+            }
         }
     }
 
@@ -232,9 +234,7 @@ final class DoNotDisturbManager: ObservableObject {
     // MARK: - Assertions.json (authoritative Focus state)
 
     private func startAssertionMonitoring() {
-        metadataExtractionQueue.async { [weak self] in
-            self?.refreshFromAssertions()
-        }
+        triggerAssertionRefresh()
 
         let directory = FocusAssertionsReader.shared.fileURL.deletingLastPathComponent()
         let descriptor = open(directory.path, O_EVTONLY)
@@ -245,7 +245,7 @@ final class DoNotDisturbManager: ObservableObject {
                 queue: metadataExtractionQueue
             )
             source.setEventHandler { [weak self] in
-                self?.refreshFromAssertions()
+                self?.triggerAssertionRefresh()
             }
             source.setCancelHandler {
                 close(descriptor)
@@ -257,9 +257,7 @@ final class DoNotDisturbManager: ObservableObject {
         // Fallback poll in case the vnode source misses an atomic replace or the
         // directory couldn't be opened for events.
         let timer = Timer(timeInterval: 2.0, repeats: true) { [weak self] _ in
-            self?.metadataExtractionQueue.async { [weak self] in
-                self?.refreshFromAssertions()
-            }
+            self?.triggerAssertionRefresh()
         }
         RunLoop.main.add(timer, forMode: .common)
         assertionsPollTimer = timer
@@ -272,8 +270,17 @@ final class DoNotDisturbManager: ObservableObject {
         assertionsPollTimer = nil
     }
 
-    private func refreshFromAssertions() {
-        switch FocusAssertionsReader.shared.readState() {
+    private nonisolated func triggerAssertionRefresh() {
+        metadataExtractionQueue.async { [weak self] in
+            let state = FocusAssertionsReader.shared.readState()
+            Task { @MainActor [weak self] in
+                self?.applyAssertionState(state)
+            }
+        }
+    }
+
+    private func applyAssertionState(_ state: FocusAssertionState) {
+        switch state {
         case .unreadable:
             // No Full Disk Access — leave the legacy notification/log paths in charge.
             return
@@ -296,35 +303,36 @@ final class DoNotDisturbManager: ObservableObject {
 
     private func handleLogMetadataUpdate(identifier: String?, name: String?) {
         metadataExtractionQueue.async { [weak self] in
-            guard let self else { return }
-
             let trimmedIdentifier = identifier?.trimmingCharacters(in: .whitespacesAndNewlines)
             let trimmedName = name?.trimmingCharacters(in: .whitespacesAndNewlines)
             let hasIdentifier = trimmedIdentifier?.isEmpty == false
             let hasName = trimmedName?.isEmpty == false
 
-            guard hasIdentifier || hasName else {
-                // The log stream reports the active mode assertion was cleared
-                // (`active mode assertion: (null)`), i.e. Focus was switched off.
-                // The `_NSDoNotDisturbDisabledNotification` distributed notification
-                // is unreliable on recent macOS, so use this as an additional
-                // off signal. publishMetadata only reacts on a real active->inactive
-                // transition, so a stale clear is a no-op.
-                self.publishMetadata(
-                    identifier: nil,
-                    name: nil,
-                    isActive: false,
-                    source: "log-stream-off"
-                )
-                return
+            let idToPublish: String?
+            let nameToPublish: String?
+            let isActive: Bool
+            let source: String
+
+            if hasIdentifier || hasName {
+                idToPublish = trimmedIdentifier
+                nameToPublish = trimmedName
+                isActive = true
+                source = "log-stream"
+            } else {
+                idToPublish = nil
+                nameToPublish = nil
+                isActive = false
+                source = "log-stream-off"
             }
 
-            self.publishMetadata(
-                identifier: trimmedIdentifier,
-                name: trimmedName,
-                isActive: true,
-                source: "log-stream"
-            )
+            Task { @MainActor [weak self] in
+                self?.publishMetadata(
+                    identifier: idToPublish,
+                    name: nameToPublish,
+                    isActive: isActive,
+                    source: source
+                )
+            }
         }
     }
 
@@ -365,12 +373,14 @@ final class DoNotDisturbManager: ObservableObject {
 
                 guard identifier != nil || name != nil else { return }
 
-                self.publishMetadata(
-                    identifier: identifier,
-                    name: name,
-                    isActive: true,
-                    source: "log-initial"
-                )
+                Task { @MainActor [weak self] in
+                    self?.publishMetadata(
+                        identifier: identifier,
+                        name: name,
+                        isActive: true,
+                        source: "log-initial"
+                    )
+                }
                 return
             }
         }

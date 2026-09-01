@@ -1,6 +1,6 @@
 import Foundation
 
-private enum FocusNotificationParsing {
+private nonisolated enum FocusNotificationParsing {
     static let identifierPattern: NSRegularExpression? = {
         let pattern = "com\\.apple\\.(?:focus|donotdisturb|sleep)[A-Za-z0-9_.-]*"
         return try? NSRegularExpression(pattern: pattern, options: [])
@@ -27,7 +27,7 @@ private enum FocusNotificationParsing {
     }()
 }
 
-enum FocusMetadataDecoder {
+nonisolated enum FocusMetadataDecoder {
     static func cleanedString(_ string: String) -> String {
         var trimmed = string.trimmingCharacters(in: .whitespacesAndNewlines)
         trimmed = trimmed.trimmingCharacters(in: CharacterSet(charactersIn: "'\""))

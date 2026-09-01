@@ -20,7 +20,7 @@ enum FocusAssertionState: Equatable {
     case on(identifier: String)
 }
 
-final class FocusAssertionsReader {
+nonisolated final class FocusAssertionsReader: Sendable {
     static let shared = FocusAssertionsReader()
 
     private let path = FileManager.default

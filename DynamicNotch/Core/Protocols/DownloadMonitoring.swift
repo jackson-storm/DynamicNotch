@@ -1,7 +1,7 @@
 import Foundation
 
-protocol DownloadMonitoring: AnyObject {
-    var onSnapshotChange: (([DownloadModel]) -> Void)? { get set }
+nonisolated protocol DownloadMonitoring: AnyObject, Sendable {
+    var onSnapshotChange: (@Sendable ([DownloadModel]) -> Void)? { get set }
 
     func startMonitoring()
     func stopMonitoring()

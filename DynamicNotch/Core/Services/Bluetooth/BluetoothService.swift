@@ -10,13 +10,21 @@ import Combine
 import SwiftUI
 import IOBluetooth
 
-final class BluetoothService: ObservableObject {
+final class BluetoothService: ObservableObject, BluetoothServiceProtocol, @unchecked Sendable {
     static let shared = BluetoothService()
 
     @Published var lastConnectedDevice: BluetoothAudioDevice?
     @Published var connectedDevices: [BluetoothAudioDevice] = []
     @Published var isBluetoothAudioConnected: Bool = false
     @Published var batteryStatus: [String: String] = [:]
+
+    var lastConnectedDevicePublisher: AnyPublisher<BluetoothAudioDevice?, Never> {
+        $lastConnectedDevice.eraseToAnyPublisher()
+    }
+
+    var connectedDevicesPublisher: AnyPublisher<[BluetoothAudioDevice], Never> {
+        $connectedDevices.eraseToAnyPublisher()
+    }
 
     var observers: [NSObjectProtocol] = []
     var cancellables = Set<AnyCancellable>()

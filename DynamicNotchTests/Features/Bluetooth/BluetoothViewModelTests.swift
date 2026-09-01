@@ -9,36 +9,42 @@ import XCTest
 import Combine
 @testable import DynamicNotch
 
+private final class MockBluetoothService: BluetoothServiceProtocol, @unchecked Sendable {
+    @Published var lastConnectedDevice: BluetoothAudioDevice?
+    @Published var connectedDevices: [BluetoothAudioDevice] = []
+
+    var lastConnectedDevicePublisher: AnyPublisher<BluetoothAudioDevice?, Never> {
+        $lastConnectedDevice.eraseToAnyPublisher()
+    }
+
+    var connectedDevicesPublisher: AnyPublisher<[BluetoothAudioDevice], Never> {
+        $connectedDevices.eraseToAnyPublisher()
+    }
+
+    var refreshCalled = false
+    func refreshConnectedDeviceBatteries() {
+        refreshCalled = true
+    }
+}
+
 @MainActor
 final class BluetoothViewModelTests: XCTestCase {
-    private var service: BluetoothService!
+    private var mockService: MockBluetoothService!
     private var viewModel: BluetoothViewModel!
-    private var originalConnectedDevices: [BluetoothAudioDevice]!
-    private var originalLastConnectedDevice: BluetoothAudioDevice?
 
     override func setUp() {
         super.setUp()
-        service = BluetoothService.shared
-        // Сохраняем исходное состояние синглтона, чтобы не ломать другие тесты
-        originalConnectedDevices = service.connectedDevices
-        originalLastConnectedDevice = service.lastConnectedDevice
+        mockService = MockBluetoothService()
+        viewModel = BluetoothViewModel(bluetoothService: mockService)
     }
 
     override func tearDown() {
-        // Восстанавливаем состояние синглтона
-        service.connectedDevices = originalConnectedDevices
-        service.lastConnectedDevice = originalLastConnectedDevice
         viewModel = nil
-        service = nil
+        mockService = nil
         super.tearDown()
     }
 
     func testInitialState() {
-        service.connectedDevices = []
-        service.lastConnectedDevice = nil
-
-        viewModel = BluetoothViewModel(bluetoothService: service)
-
         XCTAssertFalse(viewModel.isConnected)
         XCTAssertEqual(viewModel.deviceName, "Unknown")
         XCTAssertNil(viewModel.batteryLevel)
@@ -47,10 +53,6 @@ final class BluetoothViewModelTests: XCTestCase {
     }
 
     func testDeviceConnectionUpdatesStateAndPublishesEvent() async {
-        service.connectedDevices = []
-        service.lastConnectedDevice = nil
-        viewModel = BluetoothViewModel(bluetoothService: service)
-
         let device = BluetoothAudioDevice(
             name: "My AirPods Pro",
             address: "00:11:22:33:44:55",
@@ -59,7 +61,7 @@ final class BluetoothViewModelTests: XCTestCase {
         )
 
         // Имитируем подключение устройства
-        service.connectedDevices = [device]
+        mockService.connectedDevices = [device]
 
         // Ждем обновления на RunLoop.main
         await assertEventually {
@@ -80,9 +82,8 @@ final class BluetoothViewModelTests: XCTestCase {
             deviceType: .airpodsPro
         )
 
-        service.connectedDevices = [device]
-        service.lastConnectedDevice = device
-        viewModel = BluetoothViewModel(bluetoothService: service)
+        mockService.connectedDevices = [device]
+        mockService.lastConnectedDevice = device
 
         // Убеждаемся, что устройство изначально подключено
         await assertEventually {
@@ -90,7 +91,7 @@ final class BluetoothViewModelTests: XCTestCase {
         }
 
         // Имитируем отключение устройства
-        service.connectedDevices = []
+        mockService.connectedDevices = []
 
         // Ждем сброса состояния
         await assertEventually {
@@ -110,9 +111,8 @@ final class BluetoothViewModelTests: XCTestCase {
             deviceType: .beatssolo
         )
 
-        service.connectedDevices = [device]
-        service.lastConnectedDevice = device
-        viewModel = BluetoothViewModel(bluetoothService: service)
+        mockService.connectedDevices = [device]
+        mockService.lastConnectedDevice = device
 
         await assertEventually {
             self.viewModel.isConnected == true
@@ -127,7 +127,7 @@ final class BluetoothViewModelTests: XCTestCase {
         )
 
         // Имитируем обновление уровня заряда
-        service.lastConnectedDevice = updatedDevice
+        mockService.lastConnectedDevice = updatedDevice
 
         await assertEventually {
             self.viewModel.batteryLevel == 90
@@ -135,6 +135,13 @@ final class BluetoothViewModelTests: XCTestCase {
 
         XCTAssertEqual(viewModel.deviceName, "Beats Solo")
         XCTAssertEqual(viewModel.deviceType, .beatssolo)
+    }
+
+    func testUpdateCallsRefreshOnService() async {
+        viewModel.update()
+        // Wait for Task @MainActor to execute
+        try? await Task.sleep(nanoseconds: 50_000_000)
+        XCTAssertTrue(mockService.refreshCalled)
     }
 }
 

@@ -710,28 +710,6 @@ private extension NowPlayingSnapshot {
             refreshedAt: state.refreshedAt
         )
     }
-
-    func settingFavorite(_ isFavorite: Bool) -> Self {
-        Self(
-            title: title,
-            artist: artist,
-            album: album,
-            duration: duration,
-            elapsedTime: elapsedTime,
-            playbackRate: playbackRate,
-            artworkData: artworkData,
-            playbackSource: playbackSource,
-            mediaType: mediaType,
-            contentItemIdentifier: contentItemIdentifier,
-            isShuffled: isShuffled,
-            repeatMode: repeatMode,
-            volume: volume,
-            isFavorite: isFavorite,
-            supportsFavorite: supportsFavorite,
-            supportsVolumeControl: supportsVolumeControl,
-            refreshedAt: refreshedAt
-        )
-    }
 }
 
 private extension NowPlayingApplicationPlaybackState {

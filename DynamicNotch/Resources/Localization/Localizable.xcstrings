@@ -16489,235 +16489,235 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "التحقق من وجود تحديثات…"
+            "value" : "التحقق من وجود تحديثات"
           }
         },
         "bg" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Проверка за актуализации…"
+            "value" : "Проверка за актуализации"
           }
         },
         "bn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "আপডেটের জন্য অনুসন্ধান করুন…"
+            "value" : "আপডেটের জন্য অনুসন্ধান করুন"
           }
         },
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cerca actualitzacions…"
+            "value" : "Cerca actualitzacions"
           }
         },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vyhledat aktualizace…"
+            "value" : "Vyhledat aktualizace"
           }
         },
         "da" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Søg efter opdateringer…"
+            "value" : "Søg efter opdateringer"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nach Updates suchen…"
+            "value" : "Nach Updates suchen"
           }
         },
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Έλεγχος για ενημερώσεις…"
+            "value" : "Έλεγχος για ενημερώσεις"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Check for Updates…"
+            "value" : "Check for Updates"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Buscar actualizaciones…"
+            "value" : "Buscar actualizaciones"
           }
         },
         "fa" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "بررسی به‌روزرسانی‌ها…"
+            "value" : "بررسی به‌روزرسانی‌ها"
           }
         },
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Etsi päivityksiä…"
+            "value" : "Etsi päivityksiä"
           }
         },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tingnan ang mga Update…"
+            "value" : "Tingnan ang mga Update"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rechercher les mises à jour…"
+            "value" : "Rechercher les mises à jour"
           }
         },
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "חפש עדכונים…"
+            "value" : "חפש עדכונים"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "अपडेट की जाँच करें…"
+            "value" : "अपडेट की जाँच करें"
           }
         },
         "hr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Potraži ažuriranja…"
+            "value" : "Potraži ažuriranja"
           }
         },
         "hu" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Frissítések keresése…"
+            "value" : "Frissítések keresése"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Periksa Pembaruan…"
+            "value" : "Periksa Pembaruan"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verifica aggiornamenti…"
+            "value" : "Verifica aggiornamenti"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "アップデートを確認…"
+            "value" : "アップデートを確認"
           }
         },
         "kk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Жаңартуларды тексеру…"
+            "value" : "Жаңартуларды тексеру"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "업데이트 확인…"
+            "value" : "업데이트 확인"
           }
         },
         "ms" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Semak Kemas Kini…"
+            "value" : "Semak Kemas Kini"
           }
         },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Søk etter oppdateringer…"
+            "value" : "Søk etter oppdateringer"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zoek naar updates…"
+            "value" : "Zoek naar updates"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sprawdź uaktualnienia…"
+            "value" : "Sprawdź uaktualnienia"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verificar Atualizações…"
+            "value" : "Verificar Atualizações"
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Caută actualizări…"
+            "value" : "Caută actualizări"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Проверить обновления…"
+            "value" : "Проверить обновления"
           }
         },
         "sk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vyhľadať aktualizácie…"
+            "value" : "Vyhľadať aktualizácie"
           }
         },
         "sr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Провери ажурирања…"
+            "value" : "Провери ажурирања"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Leta efter uppdateringar…"
+            "value" : "Leta efter uppdateringar"
           }
         },
         "th" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ตรวจสอบการอัปเดต…"
+            "value" : "ตรวจสอบการอัปเดต"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Güncellemeleri Denetle…"
+            "value" : "Güncellemeleri Denetle"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Перевірити наявність оновлень…"
+            "value" : "Перевірити наявність оновлень"
           }
         },
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kiểm tra bản cập nhật…"
+            "value" : "Kiểm tra bản cập nhật"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "检查更新…"
+            "value" : "检查更新"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "檢查更新項目…"
+            "value" : "檢查更新項目"
           }
         }
       }

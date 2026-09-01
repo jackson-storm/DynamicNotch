@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct AdaptiveCustomPicker<Option: Hashable>: View {
+struct AdaptiveCustomPicker<Option: Hashable, Content: View>: View {
     @Environment(\.colorScheme) var colorScheme: ColorScheme
 
     @Binding var selection: Option
@@ -20,9 +20,9 @@ struct AdaptiveCustomPicker<Option: Hashable>: View {
     let maximumItemWidth: CGFloat
     let itemHeight: CGFloat
     private let accessibilityIdentifier: ((Option) -> String?)?
-    private let content: (Option, Bool) -> AnyView
+    private let content: (Option, Bool) -> Content
 
-    init<Content: View>(
+    init(
         selection: Binding<Option>,
         options: [Option],
         headerTitle: LocalizedStringKey? = nil,
@@ -45,9 +45,7 @@ struct AdaptiveCustomPicker<Option: Hashable>: View {
         self.maximumItemWidth = maximumItemWidth
         self.itemHeight = itemHeight
         self.accessibilityIdentifier = accessibilityIdentifier
-        self.content = { option, isSelected in
-            AnyView(content(option, isSelected))
-        }
+        self.content = content
     }
 
     var body: some View {

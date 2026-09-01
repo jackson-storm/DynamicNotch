@@ -1,126 +1,61 @@
 import Foundation
 import Combine
 
+extension LockScreenStyle: StoredSettingValue {}
+extension LockScreenWidgetAppearanceStyle: StoredSettingValue {}
+extension LockScreenWidgetTintStyle: StoredSettingValue {}
+extension LockScreenMediaPanelBackgroundStyle: StoredSettingValue {}
+
 @MainActor
 final class LockScreenFeatureSettingsStore: SettingsStoreBase {
-    @Published var isLockScreenLiveActivityEnabled: Bool {
-        didSet {
-            persist(isLockScreenLiveActivityEnabled, for: LockScreenSettings.liveActivityKey)
-        }
-    }
+    @StoredDefault(key: LockScreenSettings.liveActivityKey, defaultValue: true)
+    var isLockScreenLiveActivityEnabled: Bool
 
-    @Published var isLockScreenSoundEnabled: Bool {
-        didSet {
-            persist(isLockScreenSoundEnabled, for: LockScreenSettings.soundKey)
-        }
-    }
+    @StoredDefault(key: LockScreenSettings.soundKey, defaultValue: true)
+    var isLockScreenSoundEnabled: Bool
 
-    @Published var customLockSoundPath: String {
-        didSet {
-            persist(customLockSoundPath, for: LockScreenSettings.customLockSoundPathKey)
-        }
-    }
+    @StoredDefault(key: LockScreenSettings.customLockSoundPathKey, defaultValue: "")
+    var customLockSoundPath: String
 
-    @Published var customUnlockSoundPath: String {
-        didSet {
-            persist(customUnlockSoundPath, for: LockScreenSettings.customUnlockSoundPathKey)
-        }
-    }
+    @StoredDefault(key: LockScreenSettings.customUnlockSoundPathKey, defaultValue: "")
+    var customUnlockSoundPath: String
 
-    @Published var isLockScreenMediaPanelEnabled: Bool {
-        didSet {
-            persist(isLockScreenMediaPanelEnabled, for: LockScreenSettings.mediaPanelKey)
-        }
-    }
+    @StoredDefault(key: LockScreenSettings.mediaPanelKey, defaultValue: true)
+    var isLockScreenMediaPanelEnabled: Bool
 
-    @Published var lockScreenStyle: LockScreenStyle {
-        didSet {
-            persist(lockScreenStyle.rawValue, for: LockScreenSettings.styleKey)
-        }
-    }
+    @StoredDefault(key: LockScreenSettings.styleKey, defaultValue: .compact)
+    var lockScreenStyle: LockScreenStyle
 
-    @Published var widgetAppearanceStyle: LockScreenWidgetAppearanceStyle {
-        didSet {
-            persist(widgetAppearanceStyle.rawValue, for: LockScreenSettings.widgetAppearanceStyleKey)
-        }
-    }
+    @StoredDefault(key: LockScreenSettings.widgetAppearanceStyleKey, defaultValue: .ultraThinMaterial)
+    var widgetAppearanceStyle: LockScreenWidgetAppearanceStyle
 
-    @Published var widgetTintStyle: LockScreenWidgetTintStyle {
-        didSet {
-            persist(widgetTintStyle.rawValue, for: LockScreenSettings.widgetTintStyleKey)
-        }
-    }
+    @StoredDefault(key: LockScreenSettings.widgetTintStyleKey, defaultValue: .neutral)
+    var widgetTintStyle: LockScreenWidgetTintStyle
 
-    @Published var widgetBackgroundBrightness: Double {
-        didSet {
-            persist(widgetBackgroundBrightness, for: LockScreenSettings.widgetBackgroundBrightnessKey)
-        }
-    }
+    @StoredDefault(key: LockScreenSettings.widgetBackgroundBrightnessKey, defaultValue: 1.0)
+    var widgetBackgroundBrightness: Double
 
-    @Published var liquidGlassVariant: Int {
-        didSet {
-            persist(liquidGlassVariant, for: LockScreenSettings.liquidGlassVariantKey)
-        }
-    }
+    @StoredDefault(key: LockScreenSettings.liquidGlassVariantKey, defaultValue: 0)
+    var liquidGlassVariant: Int
 
-    @Published var mediaPanelBackgroundStyle: LockScreenMediaPanelBackgroundStyle {
-        didSet {
-            persist(
-                mediaPanelBackgroundStyle.rawValue,
-                for: LockScreenSettings.mediaPanelBackgroundStyleKey
-            )
-        }
-    }
+    @StoredDefault(key: LockScreenSettings.mediaPanelBackgroundStyleKey, defaultValue: .staticArtwork)
+    var mediaPanelBackgroundStyle: LockScreenMediaPanelBackgroundStyle
 
-    @Published var isLockScreenLyricsEnabled: Bool {
-        didSet {
-            persist(isLockScreenLyricsEnabled, for: LockScreenSettings.lyricsEnabledKey)
-        }
-    }
+    @StoredDefault(key: LockScreenSettings.lyricsEnabledKey, defaultValue: false)
+    var isLockScreenLyricsEnabled: Bool
 
-    @Published var isLockScreenArtworkExpanded: Bool {
-        didSet {
-            persist(isLockScreenArtworkExpanded, for: LockScreenSettings.artworkExpandedKey)
-        }
-    }
+    @StoredDefault(key: LockScreenSettings.artworkExpandedKey, defaultValue: false)
+    var isLockScreenArtworkExpanded: Bool
 
-    @Published var mediaPanelVerticalOffset: Double {
-        didSet {
-            let clampedValue = min(
-                max(mediaPanelVerticalOffset, LockScreenSettings.mediaPanelVerticalOffsetRange.lowerBound),
-                LockScreenSettings.mediaPanelVerticalOffsetRange.upperBound
-            )
-            persist(clampedValue, for: LockScreenSettings.mediaPanelVerticalOffsetKey)
-        }
-    }
+    @StoredDefault(key: LockScreenSettings.mediaPanelVerticalOffsetKey, defaultValue: 0.0)
+    var mediaPanelVerticalOffset: Double
 
     override init(defaults: UserDefaults) {
-        defaults.register(defaults: GeneralSettingsStorage.defaultValues)
+        super.init(defaults: defaults)
+
         let legacyCustomSoundPath = LockScreenSettings.legacyCustomSoundPath(in: defaults) ?? ""
         let storedLockSoundPath = defaults.string(forKey: LockScreenSettings.customLockSoundPathKey)
         let storedUnlockSoundPath = defaults.string(forKey: LockScreenSettings.customUnlockSoundPathKey)
-
-        self.isLockScreenLiveActivityEnabled = defaults.bool(forKey: LockScreenSettings.liveActivityKey)
-        self.isLockScreenSoundEnabled = defaults.bool(forKey: LockScreenSettings.soundKey)
-        self.customLockSoundPath = Self.resolvedCustomSoundPath(
-            storedLockSoundPath,
-            legacyValue: legacyCustomSoundPath
-        )
-        self.customUnlockSoundPath = Self.resolvedCustomSoundPath(
-            storedUnlockSoundPath,
-            legacyValue: legacyCustomSoundPath
-        )
-        self.isLockScreenMediaPanelEnabled = defaults.bool(forKey: LockScreenSettings.mediaPanelKey)
-        self.lockScreenStyle = LockScreenSettings.style(in: defaults)
-        self.widgetAppearanceStyle = LockScreenSettings.widgetAppearanceStyle(in: defaults)
-        self.widgetTintStyle = LockScreenSettings.widgetTintStyle(in: defaults)
-        self.widgetBackgroundBrightness = LockScreenSettings.widgetBackgroundBrightness(in: defaults)
-        self.liquidGlassVariant = LockScreenSettings.liquidGlassVariant(in: defaults)
-        self.mediaPanelBackgroundStyle = LockScreenSettings.mediaPanelBackgroundStyle(in: defaults)
-        self.isLockScreenLyricsEnabled = LockScreenSettings.isLyricsEnabled(in: defaults)
-        self.isLockScreenArtworkExpanded = LockScreenSettings.isArtworkExpanded(in: defaults)
-        self.mediaPanelVerticalOffset = LockScreenSettings.mediaPanelVerticalOffset(in: defaults)
-        super.init(defaults: defaults)
 
         migrateLegacyCustomSoundIfNeeded(
             legacyCustomSoundPath: legacyCustomSoundPath,
@@ -150,15 +85,6 @@ final class LockScreenFeatureSettingsStore: SettingsStoreBase {
         isLockScreenLyricsEnabled = defaultBool(for: LockScreenSettings.lyricsEnabledKey)
         isLockScreenArtworkExpanded = defaultBool(for: LockScreenSettings.artworkExpandedKey)
         mediaPanelVerticalOffset = defaultDouble(for: LockScreenSettings.mediaPanelVerticalOffsetKey)
-    }
-
-    private static func resolvedCustomSoundPath(_ rawValue: String?, legacyValue: String) -> String {
-        let trimmedValue = rawValue?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-        if trimmedValue.isEmpty == false {
-            return trimmedValue
-        }
-
-        return legacyValue
     }
 
     private func migrateLegacyCustomSoundIfNeeded(

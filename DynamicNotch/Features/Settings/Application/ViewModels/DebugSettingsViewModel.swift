@@ -11,49 +11,17 @@ import Combine
 
 @MainActor
 final class DebugSettingsViewModel: ObservableObject {
-    @Published var isOnboardingPreviewEnabled = false {
-        didSet { guard isReady else { return }; updateOnboardingPreview() }
-    }
-
-    @Published var isFocusLivePreviewEnabled = false {
-        didSet { guard isReady else { return }; updateFocusPreview() }
-    }
-
-    @Published var isScreenRecordingPreviewEnabled = false {
-        didSet { guard isReady else { return }; updateScreenRecordingPreview() }
-    }
-
-    @Published var isHotspotPreviewEnabled = false {
-        didSet { guard isReady else { return }; updateHotspotPreview() }
-    }
-
-    @Published var isNowPlayingPreviewEnabled = false {
-        didSet { guard isReady else { return }; updateNowPlayingPreview() }
-    }
-
-    @Published var isDownloadPreviewEnabled = false {
-        didSet { guard isReady else { return }; updateDownloadPreview() }
-    }
-    
-    @Published var isTimerPreviewEnabled = false {
-        didSet { guard isReady else { return }; updateTimerPreview() }
-    }
-
-    @Published var isFileTrayPreviewEnabled = false {
-        didSet { guard isReady else { return }; updateFileTrayPreview() }
-    }
-
-    @Published var isFileConverterPreviewEnabled = false {
-        didSet { guard isReady else { return }; updateFileConverterPreview() }
-    }
-
-    @Published var isLockScreenPreviewEnabled = false {
-        didSet { guard isReady else { return }; updateLockScreenPreview() }
-    }
-
-    @Published var isSoftwareUpdatePreviewEnabled = false {
-        didSet { guard isReady else { return }; updateSoftwareUpdatePreview() }
-    }
+    @Published var isOnboardingPreviewEnabled = false
+    @Published var isFocusLivePreviewEnabled = false
+    @Published var isScreenRecordingPreviewEnabled = false
+    @Published var isHotspotPreviewEnabled = false
+    @Published var isNowPlayingPreviewEnabled = false
+    @Published var isDownloadPreviewEnabled = false
+    @Published var isTimerPreviewEnabled = false
+    @Published var isFileTrayPreviewEnabled = false
+    @Published var isFileConverterPreviewEnabled = false
+    @Published var isLockScreenPreviewEnabled = false
+    @Published var isSoftwareUpdatePreviewEnabled = false
 
     @Published private(set) var isPreviewSequenceRunning = false
 
@@ -109,7 +77,7 @@ final class DebugSettingsViewModel: ObservableObject {
     private let fileTrayPreviewViewModel: FileTrayViewModel
     private let fileConverterPreviewViewModel = FileConverterViewModel()
 
-    private var isReady = false
+    private var cancellables = Set<AnyCancellable>()
     private var previewSequenceTask: Task<Void, Never>?
     private var mailBatchTask: Task<Void, Never>?
     private var messagesQueuePreviewTask: Task<Void, Never>?
@@ -142,7 +110,7 @@ final class DebugSettingsViewModel: ObservableObject {
             suiteName: "DynamicNotch.Debug.Previews.\(UUID().uuidString)"
         ) ?? .standard
         self.fileTrayPreviewViewModel = FileTrayViewModel(defaults: previewDefaults)
-        self.isReady = true
+        setupPreviewBindings()
     }
 
     func triggerBluetoothPreview() {
@@ -573,33 +541,94 @@ final class DebugSettingsViewModel: ObservableObject {
         notchViewModel.hideTemporaryNotification()
     }
 
-    private func updateOnboardingPreview() {
-        if isOnboardingPreviewEnabled {
+    private func setupPreviewBindings() {
+        $isOnboardingPreviewEnabled
+            .dropFirst()
+            .sink { [weak self] enabled in self?.updateOnboardingPreview(isEnabled: enabled) }
+            .store(in: &cancellables)
+
+        $isFocusLivePreviewEnabled
+            .dropFirst()
+            .sink { [weak self] enabled in self?.updateFocusPreview(isEnabled: enabled) }
+            .store(in: &cancellables)
+
+        $isScreenRecordingPreviewEnabled
+            .dropFirst()
+            .sink { [weak self] enabled in self?.updateScreenRecordingPreview(isEnabled: enabled) }
+            .store(in: &cancellables)
+
+        $isHotspotPreviewEnabled
+            .dropFirst()
+            .sink { [weak self] enabled in self?.updateHotspotPreview(isEnabled: enabled) }
+            .store(in: &cancellables)
+
+        $isNowPlayingPreviewEnabled
+            .dropFirst()
+            .sink { [weak self] enabled in self?.updateNowPlayingPreview(isEnabled: enabled) }
+            .store(in: &cancellables)
+
+        $isDownloadPreviewEnabled
+            .dropFirst()
+            .sink { [weak self] enabled in self?.updateDownloadPreview(isEnabled: enabled) }
+            .store(in: &cancellables)
+
+        $isTimerPreviewEnabled
+            .dropFirst()
+            .sink { [weak self] enabled in self?.updateTimerPreview(isEnabled: enabled) }
+            .store(in: &cancellables)
+
+        $isFileTrayPreviewEnabled
+            .dropFirst()
+            .sink { [weak self] enabled in self?.updateFileTrayPreview(isEnabled: enabled) }
+            .store(in: &cancellables)
+
+        $isFileConverterPreviewEnabled
+            .dropFirst()
+            .sink { [weak self] enabled in self?.updateFileConverterPreview(isEnabled: enabled) }
+            .store(in: &cancellables)
+
+        $isLockScreenPreviewEnabled
+            .dropFirst()
+            .sink { [weak self] enabled in self?.updateLockScreenPreview(isEnabled: enabled) }
+            .store(in: &cancellables)
+
+        $isSoftwareUpdatePreviewEnabled
+            .dropFirst()
+            .sink { [weak self] enabled in self?.updateSoftwareUpdatePreview(isEnabled: enabled) }
+            .store(in: &cancellables)
+    }
+
+    private func updateOnboardingPreview(isEnabled: Bool? = nil) {
+        let enabled = isEnabled ?? isOnboardingPreviewEnabled
+        if enabled {
             notchEventCoordinator.showDebugOnboardingPreview(step: .first)
         } else {
             notchEventCoordinator.hideOnboarding()
         }
     }
 
-    private func updateFocusPreview() {
-        if isFocusLivePreviewEnabled {
+    private func updateFocusPreview(isEnabled: Bool? = nil) {
+        let enabled = isEnabled ?? isFocusLivePreviewEnabled
+        if enabled {
             notchEventCoordinator.handleFocusEvent(.FocusOn(.custom))
         } else {
             notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Focus.active.id))
         }
     }
 
-    private func updateScreenRecordingPreview() {
-        if isScreenRecordingPreviewEnabled {
+    private func updateScreenRecordingPreview(isEnabled: Bool? = nil) {
+        let enabled = isEnabled ?? isScreenRecordingPreviewEnabled
+        if enabled {
             notchEventCoordinator.handleScreenRecordingEvent(.started)
         } else {
             notchEventCoordinator.handleScreenRecordingEvent(.stopped)
         }
     }
 
-    private func updateHotspotPreview() {
-        print("[DebugSettingsViewModel] updateHotspotPreview: isHotspotPreviewEnabled=\(isHotspotPreviewEnabled)")
-        if isHotspotPreviewEnabled {
+    private func updateHotspotPreview(isEnabled: Bool? = nil) {
+        let enabled = isEnabled ?? isHotspotPreviewEnabled
+        print("[DebugSettingsViewModel] updateHotspotPreview: isHotspotPreviewEnabled=\(enabled)")
+        if enabled {
             wifiViewModel.hotspotActive = true
             if wifiViewModel.hotspotBatteryLevel == nil {
                 wifiViewModel.hotspotBatteryLevel = HotspotBatteryMonitor.shared.currentBatteryLevel
@@ -612,8 +641,9 @@ final class DebugSettingsViewModel: ObservableObject {
         }
     }
 
-    private func updateNowPlayingPreview() {
-        if isNowPlayingPreviewEnabled {
+    private func updateNowPlayingPreview(isEnabled: Bool? = nil) {
+        let enabled = isEnabled ?? isNowPlayingPreviewEnabled
+        if enabled {
             nowPlayingViewModel.showDebugPreviewSnapshotIfNeeded()
             notchEventCoordinator.handleNowPlayingEvent(.started)
         } else {
@@ -622,8 +652,9 @@ final class DebugSettingsViewModel: ObservableObject {
         }
     }
 
-    private func updateDownloadPreview() {
-        if isDownloadPreviewEnabled {
+    private func updateDownloadPreview(isEnabled: Bool? = nil) {
+        let enabled = isEnabled ?? isDownloadPreviewEnabled
+        if enabled {
             downloadViewModel.showDebugPreviewDownloadsIfNeeded()
             notchEventCoordinator.handleDownloadEvent(.started)
         } else {
@@ -637,8 +668,9 @@ final class DebugSettingsViewModel: ObservableObject {
         }
     }
     
-    private func updateTimerPreview() {
-        if isTimerPreviewEnabled {
+    private func updateTimerPreview(isEnabled: Bool? = nil) {
+        let enabled = isEnabled ?? isTimerPreviewEnabled
+        if enabled {
             timerViewModel.showDebugPreviewSnapshotIfNeeded()
             notchEventCoordinator.handleTimerEvent(.started)
         } else {
@@ -647,8 +679,9 @@ final class DebugSettingsViewModel: ObservableObject {
         }
     }
 
-    private func updateFileTrayPreview() {
-        if isFileTrayPreviewEnabled {
+    private func updateFileTrayPreview(isEnabled: Bool? = nil) {
+        let enabled = isEnabled ?? isFileTrayPreviewEnabled
+        if enabled {
             showFileTrayActivePreview()
         } else {
             notchViewModel.send(.hideLiveActivity(id: Self.sequenceTrayActiveID))
@@ -656,8 +689,9 @@ final class DebugSettingsViewModel: ObservableObject {
         }
     }
 
-    private func updateFileConverterPreview() {
-        if isFileConverterPreviewEnabled {
+    private func updateFileConverterPreview(isEnabled: Bool? = nil) {
+        let enabled = isEnabled ?? isFileConverterPreviewEnabled
+        if enabled {
             showFileConverterActivePreview()
         } else {
             notchViewModel.send(.hideLiveActivity(id: Self.sequenceFileConverterActiveID))
@@ -665,15 +699,17 @@ final class DebugSettingsViewModel: ObservableObject {
         }
     }
 
-    private func updateLockScreenPreview() {
-        lockScreenManager.setDebugLockState(isLockScreenPreviewEnabled)
+    private func updateLockScreenPreview(isEnabled: Bool? = nil) {
+        let enabled = isEnabled ?? isLockScreenPreviewEnabled
+        lockScreenManager.setDebugLockState(enabled)
         notchEventCoordinator.handleLockScreenEvent(
-            isLockScreenPreviewEnabled ? .started : .stopped
+            enabled ? .started : .stopped
         )
     }
 
-    private func updateSoftwareUpdatePreview() {
-        if isSoftwareUpdatePreviewEnabled {
+    private func updateSoftwareUpdatePreview(isEnabled: Bool? = nil) {
+        let enabled = isEnabled ?? isSoftwareUpdatePreviewEnabled
+        if enabled {
             SparkleUpdater.shared.latestVersionString = "1.2.0"
             SparkleUpdater.shared.isUpdateAvailable = true
         } else {

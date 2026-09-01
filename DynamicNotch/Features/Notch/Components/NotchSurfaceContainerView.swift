@@ -102,11 +102,14 @@ struct NotchSurfaceContainerView: View {
     @MainActor
     @ViewBuilder
     private func renderedContentView(for content: NotchContentProtocol) -> some View {
-        if notchViewModel.isDisplayingExpandedLiveActivity {
-            content.makeExpandedView()
-        } else {
-            content.makeView()
+        Group {
+            if notchViewModel.isDisplayingExpandedLiveActivity {
+                content.makeExpandedView()
+            } else {
+                content.makeView()
+            }
         }
+        .id(content.id)
     }
     
     private var shouldApplyPressScale: Bool {

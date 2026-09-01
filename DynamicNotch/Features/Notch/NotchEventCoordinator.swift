@@ -11,22 +11,9 @@ import Combine
 @MainActor
 final class NotchEventCoordinator: ObservableObject {
     private let notchViewModel: NotchViewModel
-    private let wifiViewModel: WifiViewModel
-    private let vpnViewModel: VpnViewModel
-    private let downloadViewModel: DownloadViewModel
-    private let airDropViewModel: AirDropNotchViewModel
     private let settingsViewModel: SettingsViewModel
-    private let nowPlayingViewModel: NowPlayingViewModel
-    private let fileTrayViewModel: FileTrayViewModel
-    private let fileConverterViewModel: FileConverterViewModel
-    private let timerViewModel: TimerViewModel
-    private let screenRecordingViewModel: ScreenRecordingViewModel
-    private let localTimerViewModel: LocalTimerViewModel
-    private let homePageViewModel: HomePageViewModel
+    private let wifiViewModel: WifiViewModel
     private let calendarViewModel: CalendarViewModel
-    private let screenshotViewModel: ScreenshotViewModel
-    private let screenRecordingResultViewModel: ScreenRecordingResultViewModel
-    private let lockScreenManager: LockScreenManager
     private let systemHandler: NotchSystemEventsHandler
     private let focusHandler: NotchFocusEventsHandler
     private let hudHandler: NotchHUDEventsHandler
@@ -39,35 +26,51 @@ final class NotchEventCoordinator: ObservableObject {
     private let homePageHandler: NotchHomePageEventsHandler
     private let localTimerHandler: NotchLocalTimerEventsHandler
     private let calendarHandler: NotchCalendarEventsHandler
+    private let notificationsHandler: NotchNotificationsEventsHandler
+    private let screenshotHandler: NotchScreenshotEventsHandler
+    private let screenRecordingHandler: NotchScreenRecordingEventsHandler
+    private let lockScreenHandler: NotchLockScreenEventsHandler
+    private let onboardingHandler: NotchOnboardingEventsHandler
+    private var settingsObserver: NotchSettingsObserver?
     private var cancellables = Set<AnyCancellable>()
-    private var fileConverterExpansionTask: Task<Void, Never>?
-    private let mailManager: MailManager
-    private let messagesManager: MessagesManager
-    private let externalDrivesMonitor: ExternalDrivesMonitor
-    private var recentNotifications: [AppNotificationItem] = []
-    
-    private var isOnboardingActive: Bool {
-        OnboardingSteps.contains(id: notchViewModel.notchModel.liveActivityContent?.id) ||
-        OnboardingSteps.contains(id: notchViewModel.notchModel.temporaryNotificationContent?.id) ||
-        {
-            #if DEBUG
-            return OnboardingSteps.containsDebug(id: notchViewModel.notchModel.liveActivityContent?.id) ||
-            OnboardingSteps.containsDebug(id: notchViewModel.notchModel.temporaryNotificationContent?.id)
-            #else
-            return false
-            #endif
-        }()
+
+    var isOnboardingActive: Bool {
+        onboardingHandler.isOnboardingActive
     }
 
-    private var isLockScreenTransitionActive: Bool {
-        lockScreenManager.isTransitioning ||
-        notchViewModel.notchModel.liveActivityContent?.id == NotchContentRegistry.LockScreen.activity.id
+    convenience init(container: AppContainer) {
+        self.init(
+            notchViewModel: container.notchViewModel,
+            powerViewModel: container.powerViewModel,
+            focusViewModel: container.focusViewModel,
+            bluetoothViewModel: container.bluetoothViewModel,
+            powerService: container.powerService,
+            wifiViewModel: container.wifiViewModel,
+            vpnViewModel: container.vpnViewModel,
+            downloadViewModel: container.downloadViewModel,
+            airDropViewModel: container.airDropViewModel,
+            fileTrayViewModel: container.fileTrayViewModel,
+            fileConverterViewModel: container.fileConverterViewModel,
+            settingsViewModel: container.settingsViewModel,
+            nowPlayingViewModel: container.nowPlayingViewModel,
+            timerViewModel: container.timerViewModel,
+            screenRecordingViewModel: container.screenRecordingViewModel,
+            lockScreenManager: container.lockScreenManager,
+            homePageViewModel: container.homePageViewModel,
+            localTimerViewModel: container.localTimerViewModel,
+            calendarViewModel: container.calendarViewModel,
+            screenshotViewModel: container.screenshotViewModel,
+            screenRecordingResultViewModel: container.screenRecordingResultViewModel,
+            mailManager: container.mailManager,
+            messagesManager: container.messagesManager,
+            externalDrivesMonitor: container.externalDrivesMonitor
+        )
     }
 
-    private var isMessagesAudioPlaying = false
-    
-    init (
+    init(
         notchViewModel: NotchViewModel,
+        powerViewModel: PowerViewModel? = nil,
+        focusViewModel: FocusViewModel? = nil,
         bluetoothViewModel: BluetoothViewModel,
         powerService: PowerService,
         wifiViewModel: WifiViewModel,
@@ -91,25 +94,10 @@ final class NotchEventCoordinator: ObservableObject {
         externalDrivesMonitor: ExternalDrivesMonitor
     ) {
         self.notchViewModel = notchViewModel
-        self.wifiViewModel = wifiViewModel
-        self.vpnViewModel = vpnViewModel
-        self.downloadViewModel = downloadViewModel
-        self.airDropViewModel = airDropViewModel
         self.settingsViewModel = settingsViewModel
-        self.nowPlayingViewModel = nowPlayingViewModel
-        self.fileTrayViewModel = fileTrayViewModel
-        self.fileConverterViewModel = fileConverterViewModel
-        self.timerViewModel = timerViewModel
-        self.screenRecordingViewModel = screenRecordingViewModel
-        self.localTimerViewModel = localTimerViewModel
-        self.homePageViewModel = homePageViewModel
+        self.wifiViewModel = wifiViewModel
         self.calendarViewModel = calendarViewModel
-        self.screenshotViewModel = screenshotViewModel ?? ScreenshotViewModel()
-        self.screenRecordingResultViewModel = screenRecordingResultViewModel ?? ScreenRecordingResultViewModel()
-        self.mailManager = mailManager
-        self.messagesManager = messagesManager
-        self.externalDrivesMonitor = externalDrivesMonitor
-        self.lockScreenManager = lockScreenManager
+
         self.systemHandler = NotchSystemEventsHandler(
             notchViewModel: notchViewModel,
             settingsViewModel: settingsViewModel
@@ -147,6 +135,8 @@ final class NotchEventCoordinator: ObservableObject {
         self.dragAndDropHandler = NotchDragAndDropEventsHandler(
             notchViewModel: notchViewModel,
             airDropViewModel: airDropViewModel,
+            fileTrayViewModel: fileTrayViewModel,
+            fileConverterViewModel: fileConverterViewModel,
             settingsViewModel: settingsViewModel
         )
         self.timerHandler = NotchTimerEventsHandler(
@@ -173,256 +163,142 @@ final class NotchEventCoordinator: ObservableObject {
             timerViewModel: timerViewModel,
             settingsViewModel: settingsViewModel
         )
-        mailManager.onMessageReceived = { [weak self] message in
-            guard let self else { return }
+        self.notificationsHandler = NotchNotificationsEventsHandler(
+            notchViewModel: notchViewModel,
+            settingsViewModel: settingsViewModel,
+            mailManager: mailManager,
+            messagesManager: messagesManager,
+            externalDrivesMonitor: externalDrivesMonitor
+        )
+        let resolvedScreenshotHandler = NotchScreenshotEventsHandler(
+            notchViewModel: notchViewModel,
+            settingsViewModel: settingsViewModel,
+            screenshotViewModel: screenshotViewModel ?? ScreenshotViewModel(),
+            screenRecordingResultViewModel: screenRecordingResultViewModel ?? ScreenRecordingResultViewModel()
+        )
+        self.screenshotHandler = resolvedScreenshotHandler
 
-            handleMailMessage(message)
-        }
-        messagesManager.onMessageReceived = { [weak self] message in
-            self?.handleMessagesMessage(message)
-        }
-        externalDrivesMonitor.onDriveEvent = { [weak self] drive in
-            self?.handleExternalDriveEvent(drive)
-        }
-        self.fileTrayViewModel.onItemsChange = { [weak notchViewModel, weak settingsViewModel, weak fileTrayViewModel] items in
-            guard let notchViewModel, let settingsViewModel, let fileTrayViewModel else {
-                return
+        self.screenRecordingHandler = NotchScreenRecordingEventsHandler(
+            notchViewModel: notchViewModel,
+            screenRecordingViewModel: screenRecordingViewModel,
+            settingsViewModel: settingsViewModel,
+            screenshotHandler: resolvedScreenshotHandler
+        )
+        self.lockScreenHandler = NotchLockScreenEventsHandler(
+            notchViewModel: notchViewModel,
+            lockScreenManager: lockScreenManager,
+            settingsViewModel: settingsViewModel
+        )
+        self.onboardingHandler = NotchOnboardingEventsHandler(
+            notchViewModel: notchViewModel,
+            settingsViewModel: settingsViewModel,
+            nowPlayingViewModel: nowPlayingViewModel,
+            mediaHandler: mediaHandler,
+            homePageHandler: homePageHandler
+        )
+
+        setupEventSubscriptions(
+            powerViewModel: powerViewModel,
+            focusViewModel: focusViewModel,
+            bluetoothViewModel: bluetoothViewModel,
+            wifiViewModel: wifiViewModel,
+            vpnViewModel: vpnViewModel,
+            downloadViewModel: downloadViewModel,
+            airDropViewModel: airDropViewModel,
+            nowPlayingViewModel: nowPlayingViewModel,
+            timerViewModel: timerViewModel,
+            screenRecordingViewModel: screenRecordingViewModel,
+            lockScreenManager: lockScreenManager,
+            homePageViewModel: homePageViewModel
+        )
+
+        self.settingsObserver = NotchSettingsObserver(
+            settingsViewModel: settingsViewModel,
+            notchViewModel: notchViewModel,
+            wifiViewModel: wifiViewModel,
+            nowPlayingViewModel: nowPlayingViewModel,
+            downloadViewModel: downloadViewModel,
+            timerViewModel: timerViewModel,
+            localTimerViewModel: localTimerViewModel,
+            screenRecordingViewModel: screenRecordingViewModel,
+            lockScreenManager: lockScreenManager,
+            connectivityHandler: connectivityHandler,
+            mediaHandler: mediaHandler,
+            downloadHandler: downloadHandler,
+            dragAndDropHandler: dragAndDropHandler,
+            timerHandler: timerHandler,
+            homePageHandler: homePageHandler,
+            localTimerHandler: localTimerHandler,
+            lockScreenHandler: lockScreenHandler,
+            onLanguageChanged: { [weak self] language in
+                self?.showLanguageChangedNotification(for: language)
             }
-
-            let hasTrayItems = items.isEmpty == false
-
-            guard settingsViewModel.isLiveActivityEnabled(.drop),
-                  settingsViewModel.mediaAndFiles.isTrayLiveActivityEnabled,
-                  hasTrayItems else {
-                notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.DragAndDrop.trayActive.id))
-                return
-            }
-
-            notchViewModel.send(
-                .showLiveActivity(
-                    TrayActiveNotchContent(
-                        fileTrayViewModel: fileTrayViewModel,
-                        mediaSettings: settingsViewModel.mediaAndFiles
-                    )
-                )
-            )
-        }
-        self.fileConverterViewModel.onItemChange = { [weak self] item in
-            guard let self else {
-                return
-            }
-
-            guard self.settingsViewModel.isLiveActivityEnabled(.drop),
-                  self.settingsViewModel.mediaAndFiles.isFileConverterLiveActivityEnabled,
-                  item != nil else {
-                self.fileConverterExpansionTask?.cancel()
-                self.notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.DragAndDrop.fileConverterActive.id))
-                return
-            }
-
-            self.notchViewModel.send(.showLiveActivity(self.makeFileConverterActiveContent()))
-            self.notchViewModel.expandActiveLiveActivity()
-            self.scheduleFileConverterExpansion()
-        }
-
-        self.screenshotViewModel.onScreenshotReady = { [weak self] screenshot in
-            guard let self else { return }
-            guard self.settingsViewModel.screenRecording.isScreenshotActivityEnabled else { return }
-            
-            ScreenshotFlyAnimationService.shared.playFlyToNotchAnimation(image: screenshot.image) { [weak self] in
-                guard let self else { return }
-                let content = ScreenshotNotchContent(viewModel: self.screenshotViewModel)
-                if self.settingsViewModel.screenRecording.isScreenshotAutoHideEnabled {
-                    let duration = TimeInterval(self.settingsViewModel.screenRecording.screenshotTemporaryActivityDuration)
-                    self.notchViewModel.send(.showTemporaryNotification(content, duration: duration))
-                } else {
-                    self.notchViewModel.send(.showLiveActivity(content))
-                }
-            }
-        }
-        self.screenshotViewModel.onScreenshotDismissed = { [weak self] in
-            guard let self else { return }
-            self.notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Screenshot.active.id))
-            self.notchViewModel.hideTemporaryNotification()
-        }
-
-        self.screenshotViewModel.onScreenRecordingCaptured = { [weak self] fileURL, thumbnail, fileName in
-            guard let self else { return }
-            guard self.settingsViewModel.isLiveActivityEnabled(.screenRecording) else { return }
-
-            self.screenRecordingResultViewModel.setRecordingResult(
-                fileURL: fileURL,
-                thumbnail: thumbnail,
-                fileName: fileName
-            )
-        }
-
-        self.screenRecordingResultViewModel.onResultReady = { [weak self] _ in
-            guard let self else { return }
-            guard self.settingsViewModel.isLiveActivityEnabled(.screenRecording) else { return }
-
-            let content = ScreenRecordingResultNotchContent(viewModel: self.screenRecordingResultViewModel)
-            if self.settingsViewModel.screenRecording.isScreenshotAutoHideEnabled {
-                let duration = TimeInterval(self.settingsViewModel.screenRecording.screenshotTemporaryActivityDuration)
-                self.notchViewModel.send(.showTemporaryNotification(content, duration: duration))
-            } else {
-                self.notchViewModel.send(.showLiveActivity(content))
-            }
-        }
-
-        self.screenRecordingResultViewModel.onResultDismissed = { [weak self] in
-            guard let self else { return }
-            self.notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.ScreenRecording.result.id))
-            self.notchViewModel.hideTemporaryNotification()
-        }
-
-        let isCaptureMonitoringNeeded = settingsViewModel.screenRecording.isScreenshotActivityEnabled ||
-            settingsViewModel.isLiveActivityEnabled(.screenRecording)
-        if isCaptureMonitoringNeeded {
-            self.screenshotViewModel.startMonitoring(
-                disableSystemThumbnail: settingsViewModel.screenRecording.isScreenshotActivityEnabled
-            )
-        } else {
-            ScreenshotMonitorService.setSystemFloatingThumbnailEnabled(true)
-        }
-
-        notchViewModel.$notchModel
-            .map { model in
-                model.temporaryNotificationContent?.id == NotchContentRegistry.Screenshot.active.id ||
-                model.liveActivityContent?.id == NotchContentRegistry.Screenshot.active.id
-            }
-            .removeDuplicates()
-            .dropFirst()
-            .sink { [weak self] isShowingScreenshot in
-                if !isShowingScreenshot {
-                    self?.screenshotViewModel.saveToDiskIfNeeded()
-                }
-            }
-            .store(in: &cancellables)
+        )
 
         observeCalendarEvents()
-        observeSettingsChanges()
-        observeMessagesPresentation()
     }
-    
-    func checkFirstLaunch() {
-        let hasSeenOnboarding = UserDefaults.standard.bool(forKey: "hasSeenOnboarding")
-        
-        if !hasSeenOnboarding {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                self.handleOnboardingEvent(.onboarding)
-            }
-        } else {
-            if nowPlayingViewModel.hasActiveSession &&
-                settingsViewModel.isLiveActivityEnabled(.nowPlaying) {
-                mediaHandler.handleNowPlaying(.started)
-            }
-            if settingsViewModel.isLiveActivityEnabled(.homePage) {
-                homePageHandler.handleHomePage(.homePageOn)
-            }
-        }
-    }
-    
-    func hideOnboarding(markAsSeen: Bool = false) {
-        if markAsSeen {
-            UserDefaults.standard.set(true, forKey: "hasSeenOnboarding")
-        }
-        
-        OnboardingSteps.allCases.forEach { step in
-            notchViewModel.send(.hideLiveActivity(id: step.liveActivityID))
-        }
-        
-        #if DEBUG
-        OnboardingSteps.allCases.forEach { step in
-            notchViewModel.send(.hideLiveActivity(id: step.debugLiveActivityID))
-        }
-        #endif
 
-        if markAsSeen {
-            if nowPlayingViewModel.hasActiveSession &&
-                settingsViewModel.isLiveActivityEnabled(.nowPlaying) {
-                mediaHandler.handleNowPlaying(.started)
-            }
-            if settingsViewModel.isLiveActivityEnabled(.homePage) {
-                homePageHandler.handleHomePage(.homePageOn)
-            }
+    func checkFirstLaunch() {
+        onboardingHandler.checkFirstLaunch { [weak self] in
+            self?.handleOnboardingEvent(.onboarding)
         }
     }
-    
+
+    func hideOnboarding(markAsSeen: Bool = false) {
+        onboardingHandler.hideOnboarding(markAsSeen: markAsSeen)
+    }
+
     func finishOnboarding() {
-        hideOnboarding(markAsSeen: true)
+        onboardingHandler.hideOnboarding(markAsSeen: true)
     }
-    
+
     func showOnboarding(step: OnboardingSteps = .first) {
-        notchViewModel.send(
-            .showLiveActivity(
-                OnboardingNotchContent(
-                    step: step,
-                    notchEventCoordinator: self
-                )
-            )
-        )
+        onboardingHandler.showOnboarding(step: step, coordinator: self)
     }
-    
+
     #if DEBUG
     func showDebugOnboardingPreview(step: OnboardingSteps = .first) {
-        notchViewModel.send(
-            .showLiveActivity(
-                DebugOnboardingPreviewNotchContent(
-                    step: step,
-                    notchEventCoordinator: self
-                )
-            )
-        )
+        onboardingHandler.showDebugOnboardingPreview(step: step, coordinator: self)
     }
     #endif
-    
+
     func handleNotchWidthEvent(_ event: NotchSizeEvent) {
         guard !isOnboardingActive else { return }
         guard settingsViewModel.isTemporaryActivityEnabled(.notchSize) else { return }
 
         systemHandler.handleNotchSize(event)
     }
-    
+
     func handleFocusEvent(_ event: FocusEvent) {
         guard !isOnboardingActive else { return }
-
         focusHandler.handleFocus(event)
     }
-    
+
     func handleHudEvent(_ event: HudEvent) {
         guard !isOnboardingActive else { return }
-
         hudHandler.handleHud(event)
     }
-    
+
     func handleOnboardingEvent(_ event: OnboardingEvent) {
         switch event {
         case .onboarding:
-            showOnboarding()
+            showOnboarding(step: .first)
         }
     }
-    
+
     func handleBluetoothEvent(_ event: BluetoothEvent) {
         guard !isOnboardingActive else { return }
-
         connectivityHandler.handleBluetooth(event)
     }
-    
-    func handleWifiEvent(_ event: WifiEvent) {
-        if event != .noInternetConnection {
-            guard !isOnboardingActive else { return }
-        }
 
+    func handleWifiEvent(_ event: WifiEvent) {
+        guard !isOnboardingActive else { return }
         connectivityHandler.handleWifi(event)
-        wifiViewModel.wifiEvent = nil
     }
 
     func handleVpnEvent(_ event: VpnEvent) {
         guard !isOnboardingActive else { return }
-
         connectivityHandler.handleVpn(event)
-        vpnViewModel.vpnEvent = nil
     }
 
     @discardableResult
@@ -434,635 +310,158 @@ final class NotchEventCoordinator: ObservableObject {
 
         return true
     }
-    
+
     func handlePowerEvent(_ event: PowerEvent) {
         guard !isOnboardingActive else { return }
-
         powerHandler.handle(event)
     }
 
     func handleDownloadEvent(_ event: DownloadEvent) {
         guard !isOnboardingActive else { return }
-
         downloadHandler.handleDownload(event)
     }
 
     func handleAirDropEvent(_ event: AirDropEvent) {
         dragAndDropHandler.handleAirDrop(event)
     }
-    
+
     func handleNowPlayingEvent(_ event: NowPlayingEvent) {
         guard !isOnboardingActive else { return }
-
         mediaHandler.handleNowPlaying(event)
     }
 
     func handleTimerEvent(_ event: TimerEvent) {
         guard !isOnboardingActive else { return }
-
         timerHandler.handleTimer(event)
     }
-    
+
     func handleHomePageEvent(_ event: HomePageEvent) {
         guard !isOnboardingActive else { return }
-        
         homePageHandler.handleHomePage(event)
     }
 
     func handleScreenRecordingEvent(_ event: ScreenRecordingEvent) {
         guard !isOnboardingActive else { return }
-        guard settingsViewModel.isLiveActivityEnabled(.screenRecording) else {
-            notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.ScreenRecording.active.id))
-            return
-        }
-
-        switch event {
-        case .started:
-            notchViewModel.send(
-                .showLiveActivity(
-                    ScreenRecordingContent(
-                        screenRecordingViewModel: screenRecordingViewModel,
-                        settingsViewModel: settingsViewModel
-                    )
-                )
-            )
-
-        case .stopped:
-            notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.ScreenRecording.active.id))
-            screenshotViewModel.scanNow()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
-                self?.screenshotViewModel.scanNow()
-            }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) { [weak self] in
-                self?.screenshotViewModel.scanNow()
-            }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { [weak self] in
-                self?.screenshotViewModel.scanNow()
-            }
-        }
+        screenRecordingHandler.handleScreenRecordingEvent(event)
     }
 
     func handleLockScreenEvent(_ event: LockScreenEvent) {
-        switch event {
-        case .started:
-            notchViewModel.isLocked = true
-            guard settingsViewModel.isLiveActivityEnabled(.lockScreen) else {
-                notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.LockScreen.activity.id))
-                return
-            }
-            notchViewModel.send(
-                .showLiveActivity(
-                    LockScreenNotchContent(
-                        lockScreenManager: lockScreenManager,
-                        style: settingsViewModel.lockScreen.lockScreenStyle
-                    )
-                )
-            )
-            
-        case .stopped:
-            notchViewModel.isLocked = false
-            notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.LockScreen.activity.id))
-        }
+        lockScreenHandler.handleLockScreenEvent(event)
     }
-    
+
     func handleMailMessage(_ message: MailMessage) {
-        guard settingsViewModel.notifications.isAppleMailNotificationsEnabled else { return }
-
-        recentNotifications.removeAll { $0.id == "mail-\(message.rowID)" }
-        recentNotifications.append(.mail(message))
-        recentNotifications = Array(recentNotifications.suffix(2))
-
-        showNotificationsNotification(duration: Double(settingsViewModel.notifications.appleMailNotificationDuration))
+        notificationsHandler.handleMailMessage(message)
     }
 
     func handleMessagesMessage(_ message: MessagesMessage) {
-        guard settingsViewModel.notifications.isMessagesNotificationsEnabled else { return }
-
-        recentNotifications.removeAll { $0.id == "msg-\(message.id)" }
-        recentNotifications.append(.message(message))
-        recentNotifications = Array(recentNotifications.suffix(2))
-
-        showNotificationsNotification(duration: Double(settingsViewModel.notifications.messagesNotificationDuration))
-    }
-
-    private func handleMessagesAudioPlaybackStateChanged(_ isPlaying: Bool) {
-        let isShowingMessages = notchViewModel.notchModel.temporaryNotificationContent?.id == NotchContentRegistry.Notifications.messages.id
-
-        guard isShowingMessages else {
-            isMessagesAudioPlaying = false
-            return
-        }
-
-        guard isMessagesAudioPlaying != isPlaying else { return }
-
-        isMessagesAudioPlaying = isPlaying
-        showNotificationsNotification()
-    }
-
-    private func showNotificationsNotification(duration: Double? = nil) {
-        guard !recentNotifications.isEmpty else { return }
-
-        let effectiveDuration: TimeInterval = isMessagesAudioPlaying
-            ? .infinity
-            : (duration ?? Double(settingsViewModel.notifications.messagesNotificationDuration))
-
-        let content = NotificationsNotchContent(
-            items: recentNotifications,
-            onAudioPlaybackStateChanged: { [weak self] isPlaying in
-                Task { @MainActor [weak self] in
-                    self?.handleMessagesAudioPlaybackStateChanged(isPlaying)
-                }
-            },
-            onOpenMessage: { [weak self] selectedMessage in
-                guard let self else { return }
-
-                messagesManager.open(selectedMessage)
-                notchViewModel.hideTemporaryNotification()
-            },
-            onOpenMail: { [weak self] selectedMail in
-                guard let self else { return }
-
-                mailManager.open(selectedMail)
-                notchViewModel.hideTemporaryNotification()
-            }
-        )
-
-        notchViewModel.send(.showTemporaryNotification(content, duration: effectiveDuration))
+        notificationsHandler.handleMessagesMessage(message)
     }
 
     func handleExternalDriveEvent(_ drive: ExternalDriveModel) {
-        guard settingsViewModel.notifications.isExternalDrivesNotificationsEnabled else { return }
-
-        if drive.eventType == .ejected && !settingsViewModel.notifications.isExternalDrivesShowEjectedEnabled {
-            return
-        }
-
-        let duration = Double(settingsViewModel.notifications.externalDrivesNotificationDuration)
-        let volumeURL = drive.volumeURL
-        let content = ExternalDriveNotchContent(
-            drive: drive,
-            onOpen: {
-                if let volumeURL {
-                    NSWorkspace.shared.open(volumeURL)
-                }
-            },
-            onEject: { [weak externalDrivesMonitor] in
-                if let volumeURL {
-                    externalDrivesMonitor?.ejectDrive(at: volumeURL)
-                }
-            }
-        )
-
-        notchViewModel.send(.showTemporaryNotification(content, duration: duration))
+        notificationsHandler.handleExternalDriveEvent(drive)
     }
 
-    private func observeMessagesPresentation() {
-        notchViewModel.$notchModel
-            .map { model in
-                model.temporaryNotificationContent?.id == NotchContentRegistry.Notifications.messages.id
+    private func setupEventSubscriptions(
+        powerViewModel: PowerViewModel?,
+        focusViewModel: FocusViewModel?,
+        bluetoothViewModel: BluetoothViewModel,
+        wifiViewModel: WifiViewModel,
+        vpnViewModel: VpnViewModel,
+        downloadViewModel: DownloadViewModel,
+        airDropViewModel: AirDropNotchViewModel,
+        nowPlayingViewModel: NowPlayingViewModel,
+        timerViewModel: TimerViewModel,
+        screenRecordingViewModel: ScreenRecordingViewModel,
+        lockScreenManager: LockScreenManager,
+        homePageViewModel: HomePageViewModel
+    ) {
+        powerViewModel?.$event.compactMap { $0 }
+            .sink { [weak self] event in
+                self?.handlePowerEvent(event)
             }
-            .removeDuplicates()
-            .dropFirst()
-            .sink { [weak self] isShowingMessages in
-                guard let self, !isShowingMessages else { return }
+            .store(in: &cancellables)
 
-                recentNotifications.removeAll()
-                isMessagesAudioPlaying = false
+        bluetoothViewModel.$event.compactMap { $0 }
+            .sink { [weak self] event in
+                self?.handleBluetoothEvent(event)
+            }
+            .store(in: &cancellables)
+
+        wifiViewModel.$wifiEvent.compactMap { $0 }
+            .sink { [weak self] event in
+                self?.handleWifiEvent(event)
+            }
+            .store(in: &cancellables)
+
+        vpnViewModel.$vpnEvent.compactMap { $0 }
+            .sink { [weak self] event in
+                self?.handleVpnEvent(event)
+            }
+            .store(in: &cancellables)
+
+        downloadViewModel.$event.compactMap { $0 }
+            .sink { [weak self] event in
+                self?.handleDownloadEvent(event)
+            }
+            .store(in: &cancellables)
+
+        focusViewModel?.$focusEvent.compactMap { $0 }
+            .sink { [weak self] event in
+                self?.handleFocusEvent(event)
+            }
+            .store(in: &cancellables)
+
+        airDropViewModel.$event.compactMap { $0 }
+            .sink { [weak self] event in
+                self?.handleAirDropEvent(event)
+            }
+            .store(in: &cancellables)
+
+        settingsViewModel.notchSizeEvent
+            .sink { [weak self] event in
+                self?.handleNotchWidthEvent(event)
+            }
+            .store(in: &cancellables)
+
+        nowPlayingViewModel.$event.compactMap { $0 }
+            .sink { [weak self] event in
+                self?.handleNowPlayingEvent(event)
+            }
+            .store(in: &cancellables)
+
+        timerViewModel.$event.compactMap { $0 }
+            .sink { [weak self] event in
+                self?.handleTimerEvent(event)
+            }
+            .store(in: &cancellables)
+
+        screenRecordingViewModel.$event.compactMap { $0 }
+            .sink { [weak self] event in
+                self?.handleScreenRecordingEvent(event)
+            }
+            .store(in: &cancellables)
+
+        lockScreenManager.$event.compactMap { $0 }
+            .sink { [weak self] event in
+                self?.handleLockScreenEvent(event)
+            }
+            .store(in: &cancellables)
+
+        homePageViewModel.$event.compactMap { $0 }
+            .sink { [weak self] event in
+                self?.handleHomePageEvent(event)
             }
             .store(in: &cancellables)
     }
 
-    private func syncAirDropTransferLiveActivity() {
-        guard settingsViewModel.isLiveActivityEnabled(.drop),
-              settingsViewModel.mediaAndFiles.isAirDropLiveActivityEnabled,
-              airDropViewModel.activeTransfer != nil else {
-            notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.DragAndDrop.airDropTransferActive.id))
-            return
-        }
-
-        notchViewModel.send(
-            .showLiveActivity(
-                AirDropActiveNotchContent(
-                    airDropViewModel: airDropViewModel,
-                    mediaSettings: settingsViewModel.mediaAndFiles
-                )
-            )
-        )
-    }
-
-    private func syncFileTrayLiveActivity(hasItems: Bool? = nil) {
-        let hasTrayItems = hasItems ?? fileTrayViewModel.items.isEmpty == false
-
-        guard settingsViewModel.isLiveActivityEnabled(.drop),
-              settingsViewModel.mediaAndFiles.isTrayLiveActivityEnabled,
-              hasTrayItems else {
-            notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.DragAndDrop.trayActive.id))
-            return
-        }
-
-        notchViewModel.send(
-            .showLiveActivity(
-                TrayActiveNotchContent(
-                    fileTrayViewModel: fileTrayViewModel,
-                    mediaSettings: settingsViewModel.mediaAndFiles
-                )
-            )
-        )
-    }
-
-    private func syncFileConverterLiveActivity(hasItem: Bool? = nil) {
-        let hasConverterItem = hasItem ?? fileConverterViewModel.hasItem
-
-        guard settingsViewModel.isLiveActivityEnabled(.drop),
-              settingsViewModel.mediaAndFiles.isFileConverterLiveActivityEnabled,
-              hasConverterItem else {
-            fileConverterExpansionTask?.cancel()
-            notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.DragAndDrop.fileConverterActive.id))
-            return
-        }
-
-        notchViewModel.send(.showLiveActivity(makeFileConverterActiveContent()))
-    }
-
-    private func makeFileConverterActiveContent() -> FileConverterActiveNotchContent {
-        FileConverterActiveNotchContent(
-            fileConverterViewModel: fileConverterViewModel,
-            mediaSettings: settingsViewModel.mediaAndFiles,
-            onRequestCollapse: { [weak notchViewModel] in
-                notchViewModel?.handleOutsideClick()
-            }
-        )
-    }
-
-    private func scheduleFileConverterExpansion() {
-        fileConverterExpansionTask?.cancel()
-        fileConverterExpansionTask = Task { [weak self] in
-            for _ in 0..<20 {
-                try? await Task.sleep(nanoseconds: 50_000_000)
-                guard !Task.isCancelled else { return }
-
-                let didFinish = await MainActor.run { [weak self] in
-                    self?.expandFileConverterIfReady() ?? true
-                }
-
-                if didFinish {
-                    return
-                }
-            }
-
-            await MainActor.run { [weak self] in
-                self?.fileConverterExpansionTask = nil
-            }
-        }
-    }
-
-    @discardableResult
-    private func expandFileConverterIfReady() -> Bool {
-        guard fileConverterViewModel.hasItem else {
-            fileConverterExpansionTask = nil
-            return true
-        }
-
-        guard notchViewModel.notchModel.liveActivityContent?.id == NotchContentRegistry.DragAndDrop.fileConverterActive.id,
-              notchViewModel.notchModel.temporaryNotificationContent == nil else {
-            return false
-        }
-
-        if !notchViewModel.notchModel.isLiveActivityExpanded {
-            notchViewModel.expandActiveLiveActivity()
-        }
-        fileConverterExpansionTask = nil
-        return true
-    }
-    
     private func observeCalendarEvents() {
         calendarViewModel.$events
             .map { _ in self.calendarViewModel.hasUpcomingEvent }
-            .removeDuplicates()
-            .sink { [weak self] hasUpcoming in
-                self?.calendarHandler.handleCalendarEvent(hasUpcoming)
-            }
-            .store(in: &cancellables)
-            
-        settingsViewModel.calendar.$isCalendarLiveActivityEnabled
-            .removeDuplicates()
-            .sink { [weak self] isEnabled in
-                guard let self else { return }
-                self.calendarHandler.handleCalendarEvent(isEnabled && self.calendarViewModel.hasUpcomingEvent)
-            }
-            .store(in: &cancellables)
-
-        settingsViewModel.application.$isCloseAtFocusLiveActivityEnabled
             .removeDuplicates()
             .sink { [weak self] _ in
                 guard let self else { return }
                 self.calendarHandler.handleCalendarEvent(self.calendarViewModel.hasUpcomingEvent)
                 self.timerHandler.handleFrontmostApplicationChange()
-            }
-            .store(in: &cancellables)
-    }
-
-    private func observeSettingsChanges() {
-        settingsViewModel.connectivity.$isFocusLiveActivityEnabled
-            .removeDuplicates()
-            .sink { [weak self] isEnabled in
-                guard let self else { return }
-
-                if isEnabled == false {
-                    self.notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Focus.active.id))
-                }
-            }
-            .store(in: &cancellables)
-
-        settingsViewModel.connectivity.$isHotspotLiveActivityEnabled
-            .removeDuplicates()
-            .sink { [weak self] isEnabled in
-                guard let self else { return }
-
-                if isEnabled {
-                    if self.wifiViewModel.hotspotActive {
-                        self.connectivityHandler.handleWifi(.hotspotActive)
-                    }
-                } else {
-                    self.notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Wifi.hotspot.id))
-                }
-            }
-            .store(in: &cancellables)
-
-        settingsViewModel.connectivity.$hotspotAppearanceStyle
-            .removeDuplicates()
-            .sink { [weak self] _ in
-                guard let self else { return }
-                guard self.settingsViewModel.connectivity.isHotspotLiveActivityEnabled else { return }
-                guard self.wifiViewModel.hotspotActive else { return }
-
-                self.connectivityHandler.handleWifi(.hotspotActive)
-            }
-            .store(in: &cancellables)
-
-        settingsViewModel.mediaAndFiles.$isNowPlayingLiveActivityEnabled
-            .removeDuplicates()
-            .sink { [weak self] isEnabled in
-                guard let self else { return }
-
-                if isEnabled {
-                    if self.nowPlayingViewModel.hasActiveSession {
-                        self.mediaHandler.handleNowPlaying(.started)
-                    }
-                } else {
-                    self.mediaHandler.cancelDeferredNowPlayingHide()
-                    self.notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Media.nowPlaying.id))
-                }
-            }
-            .store(in: &cancellables)
-
-        Publishers.CombineLatest(
-            settingsViewModel.mediaAndFiles.$isNowPlayingPauseHideTimerEnabled.removeDuplicates(),
-            settingsViewModel.mediaAndFiles.$nowPlayingPauseHideDelay.removeDuplicates()
-        )
-        .sink { [weak self] _, _ in
-            guard let self else { return }
-            guard self.settingsViewModel.isLiveActivityEnabled(.nowPlaying) else { return }
-            guard self.nowPlayingViewModel.hasActiveSession else { return }
-
-            self.mediaHandler.syncNowPlayingPlaybackState()
-        }
-        .store(in: &cancellables)
-
-        settingsViewModel.mediaAndFiles.$isDownloadsLiveActivityEnabled
-            .removeDuplicates()
-            .sink { [weak self] isEnabled in
-                guard let self else { return }
-
-                if isEnabled {
-                    if self.downloadViewModel.hasActiveDownloads {
-                        self.downloadHandler.handleDownload(.started)
-                    }
-                } else {
-                    self.notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Media.download.id))
-                }
-            }
-            .store(in: &cancellables)
-
-        settingsViewModel.mediaAndFiles.$isDragAndDropLiveActivityEnabled
-            .removeDuplicates()
-            .sink { [weak self] isEnabled in
-                guard let self else { return }
-
-                if isEnabled {
-                    self.dragAndDropHandler.refreshDragAndDropPresentation()
-                    self.syncFileTrayLiveActivity()
-                    self.syncFileConverterLiveActivity()
-                } else {
-                    NotchContentRegistry.DragAndDrop.liveActivityIDs.forEach { id in
-                        self.notchViewModel.send(.hideLiveActivity(id: id))
-                    }
-                    self.notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.DragAndDrop.trayActive.id))
-                    self.notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.DragAndDrop.fileConverterActive.id))
-                }
-            }
-            .store(in: &cancellables)
-
-        settingsViewModel.mediaAndFiles.$dragAndDropActivityMode
-            .removeDuplicates()
-            .sink { [weak self] _ in
-                self?.dragAndDropHandler.refreshDragAndDropPresentation()
-                self?.syncFileTrayLiveActivity()
-                self?.syncFileConverterLiveActivity()
-            }
-            .store(in: &cancellables)
-
-        settingsViewModel.mediaAndFiles.$isAirDropLiveActivityEnabled
-            .removeDuplicates()
-            .sink { [weak self] _ in
-                self?.dragAndDropHandler.refreshDragAndDropPresentation()
-                self?.syncAirDropTransferLiveActivity()
-            }
-            .store(in: &cancellables)
-
-        airDropViewModel.$activeTransfer
-            .sink { [weak self] _ in
-                self?.syncAirDropTransferLiveActivity()
-            }
-            .store(in: &cancellables)
-
-        settingsViewModel.mediaAndFiles.$isTrayLiveActivityEnabled
-            .removeDuplicates()
-            .sink { [weak self] isEnabled in
-                guard let self else { return }
-
-                if isEnabled {
-                    self.syncFileTrayLiveActivity()
-                } else {
-                    self.notchViewModel.send(
-                        .hideLiveActivity(id: NotchContentRegistry.DragAndDrop.trayActive.id)
-                    )
-                }
-            }
-            .store(in: &cancellables)
-
-        settingsViewModel.mediaAndFiles.$isFileConverterLiveActivityEnabled
-            .removeDuplicates()
-            .sink { [weak self] isEnabled in
-                guard let self else { return }
-
-                if isEnabled {
-                    self.syncFileConverterLiveActivity()
-                } else {
-                    self.notchViewModel.send(
-                        .hideLiveActivity(id: NotchContentRegistry.DragAndDrop.fileConverterActive.id)
-                    )
-                }
-            }
-            .store(in: &cancellables)
-
-        settingsViewModel.mediaAndFiles.$isTimerLiveActivityEnabled
-            .removeDuplicates()
-            .sink { [weak self] isEnabled in
-                guard let self else { return }
-
-                if isEnabled {
-                    if self.timerViewModel.snapshot != nil {
-                        self.timerHandler.handleTimer(.started)
-                    }
-                } else {
-                    self.notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Media.timer.id))
-                }
-            }
-            .store(in: &cancellables)
-
-        settingsViewModel.screenRecording.$isScreenRecordingLiveActivityEnabled
-            .removeDuplicates()
-            .sink { [weak self] isEnabled in
-                guard let self else { return }
-
-                if isEnabled == false {
-                    self.notchViewModel.send(
-                        .hideLiveActivity(id: NotchContentRegistry.ScreenRecording.active.id)
-                    )
-                }
-            }
-            .store(in: &cancellables)
-
-        settingsViewModel.screenRecording.$screenRecordingStyle
-            .removeDuplicates()
-            .dropFirst()
-            .sink { [weak self] _ in
-                guard let self else { return }
-                if self.screenRecordingViewModel.isRecording,
-                   self.settingsViewModel.isLiveActivityEnabled(.screenRecording) {
-                    self.notchViewModel.send(
-                        .showLiveActivity(
-                            ScreenRecordingContent(
-                                screenRecordingViewModel: self.screenRecordingViewModel,
-                                settingsViewModel: self.settingsViewModel
-                            )
-                        )
-                    )
-                }
-            }
-            .store(in: &cancellables)
-
-        settingsViewModel.screenRecording.$isScreenRecordingDefaultStrokeEnabled
-            .removeDuplicates()
-            .dropFirst()
-            .sink { [weak self] _ in
-                guard let self else { return }
-                if self.screenRecordingViewModel.isRecording,
-                   self.settingsViewModel.isLiveActivityEnabled(.screenRecording) {
-                    self.notchViewModel.send(
-                        .showLiveActivity(
-                            ScreenRecordingContent(
-                                screenRecordingViewModel: self.screenRecordingViewModel,
-                                settingsViewModel: self.settingsViewModel
-                            )
-                        )
-                    )
-                }
-            }
-            .store(in: &cancellables)
-
-        Publishers.CombineLatest(
-            settingsViewModel.screenRecording.$isScreenshotActivityEnabled,
-            settingsViewModel.screenRecording.$isScreenRecordingLiveActivityEnabled
-        )
-        .removeDuplicates { $0 == $1 }
-        .sink { [weak self] isScreenshotEnabled, isScreenRecordingEnabled in
-            guard let self else { return }
-            if isScreenshotEnabled || isScreenRecordingEnabled {
-                self.screenshotViewModel.startMonitoring(disableSystemThumbnail: isScreenshotEnabled)
-            } else {
-                self.screenshotViewModel.stopMonitoring()
-                ScreenshotMonitorService.setSystemFloatingThumbnailEnabled(true)
-            }
-        }
-        .store(in: &cancellables)
-
-        notchViewModel.$notchModel
-            .map(\.isLiveActivityExpanded)
-            .removeDuplicates()
-            .sink { [weak self] isExpanded in
-                self?.mediaHandler.handleExpansionChange(isExpanded: isExpanded)
-            }
-            .store(in: &cancellables)
-
-        settingsViewModel.lockScreen.$isLockScreenLiveActivityEnabled
-            .removeDuplicates()
-            .sink { [weak self] isEnabled in
-                guard let self else { return }
-
-                if isEnabled {
-                    if self.lockScreenManager.isLocked {
-                        self.handleLockScreenEvent(.started)
-                    }
-                } else {
-                    self.notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.LockScreen.activity.id))
-                }
-            }
-            .store(in: &cancellables)
-
-        settingsViewModel.lockScreen.$lockScreenStyle
-            .removeDuplicates()
-            .sink { [weak self] style in
-                guard let self else { return }
-                guard self.notchViewModel.notchModel.liveActivityContent?.id == NotchContentRegistry.LockScreen.activity.id else {
-                    return
-                }
-
-                self.notchViewModel.send(
-                    .showLiveActivity(
-                        LockScreenNotchContent(
-                            lockScreenManager: self.lockScreenManager,
-                            style: style
-                        )
-                    )
-                )
-            }
-            .store(in: &cancellables)
-
-        settingsViewModel.homePage.$isHomePageLiveActivityEnabled
-            .sink { [weak self] isEnabled in
-                if isEnabled {
-                    self?.homePageHandler.handleHomePage(.homePageOn)
-                } else {
-                    self?.homePageHandler.handleHomePage(.homePageOff)
-                }
-            }
-            .store(in: &cancellables)
-        
-        localTimerViewModel.$state
-            .dropFirst()
-            .sink { [weak self] state in
-                self?.localTimerHandler.handleLocalTimerStateChanged(state)
-            }
-            .store(in: &cancellables)
-
-        settingsViewModel.application.$appLanguage
-            .dropFirst()
-            .receive(on: RunLoop.main)
-            .sink { [weak self] language in
-                guard let self else { return }
-                self.showLanguageChangedNotification(for: language)
             }
             .store(in: &cancellables)
     }

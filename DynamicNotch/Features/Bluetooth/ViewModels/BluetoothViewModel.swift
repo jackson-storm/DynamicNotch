@@ -15,13 +15,10 @@ final class BluetoothViewModel: ObservableObject {
     @Published var deviceName: String = "Unknown"
     @Published var batteryLevel: Int? = nil
     
-    var notchViewModel: NotchViewModel?
-    
     private var cancellables = Set<AnyCancellable>()
-    private let bluetoothService: BluetoothService
+    private let bluetoothService: any BluetoothServiceProtocol
     
-    init(notchViewModel: NotchViewModel? = nil, bluetoothService: BluetoothService = .shared) {
-        self.notchViewModel = notchViewModel
+    init(bluetoothService: any BluetoothServiceProtocol = BluetoothService.shared) {
         self.bluetoothService = bluetoothService
         bindToService()
     }
@@ -33,7 +30,7 @@ final class BluetoothViewModel: ObservableObject {
     }
     
     private func bindToService() {
-        bluetoothService.$connectedDevices
+        bluetoothService.connectedDevicesPublisher
             .receive(on: RunLoop.main)
             .sink { [weak self] devices in
                 guard let self = self else { return }
@@ -59,7 +56,7 @@ final class BluetoothViewModel: ObservableObject {
             }
             .store(in: &cancellables)
     
-        bluetoothService.$lastConnectedDevice
+        bluetoothService.lastConnectedDevicePublisher
             .receive(on: RunLoop.main)
             .sink { [weak self] device in
                 guard let self = self else { return }

@@ -51,20 +51,8 @@ class SettingsWindowController: NSWindowController {
     private func setupContentView() {
         guard let window = window, let appDelegate = appDelegate else { return }
         
-        let settingsView = SettingsRootView(
-            powerService: appDelegate.powerService,
-            settingsViewModel: appDelegate.settingsViewModel,
-            notchViewModel: appDelegate.notchViewModel,
-            notchEventCoordinator: appDelegate.notchEventCoordinator,
-            bluetoothViewModel: appDelegate.bluetoothViewModel,
-            wifiViewModel: appDelegate.wifiViewModel,
-            vpnViewModel: appDelegate.vpnViewModel,
-            downloadViewModel: appDelegate.downloadViewModel,
-            nowPlayingViewModel: appDelegate.nowPlayingViewModel,
-            timerViewModel: appDelegate.timerViewModel,
-            lockScreenManager: appDelegate.lockScreenManager
-        )
-        .frame(width: SettingsWindowLayout.width, height: SettingsWindowLayout.height)
+        let settingsView = SettingsRootView(container: appDelegate.container)
+            .frame(width: SettingsWindowLayout.width, height: SettingsWindowLayout.height)
         
         let hostingView = NSHostingView(rootView: settingsView)
         window.contentView = hostingView

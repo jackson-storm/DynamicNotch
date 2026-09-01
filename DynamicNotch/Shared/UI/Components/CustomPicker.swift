@@ -7,7 +7,18 @@
 
 import SwiftUI
 
-struct CustomPicker<Option: Hashable>: View {
+struct CustomPickerSymbolView: View {
+    let symbolName: String
+    let isSelected: Bool
+
+    var body: some View {
+        Image(systemName: symbolName)
+            .font(.system(size: 18, weight: .semibold))
+            .foregroundStyle(isSelected ? Color.accentColor : Color.primary)
+    }
+}
+
+struct CustomPicker<Option: Hashable, Content: View>: View {
     @Environment(\.colorScheme) var colorScheme: ColorScheme
     
     @Binding var selection: Option
@@ -22,75 +33,9 @@ struct CustomPicker<Option: Hashable>: View {
     let darkBackgroundImage: Image?
     let backgroundImageContentMode: ContentMode
     let backgroundImageOpacity: Double
-    private let content: (Option, Bool) -> AnyView
+    private let content: (Option, Bool) -> Content
     
     init(
-        selection: Binding<Option>,
-        options: [Option],
-        title: @escaping (Option) -> LocalizedStringKey,
-        headerTitle: LocalizedStringKey? = nil,
-        headerDescription: LocalizedStringKey? = nil,
-        headerValueTitle: ((Option) -> LocalizedStringKey)? = nil,
-        itemHeight: CGFloat = 62,
-        showsOptionTitle: Bool = true,
-        lightBackgroundImage: Image? = nil,
-        darkBackgroundImage: Image? = nil,
-        backgroundImageContentMode: ContentMode = .fill,
-        backgroundImageOpacity: Double = 1,
-        symbolName: @escaping (Option) -> String
-    ) {
-        self.init(
-            selection: selection,
-            options: options,
-            title: title,
-            headerTitle: headerTitle,
-            headerDescription: headerDescription,
-            headerValueTitle: headerValueTitle,
-            itemHeight: itemHeight,
-            showsOptionTitle: showsOptionTitle,
-            lightBackgroundImage: lightBackgroundImage,
-            darkBackgroundImage: darkBackgroundImage,
-            backgroundImageContentMode: backgroundImageContentMode,
-            backgroundImageOpacity: backgroundImageOpacity
-        ) { option, isSelected in
-            Image(systemName: symbolName(option))
-                .font(.system(size: 18, weight: .semibold))
-                .foregroundStyle(isSelected ? Color.accentColor : Color.primary)
-        }
-    }
-    
-    init(
-        selection: Binding<Option>,
-        title: @escaping (Option) -> LocalizedStringKey,
-        headerTitle: LocalizedStringKey? = nil,
-        headerDescription: LocalizedStringKey? = nil,
-        headerValueTitle: ((Option) -> LocalizedStringKey)? = nil,
-        itemHeight: CGFloat = 62,
-        showsOptionTitle: Bool = true,
-        lightBackgroundImage: Image? = nil,
-        darkBackgroundImage: Image? = nil,
-        backgroundImageContentMode: ContentMode = .fill,
-        backgroundImageOpacity: Double = 1,
-        symbolName: @escaping (Option) -> String
-    ) where Option: CaseIterable {
-        self.init(
-            selection: selection,
-            options: Array(Option.allCases),
-            title: title,
-            headerTitle: headerTitle,
-            headerDescription: headerDescription,
-            headerValueTitle: headerValueTitle,
-            itemHeight: itemHeight,
-            showsOptionTitle: showsOptionTitle,
-            lightBackgroundImage: lightBackgroundImage,
-            darkBackgroundImage: darkBackgroundImage,
-            backgroundImageContentMode: backgroundImageContentMode,
-            backgroundImageOpacity: backgroundImageOpacity,
-            symbolName: symbolName
-        )
-    }
-
-    init<Content: View>(
         selection: Binding<Option>,
         options: [Option],
         title: @escaping (Option) -> LocalizedStringKey,
@@ -117,12 +62,10 @@ struct CustomPicker<Option: Hashable>: View {
         self.darkBackgroundImage = darkBackgroundImage
         self.backgroundImageContentMode = backgroundImageContentMode
         self.backgroundImageOpacity = backgroundImageOpacity
-        self.content = { option, isSelected in
-            AnyView(content(option, isSelected))
-        }
+        self.content = content
     }
 
-    init<Content: View>(
+    init(
         selection: Binding<Option>,
         title: @escaping (Option) -> LocalizedStringKey,
         headerTitle: LocalizedStringKey? = nil,
@@ -266,5 +209,71 @@ struct CustomPicker<Option: Hashable>: View {
         }
 
         return nil
+    }
+}
+
+extension CustomPicker where Content == CustomPickerSymbolView {
+    init(
+        selection: Binding<Option>,
+        options: [Option],
+        title: @escaping (Option) -> LocalizedStringKey,
+        headerTitle: LocalizedStringKey? = nil,
+        headerDescription: LocalizedStringKey? = nil,
+        headerValueTitle: ((Option) -> LocalizedStringKey)? = nil,
+        itemHeight: CGFloat = 62,
+        showsOptionTitle: Bool = true,
+        lightBackgroundImage: Image? = nil,
+        darkBackgroundImage: Image? = nil,
+        backgroundImageContentMode: ContentMode = .fill,
+        backgroundImageOpacity: Double = 1,
+        symbolName: @escaping (Option) -> String
+    ) {
+        self.init(
+            selection: selection,
+            options: options,
+            title: title,
+            headerTitle: headerTitle,
+            headerDescription: headerDescription,
+            headerValueTitle: headerValueTitle,
+            itemHeight: itemHeight,
+            showsOptionTitle: showsOptionTitle,
+            lightBackgroundImage: lightBackgroundImage,
+            darkBackgroundImage: darkBackgroundImage,
+            backgroundImageContentMode: backgroundImageContentMode,
+            backgroundImageOpacity: backgroundImageOpacity
+        ) { option, isSelected in
+            CustomPickerSymbolView(symbolName: symbolName(option), isSelected: isSelected)
+        }
+    }
+    
+    init(
+        selection: Binding<Option>,
+        title: @escaping (Option) -> LocalizedStringKey,
+        headerTitle: LocalizedStringKey? = nil,
+        headerDescription: LocalizedStringKey? = nil,
+        headerValueTitle: ((Option) -> LocalizedStringKey)? = nil,
+        itemHeight: CGFloat = 62,
+        showsOptionTitle: Bool = true,
+        lightBackgroundImage: Image? = nil,
+        darkBackgroundImage: Image? = nil,
+        backgroundImageContentMode: ContentMode = .fill,
+        backgroundImageOpacity: Double = 1,
+        symbolName: @escaping (Option) -> String
+    ) where Option: CaseIterable {
+        self.init(
+            selection: selection,
+            options: Array(Option.allCases),
+            title: title,
+            headerTitle: headerTitle,
+            headerDescription: headerDescription,
+            headerValueTitle: headerValueTitle,
+            itemHeight: itemHeight,
+            showsOptionTitle: showsOptionTitle,
+            lightBackgroundImage: lightBackgroundImage,
+            darkBackgroundImage: darkBackgroundImage,
+            backgroundImageContentMode: backgroundImageContentMode,
+            backgroundImageOpacity: backgroundImageOpacity,
+            symbolName: symbolName
+        )
     }
 }

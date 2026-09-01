@@ -9,10 +9,20 @@ import SwiftUI
 internal import AppKit
 
 struct FocusOnNotchView: View {
-    @ObservedObject private var manager = DoNotDisturbManager.shared
+    @ObservedObject private var manager: DoNotDisturbManager
     
     let style: FocusAppearanceStyle
     let focusModeType: FocusModeType
+
+    init(
+        style: FocusAppearanceStyle,
+        focusModeType: FocusModeType,
+        manager: DoNotDisturbManager = .shared
+    ) {
+        self.style = style
+        self.focusModeType = focusModeType
+        self._manager = ObservedObject(wrappedValue: manager)
+    }
 
     private var activeFocusModeType: FocusModeType {
         if manager.isDoNotDisturbActive {

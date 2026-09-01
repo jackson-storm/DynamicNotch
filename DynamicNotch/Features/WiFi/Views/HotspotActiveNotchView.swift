@@ -22,8 +22,7 @@ struct HotspotActiveNotchView: View {
     }
     
     private var displayBatteryLevel: Int {
-        let level = wifiViewModel.hotspotBatteryLevel ?? HotspotBatteryMonitor.shared.currentBatteryLevel ?? batteryLevel
-        print("[HotspotActiveNotchView] displayBatteryLevel: vm=\(String(describing: wifiViewModel.hotspotBatteryLevel)), shared=\(String(describing: HotspotBatteryMonitor.shared.currentBatteryLevel)), static=\(String(describing: batteryLevel)) -> resolved: \(String(describing: level ?? 100))")
+        let level = wifiViewModel.hotspotBatteryLevel ?? batteryLevel
         if let level {
             return max(0, min(100, level))
         }

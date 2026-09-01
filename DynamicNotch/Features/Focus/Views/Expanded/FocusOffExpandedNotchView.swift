@@ -11,9 +11,17 @@ import SwiftUI
 struct FocusOffExpandedNotchView: View {
     let focusModeType: FocusModeType
     
-    @ObservedObject private var manager = DoNotDisturbManager.shared
+    @ObservedObject private var manager: DoNotDisturbManager
     @Environment(\.notchScale) private var scale
     @Environment(\.isDynamicIsland) private var isDynamicIsland
+
+    init(
+        focusModeType: FocusModeType,
+        manager: DoNotDisturbManager = .shared
+    ) {
+        self.focusModeType = focusModeType
+        self._manager = ObservedObject(wrappedValue: manager)
+    }
 
     var body: some View {
         VStack {

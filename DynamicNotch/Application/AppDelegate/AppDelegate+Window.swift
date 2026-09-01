@@ -25,17 +25,6 @@ extension AppDelegate {
         let hostingView = NotchHostingView(
             rootView: NotchView(
                 notchEventCoordinator: notchEventCoordinator,
-                powerViewModel: powerViewModel,
-                bluetoothViewModel: bluetoothViewModel,
-                wifiViewModel: wifiViewModel,
-                vpnViewModel: vpnViewModel,
-                downloadViewModel: downloadViewModel,
-                focusViewModel: focusViewModel,
-                nowPlayingViewModel: nowPlayingViewModel,
-                timerViewModel: timerViewModel,
-                screenRecordingViewModel: screenRecordingViewModel,
-                lockScreenManager: lockScreenManager,
-                homePageViewModel: homePageViewModel,
                 notchViewModel: notchViewModel,
                 airDropViewModel: airDropViewModel,
                 airDropController: airDropController,

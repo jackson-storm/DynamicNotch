@@ -1,325 +1,139 @@
 import Foundation
 import Combine
 
+extension NowPlayingProgressTintStyle: StoredSettingValue {}
+extension NowPlayingSourceFilter: StoredSettingValue {}
+extension DownloadProgressIndicatorStyle: StoredSettingValue {}
+extension FileConverterOutputLocation: StoredSettingValue {}
+extension FileConverterExistingFileBehavior: StoredSettingValue {}
+extension FileConverterVideoQuality: StoredSettingValue {}
+extension FileConverterAudioQuality: StoredSettingValue {}
+extension FileTrayUsageMode: StoredSettingValue {}
+extension FileTrayScrollDirection: StoredSettingValue {}
+extension DragAndDropActivityMode: StoredSettingValue {}
+extension TimerSound: StoredSettingValue {}
+
 @MainActor
 final class MediaAndFilesSettingsStore: SettingsStoreBase {
-    @Published var isNowPlayingLiveActivityEnabled: Bool {
-        didSet {
-            persist(isNowPlayingLiveActivityEnabled, for: GeneralSettingsStorage.Keys.nowPlayingLiveActivityEnabled)
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.nowPlayingLiveActivityEnabled, defaultValue: true)
+    var isNowPlayingLiveActivityEnabled: Bool
 
+    @StoredDefault(key: GeneralSettingsStorage.Keys.nowPlayingFavoriteButtonVisible, defaultValue: true)
+    var isNowPlayingFavoriteButtonVisible: Bool
 
-    @Published var isNowPlayingFavoriteButtonVisible: Bool {
-        didSet {
-            persist(isNowPlayingFavoriteButtonVisible, for: GeneralSettingsStorage.Keys.nowPlayingFavoriteButtonVisible)
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.nowPlayingOutputDeviceButtonVisible, defaultValue: true)
+    var isNowPlayingOutputDeviceButtonVisible: Bool
 
-    @Published var isNowPlayingOutputDeviceButtonVisible: Bool {
-        didSet {
-            persist(isNowPlayingOutputDeviceButtonVisible, for: GeneralSettingsStorage.Keys.nowPlayingOutputDeviceButtonVisible)
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.nowPlayingArtwork3DEffectEnabled, defaultValue: true)
+    var isNowPlayingArtwork3DEffectEnabled: Bool
 
-    @Published var isNowPlayingArtwork3DEffectEnabled: Bool {
-        didSet {
-            persist(isNowPlayingArtwork3DEffectEnabled, for: GeneralSettingsStorage.Keys.nowPlayingArtwork3DEffectEnabled)
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.nowPlayingProgressTintStyle, defaultValue: .default)
+    var nowPlayingProgressTintStyle: NowPlayingProgressTintStyle
 
-    @Published var nowPlayingProgressTintStyle: NowPlayingProgressTintStyle {
-        didSet {
-            persist(nowPlayingProgressTintStyle.rawValue, for: GeneralSettingsStorage.Keys.nowPlayingProgressTintStyle)
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.nowPlayingPauseHideTimerEnabled, defaultValue: true)
+    var isNowPlayingPauseHideTimerEnabled: Bool
 
-    @Published var isNowPlayingPauseHideTimerEnabled: Bool {
-        didSet {
-            persist(
-                isNowPlayingPauseHideTimerEnabled,
-                for: GeneralSettingsStorage.Keys.nowPlayingPauseHideTimerEnabled
-            )
-        }
-    }
+    @StoredDefault(
+        key: GeneralSettingsStorage.Keys.nowPlayingPauseHideDelay,
+        defaultValue: 3,
+        transform: SettingsStoreBase.clampTemporaryActivityDuration
+    )
+    var nowPlayingPauseHideDelay: Int
 
-    @Published var nowPlayingPauseHideDelay: Int {
-        didSet {
-            let clampedValue = Self.clampTemporaryActivityDuration(nowPlayingPauseHideDelay)
-            if clampedValue != nowPlayingPauseHideDelay {
-                nowPlayingPauseHideDelay = clampedValue
-                return
-            }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.nowPlayingSourceFilter, defaultValue: .any)
+    var nowPlayingSourceFilter: NowPlayingSourceFilter
 
-            persist(nowPlayingPauseHideDelay, for: GeneralSettingsStorage.Keys.nowPlayingPauseHideDelay)
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.downloadsLiveActivityEnabled, defaultValue: true)
+    var isDownloadsLiveActivityEnabled: Bool
 
-    @Published var nowPlayingSourceFilter: NowPlayingSourceFilter {
-        didSet {
-            persist(nowPlayingSourceFilter.rawValue, for: GeneralSettingsStorage.Keys.nowPlayingSourceFilter)
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.downloadsDefaultStrokeEnabled, defaultValue: false)
+    var isDownloadsDefaultStrokeEnabled: Bool
 
-    @Published var isDownloadsLiveActivityEnabled: Bool {
-        didSet {
-            persist(isDownloadsLiveActivityEnabled, for: GeneralSettingsStorage.Keys.downloadsLiveActivityEnabled)
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.downloadsProgressIndicatorStyle, defaultValue: .percent)
+    var downloadsProgressIndicatorStyle: DownloadProgressIndicatorStyle
 
-    @Published var isDownloadsDefaultStrokeEnabled: Bool {
-        didSet {
-            persist(isDownloadsDefaultStrokeEnabled, for: GeneralSettingsStorage.Keys.downloadsDefaultStrokeEnabled)
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.dragAndDropLiveActivityEnabled, defaultValue: true)
+    var isDragAndDropLiveActivityEnabled: Bool
 
-    @Published var downloadsProgressIndicatorStyle: DownloadProgressIndicatorStyle {
-        didSet {
-            persist(
-                downloadsProgressIndicatorStyle.rawValue,
-                for: GeneralSettingsStorage.Keys.downloadsProgressIndicatorStyle
-            )
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.airDropLiveActivityEnabled, defaultValue: true)
+    var isAirDropLiveActivityEnabled: Bool
 
-    @Published var isDragAndDropLiveActivityEnabled: Bool {
-        didSet {
-            persist(isDragAndDropLiveActivityEnabled, for: GeneralSettingsStorage.Keys.dragAndDropLiveActivityEnabled)
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.airDropDefaultStrokeEnabled, defaultValue: false)
+    var isDragAndDropDefaultStrokeEnabled: Bool
 
-    @Published var isAirDropLiveActivityEnabled: Bool {
-        didSet {
-            persist(isAirDropLiveActivityEnabled, for: GeneralSettingsStorage.Keys.airDropLiveActivityEnabled)
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.trayLiveActivityEnabled, defaultValue: true)
+    var isTrayLiveActivityEnabled: Bool
 
-    @Published var isDragAndDropDefaultStrokeEnabled: Bool {
-        didSet {
-            persist(isDragAndDropDefaultStrokeEnabled, for: GeneralSettingsStorage.Keys.airDropDefaultStrokeEnabled)
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.fileConverterLiveActivityEnabled, defaultValue: true)
+    var isFileConverterLiveActivityEnabled: Bool
 
-    @Published var isTrayLiveActivityEnabled: Bool {
-        didSet {
-            persist(isTrayLiveActivityEnabled, for: GeneralSettingsStorage.Keys.trayLiveActivityEnabled)
-        }
-    }
+    @StoredDefault(
+        key: GeneralSettingsStorage.Keys.fileConverterConvertedTemporaryActivityDuration,
+        defaultValue: 2,
+        transform: SettingsStoreBase.clampTemporaryActivityDuration
+    )
+    var fileConverterConvertedTemporaryActivityDuration: Int
 
-    @Published var isFileConverterLiveActivityEnabled: Bool {
-        didSet {
-            persist(
-                isFileConverterLiveActivityEnabled,
-                for: GeneralSettingsStorage.Keys.fileConverterLiveActivityEnabled
-            )
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.fileConverterOutputLocation, defaultValue: .sameFolder)
+    var fileConverterOutputLocation: FileConverterOutputLocation
 
-    @Published var fileConverterConvertedTemporaryActivityDuration: Int {
-        didSet {
-            let clampedValue = Self.clampTemporaryActivityDuration(fileConverterConvertedTemporaryActivityDuration)
-            if clampedValue != fileConverterConvertedTemporaryActivityDuration {
-                fileConverterConvertedTemporaryActivityDuration = clampedValue
-                return
-            }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.fileConverterExistingFileBehavior, defaultValue: .createUniqueName)
+    var fileConverterExistingFileBehavior: FileConverterExistingFileBehavior
 
-            persist(
-                fileConverterConvertedTemporaryActivityDuration,
-                for: GeneralSettingsStorage.Keys.fileConverterConvertedTemporaryActivityDuration
-            )
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.fileConverterFilenameSuffix, defaultValue: "")
+    var fileConverterFilenameSuffix: String
 
-    @Published var fileConverterOutputLocation: FileConverterOutputLocation {
-        didSet {
-            persist(fileConverterOutputLocation.rawValue, for: GeneralSettingsStorage.Keys.fileConverterOutputLocation)
-        }
-    }
+    @StoredDefault(
+        key: GeneralSettingsStorage.Keys.fileConverterImageQuality,
+        defaultValue: 0.92,
+        transform: MediaAndFilesSettingsStore.clampFileConverterImageQuality
+    )
+    var fileConverterImageQuality: Double
 
-    @Published var fileConverterExistingFileBehavior: FileConverterExistingFileBehavior {
-        didSet {
-            persist(
-                fileConverterExistingFileBehavior.rawValue,
-                for: GeneralSettingsStorage.Keys.fileConverterExistingFileBehavior
-            )
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.fileConverterVideoQuality, defaultValue: .high)
+    var fileConverterVideoQuality: FileConverterVideoQuality
 
-    @Published var fileConverterFilenameSuffix: String {
-        didSet {
-            persist(fileConverterFilenameSuffix, for: GeneralSettingsStorage.Keys.fileConverterFilenameSuffix)
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.fileConverterAudioQuality, defaultValue: .high)
+    var fileConverterAudioQuality: FileConverterAudioQuality
 
-    @Published var fileConverterImageQuality: Double {
-        didSet {
-            let clampedValue = Self.clampFileConverterImageQuality(fileConverterImageQuality)
-            if clampedValue != fileConverterImageQuality {
-                fileConverterImageQuality = clampedValue
-                return
-            }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.fileTrayUsageMode, defaultValue: .copy)
+    var fileTrayUsageMode: FileTrayUsageMode
 
-            persist(fileConverterImageQuality, for: GeneralSettingsStorage.Keys.fileConverterImageQuality)
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.fileTrayScrollDirection, defaultValue: .horizontal)
+    var fileTrayScrollDirection: FileTrayScrollDirection
 
-    @Published var fileConverterVideoQuality: FileConverterVideoQuality {
-        didSet {
-            persist(fileConverterVideoQuality.rawValue, for: GeneralSettingsStorage.Keys.fileConverterVideoQuality)
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.fileTrayRemoveButtonHidden, defaultValue: false)
+    var isFileTrayRemoveButtonHidden: Bool
 
-    @Published var fileConverterAudioQuality: FileConverterAudioQuality {
-        didSet {
-            persist(fileConverterAudioQuality.rawValue, for: GeneralSettingsStorage.Keys.fileConverterAudioQuality)
-        }
-    }
-    
-    @Published var fileTrayUsageMode: FileTrayUsageMode {
-        didSet {
-            persist(fileTrayUsageMode.rawValue, for: GeneralSettingsStorage.Keys.fileTrayUsageMode)
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.dragAndDropActivityMode, defaultValue: .airDrop)
+    var dragAndDropActivityMode: DragAndDropActivityMode
 
-    @Published var fileTrayScrollDirection: FileTrayScrollDirection {
-        didSet {
-            persist(fileTrayScrollDirection.rawValue, for: GeneralSettingsStorage.Keys.fileTrayScrollDirection)
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.timerLiveActivityEnabled, defaultValue: true)
+    var isTimerLiveActivityEnabled: Bool
 
-    @Published var isFileTrayRemoveButtonHidden: Bool {
-        didSet {
-            persist(isFileTrayRemoveButtonHidden, for: GeneralSettingsStorage.Keys.fileTrayRemoveButtonHidden)
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.timerDefaultStrokeEnabled, defaultValue: false)
+    var isTimerDefaultStrokeEnabled: Bool
 
-    @Published var dragAndDropActivityMode: DragAndDropActivityMode {
-        didSet {
-            persist(dragAndDropActivityMode.rawValue, for: GeneralSettingsStorage.Keys.dragAndDropActivityMode)
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.timerSoundEnabled, defaultValue: true)
+    var isTimerSoundEnabled: Bool
 
-    @Published var isTimerLiveActivityEnabled: Bool {
-        didSet {
-            persist(isTimerLiveActivityEnabled, for: GeneralSettingsStorage.Keys.timerLiveActivityEnabled)
-        }
-    }
-
-    @Published var isTimerDefaultStrokeEnabled: Bool {
-        didSet {
-            persist(isTimerDefaultStrokeEnabled, for: GeneralSettingsStorage.Keys.timerDefaultStrokeEnabled)
-        }
-    }
-
-    @Published var isTimerSoundEnabled: Bool {
-        didSet {
-            persist(isTimerSoundEnabled, for: GeneralSettingsStorage.Keys.timerSoundEnabled)
-        }
-    }
-
-    @Published var timerSound: TimerSound {
-        didSet {
-            persist(timerSound.rawValue, for: GeneralSettingsStorage.Keys.timerSound)
-        }
-    }
+    @StoredDefault(key: GeneralSettingsStorage.Keys.timerSound, defaultValue: .apex)
+    var timerSound: TimerSound
 
     override init(defaults: UserDefaults) {
-        defaults.register(defaults: GeneralSettingsStorage.defaultValues)
-        self.isNowPlayingLiveActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.nowPlayingLiveActivityEnabled)
-        self.isNowPlayingFavoriteButtonVisible = defaults.bool(forKey: GeneralSettingsStorage.Keys.nowPlayingFavoriteButtonVisible)
-        self.isNowPlayingOutputDeviceButtonVisible = defaults.bool(forKey: GeneralSettingsStorage.Keys.nowPlayingOutputDeviceButtonVisible)
-        self.isNowPlayingArtwork3DEffectEnabled = Self.resolvedBool(
-            defaults: defaults,
-            key: GeneralSettingsStorage.Keys.nowPlayingArtwork3DEffectEnabled
-        )
-        if let storedStyle = defaults.string(forKey: GeneralSettingsStorage.Keys.nowPlayingProgressTintStyle) {
-            self.nowPlayingProgressTintStyle = NowPlayingProgressTintStyle.resolved(storedStyle)
-        } else {
+        if defaults.string(forKey: GeneralSettingsStorage.Keys.nowPlayingProgressTintStyle) == nil {
             let legacyTint = defaults.bool(forKey: GeneralSettingsStorage.Keys.nowPlayingArtworkTintEnabled)
-            self.nowPlayingProgressTintStyle = legacyTint ? .artwork : .default
-        }
-        self.isNowPlayingPauseHideTimerEnabled = Self.resolvedBool(
-            defaults: defaults,
-            key: GeneralSettingsStorage.Keys.nowPlayingPauseHideTimerEnabled
-        )
-        self.nowPlayingPauseHideDelay = Self.clampTemporaryActivityDuration(
-            defaults.object(forKey: GeneralSettingsStorage.Keys.nowPlayingPauseHideDelay) as? Int ??
-            Self.defaultTemporaryActivityDuration(for: GeneralSettingsStorage.Keys.nowPlayingPauseHideDelay)
-        )
-        self.nowPlayingSourceFilter = NowPlayingSourceFilter.resolved(
-            defaults.string(forKey: GeneralSettingsStorage.Keys.nowPlayingSourceFilter)
-        )
-        let hasLegacyDownloadsValue = defaults.object(forKey: GeneralSettingsStorage.Keys.legacyFileTransfersLiveActivityEnabled) != nil
-        let downloadsSettingValue = defaults.object(forKey: GeneralSettingsStorage.Keys.downloadsLiveActivityEnabled) as? Bool
-        self.isDownloadsLiveActivityEnabled = downloadsSettingValue ?? (
-            hasLegacyDownloadsValue ?
-            defaults.bool(forKey: GeneralSettingsStorage.Keys.legacyFileTransfersLiveActivityEnabled) :
-            (GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.downloadsLiveActivityEnabled] as? Bool ?? true)
-        )
-        self.isDownloadsDefaultStrokeEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.downloadsDefaultStrokeEnabled)
-        self.downloadsProgressIndicatorStyle = DownloadProgressIndicatorStyle.resolved(
-            defaults.string(forKey: GeneralSettingsStorage.Keys.downloadsProgressIndicatorStyle)
-        )
-        self.isDragAndDropLiveActivityEnabled = Self.resolvedBool(
-            defaults: defaults,
-            key: GeneralSettingsStorage.Keys.dragAndDropLiveActivityEnabled,
-            fallbackKey: GeneralSettingsStorage.Keys.airDropLiveActivityEnabled
-        )
-        self.isAirDropLiveActivityEnabled = Self.resolvedBool(
-            defaults: defaults,
-            key: GeneralSettingsStorage.Keys.airDropLiveActivityEnabled
-        )
-        self.isDragAndDropDefaultStrokeEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.airDropDefaultStrokeEnabled)
-        self.isTrayLiveActivityEnabled = Self.resolvedBool(
-            defaults: defaults,
-            key: GeneralSettingsStorage.Keys.trayLiveActivityEnabled
-        )
-        self.isFileConverterLiveActivityEnabled = Self.resolvedBool(
-            defaults: defaults,
-            key: GeneralSettingsStorage.Keys.fileConverterLiveActivityEnabled
-        )
-        self.fileConverterConvertedTemporaryActivityDuration = Self.clampTemporaryActivityDuration(
-            defaults.object(forKey: GeneralSettingsStorage.Keys.fileConverterConvertedTemporaryActivityDuration) as? Int ??
-            Self.defaultTemporaryActivityDuration(
-                for: GeneralSettingsStorage.Keys.fileConverterConvertedTemporaryActivityDuration
+            defaults.set(
+                legacyTint ? NowPlayingProgressTintStyle.artwork.rawValue : NowPlayingProgressTintStyle.default.rawValue,
+                forKey: GeneralSettingsStorage.Keys.nowPlayingProgressTintStyle
             )
-        )
-        self.fileConverterOutputLocation = FileConverterOutputLocation.resolved(
-            defaults.string(forKey: GeneralSettingsStorage.Keys.fileConverterOutputLocation)
-        )
-        self.fileConverterExistingFileBehavior = FileConverterExistingFileBehavior.resolved(
-            defaults.string(forKey: GeneralSettingsStorage.Keys.fileConverterExistingFileBehavior)
-        )
-        self.fileConverterFilenameSuffix = defaults.string(
-            forKey: GeneralSettingsStorage.Keys.fileConverterFilenameSuffix
-        ) ?? (GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.fileConverterFilenameSuffix] as? String ?? "-converted")
-        self.fileConverterImageQuality = Self.clampFileConverterImageQuality(
-            defaults.object(forKey: GeneralSettingsStorage.Keys.fileConverterImageQuality) as? Double ??
-            Self.defaultFileConverterImageQuality()
-        )
-        self.fileConverterVideoQuality = FileConverterVideoQuality.resolved(
-            defaults.string(forKey: GeneralSettingsStorage.Keys.fileConverterVideoQuality)
-        )
-        self.fileConverterAudioQuality = FileConverterAudioQuality.resolved(
-            defaults.string(forKey: GeneralSettingsStorage.Keys.fileConverterAudioQuality)
-        )
-        self.fileTrayUsageMode = FileTrayUsageMode.resolved(
-            defaults.string(forKey: GeneralSettingsStorage.Keys.fileTrayUsageMode)
-        )
-        self.fileTrayScrollDirection = FileTrayScrollDirection.resolved(
-            defaults.string(forKey: GeneralSettingsStorage.Keys.fileTrayScrollDirection)
-        )
-        self.isFileTrayRemoveButtonHidden = Self.resolvedBool(
-            defaults: defaults,
-            key: GeneralSettingsStorage.Keys.fileTrayRemoveButtonHidden
-        )
-        self.dragAndDropActivityMode = DragAndDropActivityMode.resolved(
-            defaults.string(forKey: GeneralSettingsStorage.Keys.dragAndDropActivityMode)
-        )
-        self.isTimerLiveActivityEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.timerLiveActivityEnabled)
-        self.isTimerDefaultStrokeEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.timerDefaultStrokeEnabled)
-        self.isTimerSoundEnabled = defaults.object(forKey: GeneralSettingsStorage.Keys.timerSoundEnabled) as? Bool ?? (GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.timerSoundEnabled] as? Bool ?? true)
-        self.timerSound = TimerSound.resolved(defaults.string(forKey: GeneralSettingsStorage.Keys.timerSound))
+        }
+
+        if defaults.object(forKey: GeneralSettingsStorage.Keys.downloadsLiveActivityEnabled) == nil,
+           let legacyDownloads = defaults.object(forKey: GeneralSettingsStorage.Keys.legacyFileTransfersLiveActivityEnabled) as? Bool {
+            defaults.set(legacyDownloads, forKey: GeneralSettingsStorage.Keys.downloadsLiveActivityEnabled)
+        }
+
         super.init(defaults: defaults)
     }
 
@@ -327,105 +141,55 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         isNowPlayingLiveActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.nowPlayingLiveActivityEnabled)
         isNowPlayingFavoriteButtonVisible = defaultBool(for: GeneralSettingsStorage.Keys.nowPlayingFavoriteButtonVisible)
         isNowPlayingOutputDeviceButtonVisible = defaultBool(for: GeneralSettingsStorage.Keys.nowPlayingOutputDeviceButtonVisible)
-        isNowPlayingArtwork3DEffectEnabled = defaultBool(
-            for: GeneralSettingsStorage.Keys.nowPlayingArtwork3DEffectEnabled
-        )
-        nowPlayingProgressTintStyle = NowPlayingProgressTintStyle.resolved(
-            defaultString(for: GeneralSettingsStorage.Keys.nowPlayingProgressTintStyle)
-        )
-        isNowPlayingPauseHideTimerEnabled = defaultBool(
-            for: GeneralSettingsStorage.Keys.nowPlayingPauseHideTimerEnabled
-        )
-        nowPlayingPauseHideDelay = Self.clampTemporaryActivityDuration(
-            defaultInt(for: GeneralSettingsStorage.Keys.nowPlayingPauseHideDelay)
-        )
-        nowPlayingSourceFilter = NowPlayingSourceFilter.resolved(
-            defaultString(for: GeneralSettingsStorage.Keys.nowPlayingSourceFilter)
-        )
+        isNowPlayingArtwork3DEffectEnabled = defaultBool(for: GeneralSettingsStorage.Keys.nowPlayingArtwork3DEffectEnabled)
+        nowPlayingProgressTintStyle = .default
+        isNowPlayingPauseHideTimerEnabled = defaultBool(for: GeneralSettingsStorage.Keys.nowPlayingPauseHideTimerEnabled)
+        nowPlayingPauseHideDelay = defaultInt(for: GeneralSettingsStorage.Keys.nowPlayingPauseHideDelay)
+        nowPlayingSourceFilter = .any
     }
 
     func resetDownloads() {
         isDownloadsLiveActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.downloadsLiveActivityEnabled)
         isDownloadsDefaultStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.downloadsDefaultStrokeEnabled)
-        downloadsProgressIndicatorStyle = DownloadProgressIndicatorStyle.resolved(
-            defaultString(for: GeneralSettingsStorage.Keys.downloadsProgressIndicatorStyle)
-        )
+        downloadsProgressIndicatorStyle = .percent
     }
 
     func resetDragAndDrop() {
         isDragAndDropLiveActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.dragAndDropLiveActivityEnabled)
         isAirDropLiveActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.airDropLiveActivityEnabled)
         isDragAndDropDefaultStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.airDropDefaultStrokeEnabled)
-        dragAndDropActivityMode = DragAndDropActivityMode.resolved(
-            defaultString(for: GeneralSettingsStorage.Keys.dragAndDropActivityMode)
-        )
+        dragAndDropActivityMode = .airDrop
         resetFileTray()
         resetFileConverter()
     }
 
     func resetFileTray() {
         isTrayLiveActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.trayLiveActivityEnabled)
-        fileTrayUsageMode = FileTrayUsageMode.resolved(
-            defaultString(for: GeneralSettingsStorage.Keys.fileTrayUsageMode)
-        )
-        fileTrayScrollDirection = FileTrayScrollDirection.resolved(
-            defaultString(for: GeneralSettingsStorage.Keys.fileTrayScrollDirection)
-        )
+        fileTrayUsageMode = .copy
+        fileTrayScrollDirection = .horizontal
         isFileTrayRemoveButtonHidden = defaultBool(for: GeneralSettingsStorage.Keys.fileTrayRemoveButtonHidden)
     }
 
     func resetFileConverter() {
-        isFileConverterLiveActivityEnabled = defaultBool(
-            for: GeneralSettingsStorage.Keys.fileConverterLiveActivityEnabled
-        )
-        fileConverterConvertedTemporaryActivityDuration = Self.clampTemporaryActivityDuration(
-            defaultInt(for: GeneralSettingsStorage.Keys.fileConverterConvertedTemporaryActivityDuration)
-        )
-        fileConverterOutputLocation = FileConverterOutputLocation.resolved(
-            defaultString(for: GeneralSettingsStorage.Keys.fileConverterOutputLocation)
-        )
-        fileConverterExistingFileBehavior = FileConverterExistingFileBehavior.resolved(
-            defaultString(for: GeneralSettingsStorage.Keys.fileConverterExistingFileBehavior)
-        )
+        isFileConverterLiveActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.fileConverterLiveActivityEnabled)
+        fileConverterConvertedTemporaryActivityDuration = defaultInt(for: GeneralSettingsStorage.Keys.fileConverterConvertedTemporaryActivityDuration)
+        fileConverterOutputLocation = .sameFolder
+        fileConverterExistingFileBehavior = .createUniqueName
         fileConverterFilenameSuffix = defaultString(for: GeneralSettingsStorage.Keys.fileConverterFilenameSuffix)
-        fileConverterImageQuality = Self.clampFileConverterImageQuality(
-            defaultDouble(for: GeneralSettingsStorage.Keys.fileConverterImageQuality)
-        )
-        fileConverterVideoQuality = FileConverterVideoQuality.resolved(
-            defaultString(for: GeneralSettingsStorage.Keys.fileConverterVideoQuality)
-        )
-        fileConverterAudioQuality = FileConverterAudioQuality.resolved(
-            defaultString(for: GeneralSettingsStorage.Keys.fileConverterAudioQuality)
-        )
+        fileConverterImageQuality = 0.92
+        fileConverterVideoQuality = .high
+        fileConverterAudioQuality = .high
     }
 
     func resetTimer() {
         isTimerLiveActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.timerLiveActivityEnabled)
         isTimerDefaultStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.timerDefaultStrokeEnabled)
         isTimerSoundEnabled = defaultBool(for: GeneralSettingsStorage.Keys.timerSoundEnabled)
-        timerSound = TimerSound.resolved(defaultString(for: GeneralSettingsStorage.Keys.timerSound))
-    }
-
-    private static func resolvedBool(defaults: UserDefaults, key: String, fallbackKey: String? = nil) -> Bool {
-        if let currentValue = defaults.object(forKey: key) as? Bool {
-            return currentValue
-        }
-
-        if let fallbackKey, let fallbackValue = defaults.object(forKey: fallbackKey) as? Bool {
-            return fallbackValue
-        }
-
-        return (GeneralSettingsStorage.defaultValues[key] as? Bool) ?? false
+        timerSound = .apex
     }
 
     static func clampFileConverterImageQuality(_ value: Double) -> Double {
         min(max(value, 0.1), 1.0)
-    }
-
-    private static func defaultFileConverterImageQuality() -> Double {
-        clampFileConverterImageQuality(
-            (GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.fileConverterImageQuality] as? Double) ?? 0.92
-        )
     }
 }
 

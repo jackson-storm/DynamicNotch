@@ -552,7 +552,7 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
 
         await assertEventually {
             await MainActor.run {
-                guard let content = context.notchViewModel.notchModel.temporaryNotificationContent as? MessagesNotchContent else {
+                guard let content = context.notchViewModel.notchModel.temporaryNotificationContent as? NotificationsNotchContent else {
                     return false
                 }
 
@@ -589,7 +589,7 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
 
         await assertEventually {
             await MainActor.run {
-                guard let content = context.notchViewModel.notchModel.temporaryNotificationContent as? MessagesNotchContent else {
+                guard let content = context.notchViewModel.notchModel.temporaryNotificationContent as? NotificationsNotchContent else {
                     return false
                 }
 
@@ -619,7 +619,7 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
 
         await assertEventually {
             await MainActor.run {
-                guard let content = context.notchViewModel.notchModel.temporaryNotificationContent as? MessagesNotchContent else {
+                guard let content = context.notchViewModel.notchModel.temporaryNotificationContent as? NotificationsNotchContent else {
                     return false
                 }
 
@@ -648,7 +648,7 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
 
         await assertEventually {
             await MainActor.run {
-                guard let content = context.notchViewModel.notchModel.temporaryNotificationContent as? MessagesNotchContent else {
+                guard let content = context.notchViewModel.notchModel.temporaryNotificationContent as? NotificationsNotchContent else {
                     return false
                 }
 
@@ -688,7 +688,7 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
 
         await assertEventually {
             await MainActor.run {
-                guard let content = context.notchViewModel.notchModel.temporaryNotificationContent as? MessagesNotchContent else {
+                guard let content = context.notchViewModel.notchModel.temporaryNotificationContent as? NotificationsNotchContent else {
                     return false
                 }
 
@@ -727,7 +727,7 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
         }
 
         let initialContent = try XCTUnwrap(
-            context.notchViewModel.notchModel.temporaryNotificationContent as? MessagesNotchContent
+            context.notchViewModel.notchModel.temporaryNotificationContent as? NotificationsNotchContent
         )
 
         let initialUpdateToken = context.notchViewModel.notchModel.updateToken
@@ -748,7 +748,7 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
         )
 
         let playingContent = try XCTUnwrap(
-            context.notchViewModel.notchModel.temporaryNotificationContent as? MessagesNotchContent
+            context.notchViewModel.notchModel.temporaryNotificationContent as? NotificationsNotchContent
         )
 
         let playingUpdateToken = context.notchViewModel.notchModel.updateToken
@@ -846,6 +846,8 @@ private extension NotchEventCoordinatorIntegrationTests {
         UserDefaults.standard.set(true, forKey: "settings.temporary.focusOff")
         UserDefaults.standard.set(true, forKey: "settings.temporary.notchSize")
         UserDefaults.standard.set(homePageLiveActivityEnabled, forKey: "settings.homePage.liveActivity")
+        UserDefaults.standard.set(true, forKey: "settings.notifications.messages.enabled")
+        UserDefaults.standard.set(true, forKey: "settings.notifications.appleMail.enabled")
         UserDefaults.standard.set(messagesNotificationDuration, forKey: "settings.notifications.messages.duration")
 
         let settingsViewModel = SettingsViewModel()
@@ -904,21 +906,7 @@ private extension NotchEventCoordinatorIntegrationTests {
             messagesManager: messagesManager,
             externalDrivesMonitor: ExternalDrivesMonitor()
         )
-        var cancellables = Set<AnyCancellable>()
-
-        lockScreenManager.$event
-            .compactMap { $0 }
-            .sink { event in
-                coordinator.handleLockScreenEvent(event)
-            }
-            .store(in: &cancellables)
-
-        downloadViewModel.$event
-            .compactMap { $0 }
-            .sink { event in
-                coordinator.handleDownloadEvent(event)
-            }
-            .store(in: &cancellables)
+        let cancellables = Set<AnyCancellable>()
 
         return TestContext(
             notchViewModel: notchViewModel,

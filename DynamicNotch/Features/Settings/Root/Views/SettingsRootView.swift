@@ -53,6 +53,22 @@ struct SettingsRootView: View {
     @State private var availableDisplays = NSScreen.availableNotchDisplays()
     @ObservedObject private var updater = SparkleUpdater.shared
 
+    init(container: AppContainer) {
+        self.init(
+            powerService: container.powerService,
+            settingsViewModel: container.settingsViewModel,
+            notchViewModel: container.notchViewModel,
+            notchEventCoordinator: container.notchEventCoordinator,
+            bluetoothViewModel: container.bluetoothViewModel,
+            wifiViewModel: container.wifiViewModel,
+            vpnViewModel: container.vpnViewModel,
+            downloadViewModel: container.downloadViewModel,
+            nowPlayingViewModel: container.nowPlayingViewModel,
+            timerViewModel: container.timerViewModel,
+            lockScreenManager: container.lockScreenManager
+        )
+    }
+
     init(
         powerService: PowerService,
         settingsViewModel: SettingsViewModel,

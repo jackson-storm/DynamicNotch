@@ -57,8 +57,12 @@ final class FileConverterViewModel: ObservableObject {
         )
     }
     
-    init(service: FileConverterService = .shared) {
+    init(service: FileConverterService) {
         self.service = service
+    }
+
+    convenience init() {
+        self.init(service: .shared)
     }
     
     func setFile(_ url: URL) throws {

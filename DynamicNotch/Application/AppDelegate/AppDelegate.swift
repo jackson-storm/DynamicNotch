@@ -13,29 +13,28 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     let isRunningUITests: Bool
     let container: AppContainer
 
-    var powerService: PowerService { container.powerService }
-    var bluetoothViewModel: BluetoothViewModel { container.bluetoothViewModel }
-    var powerViewModel: PowerViewModel { container.powerViewModel }
-    var wifiViewModel: WifiViewModel { container.wifiViewModel }
-    var vpnViewModel: VpnViewModel { container.vpnViewModel }
-    var downloadViewModel: DownloadViewModel { container.downloadViewModel }
-    var focusViewModel: FocusViewModel { container.focusViewModel }
     var settingsViewModel: SettingsViewModel { container.settingsViewModel }
-    var nowPlayingViewModel: NowPlayingViewModel { container.nowPlayingViewModel }
-    var timerViewModel: TimerViewModel { container.timerViewModel }
-    var screenRecordingViewModel: ScreenRecordingViewModel { container.screenRecordingViewModel }
-    var airDropViewModel: AirDropNotchViewModel { container.airDropViewModel }
-    var lockScreenManager: LockScreenManager { container.lockScreenManager }
-    var hardwareHUDMonitor: HardwareHUDMonitor { container.hardwareHUDMonitor }
     var notchViewModel: NotchViewModel { container.notchViewModel }
-    var airDropController: NotchAirDropController { container.airDropController }
     var notchEventCoordinator: NotchEventCoordinator { container.notchEventCoordinator }
+    var hardwareHUDMonitor: HardwareHUDMonitor { container.hardwareHUDMonitor }
     var lockScreenPanelManager: LockScreenPanelManager { container.lockScreenPanelManager }
     var lockScreenLiveActivityWindowManager: LockScreenLiveActivityWindowManager { container.lockScreenLiveActivityWindowManager }
-    var homePageViewModel: HomePageViewModel { container.homePageViewModel }
+    var airDropViewModel: AirDropNotchViewModel { container.airDropViewModel }
+    var airDropController: NotchAirDropController { container.airDropController }
+    var lockScreenManager: LockScreenManager { container.lockScreenManager }
+    var nowPlayingViewModel: NowPlayingViewModel { container.nowPlayingViewModel }
+    var downloadViewModel: DownloadViewModel { container.downloadViewModel }
+    var timerViewModel: TimerViewModel { container.timerViewModel }
+    var screenRecordingViewModel: ScreenRecordingViewModel { container.screenRecordingViewModel }
     var mailManager: MailManager { container.mailManager }
     var messagesManager: MessagesManager { container.messagesManager }
     var externalDrivesMonitor: ExternalDrivesMonitor { container.externalDrivesMonitor }
+    var powerService: PowerService { container.powerService }
+    var powerViewModel: PowerViewModel { container.powerViewModel }
+    var bluetoothViewModel: BluetoothViewModel { container.bluetoothViewModel }
+    var wifiViewModel: WifiViewModel { container.wifiViewModel }
+    var vpnViewModel: VpnViewModel { container.vpnViewModel }
+    var focusViewModel: FocusViewModel { container.focusViewModel }
     
     var window: OverlayPanelWindow!
     var localClickMonitor: Any?
@@ -112,20 +111,20 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationWillTerminate(_ notification: Notification) {
         NotificationCenter.default.removeObserver(self)
         NSWorkspace.shared.notificationCenter.removeObserver(self)
-        lockScreenManager.stopMonitoring()
-        nowPlayingViewModel.stopMonitoring()
-        downloadViewModel.stopMonitoring()
-        timerViewModel.stopMonitoring()
-        screenRecordingViewModel.stopMonitoring()
-        hardwareHUDMonitor.stopMonitoring()
+        container.lockScreenManager.stopMonitoring()
+        container.nowPlayingViewModel.stopMonitoring()
+        container.downloadViewModel.stopMonitoring()
+        container.timerViewModel.stopMonitoring()
+        container.screenRecordingViewModel.stopMonitoring()
+        container.hardwareHUDMonitor.stopMonitoring()
         if !isRunningUITests {
-            lockScreenPanelManager.invalidate()
-            lockScreenLiveActivityWindowManager.invalidate()
+            container.lockScreenPanelManager.invalidate()
+            container.lockScreenLiveActivityWindowManager.invalidate()
         }
         stopOutsideClickMonitoring()
-        mailManager.stopMonitoring()
-        messagesManager.stopMonitoring()
-        externalDrivesMonitor.stopMonitoring()
+        container.mailManager.stopMonitoring()
+        container.messagesManager.stopMonitoring()
+        container.externalDrivesMonitor.stopMonitoring()
     }
 
     func applyActivationPolicy(showsDockIcon: Bool) {

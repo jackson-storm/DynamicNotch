@@ -38,6 +38,35 @@ final class NotchEventCoordinator: ObservableObject {
         onboardingHandler.isOnboardingActive
     }
 
+    convenience init(container: AppContainer) {
+        self.init(
+            notchViewModel: container.notchViewModel,
+            powerViewModel: container.powerViewModel,
+            focusViewModel: container.focusViewModel,
+            bluetoothViewModel: container.bluetoothViewModel,
+            powerService: container.powerService,
+            wifiViewModel: container.wifiViewModel,
+            vpnViewModel: container.vpnViewModel,
+            downloadViewModel: container.downloadViewModel,
+            airDropViewModel: container.airDropViewModel,
+            fileTrayViewModel: container.fileTrayViewModel,
+            fileConverterViewModel: container.fileConverterViewModel,
+            settingsViewModel: container.settingsViewModel,
+            nowPlayingViewModel: container.nowPlayingViewModel,
+            timerViewModel: container.timerViewModel,
+            screenRecordingViewModel: container.screenRecordingViewModel,
+            lockScreenManager: container.lockScreenManager,
+            homePageViewModel: container.homePageViewModel,
+            localTimerViewModel: container.localTimerViewModel,
+            calendarViewModel: container.calendarViewModel,
+            screenshotViewModel: container.screenshotViewModel,
+            screenRecordingResultViewModel: container.screenRecordingResultViewModel,
+            mailManager: container.mailManager,
+            messagesManager: container.messagesManager,
+            externalDrivesMonitor: container.externalDrivesMonitor
+        )
+    }
+
     init(
         notchViewModel: NotchViewModel,
         powerViewModel: PowerViewModel? = nil,

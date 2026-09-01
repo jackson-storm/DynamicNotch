@@ -47,6 +47,10 @@ final class WorkspacePlaybackSourceOpener: PlaybackSourceOpening {
 
     private func showRunningApplication(_ application: NSRunningApplication) {
         application.unhide()
-        _ = application.activate(options: [.activateIgnoringOtherApps])
+        if #available(macOS 14.0, *) {
+            application.activate()
+        } else {
+            _ = application.activate(options: [.activateIgnoringOtherApps])
+        }
     }
 }

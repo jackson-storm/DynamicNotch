@@ -49,32 +49,7 @@ final class AppContainer {
         fileConverterViewModel: fileConverterViewModel
     )
 
-    lazy var notchEventCoordinator = NotchEventCoordinator(
-        notchViewModel: notchViewModel,
-        powerViewModel: powerViewModel,
-        focusViewModel: focusViewModel,
-        bluetoothViewModel: bluetoothViewModel,
-        powerService: powerService,
-        wifiViewModel: wifiViewModel,
-        vpnViewModel: vpnViewModel,
-        downloadViewModel: downloadViewModel,
-        airDropViewModel: airDropViewModel,
-        fileTrayViewModel: fileTrayViewModel,
-        fileConverterViewModel: fileConverterViewModel,
-        settingsViewModel: settingsViewModel,
-        nowPlayingViewModel: nowPlayingViewModel,
-        timerViewModel: timerViewModel,
-        screenRecordingViewModel: screenRecordingViewModel,
-        lockScreenManager: lockScreenManager,
-        homePageViewModel: homePageViewModel,
-        localTimerViewModel: localTimerViewModel,
-        calendarViewModel: calendarViewModel,
-        screenshotViewModel: screenshotViewModel,
-        screenRecordingResultViewModel: screenRecordingResultViewModel,
-        mailManager: mailManager,
-        messagesManager: messagesManager,
-        externalDrivesMonitor: externalDrivesMonitor
-    )
+    lazy var notchEventCoordinator = NotchEventCoordinator(container: self)
 
     lazy var lockScreenPanelManager = LockScreenPanelManager(
         nowPlayingViewModel: nowPlayingViewModel,

@@ -49,6 +49,10 @@ final class NotchViewModel: ObservableObject {
         displayedNotchModel.presentationID
     }
 
+    var isDynamicIsland: Bool {
+        topInset == 0
+    }
+
     var isDisplayingExpandedLiveActivity: Bool {
         displayedNotchModel.isPresentingExpandedLiveActivity
     }

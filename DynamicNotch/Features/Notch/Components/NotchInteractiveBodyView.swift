@@ -22,7 +22,7 @@ struct NotchInteractiveBodyView: View {
             isPressed: $notchViewModel.isPressed,
             baseSize: notchViewModel.presentedNotchSize
         )
-        .offset(y: notchViewModel.topInset == 0 ? 3 : 1)
+        .offset(y: notchViewModel.isDynamicIsland ? 3 : 1)
         .customNotchMouseSwipeable(
             notchViewModel: notchViewModel,
             isEnabled: shouldEnableNotchSwipeGestures

@@ -13,7 +13,7 @@ struct NotchSurfaceContainerView: View {
     
     @ViewBuilder
     private var notchSurface: some View {
-        let isDynamicIsland = notchViewModel.topInset == 0
+        let isDynamicIsland = notchViewModel.isDynamicIsland
         
         NotchBackgroundSurface(
             style: settingsViewModel.application.notchBackgroundStyle,
@@ -35,7 +35,7 @@ struct NotchSurfaceContainerView: View {
     
     @ViewBuilder
     private var contentOverlayWrapped: some View {
-        if notchViewModel.topInset == 0 {
+        if notchViewModel.isDynamicIsland {
             contentOverlay
                 .environment(\.isDynamicIsland, true)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)

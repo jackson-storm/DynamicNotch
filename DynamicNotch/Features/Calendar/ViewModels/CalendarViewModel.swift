@@ -212,9 +212,8 @@ final class CalendarViewModel: ObservableObject {
     
     @MainActor
     func openCalendarEvent() {
-        if let appURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier: "com.apple.iCal") {
-            NSWorkspace.shared.openApplication(at: appURL, configuration: NSWorkspace.OpenConfiguration(), completionHandler: nil)
-        } else if let url = URL(string: "ical://") {
+        if !ApplicationActivator.shared.openOrActivate(bundleIdentifier: "com.apple.iCal"),
+           let url = URL(string: "ical://") {
             NSWorkspace.shared.open(url)
         }
     }

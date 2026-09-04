@@ -21,7 +21,7 @@ final class MessagesNotchContentTests: XCTestCase {
 
         XCTAssertEqual(cornerRadius.top, 28)
         XCTAssertEqual(cornerRadius.bottom, 38)
-        XCTAssertEqual(singleContent.dynamicIslandCornerRadius(baseHeight: 40), 20)
+        XCTAssertEqual(singleContent.dynamicIslandCornerRadius(baseHeight: 40), 16)
 
         let multipleContent = makeContent(messages: [
             makeTextMessage(rowID: 1),
@@ -30,11 +30,8 @@ final class MessagesNotchContentTests: XCTestCase {
         XCTAssertEqual(multipleContent.dynamicIslandCornerRadius(baseHeight: 40), 8)
     }
 
-    func testDynamicIslandBottomPaddingAdaptsToSingleAndMultipleMessages() {
-        XCTAssertEqual(MessagesNotchContent.dynamicIslandBottomPadding(for: 0), 18)
-        XCTAssertEqual(MessagesNotchContent.dynamicIslandBottomPadding(for: 1), 18)
-        XCTAssertEqual(MessagesNotchContent.dynamicIslandBottomPadding(for: 2), 12)
-        XCTAssertEqual(MessagesNotchContent.dynamicIslandBottomPadding(for: 5), 12)
+    func testDynamicIslandBottomPaddingMatchesDesign() {
+        XCTAssertEqual(MessagesNotchContent.dynamicIslandBottomPadding, 12)
     }
 
     func testRowHeightClassifiesTextPreviewsAndPlayableAudio() {

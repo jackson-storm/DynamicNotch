@@ -716,6 +716,7 @@
       }
     },
     ":" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -23413,6 +23414,9 @@
           }
         }
       }
+    },
+    "Resume" : {
+
     },
     "Run every debug event in sequence, keep each item visible for its configured duration, and wait 1 second between items." : {
       "extractionState" : "manual",
@@ -189777,6 +189781,9 @@
           }
         }
       }
+    },
+    "Start Timer" : {
+
     },
     "Stop" : {
       "extractionState" : "manual",

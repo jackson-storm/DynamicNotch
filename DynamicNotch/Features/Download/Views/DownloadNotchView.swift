@@ -17,12 +17,11 @@ struct DownloadNotchView: View {
     var body: some View {
         HStack {
             if let url = download?.url {
-                DownloadFileThumbnailView(url: url, size: isDynamicIsland ? 20 : 25)
+                DownloadFileThumbnailView(url: url, size: isDynamicIsland ? 15 : 25)
             } else {
                 Image(systemName: "document.fill")
-                    .font(.system(size: 14, weight: .semibold))
-                    .foregroundStyle(.white.opacity(0.8))
-                    .frame(width: isDynamicIsland ? 20 : 25, height: isDynamicIsland ? 20 : 25)
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundStyle(.white)
             }
 
             Spacer()
@@ -37,8 +36,6 @@ struct DownloadNotchView: View {
                     circleLineWidth: 3,
                     percentFontSize: 14
                 )
-                .padding(.trailing, 2)
-                
             } else {
                 DownloadProgressIndicatorView(
                     progress: download?.progress ?? 0.08,
@@ -49,12 +46,11 @@ struct DownloadNotchView: View {
                     circleLineWidth: 3,
                     percentFontSize: 14
                 )
-                .padding(.trailing, isDynamicIsland ? 2.scaled(by: scale) : 0)
             }
         }
-        .padding(.vertical, 10)
-        .padding(.leading, isDynamicIsland ? 8.scaled(by: scale) : 12.scaled(by: scale))
-        .padding(.trailing, isDynamicIsland ? 4.scaled(by: scale) : 12.scaled(by: scale))
+
+        .padding(.leading, isDynamicIsland ? 6.scaled(by: scale) : 12.scaled(by: scale))
+        .padding(.trailing, isDynamicIsland ? 4.scaled(by: scale) : 14.scaled(by: scale))
     }
     
     private static let byteCountFormatter: ByteCountFormatter = {

@@ -123,18 +123,22 @@ final class NotchEngine: ObservableObject {
             let wasVisible = notchModel.liveActivityContent?.id == id
             activeLiveActivities.removeAll(where: { $0.id == id })
             dismissedLiveActivityIDs.removeAll(where: { $0 == id })
+            if suspendedActivity?.id == id {
+                suspendedActivity = nil
+            }
             if case .live(let dismissedContent) = lastDismissedContent,
                dismissedContent.id == id {
                 lastDismissedContent = nil
             }
 
-            if !wasVisible {
-                eventQueue.removeAll {
-                    if case .showLiveActivity(let content) = $0 {
-                        return content.id == id
-                    }
-                    return false
+            eventQueue.removeAll {
+                if case .showLiveActivity(let content) = $0 {
+                    return content.id == id
                 }
+                return false
+            }
+
+            if !wasVisible {
                 return
             }
 
@@ -372,6 +376,9 @@ final class NotchEngine: ObservableObject {
             await showLiveContentTransition(bestVisible)
 
         case .hideLiveActivity(let id):
+            if suspendedActivity?.id == id {
+                suspendedActivity = nil
+            }
             if notchModel.liveActivityContent?.id == id {
                 if let nextBest = highestPriorityVisibleActivity {
                     await showLiveContentTransition(nextBest)

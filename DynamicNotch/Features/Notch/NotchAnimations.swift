@@ -26,128 +26,60 @@ struct NotchAnimations {
     static let `default` = preset(.balanced)
 
     static func preset(_ preset: NotchAnimationPreset) -> Self {
-        let damping: Double = 0.77
+        let damping: Double = 0.75
+        let baseResponse: Double
+        let blend: Double
+        let hideShowDelay: Double
         
         switch preset {
         case .snappy:
-            let blend: Double = 0.12
+            baseResponse = 0.41
+            blend = 0.12
+            hideShowDelay = 0.28
             
-            return Self(
-                contentUpdate: .spring(response: 0.41, blendDuration: blend),
-                contentHide: .spring(response: 0.41, blendDuration: blend),
-                contentShow: .spring(response: 0.41, dampingFraction: damping, blendDuration: blend),
-                openContentTransition: .spring(response: 0.41, dampingFraction: damping, blendDuration: blend),
-                
-                expandLiveActivity: .spring(response: 0.39, dampingFraction: damping, blendDuration: blend),
-                expandLiveActivityContentTransition: .spring(response: 0.39, dampingFraction: damping, blendDuration: blend),
-                
-                closeLiveActivity: .spring(response: 0.49, blendDuration: blend),
-                closeLiveActivityContentTransition: .spring(response: 0.39, dampingFraction: damping, blendDuration: blend),
-                
-                stretchReset: .spring(response: 0.41, blendDuration: blend),
-                strokeVisibility: .spring(response: 0.41, blendDuration: blend),
-                notchVisibility: .spring(response: 0.41, blendDuration: blend),
-                focusCloseStretch: .spring(response: 0.41, dampingFraction: damping, blendDuration: blend),
-                
-                hideShowDelay: 0.28,
-                queuePacingDelay: 0.1
-            )
-
         case .fast:
-            let blend: Double = 0.15
+            baseResponse = 0.44
+            blend = 0.15
+            hideShowDelay = 0.31
             
-            return Self(
-                contentUpdate: .spring(response: 0.44, blendDuration: blend),
-                contentHide: .spring(response: 0.44, blendDuration: blend),
-                contentShow: .spring(response: 0.44, dampingFraction: damping, blendDuration: blend),
-                openContentTransition: .spring(response: 0.44, dampingFraction: damping, blendDuration: blend),
-                
-                expandLiveActivity: .spring(response: 0.42, dampingFraction: damping, blendDuration: blend),
-                expandLiveActivityContentTransition: .spring(response: 0.42, dampingFraction: damping, blendDuration: blend),
-                
-                closeLiveActivity: .spring(response: 0.52, blendDuration: blend),
-                closeLiveActivityContentTransition: .spring(response: 0.42, dampingFraction: damping, blendDuration: blend),
-                
-                stretchReset: .spring(response: 0.44, blendDuration: blend),
-                strokeVisibility: .spring(response: 0.44, blendDuration: blend),
-                notchVisibility: .spring(response: 0.44, blendDuration: blend),
-                focusCloseStretch: .spring(response: 0.44, dampingFraction: damping, blendDuration: blend),
-                
-                hideShowDelay: 0.31,
-                queuePacingDelay: 0.1
-            )
-
         case .balanced:
-            let blend: Double = 0.18
+            baseResponse = 0.47
+            blend = 0.18
+            hideShowDelay = 0.34
             
-            return Self(
-                contentUpdate: .spring(response: 0.47, blendDuration: blend),
-                contentHide: .spring(response: 0.47, blendDuration: blend),
-                contentShow: .spring(response: 0.47, dampingFraction: damping, blendDuration: blend),
-                openContentTransition: .spring(response: 0.47, dampingFraction: damping, blendDuration: blend),
-                
-                expandLiveActivity: .spring(response: 0.45, dampingFraction: damping, blendDuration: blend),
-                expandLiveActivityContentTransition: .spring(response: 0.45, dampingFraction: damping, blendDuration: blend),
-                
-                closeLiveActivity: .spring(response: 0.55, blendDuration: blend),
-                closeLiveActivityContentTransition: .spring(response: 0.45, dampingFraction: damping, blendDuration: blend),
-                
-                stretchReset: .spring(response: 0.47, blendDuration: blend),
-                strokeVisibility: .spring(response: 0.47, blendDuration: blend),
-                notchVisibility: .spring(response: 0.47, blendDuration: blend),
-                focusCloseStretch: .spring(response: 0.47, dampingFraction: damping, blendDuration: blend),
-                
-                hideShowDelay: 0.34,
-                queuePacingDelay: 0.1
-            )
-
         case .slow:
-            let blend: Double = 0.22
+            baseResponse = 0.50
+            blend = 0.22
+            hideShowDelay = 0.37
             
-            return Self(
-                contentUpdate: .spring(response: 0.50, blendDuration: blend),
-                contentHide: .spring(response: 0.50, blendDuration: blend),
-                contentShow: .spring(response: 0.50, dampingFraction: damping, blendDuration: blend),
-                openContentTransition: .spring(response: 0.50, dampingFraction: damping, blendDuration: blend),
-                
-                expandLiveActivity: .spring(response: 0.48, dampingFraction: damping, blendDuration: blend),
-                expandLiveActivityContentTransition: .spring(response: 0.48, dampingFraction: damping, blendDuration: blend),
-                
-                closeLiveActivity: .spring(response: 0.58, blendDuration: blend),
-                closeLiveActivityContentTransition: .spring(response: 0.48, dampingFraction: damping, blendDuration: blend),
-                
-                stretchReset: .spring(response: 0.50, blendDuration: blend),
-                strokeVisibility: .spring(response: 0.50, blendDuration: blend),
-                notchVisibility: .spring(response: 0.50, blendDuration: blend),
-                focusCloseStretch: .spring(response: 0.50, dampingFraction: damping, blendDuration: blend),
-                
-                hideShowDelay: 0.37,
-                queuePacingDelay: 0.1
-            )
-
         case .relaxed:
-            let blend: Double = 0.25
-            
-            return Self(
-                contentUpdate: .spring(response: 0.53, blendDuration: blend),
-                contentHide: .spring(response: 0.53, blendDuration: blend),
-                contentShow: .spring(response: 0.53, dampingFraction: damping, blendDuration: blend),
-                openContentTransition: .spring(response: 0.53, dampingFraction: damping, blendDuration: blend),
-                
-                expandLiveActivity: .spring(response: 0.51, dampingFraction: damping, blendDuration: blend),
-                expandLiveActivityContentTransition: .spring(response: 0.51, dampingFraction: damping, blendDuration: blend),
-                
-                closeLiveActivity: .spring(response: 0.61, blendDuration: blend),
-                closeLiveActivityContentTransition: .spring(response: 0.51, dampingFraction: damping, blendDuration: blend),
-                
-                stretchReset: .spring(response: 0.53, blendDuration: blend),
-                strokeVisibility: .spring(response: 0.53, blendDuration: blend),
-                notchVisibility: .spring(response: 0.53, blendDuration: blend),
-                focusCloseStretch: .spring(response: 0.53, dampingFraction: damping, blendDuration: blend),
-                
-                hideShowDelay: 0.40,
-                queuePacingDelay: 0.1
-            )
+            baseResponse = 0.53
+            blend = 0.25
+            hideShowDelay = 0.40
         }
+        
+        let expandResponse = baseResponse - 0.02
+        let closeResponse = baseResponse + 0.08
+        
+        return Self(
+            contentUpdate: .spring(response: baseResponse, blendDuration: blend),
+            contentHide: .spring(response: baseResponse, blendDuration: blend),
+            contentShow: .spring(response: baseResponse, dampingFraction: damping, blendDuration: blend),
+            openContentTransition: .spring(response: baseResponse, dampingFraction: damping, blendDuration: blend),
+            
+            expandLiveActivity: .spring(response: expandResponse, dampingFraction: damping, blendDuration: blend),
+            expandLiveActivityContentTransition: .spring(response: expandResponse, dampingFraction: damping, blendDuration: blend),
+            
+            closeLiveActivity: .spring(response: closeResponse, blendDuration: blend),
+            closeLiveActivityContentTransition: .spring(response: expandResponse, dampingFraction: damping, blendDuration: blend),
+            
+            stretchReset: .spring(response: baseResponse, blendDuration: blend),
+            strokeVisibility: .spring(response: baseResponse, blendDuration: blend),
+            notchVisibility: .spring(response: baseResponse, blendDuration: blend),
+            focusCloseStretch: .spring(response: baseResponse, dampingFraction: damping, blendDuration: blend),
+            
+            hideShowDelay: hideShowDelay,
+            queuePacingDelay: 0.1
+        )
     }
 }

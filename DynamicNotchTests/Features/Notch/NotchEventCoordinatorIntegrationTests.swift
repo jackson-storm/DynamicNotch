@@ -698,7 +698,7 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
     }
 
     func testMessagesNotificationHidesAfterConfiguredDuration() async {
-        let context = makeContext(messagesNotificationDuration: 1)
+        let context = makeContext(temporaryActivityDurationScale: 0.2, messagesNotificationDuration: 3)
 
         context.coordinator.handleMessagesMessage(makeMessagesMessage(rowID: 1, text: "Temporary message"))
 
@@ -716,7 +716,7 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
     }
 
     func testMessagesAudioPlaybackSuspendsAndRestartsAutoHideTimer() async throws {
-        let context = makeContext(messagesNotificationDuration: 1)
+        let context = makeContext(temporaryActivityDurationScale: 0.2, messagesNotificationDuration: 3)
 
         context.coordinator.handleMessagesMessage(makeMessagesAudioMessage(rowID: 1))
 
@@ -812,7 +812,7 @@ private extension NotchEventCoordinatorIntegrationTests {
         trayLiveActivityEnabled: Bool = true,
         noInternetTemporaryActivityEnabled: Bool = true,
         homePageLiveActivityEnabled: Bool = false,
-        messagesNotificationDuration: Int = 5
+        messagesNotificationDuration: Int = 8
     ) -> TestContext {
         UserDefaults.standard.set(false, forKey: "isLaunchAtLoginEnabled")
         UserDefaults.standard.set(0, forKey: "notchWidth")

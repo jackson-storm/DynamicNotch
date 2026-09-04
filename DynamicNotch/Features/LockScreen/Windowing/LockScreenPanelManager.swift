@@ -227,6 +227,7 @@ final class LockScreenPanelManager {
         }
         
         window.orderFrontRegardless()
+        window.makeKey()
         
         animator.disablesTransitionAnimation = !animated
         
@@ -324,6 +325,7 @@ final class LockScreenPanelManager {
         }
         
         window.orderFrontRegardless()
+        window.makeKey()
     }
     
     private func resolvedSnapshot(

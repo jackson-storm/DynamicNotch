@@ -43,8 +43,8 @@ private struct DownloadExpandedNotchContentView: View {
             Spacer()
             header(for: download)
         }
-        .padding(.horizontal, isDynamicIsland ? 25 : 40)
-        .padding(.bottom, isDynamicIsland ? 15 : 20)
+        .padding(.horizontal, isDynamicIsland ? 20 : 40)
+        .padding(.bottom, isDynamicIsland ? 20 : 20)
     }
 
     @ViewBuilder
@@ -52,7 +52,7 @@ private struct DownloadExpandedNotchContentView: View {
         HStack(alignment: .center, spacing: 2) {
             DownloadFileThumbnailView(url: download.url, size: 45)
 
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: 3) {
                 MarqueeText(
                     .constant(download.displayName),
                     font: .system(size: 14, weight: .semibold),
@@ -64,7 +64,7 @@ private struct DownloadExpandedNotchContentView: View {
                 )
 
                 Text(download.directoryName)
-                    .font(.system(size: 12))
+                    .font(.system(size: 14))
                     .foregroundStyle(.white.opacity(0.4))
                     .lineLimit(1)
             }

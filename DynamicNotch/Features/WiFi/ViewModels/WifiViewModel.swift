@@ -84,7 +84,7 @@ final class WifiViewModel: ObservableObject {
                 if let first = pendingEvents.first {
                     self.wifiEvent = first
                     for (index, event) in pendingEvents.dropFirst().enumerated() {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1 * Double(index + 1)) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4 * Double(index + 1)) {
                             self.wifiEvent = event
                         }
                     }
@@ -107,8 +107,9 @@ final class WifiViewModel: ObservableObject {
             if self.isInitialCheck { self.isInitialCheck = false }
         }
         monitor.onHotspotBatteryChange = { [weak self] level in
+            guard let self = self, self.hotspotActive else { return }
             print("[WifiViewModel] onHotspotBatteryChange received: \(level)%")
-            self?.hotspotBatteryLevel = level
+            self.hotspotBatteryLevel = level
         }
         monitor.startMonitoring()
     }

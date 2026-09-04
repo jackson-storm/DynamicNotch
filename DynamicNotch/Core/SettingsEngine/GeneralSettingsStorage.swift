@@ -317,13 +317,13 @@ enum GeneralSettingsStorage {
         Keys.calendarPrivacyMode: false,
         Keys.calendarSoundAlert: false,
         Keys.appleMailNotificationsEnabled: false,
-        Keys.appleMailNotificationDuration: 5,
+        Keys.appleMailNotificationDuration: 8,
         Keys.appleMailNotificationsPermissionPending: false,
         Keys.messagesNotificationsEnabled: false,
-        Keys.messagesNotificationDuration: 5,
+        Keys.messagesNotificationDuration: 8,
         Keys.messagesNotificationsPermissionPending: false,
         Keys.externalDrivesNotificationsEnabled: true,
-        Keys.externalDrivesNotificationDuration: 5,
+        Keys.externalDrivesNotificationDuration: 8,
         Keys.externalDrivesIncludeDiskImages: true,
         Keys.externalDrivesShowEjected: true
     ]

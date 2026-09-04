@@ -44,6 +44,7 @@ struct LockScreenWidgetSurface: View {
                 Color.clear
             }
             .clipShape(shape)
+            .environment(\.controlActiveState, .active)
         }
     }
 

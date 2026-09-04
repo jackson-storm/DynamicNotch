@@ -113,9 +113,10 @@ final class NotchNotificationsEventsHandler {
     private func showNotificationsNotification(duration: Double? = nil) {
         guard !recentNotifications.isEmpty else { return }
 
+        let baseDuration = duration ?? Double(settingsViewModel.notifications.messagesNotificationDuration)
         let effectiveDuration: TimeInterval = isMessagesAudioPlaying
             ? .infinity
-            : (duration ?? Double(settingsViewModel.notifications.messagesNotificationDuration))
+            : settingsViewModel.scaledTemporaryActivityDuration(baseDuration)
 
         let content = NotificationsNotchContent(
             items: recentNotifications,

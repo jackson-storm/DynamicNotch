@@ -451,11 +451,11 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
         }
     }
 
-    private func scaledTemporaryActivityDuration(_ duration: TimeInterval) -> TimeInterval {
+    func scaledTemporaryActivityDuration(_ duration: TimeInterval) -> TimeInterval {
         duration * temporaryActivityDurationScale
     }
 
-    private var temporaryActivityDurationScale: Double {
+    var temporaryActivityDurationScale: Double {
         let storedScale = defaults.object(forKey: GeneralSettingsStorage.Keys.temporaryActivityDurationScale) as? Double
         let defaultScale = (GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.temporaryActivityDurationScale] as? Double) ?? 1
         return max(storedScale ?? defaultScale, 0)

@@ -10,7 +10,7 @@ import Network
 import CoreWLAN
 import SystemConfiguration
 
-final class WifiMonitor: WifiMonitoring {
+final class WifiMonitor: NSObject, WifiMonitoring, CWEventDelegate {
     private let monitor = NWPathMonitor()
     private let queue = DispatchQueue(label: "WifiMonitorQueue")
     private let hotspotBatteryMonitor = HotspotBatteryMonitor.shared
@@ -25,7 +25,8 @@ final class WifiMonitor: WifiMonitoring {
         hotspotBatteryMonitor.currentBatteryLevel
     }
 
-    init() {
+    override init() {
+        super.init()
         hotspotBatteryMonitor.onBatteryLevelChange = { [weak self] level in
             print("[WifiMonitor] Received onBatteryLevelChange: \(level)%")
             self?.onHotspotBatteryChange?(level)
@@ -38,7 +39,12 @@ final class WifiMonitor: WifiMonitoring {
 
     func startMonitoring() {
         print("[WifiMonitor] startMonitoring called")
-        hotspotBatteryMonitor.startBrowsing()
+        CWWiFiClient.shared().delegate = self
+        try? CWWiFiClient.shared().startMonitoringEvent(with: .ssidDidChange)
+        try? CWWiFiClient.shared().startMonitoringEvent(with: .linkDidChange)
+        try? CWWiFiClient.shared().startMonitoringEvent(with: .bssidDidChange)
+        try? CWWiFiClient.shared().startMonitoringEvent(with: .powerDidChange)
+
         monitor.pathUpdateHandler = { [weak self] path in
             self?.updateStatus(path: path)
         }
@@ -49,11 +55,15 @@ final class WifiMonitor: WifiMonitoring {
         let hasInternetConnection = path.status == .satisfied
         let isWifi = hasInternetConnection && path.usesInterfaceType(.wifi)
         
-        let isHotspot = isWifi && path.isExpensive
-        print("[WifiMonitor] updateStatus: isWifi=\(isWifi), isExpensive=\(path.isExpensive), isHotspot=\(isHotspot), battery=\(String(describing: hotspotBatteryMonitor.currentBatteryLevel))")
+        let isTether = isConnectedToTetherDevice()
+        let isHotspot = isWifi && (isTether || (path.isExpensive && !path.isConstrained))
+        print("[WifiMonitor] updateStatus: isWifi=\(isWifi), isExpensive=\(path.isExpensive), isConstrained=\(path.isConstrained), isTether=\(isTether), isHotspot=\(isHotspot), battery=\(String(describing: hotspotBatteryMonitor.currentBatteryLevel))")
         
         if isHotspot {
             hotspotBatteryMonitor.startBrowsing()
+        } else {
+            hotspotBatteryMonitor.stopBrowsing()
+            hotspotBatteryMonitor.resetBatteryLevel()
         }
         
         let isVpn = hasInternetConnection && path.availableInterfaces.contains { interface in
@@ -75,9 +85,69 @@ final class WifiMonitor: WifiMonitoring {
     }
 
     func stopMonitoring() {
+        try? CWWiFiClient.shared().stopMonitoringEvent(with: .ssidDidChange)
+        try? CWWiFiClient.shared().stopMonitoringEvent(with: .linkDidChange)
+        try? CWWiFiClient.shared().stopMonitoringEvent(with: .bssidDidChange)
+        try? CWWiFiClient.shared().stopMonitoringEvent(with: .powerDidChange)
+        if CWWiFiClient.shared().delegate === self {
+            CWWiFiClient.shared().delegate = nil
+        }
+
         hotspotBatteryMonitor.stopBrowsing()
+        hotspotBatteryMonitor.resetBatteryLevel()
         monitor.pathUpdateHandler = nil
         monitor.cancel()
+    }
+
+    // MARK: - CWEventDelegate
+
+    func ssidDidChangeForWiFiInterface(withName interfaceName: String) {
+        print("[WifiMonitor] CoreWLAN ssidDidChange for interface: \(interfaceName)")
+        handleWiFiInterfaceChange()
+    }
+
+    func linkDidChangeForWiFiInterface(withName interfaceName: String) {
+        print("[WifiMonitor] CoreWLAN linkDidChange for interface: \(interfaceName)")
+        handleWiFiInterfaceChange()
+    }
+
+    func bssidDidChangeForWiFiInterface(withName interfaceName: String) {
+        print("[WifiMonitor] CoreWLAN bssidDidChange for interface: \(interfaceName)")
+        handleWiFiInterfaceChange()
+    }
+
+    func powerStateDidChangeForWiFiInterface(withName interfaceName: String) {
+        print("[WifiMonitor] CoreWLAN powerStateDidChange for interface: \(interfaceName)")
+        handleWiFiInterfaceChange()
+    }
+
+    private func handleWiFiInterfaceChange() {
+        queue.async { [weak self] in
+            guard let self = self else { return }
+            self.updateStatus(path: self.monitor.currentPath)
+        }
+        queue.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+            guard let self = self else { return }
+            self.updateStatus(path: self.monitor.currentPath)
+        }
+        queue.asyncAfter(deadline: .now() + 1.5) { [weak self] in
+            guard let self = self else { return }
+            self.updateStatus(path: self.monitor.currentPath)
+        }
+    }
+
+    private func isConnectedToTetherDevice() -> Bool {
+        guard let interface = CWWiFiClient.shared().interface() else { return false }
+        let sel = Selector(("lastTetherDeviceJoined"))
+        guard interface.responds(to: sel),
+              let tetherDevice = interface.perform(sel)?.takeUnretainedValue() as? NSObject else {
+            return false
+        }
+        if let deviceName = tetherDevice.value(forKey: "deviceName") as? String,
+           let currentSSID = interface.ssid() {
+            return deviceName == currentSSID
+        }
+        return true
     }
 
     private func resolveWiFiSignalLevel(isConnected: Bool) -> Double {

@@ -284,7 +284,7 @@ struct NotificationsNotchContent: NotchContentProtocol, DynamicIslandCustomizabl
     }
 
     func dynamicIslandCornerRadius(baseHeight: CGFloat) -> CGFloat {
-        baseHeight * 0.3
+        baseHeight * (items.count > 1 ? 0.2 : 0.4)
     }
 
     @MainActor

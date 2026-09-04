@@ -16,12 +16,22 @@ final class MessagesNotchContentTests: XCTestCase {
     }
 
     func testCornerRadiiMatchMessagesDesign() {
-        let content = makeContent(messages: [makeTextMessage(rowID: 1)])
-        let cornerRadius = content.cornerRadius(baseRadius: 15)
+        let singleContent = makeContent(messages: [makeTextMessage(rowID: 1)])
+        let cornerRadius = singleContent.cornerRadius(baseRadius: 15)
 
         XCTAssertEqual(cornerRadius.top, 28)
         XCTAssertEqual(cornerRadius.bottom, 38)
-        XCTAssertEqual(content.dynamicIslandCornerRadius(baseHeight: 40), 12)
+        XCTAssertEqual(singleContent.dynamicIslandCornerRadius(baseHeight: 40), 16)
+
+        let multipleContent = makeContent(messages: [
+            makeTextMessage(rowID: 1),
+            makeTextMessage(rowID: 2)
+        ])
+        XCTAssertEqual(multipleContent.dynamicIslandCornerRadius(baseHeight: 40), 8)
+    }
+
+    func testDynamicIslandBottomPaddingMatchesDesign() {
+        XCTAssertEqual(MessagesNotchContent.dynamicIslandBottomPadding, 12)
     }
 
     func testRowHeightClassifiesTextPreviewsAndPlayableAudio() {

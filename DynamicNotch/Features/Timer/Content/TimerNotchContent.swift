@@ -40,13 +40,7 @@ struct TimerNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
         if let runningTimerURL = URL(string: "clock-timer-running:"), NSWorkspace.shared.open(runningTimerURL) {
             return
         }
-        if let app = NSRunningApplication.runningApplications(withBundleIdentifier: "com.apple.clock").first {
-            app.activate()
-        } else if let appURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier: "com.apple.clock") {
-            let configuration = NSWorkspace.OpenConfiguration()
-            configuration.activates = true
-            NSWorkspace.shared.openApplication(at: appURL, configuration: configuration, completionHandler: nil)
-        }
+        ApplicationActivator.shared.openOrActivate(bundleIdentifier: "com.apple.clock")
     }
 
     init(source: TimerSource, settingsViewModel: SettingsViewModel? = nil) {

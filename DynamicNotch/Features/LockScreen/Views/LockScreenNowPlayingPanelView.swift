@@ -100,6 +100,7 @@ struct LockScreenNowPlayingPanelView: View {
         .animation(.spring(response: 0.58, dampingFraction: 0.86), value: onTapArtwork)
         .animation(.spring(response: 0.58, dampingFraction: 0.86), value: settingsViewModel.lockScreen.isLockScreenLyricsEnabled)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+        .environment(\.controlActiveState, .active)
         .onAppear {
             if onTapArtwork != settingsViewModel.lockScreen.isLockScreenArtworkExpanded {
                 onTapArtwork = settingsViewModel.lockScreen.isLockScreenArtworkExpanded
@@ -139,6 +140,7 @@ struct LockScreenNowPlayingPanelView: View {
         }
         .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
         .environment(\.colorScheme, .dark)
+        .environment(\.controlActiveState, .active)
         .shadow(color: .black.opacity(0.24), radius: 26, x: 0, y: 14)
     }
 

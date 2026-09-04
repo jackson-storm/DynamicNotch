@@ -25,26 +25,31 @@ private final class LiquidGlassContainerView<Content: View>: NSView {
 
     private var observedBackdropLayers: [CALayer] = []
     private var hasScheduledBackdropSetup = false
+    private var retryCount = 0
     private let windowServerAwareKeyPath = "windowServerAware"
     private let scaleKeyPath = "scale"
 
     deinit {
-        removeBackdropObservers()
+        removeObservers()
     }
 
     override func removeFromSuperview() {
-        removeBackdropObservers()
+        removeObservers()
         super.removeFromSuperview()
     }
 
     override func viewDidMoveToWindow() {
         super.viewDidMoveToWindow()
+        glassView?.perform(NSSelectorFromString("_windowChangedKeyState"))
+        glassView?.setValue(0, forKey: "_subduedState")
+        glassView?.setValue(0, forKey: "_interactionState")
+        configureBackdropLayers()
         scheduleBackdropSetup()
     }
 
     override func layout() {
         super.layout()
-        scheduleBackdropSetup()
+        configureBackdropLayers()
     }
 
     func scheduleBackdropSetup() {
@@ -57,17 +62,22 @@ private final class LiquidGlassContainerView<Content: View>: NSView {
         }
     }
 
-    private func configureBackdropLayers() {
+    func configureBackdropLayers() {
         guard let glassView else { return }
-        guard let rootLayer = glassView.layer else {
+        glassView.layoutSubtreeIfNeeded()
+
+        setBackdropPropertiesInViewHierarchy(glassView)
+        let newBackdropLayers = collectBackdropLayersFromViewHierarchy(glassView)
+
+        if newBackdropLayers.isEmpty && retryCount < 10 {
+            retryCount += 1
             scheduleBackdropSetup()
             return
         }
 
-        setBackdropProperties(in: rootLayer)
-        let newBackdropLayers = collectBackdropLayers(in: rootLayer)
+        guard newBackdropLayers != observedBackdropLayers else { return }
 
-        removeBackdropObservers()
+        removeObservers()
         observedBackdropLayers = newBackdropLayers
         for backdrop in observedBackdropLayers {
             backdrop.addObserver(self, forKeyPath: windowServerAwareKeyPath, options: [.old, .new], context: nil)
@@ -76,10 +86,14 @@ private final class LiquidGlassContainerView<Content: View>: NSView {
     }
 
     private func setBackdropProperties(in layer: CALayer) {
-        if NSStringFromClass(type(of: layer)).contains("CABackdropLayer") {
+        let className = NSStringFromClass(type(of: layer))
+        if className.contains("CABackdropLayer") {
             layer.setValue(true, forKey: windowServerAwareKeyPath)
             layer.setValue(1.0, forKey: scaleKeyPath)
-            
+            layer.setValue(true, forKey: "ignoresScreenClip")
+            layer.setValue(false, forKey: "disablesOccludedBackdropBlurs")
+            layer.setValue(true, forKey: "enabled")
+
             if let filters = layer.filters {
                 for filter in filters {
                     if let nsFilter = filter as? NSObject {
@@ -94,7 +108,17 @@ private final class LiquidGlassContainerView<Content: View>: NSView {
                 }
             }
         }
+
         layer.sublayers?.forEach { setBackdropProperties(in: $0) }
+    }
+
+    private func setBackdropPropertiesInViewHierarchy(_ view: NSView) {
+        if let layer = view.layer {
+            setBackdropProperties(in: layer)
+        }
+        for subview in view.subviews {
+            setBackdropPropertiesInViewHierarchy(subview)
+        }
     }
 
     private func collectBackdropLayers(in layer: CALayer) -> [CALayer] {
@@ -106,6 +130,17 @@ private final class LiquidGlassContainerView<Content: View>: NSView {
         return results
     }
 
+    private func collectBackdropLayersFromViewHierarchy(_ view: NSView) -> [CALayer] {
+        var results: [CALayer] = []
+        if let layer = view.layer {
+            results.append(contentsOf: collectBackdropLayers(in: layer))
+        }
+        for subview in view.subviews {
+            results.append(contentsOf: collectBackdropLayersFromViewHierarchy(subview))
+        }
+        return results
+    }
+
     override func observeValue(
         forKeyPath keyPath: String?,
         of object: Any?,
@@ -113,8 +148,12 @@ private final class LiquidGlassContainerView<Content: View>: NSView {
         context: UnsafeMutableRawPointer?
     ) {
         if keyPath == windowServerAwareKeyPath {
-            if change?[.newKey] as? Bool == false {
-                configureBackdropLayers()
+            guard let layer = object as? CALayer else { return }
+            let isAware = (change?[.newKey] as? NSNumber)?.boolValue ?? (change?[.newKey] as? Bool) ?? false
+            if !isAware {
+                layer.setValue(true, forKey: windowServerAwareKeyPath)
+                layer.setValue(true, forKey: "ignoresScreenClip")
+                layer.setValue(false, forKey: "disablesOccludedBackdropBlurs")
             }
         } else if keyPath == scaleKeyPath {
             guard let layer = object as? CALayer else { return }
@@ -126,7 +165,7 @@ private final class LiquidGlassContainerView<Content: View>: NSView {
         }
     }
 
-    private func removeBackdropObservers() {
+    private func removeObservers() {
         for layer in observedBackdropLayers {
             layer.removeObserver(self, forKeyPath: windowServerAwareKeyPath)
             layer.removeObserver(self, forKeyPath: scaleKeyPath)
@@ -142,11 +181,9 @@ public enum LiquidGlassVariant: Int, CaseIterable, Identifiable, Sendable {
     case v15 = 15, v16 = 16, v17 = 17, v18 = 18, v19 = 19
 
     public var id: Int { rawValue }
-
     public static let supportedRange = 0...19
-
     public static var defaultVariant: LiquidGlassVariant { .v8 }
-
+    
     public static func clamped(_ rawValue: Int) -> LiquidGlassVariant {
         let clamped = min(max(rawValue, supportedRange.lowerBound), supportedRange.upperBound)
         return LiquidGlassVariant(rawValue: clamped) ?? .defaultVariant
@@ -207,11 +244,16 @@ public struct LiquidGlassBackground<Content: View>: NSViewRepresentable {
         if let glassType = NSClassFromString("NSGlassEffectView") as? NSView.Type {
             let container = LiquidGlassContainerView<Content>(frame: .zero)
             container.translatesAutoresizingMaskIntoConstraints = false
+            container.wantsLayer = true
 
             let glass = glassType.init(frame: .zero)
             glass.translatesAutoresizingMaskIntoConstraints = false
+            glass.wantsLayer = true
             glass.setValue(cornerRadius, forKey: "cornerRadius")
             callPrivateVariantSetter(on: glass, value: variant.rawValue)
+            glass.perform(NSSelectorFromString("_windowChangedKeyState"))
+            glass.setValue(0, forKey: "_subduedState")
+            glass.setValue(0, forKey: "_interactionState")
 
             if let visualEffect = glass as? NSVisualEffectView {
                 visualEffect.state = .active
@@ -234,6 +276,7 @@ public struct LiquidGlassBackground<Content: View>: NSViewRepresentable {
 
             container.glassView = glass
             container.hostingView = hosting
+            container.configureBackdropLayers()
             container.scheduleBackdropSetup()
             return container
         }
@@ -260,6 +303,7 @@ public struct LiquidGlassBackground<Content: View>: NSViewRepresentable {
             container.hostingView?.rootView = content
             glass.setValue(cornerRadius, forKey: "cornerRadius")
             callPrivateVariantSetter(on: glass, value: variant.rawValue)
+            container.configureBackdropLayers()
             container.scheduleBackdropSetup()
             return
         }

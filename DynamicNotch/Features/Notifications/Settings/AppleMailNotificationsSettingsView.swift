@@ -6,8 +6,8 @@ struct AppleMailNotificationsSettingsView: View {
     @ObservedObject var permissionController: SettingsPermissionController
     @State private var isShowingFullDiskAccessAlert = false
 
-    private var temporaryActivityDurationRange: ClosedRange<Double> {
-        Double(SettingsStoreBase.temporaryActivityDurationRange.lowerBound)...Double(SettingsStoreBase.temporaryActivityDurationRange.upperBound)
+    private var notificationDurationRange: ClosedRange<Double> {
+        Double(SettingsStoreBase.notificationDurationRange.lowerBound)...Double(SettingsStoreBase.notificationDurationRange.upperBound)
     }
 
     var body: some View {
@@ -65,7 +65,7 @@ struct AppleMailNotificationsSettingsView: View {
             SettingsSliderRow(
                 title: "settings.notifications.appleMail.duration.title",
                 description: "settings.notifications.appleMail.duration.desc",
-                range: temporaryActivityDurationRange,
+                range: notificationDurationRange,
                 step: 1,
                 fractionLength: 0,
                 suffix: "s",

@@ -123,6 +123,7 @@ struct StoredDefault<Value: StoredSettingValue> {
 @MainActor
 class SettingsStoreBase: ObservableObject {
     class var temporaryActivityDurationRange: ClosedRange<Int> { 1...5 }
+    class var notificationDurationRange: ClosedRange<Int> { 3...8 }
 
     let defaults: UserDefaults
 
@@ -185,6 +186,19 @@ class SettingsStoreBase: ObservableObject {
     class func defaultTemporaryActivityDuration(for key: String) -> Int {
         clampTemporaryActivityDuration(
             (GeneralSettingsStorage.defaultValues[key] as? Int) ?? temporaryActivityDurationRange.lowerBound
+        )
+    }
+
+    class func clampNotificationDuration(_ value: Int) -> Int {
+        min(
+            max(value, notificationDurationRange.lowerBound),
+            notificationDurationRange.upperBound
+        )
+    }
+
+    class func defaultNotificationDuration(for key: String) -> Int {
+        clampNotificationDuration(
+            (GeneralSettingsStorage.defaultValues[key] as? Int) ?? notificationDurationRange.upperBound
         )
     }
 }

@@ -12,9 +12,8 @@ nonisolated final class FolderFileDownloadMonitor: DownloadMonitoring, @unchecke
         let directoryName: String
         let byteCount: Int64
         let isTemporaryFile: Bool
-        // Exact fraction (0...1) reported by the downloading app via the
-        // `com.apple.progress.fractionCompleted` extended attribute, when available.
         let authoritativeProgress: Double?
+        let authoritativeTotalBytes: Int64?
     }
 
     private struct TrackedFile {
@@ -43,6 +42,7 @@ nonisolated final class FolderFileDownloadMonitor: DownloadMonitoring, @unchecke
 
     private let fileManager: FileManager
     private let monitoredDirectories: [URL]
+    private let chromiumReader: ChromiumDownloadMetadataReader
     private let callbackQueue = DispatchQueue(
         label: "com.dynamicnotch.download.monitor",
         qos: .utility
@@ -56,10 +56,12 @@ nonisolated final class FolderFileDownloadMonitor: DownloadMonitoring, @unchecke
 
     init(
         fileManager: FileManager = .default,
-        monitoredDirectories: [URL]? = nil
+        monitoredDirectories: [URL]? = nil,
+        chromiumReader: ChromiumDownloadMetadataReader = ChromiumDownloadMetadataReader()
     ) {
         self.fileManager = fileManager
         self.monitoredDirectories = monitoredDirectories ?? Self.defaultDirectories(using: fileManager)
+        self.chromiumReader = chromiumReader
     }
 
     deinit {
@@ -154,7 +156,7 @@ private extension FolderFileDownloadMonitor {
                 displayName: observed.displayName,
                 directoryName: observed.directoryName,
                 byteCount: observed.byteCount,
-                estimatedTotalByteCount: estimatedTotalByteCount(
+                estimatedTotalByteCount: observed.authoritativeTotalBytes ?? estimatedTotalByteCount(
                     currentByteCount: observed.byteCount,
                     progress: progress
                 ),
@@ -223,7 +225,7 @@ private extension FolderFileDownloadMonitor {
                     displayName: observed.displayName,
                     directoryName: observed.directoryName,
                     byteCount: observed.byteCount,
-                    estimatedTotalByteCount: estimatedTotalByteCount(
+                    estimatedTotalByteCount: observed.authoritativeTotalBytes ?? estimatedTotalByteCount(
                         currentByteCount: observed.byteCount,
                         progress: progress
                     ),
@@ -332,15 +334,31 @@ private extension FolderFileDownloadMonitor {
             }
 
             let standardizedURL = url.standardizedFileURL
+            let byteCount = isRegular ? Int64(resourceValues.fileSize ?? 0) : recursiveByteCount(in: standardizedURL)
+
+            var authoritativeProgress = downloadProgressAttribute(for: standardizedURL)
+            var authoritativeTotalBytes: Int64?
+            var resolvedDisplayName = displayName(for: fileName)
+
+            if authoritativeProgress == nil, isTemporaryFile, standardizedURL.pathExtension.lowercased() == "crdownload" {
+                if let info = chromiumReader.downloadInfo(for: standardizedURL), info.totalBytes > 0 {
+                    authoritativeTotalBytes = info.totalBytes
+                    authoritativeProgress = min(max(Double(byteCount) / Double(info.totalBytes), 0), 1)
+                    if let targetPath = info.targetPath, !targetPath.isEmpty {
+                        resolvedDisplayName = URL(fileURLWithPath: targetPath).lastPathComponent
+                    }
+                }
+            }
 
             if isRegular {
                 return ObservedFile(
                     url: standardizedURL,
-                    displayName: displayName(for: fileName),
+                    displayName: resolvedDisplayName,
                     directoryName: directory.lastPathComponent,
-                    byteCount: Int64(resourceValues.fileSize ?? 0),
+                    byteCount: byteCount,
                     isTemporaryFile: isTemporaryFile,
-                    authoritativeProgress: downloadProgressAttribute(for: standardizedURL)
+                    authoritativeProgress: authoritativeProgress,
+                    authoritativeTotalBytes: authoritativeTotalBytes
                 )
             }
 
@@ -350,11 +368,12 @@ private extension FolderFileDownloadMonitor {
 
             return ObservedFile(
                 url: standardizedURL,
-                displayName: displayName(for: fileName),
+                displayName: resolvedDisplayName,
                 directoryName: directory.lastPathComponent,
-                byteCount: recursiveByteCount(in: standardizedURL),
+                byteCount: byteCount,
                 isTemporaryFile: true,
-                authoritativeProgress: downloadProgressAttribute(for: standardizedURL)
+                authoritativeProgress: authoritativeProgress,
+                authoritativeTotalBytes: authoritativeTotalBytes
             )
         }
     }
@@ -401,6 +420,10 @@ private extension FolderFileDownloadMonitor {
         progress: Double,
         previousEstimate: Int64
     ) -> Int64 {
+        if let authoritativeTotalBytes = observed.authoritativeTotalBytes, authoritativeTotalBytes > 0 {
+            return max(authoritativeTotalBytes, observed.byteCount)
+        }
+
         if observed.authoritativeProgress != nil {
             return estimatedTotalByteCount(
                 currentByteCount: observed.byteCount,

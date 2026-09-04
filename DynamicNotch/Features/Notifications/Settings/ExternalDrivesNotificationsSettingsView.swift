@@ -3,8 +3,8 @@ import SwiftUI
 struct ExternalDrivesNotificationsSettingsView: View {
     @ObservedObject var settings: NotificationsSettingsStore
 
-    private var temporaryActivityDurationRange: ClosedRange<Double> {
-        Double(SettingsStoreBase.temporaryActivityDurationRange.lowerBound)...Double(SettingsStoreBase.temporaryActivityDurationRange.upperBound)
+    private var notificationDurationRange: ClosedRange<Double> {
+        Double(SettingsStoreBase.notificationDurationRange.lowerBound)...Double(SettingsStoreBase.notificationDurationRange.upperBound)
     }
 
     var body: some View {
@@ -74,7 +74,7 @@ struct ExternalDrivesNotificationsSettingsView: View {
             SettingsSliderRow(
                 title: "settings.notifications.externalDrives.duration.title",
                 description: "settings.notifications.externalDrives.duration.desc",
-                range: temporaryActivityDurationRange,
+                range: notificationDurationRange,
                 step: 1,
                 fractionLength: 0,
                 suffix: "s",

@@ -38,7 +38,7 @@ struct DownloadNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     }
     
     func expandedSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        .init(width: baseWidth + 130, height: baseHeight + 65)
+        .init(width: baseWidth + 150, height: baseHeight + 65)
     }
     
     func expandedCornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
@@ -50,12 +50,11 @@ struct DownloadNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     }
     
     func expandedDynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        .init(width: baseWidth + 180, height: baseHeight + 65)
+        .init(width: baseWidth + 210, height: baseHeight + 60)
     }
     
     func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        let width: CGFloat = indicatorStyle == .circle ? 50 : 70
-        return .init(width: baseWidth + width, height: baseHeight)
+        .init(width: baseWidth + 40, height: baseHeight)
     }
     
     @MainActor

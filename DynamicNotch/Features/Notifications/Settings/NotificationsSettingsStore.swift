@@ -8,8 +8,8 @@ final class NotificationsSettingsStore: SettingsStoreBase {
 
     @StoredDefault(
         key: GeneralSettingsStorage.Keys.appleMailNotificationDuration,
-        defaultValue: 5,
-        transform: SettingsStoreBase.clampTemporaryActivityDuration
+        defaultValue: 8,
+        transform: SettingsStoreBase.clampNotificationDuration
     )
     var appleMailNotificationDuration: Int
 
@@ -21,8 +21,8 @@ final class NotificationsSettingsStore: SettingsStoreBase {
 
     @StoredDefault(
         key: GeneralSettingsStorage.Keys.messagesNotificationDuration,
-        defaultValue: 5,
-        transform: SettingsStoreBase.clampTemporaryActivityDuration
+        defaultValue: 8,
+        transform: SettingsStoreBase.clampNotificationDuration
     )
     var messagesNotificationDuration: Int
 
@@ -34,8 +34,8 @@ final class NotificationsSettingsStore: SettingsStoreBase {
 
     @StoredDefault(
         key: GeneralSettingsStorage.Keys.externalDrivesNotificationDuration,
-        defaultValue: 5,
-        transform: SettingsStoreBase.clampTemporaryActivityDuration
+        defaultValue: 8,
+        transform: SettingsStoreBase.clampNotificationDuration
     )
     var externalDrivesNotificationDuration: Int
 
@@ -51,13 +51,13 @@ final class NotificationsSettingsStore: SettingsStoreBase {
 
     func reset() {
         isAppleMailNotificationsEnabled = defaultBool(for: GeneralSettingsStorage.Keys.appleMailNotificationsEnabled)
-        appleMailNotificationDuration = Self.defaultTemporaryActivityDuration(for: GeneralSettingsStorage.Keys.appleMailNotificationDuration)
+        appleMailNotificationDuration = Self.defaultNotificationDuration(for: GeneralSettingsStorage.Keys.appleMailNotificationDuration)
         isAppleMailNotificationsPermissionPending = false
         isMessagesNotificationsEnabled = defaultBool(for: GeneralSettingsStorage.Keys.messagesNotificationsEnabled)
-        messagesNotificationDuration = Self.defaultTemporaryActivityDuration(for: GeneralSettingsStorage.Keys.messagesNotificationDuration)
+        messagesNotificationDuration = Self.defaultNotificationDuration(for: GeneralSettingsStorage.Keys.messagesNotificationDuration)
         isMessagesNotificationsPermissionPending = false
         isExternalDrivesNotificationsEnabled = defaultBool(for: GeneralSettingsStorage.Keys.externalDrivesNotificationsEnabled)
-        externalDrivesNotificationDuration = Self.defaultTemporaryActivityDuration(for: GeneralSettingsStorage.Keys.externalDrivesNotificationDuration)
+        externalDrivesNotificationDuration = Self.defaultNotificationDuration(for: GeneralSettingsStorage.Keys.externalDrivesNotificationDuration)
         isExternalDrivesIncludeDiskImagesEnabled = defaultBool(for: GeneralSettingsStorage.Keys.externalDrivesIncludeDiskImages)
         isExternalDrivesShowEjectedEnabled = defaultBool(for: GeneralSettingsStorage.Keys.externalDrivesShowEjected)
     }

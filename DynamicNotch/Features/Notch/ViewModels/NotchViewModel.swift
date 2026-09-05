@@ -11,6 +11,7 @@ final class NotchViewModel: ObservableObject {
     @Published private(set) var stagedNotchHeight: CGFloat = NotchModel().baseHeight
     @Published private(set) var isExpandingLiveActivityTransition = false
     @Published private(set) var isActivityPresentationHidden = false
+    @Published private(set) var hasDisplayedContent = false
     @Published private(set) var topInset: CGFloat = 0
     
     @Published var isLocked = false
@@ -350,6 +351,7 @@ final class NotchViewModel: ObservableObject {
 
         withAnimation(animations.notchVisibility) {
             isActivityPresentationHidden = isHidden
+            hasDisplayedContent = displayedContent != nil
         }
     }
     
@@ -556,12 +558,15 @@ final class NotchViewModel: ObservableObject {
         cachedStrokeColor = engine.cachedStrokeColor
         stagedNotchHeight = engine.notchModel.size.height
         isClosingHeightStaged = false
+        hasDisplayedContent = displayedContent != nil
         
         engine.$notchModel
             .dropFirst()
             .sink { [weak self] in
-                self?.scheduleStagedHeightUpdate(to: $0.size.height)
-                self?.notchModel = $0
+                guard let self else { return }
+                self.scheduleStagedHeightUpdate(to: $0.size.height)
+                self.notchModel = $0
+                self.hasDisplayedContent = self.displayedContent != nil
             }
             .store(in: &cancellables)
         

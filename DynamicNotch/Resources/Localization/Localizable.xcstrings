@@ -115433,6 +115433,484 @@
         }
       }
     },
+    "settings.notch.display.hideDynamicIslandInFullScreen.desc" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode when there are no active events. The notch appears when an event occurs and disappears afterward."
+          }
+        },
+        "bg" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode when there are no active events. The notch appears when an event occurs and disappears afterward."
+          }
+        },
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode when there are no active events. The notch appears when an event occurs and disappears afterward."
+          }
+        },
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode when there are no active events. The notch appears when an event occurs and disappears afterward."
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode when there are no active events. The notch appears when an event occurs and disappears afterward."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode when there are no active events. The notch appears when an event occurs and disappears afterward."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode when there are no active events. The notch appears when an event occurs and disappears afterward."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode when there are no active events. The notch appears when an event occurs and disappears afterward."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode when there are no active events. The notch appears when an event occurs and disappears afterward."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode when there are no active events. The notch appears when an event occurs and disappears afterward."
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode when there are no active events. The notch appears when an event occurs and disappears afterward."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode when there are no active events. The notch appears when an event occurs and disappears afterward."
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode when there are no active events. The notch appears when an event occurs and disappears afterward."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode when there are no active events. The notch appears when an event occurs and disappears afterward."
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode when there are no active events. The notch appears when an event occurs and disappears afterward."
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode when there are no active events. The notch appears when an event occurs and disappears afterward."
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode when there are no active events. The notch appears when an event occurs and disappears afterward."
+          }
+        },
+        "hu" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode when there are no active events. The notch appears when an event occurs and disappears afterward."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode when there are no active events. The notch appears when an event occurs and disappears afterward."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode when there are no active events. The notch appears when an event occurs and disappears afterward."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode when there are no active events. The notch appears when an event occurs and disappears afterward."
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode when there are no active events. The notch appears when an event occurs and disappears afterward."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode when there are no active events. The notch appears when an event occurs and disappears afterward."
+          }
+        },
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode when there are no active events. The notch appears when an event occurs and disappears afterward."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode when there are no active events. The notch appears when an event occurs and disappears afterward."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode when there are no active events. The notch appears when an event occurs and disappears afterward."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode when there are no active events. The notch appears when an event occurs and disappears afterward."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode when there are no active events. The notch appears when an event occurs and disappears afterward."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode when there are no active events. The notch appears when an event occurs and disappears afterward."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скрывать Dynamic Island в полноэкранном режиме, пока нет активных событий. Вырез появляется при событии и затем пропадает."
+          }
+        },
+        "sk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode when there are no active events. The notch appears when an event occurs and disappears afterward."
+          }
+        },
+        "sr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode when there are no active events. The notch appears when an event occurs and disappears afterward."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode when there are no active events. The notch appears when an event occurs and disappears afterward."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode when there are no active events. The notch appears when an event occurs and disappears afterward."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode when there are no active events. The notch appears when an event occurs and disappears afterward."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode when there are no active events. The notch appears when an event occurs and disappears afterward."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode when there are no active events. The notch appears when an event occurs and disappears afterward."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode when there are no active events. The notch appears when an event occurs and disappears afterward."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode when there are no active events. The notch appears when an event occurs and disappears afterward."
+          }
+        }
+      }
+    },
+    "settings.notch.display.hideDynamicIslandInFullScreen.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode"
+          }
+        },
+        "bg" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode"
+          }
+        },
+        "bn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode"
+          }
+        },
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode"
+          }
+        },
+        "fa" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode"
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode"
+          }
+        },
+        "hu" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode"
+          }
+        },
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скрывать Dynamic Island в полноэкранном режиме"
+          }
+        },
+        "sk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode"
+          }
+        },
+        "sr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Dynamic Island in full-screen mode"
+          }
+        }
+      }
+    },
     "settings.notch.display.hideInFullScreen.desc" : {
       "extractionState" : "manual",
       "localizations" : {

@@ -86,6 +86,20 @@ struct DisplaySettingsView: View {
                 .opacity(0.6)
                 .padding(.leading, 43)
                 .frame(maxWidth: .infinity, alignment: .trailing)
+
+            SettingsToggleRow(
+                title: "settings.notch.display.hideDynamicIslandInFullScreen.title",
+                description: "settings.notch.display.hideDynamicIslandInFullScreen.desc",
+                systemImage: "capsule.portrait",
+                color: LinearGradient.blueGradient,
+                isOn: $applicationSettings.isDynamicIslandHiddenInFullscreenEnabled,
+                accessibilityIdentifier: "settings.general.hideDynamicIslandInFullscreen"
+            )
+            
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, alignment: .trailing)
             
             SettingsToggleRow(
                 title: "settings.general.display.closeAtFocus.title",

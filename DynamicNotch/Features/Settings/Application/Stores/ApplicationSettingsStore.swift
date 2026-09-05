@@ -101,6 +101,9 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
     @StoredDefault(key: GeneralSettingsStorage.Keys.hideNotchInFullscreenEnabled, defaultValue: false)
     var isNotchHiddenInFullscreenEnabled: Bool
 
+    @StoredDefault(key: GeneralSettingsStorage.Keys.hideDynamicIslandInFullscreenEnabled, defaultValue: true)
+    var isDynamicIslandHiddenInFullscreenEnabled: Bool
+
     @StoredDefault(key: GeneralSettingsStorage.Keys.notchAnimationPreset, defaultValue: .balanced)
     var notchAnimationPreset: NotchAnimationPreset
 
@@ -217,6 +220,9 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         isNotchHiddenInFullscreenEnabled = defaultBool(
             for: GeneralSettingsStorage.Keys.hideNotchInFullscreenEnabled
         )
+        isDynamicIslandHiddenInFullscreenEnabled = defaultBool(
+            for: GeneralSettingsStorage.Keys.hideDynamicIslandInFullscreenEnabled
+        )
     }
 
     func resetAppearance() {
@@ -237,6 +243,9 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         )
         isNotchHiddenInFullscreenEnabled = defaultBool(
             for: GeneralSettingsStorage.Keys.hideNotchInFullscreenEnabled
+        )
+        isDynamicIslandHiddenInFullscreenEnabled = defaultBool(
+            for: GeneralSettingsStorage.Keys.hideDynamicIslandInFullscreenEnabled
         )
     }
 

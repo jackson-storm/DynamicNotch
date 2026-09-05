@@ -1,4 +1,5 @@
 import SwiftUI
+internal import AppKit
 
 struct NotchInteractiveBodyView: View {
     @ObservedObject var notchViewModel: NotchViewModel
@@ -9,6 +10,7 @@ struct NotchInteractiveBodyView: View {
             notchViewModel: notchViewModel,
             settingsViewModel: settingsViewModel
         )
+        .opacity(isVisiblyHiddenInFullscreen ? 0 : 1)
         .shadow(
             color: (notchViewModel.presentedNotchSize.height >= notchViewModel.notchModel.baseHeight + 30)
             ? .black.opacity(0.4) : .clear, radius: 20
@@ -38,6 +40,12 @@ struct NotchInteractiveBodyView: View {
         .animation(notchViewModel.animations.strokeVisibility, value: notchViewModel.shouldRenderStroke)
         .animation(notchViewModel.animations.strokeVisibility, value: settingsViewModel.isShowNotchStrokeEnabled)
         .animation(notchViewModel.animations.notchVisibility, value: notchViewModel.showNotch)
+    }
+    
+    private var isVisiblyHiddenInFullscreen: Bool {
+        guard settingsViewModel.application.isDynamicIslandHiddenInFullscreenEnabled else { return false }
+        guard let screen = NSScreen.preferredNotchScreen(for: settingsViewModel) ?? NSScreen.main else { return false }
+        return SkyLightOperator.shared.isFullscreenSpaceActive(on: screen) && !notchViewModel.hasDisplayedContent
     }
     
     private var shouldEnableNotchSwipeGestures: Bool {

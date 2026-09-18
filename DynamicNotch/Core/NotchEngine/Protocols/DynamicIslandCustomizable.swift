@@ -7,6 +7,7 @@
 
 import Foundation
 
+@MainActor
 protocol DynamicIslandCustomizable {
     func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize
     func expandedDynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize

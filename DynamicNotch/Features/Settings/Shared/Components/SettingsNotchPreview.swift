@@ -123,6 +123,7 @@ struct SettingsNotchPreview<Overlay: View>: View {
             topCornerRadius: topCornerRadius,
             bottomCornerRadius: bottomCornerRadius,
             isDynamicIsland: isDynamicIsland,
+            usesTopAttachedShape: false,
             dynamicIslandCornerRadius: dynamicIslandCornerRadius,
             strokeColor: showsStroke ? strokeColor : .clear,
             strokeWidth: strokeWidth,

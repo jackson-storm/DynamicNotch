@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@MainActor
 enum TimerSource {
     case system(TimerViewModel)
     case local(LocalTimerViewModel)

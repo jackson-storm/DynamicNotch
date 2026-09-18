@@ -24,9 +24,11 @@ struct HudNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     let indicatorTintStyle: HudIndicatorTintStyle
     let showsIndicatorGlow: Bool
     let usesColoredLevelStroke: Bool
+    private let usesDefaultActivityStroke: Bool
     
     var strokeColor: Color { HudLevelStyling.strokeTint(for: level, isEnabled: resolvedColoredLevelStroke) }
 
+    @MainActor
     init(
         kind: HudPresentationKind,
         level: Int,
@@ -47,6 +49,7 @@ struct HudNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
         self.usesColoredLevelStroke = usesColoredLevelStroke
         self.deviceName = deviceName
         self.applicationSettings = applicationSettings
+        self.usesDefaultActivityStroke = applicationSettings?.isDefaultActivityStrokeEnabled == true
     }
     
     func cornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
@@ -144,6 +147,6 @@ struct HudNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     }
 
     private var resolvedColoredLevelStroke: Bool {
-        usesColoredLevelStroke && applicationSettings?.isDefaultActivityStrokeEnabled != true
+        usesColoredLevelStroke && !usesDefaultActivityStroke
     }
 }

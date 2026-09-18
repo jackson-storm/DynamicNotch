@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@MainActor
 protocol NotchContentProtocol {
     var id: String { get }
     var stackID: String { get }

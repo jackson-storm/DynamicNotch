@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 
+@MainActor
 struct NotchModel: Equatable {
     var liveActivityContent: NotchContentProtocol? = nil
     var temporaryNotificationContent: NotchContentProtocol? = nil

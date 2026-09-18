@@ -13,25 +13,36 @@ struct VpnConnectedNotchContent : NotchContentProtocol, DynamicIslandCustomizabl
     
     let vpnViewModel: VpnViewModel
     let settings: ConnectivitySettingsStore
+    private let isVPNDetailVisible: Bool
+
+    @MainActor
+    init(
+        vpnViewModel: VpnViewModel,
+        settings: ConnectivitySettingsStore
+    ) {
+        self.vpnViewModel = vpnViewModel
+        self.settings = settings
+        self.isVPNDetailVisible = settings.isVPNDetailVisible
+    }
     
     func cornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
         return (
-            top: settings.isVPNDetailVisible ? 20 : baseRadius - 4 ,
-            bottom: settings.isVPNDetailVisible ? 38 : baseRadius
+            top: isVPNDetailVisible ? 20 : baseRadius - 4 ,
+            bottom: isVPNDetailVisible ? 38 : baseRadius
         )
     }
     
     func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         .init(
-            width: settings.isVPNDetailVisible ? baseWidth + 155 : baseWidth + 115,
-            height: settings.isVPNDetailVisible ? 95 : baseHeight
+            width: isVPNDetailVisible ? baseWidth + 155 : baseWidth + 115,
+            height: isVPNDetailVisible ? 95 : baseHeight
         )
     }
     
     func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         .init(
-            width: settings.isVPNDetailVisible ? baseWidth + 220 : baseWidth + 60,
-            height: settings.isVPNDetailVisible ? 85 : baseHeight
+            width: isVPNDetailVisible ? baseWidth + 220 : baseWidth + 60,
+            height: isVPNDetailVisible ? 85 : baseHeight
         )
     }
     

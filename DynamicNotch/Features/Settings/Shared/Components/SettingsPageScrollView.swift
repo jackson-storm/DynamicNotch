@@ -15,24 +15,12 @@ struct SettingsPageScrollView<Content: View>: View {
     }
     
     var body: some View {
-        if #available(macOS 26.0, *) {
-            ScrollView(showsIndicators: false) {
-                VStack(alignment: .leading, spacing: 20) {
-                    content
-                }
-                .padding(.vertical, 15)
-                .padding(.horizontal, 5)
+        ScrollView(showsIndicators: false) {
+            VStack(alignment: .leading, spacing: 20) {
+                content
             }
-            .scrollEdgeEffectStyle(.soft, for: .top)
-            
-        } else {
-            ScrollView(showsIndicators: false) {
-                VStack(alignment: .leading, spacing: 20) {
-                    content
-                }
-                .padding(.vertical, 15)
-                .padding(.horizontal, 5)
-            }
+            .padding(.vertical, 15)
+            .padding(.horizontal, 5)
         }
     }
 }

@@ -352,6 +352,27 @@ final class NotchEventCoordinator: ObservableObject {
         homePageHandler.showToolNotch()
     }
 
+    var canShowDragAndDropToolNotch: Bool {
+        !isOnboardingActive && dragAndDropHandler.canShowToolDragAndDrop
+    }
+
+    var dragAndDropToolNotchMenuTitleKey: String {
+        dragAndDropHandler.toolDragAndDropMenuTitleKey
+    }
+
+    var dragAndDropToolNotchMenuFallback: String {
+        dragAndDropHandler.toolDragAndDropMenuFallback
+    }
+
+    var dragAndDropToolNotchMenuSystemImage: String {
+        dragAndDropHandler.toolDragAndDropMenuSystemImage
+    }
+
+    func showDragAndDropToolNotch() {
+        guard canShowDragAndDropToolNotch else { return }
+        dragAndDropHandler.showToolDragAndDrop()
+    }
+
     func handleScreenRecordingEvent(_ event: ScreenRecordingEvent) {
         guard !isOnboardingActive else { return }
         screenRecordingHandler.handleScreenRecordingEvent(event)

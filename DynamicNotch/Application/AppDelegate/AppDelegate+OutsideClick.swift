@@ -4,7 +4,7 @@ import Combine
 extension AppDelegate {
     func observeOutsideClickDismissal() {
         notchViewModel.$notchModel
-            .map(\.isLiveActivityExpanded)
+            .map { $0.isLiveActivityExpanded || $0.foregroundContent != nil }
             .removeDuplicates()
             .sink { [weak self] isEnabled in
                 guard let self else { return }
@@ -81,7 +81,8 @@ extension AppDelegate {
 
     @MainActor
     var shouldHandleOutsideClick: Bool {
-        guard notchViewModel.notchModel.isLiveActivityExpanded else { return false }
+        guard notchViewModel.notchModel.isLiveActivityExpanded ||
+              notchViewModel.notchModel.foregroundContent != nil else { return false }
         guard Date().timeIntervalSince(expansionTime) > 0.35 else { return false }
         return true
     }

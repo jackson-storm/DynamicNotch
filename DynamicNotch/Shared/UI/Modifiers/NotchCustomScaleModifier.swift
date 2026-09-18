@@ -77,6 +77,14 @@ private extension NotchCustomScaleModifier {
                         }
                     }
                     .onEnded { value in
+                        if notchViewModel.shouldCollapseActiveContentOnClick,
+                           hitBounds.contains(value.location) {
+                            resetInteractionState(cancelScaleAnimation: true)
+                            didCompleteExpandAction = false
+                            notchViewModel.handleOutsideClick()
+                            return
+                        }
+
                         guard (!notchViewModel.isActivityPresentationHidden || notchViewModel.isLocked) || notchViewModel.notchModel.temporaryNotificationContent != nil,
                               !notchViewModel.notchModel.isPresentingExpandedLiveActivity else {
                             resetInteractionState(cancelScaleAnimation: true)

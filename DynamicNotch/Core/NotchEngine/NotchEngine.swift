@@ -220,6 +220,11 @@ final class NotchEngine: ObservableObject {
     }
 
     func dismissActiveContent() {
+        if notchModel.foregroundContent != nil {
+            hideForegroundContent()
+            return
+        }
+
         if let temporaryContent = notchModel.temporaryNotificationContent {
             if temporaryContent.isRestorable {
                 lastDismissedContent = .temporary(
@@ -307,12 +312,12 @@ final class NotchEngine: ObservableObject {
             return
         }
 
-        guard notchModel.isLiveActivityExpanded else { return }
-
         if notchModel.foregroundContent != nil {
             hideForegroundContent()
             return
         }
+
+        guard notchModel.isLiveActivityExpanded else { return }
 
         if let temporaryContent = notchModel.temporaryNotificationContent {
             let duration = currentTemporaryNotificationDuration

@@ -102,6 +102,54 @@ final class NotchDragAndDropEventsHandler {
         notchViewModel.send(.showLiveActivity(makeFileConverterActiveContent()))
     }
 
+    var canShowToolDragAndDrop: Bool {
+        makeToolDragAndDropContent() != nil
+    }
+
+    var toolDragAndDropMenuTitleKey: String {
+        let isAirDropEnabled = settingsViewModel.mediaAndFiles.isAirDropLiveActivityEnabled
+        let isTrayEnabled = settingsViewModel.mediaAndFiles.isTrayLiveActivityEnabled
+
+        if isAirDropEnabled && isTrayEnabled {
+            return "menuBar.showAirDropAndTray"
+        } else if isAirDropEnabled {
+            return "menuBar.showAirDrop"
+        } else {
+            return "menuBar.showFileTray"
+        }
+    }
+
+    var toolDragAndDropMenuFallback: String {
+        let isAirDropEnabled = settingsViewModel.mediaAndFiles.isAirDropLiveActivityEnabled
+        let isTrayEnabled = settingsViewModel.mediaAndFiles.isTrayLiveActivityEnabled
+
+        if isAirDropEnabled && isTrayEnabled {
+            return "Show AirDrop & Tray"
+        } else if isAirDropEnabled {
+            return "Show AirDrop"
+        } else {
+            return "Show File Tray"
+        }
+    }
+
+    var toolDragAndDropMenuSystemImage: String {
+        let isAirDropEnabled = settingsViewModel.mediaAndFiles.isAirDropLiveActivityEnabled
+        let isTrayEnabled = settingsViewModel.mediaAndFiles.isTrayLiveActivityEnabled
+
+        if isAirDropEnabled && isTrayEnabled {
+            return "tray.and.arrow.down.fill"
+        } else if isAirDropEnabled {
+            return "dot.radiowaves.left.and.right"
+        } else {
+            return "tray.full.fill"
+        }
+    }
+
+    func showToolDragAndDrop() {
+        guard let content = makeToolDragAndDropContent() else { return }
+        notchViewModel.showForegroundContent(content)
+    }
+
     private func setupItemCallbacks() {
         self.fileTrayViewModel.onItemsChange = { [weak self] items in
             guard let self else { return }
@@ -129,6 +177,32 @@ final class NotchDragAndDropEventsHandler {
                 self?.syncAirDropTransferLiveActivity()
             }
             .store(in: &cancellables)
+    }
+
+    private func makeToolDragAndDropContent() -> NotchContentProtocol? {
+        guard settingsViewModel.isLiveActivityEnabled(.drop) else { return nil }
+
+        let isAirDropEnabled = settingsViewModel.mediaAndFiles.isAirDropLiveActivityEnabled
+        let isTrayEnabled = settingsViewModel.mediaAndFiles.isTrayLiveActivityEnabled
+
+        if isAirDropEnabled && isTrayEnabled {
+            return DragAndDropCombinedNotchContent(
+                airDropViewModel: airDropViewModel,
+                settingsViewModel: settingsViewModel
+            )
+        } else if isAirDropEnabled {
+            return AirDropNotchContent(
+                airDropViewModel: airDropViewModel,
+                settingsViewModel: settingsViewModel
+            )
+        } else if isTrayEnabled {
+            return TrayNotchContent(
+                airDropViewModel: airDropViewModel,
+                settingsViewModel: settingsViewModel
+            )
+        }
+
+        return nil
     }
 
     private func makeFileConverterActiveContent() -> FileConverterActiveNotchContent {

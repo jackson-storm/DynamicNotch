@@ -113,7 +113,12 @@ final class NotchViewModel: ObservableObject {
 
     var shouldCollapseActiveContentOnHoverLeaves: Bool {
         settings.notchCollapseInteraction == .hoverLeaves &&
-        isDisplayingExpandedLiveActivity
+        (isDisplayingExpandedLiveActivity || notchModel.foregroundContent != nil)
+    }
+
+    var shouldCollapseActiveContentOnClick: Bool {
+        settings.notchCollapseInteraction == .click &&
+        (isDisplayingExpandedLiveActivity || notchModel.foregroundContent != nil)
     }
 
     var notchPressHoldDuration: TimeInterval {

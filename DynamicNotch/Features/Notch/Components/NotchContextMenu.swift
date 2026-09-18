@@ -32,6 +32,20 @@ struct NotchContextMenu: View {
                 Text(locale.dn("menuBar.showToolNotch", fallback: "Show Tool Notch"))
             }
         }
+
+        if canShowDragAndDropToolNotch, let notchEventCoordinator {
+            Button {
+                notchEventCoordinator.showDragAndDropToolNotch()
+            } label: {
+                Image(systemName: notchEventCoordinator.dragAndDropToolNotchMenuSystemImage)
+                Text(
+                    locale.dn(
+                        notchEventCoordinator.dragAndDropToolNotchMenuTitleKey,
+                        fallback: notchEventCoordinator.dragAndDropToolNotchMenuFallback
+                    )
+                )
+            }
+        }
         
         Divider()
         
@@ -49,5 +63,23 @@ struct NotchContextMenu: View {
     private var canShowToolNotch: Bool {
         guard notchEventCoordinator?.canShowToolNotch == true else { return false }
         return notchViewModel.displayedContent?.id != NotchContentRegistry.HomePage.active.id
+    }
+
+    private var canShowDragAndDropToolNotch: Bool {
+        guard notchEventCoordinator?.canShowDragAndDropToolNotch == true,
+              let displayedContent = notchViewModel.displayedContent else { return false }
+
+        return dragAndDropContentIDs.contains(displayedContent.id) == false
+    }
+
+    private var dragAndDropContentIDs: Set<String> {
+        Set(
+            NotchContentRegistry.DragAndDrop.liveActivityIDs + [
+                NotchContentRegistry.DragAndDrop.trayActive.id,
+                NotchContentRegistry.DragAndDrop.airDropTransferActive.id,
+                NotchContentRegistry.DragAndDrop.fileConverterActive.id,
+                NotchContentRegistry.DragAndDrop.fileConverterConverted.id
+            ]
+        )
     }
 }

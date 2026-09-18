@@ -113,12 +113,29 @@ final class NotchViewModel: ObservableObject {
 
     var shouldCollapseActiveContentOnHoverLeaves: Bool {
         settings.notchCollapseInteraction == .hoverLeaves &&
-        (isDisplayingExpandedLiveActivity || notchModel.foregroundContent != nil)
+        shouldCollapsePresentedContentFromSurfaceGesture
     }
 
     var shouldCollapseActiveContentOnClick: Bool {
         settings.notchCollapseInteraction == .click &&
-        (isDisplayingExpandedLiveActivity || notchModel.foregroundContent != nil)
+        shouldCollapsePresentedContentFromSurfaceGesture
+    }
+
+    private var shouldCollapsePresentedContentFromSurfaceGesture: Bool {
+        guard let displayedContent else { return false }
+
+        if contentHandlesItsOwnSurfaceInteractions(displayedContent.id) {
+            return false
+        }
+
+        return isDisplayingExpandedLiveActivity || notchModel.foregroundContent != nil
+    }
+
+    private func contentHandlesItsOwnSurfaceInteractions(_ id: String) -> Bool {
+        id == NotchContentRegistry.HomePage.active.id ||
+        id == NotchContentRegistry.Media.timer.id ||
+        id == NotchContentRegistry.Media.localTimer.id ||
+        id == NotchContentRegistry.Media.timerFinished.id
     }
 
     var notchPressHoldDuration: TimeInterval {

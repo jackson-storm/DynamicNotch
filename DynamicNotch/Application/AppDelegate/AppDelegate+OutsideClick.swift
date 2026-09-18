@@ -91,7 +91,7 @@ extension AppDelegate {
     var activeNotchScreenRect: CGRect? {
         guard let window else { return nil }
 
-        let notchSize = notchViewModel.notchModel.size
+        let notchSize = notchViewModel.presentedNotchSize
         guard notchSize.width > 0, notchSize.height > 0 else { return nil }
 
         let isVertical = settingsViewModel.homePage.homePageScrollAxis == .vertical
@@ -102,10 +102,11 @@ extension AppDelegate {
 
         if shouldShowPageIndicator {
             if isVertical {
-                width = notchSize.width + pageIndicatorSize.width + 16
-                height = max(notchSize.height, notchSize.height / 2 + pageIndicatorSize.height / 2 + 12)
+                width = notchSize.width + pageIndicatorSize.width + 48
+                height = max(notchSize.height, notchSize.height / 2 + pageIndicatorSize.height / 2 + 48)
             } else {
-                height += 6 + pageIndicatorSize.height + 35
+                width = max(notchSize.width, pageIndicatorSize.width)
+                height += pageIndicatorSize.height + 130
             }
         }
 

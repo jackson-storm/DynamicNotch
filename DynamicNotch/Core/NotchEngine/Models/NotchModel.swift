@@ -12,8 +12,9 @@ import SwiftUI
 struct NotchModel: Equatable {
     var liveActivityContent: NotchContentProtocol? = nil
     var temporaryNotificationContent: NotchContentProtocol? = nil
+    var foregroundContent: NotchContentProtocol? = nil
     var isLiveActivityExpanded = false
-    var content: NotchContentProtocol? { temporaryNotificationContent ?? liveActivityContent }
+    var content: NotchContentProtocol? { foregroundContent ?? temporaryNotificationContent ?? liveActivityContent }
     
     var baseWidth: CGFloat = 190
     var baseHeight: CGFloat = 38

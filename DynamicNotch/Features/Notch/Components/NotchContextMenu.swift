@@ -1,7 +1,9 @@
 import SwiftUI
 
 struct NotchContextMenu: View {
+    @ObservedObject var notchViewModel: NotchViewModel
     @ObservedObject var settingsViewModel: SettingsViewModel
+    let notchEventCoordinator: NotchEventCoordinator?
     @ObservedObject private var updater = SparkleUpdater.shared
     
     var body: some View {
@@ -21,6 +23,15 @@ struct NotchContextMenu: View {
             Image(systemName: "gearshape")
             Text(locale.dn("menuBar.settings", fallback: "Settings"))
         }
+
+        if canShowToolNotch {
+            Button {
+                notchEventCoordinator?.showToolNotch()
+            } label: {
+                Image(systemName: "rectangle.grid.2x2")
+                Text(locale.dn("menuBar.showToolNotch", fallback: "Show Tool Notch"))
+            }
+        }
         
         Divider()
         
@@ -33,5 +44,10 @@ struct NotchContextMenu: View {
             Image(systemName: "rectangle.portrait.and.arrow.right")
             Text(locale.dn("menuBar.quit", fallback: "Quit"))
         }
+    }
+
+    private var canShowToolNotch: Bool {
+        guard notchEventCoordinator?.canShowToolNotch == true else { return false }
+        return notchViewModel.displayedContent?.id != NotchContentRegistry.HomePage.active.id
     }
 }

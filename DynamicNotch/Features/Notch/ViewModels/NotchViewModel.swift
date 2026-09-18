@@ -129,6 +129,10 @@ final class NotchViewModel: ObservableObject {
         return engine.canRestoreDismissedContent
     }
 
+    var isShowingForegroundContent: Bool {
+        engine.isShowingForegroundContent
+    }
+
     var canOpenActiveWindowLink: Bool {
         guard !isLocked else { return false }
         guard !isActivityPresentationHidden || notchModel.temporaryNotificationContent != nil else { return false }
@@ -342,6 +346,14 @@ final class NotchViewModel: ObservableObject {
     
     func send(_ notchState: NotchState) {
         engine.send(notchState)
+    }
+
+    func showForegroundContent(_ content: NotchContentProtocol, expanded: Bool = true) {
+        engine.showForegroundContent(content, expanded: expanded)
+    }
+
+    func hideForegroundContent() {
+        engine.hideForegroundContent()
     }
 
     func setActivityPresentationHidden(_ isHidden: Bool) {

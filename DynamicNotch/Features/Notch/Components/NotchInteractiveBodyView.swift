@@ -4,6 +4,17 @@ internal import AppKit
 struct NotchInteractiveBodyView: View {
     @ObservedObject var notchViewModel: NotchViewModel
     @ObservedObject var settingsViewModel: SettingsViewModel
+    let notchEventCoordinator: NotchEventCoordinator?
+
+    init(
+        notchViewModel: NotchViewModel,
+        settingsViewModel: SettingsViewModel,
+        notchEventCoordinator: NotchEventCoordinator? = nil
+    ) {
+        self.notchViewModel = notchViewModel
+        self.settingsViewModel = settingsViewModel
+        self.notchEventCoordinator = notchEventCoordinator
+    }
     
     var body: some View {
         NotchSurfaceContainerView(
@@ -34,7 +45,11 @@ struct NotchInteractiveBodyView: View {
             isEnabled: shouldEnableNotchSwipeGestures
         )
         .contextMenu {
-            NotchContextMenu(settingsViewModel: settingsViewModel)
+            NotchContextMenu(
+                notchViewModel: notchViewModel,
+                settingsViewModel: settingsViewModel,
+                notchEventCoordinator: notchEventCoordinator
+            )
         }
         .environment(\.colorScheme, .dark)
         .animation(notchViewModel.animations.strokeVisibility, value: notchViewModel.shouldRenderStroke)

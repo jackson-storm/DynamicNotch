@@ -212,20 +212,7 @@ struct HomePageNotchView: View {
                 try? await Task.sleep(nanoseconds: 300_000_000)
                 guard !Task.isCancelled else { return }
                 
-                notchViewModel.send(
-                    .showLiveActivity(
-                        HomePageNotchContent(
-                            notchViewModel: notchViewModel,
-                            settings: settings,
-                            homePages: newPage,
-                            localTimerViewModel: localTimerViewModel,
-                            nowPlayingViewModel: nowPlayingViewModel,
-                            fileConverterViewModel: fileConverterViewModel,
-                            mediaAndFilesSettings: mediaAndFilesSettings,
-                            applicationSettings: applicationSettings
-                        )
-                    )
-                )
+                updateHomePageContent(for: newPage)
 
                 withAnimation(.easeInOut(duration: 0.35)) {
                     isWaitingForSizeUpdate = false
@@ -250,6 +237,25 @@ struct HomePageNotchView: View {
             )
             settleTask?.cancel()
             updateTask?.cancel()
+        }
+    }
+
+    private func updateHomePageContent(for page: HomePages) {
+        let content = HomePageNotchContent(
+            notchViewModel: notchViewModel,
+            settings: settings,
+            homePages: page,
+            localTimerViewModel: localTimerViewModel,
+            nowPlayingViewModel: nowPlayingViewModel,
+            fileConverterViewModel: fileConverterViewModel,
+            mediaAndFilesSettings: mediaAndFilesSettings,
+            applicationSettings: applicationSettings
+        )
+
+        if notchViewModel.isShowingForegroundContent {
+            notchViewModel.showForegroundContent(content, expanded: true)
+        } else {
+            notchViewModel.send(.showLiveActivity(content))
         }
     }
     

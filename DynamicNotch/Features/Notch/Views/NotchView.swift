@@ -17,7 +17,8 @@ struct NotchView: View {
         ZStack(alignment: .top) {
             NotchInteractiveBodyView(
                 notchViewModel: notchViewModel,
-                settingsViewModel: settingsViewModel
+                settingsViewModel: settingsViewModel,
+                notchEventCoordinator: notchEventCoordinator
             )
             .environment(\.notchScale, notchViewModel.notchModel.scale)
             .overlay {

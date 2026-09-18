@@ -37,21 +37,38 @@ final class NotchHomePageEventsHandler {
     func handleHomePage(_ event: HomePageEvent) {
         switch event {
         case .homePageOn:
-            let activePages = settingsViewModel.homePage.homePageOrder.filter { !settingsViewModel.homePage.homePageDisabled.contains($0) }
-            let activePage = activePages.first ?? .camera
-            notchViewModel.send(.showLiveActivity(HomePageNotchContent(
-                notchViewModel: notchViewModel,
-                settings: settingsViewModel.homePage,
-                homePages: activePage,
-                localTimerViewModel: localTimerViewModel,
-                nowPlayingViewModel: nowPlayingViewModel,
-                fileConverterViewModel: fileConverterViewModel,
-                mediaAndFilesSettings: settingsViewModel.mediaAndFiles,
-                applicationSettings: settingsViewModel.application
-            )))
+            notchViewModel.send(.showLiveActivity(makeHomePageContent()))
             
         case .homePageOff:
             notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.HomePage.active.id))
         }
+    }
+
+    func showToolNotch() {
+        notchViewModel.showForegroundContent(makeHomePageContent(), expanded: true)
+    }
+
+    var canShowToolNotch: Bool {
+        settingsViewModel.homePage.isHomePageLiveActivityEnabled &&
+        activePages.isEmpty == false
+    }
+
+    private var activePages: [HomePages] {
+        settingsViewModel.homePage.homePageOrder.filter {
+            !settingsViewModel.homePage.homePageDisabled.contains($0)
+        }
+    }
+
+    private func makeHomePageContent() -> HomePageNotchContent {
+        HomePageNotchContent(
+            notchViewModel: notchViewModel,
+            settings: settingsViewModel.homePage,
+            homePages: activePages.first ?? .camera,
+            localTimerViewModel: localTimerViewModel,
+            nowPlayingViewModel: nowPlayingViewModel,
+            fileConverterViewModel: fileConverterViewModel,
+            mediaAndFilesSettings: settingsViewModel.mediaAndFiles,
+            applicationSettings: settingsViewModel.application
+        )
     }
 }

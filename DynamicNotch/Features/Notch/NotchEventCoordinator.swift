@@ -343,6 +343,15 @@ final class NotchEventCoordinator: ObservableObject {
         homePageHandler.handleHomePage(event)
     }
 
+    var canShowToolNotch: Bool {
+        !isOnboardingActive && homePageHandler.canShowToolNotch
+    }
+
+    func showToolNotch() {
+        guard canShowToolNotch else { return }
+        homePageHandler.showToolNotch()
+    }
+
     func handleScreenRecordingEvent(_ event: ScreenRecordingEvent) {
         guard !isOnboardingActive else { return }
         screenRecordingHandler.handleScreenRecordingEvent(event)

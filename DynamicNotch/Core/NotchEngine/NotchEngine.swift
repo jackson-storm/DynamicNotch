@@ -65,6 +65,10 @@ final class NotchEngine: ObservableObject {
         lastDismissedContent != nil || !dismissedLiveActivityIDs.isEmpty
     }
 
+    var isShowingForegroundContent: Bool {
+        notchModel.foregroundContent != nil
+    }
+
     var canOpenActiveWindowLink: Bool {
         notchModel.content?.windowLink != nil
     }
@@ -111,6 +115,14 @@ final class NotchEngine: ObservableObject {
             dismissedLiveActivityIDs.removeAll(where: { $0 == content.id })
             updateLiveActivityStack(with: content)
 
+            if notchModel.foregroundContent != nil {
+                withAnimation(animations.contentUpdate) {
+                    notchModel.liveActivityContent = highestPriorityVisibleActivity
+                    notchModel.updateToken = UUID()
+                }
+                return
+            }
+
             if notchModel.liveActivityContent?.id == content.id {
                 withAnimation(animations.contentUpdate) {
                     notchModel.liveActivityContent = content
@@ -142,6 +154,14 @@ final class NotchEngine: ObservableObject {
                 return
             }
 
+            if notchModel.foregroundContent != nil {
+                withAnimation(animations.contentUpdate) {
+                    notchModel.liveActivityContent = highestPriorityVisibleActivity
+                    notchModel.updateToken = UUID()
+                }
+                return
+            }
+
         case .hide:
             eventQueue.removeAll()
 
@@ -151,6 +171,29 @@ final class NotchEngine: ObservableObject {
 
         eventQueue.append(notchState)
         processQueue()
+    }
+
+    func showForegroundContent(_ content: NotchContentProtocol, expanded: Bool = true) {
+        withAnimation(animations.contentShow) {
+            notchModel.foregroundContent = content
+            notchModel.isLiveActivityExpanded = expanded && content.isExpandable
+            notchModel.updateToken = UUID()
+        }
+    }
+
+    func hideForegroundContent() {
+        guard notchModel.foregroundContent != nil else { return }
+
+        transition(
+            hide: {
+                withAnimation(self.animations.closeLiveActivity) {
+                    self.notchModel.isLiveActivityExpanded = false
+                    self.notchModel.foregroundContent = nil
+                    self.notchModel.updateToken = UUID()
+                }
+            },
+            show: {}
+        )
     }
 
     func hideTemporaryNotification() {
@@ -222,6 +265,14 @@ final class NotchEngine: ObservableObject {
             return
         }
 
+        if notchModel.foregroundContent != nil {
+            withAnimation(animations.contentUpdate) {
+                notchModel.liveActivityContent = bestVisible
+                notchModel.updateToken = UUID()
+            }
+            return
+        }
+
         if notchModel.temporaryNotificationContent != nil {
             suspendedActivity = bestVisible
             return
@@ -257,6 +308,11 @@ final class NotchEngine: ObservableObject {
         }
 
         guard notchModel.isLiveActivityExpanded else { return }
+
+        if notchModel.foregroundContent != nil {
+            hideForegroundContent()
+            return
+        }
 
         if let temporaryContent = notchModel.temporaryNotificationContent {
             let duration = currentTemporaryNotificationDuration
@@ -365,6 +421,14 @@ final class NotchEngine: ObservableObject {
 
             let bestVisible = highestPriorityVisibleActivity
 
+            if notchModel.foregroundContent != nil {
+                withAnimation(animations.contentUpdate) {
+                    notchModel.liveActivityContent = bestVisible
+                    notchModel.updateToken = UUID()
+                }
+                return
+            }
+
             if bestVisible?.id == notchModel.liveActivityContent?.id {
                 if let bestVisible {
                     notchModel.liveActivityContent = bestVisible
@@ -380,6 +444,14 @@ final class NotchEngine: ObservableObject {
                 suspendedActivity = nil
             }
             if notchModel.liveActivityContent?.id == id {
+                if notchModel.foregroundContent != nil {
+                    withAnimation(animations.contentUpdate) {
+                        notchModel.liveActivityContent = highestPriorityVisibleActivity
+                        notchModel.updateToken = UUID()
+                    }
+                    return
+                }
+
                 if let nextBest = highestPriorityVisibleActivity {
                     await showLiveContentTransition(nextBest)
                 } else {
@@ -411,6 +483,14 @@ final class NotchEngine: ObservableObject {
     }
 
     private func showLiveContentTransition(_ content: NotchContentProtocol?) async {
+        if notchModel.foregroundContent != nil {
+            withAnimation(animations.contentUpdate) {
+                notchModel.liveActivityContent = content
+                notchModel.updateToken = UUID()
+            }
+            return
+        }
+
         if notchModel.temporaryNotificationContent != nil {
             suspendedActivity = content
             return
@@ -478,6 +558,7 @@ final class NotchEngine: ObservableObject {
                 hide: {
                     withAnimation(self.notchModel.isLiveActivityExpanded ? self.animations.closeLiveActivity : self.animations.contentHide) {
                         self.notchModel.isLiveActivityExpanded = false
+                        self.notchModel.foregroundContent = nil
                         self.notchModel.temporaryNotificationContent = nil
                         self.notchModel.liveActivityContent = nil
                         self.suspendedActivity = nil

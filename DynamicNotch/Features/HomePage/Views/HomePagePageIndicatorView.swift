@@ -195,19 +195,23 @@ struct HomePagePageIndicatorView: View {
             NSHapticFeedbackManager.defaultPerformer.perform(.generic, performanceTime: .now)
         }
 
-        notchViewModel.send(
-            .showLiveActivity(
-                HomePageNotchContent(
-                    notchViewModel: notchViewModel,
-                    settings: settingsViewModel.homePage,
-                    homePages: page,
-                    localTimerViewModel: homePageContent.localTimerViewModel,
-                    nowPlayingViewModel: homePageContent.nowPlayingViewModel,
-                    fileConverterViewModel: homePageContent.fileConverterViewModel,
-                    mediaAndFilesSettings: settingsViewModel.mediaAndFiles,
-                    applicationSettings: settingsViewModel.application
-                )
-            )
+        let content = HomePageNotchContent(
+            notchViewModel: notchViewModel,
+            settings: settingsViewModel.homePage,
+            homePages: page,
+            localTimerViewModel: homePageContent.localTimerViewModel,
+            nowPlayingViewModel: homePageContent.nowPlayingViewModel,
+            fileConverterViewModel: homePageContent.fileConverterViewModel,
+            mediaAndFilesSettings: settingsViewModel.mediaAndFiles,
+            applicationSettings: settingsViewModel.application
         )
+
+        if notchViewModel.isShowingForegroundContent {
+            notchViewModel.showForegroundContent(content, expanded: true)
+        } else {
+            notchViewModel.send(
+                .showLiveActivity(content)
+            )
+        }
     }
 }

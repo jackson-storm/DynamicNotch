@@ -113,6 +113,10 @@ enum NotchContentRegistry {
             id: "tray.active",
             priorityKey: .trayActive
         )
+        static let trayItemsBrowser = NotchContentDescriptor(
+            id: "tray.itemsBrowser",
+            priorityKey: .trayActive
+        )
         static let airDropTransferActive = NotchContentDescriptor(
             id: "airDrop.transferActive",
             priorityKey: .airDropTransferActive

@@ -46,6 +46,15 @@ struct NotchContextMenu: View {
                 )
             }
         }
+
+        if canShowFileTrayItemsBrowser, let notchEventCoordinator {
+            Button {
+                notchEventCoordinator.showFileTrayItemsBrowser()
+            } label: {
+                Image(systemName: "tray.full.fill")
+                Text(locale.dn("menuBar.showTrayItems", fallback: "Show Tray Items"))
+            }
+        }
         
         Divider()
         
@@ -72,10 +81,18 @@ struct NotchContextMenu: View {
         return dragAndDropContentIDs.contains(displayedContent.id) == false
     }
 
+    private var canShowFileTrayItemsBrowser: Bool {
+        guard notchEventCoordinator?.canShowFileTrayItemsBrowser == true,
+              let displayedContent = notchViewModel.displayedContent else { return false }
+
+        return displayedContent.id != NotchContentRegistry.DragAndDrop.trayItemsBrowser.id
+    }
+
     private var dragAndDropContentIDs: Set<String> {
         Set(
             NotchContentRegistry.DragAndDrop.liveActivityIDs + [
                 NotchContentRegistry.DragAndDrop.trayActive.id,
+                NotchContentRegistry.DragAndDrop.trayItemsBrowser.id,
                 NotchContentRegistry.DragAndDrop.airDropTransferActive.id,
                 NotchContentRegistry.DragAndDrop.fileConverterActive.id,
                 NotchContentRegistry.DragAndDrop.fileConverterConverted.id

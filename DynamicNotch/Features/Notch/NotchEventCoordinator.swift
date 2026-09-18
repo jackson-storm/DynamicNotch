@@ -356,6 +356,10 @@ final class NotchEventCoordinator: ObservableObject {
         !isOnboardingActive && dragAndDropHandler.canShowToolDragAndDrop
     }
 
+    var canShowFileTrayItemsBrowser: Bool {
+        !isOnboardingActive && dragAndDropHandler.canShowFileTrayItemsBrowser
+    }
+
     var dragAndDropToolNotchMenuTitleKey: String {
         dragAndDropHandler.toolDragAndDropMenuTitleKey
     }
@@ -371,6 +375,11 @@ final class NotchEventCoordinator: ObservableObject {
     func showDragAndDropToolNotch() {
         guard canShowDragAndDropToolNotch else { return }
         dragAndDropHandler.showToolDragAndDrop()
+    }
+
+    func showFileTrayItemsBrowser() {
+        guard canShowFileTrayItemsBrowser else { return }
+        dragAndDropHandler.showFileTrayItemsBrowser()
     }
 
     func handleScreenRecordingEvent(_ event: ScreenRecordingEvent) {

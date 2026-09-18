@@ -133,6 +133,7 @@ final class NotchViewModel: ObservableObject {
 
     private func contentHandlesItsOwnSurfaceInteractions(_ id: String) -> Bool {
         id == NotchContentRegistry.HomePage.active.id ||
+        id == NotchContentRegistry.DragAndDrop.trayItemsBrowser.id ||
         id == NotchContentRegistry.Media.timer.id ||
         id == NotchContentRegistry.Media.localTimer.id ||
         id == NotchContentRegistry.Media.timerFinished.id

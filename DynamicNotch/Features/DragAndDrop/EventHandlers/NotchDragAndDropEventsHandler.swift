@@ -106,6 +106,12 @@ final class NotchDragAndDropEventsHandler {
         makeToolDragAndDropContent() != nil
     }
 
+    var canShowFileTrayItemsBrowser: Bool {
+        settingsViewModel.isLiveActivityEnabled(.drop) &&
+        settingsViewModel.mediaAndFiles.isTrayLiveActivityEnabled &&
+        fileTrayViewModel.items.isEmpty == false
+    }
+
     var toolDragAndDropMenuTitleKey: String {
         let isAirDropEnabled = settingsViewModel.mediaAndFiles.isAirDropLiveActivityEnabled
         let isTrayEnabled = settingsViewModel.mediaAndFiles.isTrayLiveActivityEnabled
@@ -150,10 +156,26 @@ final class NotchDragAndDropEventsHandler {
         notchViewModel.showForegroundContent(content)
     }
 
+    func showFileTrayItemsBrowser() {
+        guard canShowFileTrayItemsBrowser else { return }
+        notchViewModel.showForegroundContent(
+            TrayItemsBrowserNotchContent(
+                fileTrayViewModel: fileTrayViewModel,
+                mediaSettings: settingsViewModel.mediaAndFiles
+            ),
+            expanded: false
+        )
+    }
+
     private func setupItemCallbacks() {
         self.fileTrayViewModel.onItemsChange = { [weak self] items in
             guard let self else { return }
             self.syncFileTrayLiveActivity(hasItems: !items.isEmpty)
+
+            if items.isEmpty,
+               self.notchViewModel.displayedContent?.id == NotchContentRegistry.DragAndDrop.trayItemsBrowser.id {
+                self.notchViewModel.hideForegroundContent()
+            }
         }
 
         self.fileConverterViewModel.onItemChange = { [weak self] item in

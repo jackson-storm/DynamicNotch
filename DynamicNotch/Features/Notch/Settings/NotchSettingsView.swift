@@ -99,7 +99,7 @@ struct NotchSettingsView: View {
             SettingsSliderRow(
                 title: "settings.notch.height.title",
                 description: "settings.notch.height.desc",
-                range: -4...4,
+                range: -10...10,
                 step: 1,
                 fractionLength: 0,
                 suffix: "px",

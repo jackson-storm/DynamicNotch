@@ -41,8 +41,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     var localClickMonitor: Any?
     let globalClickMonitor = GlobalClickMonitor()
     var hideWindowWorkItem: DispatchWorkItem?
+    var systemOverlayWindowAnimationWorkItem: DispatchWorkItem?
     var cancellables = Set<AnyCancellable>()
     var isPrimaryWindowSuspendedForLock = false
+    var isPrimaryWindowHiddenForSystemOverlay = false
+    var systemOverlayVisibilityMonitor: SystemOverlayVisibilityMonitor?
     var expansionTime: Date = .distantPast
     
     override init() {
@@ -67,6 +70,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         if !isRunningUITests {
             createNotchWindow()
+            startSystemOverlayVisibilityMonitoring()
             observeOutsideClickDismissal()
             _ = lockScreenPanelManager
             _ = lockScreenLiveActivityWindowManager
@@ -124,6 +128,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             container.lockScreenLiveActivityWindowManager.invalidate()
         }
         stopOutsideClickMonitoring()
+        stopSystemOverlayVisibilityMonitoring()
+        systemOverlayWindowAnimationWorkItem?.cancel()
+        systemOverlayWindowAnimationWorkItem = nil
         hideWindowWorkItem?.cancel()
         hideWindowWorkItem = nil
         container.mailManager.stopMonitoring()

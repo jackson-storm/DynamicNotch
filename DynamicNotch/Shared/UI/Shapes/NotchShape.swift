@@ -141,13 +141,6 @@ struct TopAttachedNotchShape: Shape {
 
         path.move(
             to: CGPoint(
-                x: rect.minX - shoulderOutset,
-                y: rect.minY
-            )
-        )
-
-        path.addLine(
-            to: CGPoint(
                 x: rect.maxX + shoulderOutset,
                 y: rect.minY
             )

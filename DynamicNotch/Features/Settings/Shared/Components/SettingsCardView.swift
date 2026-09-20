@@ -95,15 +95,21 @@ private struct SettingsCardGroupBoxStyle: GroupBoxStyle {
 }
 
 struct SettingsResetCard: View {
+    let targetName: String
     let action: () -> Void
     
     @State private var showingAlert = false
+    @Environment(\.locale) private var locale
+    
+    var formattedTitle: String {
+        locale.dnFormat("settings.reset.title", fallback: "Reset %@ settings?", targetName)
+    }
     
     var body: some View {
         SettingsCard {
             HStack {
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("settings.reset.title")
+                    Text(formattedTitle)
                         .font(.body)
                     Text("settings.reset.message")
                         .font(.caption)
@@ -119,7 +125,7 @@ struct SettingsResetCard: View {
         }
         .alert(isPresented: $showingAlert) {
             Alert(
-                title: Text("settings.reset.title"),
+                title: Text(formattedTitle),
                 message: Text("settings.reset.message"),
                 primaryButton: .destructive(Text("settings.reset.action")) {
                     action()

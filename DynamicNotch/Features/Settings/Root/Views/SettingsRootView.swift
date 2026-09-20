@@ -238,8 +238,13 @@ struct SettingsRootView: View {
         .onChange(of: settingsViewModel.application.appearanceMode) {
             updateWindowStyle()
         }        .alert(item: $pendingResetSubPage) { subPage in
-            Alert(
-                title: Text(localized("settings.reset.title")),
+            let title = settingsViewModel.application.appLanguage.locale.dnFormat(
+                "settings.reset.title",
+                fallback: "Reset %@ settings?",
+                localized(subPage.titleKey, fallback: subPage.fallbackTitle)
+            )
+            return Alert(
+                title: Text(title),
                 message: Text(localized("settings.reset.message")),
                 primaryButton: .destructive(Text(localized("settings.reset.action"))) {
                     reset(subPage)

@@ -136,7 +136,7 @@ struct BluetoothSettingsView: View {
                             usesTintedTrackStroke: isBatteryStrokeActive
                         )
                     } else {
-                        Text("78%")
+                        Text(verbatim: "78%")
                             .foregroundStyle(.green.gradient)
                             .font(.system(size: 12))
                     }

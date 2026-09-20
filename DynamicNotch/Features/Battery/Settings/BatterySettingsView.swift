@@ -321,7 +321,7 @@ struct BatterySettingsView: View {
                     .lineLimit(1)
             }
 
-            Text(kind == .low ? "20%" : "100%")
+            Text(verbatim: kind == .low ? "20%" : "100%")
                 .font(.system(size: kind == .low ? 10 : 10.5, weight: .semibold))
                 .foregroundStyle(kind == .low ? .red : .green)
         }

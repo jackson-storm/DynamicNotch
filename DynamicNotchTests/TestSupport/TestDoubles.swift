@@ -3,6 +3,7 @@ import SwiftUI
 @testable import DynamicNotch
 
 final class TestNotchSettings: NotchSettingsProviding {
+    var noNotchStyle: NoNotchStyle
     var notchWidth: Int
     var notchHeight: Int
     var displayLocation: NotchDisplayLocation {
@@ -28,6 +29,7 @@ final class TestNotchSettings: NotchSettingsProviding {
     var isCloseAtFocusLiveActivityEnabled: Bool
  
     init(
+        noNotchStyle: NoNotchStyle = .dynamicIsland,
         notchWidth: Int = 0,
         notchHeight: Int = 0,
         displayLocation: NotchDisplayLocation = .main,
@@ -44,6 +46,7 @@ final class TestNotchSettings: NotchSettingsProviding {
         isNotchHoverHapticEnabled: Bool = false,
         isCloseAtFocusLiveActivityEnabled: Bool = true
     ) {
+        self.noNotchStyle = noNotchStyle
         self.notchWidth = notchWidth
         self.notchHeight = notchHeight
         self.displayLocation = displayLocation

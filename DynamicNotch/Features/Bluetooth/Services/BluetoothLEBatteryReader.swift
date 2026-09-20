@@ -3,9 +3,15 @@ import CoreBluetooth
 
 final class BluetoothLEBatteryReader: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     struct Lookup {
-        let uuid: UUID
+        let uuid: UUID?
         let addressKey: String?
         let nameKey: String?
+
+        init(uuid: UUID? = nil, addressKey: String? = nil, nameKey: String? = nil) {
+            self.uuid = uuid
+            self.addressKey = addressKey
+            self.nameKey = nameKey
+        }
     }
 
     struct Result {
@@ -23,7 +29,7 @@ final class BluetoothLEBatteryReader: NSObject, CBCentralManagerDelegate, CBPeri
     private static let batteryServiceUUID = CBUUID(string: "180F")
     private static let batteryCharacteristicUUID = CBUUID(string: "2A19")
 
-    private let timeoutInterval: TimeInterval = 6.0
+    private let timeoutInterval: TimeInterval = 4.0
 
     private var central: CBCentralManager!
     private var state: State = .idle
@@ -53,11 +59,16 @@ final class BluetoothLEBatteryReader: NSObject, CBCentralManagerDelegate, CBPeri
 
         state = .requesting
         pendingLookups = lookups
-        lookupByUUID = Dictionary(uniqueKeysWithValues: lookups.map { ($0.uuid, $0) })
+        lookupByUUID.removeAll()
+        for lookup in lookups {
+            if let uuid = lookup.uuid {
+                lookupByUUID[uuid] = lookup
+            }
+        }
         self.completion = completion
         results.removeAll()
         pendingPeripherals.removeAll()
-        missingUUIDs = Set(lookups.map { $0.uuid })
+        missingUUIDs = Set(lookups.compactMap { $0.uuid })
 
         switch central.state {
         case .poweredOn:
@@ -102,10 +113,12 @@ final class BluetoothLEBatteryReader: NSObject, CBCentralManagerDelegate, CBPeri
         rssi RSSI: NSNumber
     ) {
         guard state == .requesting else { return }
-        guard missingUUIDs.contains(peripheral.identifier) else { return }
 
-        missingUUIDs.remove(peripheral.identifier)
-        configurePeripheral(peripheral)
+        if let lookup = findLookup(for: peripheral) {
+            lookupByUUID[peripheral.identifier] = lookup
+            missingUUIDs.remove(peripheral.identifier)
+            configurePeripheral(peripheral)
+        }
     }
 
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
@@ -153,18 +166,47 @@ final class BluetoothLEBatteryReader: NSObject, CBCentralManagerDelegate, CBPeri
         }
 
         guard let data = characteristic.value,
-              let byte = data.first,
-              let lookup = lookupByUUID[peripheral.identifier] else {
+              let byte = data.first else {
             return
         }
 
         let level = Int(byte)
+        let lookup = lookupByUUID[peripheral.identifier]
         results[peripheral.identifier] = Result(
             uuid: peripheral.identifier,
             level: level,
-            addressKey: lookup.addressKey,
-            nameKey: lookup.nameKey
+            addressKey: lookup?.addressKey,
+            nameKey: lookup?.nameKey
         )
+    }
+
+    private func findLookup(for peripheral: CBPeripheral) -> Lookup? {
+        if let existing = lookupByUUID[peripheral.identifier] {
+            return existing
+        }
+
+        if let name = peripheral.name?.lowercased().trimmingCharacters(in: .whitespacesAndNewlines), !name.isEmpty {
+            for lookup in pendingLookups {
+                if let nameKey = lookup.nameKey?.lowercased() {
+                    let norm1 = name.components(separatedBy: CharacterSet.alphanumerics.inverted).joined()
+                    let norm2 = nameKey.components(separatedBy: CharacterSet.alphanumerics.inverted).joined()
+                    if norm1 == norm2 || norm1.contains(norm2) || norm2.contains(norm1) {
+                        return lookup
+                    }
+                }
+            }
+        }
+
+        let unassigned = pendingLookups.filter { $0.uuid == nil }
+        if unassigned.count == 1 {
+            return unassigned.first
+        }
+
+        return nil
+    }
+
+    private func hasNameLookups() -> Bool {
+        pendingLookups.contains(where: { $0.nameKey != nil })
     }
 
     private func startRequest() {
@@ -180,19 +222,27 @@ final class BluetoothLEBatteryReader: NSObject, CBCentralManagerDelegate, CBPeri
         }
 
         let connectedPeripherals = central.retrieveConnectedPeripherals(withServices: [Self.batteryServiceUUID])
-        for peripheral in connectedPeripherals where missingUUIDs.contains(peripheral.identifier) {
-            missingUUIDs.remove(peripheral.identifier)
-            configurePeripheral(peripheral)
+        for peripheral in connectedPeripherals {
+            if let lookup = findLookup(for: peripheral) {
+                lookupByUUID[peripheral.identifier] = lookup
+                missingUUIDs.remove(peripheral.identifier)
+                configurePeripheral(peripheral)
+            }
         }
 
-        if !missingUUIDs.isEmpty {
+        central.scanForPeripherals(
+            withServices: [Self.batteryServiceUUID],
+            options: [CBCentralManagerScanOptionAllowDuplicatesKey: false]
+        )
+
+        if hasNameLookups() {
             central.scanForPeripherals(
-                withServices: [Self.batteryServiceUUID],
+                withServices: nil,
                 options: [CBCentralManagerScanOptionAllowDuplicatesKey: false]
             )
         }
 
-        if pendingPeripherals.isEmpty && missingUUIDs.isEmpty {
+        if pendingPeripherals.isEmpty && missingUUIDs.isEmpty && !hasNameLookups() {
             complete(with: Array(results.values))
             return
         }
@@ -216,7 +266,7 @@ final class BluetoothLEBatteryReader: NSObject, CBCentralManagerDelegate, CBPeri
         pendingPeripherals.removeValue(forKey: identifier)
         missingUUIDs.remove(identifier)
 
-        if missingUUIDs.isEmpty {
+        if missingUUIDs.isEmpty && !hasNameLookups() {
             central.stopScan()
         }
 

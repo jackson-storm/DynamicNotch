@@ -21,6 +21,11 @@ private final class MockBluetoothService: BluetoothServiceProtocol, @unchecked S
         $connectedDevices.eraseToAnyPublisher()
     }
 
+    let deviceConnectedEventSubject = PassthroughSubject<BluetoothAudioDevice, Never>()
+    var deviceConnectedEventPublisher: AnyPublisher<BluetoothAudioDevice, Never> {
+        deviceConnectedEventSubject.eraseToAnyPublisher()
+    }
+
     var refreshCalled = false
     func refreshConnectedDeviceBatteries() {
         refreshCalled = true
@@ -142,6 +147,59 @@ final class BluetoothViewModelTests: XCTestCase {
         // Wait for Task @MainActor to execute
         try? await Task.sleep(nanoseconds: 50_000_000)
         XCTAssertTrue(mockService.refreshCalled)
+    }
+
+    func testConnectingSecondDeviceTriggersConnectedEvent() async {
+        let firstDevice = BluetoothAudioDevice(
+            name: "Bluetooth Speaker",
+            address: "00:11:22:33:44:01",
+            batteryLevel: 60,
+            deviceType: .headphones
+        )
+
+        mockService.connectedDevices = [firstDevice]
+        await assertEventually {
+            self.viewModel.isConnected == true
+        }
+        XCTAssertEqual(viewModel.deviceName, "Bluetooth Speaker")
+
+        // Reset event to nil (as would happen after HUD dismissal)
+        viewModel.event = nil
+
+        let galaxyBuds = BluetoothAudioDevice(
+            name: "Galaxy Buds3 Pro",
+            address: "AA:BB:CC:DD:EE:FF",
+            batteryLevel: 95,
+            deviceType: .headphones
+        )
+
+        // Connect a second device while the first remains connected
+        mockService.connectedDevices = [firstDevice, galaxyBuds]
+
+        await assertEventually {
+            self.viewModel.event == .connected
+        }
+
+        XCTAssertEqual(viewModel.deviceName, "Galaxy Buds3 Pro")
+        XCTAssertEqual(viewModel.batteryLevel, 95)
+    }
+
+    func testDeviceConnectedEventDirectlyTriggersHUD() async {
+        let galaxyBuds = BluetoothAudioDevice(
+            name: "Galaxy Buds3 Pro",
+            address: "AA:BB:CC:DD:EE:FF",
+            batteryLevel: 82,
+            deviceType: .headphones
+        )
+
+        mockService.deviceConnectedEventSubject.send(galaxyBuds)
+
+        await assertEventually {
+            self.viewModel.isConnected == true && self.viewModel.event == .connected
+        }
+
+        XCTAssertEqual(viewModel.deviceName, "Galaxy Buds3 Pro")
+        XCTAssertEqual(viewModel.batteryLevel, 82)
     }
 }
 

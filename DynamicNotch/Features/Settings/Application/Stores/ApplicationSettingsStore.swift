@@ -38,6 +38,9 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
     @StoredDefault(key: GeneralSettingsStorage.Keys.notchBackgroundStyle, defaultValue: .black)
     var notchBackgroundStyle: NotchBackgroundStyle
 
+    @StoredDefault(key: GeneralSettingsStorage.Keys.noNotchStyle, defaultValue: .dynamicIsland)
+    var noNotchStyle: NoNotchStyle
+
     @Published var notchWidth: Int {
         didSet {
             guard oldValue != notchWidth else { return }
@@ -293,6 +296,9 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         notchBackgroundStyle = NotchBackgroundStyle.resolved(
             defaultString(for: GeneralSettingsStorage.Keys.notchBackgroundStyle)
         )
+        noNotchStyle = NoNotchStyle(
+            rawValue: defaultString(for: GeneralSettingsStorage.Keys.noNotchStyle)
+        ) ?? .dynamicIsland
         notchWidth = defaultInt(for: GeneralSettingsStorage.Keys.notchWidth)
         notchHeight = defaultInt(for: GeneralSettingsStorage.Keys.notchHeight)
     }

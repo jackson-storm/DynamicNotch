@@ -6,6 +6,7 @@ enum GeneralSettingsStorage {
         static let appearanceMode = "settings.general.appearance.mode"
 
         static let notchBackgroundStyle = "settings.notch.backgroundStyle"
+        static let noNotchStyle = "settings.notch.noNotchStyle"
         static let notchWidth = "notchWidth"
         static let notchHeight = "notchHeight"
         static let menuBarIcon = "isMenuBarIconVisible"

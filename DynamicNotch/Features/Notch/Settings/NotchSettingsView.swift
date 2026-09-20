@@ -25,6 +25,17 @@ struct NotchSettingsView: View {
     
     private var appearanceCard: some View {
         SettingsCard() {
+            CustomPicker(
+                selection: $applicationSettings.noNotchStyle,
+                title: { $0.title },
+                headerTitle: "settings.notch.noNotchStyle.title",
+                headerDescription: "settings.notch.noNotchStyle.desc",
+                symbolName: { $0.symbolName }
+            )
+            .accessibilityIdentifier("settings.notch.noNotchStyle")
+            
+            Divider().opacity(0.6)
+            
             SettingsToggleRow(
                 title: "settings.notch.showStroke.title",
                 description: "settings.notch.showStroke.desc",
@@ -83,7 +94,7 @@ struct NotchSettingsView: View {
             SettingsSliderRow(
                 title: "settings.notch.width.title",
                 description: "settings.notch.width.desc",
-                range: -16...16,
+                range: -50...50,
                 step: 1,
                 fractionLength: 0,
                 suffix: "px",
@@ -99,7 +110,7 @@ struct NotchSettingsView: View {
             SettingsSliderRow(
                 title: "settings.notch.height.title",
                 description: "settings.notch.height.desc",
-                range: -4...4,
+                range: -10...10,
                 step: 1,
                 fractionLength: 0,
                 suffix: "px",

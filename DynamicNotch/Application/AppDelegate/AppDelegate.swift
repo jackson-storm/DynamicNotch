@@ -91,8 +91,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         if !isRunningUITests {
             notchEventCoordinator.checkFirstLaunch()
-            
-            // Наблюдаем за появлением обновлений ПО для показа Live Activity
             SparkleUpdater.shared.$isUpdateAvailable
                 .receive(on: RunLoop.main)
                 .sink { [weak self] isAvailable in

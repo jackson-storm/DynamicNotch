@@ -163,7 +163,7 @@ final class MessagesAudioPlayer: NSObject, ObservableObject, AVAudioPlayerDelega
 
             let didStart = preparedPlayer.player.play()
 
-            Task { @MainActor [weak self] in
+            Task { @MainActor [weak self = self] in
                 guard let self,
                       self.audioPlayer === preparedPlayer.player,
                       self.playbackRequestID == requestID else {

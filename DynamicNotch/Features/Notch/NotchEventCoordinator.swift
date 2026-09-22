@@ -50,7 +50,6 @@ final class NotchEventCoordinator: ObservableObject {
             downloadViewModel: container.downloadViewModel,
             airDropViewModel: container.airDropViewModel,
             fileTrayViewModel: container.fileTrayViewModel,
-            fileConverterViewModel: container.fileConverterViewModel,
             settingsViewModel: container.settingsViewModel,
             nowPlayingViewModel: container.nowPlayingViewModel,
             timerViewModel: container.timerViewModel,
@@ -79,7 +78,6 @@ final class NotchEventCoordinator: ObservableObject {
         downloadViewModel: DownloadViewModel,
         airDropViewModel: AirDropNotchViewModel,
         fileTrayViewModel: FileTrayViewModel,
-        fileConverterViewModel: FileConverterViewModel,
         settingsViewModel: SettingsViewModel,
         nowPlayingViewModel: NowPlayingViewModel,
         timerViewModel: TimerViewModel,
@@ -138,7 +136,6 @@ final class NotchEventCoordinator: ObservableObject {
             notchViewModel: notchViewModel,
             airDropViewModel: airDropViewModel,
             fileTrayViewModel: fileTrayViewModel,
-            fileConverterViewModel: fileConverterViewModel,
             settingsViewModel: settingsViewModel
         )
         self.timerHandler = NotchTimerEventsHandler(
@@ -151,8 +148,7 @@ final class NotchEventCoordinator: ObservableObject {
             notchViewModel: notchViewModel,
             settingsViewModel: settingsViewModel,
             localTimerViewModel: localTimerViewModel,
-            nowPlayingViewModel: nowPlayingViewModel,
-            fileConverterViewModel: fileConverterViewModel
+            nowPlayingViewModel: nowPlayingViewModel
         )
         self.calendarHandler = NotchCalendarEventsHandler(
             notchViewModel: notchViewModel,

@@ -83,16 +83,6 @@ struct HomePageSettingsView: View {
             )
 
             SettingsNavigationRowView(
-                title: "settings.fileConverter.title",
-                description: "settings.fileConverter.subtitle",
-                systemImage: "arrow.trianglehead.2.clockwise.rotate.90",
-                color: .blue,
-                accessibilityIdentifier: "settings.homePage.fileConverter",
-                position: .middle,
-                value: SettingsSubPage.fileConverter
-            )
-
-            SettingsNavigationRowView(
                 title: "settings.section.timer.title",
                 description: "settings.section.timer.subtitle",
                 systemImage: "timer",

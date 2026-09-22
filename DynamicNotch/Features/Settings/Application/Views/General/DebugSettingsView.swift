@@ -215,17 +215,6 @@ struct DebugSettingsView: View {
             isOn: $viewModel.isFileTrayPreviewEnabled,
             accessibilityIdentifier: "settings.debug.fileTrayActive"
         )
-
-        debugDivider
-
-        SettingsToggleRow(
-            title: "File Converter Active",
-            description: "Show the converter live activity with a sample image.",
-            systemImage: "arrow.trianglehead.2.clockwise.rotate.90.circle.fill",
-            color: .green,
-            isOn: $viewModel.isFileConverterPreviewEnabled,
-            accessibilityIdentifier: "settings.debug.fileConverterActive"
-        )
     }
     
     private var triggerEventsCard: some View {
@@ -289,21 +278,9 @@ struct DebugSettingsView: View {
             action: viewModel.triggerTrayTargetPreview
         )
 
-        debugDivider
-
-        DebugActionRow(
-            title: "Converter Target",
-            description: "Show the File Converter drag target as an active drag event.",
-            systemImage: "arrow.trianglehead.2.clockwise.rotate.90.circle.fill",
-            color: .green,
-            action: viewModel.triggerFileConverterTargetPreview
-        )
-
-        debugDivider
-
         DebugActionRow(
             title: "Combined Targets",
-            description: "Show all drag targets with the converter target highlighted.",
+            description: "Show all drag targets.",
             systemImage: "square.grid.3x3.fill",
             color: .accentColor,
             action: viewModel.triggerCombinedDragAndDropPreview
@@ -337,36 +314,6 @@ struct DebugSettingsView: View {
             imageName: "airdrop.white",
             color: .blue,
             action: viewModel.triggerAirDropTransferPreview
-        )
-
-        debugDivider
-
-        DebugActionRow(
-            title: "Converter Converting",
-            description: "Show the converter collapsed converting state.",
-            systemImage: "arrow.triangle.2.circlepath",
-            color: .accentColor,
-            action: viewModel.triggerFileConverterConvertingPreview
-        )
-
-        debugDivider
-
-        DebugActionRow(
-            title: "Converter Failed",
-            description: "Show the converter collapsed failed state.",
-            systemImage: "exclamationmark.triangle.fill",
-            color: .yellow,
-            action: viewModel.triggerFileConverterFailedPreview
-        )
-
-        debugDivider
-
-        DebugActionRow(
-            title: "Converter Success",
-            description: "Show the converter collapsed success state.",
-            systemImage: "checkmark.seal.fill",
-            color: .green,
-            action: viewModel.triggerFileConverterConvertedPreview
         )
     }
 

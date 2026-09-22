@@ -657,10 +657,6 @@ struct SettingsRootView: View {
                 mediaSettings: settingsViewModel.mediaAndFiles,
                 appearanceSettings: settingsViewModel.application
             )
-        case .fileConverter:
-            FileConverterSettingsView(
-                mediaSettings: settingsViewModel.mediaAndFiles
-            )
         case .homePagePages:
             HomePagePagesSettingsView(
                 homePageSettings: settingsViewModel.homePage
@@ -731,8 +727,6 @@ struct SettingsRootView: View {
             settingsViewModel.application.resetGestures()
         case .fileTray:
             settingsViewModel.mediaAndFiles.resetFileTray()
-        case .fileConverter:
-            settingsViewModel.mediaAndFiles.resetFileConverter()
         case .homePagePages:
             settingsViewModel.homePage.resetHomePage()
         case .appleMail, .messages, .systemNotifications, .externalDrives:

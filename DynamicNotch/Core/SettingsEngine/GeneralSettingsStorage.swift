@@ -71,14 +71,6 @@ enum GeneralSettingsStorage {
         static let fileTrayScrollDirection = "settings.live.tray.scrollDirection"
         static let fileTrayRemoveButtonHidden = "settings.live.tray.removeButtonHidden"
         static let trayLiveActivityEnabled = "settings.live.tray"
-        static let fileConverterLiveActivityEnabled = "settings.live.fileConverter"
-        static let fileConverterConvertedTemporaryActivityDuration = "settings.temporary.fileConverter.converted.duration"
-        static let fileConverterOutputLocation = "settings.fileConverter.outputLocation"
-        static let fileConverterExistingFileBehavior = "settings.fileConverter.existingFileBehavior"
-        static let fileConverterFilenameSuffix = "settings.fileConverter.filenameSuffix"
-        static let fileConverterImageQuality = "settings.fileConverter.imageQuality"
-        static let fileConverterVideoQuality = "settings.fileConverter.videoQuality"
-        static let fileConverterAudioQuality = "settings.fileConverter.audioQuality"
         static let timerLiveActivityEnabled = "settings.live.timer"
         static let timerDefaultStrokeEnabled = "settings.live.timer.defaultStroke"
         static let timerSoundEnabled = "settings.timer.soundEnabled"
@@ -231,14 +223,6 @@ enum GeneralSettingsStorage {
         Keys.airDropDefaultStrokeEnabled: false,
         Keys.dragAndDropActivityMode: DragAndDropActivityMode.combined.rawValue,
         Keys.trayLiveActivityEnabled: true,
-        Keys.fileConverterLiveActivityEnabled: true,
-        Keys.fileConverterConvertedTemporaryActivityDuration: 3,
-        Keys.fileConverterOutputLocation: FileConverterOutputLocation.sameFolder.rawValue,
-        Keys.fileConverterExistingFileBehavior: FileConverterExistingFileBehavior.createUniqueName.rawValue,
-        Keys.fileConverterFilenameSuffix: "-converted",
-        Keys.fileConverterImageQuality: 0.92,
-        Keys.fileConverterVideoQuality: FileConverterVideoQuality.high.rawValue,
-        Keys.fileConverterAudioQuality: FileConverterAudioQuality.high.rawValue,
         Keys.fileTrayUsageMode: FileTrayUsageMode.copy.rawValue,
         Keys.fileTrayScrollDirection: FileTrayScrollDirection.horizontal.rawValue,
         Keys.fileTrayRemoveButtonHidden: false,
@@ -307,7 +291,7 @@ enum GeneralSettingsStorage {
         Keys.lowBatterySound: true,
         Keys.fullBatterySound: true,
         Keys.homePageLiveActivity: true,
-        Keys.homePageOrder: ["camera", "mediaPlayer", "localTimer", "vpn", "systemStats"],
+        Keys.homePageOrder: ["camera", "mediaPlayer", "localTimer", "vpn"],
         Keys.homePageDisabled: [String](),
         Keys.homePagePageIndicator: true,
         Keys.homePageIndicatorSize: "medium",

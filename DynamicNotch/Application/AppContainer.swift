@@ -7,7 +7,6 @@ final class AppContainer {
     let focusViewModel = FocusViewModel()
     let airDropViewModel = AirDropNotchViewModel()
     let fileTrayViewModel = FileTrayViewModel()
-    let fileConverterViewModel = FileConverterViewModel()
     let settingsViewModel: SettingsViewModel
     let wifiViewModel: WifiViewModel
     let vpnViewModel: VpnViewModel
@@ -46,8 +45,7 @@ final class AppContainer {
     lazy var notchViewModel = NotchViewModel(settings: settingsViewModel.application)
     lazy var airDropController = NotchAirDropController(
         airDropViewModel: airDropViewModel,
-        fileTrayViewModel: fileTrayViewModel,
-        fileConverterViewModel: fileConverterViewModel
+        fileTrayViewModel: fileTrayViewModel
     )
 
     lazy var notchEventCoordinator = NotchEventCoordinator(container: self)

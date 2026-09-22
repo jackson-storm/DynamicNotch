@@ -100,10 +100,6 @@ enum NotchContentRegistry {
             id: "tray",
             priority: NotchContentPriority.dragAndDrop
         )
-        static let fileConverter = NotchContentDescriptor(
-            id: "fileConverter",
-            priority: NotchContentPriority.dragAndDrop
-        )
         static let combined = NotchContentDescriptor(
             id: "dragAndDrop.combined",
             priority: NotchContentPriority.dragAndDrop
@@ -117,18 +113,10 @@ enum NotchContentRegistry {
             id: "airDrop.transferActive",
             priorityKey: .airDropTransferActive
         )
-        static let fileConverterActive = NotchContentDescriptor(
-            id: "fileConverter.active",
-            priorityKey: .fileConverterActive
-        )
-        static let fileConverterConverted = NotchContentDescriptor(
-            id: "fileConverter.converted"
-        )
 
         static let liveActivityIDs = [
             airDrop.id,
             tray.id,
-            fileConverter.id,
             combined.id
         ]
     }
@@ -205,11 +193,8 @@ enum NotchContentRegistry {
         static let timer = id(Media.timer.id)
         static let airDrop = id(DragAndDrop.airDrop.id)
         static let tray = id(DragAndDrop.tray.id)
-        static let fileConverter = id(DragAndDrop.fileConverter.id)
         static let combinedDrop = id(DragAndDrop.combined.id)
         static let trayActive = id(DragAndDrop.trayActive.id)
-        static let fileConverterActive = id(DragAndDrop.fileConverterActive.id)
-        static let fileConverterConverted = id(DragAndDrop.fileConverterConverted.id)
         static let bluetooth = id(Bluetooth.bluetooth.id)
         static let wifi = id(Wifi.wifi.id)
         static let vpn = id(Vpn.vpn.id)

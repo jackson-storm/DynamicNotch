@@ -6,6 +6,7 @@ enum GeneralSettingsStorage {
         static let appearanceMode = "settings.general.appearance.mode"
 
         static let notchBackgroundStyle = "settings.notch.backgroundStyle"
+        static let noNotchStyle = "settings.notch.noNotchStyle"
         static let notchWidth = "notchWidth"
         static let notchHeight = "notchHeight"
         static let menuBarIcon = "isMenuBarIconVisible"
@@ -70,14 +71,6 @@ enum GeneralSettingsStorage {
         static let fileTrayScrollDirection = "settings.live.tray.scrollDirection"
         static let fileTrayRemoveButtonHidden = "settings.live.tray.removeButtonHidden"
         static let trayLiveActivityEnabled = "settings.live.tray"
-        static let fileConverterLiveActivityEnabled = "settings.live.fileConverter"
-        static let fileConverterConvertedTemporaryActivityDuration = "settings.temporary.fileConverter.converted.duration"
-        static let fileConverterOutputLocation = "settings.fileConverter.outputLocation"
-        static let fileConverterExistingFileBehavior = "settings.fileConverter.existingFileBehavior"
-        static let fileConverterFilenameSuffix = "settings.fileConverter.filenameSuffix"
-        static let fileConverterImageQuality = "settings.fileConverter.imageQuality"
-        static let fileConverterVideoQuality = "settings.fileConverter.videoQuality"
-        static let fileConverterAudioQuality = "settings.fileConverter.audioQuality"
         static let timerLiveActivityEnabled = "settings.live.timer"
         static let timerDefaultStrokeEnabled = "settings.live.timer.defaultStroke"
         static let timerSoundEnabled = "settings.timer.soundEnabled"
@@ -140,16 +133,6 @@ enum GeneralSettingsStorage {
         static let calendarOngoingEventHideMinutes = "settings.calendar.ongoingEventHideMinutes"
         static let calendarPrivacyMode = "settings.calendar.privacy"
         static let calendarSoundAlert = "settings.calendar.soundAlert"
-        static let appleMailNotificationsEnabled = "settings.notifications.appleMail.enabled"
-        static let appleMailNotificationDuration = "settings.notifications.appleMail.duration"
-        static let appleMailNotificationsPermissionPending = "appleMailNotificationsPermissionPending"
-        static let messagesNotificationsEnabled = "settings.notifications.messages.enabled"
-        static let messagesNotificationDuration = "settings.notifications.messages.duration"
-        static let messagesNotificationsPermissionPending = "messagesNotificationsPermissionPending"
-        static let systemNotificationsEnabled = "settings.notifications.system.enabled"
-        static let systemNotificationDuration = "settings.notifications.system.duration"
-        static let systemNotificationsHideNative = "settings.notifications.system.hideNative"
-        static let systemNotificationsPermissionPending = "systemNotificationsPermissionPending"
         static let externalDrivesNotificationsEnabled = "settings.notifications.externalDrives.enabled"
         static let externalDrivesNotificationDuration = "settings.notifications.externalDrives.duration"
         static let externalDrivesIncludeDiskImages = "settings.notifications.externalDrives.includeDiskImages"
@@ -174,7 +157,7 @@ enum GeneralSettingsStorage {
         Keys.menuBarIcon: true,
         Keys.notchStrokeEnabled: true,
         Keys.defaultActivityStrokeEnabled: false,
-        Keys.notchStrokeWidth: 1.5,
+        Keys.notchStrokeWidth: 2.5,
         Keys.notchStrokeOpacity: 1.0,
         Keys.displayLocation: NotchDisplayLocation.main.rawValue,
         Keys.preferredDisplayUUID: "",
@@ -230,14 +213,6 @@ enum GeneralSettingsStorage {
         Keys.airDropDefaultStrokeEnabled: false,
         Keys.dragAndDropActivityMode: DragAndDropActivityMode.combined.rawValue,
         Keys.trayLiveActivityEnabled: true,
-        Keys.fileConverterLiveActivityEnabled: true,
-        Keys.fileConverterConvertedTemporaryActivityDuration: 3,
-        Keys.fileConverterOutputLocation: FileConverterOutputLocation.sameFolder.rawValue,
-        Keys.fileConverterExistingFileBehavior: FileConverterExistingFileBehavior.createUniqueName.rawValue,
-        Keys.fileConverterFilenameSuffix: "-converted",
-        Keys.fileConverterImageQuality: 0.92,
-        Keys.fileConverterVideoQuality: FileConverterVideoQuality.high.rawValue,
-        Keys.fileConverterAudioQuality: FileConverterAudioQuality.high.rawValue,
         Keys.fileTrayUsageMode: FileTrayUsageMode.copy.rawValue,
         Keys.fileTrayScrollDirection: FileTrayScrollDirection.horizontal.rawValue,
         Keys.fileTrayRemoveButtonHidden: false,
@@ -306,7 +281,7 @@ enum GeneralSettingsStorage {
         Keys.lowBatterySound: true,
         Keys.fullBatterySound: true,
         Keys.homePageLiveActivity: true,
-        Keys.homePageOrder: ["camera", "mediaPlayer", "localTimer", "vpn", "systemStats"],
+        Keys.homePageOrder: ["camera", "mediaPlayer", "localTimer", "vpn"],
         Keys.homePageDisabled: [String](),
         Keys.homePagePageIndicator: true,
         Keys.homePageIndicatorSize: "medium",
@@ -322,16 +297,6 @@ enum GeneralSettingsStorage {
         Keys.calendarOngoingEventHideMinutes: 0,
         Keys.calendarPrivacyMode: false,
         Keys.calendarSoundAlert: false,
-        Keys.appleMailNotificationsEnabled: false,
-        Keys.appleMailNotificationDuration: 8,
-        Keys.appleMailNotificationsPermissionPending: false,
-        Keys.messagesNotificationsEnabled: false,
-        Keys.messagesNotificationDuration: 8,
-        Keys.messagesNotificationsPermissionPending: false,
-        Keys.systemNotificationsEnabled: false,
-        Keys.systemNotificationDuration: 8,
-        Keys.systemNotificationsHideNative: true,
-        Keys.systemNotificationsPermissionPending: false,
         Keys.externalDrivesNotificationsEnabled: true,
         Keys.externalDrivesNotificationDuration: 8,
         Keys.externalDrivesIncludeDiskImages: true,

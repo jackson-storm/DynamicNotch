@@ -4,10 +4,6 @@ import Combine
 extension NowPlayingProgressTintStyle: StoredSettingValue {}
 extension NowPlayingSourceFilter: StoredSettingValue {}
 extension DownloadProgressIndicatorStyle: StoredSettingValue {}
-extension FileConverterOutputLocation: StoredSettingValue {}
-extension FileConverterExistingFileBehavior: StoredSettingValue {}
-extension FileConverterVideoQuality: StoredSettingValue {}
-extension FileConverterAudioQuality: StoredSettingValue {}
 extension FileTrayUsageMode: StoredSettingValue {}
 extension FileTrayScrollDirection: StoredSettingValue {}
 extension DragAndDropActivityMode: StoredSettingValue {}
@@ -63,38 +59,6 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
 
     @StoredDefault(key: GeneralSettingsStorage.Keys.trayLiveActivityEnabled, defaultValue: true)
     var isTrayLiveActivityEnabled: Bool
-
-    @StoredDefault(key: GeneralSettingsStorage.Keys.fileConverterLiveActivityEnabled, defaultValue: true)
-    var isFileConverterLiveActivityEnabled: Bool
-
-    @StoredDefault(
-        key: GeneralSettingsStorage.Keys.fileConverterConvertedTemporaryActivityDuration,
-        defaultValue: 2,
-        transform: SettingsStoreBase.clampTemporaryActivityDuration
-    )
-    var fileConverterConvertedTemporaryActivityDuration: Int
-
-    @StoredDefault(key: GeneralSettingsStorage.Keys.fileConverterOutputLocation, defaultValue: .sameFolder)
-    var fileConverterOutputLocation: FileConverterOutputLocation
-
-    @StoredDefault(key: GeneralSettingsStorage.Keys.fileConverterExistingFileBehavior, defaultValue: .createUniqueName)
-    var fileConverterExistingFileBehavior: FileConverterExistingFileBehavior
-
-    @StoredDefault(key: GeneralSettingsStorage.Keys.fileConverterFilenameSuffix, defaultValue: "")
-    var fileConverterFilenameSuffix: String
-
-    @StoredDefault(
-        key: GeneralSettingsStorage.Keys.fileConverterImageQuality,
-        defaultValue: 0.92,
-        transform: MediaAndFilesSettingsStore.clampFileConverterImageQuality
-    )
-    var fileConverterImageQuality: Double
-
-    @StoredDefault(key: GeneralSettingsStorage.Keys.fileConverterVideoQuality, defaultValue: .high)
-    var fileConverterVideoQuality: FileConverterVideoQuality
-
-    @StoredDefault(key: GeneralSettingsStorage.Keys.fileConverterAudioQuality, defaultValue: .high)
-    var fileConverterAudioQuality: FileConverterAudioQuality
 
     @StoredDefault(key: GeneralSettingsStorage.Keys.fileTrayUsageMode, defaultValue: .copy)
     var fileTrayUsageMode: FileTrayUsageMode
@@ -160,7 +124,6 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         isDragAndDropDefaultStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.airDropDefaultStrokeEnabled)
         dragAndDropActivityMode = .airDrop
         resetFileTray()
-        resetFileConverter()
     }
 
     func resetFileTray() {
@@ -170,26 +133,11 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         isFileTrayRemoveButtonHidden = defaultBool(for: GeneralSettingsStorage.Keys.fileTrayRemoveButtonHidden)
     }
 
-    func resetFileConverter() {
-        isFileConverterLiveActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.fileConverterLiveActivityEnabled)
-        fileConverterConvertedTemporaryActivityDuration = defaultInt(for: GeneralSettingsStorage.Keys.fileConverterConvertedTemporaryActivityDuration)
-        fileConverterOutputLocation = .sameFolder
-        fileConverterExistingFileBehavior = .createUniqueName
-        fileConverterFilenameSuffix = defaultString(for: GeneralSettingsStorage.Keys.fileConverterFilenameSuffix)
-        fileConverterImageQuality = 0.92
-        fileConverterVideoQuality = .high
-        fileConverterAudioQuality = .high
-    }
-
     func resetTimer() {
         isTimerLiveActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.timerLiveActivityEnabled)
         isTimerDefaultStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.timerDefaultStrokeEnabled)
         isTimerSoundEnabled = defaultBool(for: GeneralSettingsStorage.Keys.timerSoundEnabled)
         timerSound = .apex
-    }
-
-    static func clampFileConverterImageQuality(_ value: Double) -> Double {
-        min(max(value, 0.1), 1.0)
     }
 }
 

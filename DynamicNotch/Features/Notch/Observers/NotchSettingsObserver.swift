@@ -168,7 +168,6 @@ final class NotchSettingsObserver {
                 if isEnabled {
                     self.dragAndDropHandler.refreshDragAndDropPresentation()
                     self.dragAndDropHandler.syncFileTrayLiveActivity()
-                    self.dragAndDropHandler.syncFileConverterLiveActivity()
                 } else {
                     self.dragAndDropHandler.hideAllDragAndDropActivities()
                 }
@@ -180,7 +179,6 @@ final class NotchSettingsObserver {
             .sink { [weak self] _ in
                 self?.dragAndDropHandler.refreshDragAndDropPresentation()
                 self?.dragAndDropHandler.syncFileTrayLiveActivity()
-                self?.dragAndDropHandler.syncFileConverterLiveActivity()
             }
             .store(in: &cancellables)
 
@@ -202,21 +200,6 @@ final class NotchSettingsObserver {
                 } else {
                     self.notchViewModel.send(
                         .hideLiveActivity(id: NotchContentRegistry.DragAndDrop.trayActive.id)
-                    )
-                }
-            }
-            .store(in: &cancellables)
-
-        settingsViewModel.mediaAndFiles.$isFileConverterLiveActivityEnabled
-            .removeDuplicates()
-            .sink { [weak self] isEnabled in
-                guard let self else { return }
-
-                if isEnabled {
-                    self.dragAndDropHandler.syncFileConverterLiveActivity()
-                } else {
-                    self.notchViewModel.send(
-                        .hideLiveActivity(id: NotchContentRegistry.DragAndDrop.fileConverterActive.id)
                     )
                 }
             }

@@ -7,7 +7,6 @@ final class AppContainer {
     let focusViewModel = FocusViewModel()
     let airDropViewModel = AirDropNotchViewModel()
     let fileTrayViewModel = FileTrayViewModel()
-    let fileConverterViewModel = FileConverterViewModel()
     let settingsViewModel: SettingsViewModel
     let wifiViewModel: WifiViewModel
     let vpnViewModel: VpnViewModel
@@ -24,10 +23,7 @@ final class AppContainer {
     let screenRecordingResultViewModel = ScreenRecordingResultViewModel()
     let lockScreenManager: LockScreenManager
     let clockTimerController: any ClockTimerControlling
-    let mailManager: MailManager
-    let messagesManager: MessagesManager
     let externalDrivesMonitor: ExternalDrivesMonitor
-    let systemNotificationsInterceptor: SystemNotificationsInterceptor
 
     lazy var hardwareHUDMonitor: HardwareHUDMonitor = {
         MainActor.assumeIsolated {
@@ -46,8 +42,7 @@ final class AppContainer {
     lazy var notchViewModel = NotchViewModel(settings: settingsViewModel.application)
     lazy var airDropController = NotchAirDropController(
         airDropViewModel: airDropViewModel,
-        fileTrayViewModel: fileTrayViewModel,
-        fileConverterViewModel: fileConverterViewModel
+        fileTrayViewModel: fileTrayViewModel
     )
 
     lazy var notchEventCoordinator = NotchEventCoordinator(container: self)
@@ -113,9 +108,6 @@ final class AppContainer {
                 InactiveLockScreenSoundPlayer() :
                 LockScreenSoundPlayer()
         )
-        self.mailManager = MailManager()
-        self.messagesManager = MessagesManager()
         self.externalDrivesMonitor = ExternalDrivesMonitor()
-        self.systemNotificationsInterceptor = SystemNotificationsInterceptor()
     }
 }

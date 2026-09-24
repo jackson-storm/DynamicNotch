@@ -19,7 +19,6 @@ final class DebugSettingsViewModel: ObservableObject {
     @Published var isDownloadPreviewEnabled = false
     @Published var isTimerPreviewEnabled = false
     @Published var isFileTrayPreviewEnabled = false
-    @Published var isFileConverterPreviewEnabled = false
     @Published var isLockScreenPreviewEnabled = false
     @Published var isSoftwareUpdatePreviewEnabled = false
 
@@ -34,17 +33,14 @@ final class DebugSettingsViewModel: ObservableObject {
     private static let sequenceTimerID = NotchContentRegistry.DebugSequence.timer
     private static let sequenceAirDropID = NotchContentRegistry.DebugSequence.airDrop
     private static let sequenceTrayID = NotchContentRegistry.DebugSequence.tray
-    private static let sequenceFileConverterID = NotchContentRegistry.DebugSequence.fileConverter
     private static let sequenceCombinedDropID = NotchContentRegistry.DebugSequence.combinedDrop
     private static let sequenceTrayActiveID = NotchContentRegistry.DebugSequence.trayActive
-    private static let sequenceFileConverterActiveID = NotchContentRegistry.DebugSequence.fileConverterActive
     private static let sequenceLockScreenID = NotchContentRegistry.DebugSequence.lockScreen
     private static let sequenceSoftwareUpdateID = NotchContentRegistry.DebugSequence.softwareUpdate
     private static let livePreviewDuration: TimeInterval = 4
     private static let previewGapDuration: TimeInterval = 1
     private static let transitionBufferDuration: TimeInterval = 0.35
     private static let waitPollInterval: UInt64 = 50_000_000
-    private static let messagesPreviewDelay: UInt64 = 700_000_000
     private static let sequenceLiveActivityIDs = [
         sequenceFocusID,
         sequenceScreenRecordingID,
@@ -54,10 +50,8 @@ final class DebugSettingsViewModel: ObservableObject {
         sequenceTimerID,
         sequenceAirDropID,
         sequenceTrayID,
-        sequenceFileConverterID,
         sequenceCombinedDropID,
         sequenceTrayActiveID,
-        sequenceFileConverterActiveID,
         sequenceLockScreenID,
         sequenceSoftwareUpdateID
     ]
@@ -75,12 +69,9 @@ final class DebugSettingsViewModel: ObservableObject {
     private let settingsViewModel: SettingsViewModel
     private let dragAndDropPreviewViewModel = AirDropNotchViewModel()
     private let fileTrayPreviewViewModel: FileTrayViewModel
-    private let fileConverterPreviewViewModel = FileConverterViewModel()
 
     private var cancellables = Set<AnyCancellable>()
     private var previewSequenceTask: Task<Void, Never>?
-    private var mailBatchTask: Task<Void, Never>?
-    private var messagesQueuePreviewTask: Task<Void, Never>?
 
     init(
         notchViewModel: NotchViewModel,
@@ -240,9 +231,6 @@ final class DebugSettingsViewModel: ObservableObject {
         showDragAndDropTargetPreview(.tray)
     }
 
-    func triggerFileConverterTargetPreview() {
-    }
-
     func triggerCombinedDragAndDropPreview() {
         showCombinedDragAndDropPreview()
     }
@@ -287,210 +275,6 @@ final class DebugSettingsViewModel: ObservableObject {
         }
     }
 
-    func triggerFileConverterConvertedPreview() {
-        showFileConverterStatusPreview {
-            fileConverterPreviewViewModel.convert(options: fileConverterDebugConversionOptions)
-        }
-    }
-
-    func triggerFileConverterConvertingPreview() {
-        showFileConverterStatusPreview {
-            fileConverterPreviewViewModel.showDebugConvertingStatus()
-        }
-    }
-
-    func triggerFileConverterFailedPreview() {
-        showFileConverterStatusPreview {
-            fileConverterPreviewViewModel.showDebugFailedStatus()
-        }
-    }
-    
-    func triggerMailPreview() {
-        notchEventCoordinator.handleMailMessage(.debugPreviewStandard)
-    }
-
-    func triggerMailNoSummaryPreview() {
-        notchEventCoordinator.handleMailMessage(.debugPreviewNoSummary)
-    }
-
-    func triggerMailNoSubjectPreview() {
-        notchEventCoordinator.handleMailMessage(.debugPreviewNoSubject)
-    }
-
-    func triggerMailNoSubjectNoSummaryPreview() {
-        notchEventCoordinator.handleMailMessage(.debugPreviewNoSubjectNoSummary)
-    }
-
-    func triggerMailLongContentPreview() {
-        notchEventCoordinator.handleMailMessage(.debugPreviewLongContent)
-    }
-
-    func triggerMessagesTextPreview() {
-        notchEventCoordinator.handleMessagesMessage(.debugText)
-    }
-
-    func triggerMessagesTextAndImagePreview() {
-        notchEventCoordinator.handleMessagesMessage(.debugTextAndImage)
-    }
-
-    func triggerMessagesAudioPreview() {
-        notchEventCoordinator.handleMessagesMessage(.debugAudio)
-    }
-
-    func triggerMessagesVideoPreview() {
-        notchEventCoordinator.handleMessagesMessage(.debugVideo)
-    }
-
-    func triggerMessagesFilePreview() {
-        notchEventCoordinator.handleMessagesMessage(.debugFile)
-    }
-
-    func triggerMessagesMultipleAttachmentsPreview() {
-        notchEventCoordinator.handleMessagesMessage(.debugMultipleAttachments)
-    }
-
-    func triggerMessagesUnknownSenderPreview() {
-        notchEventCoordinator.handleMessagesMessage(.debugUnknownSender)
-    }
-
-    func triggerMessagesLongContentPreview() {
-        notchEventCoordinator.handleMessagesMessage(.debugLongContent)
-    }
-
-    func triggerMessagesQueuePreview() {
-        messagesQueuePreviewTask?.cancel()
-
-        messagesQueuePreviewTask = Task { @MainActor [weak self] in
-            guard let self else { return }
-
-            notchViewModel.hideTemporaryNotification()
-
-            try? await Task.sleep(nanoseconds: Self.messagesPreviewDelay)
-            guard !Task.isCancelled else { return }
-
-            notchEventCoordinator.handleMessagesMessage(.debugText)
-
-            try? await Task.sleep(nanoseconds: Self.messagesPreviewDelay)
-            guard !Task.isCancelled else { return }
-
-            notchEventCoordinator.handleMessagesMessage(.debugLongContent)
-
-            try? await Task.sleep(nanoseconds: Self.messagesPreviewDelay)
-            guard !Task.isCancelled else { return }
-
-            notchEventCoordinator.handleMessagesMessage(.debugUnknownSender)
-            messagesQueuePreviewTask = nil
-        }
-    }
-
-    func triggerMixedNotificationsQueuePreview() {
-        messagesQueuePreviewTask?.cancel()
-
-        messagesQueuePreviewTask = Task { @MainActor [weak self] in
-            guard let self else { return }
-
-            notchViewModel.hideTemporaryNotification()
-
-            try? await Task.sleep(nanoseconds: Self.messagesPreviewDelay)
-            guard !Task.isCancelled else { return }
-
-            notchEventCoordinator.handleMailMessage(.debugPreviewStandard)
-
-            try? await Task.sleep(nanoseconds: Self.messagesPreviewDelay)
-            guard !Task.isCancelled else { return }
-
-            notchEventCoordinator.handleMessagesMessage(.debugText)
-            messagesQueuePreviewTask = nil
-        }
-    }
-
-    func triggerMixedAttachmentQueuePreview() {
-        messagesQueuePreviewTask?.cancel()
-
-        messagesQueuePreviewTask = Task { @MainActor [weak self] in
-            guard let self else { return }
-
-            notchViewModel.hideTemporaryNotification()
-
-            try? await Task.sleep(nanoseconds: Self.messagesPreviewDelay)
-            guard !Task.isCancelled else { return }
-
-            notchEventCoordinator.handleMessagesMessage(.debugText)
-
-            try? await Task.sleep(nanoseconds: Self.messagesPreviewDelay)
-            guard !Task.isCancelled else { return }
-
-            notchEventCoordinator.handleMessagesMessage(.debugTextAndImage)
-            messagesQueuePreviewTask = nil
-        }
-    }
-
-    func triggerMixedAudioQueuePreview() {
-        messagesQueuePreviewTask?.cancel()
-
-        messagesQueuePreviewTask = Task { @MainActor [weak self] in
-            guard let self else { return }
-
-            notchViewModel.hideTemporaryNotification()
-
-            try? await Task.sleep(nanoseconds: Self.messagesPreviewDelay)
-            guard !Task.isCancelled else { return }
-
-            notchEventCoordinator.handleMessagesMessage(.debugText)
-
-            try? await Task.sleep(nanoseconds: Self.messagesPreviewDelay)
-            guard !Task.isCancelled else { return }
-
-            notchEventCoordinator.handleMessagesMessage(.debugAudio)
-            messagesQueuePreviewTask = nil
-        }
-    }
-
-    func triggerMixedMailAndAttachmentQueuePreview() {
-        messagesQueuePreviewTask?.cancel()
-
-        messagesQueuePreviewTask = Task { @MainActor [weak self] in
-            guard let self else { return }
-
-            notchViewModel.hideTemporaryNotification()
-
-            try? await Task.sleep(nanoseconds: Self.messagesPreviewDelay)
-            guard !Task.isCancelled else { return }
-
-            notchEventCoordinator.handleMailMessage(.debugPreviewStandard)
-
-            try? await Task.sleep(nanoseconds: Self.messagesPreviewDelay)
-            guard !Task.isCancelled else { return }
-
-            notchEventCoordinator.handleMessagesMessage(.debugTextAndImage)
-            messagesQueuePreviewTask = nil
-        }
-    }
-
-    func triggerMailSequencePreview() {
-        triggerMailBatch(interval: 1.5)
-    }
-
-    func triggerMailRapidPreview() {
-        triggerMailBatch(interval: 0.4)
-    }
-
-    private func triggerMailBatch(interval: TimeInterval) {
-        mailBatchTask?.cancel()
-        mailBatchTask = Task { @MainActor [weak self] in
-            guard let self else { return }
-
-            for (index, message) in MailMessage.debugPreviewBatch.enumerated() {
-                if Task.isCancelled { break }
-                if index > 0 {
-                    try? await Task.sleep(nanoseconds: UInt64(interval * 1_000_000_000))
-                }
-                if Task.isCancelled { break }
-                self.notchEventCoordinator.handleMailMessage(message)
-            }
-        }
-    }
-
     func triggerExternalDriveConnectedPreview() {
         notchEventCoordinator.handleExternalDriveEvent(.debugPreviewConnected)
     }
@@ -516,17 +300,11 @@ final class DebugSettingsViewModel: ObservableObject {
     }
 
     func hideCurrentTemporaryPreview() {
-        mailBatchTask?.cancel()
-        mailBatchTask = nil
         notchViewModel.hideTemporaryNotification()
     }
 
     func resetAllPreviews() {
-        mailBatchTask?.cancel()
-        mailBatchTask = nil
         stopPreviewSequence()
-        messagesQueuePreviewTask?.cancel()
-        messagesQueuePreviewTask = nil
         isOnboardingPreviewEnabled = false
         isFocusLivePreviewEnabled = false
         isScreenRecordingPreviewEnabled = false
@@ -535,7 +313,6 @@ final class DebugSettingsViewModel: ObservableObject {
         isDownloadPreviewEnabled = false
         isTimerPreviewEnabled = false
         isFileTrayPreviewEnabled = false
-        isFileConverterPreviewEnabled = false
         isLockScreenPreviewEnabled = false
         hideDragAndDropTargetPreviews()
         notchViewModel.hideTemporaryNotification()
@@ -580,11 +357,6 @@ final class DebugSettingsViewModel: ObservableObject {
         $isFileTrayPreviewEnabled
             .dropFirst()
             .sink { [weak self] enabled in self?.updateFileTrayPreview(isEnabled: enabled) }
-            .store(in: &cancellables)
-
-        $isFileConverterPreviewEnabled
-            .dropFirst()
-            .sink { [weak self] enabled in self?.updateFileConverterPreview(isEnabled: enabled) }
             .store(in: &cancellables)
 
         $isLockScreenPreviewEnabled
@@ -689,16 +461,6 @@ final class DebugSettingsViewModel: ObservableObject {
         }
     }
 
-    private func updateFileConverterPreview(isEnabled: Bool? = nil) {
-        let enabled = isEnabled ?? isFileConverterPreviewEnabled
-        if enabled {
-            showFileConverterActivePreview()
-        } else {
-            notchViewModel.send(.hideLiveActivity(id: Self.sequenceFileConverterActiveID))
-            fileConverterPreviewViewModel.clear()
-        }
-    }
-
     private func updateLockScreenPreview(isEnabled: Bool? = nil) {
         let enabled = isEnabled ?? isLockScreenPreviewEnabled
         lockScreenManager.setDebugLockState(enabled)
@@ -773,10 +535,6 @@ final class DebugSettingsViewModel: ObservableObject {
                 )
                 try await self.playCombinedDragAndDropPreview()
                 try await self.playFileTrayActivePreview()
-                try await self.playFileConverterActivePreview()
-                try await self.playFileConverterConvertingPreview()
-                try await self.playFileConverterFailedPreview()
-                try await self.playFileConverterConvertedPreview()
                 try await self.playBluetoothPreview()
                 try await self.playTemporaryPreview(
                     WifiConnectedNotchContent(
@@ -894,7 +652,6 @@ final class DebugSettingsViewModel: ObservableObject {
         [
             Self.sequenceAirDropID,
             Self.sequenceTrayID,
-            Self.sequenceFileConverterID,
             Self.sequenceCombinedDropID
         ].forEach { id in
             notchViewModel.send(.hideLiveActivity(id: id))
@@ -935,62 +692,6 @@ final class DebugSettingsViewModel: ObservableObject {
         } catch {
             isFileTrayPreviewEnabled = false
         }
-    }
-
-    private func showFileConverterActivePreview() {
-        do {
-            try prepareFileConverterPreviewItem()
-            notchViewModel.send(
-                .showLiveActivity(
-                    makeSequenceContent(
-                        makeFileConverterActivePreviewContent(),
-                        id: Self.sequenceFileConverterActiveID,
-                        priorityBoost: 1_000
-                    )
-                )
-            )
-        } catch {
-            isFileConverterPreviewEnabled = false
-        }
-    }
-
-    private func showFileConverterStatusPreview(_ configureStatus: () -> Void) {
-        if isFileConverterPreviewEnabled {
-            isFileConverterPreviewEnabled = false
-        }
-
-        do {
-            try prepareFileConverterPreviewItem()
-            configureStatus()
-            notchViewModel.send(
-                .showLiveActivity(
-                    makeSequenceContent(
-                        makeFileConverterActivePreviewContent(),
-                        id: Self.sequenceFileConverterActiveID,
-                        priorityBoost: 1_000
-                    )
-                )
-            )
-        } catch {
-            fileConverterPreviewViewModel.clear()
-        }
-    }
-
-    private func makeFileConverterActivePreviewContent() -> FileConverterActiveNotchContent {
-        FileConverterActiveNotchContent(
-            fileConverterViewModel: fileConverterPreviewViewModel,
-            mediaSettings: settingsViewModel.mediaAndFiles,
-            onRequestCollapse: { [weak notchViewModel] in
-                notchViewModel?.handleOutsideClick()
-            }
-        )
-    }
-
-    private var fileConverterDebugConversionOptions: FileConverterConversionOptions {
-        var options = FileConverterConversionOptions(settings: settingsViewModel.mediaAndFiles)
-        options.outputLocation = .sameFolder
-        options.existingFileBehavior = .createUniqueName
-        return options
     }
 
     private func playBluetoothPreview() async throws {
@@ -1143,48 +844,6 @@ final class DebugSettingsViewModel: ObservableObject {
         fileTrayPreviewViewModel.clear()
     }
 
-    private func playFileConverterActivePreview() async throws {
-        try prepareFileConverterPreviewItem()
-        try await playLivePreview(
-            makeFileConverterActivePreviewContent(),
-            id: Self.sequenceFileConverterActiveID
-        )
-        fileConverterPreviewViewModel.clear()
-    }
-
-    private func playFileConverterConvertingPreview() async throws {
-        try prepareFileConverterPreviewItem()
-        fileConverterPreviewViewModel.showDebugConvertingStatus()
-        try await playLivePreview(
-            makeFileConverterActivePreviewContent(),
-            id: Self.sequenceFileConverterActiveID,
-            duration: 3
-        )
-        fileConverterPreviewViewModel.clear()
-    }
-
-    private func playFileConverterFailedPreview() async throws {
-        try prepareFileConverterPreviewItem()
-        fileConverterPreviewViewModel.showDebugFailedStatus()
-        try await playLivePreview(
-            makeFileConverterActivePreviewContent(),
-            id: Self.sequenceFileConverterActiveID,
-            duration: 3
-        )
-        fileConverterPreviewViewModel.clear()
-    }
-
-    private func playFileConverterConvertedPreview() async throws {
-        try prepareFileConverterPreviewItem()
-        fileConverterPreviewViewModel.convert(options: fileConverterDebugConversionOptions)
-        try await playLivePreview(
-            makeFileConverterActivePreviewContent(),
-            id: Self.sequenceFileConverterActiveID,
-            duration: 3
-        )
-        fileConverterPreviewViewModel.clear()
-    }
-
     private func playLockScreenPreview() async throws {
         lockScreenManager.setDebugLockState(true)
         try await playLivePreview(
@@ -1276,7 +935,6 @@ final class DebugSettingsViewModel: ObservableObject {
 
         dragAndDropPreviewViewModel.setDraggingFile(false)
         fileTrayPreviewViewModel.clear()
-        fileConverterPreviewViewModel.clear()
         nowPlayingViewModel.hideDebugPreviewSnapshotIfNeeded()
         downloadViewModel.hideDebugPreviewDownloadsIfNeeded()
         timerViewModel.hideDebugPreviewSnapshotIfNeeded()
@@ -1296,10 +954,6 @@ final class DebugSettingsViewModel: ObservableObject {
 
         if isFileTrayPreviewEnabled {
             updateFileTrayPreview()
-        }
-
-        if isFileConverterPreviewEnabled {
-            updateFileConverterPreview()
         }
 
         if isScreenRecordingPreviewEnabled {
@@ -1351,12 +1005,6 @@ final class DebugSettingsViewModel: ObservableObject {
         try Data("DynamicNotch debug tray preview".utf8).write(to: reportURL, options: .atomic)
         try debugPNGData().write(to: imageURL, options: .atomic)
         fileTrayPreviewViewModel.add([reportURL, imageURL])
-    }
-
-    private func prepareFileConverterPreviewItem() throws {
-        let imageURL = try debugPreviewDirectory().appendingPathComponent("Converter Preview.png")
-        try debugPNGData().write(to: imageURL, options: .atomic)
-        try fileConverterPreviewViewModel.setFile(imageURL)
     }
 
     private func debugPreviewDirectory() throws -> URL {

@@ -6,7 +6,13 @@ extension BluetoothService {
 
     func isAudioDevice(_ device: IOBluetoothDevice) -> Bool {
         if let name = device.name?.lowercased() {
-            let audioKeywords = ["airpods", "beats", "bose", "sony", "headphones", "headset", "earbuds", "buds", "speaker", "soundbar", "audio"]
+            let audioKeywords = [
+                "airpods", "beats", "bose", "sony", "galaxy", "samsung",
+                "buds", "earbuds", "headphones", "headset", "speaker",
+                "soundbar", "audio", "pixel", "jbl", "anker", "soundcore",
+                "earphone", "earphones", "huawei", "redmi", "xiaomi",
+                "sennheiser", "shure", "jabra", "marshall", "b&o"
+            ]
             if audioKeywords.contains(where: { name.contains($0) }) {
                 return true
             }
@@ -320,7 +326,8 @@ extension BluetoothService {
         } else if lowercaseName.contains("speaker") || lowercaseName.contains("boombox") {
             return .speaker
         } else if lowercaseName.contains("headphone") || lowercaseName.contains("headset")
-                    || lowercaseName.contains("buds") || lowercaseName.contains("earbuds") {
+                    || lowercaseName.contains("buds") || lowercaseName.contains("earbuds")
+                    || lowercaseName.contains("galaxy") || lowercaseName.contains("earphone") {
             return .headphones
         }
 

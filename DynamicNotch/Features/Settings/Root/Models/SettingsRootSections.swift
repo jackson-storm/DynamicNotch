@@ -325,10 +325,9 @@ private enum SettingsSectionCatalog {
                 fallbackSubtitle: "Configure notifications shown in the notch.",
                 searchKeywords: [
                     "notifications",
-                    "mail",
-                    "apple mail",
-                    "email",
-                    "message"
+                    "external drives",
+                    "drives",
+                    "disks"
                 ],
                 systemImage: "bell.badge.fill",
                 imageName: nil,

@@ -14,15 +14,16 @@ struct NotchSurfaceContainerView: View {
     @ViewBuilder
     private var notchSurface: some View {
         let isDynamicIsland = notchViewModel.isDynamicIsland
+        let usesTopAttachedShape = shouldUseTopAttachedShape
         
         NotchBackgroundSurface(
             style: settingsViewModel.application.notchBackgroundStyle,
             topCornerRadius: notchViewModel.interactiveCornerRadius.top,
             bottomCornerRadius: notchViewModel.interactiveCornerRadius.bottom,
             isDynamicIsland: isDynamicIsland,
+            usesTopAttachedShape: usesTopAttachedShape,
             dynamicIslandCornerRadius: notchViewModel.dynamicIslandCornerRadius,
             strokeColor: shouldShowStroke ? visibleStrokeColor : .clear,
-            strokeWidth: settingsViewModel.notchStrokeWidth,
             height: notchViewModel.interactiveNotchSize.height,
             baseHeight: notchViewModel.notchModel.baseHeight
         )
@@ -40,10 +41,7 @@ struct NotchSurfaceContainerView: View {
                 .environment(\.isDynamicIsland, true)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .mask {
-                    DynamicIslandShape(
-                        cornerRadius: max(0, notchViewModel.dynamicIslandCornerRadius - 2)
-                    )
-                    .padding(3)
+                    dynamicIslandMaskShape
                     .scaleEffect(
                         x: shouldApplyPressScale ? notchViewModel.pressScale : 1,
                         y: shouldApplyPressScale ? notchViewModel.pressScale : 1,
@@ -67,6 +65,24 @@ struct NotchSurfaceContainerView: View {
                         anchor: .top
                     )
                 }
+        }
+    }
+
+    @ViewBuilder
+    private var dynamicIslandMaskShape: some View {
+        if shouldUseTopAttachedShape {
+            TopAttachedNotchShape(
+                topCornerRadius: max(0, notchViewModel.interactiveCornerRadius.top - 2),
+                bottomCornerRadius: max(0, notchViewModel.interactiveCornerRadius.bottom - 2)
+            )
+            .padding(.horizontal, 3)
+            .padding(.vertical, 8)
+        } else {
+            DynamicIslandShape(
+                cornerRadius: max(0, notchViewModel.dynamicIslandCornerRadius - 2)
+            )
+            .padding(.horizontal, 3)
+            .padding(.vertical, 10)
         }
     }
     
@@ -117,6 +133,10 @@ struct NotchSurfaceContainerView: View {
         let isPresentationHidden = (notchViewModel.isActivityPresentationHidden && !notchViewModel.isLocked) && notchViewModel.displayedContent == nil
         let isScreenshotContent = notchViewModel.displayedContent?.id == NotchContentRegistry.Screenshot.active.id
         return !isExpandedPresentation && !isPresentationHidden && !isScreenshotContent
+    }
+
+    private var shouldUseTopAttachedShape: Bool {
+        notchViewModel.isDynamicIsland && settingsViewModel.application.noNotchStyle == .notch
     }
     
     private var visibleStrokeColor: Color {

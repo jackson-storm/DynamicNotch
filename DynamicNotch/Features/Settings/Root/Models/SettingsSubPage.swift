@@ -17,12 +17,8 @@ enum SettingsSubPage: Hashable, Identifiable {
     case notchAnimation
     case gestures
     case fileTray
-    case fileConverter
     case homePagePages
     case timer
-    case appleMail
-    case messages
-    case systemNotifications
     case externalDrives
     
     var id: Self { self }
@@ -44,12 +40,8 @@ enum SettingsSubPage: Hashable, Identifiable {
         case .notchAnimation: return "settings.notch.animation.title"
         case .gestures: return "settings.notch.gestures.title"
         case .fileTray: return "settings.drop.tray.title"
-        case .fileConverter: return "settings.fileConverter.title"
         case .homePagePages: return "settings.homePage.pages.title"
         case .timer: return "settings.section.timer.title"
-        case .appleMail: return "settings.notifications.appleMail.title"
-        case .messages: return "settings.notifications.messages.title"
-        case .systemNotifications: return "settings.notifications.system.title"
         case .externalDrives: return "settings.notifications.externalDrives.title"
         }
     }
@@ -72,12 +64,8 @@ enum SettingsSubPage: Hashable, Identifiable {
         case .notchAnimation: return "Animation"
         case .gestures: return "Gestures"
         case .fileTray: return "Tray"
-        case .fileConverter: return "File Converter"
         case .homePagePages: return "Pages"
         case .timer: return "Timer"
-        case .appleMail: return "Apple Mail"
-        case .messages: return "Messages"
-        case .systemNotifications: return "System Notifications"
         case .externalDrives: return "External Drives"
         }
     }
@@ -100,12 +88,8 @@ enum SettingsSubPage: Hashable, Identifiable {
         case .notchAnimation: return "settings.notch.animation.subtitle"
         case .gestures: return "settings.notch.gestures.subtitle"
         case .fileTray: return "settings.drop.tray.subtitle"
-        case .fileConverter: return "settings.fileConverter.subtitle"
         case .homePagePages: return "settings.homePage.pages.subtitle"
         case .timer: return "settings.section.timer.subtitle"
-        case .appleMail: return "settings.notifications.appleMail.subtitle"
-        case .messages: return "settings.notifications.messages.subtitle"
-        case .systemNotifications: return "settings.notifications.system.subtitle"
         case .externalDrives: return "settings.notifications.externalDrives.subtitle"
         }
     }
@@ -128,19 +112,15 @@ enum SettingsSubPage: Hashable, Identifiable {
         case .notchAnimation: return "Set motion parameters and animation speed."
         case .gestures: return "Configure click, hover, and scroll gestures."
         case .fileTray: return "Configure file tray behavior, scroll direction, and appearance."
-        case .fileConverter: return "Configure output location, existing file behavior, and quality."
         case .homePagePages: return "Reorder or enable/disable home page cards."
         case .timer: return "Clock timer live activity and stroke appearance."
-        case .appleMail: return "Incoming email notifications and duration."
-        case .messages: return "Incoming message notifications and duration."
-        case .systemNotifications: return "Universal interception of banners from all apps and duration."
         case .externalDrives: return "Notifications for connected external disks and flash drives."
         }
     }
     
     var canReset: Bool {
         switch self {
-        case .appearance, .notch, .language, .activityPriorities, .notchDisplay, .notchAnimation, .gestures, .fileTray, .fileConverter, .homePagePages, .timer, .appleMail, .messages, .systemNotifications, .externalDrives:
+        case .appearance, .notch, .language, .activityPriorities, .notchDisplay, .notchAnimation, .gestures, .fileTray, .homePagePages, .timer, .externalDrives:
             return true
         default:
             return false

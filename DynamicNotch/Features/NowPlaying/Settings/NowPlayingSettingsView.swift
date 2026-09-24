@@ -176,7 +176,7 @@ private struct NowPlayingAppearancePreview: View {
             strokeColor: showsNotchStroke
             ? Color.white.opacity(0.2).opacity(applicationSettings.notchStrokeOpacity)
             : .clear,
-            strokeWidth: 1.5,
+            strokeWidth: applicationSettings.notchStrokeWidth,
             lightBackgroundImage: Image("backgroundLight"),
             darkBackgroundImage: Image("backgroundDark")
         ) {

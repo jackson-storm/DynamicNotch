@@ -311,29 +311,32 @@ final class NotchViewModel: ObservableObject {
         let widthScale = scale > 1.0 ? 1.0 + (scale - 1.0) * 0.35 : scale
         
         let isDynamicIsland = screenMetrics.topInset == 0
-        let widthOffset = CGFloat(settings.notchWidth)
+        let isTopAttachedNotch = isDynamicIsland && settings.noNotchStyle == .notch
+        let widthOffset = CGFloat(settings.notchWidth) + 3
         let heightOffset = CGFloat(settings.notchHeight)
-        let baseHeightAdjustment: CGFloat = isDynamicIsland ? -1 : 0
+        let baseHeightAdjustment: CGFloat = (isDynamicIsland ? -1 : 0)
+        let topAttachedWidthBonus: CGFloat = isTopAttachedNotch ? 30 : 0
+        let topAttachedHeightBonus: CGFloat = isTopAttachedNotch ? 4 : 0
         
         if let notchSize = screenMetrics.notchSize {
-            let baseWidth = notchSize.width + 14.scaled(by: widthScale) + widthOffset
+            let baseWidth = notchSize.width + 14.scaled(by: widthScale) + widthOffset + topAttachedWidthBonus
             let finalWidth = isDynamicIsland ? baseWidth * 0.85 : baseWidth
             
             engine.updateBaseGeometry(
                 width: finalWidth,
-                height: notchSize.height + heightOffset + baseHeightAdjustment,
+                height: notchSize.height + heightOffset + baseHeightAdjustment + topAttachedHeightBonus,
                 scale: scale,
                 isDynamicIsland: isDynamicIsland
             )
             
         } else {
             let baseWidthValue: CGFloat = isDynamicIsland ? 120 : 190
-            let baseWidth = (baseWidthValue * widthScale) + widthOffset
+            let baseWidth = (baseWidthValue * widthScale) + widthOffset + topAttachedWidthBonus
             let finalWidth = isDynamicIsland ? baseWidth * 0.85 : baseWidth
             
             engine.updateBaseGeometry(
                 width: finalWidth,
-                height: 26 + heightOffset + baseHeightAdjustment,
+                height: 26 + heightOffset + baseHeightAdjustment + topAttachedHeightBonus,
                 scale: scale,
                 isDynamicIsland: isDynamicIsland
             )

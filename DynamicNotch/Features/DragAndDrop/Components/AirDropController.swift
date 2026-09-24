@@ -27,18 +27,15 @@ final class NotchAirDropController: NSObject, ObservableObject {
 
     private let airDropViewModel: AirDropNotchViewModel
     private let fileTrayViewModel: FileTrayViewModel
-    private let fileConverterViewModel: FileConverterViewModel
     private var activeShares: [UUID: NotchAirDropShareSession] = [:]
     private var suppressTargetResetEvent = false
 
     init(
         airDropViewModel: AirDropNotchViewModel,
-        fileTrayViewModel: FileTrayViewModel,
-        fileConverterViewModel: FileConverterViewModel
+        fileTrayViewModel: FileTrayViewModel
     ) {
         self.airDropViewModel = airDropViewModel
         self.fileTrayViewModel = fileTrayViewModel
-        self.fileConverterViewModel = fileConverterViewModel
         super.init()
     }
 
@@ -85,24 +82,6 @@ final class NotchAirDropController: NSObject, ObservableObject {
             present(error: error)
             return false
         }
-        suppressTargetResetEvent = true
-        isTargeted = false
-        airDropViewModel.handleSuccessfulDrop()
-        return true
-    }
-
-    func handleFileConverterDrop(_ pasteboard: NSPasteboard) -> Bool {
-        guard let fileURL = pasteboard.fileURLsForAirDrop()?.first else {
-            return false
-        }
-
-        do {
-            try fileConverterViewModel.setFile(fileURL)
-        } catch {
-            present(error: error)
-            return false
-        }
-
         suppressTargetResetEvent = true
         isTargeted = false
         airDropViewModel.handleSuccessfulDrop()

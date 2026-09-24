@@ -17,6 +17,7 @@ final class BluetoothViewModel: ObservableObject {
     
     private var cancellables = Set<AnyCancellable>()
     private let bluetoothService: any BluetoothServiceProtocol
+    private var connectedAddresses: Set<String> = []
     
     init(bluetoothService: any BluetoothServiceProtocol = BluetoothService.shared) {
         self.bluetoothService = bluetoothService
@@ -30,6 +31,18 @@ final class BluetoothViewModel: ObservableObject {
     }
     
     private func bindToService() {
+        bluetoothService.deviceConnectedEventPublisher
+            .receive(on: RunLoop.main)
+            .sink { [weak self] device in
+                guard let self = self else { return }
+                self.isConnected = true
+                self.deviceName = device.name
+                self.batteryLevel = device.batteryLevel
+                self.deviceType = device.deviceType
+                self.event = .connected
+            }
+            .store(in: &cancellables)
+
         bluetoothService.connectedDevicesPublisher
             .receive(on: RunLoop.main)
             .sink { [weak self] devices in
@@ -39,8 +52,14 @@ final class BluetoothViewModel: ObservableObject {
                 let isNowConnected = !devices.isEmpty
                 self.isConnected = isNowConnected
                 
+                let currentAddresses = Set(devices.map { $0.address })
+                let newAddresses = currentAddresses.subtracting(self.connectedAddresses)
+                self.connectedAddresses = currentAddresses
+                
                 if isNowConnected {
-                    let device = devices.last ?? self.bluetoothService.lastConnectedDevice
+                    let device = devices.last(where: { newAddresses.contains($0.address) })
+                        ?? devices.last
+                        ?? self.bluetoothService.lastConnectedDevice
                     self.deviceName = device?.name ?? "Unknown"
                     self.batteryLevel = device?.batteryLevel
                     self.deviceType = device?.deviceType ?? .generic
@@ -50,7 +69,7 @@ final class BluetoothViewModel: ObservableObject {
                     self.deviceType = .generic
                 }
                 
-                if isNowConnected && !wasConnected {
+                if (isNowConnected && !wasConnected) || (!newAddresses.isEmpty && wasConnected) {
                     self.event = .connected
                 }
             }

@@ -36,6 +36,18 @@ struct SettingsSidebarRow: View {
         self.showBadge = showBadge
     }
     
+    private var isMacOS27OrLater: Bool {
+        if #available(macOS 27.0, *) {
+            return true
+        } else {
+            return ProcessInfo.processInfo.operatingSystemVersion.majorVersion >= 27
+        }
+    }
+
+    private var iconSize: CGFloat {
+        isMacOS27OrLater ? 10 : 12
+    }
+
     var body: some View {
         HStack(spacing: 8) {
             Label {
@@ -47,7 +59,7 @@ struct SettingsSidebarRow: View {
                         tint: tint,
                         size: 22,
                         iconColor: iconColor,
-                        iconSize: 12,
+                        iconSize: iconSize,
                         cornerRadius: 6,
                         stroke: stroke
                     )
@@ -57,7 +69,7 @@ struct SettingsSidebarRow: View {
                         tint: tint,
                         size: 22,
                         iconColor: iconColor,
-                        iconSize: 12,
+                        iconSize: iconSize,
                         cornerRadius: 6,
                         stroke: stroke
                     )

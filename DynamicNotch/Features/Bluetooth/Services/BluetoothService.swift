@@ -26,6 +26,13 @@ final class BluetoothService: ObservableObject, BluetoothServiceProtocol, @unche
         $connectedDevices.eraseToAnyPublisher()
     }
 
+    let deviceConnectedEventSubject = PassthroughSubject<BluetoothAudioDevice, Never>()
+    var deviceConnectedEventPublisher: AnyPublisher<BluetoothAudioDevice, Never> {
+        deviceConnectedEventSubject.eraseToAnyPublisher()
+    }
+
+    var connectNotification: IOBluetoothUserNotification?
+    var disconnectNotifications: [String: IOBluetoothUserNotification] = [:]
     var observers: [NSObjectProtocol] = []
     var cancellables = Set<AnyCancellable>()
     var pollingTimer: Timer?
@@ -127,12 +134,27 @@ final class BluetoothService: ObservableObject, BluetoothServiceProtocol, @unche
     }
 
     func presentDeviceConnectedHUD(device: BluetoothAudioDevice, batteryLevel: Int?) {
-        print("🎧 [BluetoothAudioManager] 📱 Showing device connected HUD")
+        print("🎧 [BluetoothAudioManager] 📱 Showing device connected HUD for \(device.name), battery: \(String(describing: batteryLevel))")
 
-        let _: CGFloat = if let batteryLevel {
-            CGFloat(clampBatteryPercentage(batteryLevel)) / 100.0
+        let effectiveBattery = batteryLevel ?? bestBatteryLevel(for: device)
+        let resolvedDevice = device.withBatteryLevel(effectiveBattery)
+
+        let updateBlock = { [weak self] in
+            guard let self else { return }
+            if let idx = self.connectedDevices.firstIndex(where: { $0.id == device.id || $0.address == device.address }) {
+                self.connectedDevices[idx] = resolvedDevice
+            } else {
+                self.connectedDevices.append(resolvedDevice)
+            }
+            self.lastConnectedDevice = resolvedDevice
+            self.isBluetoothAudioConnected = !self.connectedDevices.isEmpty
+            self.deviceConnectedEventSubject.send(resolvedDevice)
+        }
+
+        if Thread.isMainThread {
+            updateBlock()
         } else {
-            0.0
+            DispatchQueue.main.async(execute: updateBlock)
         }
     }
 

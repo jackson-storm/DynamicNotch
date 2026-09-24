@@ -12,7 +12,6 @@ enum NotchContentPriority {
         case nowPlaying
         case timer
         case calendar
-        case fileConverterActive
         case screenRecording
 
         var id: String { rawValue }
@@ -37,8 +36,6 @@ enum NotchContentPriority {
                 NotchContentPriority.timer
             case .calendar:
                 NotchContentPriority.calendar
-            case .fileConverterActive:
-                NotchContentPriority.fileConverterActive
             case .screenRecording:
                 NotchContentPriority.screenRecording
             }
@@ -64,8 +61,6 @@ enum NotchContentPriority {
                 "settings.notch.priorities.row.timer"
             case .screenRecording:
                 "settings.notch.priorities.row.screenRecording"
-            case .fileConverterActive:
-                "settings.notch.priorities.row.fileConverterActive"
             case .calendar:
                 "settings.notch.priorities.row.calendar"
             }
@@ -85,8 +80,6 @@ enum NotchContentPriority {
                 return "tray.full.fill"
             case .airDropTransferActive:
                 return "airdrop.white"
-            case .fileConverterActive:
-                return "arrow.trianglehead.2.counterclockwise.rotate.90"
             case .nowPlaying:
                 return "music.note"
             case .timer:
@@ -112,8 +105,6 @@ enum NotchContentPriority {
                     .black
             case .airDropTransferActive:
                     .blue
-            case .fileConverterActive:
-                    .green
             case .nowPlaying:
                     .pink
             case .timer:
@@ -137,7 +128,6 @@ enum NotchContentPriority {
         .nowPlaying,
         .timer,
         .calendar,
-        .fileConverterActive,
         .screenRecording,
     ]
 
@@ -150,8 +140,7 @@ enum NotchContentPriority {
     static let nowPlaying = 6
     static let timer = 7
     static let calendar = 8
-    static let fileConverterActive = 9
-    static let screenRecording = 10
+    static let screenRecording = 9
 
     static let homePage = -10000
     static let dragAndDrop = 10001

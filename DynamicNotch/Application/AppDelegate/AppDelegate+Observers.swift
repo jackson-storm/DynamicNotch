@@ -68,21 +68,6 @@ extension AppDelegate {
                 }
             }
             .store(in: &cancellables)
-        
-        settingsViewModel.notifications.$isAppleMailNotificationsEnabled
-            .removeDuplicates()
-            .sink { [weak self] _ in
-                self?.updateMailMonitoringState()
-            }
-            .store(in: &cancellables)
-
-        settingsViewModel.notifications.$isMessagesNotificationsEnabled
-            .removeDuplicates()
-            .sink { [weak self] _ in
-                self?.updateMessagesMonitoringState()
-            }
-            .store(in: &cancellables)
-
         settingsViewModel.notifications.$isExternalDrivesNotificationsEnabled
             .removeDuplicates()
             .sink { [weak self] _ in
@@ -98,24 +83,6 @@ extension AppDelegate {
             .store(in: &cancellables)
 
         updateExternalDrivesMonitoringState()
-
-        settingsViewModel.notifications.$isSystemNotificationsEnabled
-            .removeDuplicates()
-            .sink { [weak self] _ in
-                self?.updateSystemNotificationsMonitoringState()
-            }
-            .store(in: &cancellables)
-
-        updateSystemNotificationsMonitoringState()
-
-        NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)
-            .receive(on: RunLoop.main)
-            .sink { [weak self] _ in
-                self?.reconcileMailPermissionState()
-                self?.reconcileMessagesPermissionState()
-                self?.updateSystemNotificationsMonitoringState()
-            }
-            .store(in: &cancellables)
     }
 
     func observeDockIconVisibilityChanges() {
@@ -211,62 +178,6 @@ extension AppDelegate {
         )
     }
     
-    private func updateMailMonitoringState() {
-        let isEnabled = settingsViewModel.notifications.isAppleMailNotificationsEnabled
-        let hasFullDiskAccess = FullDiskAccessAuthorization.hasPermission()
-
-        if isEnabled && hasFullDiskAccess {
-            mailManager.startMonitoring()
-        } else {
-            mailManager.stopMonitoring()
-        }
-    }
-    
-    private func reconcileMailPermissionState() {
-        let hasFullDiskAccess = FullDiskAccessAuthorization.hasPermission()
-        let settings = settingsViewModel.notifications
-
-        if hasFullDiskAccess {
-            if settings.isAppleMailNotificationsPermissionPending {
-                settings.isAppleMailNotificationsPermissionPending = false
-                settings.isAppleMailNotificationsEnabled = true
-            }
-        } else {
-            settings.isAppleMailNotificationsPermissionPending = false
-            settings.isAppleMailNotificationsEnabled = false
-        }
-
-        updateMailMonitoringState()
-    }
-
-    private func updateMessagesMonitoringState() {
-        let isEnabled = settingsViewModel.notifications.isMessagesNotificationsEnabled
-        let hasFullDiskAccess = FullDiskAccessAuthorization.hasPermission()
-
-        if isEnabled && hasFullDiskAccess {
-            messagesManager.startMonitoring()
-        } else {
-            messagesManager.stopMonitoring()
-        }
-    }
-
-    private func reconcileMessagesPermissionState() {
-        let hasFullDiskAccess = FullDiskAccessAuthorization.hasPermission()
-        let settings = settingsViewModel.notifications
-
-        if hasFullDiskAccess {
-            if settings.isMessagesNotificationsPermissionPending {
-                settings.isMessagesNotificationsPermissionPending = false
-                settings.isMessagesNotificationsEnabled = true
-            }
-        } else {
-            settings.isMessagesNotificationsPermissionPending = false
-            settings.isMessagesNotificationsEnabled = false
-        }
-
-        updateMessagesMonitoringState()
-    }
-
     func updateExternalDrivesMonitoringState() {
         guard !isRunningUITests else { return }
 
@@ -277,19 +188,6 @@ extension AppDelegate {
             externalDrivesMonitor.startMonitoring()
         } else {
             externalDrivesMonitor.stopMonitoring()
-        }
-    }
-
-    func updateSystemNotificationsMonitoringState() {
-        guard !isRunningUITests else { return }
-
-        let isEnabled = settingsViewModel.notifications.isSystemNotificationsEnabled
-        let hasAccessibility = AXIsProcessTrusted()
-
-        if isEnabled && hasAccessibility {
-            systemNotificationsInterceptor.startMonitoring()
-        } else {
-            systemNotificationsInterceptor.stopMonitoring()
         }
     }
 

@@ -41,7 +41,7 @@ struct SettingsNotchPreview<Overlay: View>: View {
         dynamicIslandCornerRadius: CGFloat = 0,
         showsStroke: Bool = true,
         strokeColor: Color = .green.opacity(0.3),
-        strokeWidth: CGFloat = 1.5,
+        strokeWidth: CGFloat = 2.5,
         lightBackgroundImage: Image? = nil,
         darkBackgroundImage: Image? = nil,
         backgroundImageContentMode: ContentMode = .fill,

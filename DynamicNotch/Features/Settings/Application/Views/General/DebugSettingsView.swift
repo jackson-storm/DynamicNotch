@@ -6,7 +6,6 @@ struct DebugSettingsView: View {
     @ObservedObject var viewModel: DebugSettingsViewModel
     @State private var selectedPersistentCategory: PersistentDebugCategory = .system
     @State private var selectedTriggerCategory: TriggerDebugCategory = .dragAndDrop
-    @State private var selectedNotificationCategory: NotificationDebugCategory = .messages
     
     var body: some View {
         SettingsPageScrollView {
@@ -215,17 +214,6 @@ struct DebugSettingsView: View {
             isOn: $viewModel.isFileTrayPreviewEnabled,
             accessibilityIdentifier: "settings.debug.fileTrayActive"
         )
-
-        debugDivider
-
-        SettingsToggleRow(
-            title: "File Converter Active",
-            description: "Show the converter live activity with a sample image.",
-            systemImage: "arrow.trianglehead.2.clockwise.rotate.90.circle.fill",
-            color: .green,
-            isOn: $viewModel.isFileConverterPreviewEnabled,
-            accessibilityIdentifier: "settings.debug.fileConverterActive"
-        )
     }
     
     private var triggerEventsCard: some View {
@@ -289,21 +277,9 @@ struct DebugSettingsView: View {
             action: viewModel.triggerTrayTargetPreview
         )
 
-        debugDivider
-
-        DebugActionRow(
-            title: "Converter Target",
-            description: "Show the File Converter drag target as an active drag event.",
-            systemImage: "arrow.trianglehead.2.clockwise.rotate.90.circle.fill",
-            color: .green,
-            action: viewModel.triggerFileConverterTargetPreview
-        )
-
-        debugDivider
-
         DebugActionRow(
             title: "Combined Targets",
-            description: "Show all drag targets with the converter target highlighted.",
+            description: "Show all drag targets.",
             systemImage: "square.grid.3x3.fill",
             color: .accentColor,
             action: viewModel.triggerCombinedDragAndDropPreview
@@ -337,36 +313,6 @@ struct DebugSettingsView: View {
             imageName: "airdrop.white",
             color: .blue,
             action: viewModel.triggerAirDropTransferPreview
-        )
-
-        debugDivider
-
-        DebugActionRow(
-            title: "Converter Converting",
-            description: "Show the converter collapsed converting state.",
-            systemImage: "arrow.triangle.2.circlepath",
-            color: .accentColor,
-            action: viewModel.triggerFileConverterConvertingPreview
-        )
-
-        debugDivider
-
-        DebugActionRow(
-            title: "Converter Failed",
-            description: "Show the converter collapsed failed state.",
-            systemImage: "exclamationmark.triangle.fill",
-            color: .yellow,
-            action: viewModel.triggerFileConverterFailedPreview
-        )
-
-        debugDivider
-
-        DebugActionRow(
-            title: "Converter Success",
-            description: "Show the converter collapsed success state.",
-            systemImage: "checkmark.seal.fill",
-            color: .green,
-            action: viewModel.triggerFileConverterConvertedPreview
         )
     }
 
@@ -602,266 +548,12 @@ struct DebugSettingsView: View {
             action: viewModel.triggerLockScreenStoppedPreview
         )
     }
-    
-    private enum NotificationDebugCategory: String, CaseIterable, Identifiable {
-        case messages
-        case mail
-        case queues
-        case drives
-
-        var id: String { rawValue }
-
-        var title: String {
-            switch self {
-            case .messages: return "Messages"
-            case .mail: return "Mail"
-            case .queues: return "Queues"
-            case .drives: return "Drives"
-            }
-        }
-
-        var icon: String {
-            switch self {
-            case .messages: return "message.fill"
-            case .mail: return "envelope.fill"
-            case .queues: return "rectangle.stack.fill"
-            case .drives: return "externaldrive.fill"
-            }
-        }
-    }
-
     private var notificationsPreviewsCard: some View {
-        SettingsCard(verbatimTitle: "Notifications Previews") {
-            Picker("", selection: $selectedNotificationCategory) {
-                ForEach(NotificationDebugCategory.allCases) { category in
-                    Label {
-                        Text(verbatim: category.title)
-                    } icon: {
-                        Image(systemName: category.icon)
-                    }
-                    .tag(category)
-                }
-            }
-            .pickerStyle(.segmented)
-            .labelsHidden()
-            .padding(.horizontal, 4)
-            .padding(.bottom, 6)
-
-            switch selectedNotificationCategory {
-            case .messages:
-                messagesPreviewContent
-            case .mail:
-                mailPreviewContent
-            case .queues:
-                queuesPreviewContent
-            case .drives:
-                drivesPreviewContent
-            }
+        SettingsCard(verbatimTitle: "External Drives Previews") {
+            drivesPreviewContent
         }
     }
 
-    @ViewBuilder
-    private var messagesPreviewContent: some View {
-        DebugActionRow(
-            title: "Messages (Text)",
-            description: "Show a standard incoming text message.",
-            systemImage: "message.fill",
-            color: .green,
-            action: viewModel.triggerMessagesTextPreview
-        )
-
-        debugDivider
-
-        DebugActionRow(
-            title: "Messages (Text & Photo)",
-            description: "Show an incoming message containing text and a photo.",
-            systemImage: "photo.fill",
-            color: .mint,
-            action: viewModel.triggerMessagesTextAndImagePreview
-        )
-
-        debugDivider
-
-        DebugActionRow(
-            title: "Messages (Audio)",
-            description: "Show an incoming playable audio message.",
-            systemImage: "waveform",
-            color: .orange,
-            action: viewModel.triggerMessagesAudioPreview
-        )
-
-        debugDivider
-
-        DebugActionRow(
-            title: "Messages (Video)",
-            description: "Show an incoming video attachment without text.",
-            systemImage: "film.fill",
-            color: .blue,
-            action: viewModel.triggerMessagesVideoPreview
-        )
-
-        debugDivider
-
-        DebugActionRow(
-            title: "Messages (File)",
-            description: "Show an incoming file attachment with its filename.",
-            systemImage: "doc.fill",
-            color: .indigo,
-            action: viewModel.triggerMessagesFilePreview
-        )
-
-        debugDivider
-
-        DebugActionRow(
-            title: "Messages (Multiple Attachments)",
-            description: "Show a message containing several image attachments.",
-            systemImage: "square.grid.2x2.fill",
-            color: .mint,
-            action: viewModel.triggerMessagesMultipleAttachmentsPreview
-        )
-
-        debugDivider
-
-        DebugActionRow(
-            title: "Messages (Unknown Sender)",
-            description: "Show an SMS from a sender without a resolved contact.",
-            systemImage: "person.crop.circle.badge.questionmark.fill",
-            color: .gray,
-            action: viewModel.triggerMessagesUnknownSenderPreview
-        )
-
-        debugDivider
-
-        DebugActionRow(
-            title: "Messages (Long Text)",
-            description: "Show a long message to verify wrapping and truncation.",
-            systemImage: "text.alignleft",
-            color: .green,
-            action: viewModel.triggerMessagesLongContentPreview
-        )
-    }
-
-    @ViewBuilder
-    private var mailPreviewContent: some View {
-        DebugActionRow(
-            title: "Mail (Standard)",
-            description: "Show standard Mail notification with sender, subject, and summary.",
-            systemImage: "envelope.fill",
-            color: .yellow,
-            action: viewModel.triggerMailPreview
-        )
-
-        debugDivider
-
-        DebugActionRow(
-            title: "Mail (No Summary)",
-            description: "Show compact Mail notification without body summary preview.",
-            systemImage: "envelope.badge",
-            color: .yellow,
-            action: viewModel.triggerMailNoSummaryPreview
-        )
-
-        debugDivider
-
-        DebugActionRow(
-            title: "Mail (No Subject)",
-            description: "Show Mail notification with empty subject line.",
-            systemImage: "envelope",
-            color: .yellow,
-            action: viewModel.triggerMailNoSubjectPreview
-        )
-
-        debugDivider
-
-        DebugActionRow(
-            title: "Mail (No Subject & Summary)",
-            description: "Show minimal Mail notification with sender only.",
-            systemImage: "envelope.open",
-            color: .yellow,
-            action: viewModel.triggerMailNoSubjectNoSummaryPreview
-        )
-
-        debugDivider
-
-        DebugActionRow(
-            title: "Mail (Long Text)",
-            description: "Show Mail notification with long sender, subject, and summary.",
-            systemImage: "text.alignleft",
-            color: .yellow,
-            action: viewModel.triggerMailLongContentPreview
-        )
-
-        debugDivider
-
-        DebugActionRow(
-            title: "Mail (Multiple - Sequence)",
-            description: "Simulate 3 consecutive emails arriving with 1.5s delay to test in-place view update.",
-            systemImage: "envelope.badge.fill",
-            color: .orange,
-            action: viewModel.triggerMailSequencePreview
-        )
-
-        debugDivider
-
-        DebugActionRow(
-            title: "Mail (Multiple - Immediate)",
-            description: "Simulate rapid incoming emails arriving in quick succession (0.4s delay).",
-            systemImage: "bolt.badge.clock.fill",
-            color: .orange,
-            action: viewModel.triggerMailRapidPreview
-        )
-    }
-
-    @ViewBuilder
-    private var queuesPreviewContent: some View {
-        DebugActionRow(
-            title: "Mixed Queue (Mail + Text)",
-            description: "Show an incoming email followed by a text message in the unified queue.",
-            systemImage: "bell.badge.fill",
-            color: .indigo,
-            action: viewModel.triggerMixedNotificationsQueuePreview
-        )
-
-        debugDivider
-
-        DebugActionRow(
-            title: "Mixed Queue (Text + Photo)",
-            description: "Show a text message followed by a photo attachment to verify bottom padding and row height.",
-            systemImage: "photo.stack.fill",
-            color: .teal,
-            action: viewModel.triggerMixedAttachmentQueuePreview
-        )
-
-        debugDivider
-
-        DebugActionRow(
-            title: "Mixed Queue (Text + Audio)",
-            description: "Show a text message followed by a playable audio voice note in the queue.",
-            systemImage: "waveform.badge.plus",
-            color: .orange,
-            action: viewModel.triggerMixedAudioQueuePreview
-        )
-
-        debugDivider
-
-        DebugActionRow(
-            title: "Mixed Queue (Mail + Photo)",
-            description: "Show an email followed by a photo attachment message in the queue.",
-            systemImage: "envelope.and.arrow.trianglehead.branch.fill",
-            color: .purple,
-            action: viewModel.triggerMixedMailAndAttachmentQueuePreview
-        )
-
-        debugDivider
-
-        DebugActionRow(
-            title: "Messages Queue (3 Messages)",
-            description: "Show three messages in sequence and animate the two-item queue transition.",
-            systemImage: "message.badge.fill",
-            color: .green,
-            action: viewModel.triggerMessagesQueuePreview
-        )
-    }
 
     @ViewBuilder
     private var drivesPreviewContent: some View {

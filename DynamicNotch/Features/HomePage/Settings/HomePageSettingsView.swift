@@ -83,16 +83,6 @@ struct HomePageSettingsView: View {
             )
 
             SettingsNavigationRowView(
-                title: "settings.fileConverter.title",
-                description: "settings.fileConverter.subtitle",
-                systemImage: "arrow.trianglehead.2.clockwise.rotate.90",
-                color: .blue,
-                accessibilityIdentifier: "settings.homePage.fileConverter",
-                position: .middle,
-                value: SettingsSubPage.fileConverter
-            )
-
-            SettingsNavigationRowView(
                 title: "settings.section.timer.title",
                 description: "settings.section.timer.subtitle",
                 systemImage: "timer",
@@ -118,7 +108,7 @@ private struct HomePageAppearancePreview: View {
             bottomCornerRadius: 38,
             showsStroke: applicationSettings.isShowNotchStrokeEnabled,
             strokeColor: .white.opacity(0.2).opacity(applicationSettings.notchStrokeOpacity),
-            strokeWidth: 1.5,
+            strokeWidth: applicationSettings.notchStrokeWidth,
             lightBackgroundImage: Image("backgroundLight"),
             darkBackgroundImage: Image("backgroundDark")
         ) {

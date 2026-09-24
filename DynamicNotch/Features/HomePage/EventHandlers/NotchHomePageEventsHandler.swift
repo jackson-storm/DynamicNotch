@@ -18,20 +18,17 @@ final class NotchHomePageEventsHandler {
     private let settingsViewModel: SettingsViewModel
     private let localTimerViewModel: LocalTimerViewModel
     private let nowPlayingViewModel: NowPlayingViewModel
-    private let fileConverterViewModel: FileConverterViewModel
 
     init(
         notchViewModel: NotchViewModel,
         settingsViewModel: SettingsViewModel,
         localTimerViewModel: LocalTimerViewModel,
-        nowPlayingViewModel: NowPlayingViewModel,
-        fileConverterViewModel: FileConverterViewModel
+        nowPlayingViewModel: NowPlayingViewModel
     ) {
         self.notchViewModel = notchViewModel
         self.settingsViewModel = settingsViewModel
         self.localTimerViewModel = localTimerViewModel
         self.nowPlayingViewModel = nowPlayingViewModel
-        self.fileConverterViewModel = fileConverterViewModel
     }
     
     func handleHomePage(_ event: HomePageEvent) {
@@ -45,7 +42,6 @@ final class NotchHomePageEventsHandler {
                 homePages: activePage,
                 localTimerViewModel: localTimerViewModel,
                 nowPlayingViewModel: nowPlayingViewModel,
-                fileConverterViewModel: fileConverterViewModel,
                 mediaAndFilesSettings: settingsViewModel.mediaAndFiles,
                 applicationSettings: settingsViewModel.application
             )))

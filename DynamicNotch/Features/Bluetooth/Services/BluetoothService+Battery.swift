@@ -123,7 +123,6 @@ extension BluetoothService {
 
     func coreBluetoothLookups(for devices: [BluetoothAudioDevice]) -> [BluetoothLEBatteryReader.Lookup] {
         let snapshot = coreBluetoothCacheSnapshot()
-        guard snapshot.hasEntries else { return [] }
 
         var lookups: [BluetoothLEBatteryReader.Lookup] = []
         var seenUUIDs: Set<UUID> = []
@@ -136,17 +135,27 @@ extension BluetoothService {
             let uuid = snapshot.byAddress[normalizedAddress]
                 ?? snapshot.byName[normalizedName]
 
-            guard let uuid, !seenUUIDs.contains(uuid) else { continue }
-            seenUUIDs.insert(uuid)
-
-            let canonicalName = snapshot.namesByUUID[uuid] ?? normalizedName
-            lookups.append(
-                .init(
-                    uuid: uuid,
-                    addressKey: normalizedAddress.isEmpty ? nil : normalizedAddress,
-                    nameKey: canonicalName.isEmpty ? nil : canonicalName
+            if let uuid {
+                if !seenUUIDs.contains(uuid) {
+                    seenUUIDs.insert(uuid)
+                    let canonicalName = snapshot.namesByUUID[uuid] ?? normalizedName
+                    lookups.append(
+                        .init(
+                            uuid: uuid,
+                            addressKey: normalizedAddress.isEmpty ? nil : normalizedAddress,
+                            nameKey: canonicalName.isEmpty ? nil : canonicalName
+                        )
+                    )
+                }
+            } else {
+                lookups.append(
+                    .init(
+                        uuid: nil,
+                        addressKey: normalizedAddress.isEmpty ? nil : normalizedAddress,
+                        nameKey: normalizedName.isEmpty ? nil : normalizedName
+                    )
                 )
-            )
+            }
         }
 
         return lookups
@@ -399,9 +408,6 @@ extension BluetoothService {
         var addressPercentages: [String: Int] = [:]
         var namePercentages: [String: Int] = [:]
 
-        var iterator = io_iterator_t()
-        let matchingDict: CFDictionary = IOServiceMatching("AppleDeviceManagementHIDEventService")
-
         let servicePort: mach_port_t
         if #available(macOS 12.0, *) {
             servicePort = kIOMainPortDefault
@@ -409,14 +415,35 @@ extension BluetoothService {
             servicePort = kIOMasterPortDefault
         }
 
-        let kernResult = IOServiceGetMatchingServices(servicePort, matchingDict, &iterator)
+        let serviceNames = ["AppleDeviceManagementHIDEventService", "IOHIDEventService"]
+        let batteryPropertyKeys = [
+            "BatteryPercent",
+            "BatteryLevel",
+            "Battery",
+            "BatteryPercentCombined",
+            "BatteryPercentSingle",
+            "BatteryPercentMain"
+        ]
 
-        if kernResult == KERN_SUCCESS {
+        for serviceName in serviceNames {
+            var iterator = io_iterator_t()
+            let matchingDict: CFDictionary = IOServiceMatching(serviceName)
+
+            let kernResult = IOServiceGetMatchingServices(servicePort, matchingDict, &iterator)
+            guard kernResult == KERN_SUCCESS else { continue }
+
             var entry: io_object_t = IOIteratorNext(iterator)
             while entry != 0 {
-                if let percent = IORegistryEntryCreateCFProperty(entry, "BatteryPercent" as CFString, kCFAllocatorDefault, 0)?.takeRetainedValue() as? Int {
-                    let normalizedPercent = clampBatteryPercentage(percent)
+                var foundPercent: Int?
+                for propKey in batteryPropertyKeys {
+                    if let val = IORegistryEntryCreateCFProperty(entry, propKey as CFString, kCFAllocatorDefault, 0)?.takeRetainedValue(),
+                       let converted = convertToBatteryPercentage(val) {
+                        foundPercent = clampBatteryPercentage(converted)
+                        break
+                    }
+                }
 
+                if let normalizedPercent = foundPercent {
                     let identifierKeys = ["DeviceAddress", "SerialNumber", "BD_ADDR"]
                     for key in identifierKeys {
                         if let identifier = stringValue(forKey: key, entry: entry) {
@@ -455,9 +482,10 @@ extension BluetoothService {
                 IOObjectRelease(entry)
                 entry = IOIteratorNext(iterator)
             }
+
+            IOObjectRelease(iterator)
         }
 
-        IOObjectRelease(iterator)
         return (addressPercentages, namePercentages)
     }
 
@@ -503,9 +531,11 @@ extension BluetoothService {
         var addressPercentages: [String: Int] = [:]
         var namePercentages: [String: Int] = [:]
 
-        if let connectedList = root["device_connected"] as? [[String: [String: Any]]] {
-            for deviceGroup in connectedList {
-                for (rawName, payload) in deviceGroup {
+        if let connectedList = root["device_connected"] as? [Any] {
+            for item in connectedList {
+                guard let dict = item as? [String: Any] else { continue }
+                for (rawName, info) in dict {
+                    guard let payload = info as? [String: Any] else { continue }
                     guard let percent = extractSystemProfilerBatteryPercentage(from: payload) else { continue }
                     let clamped = clampBatteryPercentage(percent)
 
@@ -730,8 +760,15 @@ extension BluetoothService {
             "device_batteryLevelLeft",
             "device_batteryLevelRight",
             "device_batteryLevelMain",
+            "device_batteryLevel",
+            "device_batteryLevelCombined",
+            "device_batteryPercentCombined",
             "Left Battery Level",
-            "Right Battery Level"
+            "Right Battery Level",
+            "BatteryLevel",
+            "Battery Level",
+            "Battery",
+            "BatteryPercentage"
         ]
 
         var values: [Int] = []
@@ -740,6 +777,14 @@ extension BluetoothService {
             guard let raw = payload[key] else { continue }
             if let converted = convertToBatteryPercentage(raw) {
                 values.append(converted)
+            }
+        }
+
+        if values.isEmpty {
+            for (key, raw) in payload where key.lowercased().contains("battery") {
+                if let converted = convertToBatteryPercentage(raw) {
+                    values.append(converted)
+                }
             }
         }
 

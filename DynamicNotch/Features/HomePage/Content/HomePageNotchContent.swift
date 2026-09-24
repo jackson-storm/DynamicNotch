@@ -15,7 +15,6 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     let homePages: HomePages
     let localTimerViewModel: LocalTimerViewModel
     let nowPlayingViewModel: NowPlayingViewModel
-    let fileConverterViewModel: FileConverterViewModel
     let mediaAndFilesSettings: MediaAndFilesSettingsStore
     let applicationSettings: ApplicationSettingsStore
 
@@ -37,15 +36,6 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
             return LocalTimerHomePageNotchContent()
         case .vpn:
             return VpnHomePageNotchContent()
-        case .systemStats:
-            return SystemStatsHomePageNotchContent()
-        case .fileConverter:
-            return FileConverterHomePageNotchContent(
-                fileConverterViewModel: fileConverterViewModel,
-                onRequestCollapse: { [weak notchViewModel] in
-                    notchViewModel?.handleOutsideClick()
-                }
-            )
         }
     }
 
@@ -91,7 +81,6 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
                 settings: settings,
                 localTimerViewModel: localTimerViewModel,
                 nowPlayingViewModel: nowPlayingViewModel,
-                fileConverterViewModel: fileConverterViewModel,
                 mediaAndFilesSettings: mediaAndFilesSettings,
                 applicationSettings: applicationSettings,
                 initialPage: homePages

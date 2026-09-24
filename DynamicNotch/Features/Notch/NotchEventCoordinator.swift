@@ -50,7 +50,6 @@ final class NotchEventCoordinator: ObservableObject {
             downloadViewModel: container.downloadViewModel,
             airDropViewModel: container.airDropViewModel,
             fileTrayViewModel: container.fileTrayViewModel,
-            fileConverterViewModel: container.fileConverterViewModel,
             settingsViewModel: container.settingsViewModel,
             nowPlayingViewModel: container.nowPlayingViewModel,
             timerViewModel: container.timerViewModel,
@@ -61,10 +60,7 @@ final class NotchEventCoordinator: ObservableObject {
             calendarViewModel: container.calendarViewModel,
             screenshotViewModel: container.screenshotViewModel,
             screenRecordingResultViewModel: container.screenRecordingResultViewModel,
-            mailManager: container.mailManager,
-            messagesManager: container.messagesManager,
-            externalDrivesMonitor: container.externalDrivesMonitor,
-            systemNotificationsInterceptor: container.systemNotificationsInterceptor
+            externalDrivesMonitor: container.externalDrivesMonitor
         )
     }
 
@@ -79,7 +75,6 @@ final class NotchEventCoordinator: ObservableObject {
         downloadViewModel: DownloadViewModel,
         airDropViewModel: AirDropNotchViewModel,
         fileTrayViewModel: FileTrayViewModel,
-        fileConverterViewModel: FileConverterViewModel,
         settingsViewModel: SettingsViewModel,
         nowPlayingViewModel: NowPlayingViewModel,
         timerViewModel: TimerViewModel,
@@ -90,10 +85,7 @@ final class NotchEventCoordinator: ObservableObject {
         calendarViewModel: CalendarViewModel,
         screenshotViewModel: ScreenshotViewModel? = nil,
         screenRecordingResultViewModel: ScreenRecordingResultViewModel? = nil,
-        mailManager: MailManager,
-        messagesManager: MessagesManager,
-        externalDrivesMonitor: ExternalDrivesMonitor,
-        systemNotificationsInterceptor: SystemNotificationsInterceptor? = nil
+        externalDrivesMonitor: ExternalDrivesMonitor
     ) {
         self.notchViewModel = notchViewModel
         self.settingsViewModel = settingsViewModel
@@ -138,7 +130,6 @@ final class NotchEventCoordinator: ObservableObject {
             notchViewModel: notchViewModel,
             airDropViewModel: airDropViewModel,
             fileTrayViewModel: fileTrayViewModel,
-            fileConverterViewModel: fileConverterViewModel,
             settingsViewModel: settingsViewModel
         )
         self.timerHandler = NotchTimerEventsHandler(
@@ -151,8 +142,7 @@ final class NotchEventCoordinator: ObservableObject {
             notchViewModel: notchViewModel,
             settingsViewModel: settingsViewModel,
             localTimerViewModel: localTimerViewModel,
-            nowPlayingViewModel: nowPlayingViewModel,
-            fileConverterViewModel: fileConverterViewModel
+            nowPlayingViewModel: nowPlayingViewModel
         )
         self.calendarHandler = NotchCalendarEventsHandler(
             notchViewModel: notchViewModel,
@@ -168,10 +158,7 @@ final class NotchEventCoordinator: ObservableObject {
         self.notificationsHandler = NotchNotificationsEventsHandler(
             notchViewModel: notchViewModel,
             settingsViewModel: settingsViewModel,
-            mailManager: mailManager,
-            messagesManager: messagesManager,
-            externalDrivesMonitor: externalDrivesMonitor,
-            systemNotificationsInterceptor: systemNotificationsInterceptor ?? SystemNotificationsInterceptor()
+            externalDrivesMonitor: externalDrivesMonitor
         )
         let resolvedScreenshotHandler = NotchScreenshotEventsHandler(
             notchViewModel: notchViewModel,
@@ -350,14 +337,6 @@ final class NotchEventCoordinator: ObservableObject {
 
     func handleLockScreenEvent(_ event: LockScreenEvent) {
         lockScreenHandler.handleLockScreenEvent(event)
-    }
-
-    func handleMailMessage(_ message: MailMessage) {
-        notificationsHandler.handleMailMessage(message)
-    }
-
-    func handleMessagesMessage(_ message: MessagesMessage) {
-        notificationsHandler.handleMessagesMessage(message)
     }
 
     func handleExternalDriveEvent(_ drive: ExternalDriveModel) {

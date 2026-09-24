@@ -314,7 +314,7 @@ final class NotchViewModel: ObservableObject {
         let isTopAttachedNotch = isDynamicIsland && settings.noNotchStyle == .notch
         let widthOffset = CGFloat(settings.notchWidth) + 3
         let heightOffset = CGFloat(settings.notchHeight)
-        let baseHeightAdjustment: CGFloat = (isDynamicIsland ? -1 : 0) + 1
+        let baseHeightAdjustment: CGFloat = (isDynamicIsland ? -1 : 0)
         let topAttachedWidthBonus: CGFloat = isTopAttachedNotch ? 30 : 0
         let topAttachedHeightBonus: CGFloat = isTopAttachedNotch ? 4 : 0
         

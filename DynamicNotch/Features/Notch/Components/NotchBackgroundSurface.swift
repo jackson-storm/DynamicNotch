@@ -8,28 +8,9 @@ struct NotchBackgroundSurface: View {
     var usesTopAttachedShape: Bool = false
     let dynamicIslandCornerRadius: CGFloat
     let strokeColor: Color
-    var strokeWidth: CGFloat = 2.5
+    var strokeWidth: CGFloat = 2.0
     var height: CGFloat? = nil
     var baseHeight: CGFloat? = nil
-    
-    var effectiveStrokeWidth: CGFloat {
-        Self.resolvedStrokeWidth(
-            baseHeight: baseHeight,
-            height: height,
-            defaultStrokeWidth: strokeWidth
-        )
-    }
-
-    static func resolvedStrokeWidth(
-        baseHeight: CGFloat?,
-        height: CGFloat?,
-        defaultStrokeWidth: CGFloat = 2.5
-    ) -> CGFloat {
-        if let baseHeight, let height, baseHeight > height {
-            return 2.0
-        }
-        return defaultStrokeWidth
-    }
     
     var body: some View {
         if isDynamicIsland && !usesTopAttachedShape {
@@ -37,21 +18,21 @@ struct NotchBackgroundSurface: View {
             baseSurface(shape: shape)
                 .contentShape(shape)
                 .overlay {
-                    shape.stroke(strokeColor, lineWidth: effectiveStrokeWidth)
+                    shape.stroke(strokeColor, lineWidth: strokeWidth)
                 }
         } else if usesTopAttachedShape {
             let shape = TopAttachedNotchShape(topCornerRadius: topCornerRadius, bottomCornerRadius: bottomCornerRadius)
             baseSurface(shape: shape)
                 .contentShape(shape)
                 .overlay {
-                    shape.stroke(strokeColor, lineWidth: effectiveStrokeWidth)
+                    shape.stroke(strokeColor, lineWidth: strokeWidth)
                 }
         } else {
             let shape = NotchShape(topCornerRadius: topCornerRadius, bottomCornerRadius: bottomCornerRadius)
             baseSurface(shape: shape)
                 .contentShape(shape)
                 .overlay {
-                    shape.stroke(strokeColor, lineWidth: effectiveStrokeWidth)
+                    shape.stroke(strokeColor, lineWidth: strokeWidth)
                 }
         }
     }

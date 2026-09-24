@@ -67,7 +67,7 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
 
     @StoredDefault(
         key: GeneralSettingsStorage.Keys.notchStrokeWidth,
-        defaultValue: 1.5,
+        defaultValue: 2.5,
         transform: ApplicationSettingsStore.clampNotchStrokeWidth
     )
     var notchStrokeWidth: Double
@@ -399,11 +399,8 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
 
     private func persistSanitizedNotchStrokeSettingsIfNeeded() {
         let key = GeneralSettingsStorage.Keys.notchStrokeWidth
-        if let storedValue = (defaults.object(forKey: key) as? NSNumber)?.doubleValue {
-            let clampedValue = Self.clampNotchStrokeWidth(storedValue)
-            if clampedValue != storedValue {
-                persist(clampedValue, for: key)
-            }
+        if defaults.object(forKey: key) != nil {
+            defaults.removeObject(forKey: key)
         }
 
         let opacityKey = GeneralSettingsStorage.Keys.notchStrokeOpacity

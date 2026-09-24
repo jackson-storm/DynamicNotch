@@ -63,19 +63,6 @@ struct NotchSettingsView: View {
             Divider().opacity(0.6)
             
             SettingsSliderRow(
-                title: "settings.notch.strokeWidth.title",
-                description: "settings.notch.strokeWidth.desc",
-                range: 1...3,
-                step: 0.5,
-                fractionLength: 1,
-                suffix: "px",
-                accessibilityIdentifier: "settings.general.notchStrokeWidth",
-                value: $applicationSettings.notchStrokeWidth
-            )
-            
-            Divider().opacity(0.6)
-            
-            SettingsSliderRow(
                 title: "settings.notch.strokeOpacity.title",
                 description: "settings.notch.strokeOpacity.desc",
                 range: 0...100,

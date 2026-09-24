@@ -157,7 +157,7 @@ enum GeneralSettingsStorage {
         Keys.menuBarIcon: true,
         Keys.notchStrokeEnabled: true,
         Keys.defaultActivityStrokeEnabled: false,
-        Keys.notchStrokeWidth: 1.5,
+        Keys.notchStrokeWidth: 2.5,
         Keys.notchStrokeOpacity: 1.0,
         Keys.displayLocation: NotchDisplayLocation.main.rawValue,
         Keys.preferredDisplayUUID: "",

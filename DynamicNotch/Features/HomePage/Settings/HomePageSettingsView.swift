@@ -108,7 +108,7 @@ private struct HomePageAppearancePreview: View {
             bottomCornerRadius: 38,
             showsStroke: applicationSettings.isShowNotchStrokeEnabled,
             strokeColor: .white.opacity(0.2).opacity(applicationSettings.notchStrokeOpacity),
-            strokeWidth: 1.5,
+            strokeWidth: applicationSettings.notchStrokeWidth,
             lightBackgroundImage: Image("backgroundLight"),
             darkBackgroundImage: Image("backgroundDark")
         ) {

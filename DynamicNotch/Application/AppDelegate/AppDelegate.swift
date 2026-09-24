@@ -26,10 +26,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     var downloadViewModel: DownloadViewModel { container.downloadViewModel }
     var timerViewModel: TimerViewModel { container.timerViewModel }
     var screenRecordingViewModel: ScreenRecordingViewModel { container.screenRecordingViewModel }
-    var mailManager: MailManager { container.mailManager }
-    var messagesManager: MessagesManager { container.messagesManager }
     var externalDrivesMonitor: ExternalDrivesMonitor { container.externalDrivesMonitor }
-    var systemNotificationsInterceptor: SystemNotificationsInterceptor { container.systemNotificationsInterceptor }
     var powerService: PowerService { container.powerService }
     var powerViewModel: PowerViewModel { container.powerViewModel }
     var bluetoothViewModel: BluetoothViewModel { container.bluetoothViewModel }
@@ -124,10 +121,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         stopOutsideClickMonitoring()
         hideWindowWorkItem?.cancel()
         hideWindowWorkItem = nil
-        container.mailManager.stopMonitoring()
-        container.messagesManager.stopMonitoring()
         container.externalDrivesMonitor.stopMonitoring()
-        container.systemNotificationsInterceptor.stopMonitoring()
     }
 
     func applyActivationPolicy(showsDockIcon: Bool) {

@@ -23,10 +23,7 @@ final class AppContainer {
     let screenRecordingResultViewModel = ScreenRecordingResultViewModel()
     let lockScreenManager: LockScreenManager
     let clockTimerController: any ClockTimerControlling
-    let mailManager: MailManager
-    let messagesManager: MessagesManager
     let externalDrivesMonitor: ExternalDrivesMonitor
-    let systemNotificationsInterceptor: SystemNotificationsInterceptor
 
     lazy var hardwareHUDMonitor: HardwareHUDMonitor = {
         MainActor.assumeIsolated {
@@ -111,9 +108,6 @@ final class AppContainer {
                 InactiveLockScreenSoundPlayer() :
                 LockScreenSoundPlayer()
         )
-        self.mailManager = MailManager()
-        self.messagesManager = MessagesManager()
         self.externalDrivesMonitor = ExternalDrivesMonitor()
-        self.systemNotificationsInterceptor = SystemNotificationsInterceptor()
     }
 }

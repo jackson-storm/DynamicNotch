@@ -3,48 +3,6 @@ import Foundation
 
 @MainActor
 final class NotificationsSettingsStore: SettingsStoreBase {
-    @StoredDefault(key: GeneralSettingsStorage.Keys.appleMailNotificationsEnabled, defaultValue: false)
-    var isAppleMailNotificationsEnabled: Bool
-
-    @StoredDefault(
-        key: GeneralSettingsStorage.Keys.appleMailNotificationDuration,
-        defaultValue: 8,
-        transform: SettingsStoreBase.clampNotificationDuration
-    )
-    var appleMailNotificationDuration: Int
-
-    @StoredDefault(key: GeneralSettingsStorage.Keys.appleMailNotificationsPermissionPending, defaultValue: false)
-    var isAppleMailNotificationsPermissionPending: Bool
-
-    @StoredDefault(key: GeneralSettingsStorage.Keys.messagesNotificationsEnabled, defaultValue: false)
-    var isMessagesNotificationsEnabled: Bool
-
-    @StoredDefault(
-        key: GeneralSettingsStorage.Keys.messagesNotificationDuration,
-        defaultValue: 8,
-        transform: SettingsStoreBase.clampNotificationDuration
-    )
-    var messagesNotificationDuration: Int
-
-    @StoredDefault(key: GeneralSettingsStorage.Keys.messagesNotificationsPermissionPending, defaultValue: false)
-    var isMessagesNotificationsPermissionPending: Bool
-
-    @StoredDefault(key: GeneralSettingsStorage.Keys.systemNotificationsEnabled, defaultValue: false)
-    var isSystemNotificationsEnabled: Bool
-
-    @StoredDefault(
-        key: GeneralSettingsStorage.Keys.systemNotificationDuration,
-        defaultValue: 8,
-        transform: SettingsStoreBase.clampNotificationDuration
-    )
-    var systemNotificationDuration: Int
-
-    @StoredDefault(key: GeneralSettingsStorage.Keys.systemNotificationsHideNative, defaultValue: true)
-    var isSystemNotificationsHideNativeEnabled: Bool
-
-    @StoredDefault(key: GeneralSettingsStorage.Keys.systemNotificationsPermissionPending, defaultValue: false)
-    var isSystemNotificationsPermissionPending: Bool
-
     @StoredDefault(key: GeneralSettingsStorage.Keys.externalDrivesNotificationsEnabled, defaultValue: true)
     var isExternalDrivesNotificationsEnabled: Bool
 
@@ -66,19 +24,10 @@ final class NotificationsSettingsStore: SettingsStoreBase {
     }
 
     func reset() {
-        isAppleMailNotificationsEnabled = defaultBool(for: GeneralSettingsStorage.Keys.appleMailNotificationsEnabled)
-        appleMailNotificationDuration = Self.defaultNotificationDuration(for: GeneralSettingsStorage.Keys.appleMailNotificationDuration)
-        isAppleMailNotificationsPermissionPending = false
-        isMessagesNotificationsEnabled = defaultBool(for: GeneralSettingsStorage.Keys.messagesNotificationsEnabled)
-        messagesNotificationDuration = Self.defaultNotificationDuration(for: GeneralSettingsStorage.Keys.messagesNotificationDuration)
-        isMessagesNotificationsPermissionPending = false
-        isSystemNotificationsEnabled = defaultBool(for: GeneralSettingsStorage.Keys.systemNotificationsEnabled)
-        systemNotificationDuration = Self.defaultNotificationDuration(for: GeneralSettingsStorage.Keys.systemNotificationDuration)
-        isSystemNotificationsHideNativeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.systemNotificationsHideNative)
-        isSystemNotificationsPermissionPending = false
         isExternalDrivesNotificationsEnabled = defaultBool(for: GeneralSettingsStorage.Keys.externalDrivesNotificationsEnabled)
         externalDrivesNotificationDuration = Self.defaultNotificationDuration(for: GeneralSettingsStorage.Keys.externalDrivesNotificationDuration)
         isExternalDrivesIncludeDiskImagesEnabled = defaultBool(for: GeneralSettingsStorage.Keys.externalDrivesIncludeDiskImages)
         isExternalDrivesShowEjectedEnabled = defaultBool(for: GeneralSettingsStorage.Keys.externalDrivesShowEjected)
     }
 }
+

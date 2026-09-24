@@ -247,7 +247,7 @@ struct SettingsRootView: View {
                 title: Text(title),
                 message: Text(localized("settings.reset.message")),
                 primaryButton: .destructive(Text(localized("settings.reset.action"))) {
-                    reset(subPage)
+                    resetCurrentSubPage(subPage)
                 },
                 secondaryButton: .cancel(Text(localized("common.cancel")))
             )
@@ -466,8 +466,7 @@ struct SettingsRootView: View {
         case .notifications:
             detailContainer(for: section) {
                 NotificationsSettingsView(
-                    settings: settingsViewModel.notifications,
-                    permissionController: permissionController
+                    settings: settingsViewModel.notifications
                 )
             }
             
@@ -666,21 +665,6 @@ struct SettingsRootView: View {
                 mediaSettings: settingsViewModel.mediaAndFiles,
                 appearanceSettings: settingsViewModel.application
             )
-        case .appleMail:
-            AppleMailNotificationsSettingsView(
-                settings: settingsViewModel.notifications,
-                permissionController: permissionController
-            )
-        case .messages:
-            MessagesNotificationsSettingsView(
-                settings: settingsViewModel.notifications,
-                permissionController: permissionController
-            )
-        case .systemNotifications:
-            SystemNotificationsSettingsView(
-                settings: settingsViewModel.notifications,
-                permissionController: permissionController
-            )
         case .externalDrives:
             ExternalDrivesNotificationsSettingsView(
                 settings: settingsViewModel.notifications
@@ -695,21 +679,21 @@ struct SettingsRootView: View {
         if let subPage = navigationPath.last {
             return localized(subPage.titleKey, fallback: subPage.fallbackTitle)
         }
-        return localized(resolvedSelection.titleKey, fallback: resolvedSelection.fallbackTitle)
+        return localized(selectedSection.titleKey, fallback: selectedSection.fallbackTitle)
     }
 
     private var currentSubtitle: String {
         if filteredSections.isEmpty {
-            return ""
+            return localized("settings.search.subtitle")
         }
         if let subPage = navigationPath.last {
             return localized(subPage.subtitleKey, fallback: subPage.fallbackSubtitle)
         }
-        return localized(resolvedSelection.subtitleKey, fallback: resolvedSelection.fallbackSubtitle)
+        return localized(selectedSection.subtitleKey, fallback: selectedSection.fallbackSubtitle)
     }
 
-    private func reset(_ subPage: SettingsSubPage) {
-        switch subPage {
+    private func resetCurrentSubPage(_ page: SettingsSubPage) {
+        switch page {
         case .appearance:
             settingsViewModel.application.resetAppearance()
         case .notch:
@@ -729,7 +713,7 @@ struct SettingsRootView: View {
             settingsViewModel.mediaAndFiles.resetFileTray()
         case .homePagePages:
             settingsViewModel.homePage.resetHomePage()
-        case .appleMail, .messages, .systemNotifications, .externalDrives:
+        case .externalDrives:
             settingsViewModel.notifications.reset()
         default:
             break

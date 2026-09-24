@@ -60,10 +60,7 @@ final class NotchEventCoordinator: ObservableObject {
             calendarViewModel: container.calendarViewModel,
             screenshotViewModel: container.screenshotViewModel,
             screenRecordingResultViewModel: container.screenRecordingResultViewModel,
-            mailManager: container.mailManager,
-            messagesManager: container.messagesManager,
-            externalDrivesMonitor: container.externalDrivesMonitor,
-            systemNotificationsInterceptor: container.systemNotificationsInterceptor
+            externalDrivesMonitor: container.externalDrivesMonitor
         )
     }
 
@@ -88,10 +85,7 @@ final class NotchEventCoordinator: ObservableObject {
         calendarViewModel: CalendarViewModel,
         screenshotViewModel: ScreenshotViewModel? = nil,
         screenRecordingResultViewModel: ScreenRecordingResultViewModel? = nil,
-        mailManager: MailManager,
-        messagesManager: MessagesManager,
-        externalDrivesMonitor: ExternalDrivesMonitor,
-        systemNotificationsInterceptor: SystemNotificationsInterceptor? = nil
+        externalDrivesMonitor: ExternalDrivesMonitor
     ) {
         self.notchViewModel = notchViewModel
         self.settingsViewModel = settingsViewModel
@@ -164,10 +158,7 @@ final class NotchEventCoordinator: ObservableObject {
         self.notificationsHandler = NotchNotificationsEventsHandler(
             notchViewModel: notchViewModel,
             settingsViewModel: settingsViewModel,
-            mailManager: mailManager,
-            messagesManager: messagesManager,
-            externalDrivesMonitor: externalDrivesMonitor,
-            systemNotificationsInterceptor: systemNotificationsInterceptor ?? SystemNotificationsInterceptor()
+            externalDrivesMonitor: externalDrivesMonitor
         )
         let resolvedScreenshotHandler = NotchScreenshotEventsHandler(
             notchViewModel: notchViewModel,
@@ -346,14 +337,6 @@ final class NotchEventCoordinator: ObservableObject {
 
     func handleLockScreenEvent(_ event: LockScreenEvent) {
         lockScreenHandler.handleLockScreenEvent(event)
-    }
-
-    func handleMailMessage(_ message: MailMessage) {
-        notificationsHandler.handleMailMessage(message)
-    }
-
-    func handleMessagesMessage(_ message: MessagesMessage) {
-        notificationsHandler.handleMessagesMessage(message)
     }
 
     func handleExternalDriveEvent(_ drive: ExternalDriveModel) {

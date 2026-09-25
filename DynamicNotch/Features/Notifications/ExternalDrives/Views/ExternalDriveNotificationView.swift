@@ -48,7 +48,7 @@ struct ExternalDriveNotificationView: View {
                 .frame(width: 45, height: 45)
             
         } else {
-            Image(systemName: drive.isDiskImage ? "opticaldiscdrive.fill" : "externaldrive.fill")
+            Image(systemName: "externaldrive.fill")
                 .font(.system(size: 26))
                 .foregroundStyle(.white)
                 .frame(width: 45, height: 45)
@@ -60,12 +60,6 @@ struct ExternalDriveNotificationView: View {
         if drive.eventType == .connected {
             if let capacity = drive.formattedCapacity {
                 Text(capacity)
-                    .font(.system(size: 11, weight: .medium))
-                    .foregroundStyle(.secondary)
-                    .lineLimit(1)
-                
-            } else if drive.isDiskImage {
-                Text("settings.notifications.externalDrives.diskImage")
                     .font(.system(size: 11, weight: .medium))
                     .foregroundStyle(.secondary)
                     .lineLimit(1)

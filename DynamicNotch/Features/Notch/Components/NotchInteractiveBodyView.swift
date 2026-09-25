@@ -13,7 +13,7 @@ struct NotchInteractiveBodyView: View {
         .opacity(isVisiblyHiddenInFullscreen ? 0 : 1)
         .shadow(
             color: (notchViewModel.presentedNotchSize.height >= notchViewModel.notchModel.baseHeight + 30)
-            ? .black.opacity(0.4) : .clear, radius: 20
+            ? .black.opacity(0.3) : .clear, radius: 20
         )
         .frame(
             width: notchViewModel.presentedNotchSize.width,

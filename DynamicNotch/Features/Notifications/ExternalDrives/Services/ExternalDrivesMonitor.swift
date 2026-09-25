@@ -7,7 +7,6 @@ final class ExternalDrivesMonitor {
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "DynamicNotch", category: "ExternalDrivesMonitor")
 
     var onDriveEvent: ((ExternalDriveModel) -> Void)?
-    var includeDiskImages: Bool = true
 
     private var observers: [NSObjectProtocol] = []
     private var knownVolumes: [String: (name: String, icon: NSImage?, isEjectable: Bool)] = [:]
@@ -103,10 +102,10 @@ final class ExternalDrivesMonitor {
             return
         }
 
+        // Skip disk images (.dmg)
         let isReadOnly = resourceValues.volumeIsReadOnly ?? false
         let isDiskImage = isReadOnly && isEjectable && !isRemovable
-
-        if isDiskImage && !includeDiskImages {
+        if isDiskImage {
             return
         }
 
@@ -124,7 +123,6 @@ final class ExternalDrivesMonitor {
             totalBytes: total,
             freeBytes: free,
             isEjectable: isEjectable,
-            isDiskImage: isDiskImage,
             eventType: .connected,
             icon: icon
         )
@@ -151,7 +149,6 @@ final class ExternalDrivesMonitor {
             totalBytes: 0,
             freeBytes: 0,
             isEjectable: cached.isEjectable,
-            isDiskImage: false,
             eventType: .ejected,
             icon: cached.icon
         )

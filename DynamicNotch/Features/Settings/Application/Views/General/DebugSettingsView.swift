@@ -578,16 +578,6 @@ struct DebugSettingsView: View {
         debugDivider
 
         DebugActionRow(
-            title: "External Drive (DMG Image)",
-            description: "Show notification for mounted DMG disk image.",
-            systemImage: "opticaldiscdrive.fill",
-            color: .purple,
-            action: viewModel.triggerExternalDriveDiskImagePreview
-        )
-
-        debugDivider
-
-        DebugActionRow(
             title: "External Drive (Safely Ejected)",
             description: "Show notification for safely ejected drive.",
             systemImage: "checkmark.circle.fill",

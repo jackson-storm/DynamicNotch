@@ -135,7 +135,6 @@ enum GeneralSettingsStorage {
         static let calendarSoundAlert = "settings.calendar.soundAlert"
         static let externalDrivesNotificationsEnabled = "settings.notifications.externalDrives.enabled"
         static let externalDrivesNotificationDuration = "settings.notifications.externalDrives.duration"
-        static let externalDrivesIncludeDiskImages = "settings.notifications.externalDrives.includeDiskImages"
         static let externalDrivesShowEjected = "settings.notifications.externalDrives.showEjected"
         static let homePageOrder = "settings.homePage.order"
         static let homePageDisabled = "settings.homePage.disabled"
@@ -299,7 +298,6 @@ enum GeneralSettingsStorage {
         Keys.calendarSoundAlert: false,
         Keys.externalDrivesNotificationsEnabled: true,
         Keys.externalDrivesNotificationDuration: 8,
-        Keys.externalDrivesIncludeDiskImages: true,
         Keys.externalDrivesShowEjected: true
     ]
 }

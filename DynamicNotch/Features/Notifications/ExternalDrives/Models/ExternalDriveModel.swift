@@ -14,7 +14,6 @@ struct ExternalDriveModel: Equatable {
     let totalBytes: Int64
     let freeBytes: Int64
     let isEjectable: Bool
-    let isDiskImage: Bool
     let eventType: ExternalDriveEventType
     let icon: NSImage?
 
@@ -25,7 +24,6 @@ struct ExternalDriveModel: Equatable {
         lhs.totalBytes == rhs.totalBytes &&
         lhs.freeBytes == rhs.freeBytes &&
         lhs.isEjectable == rhs.isEjectable &&
-        lhs.isDiskImage == rhs.isDiskImage &&
         lhs.eventType == rhs.eventType
     }
 
@@ -46,7 +44,6 @@ extension ExternalDriveModel {
         totalBytes: 1_000_000_000_000,
         freeBytes: 654_000_000_000,
         isEjectable: true,
-        isDiskImage: false,
         eventType: .connected,
         icon: NSWorkspace.shared.icon(for: .volume)
     )
@@ -58,19 +55,6 @@ extension ExternalDriveModel {
         totalBytes: 64_000_000_000,
         freeBytes: 42_300_000_000,
         isEjectable: true,
-        isDiskImage: false,
-        eventType: .connected,
-        icon: NSWorkspace.shared.icon(for: .volume)
-    )
-
-    static let debugPreviewDiskImage = ExternalDriveModel(
-        id: "debug-drive-dmg",
-        name: "DynamicNotch Installer",
-        volumeURL: URL(fileURLWithPath: "/Volumes/DynamicNotch Installer"),
-        totalBytes: 250_000_000,
-        freeBytes: 12_000_000,
-        isEjectable: true,
-        isDiskImage: true,
         eventType: .connected,
         icon: NSWorkspace.shared.icon(for: .volume)
     )
@@ -82,7 +66,6 @@ extension ExternalDriveModel {
         totalBytes: 1_000_000_000_000,
         freeBytes: 654_000_000_000,
         isEjectable: true,
-        isDiskImage: false,
         eventType: .ejected,
         icon: NSWorkspace.shared.icon(for: .volume)
     )

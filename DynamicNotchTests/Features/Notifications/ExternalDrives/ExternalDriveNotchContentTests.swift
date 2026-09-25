@@ -11,7 +11,6 @@ final class ExternalDriveNotchContentTests: XCTestCase {
             totalBytes: 64_000_000_000,
             freeBytes: 32_000_000_000,
             isEjectable: true,
-            isDiskImage: false,
             eventType: .connected,
             icon: nil
         )
@@ -33,7 +32,6 @@ final class ExternalDriveNotchContentTests: XCTestCase {
             totalBytes: 64_000_000_000,
             freeBytes: 32_000_000_000,
             isEjectable: true,
-            isDiskImage: false,
             eventType: .connected,
             icon: nil
         )
@@ -57,7 +55,6 @@ final class ExternalDriveNotchContentTests: XCTestCase {
             totalBytes: 64_000_000_000,
             freeBytes: 32_000_000_000,
             isEjectable: true,
-            isDiskImage: false,
             eventType: .connected,
             icon: nil
         )
@@ -81,7 +78,6 @@ final class ExternalDriveNotchContentTests: XCTestCase {
             totalBytes: 64_000_000_000,
             freeBytes: 32_000_000_000,
             isEjectable: true,
-            isDiskImage: false,
             eventType: .connected,
             icon: nil
         )
@@ -105,7 +101,6 @@ final class ExternalDriveNotchContentTests: XCTestCase {
             totalBytes: 64_000_000_000,
             freeBytes: 32_000_000_000,
             isEjectable: true,
-            isDiskImage: false,
             eventType: .connected,
             icon: nil
         )
@@ -119,7 +114,6 @@ final class ExternalDriveNotchContentTests: XCTestCase {
             totalBytes: 0,
             freeBytes: 0,
             isEjectable: true,
-            isDiskImage: false,
             eventType: .ejected,
             icon: nil
         )

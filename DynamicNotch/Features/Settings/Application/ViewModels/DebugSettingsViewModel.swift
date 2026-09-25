@@ -283,10 +283,6 @@ final class DebugSettingsViewModel: ObservableObject {
         notchEventCoordinator.handleExternalDriveEvent(.debugPreviewUSB)
     }
 
-    func triggerExternalDriveDiskImagePreview() {
-        notchEventCoordinator.handleExternalDriveEvent(.debugPreviewDiskImage)
-    }
-
     func triggerExternalDriveEjectedPreview() {
         notchEventCoordinator.handleExternalDriveEvent(.debugPreviewEjected)
     }

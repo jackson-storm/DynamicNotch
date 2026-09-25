@@ -29,20 +29,6 @@ struct ExternalDrivesNotificationsSettingsView: View {
                 .opacity(0.6)
                 .padding(.leading, 43)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
-            
-            SettingsToggleRow(
-                title: "settings.notifications.externalDrives.includeDiskImages.title",
-                description: "settings.notifications.externalDrives.includeDiskImages.desc",
-                systemImage: "opticaldiscdrive.fill",
-                color: .gray,
-                isOn: $settings.isExternalDrivesIncludeDiskImagesEnabled,
-                accessibilityIdentifier: "settings.notifications.externalDrives.includeDiskImages"
-            )
-
-            Divider()
-                .opacity(0.6)
-                .padding(.leading, 43)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
 
             SettingsToggleRow(
                 title: "settings.notifications.externalDrives.showEjected.title",

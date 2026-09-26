@@ -26,25 +26,24 @@ struct NotchAnimations {
     static let `default`: Self = .balanced
 
     static let balanced: Self = {
-        let showDamping: Double = 0.70
-        let closeDamping: Double = 0.60
+        let damping: Double = 0.75
         let expandDamping: Double = 0.75
         
         let baseResponse: Double = 0.50
-        let blend: Double = 0.18
-        let hideShowDelay: Double = 0.34
+        let blend: Double = 1.0
+        let hideShowDelay: Double = 0.32
         
         return Self(
-            contentUpdate: .spring(response: baseResponse, dampingFraction: showDamping, blendDuration: blend),
-            contentHide: .spring(response: baseResponse, dampingFraction: closeDamping, blendDuration: blend),
-            contentShow: .spring(response: baseResponse, dampingFraction: showDamping, blendDuration: blend),
-            openContentTransition: .spring(response: baseResponse, dampingFraction: showDamping, blendDuration: blend),
+            contentUpdate: .spring(response: baseResponse, dampingFraction: damping, blendDuration: blend),
+            contentHide: .spring(response: baseResponse, dampingFraction: damping, blendDuration: blend),
+            contentShow: .spring(response: baseResponse, dampingFraction: damping, blendDuration: blend),
+            openContentTransition: .spring(response: baseResponse, dampingFraction: damping, blendDuration: blend),
             
             expandLiveActivity: .spring(response: baseResponse, dampingFraction: expandDamping, blendDuration: blend),
             expandLiveActivityContentTransition: .spring(response: baseResponse, dampingFraction: expandDamping, blendDuration: blend),
             
             closeLiveActivity: .spring(response: baseResponse, blendDuration: blend),
-            closeLiveActivityContentTransition: .spring(response: baseResponse, dampingFraction: closeDamping, blendDuration: blend),
+            closeLiveActivityContentTransition: .spring(response: baseResponse, dampingFraction: damping, blendDuration: blend),
             
             stretchReset: .spring(response: baseResponse, blendDuration: blend),
             strokeVisibility: .spring(response: baseResponse, blendDuration: blend),

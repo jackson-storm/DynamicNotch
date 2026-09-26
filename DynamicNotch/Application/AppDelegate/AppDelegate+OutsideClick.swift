@@ -82,7 +82,7 @@ extension AppDelegate {
     @MainActor
     var shouldHandleOutsideClick: Bool {
         guard notchViewModel.notchModel.isLiveActivityExpanded else { return false }
-        guard Date().timeIntervalSince(expansionTime) > 0.35 else { return false }
+        guard Date().timeIntervalSince(expansionTime) > 0.15 else { return false }
         return true
     }
 

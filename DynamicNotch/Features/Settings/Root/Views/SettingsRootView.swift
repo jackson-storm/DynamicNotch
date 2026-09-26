@@ -647,8 +647,6 @@ struct SettingsRootView: View {
             ActivityPrioritiesSettingsView(applicationSettings: settingsViewModel.application)
         case .notchDisplay:
             DisplaySettingsView(applicationSettings: settingsViewModel.application, availableDisplays: $availableDisplays)
-        case .notchAnimation:
-            AnimationSettingsView(applicationSettings: settingsViewModel.application)
         case .gestures:
             GesturesSettingsView(applicationSettings: settingsViewModel.application)
         case .fileTray:
@@ -705,8 +703,6 @@ struct SettingsRootView: View {
             settingsViewModel.application.resetNotchContentPriorities()
         case .notchDisplay:
             settingsViewModel.application.resetDisplay()
-        case .notchAnimation:
-            settingsViewModel.application.resetAnimation()
         case .gestures:
             settingsViewModel.application.resetGestures()
         case .fileTray:

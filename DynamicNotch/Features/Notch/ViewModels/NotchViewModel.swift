@@ -284,12 +284,8 @@ final class NotchViewModel: ObservableObject {
             NSScreen.metrics(for: settings)
         }
         self.engine = engine ?? NotchEngine(
-            animations: { [weak settings] in
-                if let animations {
-                    return animations
-                }
-                guard let settings else { return .default }
-                return .preset(settings.notchAnimationPreset)
+            animations: {
+                animations ?? .balanced
             },
             hideDelay: hideDelay,
             queueDelay: queueDelay
@@ -538,9 +534,22 @@ final class NotchViewModel: ObservableObject {
         return model
     }
 
-    func contentTransition(notchHeight: CGFloat, baseHeight: CGFloat, isExpandedPresentation: Bool) -> AnyTransition {
+    func contentTransition(
+        notchWidth: CGFloat? = nil,
+        notchHeight: CGFloat,
+        baseWidth: CGFloat? = nil,
+        baseHeight: CGFloat,
+        isExpandedPresentation: Bool
+    ) -> AnyTransition {
+        let width = notchWidth ?? presentedNotchSize.width
+        let bWidth = baseWidth ?? notchModel.baseWidth
         let expandedTransition = AnyTransition.notchExpanded(notchHeight: notchHeight, baseHeight: baseHeight)
-        let compactTransition = AnyTransition.notchCompact(notchHeight: notchHeight, baseHeight: baseHeight)
+        let compactTransition = AnyTransition.notchCompact(
+            notchWidth: width,
+            notchHeight: notchHeight,
+            baseWidth: bWidth,
+            baseHeight: baseHeight
+        )
 
         if isExpandedPresentation {
             return .asymmetric(
@@ -549,8 +558,8 @@ final class NotchViewModel: ObservableObject {
             )
         } else {
             return .asymmetric(
-                insertion: compactTransition.animation(animations.closeLiveActivityContentTransition),
-                removal: compactTransition.animation(animations.openContentTransition)
+                insertion: compactTransition.animation(animations.openContentTransition),
+                removal: compactTransition.animation(animations.closeLiveActivityContentTransition)
             )
         }
     }

@@ -107,9 +107,6 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
     @StoredDefault(key: GeneralSettingsStorage.Keys.hideDynamicIslandInFullscreenEnabled, defaultValue: true)
     var isDynamicIslandHiddenInFullscreenEnabled: Bool
 
-    @StoredDefault(key: GeneralSettingsStorage.Keys.notchAnimationPreset, defaultValue: .balanced)
-    var notchAnimationPreset: NotchAnimationPreset
-
     @StoredDefault(key: GeneralSettingsStorage.Keys.notchTapToExpandEnabled, defaultValue: true)
     var isNotchTapToExpandEnabled: Bool
 
@@ -258,12 +255,6 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         )
     }
 
-    func resetAnimation() {
-        notchAnimationPreset = NotchAnimationPreset(
-            rawValue: defaultString(for: GeneralSettingsStorage.Keys.notchAnimationPreset)
-        ) ?? .balanced
-    }
-
     func resetGestures() {
         isNotchTapToExpandEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchTapToExpandEnabled)
         notchExpandInteraction = NotchExpandInteraction.resolved(
@@ -282,7 +273,6 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
     }
 
     func resetNotch() {
-        resetAnimation()
         resetGestures()
         resetNotchContentPriorities()
         isShowNotchStrokeEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchStrokeEnabled)

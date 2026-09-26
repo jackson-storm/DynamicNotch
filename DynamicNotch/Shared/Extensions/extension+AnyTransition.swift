@@ -15,7 +15,7 @@ extension AnyTransition {
         )
     }
 
-    static func notchContent(notchHeight: CGFloat, baseHeight: CGFloat, isExpandedPresentation: Bool) -> AnyTransition {
+    static func notchContent(notchWidth: CGFloat = 0, notchHeight: CGFloat, baseWidth: CGFloat = 0, baseHeight: CGFloat, isExpandedPresentation: Bool) -> AnyTransition {
         if isExpandedPresentation {
             return notchExpanded(
                 notchHeight: notchHeight,
@@ -23,33 +23,37 @@ extension AnyTransition {
             )
         }
         return notchCompact(
+            notchWidth: notchWidth,
             notchHeight: notchHeight,
-            baseHeight: baseHeight,
+            baseWidth: baseWidth,
+            baseHeight: baseHeight
         )
     }
 
-    static func notchCompact(notchHeight: CGFloat, baseHeight: CGFloat) -> AnyTransition {
+    static func notchCompact(notchWidth: CGFloat = 0, notchHeight: CGFloat, baseWidth: CGFloat = 0, baseHeight: CGFloat) -> AnyTransition {
         let verticalOffset = NotchTransitionMetrics.verticalCompensationOffset(for: notchHeight, baseHeight: baseHeight)
+        let scaleX = NotchTransitionMetrics.compactScaleX(for: notchWidth, baseWidth: baseWidth)
+        let scaleY = NotchTransitionMetrics.compactScaleY(for: notchHeight, baseHeight: baseHeight)
         
         return .asymmetric(
             insertion: .modifier(
                 active: NotchTransitionModifier(
-                    blur: 20,
+                    blur: 15,
                     opacity: 0,
                     offsetY: verticalOffset,
-                    scaleX: 0.4,
-                    scaleY: 0.2,
+                    scaleX: scaleX,
+                    scaleY: scaleY,
                     anchor: .center
                 ),
                 identity: NotchTransitionModifier(anchor: .center)
             ),
             removal: .modifier(
                 active: NotchTransitionModifier(
-                    blur: 20,
+                    blur: 15,
                     opacity: 0,
                     offsetY: verticalOffset,
-                    scaleX: 0.4,
-                    scaleY: 0.2,
+                    scaleX: scaleX,
+                    scaleY: scaleY,
                     anchor: .center
                 ),
                 identity: NotchTransitionModifier(anchor: .center)
@@ -63,25 +67,25 @@ extension AnyTransition {
         return .asymmetric(
             insertion: .modifier(
                 active: NotchTransitionModifier(
-                    blur: 20,
+                    blur: 30,
                     opacity: 0,
-                    offsetY: verticalOffset / 4,
+                    offsetY: verticalOffset,
                     scaleX: 0.6,
                     scaleY: 0.2,
-                    anchor: .top
+                    anchor: .center
                 ),
-                identity: NotchTransitionModifier(anchor: .top)
+                identity: NotchTransitionModifier(anchor: .center)
             ),
             removal: .modifier(
                 active: NotchTransitionModifier(
-                    blur: 20,
+                    blur: 30,
                     opacity: 0,
-                    offsetY: verticalOffset / 4,
+                    offsetY: verticalOffset,
                     scaleX: 0.4,
                     scaleY: 0.2,
-                    anchor: .top
+                    anchor: .center
                 ),
-                identity: NotchTransitionModifier(anchor: .top)
+                identity: NotchTransitionModifier(anchor: .center)
             )
         )
     }

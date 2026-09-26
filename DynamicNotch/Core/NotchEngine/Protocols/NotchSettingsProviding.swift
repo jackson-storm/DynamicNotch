@@ -6,7 +6,6 @@ protocol NotchSettingsProviding: AnyObject {
     var notchHeight: Int { get }
     var displayLocation: NotchDisplayLocation { get }
     var screenSelectionPreferences: NotchScreenSelectionPreferences { get }
-    var notchAnimationPreset: NotchAnimationPreset { get }
     var isNotchTapToExpandEnabled: Bool { get }
     var notchExpandInteraction: NotchExpandInteraction { get }
     var notchCollapseInteraction: NotchCollapseInteraction { get }

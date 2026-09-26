@@ -16,7 +16,6 @@ final class TestNotchSettings: NotchSettingsProviding {
         }
     }
     var screenSelectionPreferences: NotchScreenSelectionPreferences
-    var notchAnimationPreset: NotchAnimationPreset
     var isNotchTapToExpandEnabled: Bool
     var notchExpandInteraction: NotchExpandInteraction
     var notchCollapseInteraction: NotchCollapseInteraction
@@ -34,7 +33,6 @@ final class TestNotchSettings: NotchSettingsProviding {
         notchHeight: Int = 0,
         displayLocation: NotchDisplayLocation = .main,
         screenSelectionPreferences: NotchScreenSelectionPreferences? = nil,
-        notchAnimationPreset: NotchAnimationPreset = .balanced,
         isNotchTapToExpandEnabled: Bool = true,
         notchExpandInteraction: NotchExpandInteraction = .pressAndHold,
         notchCollapseInteraction: NotchCollapseInteraction = .click,
@@ -55,7 +53,6 @@ final class TestNotchSettings: NotchSettingsProviding {
             preferredDisplayUUID: nil,
             allowsAutomaticDisplaySwitching: false
         )
-        self.notchAnimationPreset = notchAnimationPreset
         self.isNotchTapToExpandEnabled = isNotchTapToExpandEnabled
         self.notchExpandInteraction = notchExpandInteraction
         self.notchCollapseInteraction = notchCollapseInteraction

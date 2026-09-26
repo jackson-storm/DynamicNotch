@@ -134,16 +134,6 @@ struct NotchSettingsView: View {
             )
             
             SettingsNavigationRowView(
-                title: "settings.notch.animation.navTitle",
-                description: "settings.notch.animation.subtitle",
-                systemImage: "sparkles",
-                color: LinearGradient.cyanGradient,
-                accessibilityIdentifier: "settings.notch.animation",
-                position: .middle,
-                value: SettingsSubPage.notchAnimation
-            )
-            
-            SettingsNavigationRowView(
                 title: "settings.notch.gestures.navTitle",
                 description: "settings.notch.gestures.subtitle",
                 systemImage: "hand.draw.badge.ellipsis.fill",

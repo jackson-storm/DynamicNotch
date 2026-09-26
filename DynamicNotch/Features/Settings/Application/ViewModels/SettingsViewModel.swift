@@ -157,11 +157,6 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
         set { application.appLanguage = newValue }
     }
 
-    var notchAnimationPreset: NotchAnimationPreset {
-        get { application.notchAnimationPreset }
-        set { application.notchAnimationPreset = newValue }
-    }
-
     var isNotchTapToExpandEnabled: Bool {
         get { application.isNotchTapToExpandEnabled }
         set { application.isNotchTapToExpandEnabled = newValue }

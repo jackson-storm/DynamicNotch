@@ -160,7 +160,6 @@ final class StoredDefaultTests: XCTestCase {
         XCTAssertEqual(store.appearanceMode, .system)
         XCTAssertEqual(store.notchStrokeWidth, 2.5)
         XCTAssertEqual(store.notchStrokeOpacity, 1.0)
-        XCTAssertEqual(store.notchAnimationPreset, .balanced)
 
         store.notchStrokeWidth = 5.0 // Range: 1.0...3.0
         XCTAssertEqual(store.notchStrokeWidth, 3.0)

@@ -14,7 +14,6 @@ enum SettingsSubPage: Hashable, Identifiable {
     #endif
     case activityPriorities
     case notchDisplay
-    case notchAnimation
     case gestures
     case fileTray
     case homePagePages
@@ -37,7 +36,6 @@ enum SettingsSubPage: Hashable, Identifiable {
         #endif
         case .activityPriorities: return "settings.notch.priorities.title"
         case .notchDisplay: return "settings.notch.display.title"
-        case .notchAnimation: return "settings.notch.animation.title"
         case .gestures: return "settings.notch.gestures.title"
         case .fileTray: return "settings.drop.tray.title"
         case .homePagePages: return "settings.homePage.pages.title"
@@ -61,7 +59,6 @@ enum SettingsSubPage: Hashable, Identifiable {
         #endif
         case .activityPriorities: return "Activity priorities"
         case .notchDisplay: return "Display"
-        case .notchAnimation: return "Animation"
         case .gestures: return "Gestures"
         case .fileTray: return "Tray"
         case .homePagePages: return "Pages"
@@ -85,7 +82,6 @@ enum SettingsSubPage: Hashable, Identifiable {
         #endif
         case .activityPriorities: return "settings.notch.priorities.subtitle"
         case .notchDisplay: return "settings.notch.display.subtitle"
-        case .notchAnimation: return "settings.notch.animation.subtitle"
         case .gestures: return "settings.notch.gestures.subtitle"
         case .fileTray: return "settings.drop.tray.subtitle"
         case .homePagePages: return "settings.homePage.pages.subtitle"
@@ -109,7 +105,6 @@ enum SettingsSubPage: Hashable, Identifiable {
         #endif
         case .activityPriorities: return "Configure priority level for each activity."
         case .notchDisplay: return "Configure where and how the notch is displayed."
-        case .notchAnimation: return "Set motion parameters and animation speed."
         case .gestures: return "Configure click, hover, and scroll gestures."
         case .fileTray: return "Configure file tray behavior, scroll direction, and appearance."
         case .homePagePages: return "Reorder or enable/disable home page cards."
@@ -120,7 +115,7 @@ enum SettingsSubPage: Hashable, Identifiable {
     
     var canReset: Bool {
         switch self {
-        case .appearance, .notch, .language, .activityPriorities, .notchDisplay, .notchAnimation, .gestures, .fileTray, .homePagePages, .timer, .externalDrives:
+        case .appearance, .notch, .language, .activityPriorities, .notchDisplay, .gestures, .fileTray, .homePagePages, .timer, .externalDrives:
             return true
         default:
             return false

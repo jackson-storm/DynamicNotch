@@ -107,7 +107,9 @@ struct NotchSurfaceContainerView: View {
                 .id(notchViewModel.displayedPresentationID)
                 .transition(
                     notchViewModel.contentTransition(
+                        notchWidth: notchViewModel.presentedNotchSize.width,
                         notchHeight: notchViewModel.presentedNotchSize.height,
+                        baseWidth: notchViewModel.notchModel.baseWidth,
                         baseHeight: notchViewModel.notchModel.baseHeight,
                         isExpandedPresentation: notchViewModel.isDisplayingExpandedLiveActivity
                     )

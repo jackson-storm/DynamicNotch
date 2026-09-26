@@ -16,7 +16,7 @@ struct CameraNotchView: View {
     let mediaAndFilesSettings: MediaAndFilesSettingsStore
     let applicationSettings: ApplicationSettingsStore
     
-    @Environment(\.isDynamicIsland) private var isDynamicIsland
+    @Environment(\.isNotchlessScreen) private var isNotchlessScreen
     @StateObject private var cameraViewModel = CameraViewModel()
     @State private var isHovering: Bool = false
     @State private var previewID = UUID()
@@ -67,7 +67,7 @@ struct CameraNotchView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 30))
                     .id(previewID)
                     .transition(.blurAndFade.combined(with: .opacity).animation(.spring(response: 0.6)))
-                    .padding(.horizontal, isDynamicIsland ? 0 : 12)
+                    .padding(.horizontal, isNotchlessScreen ? 0 : 12)
                 
                 HStack {
                     cameraButton
@@ -169,7 +169,7 @@ struct CameraNotchView: View {
                 ))
             }) {
                 ZStack {
-                    RoundedRectangle(cornerRadius: isDynamicIsland ? 24 : 34)
+                    RoundedRectangle(cornerRadius: isNotchlessScreen ? 24 : 34)
                         .fill(.gray.opacity(0.2))
                         .frame(height: 110)
                     
@@ -225,7 +225,7 @@ struct CameraNotchView: View {
                     .progressViewStyle(CircularProgressViewStyle(tint: .white))
             }
         }
-        .padding(.horizontal, isDynamicIsland ? 2 : 12)
+        .padding(.horizontal, isNotchlessScreen ? 2 : 12)
     }
 }
 

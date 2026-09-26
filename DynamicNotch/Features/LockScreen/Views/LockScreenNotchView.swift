@@ -9,7 +9,7 @@ import SwiftUI
 
 struct LockScreenNotchView: View {
     @Environment(\.notchScale) private var scale
-    @Environment(\.isDynamicIsland) private var isDynamicIsland
+    @Environment(\.isNotchlessScreen) private var isNotchlessScreen
     @ObservedObject var lockScreenManager: LockScreenManager
     
     let style: LockScreenStyle
@@ -17,7 +17,7 @@ struct LockScreenNotchView: View {
     var body: some View {
         HStack {
             Image(systemName: lockScreenManager.isShowingLockPresentation ? "lock.fill" : "lock.open.fill")
-                .font(.system(size: isDynamicIsland ? 14 : 16, weight: .semibold))
+                .font(.system(size: isNotchlessScreen ? 14 : 16, weight: .semibold))
                 .foregroundStyle(.white)
             
             Spacer()
@@ -28,7 +28,7 @@ struct LockScreenNotchView: View {
                     .foregroundColor(.white)
             }
         }
-        .padding(.leading, isDynamicIsland ? 6.scaled(by: scale) : 14.scaled(by: scale))
-        .padding(.trailing, isDynamicIsland ? 8.scaled(by: scale) : 14.scaled(by: scale))
+        .padding(.leading, isNotchlessScreen ? 6.scaled(by: scale) : 14.scaled(by: scale))
+        .padding(.trailing, isNotchlessScreen ? 8.scaled(by: scale) : 14.scaled(by: scale))
     }
 }

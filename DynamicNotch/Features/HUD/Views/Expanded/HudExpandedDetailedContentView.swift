@@ -2,7 +2,7 @@ import SwiftUI
 
 struct HudExpandedDetailedContentView: View {
     @Environment(\.notchScale) private var scale
-    @Environment(\.isDynamicIsland) private var isDynamicIsland
+    @Environment(\.isNotchlessScreen) private var isNotchlessScreen
     
     let image: String
     let text: String
@@ -68,11 +68,11 @@ struct HudExpandedDetailedContentView: View {
     }
     
     private var bottomPadding: CGFloat {
-        isDynamicIsland ? 14 : 14
+        isNotchlessScreen ? 14 : 14
     }
     
     private var horizontalPadding: CGFloat {
-        isDynamicIsland ? 24 : 34
+        isNotchlessScreen ? 24 : 34
     }
     
     private var clampedLevel: Int {

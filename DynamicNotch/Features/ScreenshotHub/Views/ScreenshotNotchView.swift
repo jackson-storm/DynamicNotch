@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ScreenshotNotchView: View {
     @ObservedObject var screenshotViewModel: ScreenshotViewModel
-    @Environment(\.isDynamicIsland) private var isDynamicIsland
+    @Environment(\.isNotchlessScreen) private var isNotchlessScreen
     @State private var isHovering: Bool = false
     
     var body: some View {
@@ -15,8 +15,8 @@ struct ScreenshotNotchView: View {
                 isHovering = hovering
             }
         }
-        .padding(.horizontal, isDynamicIsland ? 10 : 36)
-        .padding(.bottom, isDynamicIsland ? 10 : 10)
+        .padding(.horizontal, isNotchlessScreen ? 10 : 36)
+        .padding(.bottom, isNotchlessScreen ? 10 : 10)
     }
     
     private var screenshot: some View {

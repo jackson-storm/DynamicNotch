@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ScreenRecordingExpandedNotchView: View {
     @ObservedObject var viewModel: ScreenRecordingViewModel
-    @Environment(\.isDynamicIsland) private var isDynamicIsland
+    @Environment(\.isNotchlessScreen) private var isNotchlessScreen
     @State private var isBlinking = false
 
     var body: some View {
@@ -15,9 +15,9 @@ struct ScreenRecordingExpandedNotchView: View {
                 leftContent
             }
         }
-        .padding(.leading, isDynamicIsland ? 25 : 44)
-        .padding(.trailing, isDynamicIsland ? 15 : 34)
-        .padding(.bottom, isDynamicIsland ? 15 : 14)
+        .padding(.leading, isNotchlessScreen ? 25 : 44)
+        .padding(.trailing, isNotchlessScreen ? 15 : 34)
+        .padding(.bottom, isNotchlessScreen ? 15 : 14)
         .onAppear {
             withAnimation(.easeInOut(duration: 1).repeatForever(autoreverses: true)) {
                 isBlinking = true

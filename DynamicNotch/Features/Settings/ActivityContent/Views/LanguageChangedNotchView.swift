@@ -6,7 +6,7 @@
 import SwiftUI
 
 struct LanguageChangedNotchView: View {
-    @Environment(\.isDynamicIsland) private var isDynamicIsland
+    @Environment(\.isNotchlessScreen) private var isNotchlessScreen
     @Environment(\.notchScale) private var scale
     
     let language: DynamicNotchLanguage
@@ -19,10 +19,10 @@ struct LanguageChangedNotchView: View {
                     .interpolation(.high)
                     .antialiased(true)
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: isDynamicIsland ? 24 : 30, height: isDynamicIsland ? 16 : 20)
-                    .clipShape(RoundedRectangle(cornerRadius: isDynamicIsland ? 3 : 4, style: .continuous))
+                    .frame(width: isNotchlessScreen ? 24 : 30, height: isNotchlessScreen ? 16 : 20)
+                    .clipShape(RoundedRectangle(cornerRadius: isNotchlessScreen ? 3 : 4, style: .continuous))
                     .overlay {
-                        RoundedRectangle(cornerRadius: isDynamicIsland ? 3 : 4, style: .continuous)
+                        RoundedRectangle(cornerRadius: isNotchlessScreen ? 3 : 4, style: .continuous)
                             .strokeBorder(Color.white.opacity(0.2), lineWidth: 0.5)
                     }
             } else {
@@ -38,8 +38,8 @@ struct LanguageChangedNotchView: View {
                 .foregroundColor(.white)
                 .lineLimit(1)
         }
-        .padding(.leading, isDynamicIsland ? 6.scaled(by: scale) : 15.scaled(by: scale))
-        .padding(.trailing, isDynamicIsland ? 8.scaled(by: scale) : 15.scaled(by: scale))
+        .padding(.leading, isNotchlessScreen ? 6.scaled(by: scale) : 15.scaled(by: scale))
+        .padding(.trailing, isNotchlessScreen ? 8.scaled(by: scale) : 15.scaled(by: scale))
         .padding(.vertical, 10)
     }
 }

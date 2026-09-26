@@ -11,7 +11,7 @@ internal import AppKit
 
 struct VpnConnectedNotchView: View {
     @Environment(\.notchScale) private var scale
-    @Environment(\.isDynamicIsland) private var isDynamicIsland
+    @Environment(\.isNotchlessScreen) private var isNotchlessScreen
     @ObservedObject var vpnViewModel: VpnViewModel
     @ObservedObject var settings: ConnectivitySettingsStore
     
@@ -55,8 +55,8 @@ struct VpnConnectedNotchView: View {
                 Image(nsImage: nsImage)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: isDynamicIsland ? 20 : 30, height: isDynamicIsland ? 20 : 30)
-                    .cornerRadius(isDynamicIsland ? 10 : 6)
+                    .frame(width: isNotchlessScreen ? 20 : 30, height: isNotchlessScreen ? 20 : 30)
+                    .cornerRadius(isNotchlessScreen ? 10 : 6)
                 
             } else {
                 Image(systemName: "network.badge.shield.half.filled")
@@ -68,8 +68,8 @@ struct VpnConnectedNotchView: View {
             Text(verbatim: "Active")
                 .foregroundStyle(.white)
         }
-        .padding(.leading, isDynamicIsland ? 6.scaled(by: scale) : 11.scaled(by: scale))
-        .padding(.trailing, isDynamicIsland ? 6.scaled(by: scale) : 14.scaled(by: scale))
+        .padding(.leading, isNotchlessScreen ? 6.scaled(by: scale) : 11.scaled(by: scale))
+        .padding(.trailing, isNotchlessScreen ? 6.scaled(by: scale) : 14.scaled(by: scale))
         .padding(.vertical, 10)
     }
     
@@ -86,7 +86,7 @@ struct VpnConnectedNotchView: View {
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 50, height: 50)
                             .cornerRadius(6)
-                            .padding(.bottom, isDynamicIsland ? 8 : 6)
+                            .padding(.bottom, isNotchlessScreen ? 8 : 6)
                         
                     } else {
                         Image(systemName: "network.badge.shield.half.filled")
@@ -116,7 +116,7 @@ struct VpnConnectedNotchView: View {
                 Spacer()
                 
                 Text(timeString)
-                    .padding(.bottom, isDynamicIsland ? 8 : 6)
+                    .padding(.bottom, isNotchlessScreen ? 8 : 6)
                     .font(.system(size: 26, weight: .semibold, design: .rounded))
                     .monospacedDigit()
                     .foregroundStyle(Color.orange)
@@ -129,8 +129,8 @@ struct VpnConnectedNotchView: View {
                     }
             }
         }
-        .padding(.horizontal, isDynamicIsland ? 20 : 36)
-        .padding(.bottom, isDynamicIsland ? 9 : 10)
+        .padding(.horizontal, isNotchlessScreen ? 20 : 36)
+        .padding(.bottom, isNotchlessScreen ? 9 : 10)
     }
     
     private func getAppIcon(for bundleID: String) -> NSImage? {

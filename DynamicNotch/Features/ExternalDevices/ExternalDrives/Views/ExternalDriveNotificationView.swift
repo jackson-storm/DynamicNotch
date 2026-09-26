@@ -4,7 +4,7 @@ struct ExternalDriveNotificationView: View {
     let drive: ExternalDriveModel
     let onEject: (@MainActor () -> Void)?
 
-    @Environment(\.isDynamicIsland) private var isDynamicIsland
+    @Environment(\.isNotchlessScreen) private var isNotchlessScreen
     @State private var isEjectHovered = false
 
     var body: some View {
@@ -12,9 +12,9 @@ struct ExternalDriveNotificationView: View {
             Spacer()
             content
         }
-        .padding(.leading, isDynamicIsland ? 19 : 40)
-        .padding(.trailing, isDynamicIsland ? 15 : 35)
-        .padding(.bottom, isDynamicIsland ? 19 : 15)
+        .padding(.leading, isNotchlessScreen ? 19 : 40)
+        .padding(.trailing, isNotchlessScreen ? 15 : 35)
+        .padding(.bottom, isNotchlessScreen ? 19 : 15)
     }
 
     private var content: some View {

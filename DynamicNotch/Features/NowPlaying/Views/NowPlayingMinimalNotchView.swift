@@ -9,7 +9,7 @@ import SwiftUI
 
 struct NowPlayingMinimalNotchView: View {
     @Environment(\.notchScale) var scale
-    @Environment(\.isDynamicIsland) var isDynamicIsland
+    @Environment(\.isNotchlessScreen) var isNotchlessScreen
     
     @ObservedObject var nowPlayingViewModel: NowPlayingViewModel
     @ObservedObject var settings: MediaAndFilesSettingsStore
@@ -36,9 +36,9 @@ struct NowPlayingMinimalNotchView: View {
         HStack {
             ArtworkView(
                 nowPlayingViewModel: nowPlayingViewModel,
-                width: isDynamicIsland ? 16 : 24,
-                height: isDynamicIsland ? 16 : 24,
-                cornerRadius: isDynamicIsland ? 3 : 5,
+                width: isNotchlessScreen ? 18 : 24,
+                height: isNotchlessScreen ? 18 : 24,
+                cornerRadius: isNotchlessScreen ? 3 : 5,
                 usesFlipAnimation: settings.isNowPlayingArtwork3DEffectEnabled
             )
             
@@ -53,9 +53,9 @@ struct NowPlayingMinimalNotchView: View {
                 barHeight: 16,
                 barWidth: 2,
             )
-            .frame(width: 18, height: 16)
+            .frame(width: 18, height: 18)
         }
-        .padding(.leading, isDynamicIsland ? 7.scaled(by: scale) : 14.scaled(by: scale))
-        .padding(.trailing, isDynamicIsland ? 9.scaled(by: scale) : 15.scaled(by: scale))
+        .padding(.leading, isNotchlessScreen ? 7.scaled(by: scale) : 14.scaled(by: scale))
+        .padding(.trailing, isNotchlessScreen ? 9.scaled(by: scale) : 15.scaled(by: scale))
     }
 }

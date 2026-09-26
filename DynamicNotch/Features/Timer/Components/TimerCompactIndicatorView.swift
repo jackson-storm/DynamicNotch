@@ -10,7 +10,7 @@ import SwiftUI
 struct TimerCompactIndicatorView: View {
     let source: TimerSource
     
-    @Environment(\.isDynamicIsland) private var isDynamicIsland
+    @Environment(\.isNotchlessScreen) private var isNotchlessScreen
     
     private var lineWidth: CGFloat { 2.5 }
 
@@ -42,7 +42,7 @@ struct TimerCompactIndicatorView: View {
                     .offset(x: 3.5)
                     .rotationEffect(angle)
             }
-            .frame(width: isDynamicIsland ? 16 : 20, height: isDynamicIsland ? 16: 20)
+            .frame(width: isNotchlessScreen ? 16 : 20, height: isNotchlessScreen ? 16: 20)
         }
     }
 

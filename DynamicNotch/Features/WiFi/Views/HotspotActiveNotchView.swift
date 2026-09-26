@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HotspotActiveNotchView: View {
     @Environment(\.notchScale) var scale
-    @Environment(\.isDynamicIsland) var isDynamicIsland
+    @Environment(\.isNotchlessScreen) var isNotchlessScreen
     
     let style: HotspotAppearanceStyle
     @ObservedObject var wifiViewModel: WifiViewModel
@@ -49,8 +49,8 @@ struct HotspotActiveNotchView: View {
             }
         }
         .font(.system(size: 14))
-        .padding(.leading, isDynamicIsland ? 4.scaled(by: scale) : 14.scaled(by: scale))
-        .padding(.trailing, isDynamicIsland ? 6.scaled(by: scale) : 14.scaled(by: scale))
+        .padding(.leading, isNotchlessScreen ? 4.scaled(by: scale) : 14.scaled(by: scale))
+        .padding(.trailing, isNotchlessScreen ? 6.scaled(by: scale) : 14.scaled(by: scale))
     }
     
     private var minimal: some View {

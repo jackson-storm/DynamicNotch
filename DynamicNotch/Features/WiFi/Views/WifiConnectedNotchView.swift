@@ -9,7 +9,7 @@ import SwiftUI
 
 struct WifiConnectedNotchView: View {
     @Environment(\.notchScale) var scale
-    @Environment(\.isDynamicIsland) var isDynamicIsland
+    @Environment(\.isNotchlessScreen) var isNotchlessScreen
     @ObservedObject var wifiViewModel: WifiViewModel
     
     var body: some View {
@@ -23,7 +23,7 @@ struct WifiConnectedNotchView: View {
                 .foregroundStyle(.white)
         }
         .font(.system(size: 14))
-        .padding(.horizontal, isDynamicIsland ? 6.scaled(by: scale) : 15.scaled(by: scale))
+        .padding(.horizontal, isNotchlessScreen ? 6.scaled(by: scale) : 15.scaled(by: scale))
         .padding(.vertical, 10)
     }
 }

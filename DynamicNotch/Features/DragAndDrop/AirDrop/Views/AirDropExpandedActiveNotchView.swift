@@ -9,14 +9,14 @@ internal import AppKit
 struct AirDropExpandedActiveNotchView: View {
     @ObservedObject var airDropViewModel: AirDropNotchViewModel
     @Environment(\.notchScale) private var scale
-    @Environment(\.isDynamicIsland) private var isDynamicIsland
+    @Environment(\.isNotchlessScreen) private var isNotchlessScreen
 
     var body: some View {
         VStack {
             Spacer()
             contentCard
         }
-        .padding(.horizontal, isDynamicIsland ? 10 : 36)
+        .padding(.horizontal, isNotchlessScreen ? 10 : 36)
         .padding(.bottom, 10)
     }
 

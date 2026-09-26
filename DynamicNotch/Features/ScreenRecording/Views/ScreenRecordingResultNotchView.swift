@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ScreenRecordingResultNotchView: View {
     @ObservedObject var viewModel: ScreenRecordingResultViewModel
-    @Environment(\.isDynamicIsland) private var isDynamicIsland
+    @Environment(\.isNotchlessScreen) private var isNotchlessScreen
     
     var body: some View {
         VStack {
@@ -16,8 +16,8 @@ struct ScreenRecordingResultNotchView: View {
             
             buttons
         }
-        .padding(.horizontal, isDynamicIsland ? 10 : 40)
-        .padding(.bottom, isDynamicIsland ? 10 : 10)
+        .padding(.horizontal, isNotchlessScreen ? 10 : 40)
+        .padding(.bottom, isNotchlessScreen ? 10 : 10)
     }
     
     private var rightContent: some View {

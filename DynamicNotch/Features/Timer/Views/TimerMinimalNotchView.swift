@@ -28,7 +28,7 @@ private struct TimerMinimalNotchViewInternal<VM: ObservableObject>: View {
     let source: TimerSource
     
     @Environment(\.notchScale) private var scale
-    @Environment(\.isDynamicIsland) private var isDynamicIsland
+    @Environment(\.isNotchlessScreen) private var isNotchlessScreen
     @ObservedObject var viewModel: VM
 
     var body: some View {
@@ -40,7 +40,7 @@ private struct TimerMinimalNotchViewInternal<VM: ObservableObject>: View {
             TimerCountdownText(source: source)
         }
         .padding(.vertical, 10)
-        .padding(.leading, isDynamicIsland ? 4.scaled(by: scale) : 14.scaled(by: scale))
-        .padding(.trailing, isDynamicIsland ? 6.scaled(by: scale) : 14.scaled(by: scale))
+        .padding(.leading, isNotchlessScreen ? 4.scaled(by: scale) : 14.scaled(by: scale))
+        .padding(.trailing, isNotchlessScreen ? 6.scaled(by: scale) : 14.scaled(by: scale))
     }
 }

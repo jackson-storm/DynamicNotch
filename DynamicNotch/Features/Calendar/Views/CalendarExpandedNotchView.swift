@@ -3,7 +3,7 @@ internal import EventKit
 
 struct CalendarExpandedNotchView: View {
     @ObservedObject var calendarViewModel: CalendarViewModel
-    @Environment(\.isDynamicIsland) private var isDynamicIsland
+    @Environment(\.isNotchlessScreen) private var isNotchlessScreen
     
     let notchViewModel: NotchViewModel
     
@@ -29,9 +29,9 @@ struct CalendarExpandedNotchView: View {
                     .foregroundColor(.gray.opacity(0.6))
             }
         }
-        .padding(.leading, isDynamicIsland ? 20 : 45)
-        .padding(.trailing, isDynamicIsland ? 15 : 40)
-        .padding(.bottom, isDynamicIsland ? 20 : 18)
+        .padding(.leading, isNotchlessScreen ? 20 : 45)
+        .padding(.trailing, isNotchlessScreen ? 15 : 40)
+        .padding(.bottom, isNotchlessScreen ? 20 : 18)
     }
     
     @ViewBuilder

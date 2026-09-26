@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DragAndDropCombinedNotchView: View {
-    @Environment(\.isDynamicIsland) private var isDynamicIsland
+    @Environment(\.isNotchlessScreen) private var isNotchlessScreen
     @ObservedObject var airDropViewModel: AirDropNotchViewModel
 
     var body: some View {
@@ -29,7 +29,7 @@ struct DragAndDropCombinedNotchView: View {
                 }
             }
         }
-        .padding(.horizontal, isDynamicIsland ? 10 : AirDropDropZoneMetrics.horizontalPadding)
-        .padding(.vertical, isDynamicIsland ? 10 : AirDropDropZoneMetrics.verticalPadding)
+        .padding(.horizontal, isNotchlessScreen ? 10 : AirDropDropZoneMetrics.horizontalPadding)
+        .padding(.vertical, isNotchlessScreen ? 10 : AirDropDropZoneMetrics.verticalPadding)
     }
 }

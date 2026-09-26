@@ -5,7 +5,6 @@ struct NotchBackgroundSurface: View {
     let topCornerRadius: CGFloat
     let bottomCornerRadius: CGFloat
     let isDynamicIsland: Bool
-    var usesTopAttachedShape: Bool = false
     let dynamicIslandCornerRadius: CGFloat
     let strokeColor: Color
     var strokeWidth: CGFloat = 2.0
@@ -13,15 +12,8 @@ struct NotchBackgroundSurface: View {
     var baseHeight: CGFloat? = nil
     
     var body: some View {
-        if isDynamicIsland && !usesTopAttachedShape {
+        if isDynamicIsland {
             let shape = DynamicIslandShape(cornerRadius: dynamicIslandCornerRadius)
-            baseSurface(shape: shape)
-                .contentShape(shape)
-                .overlay {
-                    shape.stroke(strokeColor, lineWidth: strokeWidth)
-                }
-        } else if usesTopAttachedShape {
-            let shape = TopAttachedNotchShape(topCornerRadius: topCornerRadius, bottomCornerRadius: bottomCornerRadius)
             baseSurface(shape: shape)
                 .contentShape(shape)
                 .overlay {

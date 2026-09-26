@@ -10,16 +10,16 @@ import SwiftUI
 struct NotchSizeHeightNotchView: View {
     @ObservedObject var settingsViewModel: SettingsViewModel
     @Environment(\.notchScale) private var scale
-    @Environment(\.isDynamicIsland) private var isDynamicIsland
+    @Environment(\.isNotchlessScreen) private var isNotchlessScreen
     
     var body: some View {
         HStack {
             Image(systemName: "chevron.up.chevron.down")
             Spacer()
-            AnimatedLevelText(level: settingsViewModel.notchHeight, fontSize: isDynamicIsland ? 16 : 18)
+            AnimatedLevelText(level: settingsViewModel.notchHeight, fontSize: isNotchlessScreen ? 16 : 18)
         }
         .font(.system(size: 18))
         .foregroundColor(.white)
-        .padding(.horizontal, isDynamicIsland ? 8.scaled(by: scale) : 16.scaled(by: scale))
+        .padding(.horizontal, isNotchlessScreen ? 8.scaled(by: scale) : 16.scaled(by: scale))
     }
 }

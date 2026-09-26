@@ -27,7 +27,7 @@ struct TimerExpandedNotchView: View {
 private struct TimerExpandedNotchViewInternal<VM: ObservableObject>: View {
     let source: TimerSource
     
-    @Environment(\.isDynamicIsland) var isDynamicIsland
+    @Environment(\.isNotchlessScreen) var isNotchlessScreen
     @ObservedObject var viewModel: VM
     @State private var isControlActionRunning = false
     
@@ -45,9 +45,9 @@ private struct TimerExpandedNotchViewInternal<VM: ObservableObject>: View {
                 rightContent
             }
         }
-        .padding(.leading, isDynamicIsland ? 14 : 32)
-        .padding(.trailing, isDynamicIsland ? 18 : 38)
-        .padding(.bottom, isDynamicIsland ? 14 : 12)
+        .padding(.leading, isNotchlessScreen ? 14 : 32)
+        .padding(.trailing, isNotchlessScreen ? 18 : 38)
+        .padding(.bottom, isNotchlessScreen ? 14 : 12)
     }
     
     private var leftContent: some View {

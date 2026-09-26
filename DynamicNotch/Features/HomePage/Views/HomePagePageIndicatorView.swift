@@ -2,7 +2,7 @@ import SwiftUI
 internal import AppKit
 
 struct HomePagePageIndicatorView: View {
-    @Environment(\.isDynamicIsland) private var isDynamicIsland
+    @Environment(\.isNotchlessScreen) private var isNotchlessScreen
     @ObservedObject var notchViewModel: NotchViewModel
     @ObservedObject var settingsViewModel: SettingsViewModel
     
@@ -90,7 +90,7 @@ struct HomePagePageIndicatorView: View {
                     }
                 }
                 .offset(
-                    x: isVertical ? (notchViewModel.presentedNotchSize.width / 2 + indicatorWidth / 2 + (notchViewModel.notchModel.isDynamicIsland ? 8 : -14)) : 0,
+                    x: isVertical ? (notchViewModel.presentedNotchSize.width / 2 + indicatorWidth / 2 + (isNotchlessScreen ? 8 : -14)) : 0,
                     y: isVertical ? (notchViewModel.presentedNotchSize.height / 2 - indicatorHeight / 2) : (notchViewModel.presentedNotchSize.height + 8)
                 )
             }

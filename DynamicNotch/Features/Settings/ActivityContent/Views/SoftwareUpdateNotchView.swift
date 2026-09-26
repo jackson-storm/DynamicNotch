@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SoftwareUpdateNotchView: View {
     @Environment(\.notchScale) private var scale
-    @Environment(\.isDynamicIsland) private var isDynamicIsland
+    @Environment(\.isNotchlessScreen) private var isNotchlessScreen
     
     var body: some View {
         HStack {
@@ -18,22 +18,22 @@ struct SoftwareUpdateNotchView: View {
                 .interpolation(.high)
                 .antialiased(true)
                 .scaledToFill()
-                .frame(width: isDynamicIsland ? 18 : 24, height: isDynamicIsland ? 18 : 24)
+                .frame(width: isNotchlessScreen ? 18 : 24, height: isNotchlessScreen ? 18 : 24)
                 .cornerRadius(6)
             
             Spacer()
             
             Image(systemName: "arrow.down.circle.dotted")
-                .font(.system(size: isDynamicIsland ? 18 : 21, weight: .semibold))
+                .font(.system(size: isNotchlessScreen ? 18 : 21, weight: .semibold))
                 .foregroundStyle(.blue)
         }
-        .padding(.leading, isDynamicIsland ? 6.scaled(by: scale) : 13.scaled(by: scale))
-        .padding(.trailing, isDynamicIsland ? 2.scaled(by: scale) : 11.scaled(by: scale))
+        .padding(.leading, isNotchlessScreen ? 6.scaled(by: scale) : 13.scaled(by: scale))
+        .padding(.trailing, isNotchlessScreen ? 2.scaled(by: scale) : 11.scaled(by: scale))
     }
 }
 
 struct SoftwareUpdateExpandedNotchView: View {
-    @Environment(\.isDynamicIsland) private var isDynamicIsland
+    @Environment(\.isNotchlessScreen) private var isNotchlessScreen
     @ObservedObject private var updater = SparkleUpdater.shared
     
     var body: some View {
@@ -71,8 +71,8 @@ struct SoftwareUpdateExpandedNotchView: View {
                 .buttonStyle(PrimaryButtonStyle(width: 45, height: 45, backgroundColor: .blue.opacity(0.25)))
             }
         }
-        .padding(.leading, isDynamicIsland ? 20 : 42)
-        .padding(.trailing, isDynamicIsland ? 20 : 38)
-        .padding(.bottom, isDynamicIsland ? 20 : 14)
+        .padding(.leading, isNotchlessScreen ? 20 : 42)
+        .padding(.trailing, isNotchlessScreen ? 20 : 38)
+        .padding(.bottom, isNotchlessScreen ? 20 : 14)
     }
 }

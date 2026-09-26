@@ -1,7 +1,6 @@
 import Foundation
 
 protocol NotchSettingsProviding: AnyObject {
-    var noNotchStyle: NoNotchStyle { get }
     var notchWidth: Int { get }
     var notchHeight: Int { get }
     var displayLocation: NotchDisplayLocation { get }

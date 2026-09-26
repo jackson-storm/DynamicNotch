@@ -9,7 +9,7 @@ import SwiftUI
 
 struct BluetoothConnectedNotchView: View {
     @Environment(\.notchScale) var scale
-    @Environment(\.isDynamicIsland) var isDynamicIsland
+    @Environment(\.isNotchlessScreen) var isNotchlessScreen
     
     @ObservedObject var bluetoothViewModel: BluetoothViewModel
     @ObservedObject var settings: ConnectivitySettingsStore
@@ -63,7 +63,7 @@ struct BluetoothConnectedNotchView: View {
             case .circle:
                 BluetoothBatteryIndicatorView(
                     batteryLevel: bluetoothViewModel.batteryLevel,
-                    circleSize: isDynamicIsland ? 16 : 18,
+                    circleSize: isNotchlessScreen ? 16 : 18,
                     circleLineWidth: 3,
                     usesTintedTrackStroke: isBatteryStrokeActive
                 )
@@ -79,8 +79,8 @@ struct BluetoothConnectedNotchView: View {
             }
         }
         .padding(.vertical, 10)
-        .padding(.trailing, isDynamicIsland ? 4.scaled(by: scale) : 14.scaled(by: scale))
-        .padding(.leading, isDynamicIsland ? 4.scaled(by: scale) : 14.scaled(by: scale))
+        .padding(.trailing, isNotchlessScreen ? 4.scaled(by: scale) : 14.scaled(by: scale))
+        .padding(.leading, isNotchlessScreen ? 4.scaled(by: scale) : 14.scaled(by: scale))
     }
     
     @ViewBuilder
@@ -131,7 +131,7 @@ struct BluetoothConnectedNotchView: View {
                 .padding(.bottom, 10)
             }
         }
-        .padding(.horizontal, isDynamicIsland ? 15 : 38)
-        .padding(.bottom, isDynamicIsland ? 7 : 10)
+        .padding(.horizontal, isNotchlessScreen ? 15 : 38)
+        .padding(.bottom, isNotchlessScreen ? 7 : 10)
     }
 }

@@ -38,11 +38,13 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
     @StoredDefault(key: GeneralSettingsStorage.Keys.notchBackgroundStyle, defaultValue: .black)
     var notchBackgroundStyle: NotchBackgroundStyle
 
-    @StoredDefault(key: GeneralSettingsStorage.Keys.noNotchStyle, defaultValue: .dynamicIsland)
-    var noNotchStyle: NoNotchStyle
-
     @Published var notchWidth: Int {
         didSet {
+            let clamped = min(20, max(-20, notchWidth))
+            if clamped != notchWidth {
+                notchWidth = clamped
+                return
+            }
             guard oldValue != notchWidth else { return }
             persist(notchWidth, for: GeneralSettingsStorage.Keys.notchWidth)
             notchSizeEvent.send(.width)
@@ -50,6 +52,11 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
     }
     @Published var notchHeight: Int {
         didSet {
+            let clamped = min(4, max(-4, notchHeight))
+            if clamped != notchHeight {
+                notchHeight = clamped
+                return
+            }
             guard oldValue != notchHeight else { return }
             persist(notchHeight, for: GeneralSettingsStorage.Keys.notchHeight)
             notchSizeEvent.send(.height)
@@ -184,8 +191,8 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
 
     override init(defaults: UserDefaults) {
         self.isLaunchAtLoginEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.launchAtLogin)
-        self.notchWidth = defaults.integer(forKey: GeneralSettingsStorage.Keys.notchWidth)
-        self.notchHeight = defaults.integer(forKey: GeneralSettingsStorage.Keys.notchHeight)
+        self.notchWidth = min(20, max(-20, defaults.integer(forKey: GeneralSettingsStorage.Keys.notchWidth)))
+        self.notchHeight = min(4, max(-4, defaults.integer(forKey: GeneralSettingsStorage.Keys.notchHeight)))
         self.displayLocation = NotchDisplayLocation(
             rawValue: defaults.string(forKey: GeneralSettingsStorage.Keys.displayLocation) ?? NotchDisplayLocation.main.rawValue
         ) ?? .main
@@ -286,9 +293,6 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         notchBackgroundStyle = NotchBackgroundStyle.resolved(
             defaultString(for: GeneralSettingsStorage.Keys.notchBackgroundStyle)
         )
-        noNotchStyle = NoNotchStyle(
-            rawValue: defaultString(for: GeneralSettingsStorage.Keys.noNotchStyle)
-        ) ?? .dynamicIsland
         notchWidth = defaultInt(for: GeneralSettingsStorage.Keys.notchWidth)
         notchHeight = defaultInt(for: GeneralSettingsStorage.Keys.notchHeight)
     }

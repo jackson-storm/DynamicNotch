@@ -8,8 +8,9 @@
 import SwiftUI
 
 enum NotchTransitionMetrics {
-    static func verticalCompensationOffset(for notchHeight: CGFloat, baseHeight: CGFloat) -> CGFloat {
-        -(max(0, notchHeight - baseHeight) * 0.75)
+    static func verticalCompensationOffset(for notchHeight: CGFloat, baseHeight: CGFloat, isNotchlessScreen: Bool = false) -> CGFloat {
+        let multiplier: CGFloat = isNotchlessScreen ? 0.65 : 0.75
+        return -(max(0, notchHeight - baseHeight) * multiplier)
     }
 
     static func compactScaleX(for notchWidth: CGFloat, baseWidth: CGFloat) -> CGFloat {

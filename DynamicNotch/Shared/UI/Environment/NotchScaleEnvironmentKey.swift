@@ -11,7 +11,7 @@ struct NotchScaleKey: EnvironmentKey {
     static let defaultValue: CGFloat = 1.0
 }
 
-struct IsDynamicIslandKey: EnvironmentKey {
+struct IsNotchlessScreenKey: EnvironmentKey {
     static let defaultValue: Bool = false
 }
 
@@ -21,8 +21,14 @@ extension EnvironmentValues {
         set { self[NotchScaleKey.self] = newValue }
     }
     
+    var isNotchlessScreen: Bool {
+        get { self[IsNotchlessScreenKey.self] }
+        set { self[IsNotchlessScreenKey.self] = newValue }
+    }
+
+    @available(*, deprecated, renamed: "isNotchlessScreen")
     var isDynamicIsland: Bool {
-        get { self[IsDynamicIslandKey.self] }
-        set { self[IsDynamicIslandKey.self] = newValue }
+        get { isNotchlessScreen }
+        set { isNotchlessScreen = newValue }
     }
 }

@@ -2,7 +2,7 @@ import SwiftUI
 
 struct HudMinimalContentView: View {
     @Environment(\.notchScale) private var scale
-    @Environment(\.isDynamicIsland) private var isDynamicIsland
+    @Environment(\.isNotchlessScreen) private var isNotchlessScreen
     
     let image: String
     let level: Int
@@ -14,7 +14,7 @@ struct HudMinimalContentView: View {
             Spacer()
             AnimatedLevelText(
                 level: clampedLevel,
-                fontSize: isDynamicIsland ? 14 : 16
+                fontSize: isNotchlessScreen ? 14 : 16
             )
         }
         .padding(.vertical, verticalPadding)
@@ -23,7 +23,7 @@ struct HudMinimalContentView: View {
     
     private var iconView: some View {
         Image(systemName: image)
-            .font(.system(size: isDynamicIsland ? 16 : 18))
+            .font(.system(size: isNotchlessScreen ? 16 : 18))
             .foregroundColor(.white)
     }
     
@@ -33,8 +33,8 @@ struct HudMinimalContentView: View {
     
     private var horizontalPadding: CGFloat {
         let basePadding = indicatorStyle == .circle
-            ? (isDynamicIsland ? 4 : 14)
-            : (isDynamicIsland ? 4 : 14)
+            ? (isNotchlessScreen ? 4 : 14)
+            : (isNotchlessScreen ? 4 : 14)
         return basePadding.scaled(by: scale)
     }
     

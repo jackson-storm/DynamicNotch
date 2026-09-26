@@ -10,7 +10,7 @@ import SwiftUI
 
 struct LocalTimerSetupNotchView: View {
     @ObservedObject var localTimerViewModel: LocalTimerViewModel
-    @Environment(\.isDynamicIsland) private var isDynamicIsland
+    @Environment(\.isNotchlessScreen) private var isNotchlessScreen
 
     @State private var selectedMinutes: Int = 15
     @State private var dragOffset: CGFloat = 0
@@ -35,8 +35,8 @@ struct LocalTimerSetupNotchView: View {
             bottomControls
                 .padding(.trailing, 4)
         }
-        .padding(.horizontal, isDynamicIsland ? 8 : 8)
-        .padding(.bottom, isDynamicIsland ? 8 : 5)
+        .padding(.horizontal, isNotchlessScreen ? 8 : 8)
+        .padding(.bottom, isNotchlessScreen ? 8 : 5)
     }
 
     private var rulerSection: some View {

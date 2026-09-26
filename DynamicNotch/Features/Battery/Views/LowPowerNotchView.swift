@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LowPowerNotchView: View {
-    @Environment(\.isDynamicIsland) private var isDynamicIsland
+    @Environment(\.isNotchlessScreen) private var isNotchlessScreen
     @ObservedObject var powerService: PowerService
     @State private var pulse = false
     
@@ -41,9 +41,9 @@ struct LowPowerNotchView: View {
                         }
                     }
                 }
-                .padding(.leading, isDynamicIsland ? 25 : 45)
-                .padding(.trailing, isDynamicIsland ? 20 : 40)
-                .padding(.bottom, isDynamicIsland ? 20 : 20)
+                .padding(.leading, isNotchlessScreen ? 25 : 45)
+                .padding(.trailing, isNotchlessScreen ? 20 : 40)
+                .padding(.bottom, isNotchlessScreen ? 20 : 20)
             }
         }
     }

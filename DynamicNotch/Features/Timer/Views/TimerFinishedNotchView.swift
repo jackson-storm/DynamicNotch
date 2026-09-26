@@ -5,7 +5,7 @@ struct TimerFinishedNotchView: View {
     let onRestart: (@MainActor () -> Void)?
 
     @Environment(\.notchScale) private var scale
-    @Environment(\.isDynamicIsland) private var isDynamicIsland
+    @Environment(\.isNotchlessScreen) private var isNotchlessScreen
 
     init(
         onDismiss: @escaping @MainActor () -> Void,
@@ -20,9 +20,9 @@ struct TimerFinishedNotchView: View {
             Spacer()
             content
         }
-        .padding(.leading, isDynamicIsland ? 18 : 38)
-        .padding(.trailing, isDynamicIsland ? 14 : 32)
-        .padding(.bottom, isDynamicIsland ? 14 : 12)
+        .padding(.leading, isNotchlessScreen ? 18 : 38)
+        .padding(.trailing, isNotchlessScreen ? 14 : 32)
+        .padding(.bottom, isNotchlessScreen ? 14 : 12)
         .onDisappear {
             TimerSoundPlayer.shared.stop()
         }

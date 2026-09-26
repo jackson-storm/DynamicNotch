@@ -2,7 +2,7 @@ import SwiftUI
 
 struct HudCompactContentView: View {
     @Environment(\.notchScale) private var scale
-    @Environment(\.isDynamicIsland) private var isDynamicIsland
+    @Environment(\.isNotchlessScreen) private var isNotchlessScreen
     
     let image: String
     let level: Int
@@ -23,7 +23,7 @@ struct HudCompactContentView: View {
     
     private var iconView: some View {
         Image(systemName: image)
-            .font(.system(size: isDynamicIsland ? 16 : 18))
+            .font(.system(size: isNotchlessScreen ? 16 : 18))
             .foregroundColor(.white)
     }
     
@@ -42,15 +42,15 @@ struct HudCompactContentView: View {
     
     private var trailingPadding: CGFloat {
         let basePadding = indicatorStyle == .circle
-            ? (isDynamicIsland ? 4 : 14)
-            : (isDynamicIsland ? 8 : 16)
+            ? (isNotchlessScreen ? 4 : 14)
+            : (isNotchlessScreen ? 8 : 16)
         return CGFloat(basePadding)
     }
     
     private var leadingPadding: CGFloat {
         let basePadding = indicatorStyle == .circle
-            ? (isDynamicIsland ? 4 : 14)
-            : (isDynamicIsland ? 4 : 14)
+            ? (isNotchlessScreen ? 4 : 14)
+            : (isNotchlessScreen ? 4 : 14)
         return CGFloat(basePadding)
     }
     
@@ -63,7 +63,7 @@ struct HudCompactContentView: View {
     }
     
     private var circleIndicatorSize: CGFloat {
-        isDynamicIsland ? 16 : 19
+        isNotchlessScreen ? 16 : 19
     }
     
     private var circleIndicatorLineWidth: CGFloat {

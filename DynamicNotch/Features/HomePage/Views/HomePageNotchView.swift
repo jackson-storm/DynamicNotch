@@ -56,7 +56,7 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
 }
 
 struct HomePageNotchView: View {
-    @Environment(\.isDynamicIsland) var isDynamicIsland
+    @Environment(\.isNotchlessScreen) var isNotchlessScreen
     
     let notchViewModel: NotchViewModel
     let settings: HomePageSettingsStore
@@ -161,8 +161,8 @@ struct HomePageNotchView: View {
             }
         }
         .clipShape(RoundedRectangle(cornerRadius: 20))
-        .padding(.horizontal, isDynamicIsland ? 8 : 33)
-        .padding(.bottom, isDynamicIsland ? 9 : 10)
+        .padding(.horizontal, isNotchlessScreen ? 8 : 33)
+        .padding(.bottom, isNotchlessScreen ? 9 : 10)
         .contentShape(Rectangle())
         .onChange(of: initialPage) { _, newPage in
             if newPage != currentPage && activePages.contains(newPage) {

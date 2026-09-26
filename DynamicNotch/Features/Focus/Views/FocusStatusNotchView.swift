@@ -10,7 +10,7 @@ internal import AppKit
 
 struct FocusStatusNotchView: View {
     @Environment(\.notchScale) var scale
-    @Environment(\.isDynamicIsland) var isDynamicIsland
+    @Environment(\.isNotchlessScreen) var isNotchlessScreen
 
     let title: String
     let tint: Color
@@ -35,8 +35,8 @@ struct FocusStatusNotchView: View {
             }
         }
         .foregroundStyle(tint)
-        .padding(.leading, isDynamicIsland ? 3.scaled(by: scale) : 14.scaled(by: scale))
-        .padding(.trailing, isDynamicIsland ? 6.scaled(by: scale) : 14.scaled(by: scale))
+        .padding(.leading, isNotchlessScreen ? 3.scaled(by: scale) : 14.scaled(by: scale))
+        .padding(.trailing, isNotchlessScreen ? 6.scaled(by: scale) : 14.scaled(by: scale))
     }
     
     private var iconsOnly: some View {
@@ -57,7 +57,7 @@ struct FocusStatusNotchView: View {
 
             Text(verbatim: title)
                 .font(.system(size: 14))
-                .padding(.bottom, isDynamicIsland ? 2 : 0)
+                .padding(.bottom, isNotchlessScreen ? 2 : 0)
         }
     }
 }

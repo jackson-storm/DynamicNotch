@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FullPowerNotchView: View {
-    @Environment(\.isDynamicIsland) private var isDynamicIsland
+    @Environment(\.isNotchlessScreen) private var isNotchlessScreen
     @ObservedObject var powerService: PowerService
     
     @State private var pulse = false
@@ -52,9 +52,9 @@ struct FullPowerNotchView: View {
                         }
                     }
                 }
-                .padding(.leading, isDynamicIsland ? 25 : 40)
-                .padding(.trailing, isDynamicIsland ? 20 : 35)
-                .padding(.bottom, isDynamicIsland ? 18 : 15)
+                .padding(.leading, isNotchlessScreen ? 25 : 40)
+                .padding(.trailing, isNotchlessScreen ? 20 : 35)
+                .padding(.bottom, isNotchlessScreen ? 18 : 15)
                 .onAppear {
                     showBatteryIndicator = true
                     changeBatteryIndicator = true

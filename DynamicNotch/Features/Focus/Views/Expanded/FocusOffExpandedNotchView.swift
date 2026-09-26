@@ -13,7 +13,7 @@ struct FocusOffExpandedNotchView: View {
     
     @ObservedObject private var manager: DoNotDisturbManager
     @Environment(\.notchScale) private var scale
-    @Environment(\.isDynamicIsland) private var isDynamicIsland
+    @Environment(\.isNotchlessScreen) private var isNotchlessScreen
 
     init(
         focusModeType: FocusModeType,
@@ -52,8 +52,8 @@ struct FocusOffExpandedNotchView: View {
                     .padding(.trailing, 5)
             }
         }
-        .padding(.horizontal, isDynamicIsland ? 15 : 40)
-        .padding(.bottom, isDynamicIsland ? 15 : 15)
+        .padding(.horizontal, isNotchlessScreen ? 15 : 40)
+        .padding(.bottom, isNotchlessScreen ? 15 : 15)
     }
     
     private var activeFocusModeType: FocusModeType {

@@ -10,7 +10,7 @@ import SwiftUI
 struct NotchSizeWidthNotchView: View {
     @ObservedObject var settingsViewModel: SettingsViewModel
     @Environment(\.notchScale) private var scale
-    @Environment(\.isDynamicIsland) private var isDynamicIsland
+    @Environment(\.isNotchlessScreen) private var isNotchlessScreen
     
     var body: some View {
         VStack {
@@ -19,14 +19,14 @@ struct NotchSizeWidthNotchView: View {
             HStack {
                 Image(systemName: "chevron.left")
                 Spacer()
-                AnimatedLevelText(level: settingsViewModel.notchWidth, fontSize: isDynamicIsland ? 16 : 18)
+                AnimatedLevelText(level: settingsViewModel.notchWidth, fontSize: isNotchlessScreen ? 16 : 18)
                 Spacer()
                 Image(systemName: "chevron.right")
             }
         }
         .font(.system(size: 18))
         .foregroundColor(.white)
-        .padding(.horizontal, isDynamicIsland ? 12.scaled(by: scale) : 14.scaled(by: scale))
+        .padding(.horizontal, isNotchlessScreen ? 12.scaled(by: scale) : 14.scaled(by: scale))
         .padding(.bottom, 10)
     }
 }

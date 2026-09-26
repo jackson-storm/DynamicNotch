@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct NoInternetConnectionView: View {
-    @Environment(\.isDynamicIsland) var isDynamicIsland
+    @Environment(\.isNotchlessScreen) var isNotchlessScreen
     
     let onDismiss: @MainActor () -> Void
     let onOpenNetworkSettings: @MainActor () -> Void
@@ -26,7 +26,7 @@ struct NoInternetConnectionView: View {
 
             actionButton
         }
-        .padding(.horizontal, isDynamicIsland ? 10 : 35)
+        .padding(.horizontal, isNotchlessScreen ? 10 : 35)
         .padding(.bottom, 10)
     }
 

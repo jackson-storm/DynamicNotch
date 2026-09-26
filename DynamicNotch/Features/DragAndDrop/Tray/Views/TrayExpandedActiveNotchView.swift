@@ -11,7 +11,7 @@ internal import AppKit
 
 struct TrayExpandedActiveNotchView: View {
     @Environment(\.notchScale) private var scale
-    @Environment(\.isDynamicIsland) private var isDynamicIsland
+    @Environment(\.isNotchlessScreen) private var isNotchlessScreen
     @ObservedObject var fileTrayViewModel: FileTrayViewModel
     @ObservedObject var mediaSettings: MediaAndFilesSettingsStore
 
@@ -21,8 +21,8 @@ struct TrayExpandedActiveNotchView: View {
                 header
                 Spacer()
             }
-            .padding(.top, isDynamicIsland ? 8.scaled(by: scale) : 4.scaled(by: scale))
-            .padding(.horizontal, isDynamicIsland ? 30 : 42)
+            .padding(.top, isNotchlessScreen ? 8.scaled(by: scale) : 4.scaled(by: scale))
+            .padding(.horizontal, isNotchlessScreen ? 30 : 42)
             
             VStack(alignment: .leading) {
                 Spacer()
@@ -35,8 +35,8 @@ struct TrayExpandedActiveNotchView: View {
                     ScrollFadeMask(cornerRadius: 24, maskType: .all)
                 }
             }
-            .padding(.horizontal, isDynamicIsland ? 20 : 34)
-            .padding(.bottom, isDynamicIsland ? 7 : 14)
+            .padding(.horizontal, isNotchlessScreen ? 20 : 34)
+            .padding(.bottom, isNotchlessScreen ? 7 : 14)
         }
     }
 

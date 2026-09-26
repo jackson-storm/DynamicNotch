@@ -10,28 +10,47 @@ import SwiftUI
 extension AnyTransition {
     static var blurAndFade: AnyTransition {
         .modifier(
-            active: BlurFadeModifier(blur: 20, opacity: 0),
+            active: BlurFadeModifier(blur: 15, opacity: 0),
             identity: BlurFadeModifier(blur: 0, opacity: 1)
         )
     }
 
-    static func notchContent(notchWidth: CGFloat = 0, notchHeight: CGFloat, baseWidth: CGFloat = 0, baseHeight: CGFloat, isExpandedPresentation: Bool) -> AnyTransition {
+    static func notchContent(
+        notchWidth: CGFloat = 0,
+        notchHeight: CGFloat,
+        baseWidth: CGFloat = 0,
+        baseHeight: CGFloat,
+        isExpandedPresentation: Bool,
+        isNotchlessScreen: Bool = false
+    ) -> AnyTransition {
         if isExpandedPresentation {
             return notchExpanded(
                 notchHeight: notchHeight,
-                baseHeight: baseHeight
+                baseHeight: baseHeight,
+                isNotchlessScreen: isNotchlessScreen
             )
         }
         return notchCompact(
             notchWidth: notchWidth,
             notchHeight: notchHeight,
             baseWidth: baseWidth,
-            baseHeight: baseHeight
+            baseHeight: baseHeight,
+            isNotchlessScreen: isNotchlessScreen
         )
     }
 
-    static func notchCompact(notchWidth: CGFloat = 0, notchHeight: CGFloat, baseWidth: CGFloat = 0, baseHeight: CGFloat) -> AnyTransition {
-        let verticalOffset = NotchTransitionMetrics.verticalCompensationOffset(for: notchHeight, baseHeight: baseHeight)
+    static func notchCompact(
+        notchWidth: CGFloat = 0,
+        notchHeight: CGFloat,
+        baseWidth: CGFloat = 0,
+        baseHeight: CGFloat,
+        isNotchlessScreen: Bool = false
+    ) -> AnyTransition {
+        let verticalOffset = NotchTransitionMetrics.verticalCompensationOffset(
+            for: notchHeight,
+            baseHeight: baseHeight,
+            isNotchlessScreen: isNotchlessScreen
+        )
         let scaleX = NotchTransitionMetrics.compactScaleX(for: notchWidth, baseWidth: baseWidth)
         let scaleY = NotchTransitionMetrics.compactScaleY(for: notchHeight, baseHeight: baseHeight)
         
@@ -61,8 +80,16 @@ extension AnyTransition {
         )
     }
 
-    static func notchExpanded(notchHeight: CGFloat, baseHeight: CGFloat) -> AnyTransition {
-        let verticalOffset = NotchTransitionMetrics.verticalCompensationOffset(for: notchHeight, baseHeight: baseHeight)
+    static func notchExpanded(
+        notchHeight: CGFloat,
+        baseHeight: CGFloat,
+        isNotchlessScreen: Bool = false
+    ) -> AnyTransition {
+        let verticalOffset = NotchTransitionMetrics.verticalCompensationOffset(
+            for: notchHeight,
+            baseHeight: baseHeight,
+            isNotchlessScreen: isNotchlessScreen
+        )
         
         return .asymmetric(
             insertion: .modifier(

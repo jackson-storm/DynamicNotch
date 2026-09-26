@@ -10,7 +10,7 @@ import Combine
 internal import AppKit
 
 struct VpnPageNotchView: View {
-    @Environment(\.isDynamicIsland) private var isDynamicIsland
+    @Environment(\.isNotchlessScreen) private var isNotchlessScreen
     @StateObject private var viewModel = VpnPageViewModel()
     @AppStorage("settings.vpn.selectedID") private var selectedVPNID: String = ""
     
@@ -96,7 +96,7 @@ struct VpnPageNotchView: View {
             
             buttons(for: vpn)
         }
-        .padding(.horizontal, isDynamicIsland ? 2 : 4)
+        .padding(.horizontal, isNotchlessScreen ? 2 : 4)
     }
     
     @ViewBuilder

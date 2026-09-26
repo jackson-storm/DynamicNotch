@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ExternalDrivesNotificationsSettingsView: View {
-    @ObservedObject var settings: NotificationsSettingsStore
+    @ObservedObject var settings: ExternalDevicesSettingsStore
 
     private var notificationDurationRange: ClosedRange<Double> {
         Double(SettingsStoreBase.notificationDurationRange.lowerBound)...Double(SettingsStoreBase.notificationDurationRange.upperBound)

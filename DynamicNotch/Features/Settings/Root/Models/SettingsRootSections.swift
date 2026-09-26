@@ -87,11 +87,13 @@ extension SettingsRootViewModel {
         case downloads
         case drop
         
-        case notifications
         case hud
         case calendar
+        case externalDevices
         case screenRecording
         case lockScreen
+
+        static var notifications: Section { .externalDevices }
 
         var id: String { rawValue }
 
@@ -169,6 +171,8 @@ extension SettingsRootViewModel {
                 return .wifi
             case "calendar", "events":
                 return .calendar
+            case "notifications", "externalDrives", "externalDevices":
+                return .externalDevices
             default:
                 return Self(rawValue: storedValue ?? "") ?? .general
             }
@@ -316,23 +320,25 @@ private enum SettingsSectionCatalog {
                 resetGroup: .calendar
             )
             
-        case .notifications:
+        case .externalDevices:
             return .init(
                 sidebarGroup: .system,
                 titleKey: "settings.section.notifications.title",
-                fallbackTitle: "Notifications",
+                fallbackTitle: "External Devices",
                 subtitleKey: "settings.section.notifications.subtitle",
-                fallbackSubtitle: "Configure notifications shown in the notch.",
+                fallbackSubtitle: "Notifications and settings for connected external devices.",
                 searchKeywords: [
                     "notifications",
+                    "external devices",
+                    "devices",
                     "external drives",
                     "drives",
                     "disks"
                 ],
-                systemImage: "bell.badge.fill",
+                systemImage: "externaldrive.fill",
                 imageName: nil,
-                tint: .red,
-                resetGroup: .notifications
+                tint: .gray,
+                resetGroup: .externalDevices
             )
 
         case .downloads:

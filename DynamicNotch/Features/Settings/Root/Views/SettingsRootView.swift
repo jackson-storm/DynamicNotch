@@ -463,10 +463,10 @@ struct SettingsRootView: View {
                 )
             }
 
-        case .notifications:
+        case .externalDevices:
             detailContainer(for: section) {
-                NotificationsSettingsView(
-                    settings: settingsViewModel.notifications
+                ExternalDevicesSettingsView(
+                    settings: settingsViewModel.externalDevices
                 )
             }
             
@@ -667,7 +667,7 @@ struct SettingsRootView: View {
             )
         case .externalDrives:
             ExternalDrivesNotificationsSettingsView(
-                settings: settingsViewModel.notifications
+                settings: settingsViewModel.externalDevices
             )
         }
     }
@@ -714,7 +714,7 @@ struct SettingsRootView: View {
         case .homePagePages:
             settingsViewModel.homePage.resetHomePage()
         case .externalDrives:
-            settingsViewModel.notifications.reset()
+            settingsViewModel.externalDevices.reset()
         default:
             break
         }

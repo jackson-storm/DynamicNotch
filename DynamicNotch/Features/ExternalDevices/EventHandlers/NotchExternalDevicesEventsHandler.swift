@@ -1,5 +1,5 @@
 //
-//  NotchNotificationsEventsHandler.swift
+//  NotchExternalDevicesEventsHandler.swift
 //  DynamicNotch
 //
 
@@ -8,7 +8,7 @@ import Combine
 internal import AppKit
 
 @MainActor
-final class NotchNotificationsEventsHandler {
+final class NotchExternalDevicesEventsHandler {
     private let notchViewModel: NotchViewModel
     private let settingsViewModel: SettingsViewModel
     private let externalDrivesMonitor: ExternalDrivesMonitor
@@ -57,4 +57,6 @@ final class NotchNotificationsEventsHandler {
         notchViewModel.send(.showTemporaryNotification(content, duration: duration))
     }
 }
+
+typealias NotchNotificationsEventsHandler = NotchExternalDevicesEventsHandler
 

@@ -119979,235 +119979,235 @@
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "نشاط الإشعارات"
+            "value": "نشاط الأجهزة الخارجية"
           }
         },
         "bg": {
           "stringUnit": {
             "state": "translated",
-            "value": "Дейност на известията"
+            "value": "Дейност на външните устройства"
           }
         },
         "bn": {
           "stringUnit": {
             "state": "translated",
-            "value": "বিজ্ঞপ্তি অ্যাক্টিভিটি"
+            "value": "বাহ্যিক ডিভাইসের অ্যাক্টিভিটি"
           }
         },
         "ca": {
           "stringUnit": {
             "state": "translated",
-            "value": "Activitat de notificacions"
+            "value": "Activitat de dispositius externs"
           }
         },
         "cs": {
           "stringUnit": {
             "state": "translated",
-            "value": "Aktivita oznámení"
+            "value": "Aktivita externích zařízení"
           }
         },
         "da": {
           "stringUnit": {
             "state": "translated",
-            "value": "Notifikationsaktivitet"
+            "value": "Aktivitet for eksterne enheder"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mitteilungs-Aktivität"
+            "value": "Aktivität externer Geräte"
           }
         },
         "el": {
           "stringUnit": {
             "state": "translated",
-            "value": "Δραστηριότητα γνωστοποιήσεων"
+            "value": "Δραστηριότητα εξωτερικών συσκευών"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Notification activity"
+            "value": "External devices activity"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Actividad de notificaciones"
+            "value": "Actividad de dispositivos externos"
           }
         },
         "fa": {
           "stringUnit": {
             "state": "translated",
-            "value": "فعالیت اعلان‌ها"
+            "value": "فعالیت دستگاه‌های خارجی"
           }
         },
         "fi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ilmoitustoiminta"
+            "value": "Ulkoisten laitteiden toiminta"
           }
         },
         "fil": {
           "stringUnit": {
             "state": "translated",
-            "value": "Aktibidad ng Mga Notification"
+            "value": "Aktibidad ng mga panlabas na device"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Activité de notifications"
+            "value": "Activité des appareils externes"
           }
         },
         "he": {
           "stringUnit": {
             "state": "translated",
-            "value": "פעילות עדכונים"
+            "value": "פעילות התקנים חיצוניים"
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "सूचना गतिविधि"
+            "value": "बाहरी उपकरणों की गतिविधि"
           }
         },
         "hr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Aktivnost obavijesti"
+            "value": "Aktivnost vanjskih uređaja"
           }
         },
         "hu": {
           "stringUnit": {
             "state": "translated",
-            "value": "Értesítési tevékenység"
+            "value": "Külső eszközök tevékenysége"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Aktivitas Pemberitahuan"
+            "value": "Aktivitas perangkat eksternal"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Attività notifiche"
+            "value": "Attività dispositivi esterni"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "通知アクティビティ"
+            "value": "外部デバイスアクティビティ"
           }
         },
         "kk": {
           "stringUnit": {
             "state": "translated",
-            "value": "Хабарландырулар әрекеті"
+            "value": "Сыртқы құрылғылар әрекеті"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "알림 활동"
+            "value": "외장 기기 활동"
           }
         },
         "ms": {
           "stringUnit": {
             "state": "translated",
-            "value": "Aktiviti pemberitahuan"
+            "value": "Aktiviti peranti luar"
           }
         },
         "nb": {
           "stringUnit": {
             "state": "translated",
-            "value": "Varslingsaktivitet"
+            "value": "Aktivitet for eksterne enheter"
           }
         },
         "nl": {
           "stringUnit": {
             "state": "translated",
-            "value": "Meldingenactiviteit"
+            "value": "Activiteit externe apparaten"
           }
         },
         "pl": {
           "stringUnit": {
             "state": "translated",
-            "value": "Aktywność powiadomień"
+            "value": "Aktywność urządzeń zewnętrznych"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Atividade de notificações"
+            "value": "Atividade de dispositivos externos"
           }
         },
         "ro": {
           "stringUnit": {
             "state": "translated",
-            "value": "Activitate notificări"
+            "value": "Activitate dispozitive externe"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Активность уведомлений"
+            "value": "Активность внешних устройств"
           }
         },
         "sk": {
           "stringUnit": {
             "state": "translated",
-            "value": "Aktivita hlásení"
+            "value": "Aktivita externých zariadení"
           }
         },
         "sr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Активност обавештења"
+            "value": "Активност спољних уређаја"
           }
         },
         "sv": {
           "stringUnit": {
             "state": "translated",
-            "value": "Notisaktivitet"
+            "value": "Aktivitet för externa enheter"
           }
         },
         "th": {
           "stringUnit": {
             "state": "translated",
-            "value": "กิจกรรมการแจ้งเตือน"
+            "value": "กิจกรรมอุปกรณ์ภายนอก"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Bildirim etkinliği"
+            "value": "Harici aygıt etkinliği"
           }
         },
         "uk": {
           "stringUnit": {
             "state": "translated",
-            "value": "Активність сповіщень"
+            "value": "Активність зовнішніх пристроїв"
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Hoạt động thông báo"
+            "value": "Hoạt động thiết bị ngoài"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "通知活动"
+            "value": "外部设备活动"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "通知活動"
+            "value": "外接裝置活動"
           }
         }
       }
@@ -149137,235 +149137,235 @@
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "تكوين الإشعارات المعروضة في النوتش."
+            "value": "الإشعارات والإعدادات للأجهزة الخارجية المتصلة."
           }
         },
         "bg": {
           "stringUnit": {
             "state": "translated",
-            "value": "Конфигуриране на известията, показвани в прореза."
+            "value": "Известия и настройки за свързани външни устройства."
           }
         },
         "bn": {
           "stringUnit": {
             "state": "translated",
-            "value": "নচে প্রদর্শিত বিজ্ঞপ্তি কনফিগার করুন।"
+            "value": "সংযুক্ত বাহ্যিক ডিভাইসের জন্য বিজ্ঞপ্তি এবং সেটিংস।"
           }
         },
         "ca": {
           "stringUnit": {
             "state": "translated",
-            "value": "Configura les notificacions que es mostren a la pestanya."
+            "value": "Notificacions i configuració per a dispositius externs connectats."
           }
         },
         "cs": {
           "stringUnit": {
             "state": "translated",
-            "value": "Nastavení oznámení zobrazovaných ve výřezu."
+            "value": "Oznámení a nastavení pro připojená externí zařízení."
           }
         },
         "da": {
           "stringUnit": {
             "state": "translated",
-            "value": "Konfigurer notifikationer, der vises i hakket."
+            "value": "Notifikationer og indstillinger for tilsluttede eksterne enheder."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "In der Notch angezeigte Mitteilungen konfigurieren."
+            "value": "Mitteilungen und Einstellungen für verbundene externe Geräte."
           }
         },
         "el": {
           "stringUnit": {
             "state": "translated",
-            "value": "Διαμόρφωση γνωστοποιήσεων που εμφανίζονται στην εγκοπή."
+            "value": "Γνωστοποιήσεις και ρυθμίσεις για συνδεδεμένες εξωτερικές συσκευές."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Configure notifications shown in the notch."
+            "value": "Notifications and settings for connected external devices."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Configura las notificaciones que se muestran en el notch."
+            "value": "Notificaciones y ajustes para dispositivos externos conectados."
           }
         },
         "fa": {
           "stringUnit": {
             "state": "translated",
-            "value": "پیکربندی اعلان‌های نمایش داده شده در ناچ."
+            "value": "اعلان‌ها و تنظیمات برای دستگاه‌های خارجی متصل‌شده."
           }
         },
         "fi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Määritä lovessa näytettävät ilmoitukset."
+            "value": "Liitettyjen ulkoisten laitteiden ilmoitukset ja asetukset."
           }
         },
         "fil": {
           "stringUnit": {
             "state": "translated",
-            "value": "I-configure ang mga notification na ipinapakita sa notch."
+            "value": "Mga notification at setting para sa mga nakakonektang panlabas na device."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Configurer les notifications affichées dans l'encoche."
+            "value": "Notifications et réglages pour les appareils externes connectés."
           }
         },
         "he": {
           "stringUnit": {
             "state": "translated",
-            "value": "הגדר עדכונים המוצגים במגרעת."
+            "value": "התראות והגדרות עבור התקנים חיצוניים מחוברים."
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "नॉच में दिखाए जाने वाले नोटिफ़िकेशन कॉन्फ़िगर करें।"
+            "value": "कनेक्टेड बाहरी उपकरणों के लिए सूचनाएं और सेटिंग्स।"
           }
         },
         "hr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Konfigurirajte obavijesti prikazane u usjeku."
+            "value": "Obavijesti i postavke za povezane vanjske uređaje."
           }
         },
         "hu": {
           "stringUnit": {
             "state": "translated",
-            "value": "A kivágásban megjelenő értesítések beállítása."
+            "value": "Értesítések és beállítások a csatlakoztatott külső eszközökhöz."
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Konfigurasikan pemberitahuan yang ditampilkan di notch."
+            "value": "Pemberitahuan dan pengaturan untuk perangkat eksternal yang terhubung."
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Configura le notifiche mostrate nel notch."
+            "value": "Notifiche e impostazioni per i dispositivi esterni collegati."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "ノッチに表示される通知を設定します。"
+            "value": "接続された外部デバイスの通知と設定。"
           }
         },
         "kk": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ойықта көрсетілетін хабарландыруларды баптау."
+            "value": "Қосылған сыртқы құрылғылар үшін хабарландырулар мен баптаулар."
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "노치에 표시되는 알림을 구성합니다."
+            "value": "연결된 외장 기기에 대한 알림 및 설정."
           }
         },
         "ms": {
           "stringUnit": {
             "state": "translated",
-            "value": "Konfigurasikan pemberitahuan yang ditunjukkan di takuk."
+            "value": "Pemberitahuan dan tetapan untuk peranti luar yang disambungkan."
           }
         },
         "nb": {
           "stringUnit": {
             "state": "translated",
-            "value": "Konfigurer varsler som vises i utskjæringen."
+            "value": "Varsler og innstillinger for tilkoblede eksterne enheter."
           }
         },
         "nl": {
           "stringUnit": {
             "state": "translated",
-            "value": "Configureer meldingen die in de notch worden weergegeven."
+            "value": "Meldingen en instellingen voor aangesloten externe apparaten."
           }
         },
         "pl": {
           "stringUnit": {
             "state": "translated",
-            "value": "Skonfiguruj powiadomienia wyświetlane we wcięciu."
+            "value": "Powiadomienia i ustawienia dla podłączonych urządzeń zewnętrznych."
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Configurar as notificações apresentadas no notch."
+            "value": "Notificações e definições para dispositivos externos ligados."
           }
         },
         "ro": {
           "stringUnit": {
             "state": "translated",
-            "value": "Configurați notificările afișate în decupaj."
+            "value": "Notificări și setări pentru dispozitivele externe conectate."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Настройка уведомлений, отображаемых в вырезе."
+            "value": "Уведомления и параметры для подключенных внешних устройств."
           }
         },
         "sk": {
           "stringUnit": {
             "state": "translated",
-            "value": "Nastavte hlásenia zobrazované vo výreze."
+            "value": "Hlásenia a nastavenia pre pripojené externé zariadenia."
           }
         },
         "sr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Подесите обавештења која се приказују у зарезу."
+            "value": "Обавештења и подешавања за повезане спољне уређаје."
           }
         },
         "sv": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ställ in notiser som visas i sensorhuset."
+            "value": "Notiser och inställningar för anslutna externa enheter."
           }
         },
         "th": {
           "stringUnit": {
             "state": "translated",
-            "value": "กำหนดค่าการแจ้งเตือนที่แสดงในรอยบาก"
+            "value": "การแจ้งเตือนและการตั้งค่าสำหรับอุปกรณ์ภายนอกที่เชื่อมต่อ"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Çentikte gösterilen bildirimleri yapılandırın."
+            "value": "Bağlı harici aygıtlar için bildirimler ve ayarlar."
           }
         },
         "uk": {
           "stringUnit": {
             "state": "translated",
-            "value": "Налаштування сповіщень, що відображаються у вирізі."
+            "value": "Сповіщення та налаштування для підключених зовнішніх пристроїв."
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Cấu hình thông báo hiển thị trong phần khuyết."
+            "value": "Thông báo và cài đặt cho các thiết bị ngoài được kết nối."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "配置在刘海中显示的通知。"
+            "value": "已连接外部设备的通知与设置。"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "設定在瀏海中顯示的通知。"
+            "value": "已連接外接裝置的通知與設定。"
           }
         }
       }
@@ -149376,235 +149376,235 @@
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "الإشعارات"
+            "value": "الأجهزة الخارجية"
           }
         },
         "bg": {
           "stringUnit": {
             "state": "translated",
-            "value": "Известия"
+            "value": "Външни устройства"
           }
         },
         "bn": {
           "stringUnit": {
             "state": "translated",
-            "value": "বিজ্ঞপ্তি"
+            "value": "বাহ্যিক ডিভাইস"
           }
         },
         "ca": {
           "stringUnit": {
             "state": "translated",
-            "value": "Notificacions"
+            "value": "Dispositius externs"
           }
         },
         "cs": {
           "stringUnit": {
             "state": "translated",
-            "value": "Oznámení"
+            "value": "Externí zařízení"
           }
         },
         "da": {
           "stringUnit": {
             "state": "translated",
-            "value": "Notifikationer"
+            "value": "Eksterne enheder"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mitteilungen"
+            "value": "Externe Geräte"
           }
         },
         "el": {
           "stringUnit": {
             "state": "translated",
-            "value": "Γνωστοποιήσεις"
+            "value": "Εξωτερικές συσκευές"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Notifications"
+            "value": "External Devices"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Notificaciones"
+            "value": "Dispositivos externos"
           }
         },
         "fa": {
           "stringUnit": {
             "state": "translated",
-            "value": "اعلان‌ها"
+            "value": "دستگاه‌های خارجی"
           }
         },
         "fi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ilmoitukset"
+            "value": "Ulkoiset laitteet"
           }
         },
         "fil": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mga Notification"
+            "value": "Mga Panlabas na Device"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Notifications"
+            "value": "Appareils externes"
           }
         },
         "he": {
           "stringUnit": {
             "state": "translated",
-            "value": "עדכונים"
+            "value": "התקנים חיצוניים"
           }
         },
         "hi": {
           "stringUnit": {
             "state": "translated",
-            "value": "सूचनाएं"
+            "value": "बाहरी उपकरण"
           }
         },
         "hr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Obavijesti"
+            "value": "Vanjski uređaji"
           }
         },
         "hu": {
           "stringUnit": {
             "state": "translated",
-            "value": "Értesítések"
+            "value": "Külső eszközök"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Pemberitahuan"
+            "value": "Perangkat Eksternal"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Notifiche"
+            "value": "Dispositivi esterni"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "通知"
+            "value": "外部デバイス"
           }
         },
         "kk": {
           "stringUnit": {
             "state": "translated",
-            "value": "Хабарландырулар"
+            "value": "Сыртқы құрылғылар"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "알림"
+            "value": "외장 기기"
           }
         },
         "ms": {
           "stringUnit": {
             "state": "translated",
-            "value": "Pemberitahuan"
+            "value": "Peranti Luar"
           }
         },
         "nb": {
           "stringUnit": {
             "state": "translated",
-            "value": "Varslinger"
+            "value": "Eksterne enheter"
           }
         },
         "nl": {
           "stringUnit": {
             "state": "translated",
-            "value": "Meldingen"
+            "value": "Externe apparaten"
           }
         },
         "pl": {
           "stringUnit": {
             "state": "translated",
-            "value": "Powiadomienia"
+            "value": "Urządzenia zewnętrzne"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Notificações"
+            "value": "Dispositivos Externos"
           }
         },
         "ro": {
           "stringUnit": {
             "state": "translated",
-            "value": "Notificări"
+            "value": "Dispozitive externe"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Уведомления"
+            "value": "Внешние устройства"
           }
         },
         "sk": {
           "stringUnit": {
             "state": "translated",
-            "value": "Hlásenia"
+            "value": "Externé zariadenia"
           }
         },
         "sr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Обавештења"
+            "value": "Спољни уређаји"
           }
         },
         "sv": {
           "stringUnit": {
             "state": "translated",
-            "value": "Notiser"
+            "value": "Externa enheter"
           }
         },
         "th": {
           "stringUnit": {
             "state": "translated",
-            "value": "การแจ้งเตือน"
+            "value": "อุปกรณ์ภายนอก"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Bildirimler"
+            "value": "Harici Aygıtlar"
           }
         },
         "uk": {
           "stringUnit": {
             "state": "translated",
-            "value": "Сповіщення"
+            "value": "Зовнішні пристрої"
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Thông báo"
+            "value": "Thiết bị ngoài"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "通知"
+            "value": "外部设备"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "通知"
+            "value": "外接裝置"
           }
         }
       }

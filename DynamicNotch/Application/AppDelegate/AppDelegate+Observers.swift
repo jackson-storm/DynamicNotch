@@ -68,7 +68,7 @@ extension AppDelegate {
                 }
             }
             .store(in: &cancellables)
-        settingsViewModel.notifications.$isExternalDrivesNotificationsEnabled
+        settingsViewModel.externalDevices.$isExternalDrivesNotificationsEnabled
             .removeDuplicates()
             .sink { [weak self] _ in
                 self?.updateExternalDrivesMonitoringState()
@@ -174,7 +174,7 @@ extension AppDelegate {
     func updateExternalDrivesMonitoringState() {
         guard !isRunningUITests else { return }
 
-        let isEnabled = settingsViewModel.notifications.isExternalDrivesNotificationsEnabled
+        let isEnabled = settingsViewModel.externalDevices.isExternalDrivesNotificationsEnabled
 
         if isEnabled {
             externalDrivesMonitor.startMonitoring()

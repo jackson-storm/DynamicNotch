@@ -2,7 +2,7 @@ import Combine
 import Foundation
 
 @MainActor
-final class NotificationsSettingsStore: SettingsStoreBase {
+final class ExternalDevicesSettingsStore: SettingsStoreBase {
     @StoredDefault(key: GeneralSettingsStorage.Keys.externalDrivesNotificationsEnabled, defaultValue: true)
     var isExternalDrivesNotificationsEnabled: Bool
 
@@ -26,4 +26,6 @@ final class NotificationsSettingsStore: SettingsStoreBase {
         isExternalDrivesShowEjectedEnabled = defaultBool(for: GeneralSettingsStorage.Keys.externalDrivesShowEjected)
     }
 }
+
+typealias NotificationsSettingsStore = ExternalDevicesSettingsStore
 

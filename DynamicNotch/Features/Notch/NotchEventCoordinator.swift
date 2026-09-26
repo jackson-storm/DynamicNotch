@@ -26,7 +26,7 @@ final class NotchEventCoordinator: ObservableObject {
     private let homePageHandler: NotchHomePageEventsHandler
     private let localTimerHandler: NotchLocalTimerEventsHandler
     private let calendarHandler: NotchCalendarEventsHandler
-    private let notificationsHandler: NotchNotificationsEventsHandler
+    private let externalDevicesHandler: NotchExternalDevicesEventsHandler
     private let screenshotHandler: NotchScreenshotEventsHandler
     private let screenRecordingHandler: NotchScreenRecordingEventsHandler
     private let lockScreenHandler: NotchLockScreenEventsHandler
@@ -155,7 +155,7 @@ final class NotchEventCoordinator: ObservableObject {
             timerViewModel: timerViewModel,
             settingsViewModel: settingsViewModel
         )
-        self.notificationsHandler = NotchNotificationsEventsHandler(
+        self.externalDevicesHandler = NotchExternalDevicesEventsHandler(
             notchViewModel: notchViewModel,
             settingsViewModel: settingsViewModel,
             externalDrivesMonitor: externalDrivesMonitor
@@ -340,7 +340,7 @@ final class NotchEventCoordinator: ObservableObject {
     }
 
     func handleExternalDriveEvent(_ drive: ExternalDriveModel) {
-        notificationsHandler.handleExternalDriveEvent(drive)
+        externalDevicesHandler.handleExternalDriveEvent(drive)
     }
 
     private func setupEventSubscriptions(

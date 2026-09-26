@@ -34,10 +34,6 @@ struct DebugOnboardingPreviewNotchContent: NotchContentProtocol, DynamicIslandCu
         baseHeight * 0.2
     }
     
-    func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        step.dynamicIslandSize(baseWidth: baseWidth, baseHeight: baseHeight)
-    }
-    
     @MainActor
     func makeView() -> AnyView {
         AnyView(

@@ -714,17 +714,11 @@ struct DebugSequenceNotchContent: NotchContentProtocol, DynamicIslandCustomizabl
     }
 
     func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        if let customizable = base as? DynamicIslandCustomizable {
-            return customizable.dynamicIslandSize(baseWidth: baseWidth, baseHeight: baseHeight)
-        }
-        return base.size(baseWidth: baseWidth, baseHeight: baseHeight)
+        base.dynamicIslandSize(baseWidth: baseWidth, baseHeight: baseHeight)
     }
 
     func expandedDynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        if let customizable = base as? DynamicIslandCustomizable {
-            return customizable.expandedDynamicIslandSize(baseWidth: baseWidth, baseHeight: baseHeight)
-        }
-        return base.expandedSize(baseWidth: baseWidth, baseHeight: baseHeight)
+        base.expandedDynamicIslandSize(baseWidth: baseWidth, baseHeight: baseHeight)
     }
     
     func cornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
@@ -736,17 +730,11 @@ struct DebugSequenceNotchContent: NotchContentProtocol, DynamicIslandCustomizabl
     }
     
     func dynamicIslandCornerRadius(baseHeight: CGFloat) -> CGFloat {
-        if let customizable = base as? DynamicIslandCustomizable {
-            return customizable.dynamicIslandCornerRadius(baseHeight: baseHeight)
-        }
-        return baseHeight * 0.5
+        base.dynamicIslandCornerRadius(baseHeight: baseHeight)
     }
     
     func expandedDynamicIslandCornerRadius(baseHeight: CGFloat) -> CGFloat {
-        if let customizable = base as? DynamicIslandCustomizable {
-            return customizable.expandedDynamicIslandCornerRadius(baseHeight: baseHeight)
-        }
-        return baseHeight * 0.2
+        base.expandedDynamicIslandCornerRadius(baseHeight: baseHeight)
     }
     
     @MainActor

@@ -29,19 +29,6 @@ struct CameraActiveNotchContent: NotchContentProtocol, DynamicIslandCustomizable
         }
     }
 
-    func expandedDynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        let isStarted = UserDefaults.standard.bool(forKey: "isCameraStarted")
-        let isLarge = UserDefaults.standard.bool(forKey: "isCameraLarge")
-        
-        if !isStarted {
-            return .init(width: baseWidth + 95, height: baseHeight + 125)
-        }
-        if isLarge {
-            return .init(width: baseWidth + 280, height: baseHeight + 220)
-        } else {
-            return .init(width: baseWidth + 210, height: baseHeight + 180)
-        }
-    }
     
     func expandedDynamicIslandCornerRadius(baseHeight: CGFloat) -> CGFloat {
         let isStarted = UserDefaults.standard.bool(forKey: "isCameraStarted")

@@ -22,10 +22,6 @@ struct ChargerNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
         return .init(width: baseWidth + 180, height: baseHeight)
     }
     
-    func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        return .init(width: baseWidth + 150, height: baseHeight)
-    }
-    
     @MainActor
     func makeView() -> AnyView {
         AnyView(ChargerNotchView(powerService: powerService))

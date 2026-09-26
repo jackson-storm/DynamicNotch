@@ -38,10 +38,6 @@ struct OnboardingNotchContent : NotchContentProtocol, DynamicIslandCustomizable 
         baseHeight * 0.2
     }
     
-    func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        step.notchSize(baseWidth: baseWidth, baseHeight: baseHeight)
-    }
-    
     @MainActor
     func makeView() -> AnyView {
         AnyView(

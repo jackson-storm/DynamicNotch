@@ -27,16 +27,8 @@ struct TrayActiveNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
         (top: 24, bottom: 34)
     }
     
-    func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        return .init(width: baseWidth + 40, height: baseHeight)
-    }
-    
     func expandedDynamicIslandCornerRadius(baseHeight: CGFloat) -> CGFloat {
         baseHeight * 0.2
-    }
-    
-    func expandedDynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        return .init(width: baseWidth + 260, height: baseHeight + 120)
     }
     
     @MainActor

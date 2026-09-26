@@ -20,13 +20,6 @@ struct ExternalDriveNotchContent: NotchContentProtocol, DynamicIslandCustomizabl
         )
     }
 
-    func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        .init(
-            width: baseWidth + 170,
-            height: baseHeight + 60
-        )
-    }
-
     func dynamicIslandCornerRadius(baseHeight: CGFloat) -> CGFloat {
         baseHeight * 0.5
     }

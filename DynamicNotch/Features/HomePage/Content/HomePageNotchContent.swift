@@ -51,26 +51,12 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
         return .init(width: baseWidth, height: baseHeight)
     }
     
-    func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        return .init(width: baseWidth, height: baseHeight)
-    }
-    
     func expandedDynamicIslandCornerRadius(baseHeight: CGFloat) -> CGFloat {
-        if let custom = activePageContent as? DynamicIslandCustomizable {
-            return custom.expandedDynamicIslandCornerRadius(baseHeight: baseHeight)
-        }
-        return baseHeight * 0.2
+        activePageContent.expandedDynamicIslandCornerRadius(baseHeight: baseHeight)
     }
 
     func expandedSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         activePageContent.expandedSize(baseWidth: baseWidth, baseHeight: baseHeight)
-    }
-
-    func expandedDynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        if let custom = activePageContent as? DynamicIslandCustomizable {
-            return custom.expandedDynamicIslandSize(baseWidth: baseWidth, baseHeight: baseHeight)
-        }
-        return .init(width: baseWidth + 180, height: baseHeight + 125)
     }
     
     @MainActor

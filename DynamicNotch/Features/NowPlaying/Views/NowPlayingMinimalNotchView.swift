@@ -50,10 +50,10 @@ struct NowPlayingMinimalNotchView: View {
                     nowPlayingViewModel.artworkPalette.equalizerHighlightColor,
                     nowPlayingViewModel.artworkPalette.equalizerBaseColor
                 ],
-                barHeight: isDynamicIsland ? 12 : 16,
-                barWidth: isDynamicIsland ? 2.2 : 2,
+                barHeight: 16,
+                barWidth: 2,
             )
-            .frame(width: isDynamicIsland ? 14 : 18, height: isDynamicIsland ? 12 : 16)
+            .frame(width: 18, height: 16)
         }
         .padding(.leading, isDynamicIsland ? 7.scaled(by: scale) : 14.scaled(by: scale))
         .padding(.trailing, isDynamicIsland ? 9.scaled(by: scale) : 15.scaled(by: scale))

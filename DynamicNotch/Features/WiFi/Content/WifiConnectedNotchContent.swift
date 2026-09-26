@@ -17,10 +17,6 @@ struct WifiConnectedNotchContent: NotchContentProtocol, DynamicIslandCustomizabl
         .init(width: baseWidth + 70, height: baseHeight)
     }
     
-    func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        .init(width: baseWidth + 50, height: baseHeight)
-    }
-    
     @MainActor
     func makeView() -> AnyView {
         AnyView(

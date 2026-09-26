@@ -41,18 +41,6 @@ struct BluetoothConnectedNotchContent: NotchContentProtocol, DynamicIslandCustom
         return .init(width: baseWidth + CGFloat(width), height: settings.bluetoothAppearanceStyle == .compact ? baseHeight : 95)
     }
     
-    func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        let width: CGFloat
-
-        switch settings.bluetoothAppearanceStyle {
-        case .compact:
-            width = settings.bluetoothBatteryIndicatorStyle == .circle ? 40 : 90
-        case .detailed:
-            width = settings.bluetoothBatteryIndicatorStyle == .circle ? 190 : 145
-        }
-        return .init(width: baseWidth + CGFloat(width), height: settings.bluetoothAppearanceStyle == .compact ? baseHeight : 75)
-    }
-    
     @MainActor
     func makeView() -> AnyView {
         AnyView(

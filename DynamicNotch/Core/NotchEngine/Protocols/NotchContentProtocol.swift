@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-protocol NotchContentProtocol {
+protocol NotchContentProtocol: DynamicIslandCustomizable {
     var id: String { get }
     var stackID: String { get }
     var priority: Int { get }
@@ -47,6 +47,23 @@ extension NotchContentProtocol {
 
     func expandedCornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
         cornerRadius(baseRadius: baseRadius)
+    }
+
+    func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
+        size(baseWidth: baseWidth, baseHeight: baseHeight)
+    }
+
+    func expandedDynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
+        let base = expandedSize(baseWidth: baseWidth, baseHeight: baseHeight)
+        return CGSize(width: base.width + 40, height: base.height)
+    }
+
+    func dynamicIslandCornerRadius(baseHeight: CGFloat) -> CGFloat {
+        baseHeight * 0.5
+    }
+
+    func expandedDynamicIslandCornerRadius(baseHeight: CGFloat) -> CGFloat {
+        baseHeight * 0.2
     }
 
     @MainActor

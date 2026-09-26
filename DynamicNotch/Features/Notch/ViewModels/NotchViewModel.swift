@@ -229,12 +229,12 @@ final class NotchViewModel: ObservableObject {
     var dynamicIslandCornerRadius: CGFloat {
         let height = presentedNotchSize.height
         if isDisplayingExpandedLiveActivity {
-            if let customizable = displayedContent as? DynamicIslandCustomizable {
+            if let customizable = displayedContent {
                 return customizable.expandedDynamicIslandCornerRadius(baseHeight: height)
             }
             return height * 0.2
         } else {
-            if let customizable = displayedContent as? DynamicIslandCustomizable {
+            if let customizable = displayedContent {
                 return customizable.dynamicIslandCornerRadius(baseHeight: height)
             }
             return height * 0.5

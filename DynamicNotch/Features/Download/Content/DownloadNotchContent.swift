@@ -49,14 +49,6 @@ struct DownloadNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
         baseHeight * 0.5
     }
     
-    func expandedDynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        .init(width: baseWidth + 210, height: baseHeight + 60)
-    }
-    
-    func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        .init(width: baseWidth + 40, height: baseHeight)
-    }
-    
     @MainActor
     func makeView() -> AnyView {
         AnyView(

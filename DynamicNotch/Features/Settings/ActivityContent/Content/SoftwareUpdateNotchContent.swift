@@ -30,14 +30,6 @@ struct SoftwareUpdateNotchContent: NotchContentProtocol, DynamicIslandCustomizab
         baseHeight * 0.5
     }
     
-    func expandedDynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        .init(width: baseWidth + 180, height: baseHeight + 60)
-    }
-    
-    func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        return .init(width: baseWidth + 40, height: baseHeight)
-    }
-    
     var windowLink: (@MainActor () -> Void)? {
         return {
             SettingsWindowController.shared.showWindow()

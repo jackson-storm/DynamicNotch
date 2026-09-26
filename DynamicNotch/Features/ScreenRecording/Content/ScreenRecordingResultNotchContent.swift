@@ -10,10 +10,6 @@ struct ScreenRecordingResultNotchContent: NotchContentProtocol, DynamicIslandCus
         return .init(width: baseWidth + 160, height: baseHeight + 105)
     }
 
-    func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        return .init(width: baseWidth + 200, height: baseHeight + 105)
-    }
-
     func cornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
         return (top: 28, bottom: 40)
     }

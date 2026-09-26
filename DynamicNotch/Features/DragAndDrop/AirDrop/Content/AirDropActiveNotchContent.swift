@@ -29,14 +29,6 @@ struct AirDropActiveNotchContent: NotchContentProtocol, DynamicIslandCustomizabl
         (top: 24, bottom: 36)
     }
 
-    func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        return .init(width: baseWidth + 45, height: baseHeight)
-    }
-
-    func expandedDynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        return .init(width: baseWidth + 150, height: baseHeight + 70)
-    }
-
     func expandedDynamicIslandCornerRadius(baseHeight: CGFloat) -> CGFloat {
         baseHeight * 0.3
     }

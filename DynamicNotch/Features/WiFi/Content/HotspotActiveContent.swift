@@ -25,10 +25,6 @@ struct HotspotActiveContent: NotchContentProtocol, DynamicIslandCustomizable {
         return .init(width: baseWidth + extraWidth, height: baseHeight)
     }
     
-    func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        return .init(width: baseWidth + 40, height: baseHeight)
-    }
-    
     @MainActor
     func makeView() -> AnyView {
         AnyView(

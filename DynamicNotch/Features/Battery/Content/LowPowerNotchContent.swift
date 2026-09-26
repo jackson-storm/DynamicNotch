@@ -30,13 +30,6 @@ struct LowPowerNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
         }
         return (top: 22, bottom: 40)
     }
-    
-    func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        if style == .compact {
-            return .init(width: baseWidth + 150, height: baseHeight)
-        }
-        return .init(width: baseWidth + 190, height: baseHeight + 65)
-    }
 
     @MainActor
     func makeView() -> AnyView {

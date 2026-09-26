@@ -20,7 +20,8 @@ extension DynamicIslandCustomizable where Self: NotchContentProtocol {
     }
 
     func expandedDynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        expandedSize(baseWidth: baseWidth, baseHeight: baseHeight)
+        let base = expandedSize(baseWidth: baseWidth, baseHeight: baseHeight)
+        return CGSize(width: base.width + 40, height: base.height)
     }
 
     func dynamicIslandCornerRadius(baseHeight: CGFloat) -> CGFloat {

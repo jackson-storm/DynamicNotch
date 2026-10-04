@@ -15,7 +15,6 @@ enum SettingsSubPage: Hashable, Identifiable {
     case activityPriorities
     case notchDisplay
     case gestures
-    case fileTray
     case homePagePages
     case timer
     case externalDrives
@@ -37,7 +36,6 @@ enum SettingsSubPage: Hashable, Identifiable {
         case .activityPriorities: return "settings.notch.priorities.title"
         case .notchDisplay: return "settings.notch.display.title"
         case .gestures: return "settings.notch.gestures.title"
-        case .fileTray: return "settings.drop.tray.title"
         case .homePagePages: return "settings.homePage.pages.title"
         case .timer: return "settings.section.timer.title"
         case .externalDrives: return "settings.notifications.externalDrives.title"
@@ -60,7 +58,6 @@ enum SettingsSubPage: Hashable, Identifiable {
         case .activityPriorities: return "Activity priorities"
         case .notchDisplay: return "Display"
         case .gestures: return "Gestures"
-        case .fileTray: return "Tray"
         case .homePagePages: return "Pages"
         case .timer: return "Timer"
         case .externalDrives: return "External Drives"
@@ -83,7 +80,6 @@ enum SettingsSubPage: Hashable, Identifiable {
         case .activityPriorities: return "settings.notch.priorities.subtitle"
         case .notchDisplay: return "settings.notch.display.subtitle"
         case .gestures: return "settings.notch.gestures.subtitle"
-        case .fileTray: return "settings.drop.tray.subtitle"
         case .homePagePages: return "settings.homePage.pages.subtitle"
         case .timer: return "settings.section.timer.subtitle"
         case .externalDrives: return "settings.notifications.externalDrives.subtitle"
@@ -106,7 +102,6 @@ enum SettingsSubPage: Hashable, Identifiable {
         case .activityPriorities: return "Configure priority level for each activity."
         case .notchDisplay: return "Configure where and how the notch is displayed."
         case .gestures: return "Configure click, hover, and scroll gestures."
-        case .fileTray: return "Configure file tray behavior, scroll direction, and appearance."
         case .homePagePages: return "Reorder or enable/disable home page cards."
         case .timer: return "Clock timer live activity and stroke appearance."
         case .externalDrives: return "Notifications for connected external disks and flash drives."
@@ -115,7 +110,7 @@ enum SettingsSubPage: Hashable, Identifiable {
     
     var canReset: Bool {
         switch self {
-        case .appearance, .notch, .language, .activityPriorities, .notchDisplay, .gestures, .fileTray, .homePagePages, .timer, .externalDrives:
+        case .appearance, .notch, .language, .activityPriorities, .notchDisplay, .gestures, .homePagePages, .timer, .externalDrives:
             return true
         default:
             return false

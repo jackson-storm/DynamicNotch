@@ -649,11 +649,6 @@ struct SettingsRootView: View {
             DisplaySettingsView(applicationSettings: settingsViewModel.application, availableDisplays: $availableDisplays)
         case .gestures:
             GesturesSettingsView(applicationSettings: settingsViewModel.application)
-        case .fileTray:
-            FileTraySettingsView(
-                mediaSettings: settingsViewModel.mediaAndFiles,
-                appearanceSettings: settingsViewModel.application
-            )
         case .homePagePages:
             HomePagePagesSettingsView(
                 homePageSettings: settingsViewModel.homePage
@@ -705,8 +700,6 @@ struct SettingsRootView: View {
             settingsViewModel.application.resetDisplay()
         case .gestures:
             settingsViewModel.application.resetGestures()
-        case .fileTray:
-            settingsViewModel.mediaAndFiles.resetFileTray()
         case .homePagePages:
             settingsViewModel.homePage.resetHomePage()
         case .externalDrives:

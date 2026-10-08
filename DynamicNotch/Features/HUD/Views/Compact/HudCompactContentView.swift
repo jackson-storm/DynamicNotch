@@ -11,33 +11,26 @@ struct HudCompactContentView: View {
     let showsIndicatorGlow: Bool
     
     var body: some View {
-        HStack(spacing: 12) {
-            iconView
+        HStack {
+            Image(systemName: image)
+                .font(.system(size: isNotchlessScreen ? 16 : 18))
+                .foregroundColor(.white)
+            
             Spacer()
-            indicatorView
+            
+            HudLevelIndicatorView(
+                level: clampedLevel,
+                indicatorStyle: indicatorStyle,
+                tintStyle: indicatorTintStyle,
+                showsGlow: showsIndicatorGlow,
+                barWidth: 50,
+                barHeight: 6,
+                circleSize: isNotchlessScreen ? 16 : 19,
+                circleLineWidth: 3
+            )
         }
-        .padding(.vertical, 10)
         .padding(.leading, leadingPadding.scaled(by: scale))
         .padding(.trailing, trailingPadding.scaled(by: scale))
-    }
-    
-    private var iconView: some View {
-        Image(systemName: image)
-            .font(.system(size: isNotchlessScreen ? 16 : 18))
-            .foregroundColor(.white)
-    }
-    
-    private var indicatorView: some View {
-        HudLevelIndicatorView(
-            level: clampedLevel,
-            indicatorStyle: indicatorStyle,
-            tintStyle: indicatorTintStyle,
-            showsGlow: showsIndicatorGlow,
-            barWidth: barIndicatorWidth,
-            barHeight: barIndicatorHeight,
-            circleSize: circleIndicatorSize,
-            circleLineWidth: circleIndicatorLineWidth
-        )
     }
     
     private var trailingPadding: CGFloat {
@@ -52,22 +45,6 @@ struct HudCompactContentView: View {
             ? (isNotchlessScreen ? 4 : 14)
             : (isNotchlessScreen ? 4 : 14)
         return CGFloat(basePadding)
-    }
-    
-    private var barIndicatorWidth: CGFloat {
-        50
-    }
-    
-    private var barIndicatorHeight: CGFloat {
-        6
-    }
-    
-    private var circleIndicatorSize: CGFloat {
-        isNotchlessScreen ? 16 : 19
-    }
-    
-    private var circleIndicatorLineWidth: CGFloat {
-        3
     }
     
     private var clampedLevel: Int {

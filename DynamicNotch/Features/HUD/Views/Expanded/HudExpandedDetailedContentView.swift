@@ -15,14 +15,31 @@ struct HudExpandedDetailedContentView: View {
             Spacer()
             
             VStack(spacing: 10) {
-                deviceName
+                MarqueeText(
+                    .constant(text),
+                    font: .system(size: 15, design: .rounded),
+                    nsFont: .body,
+                    textColor: .white.opacity(0.9),
+                    backgroundColor: .clear,
+                    minDuration: 1.5,
+                    frameWidth: 175
+                )
                     .frame(maxWidth: .infinity, alignment: .leading)
                 
                 ZStack {
-                    indicatorView
+                    HudLevelIndicatorView(
+                        level: clampedLevel,
+                        indicatorStyle: .bar,
+                        tintStyle: indicatorTintStyle,
+                        showsGlow: showsIndicatorGlow,
+                        barWidth: 90.scaled(by: scale),
+                        barHeight: 8
+                    )
                     
                     HStack {
-                        iconView
+                        Image(systemName: image)
+                            .font(.system(size:  16))
+                            .foregroundColor(.white)
                         
                         Spacer()
                         
@@ -36,35 +53,6 @@ struct HudExpandedDetailedContentView: View {
         }
         .padding(.bottom, bottomPadding)
         .padding(.horizontal, horizontalPadding)
-    }
-    
-    private var deviceName: some View {
-        MarqueeText(
-            .constant(text),
-            font: .system(size: 15, design: .rounded),
-            nsFont: .body,
-            textColor: .white.opacity(0.9),
-            backgroundColor: .clear,
-            minDuration: 1.5,
-            frameWidth: 175
-        )
-    }
-    
-    private var iconView: some View {
-        Image(systemName: image)
-            .font(.system(size:  16))
-            .foregroundColor(.white)
-    }
-    
-    private var indicatorView: some View {
-        HudLevelIndicatorView(
-            level: clampedLevel,
-            indicatorStyle: .bar,
-            tintStyle: indicatorTintStyle,
-            showsGlow: showsIndicatorGlow,
-            barWidth: 90.scaled(by: scale),
-            barHeight: 8
-        )
     }
     
     private var bottomPadding: CGFloat {

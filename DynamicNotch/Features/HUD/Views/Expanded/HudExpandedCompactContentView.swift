@@ -14,10 +14,19 @@ struct HudExpandedCompactContentView: View {
             Spacer()
             
             ZStack {
-                indicatorView
+                HudLevelIndicatorView(
+                    level: clampedLevel,
+                    indicatorStyle: .bar,
+                    tintStyle: indicatorTintStyle,
+                    showsGlow: showsIndicatorGlow,
+                    barWidth: 90.scaled(by: scale),
+                    barHeight: 8
+                )
                 
                 HStack {
-                    iconView
+                    Image(systemName: image)
+                        .font(.system(size:  16))
+                        .foregroundColor(.white)
                     
                     Spacer()
                     
@@ -30,23 +39,6 @@ struct HudExpandedCompactContentView: View {
         }
         .padding(.bottom, bottomPadding)
         .padding(.horizontal, horizontalPadding)
-    }
-
-    private var iconView: some View {
-        Image(systemName: image)
-            .font(.system(size:  16))
-            .foregroundColor(.white)
-    }
-    
-    private var indicatorView: some View {
-        HudLevelIndicatorView(
-            level: clampedLevel,
-            indicatorStyle: .bar,
-            tintStyle: indicatorTintStyle,
-            showsGlow: showsIndicatorGlow,
-            barWidth: 90.scaled(by: scale),
-            barHeight: 8
-        )
     }
     
     private var bottomPadding: CGFloat {

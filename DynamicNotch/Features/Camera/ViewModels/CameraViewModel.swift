@@ -111,7 +111,7 @@ final class CameraViewModel: ObservableObject {
             
             DispatchQueue.main.async {
                 withAnimation {
-                    self.cameraState = self.isConfigured ? .ready : .unavailable
+                    self.cameraState = self.isConfigured ? (self.session.isRunning ? .ready : .unknown) : .unavailable
                 }
             }
         }
@@ -121,29 +121,29 @@ final class CameraViewModel: ObservableObject {
         stopWorkItem?.cancel()
         stopWorkItem = nil
         
+        guard cameraState != .unavailable else { return }
+        
+        if !session.isRunning {
+            cameraState = .unknown
+        }
+        
+        let startTimestamp = CACurrentMediaTime()
+        
         sessionQueue.async { [weak self] in
             guard let self = self else { return }
             let captureSession = self.session
             
             if !captureSession.isRunning {
-                DispatchQueue.main.async {
-                    self.cameraState = .unknown
-                }
-                
                 captureSession.startRunning()
-                
-                DispatchQueue.main.async {
-                    withAnimation {
-                        self.cameraState = .ready
-                    }
-                }
-            } else {
-                DispatchQueue.main.async {
-                    if self.cameraState != .ready {
-                        withAnimation {
-                            self.cameraState = .ready
-                        }
-                    }
+            }
+            
+            let elapsed = CACurrentMediaTime() - startTimestamp
+            let minLoadingDuration: Double = 0.55
+            let delay = max(0, minLoadingDuration - elapsed)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+                withAnimation(.spring(response: 0.65, dampingFraction: 0.85)) {
+                    self.cameraState = .ready
                 }
             }
         }
@@ -155,6 +155,9 @@ final class CameraViewModel: ObservableObject {
             guard let self = self else { return }
             if self.session.isRunning {
                 self.session.stopRunning()
+            }
+            DispatchQueue.main.async {
+                self.cameraState = .unknown
             }
         }
         self.stopWorkItem = workItem

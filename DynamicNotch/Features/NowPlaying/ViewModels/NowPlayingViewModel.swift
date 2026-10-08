@@ -173,10 +173,16 @@ final class NowPlayingViewModel: ObservableObject {
     }
 
     func nextTrack() {
+        if let snapshot {
+            apply(snapshot: snapshot.settingElapsedTime(0), emitEvent: false)
+        }
         service.send(.nextTrack)
     }
 
     func previousTrack() {
+        if let snapshot {
+            apply(snapshot: snapshot.settingElapsedTime(0), emitEvent: false)
+        }
         service.send(.previousTrack)
     }
 
@@ -382,7 +388,7 @@ private extension NowPlayingViewModel {
                 let expectedTime = seekTarget + (serviceSnapshot.isPlaying ? elapsedSinceSeek : 0)
                 let actualTime = serviceSnapshot.elapsedTime(at: .now)
 
-                if abs(actualTime - expectedTime) > 1.5 {
+                if abs(actualTime - expectedTime) > 0.75 {
                     resolvedSnapshot = serviceSnapshot.settingElapsedTime(expectedTime)
                 } else {
                     recentSeekTargetTime = nil
@@ -434,7 +440,7 @@ private extension NowPlayingViewModel {
         applyPresentedSnapshot(newSnapshot, emitEvent: emitEvent)
     }
 
-    func applyPresentedSnapshot(_ newSnapshot: NowPlayingSnapshot?, emitEvent: Bool = true) {
+    func applyPresentedSnapshot(_ newSnapshot: NowPlayingSnapshot?, emitEvent: Bool = true, deferArtwork: Bool = false) {
         let wasActive = snapshot != nil
         let wasPlaying = snapshot?.isPlaying
         let previousTrackKey = snapshot?.favoriteTrackKey
@@ -463,18 +469,20 @@ private extension NowPlayingViewModel {
             isCurrentTrackFavorite = newSnapshot?.favoriteTrackKey.map(storedFavoriteTrackKeys.contains) ?? false
         }
 
-        switch newSnapshot?.artworkData {
-        case let artworkData?:
-            guard previousArtworkData != artworkData || artworkImage == nil else {
-                break
-            }
+        if !deferArtwork {
+            switch newSnapshot?.artworkData {
+            case let artworkData?:
+                guard previousArtworkData != artworkData || artworkImage == nil else {
+                    break
+                }
 
-            applyArtworkPresentation(artworkData)
-        case nil:
-            if newSnapshot == nil || previousTrackKey != newTrackKey {
-                cancelPendingArtworkPresentation()
-                artworkImage = nil
-                artworkPalette = .fallback
+                applyArtworkPresentation(artworkData)
+            case nil:
+                if newSnapshot == nil || previousTrackKey != newTrackKey {
+                    cancelPendingArtworkPresentation()
+                    artworkImage = nil
+                    artworkPalette = .fallback
+                }
             }
         }
 
@@ -623,11 +631,19 @@ private extension NowPlayingViewModel {
         cancelPendingArtworkPresentation()
         triggerArtworkFlip(for: newSnapshot.favoriteTrackKey)
 
+        // Apply metadata and progress bar immediately for instantaneous UI feedback
+        applyPresentedSnapshot(newSnapshot, emitEvent: emitEvent, deferArtwork: true)
+
         let elapsed = artworkFlipStartedAt.map { Date().timeIntervalSince($0) } ?? 0
         let delay = max(0, artworkSwapDelay - elapsed)
         let workItem = DispatchWorkItem { [weak self] in
             guard let self else { return }
-            self.applyPresentedSnapshot(newSnapshot, emitEvent: emitEvent)
+            if let artworkData = newSnapshot.artworkData {
+                self.applyArtworkPresentation(artworkData)
+            } else {
+                self.artworkImage = nil
+                self.artworkPalette = .fallback
+            }
         }
 
         artworkPresentationWorkItem = workItem

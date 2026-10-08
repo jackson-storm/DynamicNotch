@@ -50,8 +50,8 @@ struct NowPlayingMinimalNotchView: View {
                     nowPlayingViewModel.artworkPalette.equalizerHighlightColor,
                     nowPlayingViewModel.artworkPalette.equalizerBaseColor
                 ],
-                barHeight: 16,
-                barWidth: 2,
+                barHeight: isNotchlessScreen ? 16 : 18,
+                barWidth: 2.2
             )
             .frame(width: 18, height: 18)
         }

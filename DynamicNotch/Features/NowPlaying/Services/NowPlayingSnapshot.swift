@@ -160,7 +160,8 @@ struct NowPlayingSnapshot: Equatable, Sendable {
             return baseElapsed
         }
 
-        let advancedElapsed = baseElapsed + (date.timeIntervalSince(refreshedAt) * playbackRate)
+        let timeDelta = max(0, date.timeIntervalSince(refreshedAt))
+        let advancedElapsed = baseElapsed + (timeDelta * playbackRate)
 
         if duration > 0 {
             return min(max(0, advancedElapsed), duration)

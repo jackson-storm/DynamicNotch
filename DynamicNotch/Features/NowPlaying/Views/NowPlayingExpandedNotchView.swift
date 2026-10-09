@@ -291,7 +291,7 @@ struct NowPlayingExpandedNotchView: View {
     }
 
     private func progressTick(for snapshot: NowPlayingSnapshot) -> TimeInterval {
-        snapshot.isPlaying ? 1.0 : 30.0
+        snapshot.isPlaying ? 0.25 : 30.0
     }
 
     private func openPlaybackSource() {

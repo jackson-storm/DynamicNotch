@@ -11,31 +11,26 @@ struct HudStandardContentView: View {
     let showsIndicatorGlow: Bool
     
     var body: some View {
-        HStack(spacing: 12) {
+        HStack {
             Text(verbatim: kind.title)
                 .font(.system(size: 14))
                 .foregroundColor(.white)
             
             Spacer()
             
-            indicatorView
+            HudLevelIndicatorView(
+                level: clampedLevel,
+                indicatorStyle: indicatorStyle,
+                tintStyle: indicatorTintStyle,
+                showsGlow: showsIndicatorGlow,
+                barWidth: 50,
+                barHeight: 6,
+                circleSize: isNotchlessScreen ? 16 : 19,
+                circleLineWidth: 3
+            )
         }
-        .padding(.vertical, 10)
         .padding(.leading, leadingPadding.scaled(by: scale))
         .padding(.trailing, trailingPadding.scaled(by: scale))
-    }
-    
-    private var indicatorView: some View {
-        HudLevelIndicatorView(
-            level: clampedLevel,
-            indicatorStyle: indicatorStyle,
-            tintStyle: indicatorTintStyle,
-            showsGlow: showsIndicatorGlow,
-            barWidth: barIndicatorWidth,
-            barHeight: barIndicatorHeight,
-            circleSize: circleIndicatorSize,
-            circleLineWidth: circleIndicatorLineWidth
-        )
     }
     
     private var trailingPadding: CGFloat {
@@ -50,22 +45,6 @@ struct HudStandardContentView: View {
             ? (isNotchlessScreen ? 8 : 16)
             : (isNotchlessScreen ? 8 : 16)
         return CGFloat(basePadding)
-    }
-    
-    private var barIndicatorWidth: CGFloat {
-        50
-    }
-    
-    private var barIndicatorHeight: CGFloat {
-        6
-    }
-    
-    private var circleIndicatorSize: CGFloat {
-        isNotchlessScreen ? 16 : 19
-    }
-    
-    private var circleIndicatorLineWidth: CGFloat {
-        3
     }
     
     private var clampedLevel: Int {

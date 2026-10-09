@@ -22,7 +22,9 @@ final class MediaRemoteCommandDispatcher {
         commandQueue.async { [weak self] in
             guard let self else { return }
 
-            self.sendDirectFallbackIfUseful(for: command)
+            if self.directDispatcher.send(command) {
+                return
+            }
 
             guard let adapterArguments = self.adapterArguments(for: command) else {
                 self.sendFallbackIfAvailable(for: command)
@@ -86,37 +88,90 @@ final class MediaRemoteCommandDispatcher {
             fallbackDispatcher.send(command)
         }
     }
-
-    private func sendDirectFallbackIfUseful(for command: NowPlayingCommand) {
-        guard case .seek(let position) = command else { return }
-        directDispatcher.seek(to: position)
-    }
 }
 
 private final class MediaRemoteDirectCommandDispatcher {
+    typealias SendCommandFunction = @convention(c) (Int32, AnyObject?) -> DarwinBoolean
     typealias SetElapsedTimeFunction = @convention(c) (Double) -> Void
+    typealias SetShuffleModeFunction = @convention(c) (Int32) -> Void
+    typealias SetRepeatModeFunction = @convention(c) (Int32) -> Void
 
+    private let sendCommandFunction: SendCommandFunction?
     private let setElapsedTimeFunction: SetElapsedTimeFunction?
+    private let setShuffleModeFunction: SetShuffleModeFunction?
+    private let setRepeatModeFunction: SetRepeatModeFunction?
 
     init() {
         guard
             let bundle = CFBundleCreate(
                 kCFAllocatorDefault,
                 NSURL(fileURLWithPath: "/System/Library/PrivateFrameworks/MediaRemote.framework")
-            ),
-            let pointer = CFBundleGetFunctionPointerForName(
-                bundle,
-                "MRMediaRemoteSetElapsedTime" as CFString
             )
         else {
+            sendCommandFunction = nil
             setElapsedTimeFunction = nil
+            setShuffleModeFunction = nil
+            setRepeatModeFunction = nil
             return
         }
 
-        setElapsedTimeFunction = unsafeBitCast(
-            pointer,
-            to: SetElapsedTimeFunction.self
-        )
+        if let pointer = CFBundleGetFunctionPointerForName(bundle, "MRMediaRemoteSendCommand" as CFString) {
+            sendCommandFunction = unsafeBitCast(pointer, to: SendCommandFunction.self)
+        } else {
+            sendCommandFunction = nil
+        }
+
+        if let pointer = CFBundleGetFunctionPointerForName(bundle, "MRMediaRemoteSetElapsedTime" as CFString) {
+            setElapsedTimeFunction = unsafeBitCast(pointer, to: SetElapsedTimeFunction.self)
+        } else {
+            setElapsedTimeFunction = nil
+        }
+
+        if let pointer = CFBundleGetFunctionPointerForName(bundle, "MRMediaRemoteSetShuffleMode" as CFString) {
+            setShuffleModeFunction = unsafeBitCast(pointer, to: SetShuffleModeFunction.self)
+        } else {
+            setShuffleModeFunction = nil
+        }
+
+        if let pointer = CFBundleGetFunctionPointerForName(bundle, "MRMediaRemoteSetRepeatMode" as CFString) {
+            setRepeatModeFunction = unsafeBitCast(pointer, to: SetRepeatModeFunction.self)
+        } else {
+            setRepeatModeFunction = nil
+        }
+    }
+
+    func send(_ command: NowPlayingCommand) -> Bool {
+        switch command {
+        case .play:
+            guard let sendCommandFunction else { return false }
+            return sendCommandFunction(0, nil).boolValue
+        case .pause:
+            guard let sendCommandFunction else { return false }
+            return sendCommandFunction(1, nil).boolValue
+        case .togglePlayPause:
+            guard let sendCommandFunction else { return false }
+            return sendCommandFunction(2, nil).boolValue
+        case .nextTrack:
+            guard let sendCommandFunction else { return false }
+            return sendCommandFunction(4, nil).boolValue
+        case .previousTrack:
+            guard let sendCommandFunction else { return false }
+            return sendCommandFunction(5, nil).boolValue
+        case .seek(let position):
+            guard let setElapsedTimeFunction, position.isFinite else { return false }
+            setElapsedTimeFunction(max(0, position))
+            return true
+        case .setShuffle(let isEnabled):
+            guard let setShuffleModeFunction else { return false }
+            setShuffleModeFunction(isEnabled ? 3 : 1)
+            return true
+        case .setRepeatMode(let repeatMode):
+            guard let setRepeatModeFunction else { return false }
+            setRepeatModeFunction(Int32(repeatMode.rawValue))
+            return true
+        case .setVolume, .setFavorite:
+            return false
+        }
     }
 
     func seek(to position: TimeInterval) {

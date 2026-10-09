@@ -27,28 +27,26 @@ struct CameraNotchView: View {
     @AppStorage("isCameraLarge") private var isCameraLarge = false
     
     var body: some View {
-        ZStack {
+        VStack {
+            Spacer()
+            
             if isCameraStarted {
-                Group {
-                    switch cameraViewModel.cameraState {
-                    case .ready:
-                        cameraView
-                            .padding(.horizontal, isNotchlessScreen ? 8 : 42)
-                        
-                    case .unavailable:
-                        cameraUnavailableView
-                            .padding(.horizontal, isNotchlessScreen ? 8 : 42)
-                        
-                    case .unknown:
-                        progressView
-                    }
+                switch cameraViewModel.cameraState {
+                case .ready:
+                    cameraView
+                    
+                case .unavailable:
+                    cameraUnavailableView
+                    
+                case .unknown:
+                    progressView
                 }
             } else {
                 cameraStartView
-                    .padding(.horizontal, isNotchlessScreen ? 14 : 42)
             }
         }
         .padding(.bottom, 8)
+        .padding(.horizontal, isNotchlessScreen ? 14 : 42)
         .onAppear {
             previewID = UUID()
         }
@@ -61,31 +59,27 @@ struct CameraNotchView: View {
     
     @ViewBuilder
     private var cameraView: some View {
-        VStack {
-            Spacer()
+        ZStack(alignment: .bottom) {
+            CameraPreviewView(previewLayer: cameraViewModel.previewLayer)
+                .frame(height: isCameraLarge ? 205 : 165)
+                .scaleEffect(x: isCameraMirrored ? 1 : -1, y: 1)
+                .clipShape(RoundedRectangle(cornerRadius: 30))
+                .id(previewID)
+                .transition(.blurAndFade.combined(with: .opacity).animation(.spring(response: 0.6)))
             
-            ZStack(alignment: .bottom) {
-                CameraPreviewView(previewLayer: cameraViewModel.previewLayer)
-                    .frame(height: isCameraLarge ? 205 : 165)
-                    .scaleEffect(x: isCameraMirrored ? 1 : -1, y: 1)
-                    .clipShape(RoundedRectangle(cornerRadius: 30))
-                    .id(previewID)
-                    .transition(.blurAndFade.combined(with: .opacity).animation(.spring(response: 0.6)))
-                
-                HStack {
-                    cameraButton
-                }
-                .blur(radius: isHovering ? 0 : 6)
-                .opacity(isHovering ? 1 : 0)
-                .allowsHitTesting(isHovering)
-                .font(.system(size: 14))
-                .padding(.bottom, 12)
-                .buttonStyle(.plain)
+            HStack {
+                cameraButton
             }
-            .onHover { hovering in
-                withAnimation(.spring(duration: 0.4)) {
-                    isHovering = hovering
-                }
+            .blur(radius: isHovering ? 0 : 6)
+            .opacity(isHovering ? 1 : 0)
+            .allowsHitTesting(isHovering)
+            .font(.system(size: 14))
+            .padding(.bottom, 12)
+            .buttonStyle(.plain)
+        }
+        .onHover { hovering in
+            withAnimation(.spring(duration: 0.4)) {
+                isHovering = hovering
             }
         }
     }
@@ -151,44 +145,40 @@ struct CameraNotchView: View {
     
     @ViewBuilder
     private var cameraStartView: some View {
-        VStack {
-            Spacer()
-            
-            Button(action: {
-                withAnimation(.spring(response: 0.6)) {
-                    isCameraStarted = true
-                }
-                cameraViewModel.startSession()
-                notchViewModel.send(.showLiveActivity(
-                    HomePageNotchContent(
-                        notchViewModel: notchViewModel,
-                        settings: settings,
-                        homePages: .camera,
-                        localTimerViewModel: localTimerViewModel,
-                        nowPlayingViewModel: nowPlayingViewModel,
-                        mediaAndFilesSettings: mediaAndFilesSettings,
-                        applicationSettings: applicationSettings
-                    )
-                ))
-            }) {
-                ZStack {
-                    RoundedRectangle(cornerRadius: isNotchlessScreen ? 34 : 34)
-                        .fill(.gray.opacity(0.2))
-                        .frame(height: isNotchlessScreen ? 115 : 110)
+        Button(action: {
+            withAnimation(.spring(response: 0.6)) {
+                isCameraStarted = true
+            }
+            cameraViewModel.startSession()
+            notchViewModel.send(.showLiveActivity(
+                HomePageNotchContent(
+                    notchViewModel: notchViewModel,
+                    settings: settings,
+                    homePages: .camera,
+                    localTimerViewModel: localTimerViewModel,
+                    nowPlayingViewModel: nowPlayingViewModel,
+                    mediaAndFilesSettings: mediaAndFilesSettings,
+                    applicationSettings: applicationSettings
+                )
+            ))
+        }) {
+            ZStack {
+                RoundedRectangle(cornerRadius: isNotchlessScreen ? 34 : 34)
+                    .fill(.gray.opacity(0.2))
+                    .frame(height: isNotchlessScreen ? 115 : 110)
+                
+                VStack(spacing: 10) {
+                    Image(systemName: "web.camera.fill")
+                        .font(.system(size: 36))
+                        .foregroundStyle(.white)
                     
-                    VStack(spacing: 10) {
-                        Image(systemName: "web.camera.fill")
-                            .font(.system(size: 36))
-                            .foregroundStyle(.white)
-                        
-                        Text(verbatim: "Start Camera")
-                            .font(.system(size: 14, weight: .semibold))
-                            .foregroundStyle(.white)
-                    }
+                    Text(verbatim: "Start Camera")
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundStyle(.white)
                 }
             }
-            .buttonStyle(.plain)
         }
+        .buttonStyle(.plain)
     }
     
     @ViewBuilder
@@ -216,9 +206,10 @@ struct CameraNotchView: View {
     
     @ViewBuilder
     private var progressView: some View {
-        VStack {
-            ProgressView()
-                .progressViewStyle(CircularProgressViewStyle(tint: .white))
+        VStack() {
+            Spacer()
+            ProgressView().progressViewStyle(CircularProgressViewStyle(tint: .white))
+            Spacer()
         }
     }
 }

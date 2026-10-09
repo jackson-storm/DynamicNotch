@@ -18,7 +18,7 @@ struct CameraActiveNotchContent: NotchContentProtocol, DynamicIslandCustomizable
         let isLarge = UserDefaults.standard.bool(forKey: "isCameraLarge")
         
         if !isStarted {
-            return .init(width: baseWidth + 65, height: baseHeight + 125)
+            return .init(width: baseWidth + 85, height: baseHeight + 125)
         }
         if isLarge {
             return .init(width: baseWidth + 250, height: baseHeight + 220)

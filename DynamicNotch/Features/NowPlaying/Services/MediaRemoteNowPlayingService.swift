@@ -23,6 +23,8 @@ final class MediaRemoteNowPlayingService: NowPlayingMonitoring, NowPlayingDetail
         let elapsedTimeMicros: Int64?
         let elapsedTimeNow: Double?
         let elapsedTimeNowMicros: Int64?
+        let timestamp: Double?
+        let timestampEpochMicros: Int64?
         let playbackRate: Double?
         let shuffleMode: Int?
         let repeatMode: Int?
@@ -109,15 +111,14 @@ final class MediaRemoteNowPlayingService: NowPlayingMonitoring, NowPlayingDetail
     }
 
     func send(_ command: NowPlayingCommand) {
+        commandDispatcher.send(command)
+
         if command.requiresApplicationBridge,
            applicationBridge.send(command, source: lastSnapshot?.playbackSource) {
             recordOptimisticApplicationPlaybackState(for: command)
             let delay: TimeInterval = if case .seek = command { 0.8 } else { 0.2 }
             scheduleApplicationPlaybackRefresh(for: lastSnapshot, force: true, delay: delay)
-            return
         }
-
-        commandDispatcher.send(command)
     }
 
     func setDetailPollingEnabled(_ isEnabled: Bool) {
@@ -144,9 +145,9 @@ final class MediaRemoteNowPlayingService: NowPlayingMonitoring, NowPlayingDetail
 private extension NowPlayingCommand {
     var requiresApplicationBridge: Bool {
         switch self {
-        case .play, .pause, .seek, .setVolume, .setFavorite:
+        case .seek, .setVolume, .setFavorite:
             return true
-        case .togglePlayPause, .nextTrack, .previousTrack, .setShuffle, .setRepeatMode:
+        case .play, .pause, .togglePlayPause, .nextTrack, .previousTrack, .setShuffle, .setRepeatMode:
             return false
         }
     }
@@ -170,7 +171,8 @@ private extension MediaRemoteNowPlayingService {
             for: [
                 "stream",
                 "--no-diff",
-                "--debounce=150"
+                "--debounce=35",
+                "--micros"
             ]
         )
         process.standardOutput = outputPipe
@@ -450,7 +452,7 @@ private extension MediaRemoteNowPlayingService {
         guard applicationPlaybackPollTimer == nil else { return }
 
         let timer = DispatchSource.makeTimerSource(queue: callbackQueue)
-        timer.schedule(deadline: .now() + 1, repeating: 1.25)
+        timer.schedule(deadline: .now() + 1.5, repeating: 2.5)
         timer.setEventHandler { [weak self] in
             self?.scheduleApplicationPlaybackRefresh(
                 for: self?.lastSnapshot,
@@ -526,7 +528,7 @@ private extension MediaRemoteNowPlayingService {
             isFavorite: payload.resolvedFavoriteState(previousSnapshot: lastSnapshot),
             supportsFavorite: payload.playbackSource?.supportsFavoriteCommand ?? false,
             supportsVolumeControl: payload.playbackSource?.supportsVolumeCommand ?? false,
-            refreshedAt: .now
+            refreshedAt: payload.refreshedAtDate
         )
 
         if payload.playing != false, let applicationPlaybackState = snapshot.resolvedApplicationPlaybackState(
@@ -591,6 +593,23 @@ private extension MediaRemoteNowPlayingService.AdapterPayload {
         elapsedTimeNow ??
         seconds(fromMicroseconds: elapsedTimeNowMicros) ??
         0
+    }
+
+    var refreshedAtDate: Date {
+        if let timestampEpochMicros, timestampEpochMicros > 0 {
+            let epochSeconds = TimeInterval(timestampEpochMicros) / MediaRemoteNowPlayingService.microsecondsPerSecond
+            let date = Date(timeIntervalSince1970: epochSeconds)
+            if abs(date.timeIntervalSinceNow) < 3600 {
+                return date
+            }
+        }
+        if let timestamp, timestamp > 0 {
+            let date = Date(timeIntervalSince1970: timestamp)
+            if abs(date.timeIntervalSinceNow) < 3600 {
+                return date
+            }
+        }
+        return .now
     }
 
     var resolvedPlaybackRate: Double {
@@ -690,13 +709,25 @@ private extension NowPlayingSnapshot {
     }
 
     func applying(applicationPlaybackState state: NowPlayingApplicationPlaybackState) -> Self {
-        Self(
+        let resolvedElapsedTime: TimeInterval
+        let resolvedRefreshedAt: Date
+
+        if let stateElapsed = state.elapsedTime,
+           (elapsedTime <= 0 && duration > 0 || abs(stateElapsed - elapsedTime(at: state.refreshedAt)) > 3.0) {
+            resolvedElapsedTime = stateElapsed
+            resolvedRefreshedAt = state.refreshedAt
+        } else {
+            resolvedElapsedTime = elapsedTime
+            resolvedRefreshedAt = refreshedAt
+        }
+
+        return Self(
             title: state.title?.trimmed.nonEmpty ?? title,
             artist: state.artist?.trimmed.nonEmpty ?? artist,
             album: state.album?.trimmed.nonEmpty ?? album,
             duration: state.duration ?? duration,
-            elapsedTime: state.elapsedTime ?? elapsedTime(at: state.refreshedAt),
-            playbackRate: state.isPlaying ? max(playbackRate, 1) : 0,
+            elapsedTime: resolvedElapsedTime,
+            playbackRate: state.isPlaying ? max(playbackRate, 1) : (isPlaying ? 0 : playbackRate),
             artworkData: artworkData,
             playbackSource: playbackSource,
             mediaType: mediaType,
@@ -707,7 +738,7 @@ private extension NowPlayingSnapshot {
             isFavorite: isFavorite,
             supportsFavorite: supportsFavorite,
             supportsVolumeControl: supportsVolumeControl,
-            refreshedAt: state.refreshedAt
+            refreshedAt: resolvedRefreshedAt
         )
     }
 }

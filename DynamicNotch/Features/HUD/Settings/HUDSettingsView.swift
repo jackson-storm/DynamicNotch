@@ -192,15 +192,6 @@ struct HUDSettingsView: View {
             
             Divider().opacity(0.6)
             
-            SettingsStrokeToggleRow(
-                title: "settings.hud.levelStrokeColor.title",
-                description: "settings.hud.levelStrokeColor.desc",
-                isOn: $settings.isColoredLevelStrokeEnabled,
-                accessibilityIdentifier: "settings.general.hud.coloredStroke"
-            )
-            
-            Divider().opacity(0.6)
-            
             SettingsToggleRow(
                 title: "settings.hud.volumeSoundFeedback.title",
                 description: "settings.hud.volumeSoundFeedback.desc",

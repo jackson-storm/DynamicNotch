@@ -67,8 +67,17 @@ final class LockScreenFaceIDWindowManager {
         )
         .receive(on: RunLoop.main)
         .sink { [weak self] lockState, settingsState in
-            let (isLocked, isPreparingLock, _) = lockState
+            let (isLocked, isPreparingLock, didUnlockWithFaceID) = lockState
             let (isLockIdle, showButton) = settingsState
+            
+            if !isLocked && !isPreparingLock && !didUnlockWithFaceID {
+                if self?.faceIDService.state.isActivelyEvaluating == true {
+                    self?.faceIDService.cancelScan()
+                    self?.notchViewModel.hideTemporaryNotification()
+                    self?.notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.LockScreen.activity.id))
+                }
+            }
+            
             self?.syncPresentation(
                 isLocked: isLocked,
                 isPreparingLock: isPreparingLock,
@@ -296,6 +305,7 @@ final class LockScreenFaceIDWindowManager {
             if success {
                 self.hideButton()
                 self.lockScreenManager.handleFaceIDUnlock()
+                NSApp.deactivate()
                 FaceIDService.shared.unlockWithSavedPassword()
 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) { [weak self] in
@@ -319,7 +329,8 @@ final class LockScreenFaceIDWindowManager {
 
         let window = OverlayPanelFactory.makePanel(
             frame: buttonFrame(for: screen),
-            level: OverlayWindowLevel.lockScreenNotch
+            level: OverlayWindowLevel.lockScreenNotch,
+            canBecomeKey: false
         )
 
         buttonWindow = window

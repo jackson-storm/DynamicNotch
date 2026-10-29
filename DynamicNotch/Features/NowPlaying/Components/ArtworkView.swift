@@ -95,10 +95,10 @@ struct ArtworkView: View {
 
     private var darknessOverlayOpacity: Double {
         let luminance = nowPlayingViewModel.artworkPalette.luminance
-        let threshold = 0.50
+        let threshold = 1.0
         guard luminance < threshold else { return 0 }
         let progress = (threshold - luminance) / threshold
-        return progress * 0.25
+        return progress * 0.2
     }
 
     private func triggerRevealAnimation() {

@@ -22,7 +22,7 @@ struct SoftwareUpdateExpandedNotchView: View {
                     .interpolation(.high)
                     .antialiased(true)
                     .scaledToFill()
-                    .frame(width: 50, height: 50)
+                    .frame(width: 45, height: 45)
                     .cornerRadius(12)
                 
                 VStack(alignment: .leading, spacing: 2) {
@@ -47,8 +47,11 @@ struct SoftwareUpdateExpandedNotchView: View {
                 }
                 .buttonStyle(PrimaryButtonStyle(width: 50, height: 50, backgroundColor: .blue.opacity(0.25)))
             }
+            
+            Spacer()
         }
-        .padding(.horizontal, isNotchlessScreen ? 20 : 38)
-        .padding(.bottom, isNotchlessScreen ? 20 : 14)
+        .padding(.top, isNotchlessScreen ? 0 : 25)
+        .padding(.leading, isNotchlessScreen ? 20 : 38)
+        .padding(.trailing, isNotchlessScreen ? 15 : 34)
     }
 }

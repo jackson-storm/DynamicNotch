@@ -13,6 +13,7 @@ struct TimerCompactIndicatorView: View {
     @Environment(\.isNotchlessScreen) private var isNotchlessScreen
     
     private var lineWidth: CGFloat { 2.8 }
+    private var cornerRadius: CGFloat { 5 }
 
     var body: some View {
         TimelineView(.animation(minimumInterval: 1 / 24, paused: source.isPaused)) { context in
@@ -20,21 +21,11 @@ struct TimerCompactIndicatorView: View {
             let angle = Angle.degrees((-Double(progress) * 360) - 90)
 
             ZStack {
-                Circle()
-                    .fill(.white.opacity(0.04))
-
-                Circle()
-                    .stroke(.white.opacity(0.16), lineWidth: lineWidth)
-
-                Circle()
-                    .trim(from: 0, to: progress)
-                    .stroke(.orange.gradient, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
-                    .rotationEffect(.degrees(-90))
-                    .scaleEffect(x: -1, y: 1)
-
-                Circle()
-                    .fill(.black.opacity(0.34))
-                    .padding(lineWidth + 2)
+                if isNotchlessScreen {
+                    circleIndicator(progress: progress)
+                } else {
+                    roundedRectangleIndicator(progress: progress)
+                }
 
                 if source.isPaused {
                     Image(systemName: "pause.fill")
@@ -50,6 +41,44 @@ struct TimerCompactIndicatorView: View {
             }
             .frame(width: 20, height: 20)
         }
+    }
+
+    @ViewBuilder
+    private func circleIndicator(progress: CGFloat) -> some View {
+        Circle()
+            .fill(.white.opacity(0.04))
+
+        Circle()
+            .stroke(.white.opacity(0.16), lineWidth: lineWidth)
+
+        Circle()
+            .trim(from: 0, to: progress)
+            .stroke(.orange.gradient, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
+            .rotationEffect(.degrees(-90))
+            .scaleEffect(x: -1, y: 1)
+
+        Circle()
+            .fill(.black.opacity(0.34))
+            .padding(lineWidth + 2)
+    }
+
+    @ViewBuilder
+    private func roundedRectangleIndicator(progress: CGFloat) -> some View {
+        RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+            .fill(.white.opacity(0.04))
+
+        RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+            .stroke(.white.opacity(0.16), lineWidth: lineWidth)
+
+        RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+            .trim(from: 0, to: progress)
+            .stroke(.orange.gradient, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
+            .rotationEffect(.degrees(-90))
+            .scaleEffect(x: -1, y: 1)
+
+        RoundedRectangle(cornerRadius: max(1, cornerRadius - 2.5), style: .continuous)
+            .fill(.black.opacity(0.34))
+            .padding(lineWidth + 2)
     }
 
     private func resolvedProgress(at date: Date) -> CGFloat {

@@ -227,7 +227,6 @@ final class LockScreenPanelManager {
         }
         
         window.orderFrontRegardless()
-        window.makeKey()
         
         animator.disablesTransitionAnimation = !animated
         
@@ -251,6 +250,15 @@ final class LockScreenPanelManager {
             }
             return
         }
+        
+        if lockScreenManager.didUnlockWithFaceID {
+            window.orderOut(nil)
+            if releaseResources {
+                releasePanelResources()
+            }
+            return
+        }
+
         let delay = animated ? 0.22 : 0
         
         DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self, weak window] in
@@ -325,7 +333,6 @@ final class LockScreenPanelManager {
         }
         
         window.orderFrontRegardless()
-        window.makeKey()
     }
     
     private func resolvedSnapshot(
@@ -354,7 +361,8 @@ final class LockScreenPanelManager {
 
         let window = OverlayPanelFactory.makePanel(
             frame: panelFrame(for: screen),
-            level: OverlayWindowLevel.lockScreenPanel
+            level: OverlayWindowLevel.lockScreenPanel,
+            canBecomeKey: false
         )
 
         panelWindow = window

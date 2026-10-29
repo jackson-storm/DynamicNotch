@@ -8,13 +8,6 @@
 import Foundation
 
 enum NotchContentRegistry {
-    enum Idle {
-        static let idle = NotchContentDescriptor(
-            id: "notch.idle",
-            priority: NotchContentPriority.idle
-        )
-    }
-
     enum HUD {
         static let system = NotchContentDescriptor(id: "hud.system")
         static let keyboard = NotchContentDescriptor(id: "hud.keyboard")

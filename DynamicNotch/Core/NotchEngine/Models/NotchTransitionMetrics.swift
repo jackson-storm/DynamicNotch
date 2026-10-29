@@ -24,7 +24,10 @@ enum NotchTransitionMetrics {
         return 1.0
     }
 
-    static func compactScaleY(for notchHeight: CGFloat, baseHeight: CGFloat) -> CGFloat {
+    static func compactScaleY(for notchHeight: CGFloat, baseHeight: CGFloat, compactScaleX: CGFloat? = nil) -> CGFloat {
+        if let compactScaleX, compactScaleX < 1.0 {
+            return compactScaleX
+        }
         guard notchHeight > baseHeight else {
             return 1.0
         }

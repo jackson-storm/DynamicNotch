@@ -7,6 +7,7 @@ internal import AppKit
 import ApplicationServices
 import Combine
 import CoreGraphics
+import QuartzCore
 
 private let axObserverCallback: AXObserverCallback = { observer, element, notification, refcon in
     guard let refcon else { return }
@@ -78,6 +79,7 @@ final class NotchlessWindowConstrainer {
     private var retryTimer: AnyCancellable?
     private var isApplyingConstraint = false
     private var isRunning = false
+    private var windowAnimationTimer: DispatchSourceTimer?
 
     init(settings: ApplicationSettingsStore) {
         self.settings = settings
@@ -104,6 +106,7 @@ final class NotchlessWindowConstrainer {
         guard isRunning else { return }
         isRunning = false
 
+        cancelWindowAnimation()
         snapPreviewManager.hideImmediately()
         preSnapSizes.removeAll()
         retryTimer?.cancel()
@@ -253,6 +256,7 @@ final class NotchlessWindowConstrainer {
     }
 
     private func teardownMouseEventTap() {
+        cancelWindowAnimation()
         snapPreviewManager.hideImmediately()
         if let tap = mouseEventTap {
             CGEvent.tapEnable(tap: tap, enable: false)
@@ -282,6 +286,7 @@ final class NotchlessWindowConstrainer {
 
         switch type {
         case .leftMouseDown:
+            cancelWindowAnimation()
             activeDragSession = nil
             snapPreviewManager.hideImmediately()
             let loc = event.location
@@ -352,7 +357,7 @@ final class NotchlessWindowConstrainer {
             if let savedSize = preSnapSizes[windowKey] {
                 let currentScreen = screen(forAxPoint: loc)
                 if let currentScreen {
-                    let extraOffset = CGFloat(settings.notchlessWindowMarginOffset)
+                    let extraOffset = windowMarginOffset
                     let snappedWidth = currentScreen.visibleFrame.width
                     let snappedHeight = max(100, currentScreen.visibleFrame.height - extraOffset)
                     if abs(size.width - snappedWidth) < 25 && abs(size.height - snappedHeight) < 25 {
@@ -364,9 +369,10 @@ final class NotchlessWindowConstrainer {
             }
 
             var isSizeSettable: DarwinBoolean = false
-            let canSnap = AXUIElementIsAttributeSettable(windowElement, kAXSizeAttribute as CFString, &isSizeSettable) == .success && isSizeSettable.boolValue
+            let isSettable = AXUIElementIsAttributeSettable(windowElement, kAXSizeAttribute as CFString, &isSizeSettable) == .success && isSizeSettable.boolValue
+            let canSnap = isSettable || size.width >= 150
 
-            if relY >= -6 && relY <= 6 {
+            if relY >= -4 && relY <= 3 {
                 activeDragSession = ActiveWindowDragSession(
                     window: windowElement,
                     clickOffsetY: 0,
@@ -376,7 +382,7 @@ final class NotchlessWindowConstrainer {
                     initialMouseDownLoc: loc,
                     restorableSize: nil
                 )
-            } else if relY > 6 && relY <= 65 {
+            } else if relY > 3 && relY <= max(80, min(120, size.height * 0.35)) {
                 activeDragSession = ActiveWindowDragSession(
                     window: windowElement,
                     clickOffsetY: relY,
@@ -419,9 +425,10 @@ final class NotchlessWindowConstrainer {
                         let sideMargin: CGFloat = 35
                         let isNearSideEdge = loc.x <= screenRect.minX + sideMargin || loc.x >= screenRect.maxX - sideMargin
                         let pushDistance = minMouseY - loc.y
+                        let snapTriggerThreshold: CGFloat = 4
 
                         if !drag.isPushingAgainstTopSnap {
-                            if pushDistance >= 8 && !isNearSideEdge {
+                            if pushDistance >= snapTriggerThreshold && !isNearSideEdge {
                                 drag.isPushingAgainstTopSnap = true
                                 drag.targetSnapScreen = currentScreen
                                 activeDragSession = drag
@@ -429,7 +436,7 @@ final class NotchlessWindowConstrainer {
                                 snapPreviewManager.show(targetFrame: targetFrame)
                             }
                         } else {
-                            if pushDistance < 2 || isNearSideEdge {
+                            if pushDistance < 1.5 || isNearSideEdge {
                                 drag.isPushingAgainstTopSnap = false
                                 drag.targetSnapScreen = nil
                                 activeDragSession = drag
@@ -669,7 +676,7 @@ final class NotchlessWindowConstrainer {
     // MARK: - Window Snapping
 
     private func snapTargetFrame(for screen: NSScreen) -> NSRect {
-        let extraOffset = CGFloat(settings.notchlessWindowMarginOffset)
+        let extraOffset = windowMarginOffset
         let bottom = screen.visibleFrame.minY
         let top = screen.visibleFrame.maxY - extraOffset
         let height = max(100, top - bottom)
@@ -681,10 +688,77 @@ final class NotchlessWindowConstrainer {
         )
     }
 
+    private func cancelWindowAnimation() {
+        if let timer = windowAnimationTimer {
+            timer.cancel()
+            windowAnimationTimer = nil
+        }
+        isApplyingConstraint = false
+    }
+
+    private func animateWindowFrame(
+        window: AXUIElement,
+        from startPos: CGPoint,
+        startSize: CGSize,
+        to targetPos: CGPoint,
+        targetSize: CGSize,
+        duration: TimeInterval = 0.18,
+        updateTarget: ((_ progress: CGFloat) -> (CGPoint, CGSize))? = nil,
+        completion: (() -> Void)? = nil
+    ) {
+        cancelWindowAnimation()
+        isApplyingConstraint = true
+
+        let startTime = CACurrentMediaTime()
+        let timer = DispatchSource.makeTimerSource(queue: .main)
+        timer.schedule(deadline: .now(), repeating: .milliseconds(16))
+
+        timer.setEventHandler { [weak self] in
+            guard let self else {
+                timer.cancel()
+                return
+            }
+
+            let elapsed = CACurrentMediaTime() - startTime
+            let rawProgress = min(1.0, elapsed / duration)
+            // Cubic ease-out: 1 - (1 - t)^3
+            let easedProgress = CGFloat(1.0 - pow(1.0 - rawProgress, 3))
+
+            var currentTargetPos = targetPos
+            var currentTargetSize = targetSize
+            if let updateTarget {
+                let updated = updateTarget(easedProgress)
+                currentTargetPos = updated.0
+                currentTargetSize = updated.1
+            }
+
+            let currentX = startPos.x + (currentTargetPos.x - startPos.x) * easedProgress
+            let currentY = startPos.y + (currentTargetPos.y - startPos.y) * easedProgress
+            let currentW = max(100, startSize.width + (currentTargetSize.width - startSize.width) * easedProgress)
+            let currentH = max(100, startSize.height + (currentTargetSize.height - startSize.height) * easedProgress)
+
+            let pos = CGPoint(x: currentX, y: currentY)
+            let sz = CGSize(width: currentW, height: currentH)
+
+            self.setAXFrame(window: window, position: pos, size: sz)
+
+            if rawProgress >= 1.0 {
+                self.windowAnimationTimer?.cancel()
+                self.windowAnimationTimer = nil
+                self.setAXFrame(window: window, position: currentTargetPos, size: currentTargetSize)
+                self.isApplyingConstraint = false
+                completion?()
+            }
+        }
+
+        self.windowAnimationTimer = timer
+        timer.resume()
+    }
+
     private func applyWindowSnap(window: AXUIElement, on screen: NSScreen, preSnapSize: CGSize) {
         preSnapSizes[AXWindowKey(element: window)] = preSnapSize
         let topY = minAllowedTopY(for: screen)
-        let extraOffset = CGFloat(settings.notchlessWindowMarginOffset)
+        let extraOffset = windowMarginOffset
         let snapWidth = screen.visibleFrame.width
         let snapHeight = max(100, screen.visibleFrame.height - extraOffset)
         let snapX = screen.visibleFrame.minX
@@ -692,49 +766,69 @@ final class NotchlessWindowConstrainer {
         let targetPos = CGPoint(x: snapX, y: topY)
         let targetSize = CGSize(width: snapWidth, height: snapHeight)
 
-        isApplyingConstraint = true
-        setAXFrame(window: window, position: targetPos, size: targetSize)
-
-        DispatchQueue.main.async { [weak self] in
-            guard let self else { return }
-            self.setAXFrame(window: window, position: targetPos, size: targetSize)
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { [weak self] in
-                guard let self else { return }
-                self.setAXFrame(window: window, position: targetPos, size: targetSize)
-                self.isApplyingConstraint = false
-            }
-        }
-    }
-
-    private func restoreWindowSize(window: AXUIElement, targetSize: CGSize, cursorLoc: CGPoint, initialClickOffsetY: CGFloat) {
-        var size = targetSize
-        isApplyingConstraint = true
-        defer { isApplyingConstraint = false }
-
-        var curPos = CGPoint.zero
+        var curPos = targetPos
+        var curSize = targetSize
         var posRef: CFTypeRef?
+        var sizeRef: CFTypeRef?
         if AXUIElementCopyAttributeValue(window, kAXPositionAttribute as CFString, &posRef) == .success,
            let p = posRef {
             AXValueGetValue(p as! AXValue, .cgPoint, &curPos)
         }
-
-        var restoredPos = curPos
-        let inset = min(32, targetSize.width / 2)
-        let neededShift = cursorLoc.x - curPos.x - (targetSize.width - inset)
-        if neededShift > 0 {
-            restoredPos.x += neededShift
+        if AXUIElementCopyAttributeValue(window, kAXSizeAttribute as CFString, &sizeRef) == .success,
+           let s = sizeRef {
+            AXValueGetValue(s as! AXValue, .cgSize, &curSize)
         }
 
-        if let sizeVal = AXValueCreate(.cgSize, &size) {
-            AXUIElementSetAttributeValue(window, kAXSizeAttribute as CFString, sizeVal)
+        animateWindowFrame(
+            window: window,
+            from: curPos,
+            startSize: curSize,
+            to: targetPos,
+            targetSize: targetSize,
+            duration: 0.18
+        )
+    }
+
+    private func restoreWindowSize(window: AXUIElement, targetSize: CGSize, cursorLoc: CGPoint, initialClickOffsetY: CGFloat) {
+        var curPos = CGPoint.zero
+        var curSize = targetSize
+        var posRef: CFTypeRef?
+        var sizeRef: CFTypeRef?
+        if AXUIElementCopyAttributeValue(window, kAXPositionAttribute as CFString, &posRef) == .success,
+           let p = posRef {
+            AXValueGetValue(p as! AXValue, .cgPoint, &curPos)
         }
-        if neededShift > 0, let posVal = AXValueCreate(.cgPoint, &restoredPos) {
-            AXUIElementSetAttributeValue(window, kAXPositionAttribute as CFString, posVal)
+        if AXUIElementCopyAttributeValue(window, kAXSizeAttribute as CFString, &sizeRef) == .success,
+           let s = sizeRef {
+            AXValueGetValue(s as! AXValue, .cgSize, &curSize)
         }
+
+        let clickRatio = max(0.1, min(0.9, (cursorLoc.x - curPos.x) / max(1, curSize.width)))
+
+        func computeTarget(at loc: CGPoint) -> CGPoint {
+            let targetX = loc.x - clickRatio * targetSize.width
+            let targetY = loc.y - initialClickOffsetY
+            return CGPoint(x: targetX, y: targetY)
+        }
+
+        let initialTargetPos = computeTarget(at: cursorLoc)
+
+        animateWindowFrame(
+            window: window,
+            from: curPos,
+            startSize: curSize,
+            to: initialTargetPos,
+            targetSize: targetSize,
+            duration: 0.15,
+            updateTarget: { _ in
+                let currentCursor = CGEvent(source: nil)?.location ?? cursorLoc
+                return (computeTarget(at: currentCursor), targetSize)
+            }
+        )
     }
 
     private func finalizeRestoredWindow(window: AXUIElement, targetSize: CGSize, cursorLoc: CGPoint, clickOffsetY: CGFloat) {
+        cancelWindowAnimation()
         var curPos = CGPoint.zero
         var pRef: CFTypeRef?
         if AXUIElementCopyAttributeValue(window, kAXPositionAttribute as CFString, &pRef) == .success, let p = pRef {
@@ -769,12 +863,16 @@ final class NotchlessWindowConstrainer {
     }
 
     // MARK: - Geometry Helpers
+    
+    private var windowMarginOffset: CGFloat {
+        CGFloat(settings.notchlessWindowMarginOffset) - 4
+    }
 
     private func minAllowedTopY(for screen: NSScreen) -> CGFloat {
         let primaryHeight = NSScreen.screens.first?.frame.height ?? screen.frame.height
         let screenAxY = primaryHeight - screen.frame.maxY
         let menuBarHeight = max(0, screen.frame.maxY - screen.visibleFrame.maxY)
-        let extraOffset = CGFloat(settings.notchlessWindowMarginOffset)
+        let extraOffset = windowMarginOffset
         return screenAxY + menuBarHeight + extraOffset
     }
 

@@ -28,4 +28,6 @@ enum SwipeFeedbackMetrics {
     
     static let dismissOpacityReduction: Double = 0.2
     static let restoreOpacityReduction: Double = 0.2
+    
+    static let swipeCornerRadiusExpansion: CGFloat = 3
 }

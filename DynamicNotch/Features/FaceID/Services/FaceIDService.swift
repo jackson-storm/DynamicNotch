@@ -219,9 +219,13 @@ final class FaceIDService: NSObject, ObservableObject {
             return
         }
 
+        DispatchQueue.main.async {
+            NSApp.deactivate()
+        }
+
         DispatchQueue.global(qos: .userInteractive).async {
             // Short delay to ensure password text field has focus
-            usleep(120_000)
+            usleep(150_000)
 
             let source = CGEventSource(stateID: .hidSystemState)
 

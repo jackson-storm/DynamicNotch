@@ -17,15 +17,15 @@ struct LocalTimerSetupNotchContent: NotchContentProtocol, DynamicIslandCustomiza
     }
     
     func compactCornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
-        (top: 24, bottom: 42)
+        (top: 30, bottom: 45)
     }
 
     func compactSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        .init(width: baseWidth + 160, height: baseHeight + 130)
+        .init(width: baseWidth + 160, height: baseHeight + 135)
     }
 
     func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        .init(width: baseWidth + 220, height: baseHeight + 130)
+        .init(width: baseWidth + 220, height: baseHeight + 135)
     }
     
     func dynamicIslandCornerRadius(baseHeight: CGFloat) -> CGFloat {

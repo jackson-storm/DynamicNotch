@@ -1,8 +1,11 @@
 internal import AppKit
 
 final class OverlayPanelWindow: NSPanel {
-    override var canBecomeKey: Bool { true }
-    override var canBecomeMain: Bool { true }
-    override var isKeyWindow: Bool { true }
-    override var isMainWindow: Bool { true }
+    var allowsKeyWindow: Bool = true
+    var allowsMainWindow: Bool = true
+
+    override var canBecomeKey: Bool { allowsKeyWindow }
+    override var canBecomeMain: Bool { allowsMainWindow }
+    override var isKeyWindow: Bool { allowsKeyWindow }
+    override var isMainWindow: Bool { allowsMainWindow }
 }

@@ -55,14 +55,6 @@ final class NotchViewModel: ObservableObject {
         displayedNotchModel.presentationID
     }
 
-    var effectiveDisplayedContent: NotchContentProtocol {
-        displayedContent ?? IdleNotchContent()
-    }
-
-    var effectiveDisplayedPresentationID: String {
-        displayedPresentationID ?? NotchContentRegistry.Idle.idle.id
-    }
-
     var isDynamicIsland: Bool {
         topInset == 0
     }
@@ -72,8 +64,7 @@ final class NotchViewModel: ObservableObject {
     }
 
     var hasRealDisplayedContent: Bool {
-        guard let content = displayedContent else { return false }
-        return content.id != NotchContentRegistry.Idle.idle.id
+        displayedContent != nil
     }
 
     var shouldRenderStroke: Bool {
@@ -85,6 +76,10 @@ final class NotchViewModel: ObservableObject {
         guard !isDisplayingExpandedLiveActivity else { return false }
 
         return content.allowsPressScaleEffect && content.allowsCompactPressScaleEffect
+    }
+
+    var displayedBaseNotchSize: CGSize {
+        displayedNotchModel.size
     }
 
     var presentedNotchSize: CGSize {
@@ -254,18 +249,29 @@ final class NotchViewModel: ObservableObject {
     }
     
     var dynamicIslandCornerRadius: CGFloat {
-        let height = presentedNotchSize.height
+        let height = swipeInteraction != nil ? displayedNotchModel.size.height : presentedNotchSize.height
+        let baseRadius: CGFloat
+        
         if isDisplayingExpandedLiveActivity {
             if let customizable = displayedContent {
-                return customizable.expandedDynamicIslandCornerRadius(baseHeight: height)
+                baseRadius = customizable.expandedDynamicIslandCornerRadius(baseHeight: height)
+            } else {
+                baseRadius = height * 0.2
             }
-            return height * 0.2
         } else {
             if let customizable = displayedContent {
-                return customizable.dynamicIslandCornerRadius(baseHeight: height)
+                baseRadius = customizable.dynamicIslandCornerRadius(baseHeight: height)
+            } else {
+                baseRadius = height * 0.5
             }
-            return height * 0.5
         }
+        
+        let model = displayedNotchModel
+        if isDynamicIsland && swipeInteraction != nil && model.size.height > model.baseHeight {
+            let swipeRadiusExpansion = SwipeFeedbackMetrics.swipeCornerRadiusExpansion * easedSwipeStretchProgress
+            return baseRadius + swipeRadiusExpansion
+        }
+        return baseRadius
     }
     
     var contentResizeBlurRadius: CGFloat {
@@ -346,7 +352,7 @@ final class NotchViewModel: ObservableObject {
             finalWidth = isDynamicIsland ? baseWidth * 0.85 : baseWidth
             finalHeight = notchSize.height + heightOffset + baseHeightAdjustment
         } else {
-            let baseWidthValue: CGFloat = isDynamicIsland ? 120 : 190
+            let baseWidthValue: CGFloat = isDynamicIsland ? 90 : 190
             let baseWidth = (baseWidthValue * widthScale) + widthOffset
             finalWidth = isDynamicIsland ? baseWidth * 0.85 : baseWidth
             finalHeight = 26 + heightOffset + baseHeightAdjustment
@@ -578,7 +584,7 @@ final class NotchViewModel: ObservableObject {
     private var isHoldingStrokeAfterContentHide: Bool {
         showNotch &&
         !hasRealDisplayedContent &&
-        (notchModel.content == nil || notchModel.content?.id == NotchContentRegistry.Idle.idle.id)
+        notchModel.content == nil
     }
 
     private var displayedNotchModel: NotchModel {

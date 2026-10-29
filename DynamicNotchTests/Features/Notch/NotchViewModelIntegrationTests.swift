@@ -1065,7 +1065,7 @@ final class NotchViewModelIntegrationTests: XCTestCase {
         viewModel.updateDimensions()
 
         let mainScale = max(0.35, CGFloat(1728) / 1440.0)
-        XCTAssertEqual(viewModel.notchModel.baseWidth, 110.84, accuracy: 0.01)
+        XCTAssertEqual(viewModel.notchModel.baseWidth, 83.56, accuracy: 0.01)
         XCTAssertEqual(viewModel.notchModel.baseHeight, 31.0, accuracy: 0.001)
     }
 
@@ -1095,7 +1095,7 @@ final class NotchViewModelIntegrationTests: XCTestCase {
         TestLifetime.retain(viewModel)
 
         let scale = max(0.35, CGFloat(1920) / 1440.0)
-        XCTAssertEqual(viewModel.notchModel.baseWidth, 115.60, accuracy: 0.01)
+        XCTAssertEqual(viewModel.notchModel.baseWidth, 87.13, accuracy: 0.01)
         XCTAssertEqual(viewModel.notchModel.baseHeight, 31.0, accuracy: 0.01)
     }
 
@@ -1291,7 +1291,59 @@ final class NotchViewModelIntegrationTests: XCTestCase {
     }
 
     @MainActor
-    func testRestoreSwipeKeepsCornerRadiusUnchanged() async {
+    func testSwipeDismissAndRestoreIncreasesCornerRadiusWhenHeightExceedsBaseHeightForDynamicIsland() async {
+        let settings = TestNotchSettings()
+        let viewModel = NotchViewModel(
+            settings: settings,
+            hideDelay: 0.05,
+            queueDelay: 0,
+            screenMetricsProvider: { _ in
+                (width: 1440, topInset: 0, notchSize: CGSize(width: 190, height: 32))
+            }
+        )
+        TestLifetime.retain(viewModel)
+
+        // Content with height > baseHeight (collapsedHeightOffset = 10)
+        viewModel.send(
+            .showLiveActivity(
+                TestNotchContent(
+                    id: "tallerContent",
+                    priority: 10,
+                    collapsedWidthOffset: 95,
+                    collapsedHeightOffset: 10
+                )
+            )
+        )
+
+        await assertEventually {
+            await MainActor.run { viewModel.notchModel.liveActivityContent?.id == "tallerContent" }
+        }
+
+        let initialRadius = viewModel.dynamicIslandCornerRadius
+
+        // Test restore swipe
+        viewModel.updateSwipeStretch(for: .restore, progress: 1.0)
+        let restoreRadius = viewModel.dynamicIslandCornerRadius
+        XCTAssertGreaterThan(restoreRadius, initialRadius)
+
+        // Test dismiss swipe
+        viewModel.updateSwipeStretch(for: .dismiss, progress: 1.0)
+        let dismissRadius = viewModel.dynamicIslandCornerRadius
+        XCTAssertGreaterThan(dismissRadius, initialRadius)
+
+        // Reset
+        viewModel.resetSwipeStretch()
+        await assertEventually {
+            await MainActor.run {
+                viewModel.dynamicIslandCornerRadius == initialRadius
+            }
+        }
+        let resetRadius = viewModel.dynamicIslandCornerRadius
+        XCTAssertEqual(resetRadius, initialRadius, accuracy: 0.001)
+    }
+
+    @MainActor
+    func testSwipeDismissAndRestoreDoesNotIncreaseCornerRadiusForPhysicalNotch() async {
         let settings = TestNotchSettings()
         let viewModel = NotchViewModel(
             settings: settings,
@@ -1303,11 +1355,11 @@ final class NotchViewModelIntegrationTests: XCTestCase {
         )
         TestLifetime.retain(viewModel)
 
-        // Send taller and wider live activity:
+        // Content with height > baseHeight (collapsedHeightOffset = 10)
         viewModel.send(
             .showLiveActivity(
                 TestNotchContent(
-                    id: "tallerAndWiderContent",
+                    id: "tallerContent",
                     priority: 10,
                     collapsedWidthOffset: 95,
                     collapsedHeightOffset: 10
@@ -1316,16 +1368,60 @@ final class NotchViewModelIntegrationTests: XCTestCase {
         )
 
         await assertEventually {
-            await MainActor.run { viewModel.notchModel.liveActivityContent?.id == "tallerAndWiderContent" }
+            await MainActor.run { viewModel.notchModel.liveActivityContent?.id == "tallerContent" }
         }
 
         let initialRadius = viewModel.interactiveCornerRadius
 
+        // Test restore swipe
         viewModel.updateSwipeStretch(for: .restore, progress: 1.0)
+        let restoreRadius = viewModel.interactiveCornerRadius
+        XCTAssertEqual(restoreRadius.bottom, initialRadius.bottom, accuracy: 0.001)
 
-        let newRadius = viewModel.interactiveCornerRadius
-        XCTAssertEqual(newRadius.top, initialRadius.top, accuracy: 0.001)
-        XCTAssertEqual(newRadius.bottom, initialRadius.bottom, accuracy: 0.001)
+        // Test dismiss swipe
+        viewModel.updateSwipeStretch(for: .dismiss, progress: 1.0)
+        let dismissRadius = viewModel.interactiveCornerRadius
+        XCTAssertEqual(dismissRadius.bottom, initialRadius.bottom, accuracy: 0.001)
+    }
+
+    @MainActor
+    func testSwipeDismissAndRestoreKeepsCornerRadiusUnchangedWhenHeightEqualsBaseHeight() async {
+        let settings = TestNotchSettings()
+        let viewModel = NotchViewModel(
+            settings: settings,
+            hideDelay: 0.05,
+            queueDelay: 0,
+            screenMetricsProvider: { _ in
+                (width: 1440, topInset: 0, notchSize: CGSize(width: 190, height: 32))
+            }
+        )
+        TestLifetime.retain(viewModel)
+
+        // Content with height == baseHeight (collapsedHeightOffset = 0)
+        viewModel.send(
+            .showLiveActivity(
+                TestNotchContent(
+                    id: "baseHeightContent",
+                    priority: 10,
+                    collapsedWidthOffset: 95,
+                    collapsedHeightOffset: 0
+                )
+            )
+        )
+
+        await assertEventually {
+            await MainActor.run { viewModel.notchModel.liveActivityContent?.id == "baseHeightContent" }
+        }
+
+        let initialRadius = viewModel.dynamicIslandCornerRadius
+
+        viewModel.updateSwipeStretch(for: .restore, progress: 1.0)
+        let restoreRadius = viewModel.dynamicIslandCornerRadius
+        XCTAssertEqual(restoreRadius, initialRadius, accuracy: 0.001)
+
+        viewModel.updateSwipeStretch(for: .dismiss, progress: 1.0)
+        let dismissRadius = viewModel.dynamicIslandCornerRadius
+        XCTAssertEqual(dismissRadius, initialRadius, accuracy: 0.001)
     }
 
     @MainActor

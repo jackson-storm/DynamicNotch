@@ -28,14 +28,12 @@ struct NowPlayingSettingsView: View {
             SettingsToggleRow(
                 title: "settings.nowPlaying.liveActivity.title",
                 description: "settings.nowPlaying.liveActivity.desc",
-                systemImage: "music.note",
+                systemImage: "play.fill",
                 color: .red,
                 isOn: $settings.isNowPlayingLiveActivityEnabled,
                 accessibilityIdentifier: "settings.activities.live.nowPlaying"
             )
             
-
-
             Divider().opacity(0.6)
 
             SettingsMenuRow(

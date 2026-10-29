@@ -88,32 +88,35 @@ struct NotchSurfaceContainerView: View {
     
     @ViewBuilder
     private var contentOverlay: some View {
-        let content = notchViewModel.effectiveDisplayedContent
-        renderedContentView(for: content)
-            .scaleEffect(
-                x: shouldApplyPressScale ? notchViewModel.pressScale : 1,
-                y: shouldApplyPressScale ? notchViewModel.pressScale : 1,
-                anchor: notchViewModel.isDynamicIsland ? .center : .top
-            )
-            .resizeAwareBlur(
-                size: notchViewModel.interactiveNotchSize,
-                baseHeight: notchViewModel.notchModel.baseHeight,
-                isResizeEffectEnabled: content.usesContentResizeEffect,
-                interactiveBlur: notchViewModel.contentResizeBlurRadius,
-                interactiveOpacity: notchViewModel.contentResizeOpacity,
-                swipeProgress: notchViewModel.easedSwipeStretchProgress,
-                swipeInteraction: notchViewModel.swipeInteraction
-            )
-            .id(notchViewModel.effectiveDisplayedPresentationID)
-            .transition(
-                notchViewModel.contentTransition(
-                    notchWidth: notchViewModel.presentedNotchSize.width,
-                    notchHeight: notchViewModel.presentedNotchSize.height,
-                    baseWidth: notchViewModel.notchModel.baseWidth,
-                    baseHeight: notchViewModel.notchModel.baseHeight,
-                    isExpandedPresentation: notchViewModel.isDisplayingExpandedLiveActivity
+        if let content = notchViewModel.displayedContent {
+            renderedContentView(for: content)
+                .scaleEffect(
+                    x: shouldApplyPressScale ? notchViewModel.pressScale : 1,
+                    y: shouldApplyPressScale ? notchViewModel.pressScale : 1,
+                    anchor: notchViewModel.isDynamicIsland ? .center : .top
                 )
-            )
+                .resizeAwareBlur(
+                    size: notchViewModel.interactiveNotchSize,
+                    baseSize: notchViewModel.displayedBaseNotchSize,
+                    baseHeight: notchViewModel.notchModel.baseHeight,
+                    anchor: notchViewModel.isDynamicIsland ? .center : .center,
+                    isResizeEffectEnabled: content.usesContentResizeEffect,
+                    interactiveBlur: notchViewModel.contentResizeBlurRadius,
+                    interactiveOpacity: notchViewModel.contentResizeOpacity,
+                    swipeProgress: notchViewModel.easedSwipeStretchProgress,
+                    swipeInteraction: notchViewModel.swipeInteraction
+                )
+                .id(notchViewModel.displayedPresentationID)
+                .transition(
+                    notchViewModel.contentTransition(
+                        notchWidth: notchViewModel.presentedNotchSize.width,
+                        notchHeight: notchViewModel.presentedNotchSize.height,
+                        baseWidth: notchViewModel.notchModel.baseWidth,
+                        baseHeight: notchViewModel.notchModel.baseHeight,
+                        isExpandedPresentation: notchViewModel.isDisplayingExpandedLiveActivity
+                    )
+                )
+        }
     }
     
     @MainActor

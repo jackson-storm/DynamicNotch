@@ -256,9 +256,9 @@ private enum SettingsSectionCatalog {
                     "stroke",
                     "playback"
                 ],
-                systemImage: "music.note",
+                systemImage: "play.fill",
                 imageName: nil,
-                tint: .red,
+                tint: .pink,
                 resetGroup: .nowPlaying
             )
 

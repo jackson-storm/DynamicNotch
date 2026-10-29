@@ -363,7 +363,8 @@ final class LockScreenLiveActivityWindowManager {
         
         let window = OverlayPanelFactory.makePanel(
             frame: overlayFrame(on: screen),
-            level: OverlayWindowLevel.lockScreenNotch
+            level: OverlayWindowLevel.lockScreenNotch,
+            canBecomeKey: false
         )
         
         overlayWindow = window

@@ -125,6 +125,7 @@ enum GeneralSettingsStorage {
         static let calendarOngoingEventHideMinutes = "settings.calendar.ongoingEventHideMinutes"
         static let calendarPrivacyMode = "settings.calendar.privacy"
         static let calendarSoundAlert = "settings.calendar.soundAlert"
+        static let calendarShowCreatedEventsOnly = "settings.calendar.showCreatedEventsOnly"
         static let externalDrivesNotificationsEnabled = "settings.notifications.externalDrives.enabled"
         static let externalDrivesNotificationDuration = "settings.notifications.externalDrives.duration"
         static let externalDrivesShowEjected = "settings.notifications.externalDrives.showEjected"
@@ -267,6 +268,7 @@ enum GeneralSettingsStorage {
         Keys.calendarOngoingEventHideMinutes: 0,
         Keys.calendarPrivacyMode: false,
         Keys.calendarSoundAlert: false,
+        Keys.calendarShowCreatedEventsOnly: false,
         Keys.externalDrivesNotificationsEnabled: true,
         Keys.externalDrivesNotificationDuration: 8,
         Keys.externalDrivesShowEjected: true

@@ -40,14 +40,14 @@ struct LocalTimerSetupNotchView: View {
     }
 
     var body: some View {
-        VStack(spacing: 0) {
+        VStack {
             Spacer()
             rulerSection
             bottomControls
-                .padding(.trailing, 4)
+            Spacer()
         }
-        .padding(.horizontal, isNotchlessScreen ? 15 : 40)
-        .padding(.bottom, 15)
+        .padding(.top, isNotchlessScreen ? 25 : 35)
+        .padding(.horizontal, isNotchlessScreen ? 15 : 45)
     }
 
     private var rulerSection: some View {
@@ -204,6 +204,7 @@ struct LocalTimerSetupNotchView: View {
             .foregroundStyle(Color.orange)
             .lineLimit(1)
             .minimumScaleFactor(0.8)
+            .padding(.trailing, 4)
     }
 
     private var displayTimeString: String {

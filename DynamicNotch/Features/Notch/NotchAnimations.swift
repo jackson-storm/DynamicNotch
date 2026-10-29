@@ -52,7 +52,7 @@ struct NotchAnimations {
     static let balanced: Self = {
         let damping: Double = 0.70
         let expandDamping: Double = 0.75
-        let baseResponse: Double = 0.47
+        let baseResponse: Double = 0.5
         let blend: Double = 1.0
         
         return Self(
@@ -72,7 +72,7 @@ struct NotchAnimations {
             strokeVisibility: .spring(response: baseResponse, blendDuration: blend),
             notchVisibility: .spring(response: baseResponse, blendDuration: blend),
             
-            transitionDelay: 0.32,
+            transitionDelay: 0.30,
             queuePacingDelay: 0.30
         )
     }()

@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct TimerMinimalNotchView: View {
+struct TimerNotchView: View {
     let source: TimerSource
 
     init(source: TimerSource) {

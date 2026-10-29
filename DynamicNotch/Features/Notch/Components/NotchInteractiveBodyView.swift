@@ -24,7 +24,6 @@ struct NotchInteractiveBodyView: View {
             isPressed: $notchViewModel.isPressed,
             baseSize: notchViewModel.presentedNotchSize
         )
-        .offset(y: notchViewModel.isDynamicIsland ? 9 : 1)
         .customNotchMouseSwipeable(
             notchViewModel: notchViewModel,
             isEnabled: shouldEnableNotchSwipeGestures
@@ -33,6 +32,7 @@ struct NotchInteractiveBodyView: View {
             notchViewModel: notchViewModel,
             isEnabled: shouldEnableNotchSwipeGestures
         )
+        .offset(y: notchViewModel.isDynamicIsland ? 9 : 1)
         .contextMenu {
             NotchContextMenu(settingsViewModel: settingsViewModel)
         }

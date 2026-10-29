@@ -24,11 +24,11 @@ enum FaceIDEnrollmentStep: Equatable {
     func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         switch self {
         case .intro:
-            return CGSize(width: baseWidth + 220, height: baseHeight + 115)
+            return CGSize(width: baseWidth + 250, height: baseHeight + 115)
         case .camera:
-            return CGSize(width: baseWidth + 170, height: baseHeight + 240)
+            return CGSize(width: baseWidth + 200, height: baseHeight + 240)
         case .success:
-            return CGSize(width: baseWidth + 200, height: baseHeight + 75)
+            return CGSize(width: baseWidth + 230, height: baseHeight + 75)
         }
     }
     

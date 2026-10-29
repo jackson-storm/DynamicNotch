@@ -132,7 +132,6 @@ enum NotchContentPriority {
         .screenRecording,
     ]
 
-    static let idle = -1000
     static let `default` = 0
     static let focus = 1
     static let hotspot = 2

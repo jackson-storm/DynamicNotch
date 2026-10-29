@@ -305,6 +305,7 @@ final class LockScreenFaceIDWindowManager {
             if success {
                 self.hideButton()
                 self.lockScreenManager.handleFaceIDUnlock()
+                NSApp.deactivate()
                 FaceIDService.shared.unlockWithSavedPassword()
 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) { [weak self] in
@@ -328,7 +329,8 @@ final class LockScreenFaceIDWindowManager {
 
         let window = OverlayPanelFactory.makePanel(
             frame: buttonFrame(for: screen),
-            level: OverlayWindowLevel.lockScreenNotch
+            level: OverlayWindowLevel.lockScreenNotch,
+            canBecomeKey: false
         )
 
         buttonWindow = window

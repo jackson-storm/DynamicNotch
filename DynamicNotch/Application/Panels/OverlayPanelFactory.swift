@@ -22,13 +22,20 @@ enum OverlayPanelFactory {
         return behavior
     }
 
-    static func makePanel(frame: NSRect, level: NSWindow.Level, isFloatingPanel: Bool = true) -> OverlayPanelWindow {
+    static func makePanel(
+        frame: NSRect,
+        level: NSWindow.Level,
+        isFloatingPanel: Bool = true,
+        canBecomeKey: Bool = true
+    ) -> OverlayPanelWindow {
         let window = OverlayPanelWindow(
             contentRect: frame,
             styleMask: [.borderless, .nonactivatingPanel],
             backing: .buffered,
             defer: false
         )
+        window.allowsKeyWindow = canBecomeKey
+        window.allowsMainWindow = canBecomeKey
 
         configure(window, level: level, isFloatingPanel: isFloatingPanel)
         return window

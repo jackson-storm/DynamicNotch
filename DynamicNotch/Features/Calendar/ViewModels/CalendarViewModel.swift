@@ -57,6 +57,7 @@ final class CalendarViewModel: ObservableObject {
         let daysToShow = UserDefaults.standard.object(forKey: GeneralSettingsStorage.Keys.calendarDaysToShow) as? Int ?? GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.calendarDaysToShow] as! Int
         let showAllDay = UserDefaults.standard.object(forKey: GeneralSettingsStorage.Keys.calendarShowAllDay) as? Bool ?? GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.calendarShowAllDay] as! Bool
         let includedCalendarIDs = UserDefaults.standard.object(forKey: GeneralSettingsStorage.Keys.calendarIncludedCalendarIDs) as? [String] ?? []
+        let showCreatedEventsOnly = UserDefaults.standard.object(forKey: GeneralSettingsStorage.Keys.calendarShowCreatedEventsOnly) as? Bool ?? GeneralSettingsStorage.defaultValues[GeneralSettingsStorage.Keys.calendarShowCreatedEventsOnly] as! Bool
         
         guard let endDate = Calendar.current.date(byAdding: .day, value: daysToShow, to: now) else { return }
         
@@ -72,6 +73,10 @@ final class CalendarViewModel: ObservableObject {
         
         if !showAllDay {
             fetchedEvents = fetchedEvents.filter { !$0.isAllDay }
+        }
+
+        if showCreatedEventsOnly {
+            fetchedEvents = fetchedEvents.filter { isCreatedByCurrentUser(event: $0) }
         }
         
         if !dismissedEventIdentifiers.isEmpty {
@@ -95,6 +100,16 @@ final class CalendarViewModel: ObservableObject {
             lastAlertedEventIdentifier = event.eventIdentifier
             NSSound(named: "Glass")?.play()
         }
+    }
+
+    func isCreatedByCurrentUser(event: EKEvent) -> Bool {
+        if let organizer = event.organizer {
+            return organizer.isCurrentUser
+        }
+        if event.calendar.isSubscribed || event.calendar.type == .subscription || event.calendar.type == .birthday || !event.calendar.allowsContentModifications {
+            return false
+        }
+        return true
     }
     
     func startAutoRefresh() {

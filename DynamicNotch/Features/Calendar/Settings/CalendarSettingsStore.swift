@@ -32,6 +32,9 @@ final class CalendarSettingsStore: SettingsStoreBase {
     @StoredDefault(key: GeneralSettingsStorage.Keys.calendarSoundAlert, defaultValue: false)
     var isSoundAlertEnabled: Bool
 
+    @StoredDefault(key: GeneralSettingsStorage.Keys.calendarShowCreatedEventsOnly, defaultValue: true)
+    var showCreatedEventsOnly: Bool
+
     func resetCalendar() {
         isCalendarLiveActivityEnabled = true
         showAllDayEvents = true
@@ -42,6 +45,7 @@ final class CalendarSettingsStore: SettingsStoreBase {
         ongoingEventHideMinutes = 0
         isPrivacyModeEnabled = false
         isSoundAlertEnabled = false
+        showCreatedEventsOnly = true
     }
 
     override init(defaults: UserDefaults) {

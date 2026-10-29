@@ -28,6 +28,17 @@ struct CalendarSettingsView: View {
 
     private var displayOptionsCard: some View {
         SettingsCard(title: "settings.calendar.card.displayOptions") {
+            SettingsToggleRow(
+                title: "settings.calendar.showCreatedEventsOnly.title",
+                description: "settings.calendar.showCreatedEventsOnly.desc",
+                systemImage: "person.crop.circle",
+                color: .pink,
+                isOn: $settings.showCreatedEventsOnly,
+                accessibilityIdentifier: "settings.activities.calendar.showCreatedEventsOnly"
+            )
+
+            Divider().opacity(0.6)
+
             SettingsMenuRow(
                 title: "settings.calendar.noticeMinutes.title",
                 description: "settings.calendar.noticeMinutes.desc",

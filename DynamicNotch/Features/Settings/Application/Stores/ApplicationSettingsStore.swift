@@ -41,7 +41,7 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
 
     @Published var notchWidth: Int {
         didSet {
-            let clamped = min(20, max(-20, notchWidth))
+            let clamped = min(5, max(-5, notchWidth))
             if clamped != notchWidth {
                 notchWidth = clamped
                 return
@@ -53,7 +53,7 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
     }
     @Published var notchHeight: Int {
         didSet {
-            let clamped = min(0, max(-4, notchHeight))
+            let clamped = min(1, max(-1, notchHeight))
             if clamped != notchHeight {
                 notchHeight = clamped
                 return
@@ -208,8 +208,8 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
 
     override init(defaults: UserDefaults) {
         self.isLaunchAtLoginEnabled = defaults.bool(forKey: GeneralSettingsStorage.Keys.launchAtLogin)
-        self.notchWidth = min(20, max(-20, defaults.integer(forKey: GeneralSettingsStorage.Keys.notchWidth)))
-        self.notchHeight = min(0, max(-4, defaults.integer(forKey: GeneralSettingsStorage.Keys.notchHeight)))
+        self.notchWidth = min(5, max(-5, defaults.integer(forKey: GeneralSettingsStorage.Keys.notchWidth)))
+        self.notchHeight = min(1, max(-1, defaults.integer(forKey: GeneralSettingsStorage.Keys.notchHeight)))
         self.notchStrokeOpacity = Self.resolvedNotchStrokeOpacity(defaults: defaults)
         self.displayLocation = NotchDisplayLocation(
             rawValue: defaults.string(forKey: GeneralSettingsStorage.Keys.displayLocation) ?? NotchDisplayLocation.main.rawValue

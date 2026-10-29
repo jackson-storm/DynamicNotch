@@ -10,7 +10,6 @@ struct SettingsRootView: View {
     private enum SelectionChangeOrigin {
         case sidebar
         case history
-        case search
         case initial
     }
 
@@ -44,10 +43,8 @@ struct SettingsRootView: View {
     }
     
     @StateObject private var permissionController = SettingsPermissionController()
-    @State private var searchText = ""
     @State private var selectedSection: SettingsRootViewModel.Section
     @State private var selectionHistory: SettingsRootViewModel.SelectionHistory
-    @State private var isShowingSearchSelection = false
     @State private var pendingResetSubPage: SettingsSubPage?
     @State private var navigationPath: [SettingsSubPage] = []
     @State private var availableDisplays = NSScreen.availableNotchDisplays()
@@ -151,20 +148,6 @@ struct SettingsRootView: View {
             .background {
                 if colorScheme == .dark {
                     if isBlueNightMode {
-                        Color(red: 0.090, green: 0.129, blue: 0.169)
-                    } else {
-                        Color(red: 0.14, green: 0.14, blue: 0.15)
-                    }
-                }
-            }
-            .searchable(
-                text: $searchText,
-                placement: .sidebar,
-                prompt: localized("settings.search.prompt")
-            )
-            .background {
-                if colorScheme == .dark {
-                    if isBlueNightMode {
                         Color(red: 0.090, green: 0.129, blue: 0.169).ignoresSafeArea()
                     } else {
                         Color(red: 0.14, green: 0.14, blue: 0.15).ignoresSafeArea()
@@ -176,14 +159,8 @@ struct SettingsRootView: View {
         } detail: {
             NavigationStack(path: $navigationPath) {
                 ZStack(alignment: .top) {
-                    Group {
-                        if filteredSections.isEmpty {
-                            SettingsSearchEmptyState(query: searchText)
-                        } else {
-                            detailView(for: resolvedSelection)
-                                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-                        }
-                    }
+                    detailView(for: selectedSection)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                     
                     Color.clear
                         .frame(height: 52)
@@ -216,15 +193,12 @@ struct SettingsRootView: View {
                             .ignoresSafeArea(.container, edges: .top)
                     }
                     .navigationBarBackButtonHidden(true)
-                    .toolbar { toolbarContent(for: resolvedSelection) }
+                    .toolbar { toolbarContent(for: selectedSection) }
                 }
             }
         }
         .navigationTitle(currentTitle)
         .navigationSubtitle(currentSubtitle)
-        .onChange(of: searchText) { _, newValue in
-            syncSelectionWithSearch(query: newValue)
-        }
         .onAppear {
             applySelection(viewModel.initialSelection(), origin: .initial)
             updateWindowStyle()
@@ -300,46 +274,12 @@ struct SettingsRootView: View {
         )
     }
 
-    private var filteredSections: [SettingsRootViewModel.Section] {
-        let query = trimmedSearchText
-        guard !query.isEmpty else {
-            return viewModel.sections
-        }
-
-        return viewModel.sections.filter { section in
-            searchableStrings(for: section).contains { value in
-                value.localizedCaseInsensitiveContains(query)
-            }
-        }
-    }
-
-    private var trimmedSearchText: String {
-        searchText.trimmingCharacters(in: .whitespacesAndNewlines)
-    }
-
-    private func searchableStrings(for section: SettingsRootViewModel.Section) -> [String] {
-        [
-            localized(section.titleKey, fallback: section.fallbackTitle),
-            section.fallbackTitle,
-            localized(section.subtitleKey, fallback: section.fallbackSubtitle),
-            section.fallbackSubtitle
-        ] + section.searchKeywords
-    }
-
     private var groupedSections: [(group: SettingsRootViewModel.SidebarGroup, sections: [SettingsRootViewModel.Section])] {
         SettingsRootViewModel.SidebarGroup.allCases.compactMap { group in
-            let sections = filteredSections.filter { $0.sidebarGroup == group }
+            let sections = viewModel.sections.filter { $0.sidebarGroup == group }
             guard !sections.isEmpty else { return nil }
             return (group, sections)
         }
-    }
-
-    private var resolvedSelection: SettingsRootViewModel.Section {
-        if filteredSections.contains(selectedSection) {
-            return selectedSection
-        }
-
-        return filteredSections.first ?? .general
     }
 
     private var canNavigateBack: Bool {
@@ -355,47 +295,22 @@ struct SettingsRootView: View {
         switch origin {
         case .sidebar:
             guard selectedSection != section ||
-                    isShowingSearchSelection ||
                     selectionHistory.currentSelection != section else {
                 return
             }
 
             selectionHistory.record(section)
             selectedSection = section
-            isShowingSearchSelection = false
             viewModel.persistSelection(section)
 
         case .history:
-            guard selectedSection != section || isShowingSearchSelection else { return }
+            guard selectedSection != section else { return }
             selectedSection = section
-            isShowingSearchSelection = false
             viewModel.persistSelection(section)
-
-        case .search:
-            guard selectedSection != section || !isShowingSearchSelection else { return }
-            selectedSection = section
-            isShowingSearchSelection = true
 
         case .initial:
             selectionHistory = .init(initialSelection: section)
             selectedSection = section
-            isShowingSearchSelection = false
-        }
-    }
-
-    private func syncSelectionWithSearch(query: String) {
-        let trimmedQuery = query.trimmingCharacters(in: .whitespacesAndNewlines)
-
-        if trimmedQuery.isEmpty {
-            guard isShowingSearchSelection else { return }
-            applySelection(selectionHistory.currentSelection, origin: .history)
-            return
-        }
-
-        guard !filteredSections.isEmpty else { return }
-
-        if !filteredSections.contains(selectedSection) {
-            applySelection(filteredSections[0], origin: .search)
         }
     }
 
@@ -405,21 +320,13 @@ struct SettingsRootView: View {
             return
         }
         guard let previousSection = selectionHistory.goBack() else { return }
-        revealSectionIfNeeded(previousSection)
         applySelection(previousSection, origin: .history)
     }
 
     private func navigateForward() {
         guard navigationPath.isEmpty else { return }
         guard let nextSection = selectionHistory.goForward() else { return }
-        revealSectionIfNeeded(nextSection)
         applySelection(nextSection, origin: .history)
-    }
-
-    private func revealSectionIfNeeded(_ section: SettingsRootViewModel.Section) {
-        guard !trimmedSearchText.isEmpty else { return }
-        guard !filteredSections.contains(section) else { return }
-        searchText = ""
     }
 
     @ViewBuilder
@@ -661,9 +568,6 @@ struct SettingsRootView: View {
     }
 
     private var currentTitle: String {
-        if filteredSections.isEmpty {
-            return localized("settings.search.title")
-        }
         if let subPage = navigationPath.last {
             return localized(subPage.titleKey, fallback: subPage.fallbackTitle)
         }
@@ -671,9 +575,6 @@ struct SettingsRootView: View {
     }
 
     private var currentSubtitle: String {
-        if filteredSections.isEmpty {
-            return localized("settings.search.subtitle")
-        }
         if let subPage = navigationPath.last {
             return localized(subPage.subtitleKey, fallback: subPage.fallbackSubtitle)
         }

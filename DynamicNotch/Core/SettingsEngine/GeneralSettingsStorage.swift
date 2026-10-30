@@ -56,6 +56,34 @@ enum GeneralSettingsStorage {
         static let nowPlayingFavoriteButtonVisible = "settings.nowPlaying.favoriteButtonVisible"
         static let nowPlayingOutputDeviceButtonVisible = "settings.nowPlaying.outputDeviceButtonVisible"
         static let nowPlayingArtwork3DEffectEnabled = "settings.nowPlaying.artwork3DEffectEnabled"
+        static let nowPlayingNotchLyricsEnabled = "settings.nowPlaying.notchLyricsEnabled"
+        static let nowPlayingFloatingLyricsEnabled = "settings.nowPlaying.floatingLyricsEnabled"
+        static let floatingLyricsShowsTrackInfo = "settings.floatingLyrics.showsTrackInfo"
+        static let floatingLyricsShowsNextLine = "settings.floatingLyrics.showsNextLine"
+        static let floatingLyricsFontSize = "settings.floatingLyrics.fontSize"
+        static let floatingLyricsWidth = "settings.floatingLyrics.width"
+        static let floatingLyricsBackgroundOpacity = "settings.floatingLyrics.backgroundOpacity"
+        static let floatingLyricsAlignment = "settings.floatingLyrics.alignment"
+        static let floatingLyricsColorStyle = "settings.floatingLyrics.colorStyle"
+        static let floatingLyricsCustomColor = "settings.floatingLyrics.customColor"
+        static let floatingLyricsFontDesign = "settings.floatingLyrics.fontDesign"
+        static let floatingLyricsShadowEnabled = "settings.floatingLyrics.shadowEnabled"
+        static let floatingLyricsHidesOnHover = "settings.floatingLyrics.hidesOnHover"
+        static let floatingLyricsHidesWhenPaused = "settings.floatingLyrics.hidesWhenPaused"
+        static let floatingLyricsPositionLocked = "settings.floatingLyrics.positionLocked"
+        static let floatingLyricsToggleShortcutKeyCode = "settings.floatingLyrics.toggleShortcut.keyCode"
+        static let floatingLyricsToggleShortcutModifiers = "settings.floatingLyrics.toggleShortcut.modifiers"
+        static let floatingLyricsToggleShortcutKeyDisplay = "settings.floatingLyrics.toggleShortcut.keyDisplay"
+        static let lyricsDelayLaterShortcutKeyCode = "settings.lyrics.delayLaterShortcut.keyCode"
+        static let lyricsDelayLaterShortcutModifiers = "settings.lyrics.delayLaterShortcut.modifiers"
+        static let lyricsDelayLaterShortcutKeyDisplay = "settings.lyrics.delayLaterShortcut.keyDisplay"
+        static let lyricsDelayEarlierShortcutKeyCode = "settings.lyrics.delayEarlierShortcut.keyCode"
+        static let lyricsDelayEarlierShortcutModifiers = "settings.lyrics.delayEarlierShortcut.modifiers"
+        static let lyricsDelayEarlierShortcutKeyDisplay = "settings.lyrics.delayEarlierShortcut.keyDisplay"
+        static let lyricsGlobalDelay = "settings.lyrics.globalDelay"
+        static let notchLyricsTranslationEnabled = "settings.lyrics.notchTranslationEnabled"
+        static let lyricsTranslationEnabled = "settings.lyrics.translationEnabled"
+        static let lyricsTranslationLanguage = "settings.lyrics.translationLanguage"
         static let nowPlayingArtworkTintEnabled = "settings.nowPlaying.artworkTintEnabled"
         static let nowPlayingProgressTintStyle = "settings.nowPlaying.progressTintStyle"
         static let nowPlayingPauseHideTimerEnabled = "settings.nowPlaying.pauseHideTimerEnabled"
@@ -188,6 +216,34 @@ enum GeneralSettingsStorage {
         Keys.nowPlayingFavoriteButtonVisible: true,
         Keys.nowPlayingOutputDeviceButtonVisible: true,
         Keys.nowPlayingArtwork3DEffectEnabled: true,
+        Keys.nowPlayingNotchLyricsEnabled: true,
+        Keys.nowPlayingFloatingLyricsEnabled: true,
+        Keys.floatingLyricsShowsTrackInfo: true,
+        Keys.floatingLyricsShowsNextLine: true,
+        Keys.floatingLyricsFontSize: 17.0,
+        Keys.floatingLyricsWidth: 340.0,
+        Keys.floatingLyricsBackgroundOpacity: 0.82,
+        Keys.floatingLyricsAlignment: FloatingLyricsAlignment.leading.rawValue,
+        Keys.floatingLyricsColorStyle: FloatingLyricsColorStyle.white.rawValue,
+        Keys.floatingLyricsCustomColor: "#FFD166",
+        Keys.floatingLyricsFontDesign: FloatingLyricsFontDesign.standard.rawValue,
+        Keys.floatingLyricsShadowEnabled: true,
+        Keys.floatingLyricsHidesOnHover: false,
+        Keys.floatingLyricsHidesWhenPaused: false,
+        Keys.floatingLyricsPositionLocked: false,
+        Keys.floatingLyricsToggleShortcutKeyCode: 3,
+        Keys.floatingLyricsToggleShortcutModifiers: 786432,
+        Keys.floatingLyricsToggleShortcutKeyDisplay: "F",
+        Keys.lyricsDelayLaterShortcutKeyCode: 30,
+        Keys.lyricsDelayLaterShortcutModifiers: 786432,
+        Keys.lyricsDelayLaterShortcutKeyDisplay: "]",
+        Keys.lyricsDelayEarlierShortcutKeyCode: 33,
+        Keys.lyricsDelayEarlierShortcutModifiers: 786432,
+        Keys.lyricsDelayEarlierShortcutKeyDisplay: "[",
+        Keys.lyricsGlobalDelay: 0.0,
+        Keys.notchLyricsTranslationEnabled: true,
+        Keys.lyricsTranslationEnabled: false,
+        Keys.lyricsTranslationLanguage: LyricsTranslationLanguage.systemDefault.rawValue,
         Keys.nowPlayingArtworkTintEnabled: false,
         Keys.nowPlayingProgressTintStyle: NowPlayingProgressTintStyle.default.rawValue,
         Keys.nowPlayingPauseHideTimerEnabled: true,

@@ -61,6 +61,11 @@ final class AppContainer {
         airDropController: airDropController
     )
 
+    lazy var floatingLyricsWindowManager = FloatingLyricsWindowManager(
+        nowPlayingViewModel: nowPlayingViewModel,
+        settings: settingsViewModel.mediaAndFiles
+    )
+
     lazy var lockScreenFaceIDWindowManager = LockScreenFaceIDWindowManager(
         lockScreenManager: lockScreenManager,
         faceIDSettings: settingsViewModel.faceID,

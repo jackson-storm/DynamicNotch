@@ -33,9 +33,6 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
     @StoredDefault(key: GeneralSettingsStorage.Keys.appearanceMode, defaultValue: .system)
     var appearanceMode: SettingsAppearanceMode
 
-    @StoredDefault(key: GeneralSettingsStorage.Keys.isBlueNightMode, defaultValue: false)
-    var isBlueNightMode: Bool
-
     @StoredDefault(key: GeneralSettingsStorage.Keys.notchBackgroundStyle, defaultValue: .black)
     var notchBackgroundStyle: NotchBackgroundStyle
 
@@ -229,7 +226,6 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
             defaultString(for: GeneralSettingsStorage.Keys.appearanceMode)
         )
 
-        isBlueNightMode = defaultBool(for: GeneralSettingsStorage.Keys.isBlueNightMode)
         isMenuBarIconVisible = defaultBool(for: GeneralSettingsStorage.Keys.menuBarIcon)
         displayLocation = NotchDisplayLocation(
             rawValue: defaultString(for: GeneralSettingsStorage.Keys.displayLocation)
@@ -253,11 +249,19 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         )
     }
 
+    func resetSystem() {
+        isLaunchAtLoginEnabled = defaultBool(for: GeneralSettingsStorage.Keys.launchAtLogin)
+        isDockIconVisible = defaultBool(for: GeneralSettingsStorage.Keys.dockIcon)
+        isMenuBarIconVisible = defaultBool(for: GeneralSettingsStorage.Keys.menuBarIcon)
+        appearanceMode = SettingsAppearanceMode.resolved(
+            defaultString(for: GeneralSettingsStorage.Keys.appearanceMode)
+        )
+    }
+
     func resetAppearance() {
         appearanceMode = SettingsAppearanceMode.resolved(
             defaultString(for: GeneralSettingsStorage.Keys.appearanceMode)
         )
-        isBlueNightMode = defaultBool(for: GeneralSettingsStorage.Keys.isBlueNightMode)
     }
 
     func resetDisplay() {

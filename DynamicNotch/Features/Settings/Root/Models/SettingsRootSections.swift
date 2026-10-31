@@ -69,6 +69,8 @@ extension SettingsRootViewModel {
 
     enum Section: String, CaseIterable, Identifiable {
         case general
+        static var permissions: Section { .general }
+        case about
         #if DEBUG
         case debug
         #endif
@@ -154,6 +156,10 @@ extension SettingsRootViewModel {
                 return .general
             case "permissions":
                 return .general
+            case "notch":
+                return .general
+            case "about":
+                return .about
             case "homePage", "homeScreen":
                 return .general
             case "activities", "liveActivity":
@@ -221,7 +227,6 @@ private enum SettingsSectionCatalog {
                 tint: .gray,
                 resetGroup: .general
             )
-
 
         case .nowPlaying:
             return .init(
@@ -420,6 +425,19 @@ private enum SettingsSectionCatalog {
                 imageName: nil,
                 tint: .green,
                 resetGroup: .faceID
+            )
+
+        case .about:
+            return .init(
+                sidebarGroup: .application,
+                titleKey: "settings.section.about.title",
+                fallbackTitle: "About",
+                subtitleKey: "settings.section.about.subtitle",
+                fallbackSubtitle: "Version information, updates, and support.",
+                systemImage: "info.circle.fill",
+                imageName: nil,
+                tint: .gray,
+                resetGroup: nil
             )
         }
     }

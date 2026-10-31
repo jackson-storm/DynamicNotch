@@ -7,38 +7,83 @@
 
 import SwiftUI
 
+enum AboutAppTab: String, CaseIterable, Identifiable {
+    case about
+    case support
+    
+    var id: String { rawValue }
+    
+    var titleKey: LocalizedStringKey {
+        switch self {
+        case .about:
+            return "settings.section.about.title"
+        case .support:
+            return "settings.general.support.title"
+        }
+    }
+}
+
 struct AboutAppSettingsView: View {
     @Environment(\.openURL) private var openURL
     @Environment(\.colorScheme) private var colorScheme
     @ObservedObject var applicationSettings: ApplicationSettingsStore
+    @ObservedObject private var updater = SparkleUpdater.shared
     
     let onRequestInternetAccess: () -> Bool
     
+    @State private var selectedTab: AboutAppTab = .about
+    
+    private var currentVersion: String {
+        let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
+        return "\(version)"
+    }
+    
     private var appVersionText: String {
-        let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
-        
-        switch (version) {
-        case let (version?):
-            return "v\(version)"
-        default:
-            return "DynamicNotch"
-        }
+        "v\(currentVersion)"
     }
     
     var body: some View {
-        SettingsPageScrollView {
-            headerCard
-            socialLinksCard
-            contactMeCard
+        Group {
+            switch selectedTab {
+            case .about:
+                aboutTab
+            case .support:
+                SupportSettingsView(onRequestInternetAccess: onRequestInternetAccess)
+            }
         }
         .accessibilityIdentifier("settings.about.root")
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
+                Picker("", selection: $selectedTab.animation(.easeInOut(duration: 0.2))) {
+                    ForEach(AboutAppTab.allCases) { tab in
+                        Text(tab.titleKey).tag(tab)
+                    }
+                }
+                .pickerStyle(.segmented)
+                .labelsHidden()
+            }
+            ToolbarItem(placement: .primaryAction) {
                 Text(appVersionText)
-                    .font(.system(size: 14, weight: .semibold))
-                    .foregroundStyle(.secondary)
                     .padding(.horizontal, 10)
             }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("SelectSettingsSubPage"))) { notification in
+            if let subPage = notification.object as? SettingsSubPage {
+                if subPage == .support {
+                    selectedTab = .support
+                } else if subPage == .about || subPage == .softwareUpdate {
+                    selectedTab = .about
+                }
+            }
+        }
+    }
+    
+    private var aboutTab: some View {
+        SettingsPageScrollView {
+            headerCard
+            softwareUpdateCard
+            socialLinksCard
+            contactMeCard
         }
     }
     
@@ -68,8 +113,50 @@ struct AboutAppSettingsView: View {
         }
     }
     
+    private var softwareUpdateCard: some View {
+        SettingsCard {
+            SettingsButtonRow(
+                title: "settings.section.softwareUpdate.title",
+                description: "Version \(currentVersion)",
+                buttonTitle: "settings.update.checkNow",
+                isButtonDisabled: !updater.canCheckForUpdates,
+                accessibilityIdentifier: "settings.update.versionCard"
+            ) {
+                updater.checkForUpdates()
+            }
+            
+            Divider()
+                .opacity(0.6)
+            
+            SettingsToggleRow(
+                title: "settings.update.autoCheck.title",
+                description: "settings.update.autoCheck.desc",
+                systemImage: "bell.badge.fill",
+                color: .red,
+                isOn: $updater.automaticallyChecksForUpdates,
+                accessibilityIdentifier: "settings.update.automaticallyChecks"
+            )
+            
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+            
+            SettingsToggleRow(
+                title: "settings.update.autoDownload.title",
+                description: "settings.update.autoDownload.desc",
+                systemImage: "arrow.down.circle.dotted",
+                color: .blue,
+                isOn: $updater.automaticallyDownloadsUpdates,
+                accessibilityIdentifier: "settings.update.automaticallyDownloads"
+            )
+            .disabled(!updater.automaticallyChecksForUpdates)
+            .opacity(!updater.automaticallyChecksForUpdates ? 0.5 : 1)
+        }
+    }
+    
     private var socialLinksCard: some View {
-        SettingsCard(spacing: 0, padding: 0) {
+        SettingsCard(title: "settings.about.card.socialLinks", spacing: 0, padding: 0) {
             SettingsUrlRowView(
                 title: "settings.about.telegramChannel.title",
                 description: "settings.about.telegramChannel.desc",

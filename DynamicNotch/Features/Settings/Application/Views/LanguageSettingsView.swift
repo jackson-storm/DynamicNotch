@@ -9,6 +9,8 @@ import SwiftUI
 
 struct LanguageSettingsView: View {
     @ObservedObject var applicationSettings: ApplicationSettingsStore
+    var isEmbedded: Bool = false
+    
     @State private var selectedTarget: LanguageTarget = .settings
     
     enum LanguageTarget: String, CaseIterable, Identifiable {
@@ -28,6 +30,27 @@ struct LanguageSettingsView: View {
     }
     
     var body: some View {
+        Group {
+            if isEmbedded {
+                content
+            } else {
+                content
+                    .toolbar {
+                        ToolbarItem(placement: .principal) {
+                            Picker("", selection: $selectedTarget.animation(.easeInOut(duration: 0.15))) {
+                                ForEach(LanguageTarget.allCases) { target in
+                                    Text(target.titleKey).tag(target)
+                                }
+                            }
+                            .pickerStyle(.segmented)
+                            .labelsHidden()
+                        }
+                    }
+            }
+        }
+    }
+    
+    private var content: some View {
         SettingsPageScrollView {
             systemLanguageCard
             
@@ -37,21 +60,31 @@ struct LanguageSettingsView: View {
             case .notch:
                 notchLanguageListCard
             }
+
+            SettingsResetCard(targetName: localized("settings.section.language.title", fallback: "Language")) {
+                applicationSettings.resetLanguage()
+            }
         }
+    }
+
+    private func localized(_ key: String, fallback: String? = nil) -> String {
+        applicationSettings.appLanguage.locale.dn(key, fallback: fallback)
     }
     
     private var systemLanguageCard: some View {
         SettingsCard {
-            Picker("", selection: $selectedTarget) {
-                ForEach(LanguageTarget.allCases) { target in
-                    Text(target.titleKey).tag(target)
+            if isEmbedded {
+                Picker("", selection: $selectedTarget.animation(.easeInOut(duration: 0.15))) {
+                    ForEach(LanguageTarget.allCases) { target in
+                        Text(target.titleKey).tag(target)
+                    }
                 }
+                .pickerStyle(.segmented)
+                .labelsHidden()
+                
+                Divider()
+                    .opacity(0.6)
             }
-            .pickerStyle(.segmented)
-            .labelsHidden()
-            
-            Divider()
-                .opacity(0.6)
             
             SettingsToggleRow(
                 title: "settings.language.option.system",

@@ -22,7 +22,7 @@ struct PermissionsSettingsView: View {
     }
 
     private var permissionsCard: some View {
-        SettingsCard() {
+        SettingsCard(title: "settings.section.permissions.title") {
             ForEach(Array(permissionController.permissionItems.enumerated()), id: \.element.id) { index, item in
                 permissionRow(for: item)
 

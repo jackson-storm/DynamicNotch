@@ -105,7 +105,7 @@ enum SettingsSubPage: Hashable, Identifiable {
     
     var canReset: Bool {
         switch self {
-        case .appearance, .notch, .language, .activityPriorities, .notchDisplay, .gestures, .timer, .externalDrives:
+        case .appearance, .system, .notch, .language, .activityPriorities, .notchDisplay, .gestures, .timer, .externalDrives:
             return true
         default:
             return false

@@ -29,23 +29,25 @@ struct SettingsRootView: View {
 
     private let viewModel: SettingsRootViewModel
     
-    @AppStorage("settings.general.isBlueNightMode") private var isBlueNightMode = false
     @Environment(\.colorScheme) private var colorScheme
     
-    private var nsBackgroundColor: NSColor {
-        if isBlueNightMode && colorScheme == .dark {
-            return NSColor(red: 0.07, green: 0.11, blue: 0.17, alpha: 1.0)
-        } else if colorScheme == .dark {
-            return NSColor(red: 0.11, green: 0.11, blue: 0.12, alpha: 1.0)
-        } else {
-            return NSColor(red: 0.94, green: 0.94, blue: 0.95, alpha: 1.0)
+    private enum ResetTarget: Identifiable {
+        case section(SettingsRootViewModel.Section)
+        case subPage(SettingsSubPage)
+
+        var id: String {
+            switch self {
+            case .section(let s): return "section-\(s.rawValue)"
+            case .subPage(let sp): return "subPage-\(sp.id)"
+            }
         }
     }
-    
+
     @StateObject private var permissionController = SettingsPermissionController()
     @State private var selectedSection: SettingsRootViewModel.Section
     @State private var selectionHistory: SettingsRootViewModel.SelectionHistory
-    @State private var pendingResetSubPage: SettingsSubPage?
+    @State private var pendingResetTarget: ResetTarget?
+    @State private var selectedGeneralTab: GeneralTab = .notch
     @State private var navigationPath: [SettingsSubPage] = []
     @State private var availableDisplays = NSScreen.availableNotchDisplays()
     @ObservedObject private var updater = SparkleUpdater.shared
@@ -127,7 +129,7 @@ struct SettingsRootView: View {
                                         tint: section.tint,
                                         iconColor: section.iconColor,
                                         stroke: section.stroke,
-                                        showBadge: section == .general && updater.isUpdateAvailable
+                                        showBadge: (section == .about || section == .general) && updater.isUpdateAvailable
                                     )
                                 } else {
                                     SettingsSidebarRow(
@@ -136,7 +138,7 @@ struct SettingsRootView: View {
                                         tint: section.tint,
                                         iconColor: section.iconColor,
                                         stroke: section.stroke,
-                                        showBadge: section == .general && updater.isUpdateAvailable
+                                        showBadge: (section == .about || section == .general) && updater.isUpdateAvailable
                                     )
                                 }
                             }
@@ -144,57 +146,21 @@ struct SettingsRootView: View {
                     }
                 }
             }
-            .scrollContentBackground(colorScheme == .dark ? .hidden : .visible)
-            .background {
-                if colorScheme == .dark {
-                    if isBlueNightMode {
-                        Color(red: 0.090, green: 0.129, blue: 0.169).ignoresSafeArea()
-                    } else {
-                        Color(red: 0.14, green: 0.14, blue: 0.15).ignoresSafeArea()
-                    }
-                }
-            }
+            .scrollContentBackground(.hidden)
             .navigationSplitViewColumnWidth(min: 170, ideal: 200, max: 200)
 
         } detail: {
             NavigationStack(path: $navigationPath) {
-                ZStack(alignment: .top) {
-                    detailView(for: selectedSection)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-                    
-                    Color.clear
-                        .frame(height: 52)
-                        .background {
-                            Color(nsColor: nsBackgroundColor)
-                        }
-                        .overlay(alignment: .bottom) {
-                            Divider()
-                                .opacity(0.6)
-                        }
-                        .ignoresSafeArea(.container, edges: .top)
-                }
-                .scrollContentBackground(.hidden)
-                .background {
-                    Color(nsColor: nsBackgroundColor)
-                }
-                .navigationDestination(for: SettingsSubPage.self) { subPage in
-                    ZStack(alignment: .top) {
+                detailView(for: selectedSection)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                    .scrollContentBackground(.hidden)
+                    .navigationDestination(for: SettingsSubPage.self) { subPage in
                         subPageView(for: subPage)
-                        
-                        Color.clear
-                            .frame(height: 52)
-                            .background {
-                                Color(nsColor: nsBackgroundColor)
-                            }
-                            .overlay(alignment: .bottom) {
-                                Divider()
-                                    .opacity(0.6)
-                            }
-                            .ignoresSafeArea(.container, edges: .top)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                            .scrollContentBackground(.hidden)
+                            .navigationBarBackButtonHidden(true)
+                            .toolbar { toolbarContent(for: selectedSection) }
                     }
-                    .navigationBarBackButtonHidden(true)
-                    .toolbar { toolbarContent(for: selectedSection) }
-                }
             }
         }
         .navigationTitle(currentTitle)
@@ -203,26 +169,60 @@ struct SettingsRootView: View {
             applySelection(viewModel.initialSelection(), origin: .initial)
             updateWindowStyle()
         }
-        .onChange(of: isBlueNightMode) {
-            updateWindowStyle()
-        }
         .onChange(of: colorScheme) {
             updateWindowStyle()
         }
         .onChange(of: settingsViewModel.application.appearanceMode) {
             updateWindowStyle()
         }
-        .alert(item: $pendingResetSubPage) { subPage in
-            let title = settingsViewModel.application.appLanguage.locale.dnFormat(
-                "settings.reset.title",
-                fallback: "Reset %@ settings?",
-                localized(subPage.titleKey, fallback: subPage.fallbackTitle)
-            )
+        .alert(item: $pendingResetTarget) { target in
+            let title: String
+            switch target {
+            case .section(let section):
+                if section == .general {
+                    title = settingsViewModel.application.appLanguage.locale.dnFormat(
+                        "settings.reset.title",
+                        fallback: "Reset %@ settings?",
+                        localized(selectedGeneralTab.titleKeyString, fallback: selectedGeneralTab.fallbackTitle)
+                    )
+                } else {
+                    title = settingsViewModel.application.appLanguage.locale.dnFormat(
+                        "settings.reset.title",
+                        fallback: "Reset %@ settings?",
+                        localized(section.titleKey, fallback: section.fallbackTitle)
+                    )
+                }
+            case .subPage(let subPage):
+                title = settingsViewModel.application.appLanguage.locale.dnFormat(
+                    "settings.reset.title",
+                    fallback: "Reset %@ settings?",
+                    localized(subPage.titleKey, fallback: subPage.fallbackTitle)
+                )
+            }
             return Alert(
                 title: Text(title),
                 message: Text(localized("settings.reset.message")),
                 primaryButton: .destructive(Text(localized("settings.reset.action"))) {
-                    resetCurrentSubPage(subPage)
+                    switch target {
+                    case .section(let section):
+                        if section == .general {
+                            switch selectedGeneralTab {
+                            case .notch:
+                                settingsViewModel.application.resetNotch()
+                                settingsViewModel.application.resetDisplay()
+                            case .language:
+                                settingsViewModel.application.resetLanguage()
+                            case .theme:
+                                settingsViewModel.application.resetAppearance()
+                            case .other:
+                                settingsViewModel.application.resetSystem()
+                            }
+                        } else {
+                            viewModel.reset(section)
+                        }
+                    case .subPage(let subPage):
+                        resetCurrentSubPage(subPage)
+                    }
                 },
                 secondaryButton: .cancel(Text(localized("common.cancel")))
             )
@@ -231,7 +231,8 @@ struct SettingsRootView: View {
         .environment(\.locale, settingsViewModel.application.appLanguage.locale)
         .preferredColorScheme(settingsViewModel.application.appearanceMode.preferredColorScheme)
         .background {
-            Color(nsColor: nsBackgroundColor)
+            VisualEffectView(material: .sidebar, blendingMode: .behindWindow)
+                .ignoresSafeArea()
         }
         .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("SelectSettingsSection"))) { notification in
             if let section = notification.object as? SettingsRootViewModel.Section {
@@ -240,8 +241,28 @@ struct SettingsRootView: View {
         }
         .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("SelectSettingsSubPage"))) { notification in
             if let subPage = notification.object as? SettingsSubPage {
-                applySelection(.general, origin: .sidebar)
-                navigationPath = [subPage]
+                switch subPage {
+                case .about, .softwareUpdate, .support:
+                    applySelection(.about, origin: .sidebar)
+                case .permissions:
+                    applySelection(.general, origin: .sidebar)
+                    selectedGeneralTab = .permissions
+                case .notch:
+                    applySelection(.general, origin: .sidebar)
+                    selectedGeneralTab = .notch
+                case .language:
+                    applySelection(.general, origin: .sidebar)
+                    selectedGeneralTab = .language
+                case .appearance:
+                    applySelection(.general, origin: .sidebar)
+                    selectedGeneralTab = .theme
+                case .system:
+                    applySelection(.general, origin: .sidebar)
+                    selectedGeneralTab = .other
+                default:
+                    applySelection(.general, origin: .sidebar)
+                    navigationPath = [subPage]
+                }
             }
         }
     }
@@ -260,11 +281,12 @@ struct SettingsRootView: View {
             window.appearance = NSAppearance(named: .darkAqua)
         }
         
-        window.backgroundColor = nsBackgroundColor
-        window.isOpaque = true
+        window.backgroundColor = .clear
+        window.isOpaque = false
         
-        window.titlebarAppearsTransparent = true
+        window.titlebarAppearsTransparent = false
         window.titleVisibility = .visible
+        window.toolbarStyle = .unified
     }
 
     private var selectionBinding: Binding<SettingsRootViewModel.Section> {
@@ -335,11 +357,13 @@ struct SettingsRootView: View {
         case .general:
             detailContainer(for: section) {
                 GeneralSettingsView(
+                    powerService: powerService,
                     applicationSettings: settingsViewModel.application,
-                    permissionController: permissionController
+                    permissionController: permissionController,
+                    availableDisplays: $availableDisplays,
+                    selectedTab: $selectedGeneralTab
                 )
             }
-
 
         case .nowPlaying:
             detailContainer(for: section) {
@@ -455,6 +479,16 @@ struct SettingsRootView: View {
                     notchViewModel: notchViewModel
                 )
             }
+
+        case .about:
+            detailContainer(for: section) {
+                AboutAppSettingsView(
+                    applicationSettings: settingsViewModel.application,
+                    onRequestInternetAccess: {
+                        notchEventCoordinator.requestInternetAccess()
+                    }
+                )
+            }
         }
     }
 
@@ -490,20 +524,47 @@ struct SettingsRootView: View {
             .accessibilityIdentifier("settings.toolbar.forward")
         }
 
-        if let subPage = navigationPath.last, subPage.canReset {
-            ToolbarItem(placement: .confirmationAction) {
+        if section == .general && navigationPath.isEmpty {
+            ToolbarItem(placement: .principal) {
+                Picker("", selection: $selectedGeneralTab.animation(.easeInOut(duration: 0.15))) {
+                    ForEach(GeneralTab.allCases) { tab in
+                        Text(tab.titleKey).tag(tab)
+                    }
+                }
+                .pickerStyle(.segmented)
+                .labelsHidden()
+                .offset(x: 100)
+            }
+        }
+
+        if let subPage = navigationPath.last {
+            if subPage.canReset {
+                ToolbarItem(placement: .primaryAction) {
+                    Button {
+                        pendingResetTarget = .subPage(subPage)
+                    } label: {
+                        Text(localized("settings.reset.action", fallback: "Reset"))
+                            .padding(.horizontal, 5)
+                    }
+                    .help(
+                        String(
+                            format: localized("settings.reset.help.available", fallback: "Reset current tab to defaults"),
+                            localized(subPage.titleKey, fallback: subPage.fallbackTitle)
+                        )
+                    )
+                    .accessibilityIdentifier("settings.toolbar.resetCurrentSubPage")
+                }
+            }
+        } else if viewModel.canReset(section) && section != .general {
+            ToolbarItem(placement: .primaryAction) {
                 Button {
-                    pendingResetSubPage = subPage
+                    pendingResetTarget = .section(section)
                 } label: {
                     Text(localized("settings.reset.action", fallback: "Reset"))
+                        .padding(.horizontal, 5)
                 }
-                .help(
-                    String(
-                        format: localized("settings.reset.help.available", fallback: "Reset current tab to defaults"),
-                        localized(subPage.titleKey, fallback: subPage.fallbackTitle)
-                    )
-                )
-                .accessibilityIdentifier("settings.toolbar.resetCurrentSubPage")
+                .help(viewModel.resetHelpText(for: section, locale: settingsViewModel.application.appLanguage.locale))
+                .accessibilityIdentifier("settings.toolbar.resetCurrentSection")
             }
         }
     }
@@ -517,7 +578,7 @@ struct SettingsRootView: View {
     private func subPageView(for subPage: SettingsSubPage) -> some View {
         switch subPage {
         case .appearance:
-            AppearanceSettingsView(applicationSettings: settingsViewModel.application)
+            SystemSettingsView(applicationSettings: settingsViewModel.application)
         case .notch:
             NotchSettingsView(
                 powerService: powerService,
@@ -571,12 +632,18 @@ struct SettingsRootView: View {
         if let subPage = navigationPath.last {
             return localized(subPage.titleKey, fallback: subPage.fallbackTitle)
         }
+        if selectedSection == .general {
+            return ""
+        }
         return localized(selectedSection.titleKey, fallback: selectedSection.fallbackTitle)
     }
 
     private var currentSubtitle: String {
         if let subPage = navigationPath.last {
             return localized(subPage.subtitleKey, fallback: subPage.fallbackSubtitle)
+        }
+        if selectedSection == .general {
+            return ""
         }
         return localized(selectedSection.subtitleKey, fallback: selectedSection.fallbackSubtitle)
     }
@@ -585,6 +652,8 @@ struct SettingsRootView: View {
         switch page {
         case .appearance:
             settingsViewModel.application.resetAppearance()
+        case .system:
+            settingsViewModel.application.resetSystem()
         case .notch:
             settingsViewModel.application.resetNotch()
             settingsViewModel.application.resetDisplay()
@@ -596,10 +665,32 @@ struct SettingsRootView: View {
             settingsViewModel.application.resetDisplay()
         case .gestures:
             settingsViewModel.application.resetGestures()
+        case .timer:
+            settingsViewModel.mediaAndFiles.resetTimer()
         case .externalDrives:
             settingsViewModel.externalDevices.reset()
         default:
             break
         }
+    }
+}
+
+private struct VisualEffectView: NSViewRepresentable {
+    var material: NSVisualEffectView.Material = .sidebar
+    var blendingMode: NSVisualEffectView.BlendingMode = .behindWindow
+    var state: NSVisualEffectView.State = .active
+
+    func makeNSView(context: Context) -> NSVisualEffectView {
+        let view = NSVisualEffectView()
+        view.material = material
+        view.blendingMode = blendingMode
+        view.state = state
+        return view
+    }
+
+    func updateNSView(_ nsView: NSVisualEffectView, context: Context) {
+        nsView.material = material
+        nsView.blendingMode = blendingMode
+        nsView.state = state
     }
 }

@@ -13,11 +13,30 @@ struct SystemSettingsView: View {
     var body: some View {
         SettingsPageScrollView {
             systemCard
+            themeCard
+        }
+    }
+    
+    private var themeCard: some View {
+        SettingsCard(title: "settings.general.appearance.title") {
+            CustomPicker(
+                selection: $applicationSettings.appearanceMode,
+                options: Array(SettingsAppearanceMode.allCases),
+                title: { $0.title },
+                headerTitle: "settings.appearance.theme.headerTitle",
+                headerDescription: "settings.appearance.theme.headerDesc",
+                itemHeight: 110,
+                lightBackgroundImage: Image("backgroundLight"),
+                darkBackgroundImage: Image("backgroundDark")
+            ) { mode, isSelected in
+                ThemeAppearancePickerContent(mode: mode, isSelected: isSelected)
+            }
+            .accessibilityIdentifier("settings.general.appearanceMode")
         }
     }
     
     private var systemCard: some View {
-        SettingsCard() {
+        SettingsCard(title: "settings.general.system.title") {
             SettingsToggleRow(
                 title: "settings.system.launchAtLogin.title",
                 description: "settings.system.launchAtLogin.desc",

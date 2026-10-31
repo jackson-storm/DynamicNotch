@@ -15,94 +15,28 @@ struct TrayExpandedActiveNotchView: View {
     @Environment(\.locale) private var locale
     @ObservedObject var fileTrayViewModel: FileTrayViewModel
     @ObservedObject var mediaSettings: MediaAndFilesSettingsStore
-
+    
     var body: some View {
-        ZStack {
-            VStack(alignment: .leading) {
-                header
-                Spacer()
-            }
-            .padding(.top, isNotchlessScreen ? 8.scaled(by: scale) : 4.scaled(by: scale))
-            .padding(.horizontal, isNotchlessScreen ? 12 : 42)
-            
-            VStack(alignment: .leading) {
-                Spacer()
-
-                ScrollView(.horizontal, showsIndicators: false) {
-                    trayItems
-                }
-                .frame(maxHeight: 100)
-                .mask {
-                    ScrollFadeMask(cornerRadius: 24, maskType: .horizontalFade)
+        VStack(alignment: .leading) {
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 10) {
+                    trayItemViews
                 }
             }
-            .padding(.horizontal, isNotchlessScreen ? 4 : 34)
-            .padding(.bottom, isNotchlessScreen ? 7 : 14)
+            .frame(maxHeight: 100)
         }
+        .padding(.top, isNotchlessScreen ? 20 : 30)
+        .padding(.horizontal, isNotchlessScreen ? 15 : 38)
     }
-
-    private var header: some View {
-        HStack(spacing: 5) {
-            Button {
-                withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
-                    if fileTrayViewModel.hasSelection {
-                        fileTrayViewModel.clearSelection()
-                    } else {
-                        fileTrayViewModel.selectAll()
-                    }
-                }
-            } label: {
-                HStack(spacing: 5) {
-                    Image(systemName: "tray.full.fill")
-                        .font(.system(size: 18))
-                    AnimatedLevelText(level: fileTrayViewModel.count, fontSize: 14)
-                }
-            }
-            .buttonStyle(PressedButtonStyle(width: 60, height: 30))
-            
-            Spacer()
-            
-            Button {
-                withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
-                    if fileTrayViewModel.hasSelection {
-                        fileTrayViewModel.removeSelectedItems()
-                    } else {
-                        fileTrayViewModel.clear()
-                    }
-                }
-            } label: {
-                HStack(spacing: 5) {
-                    Image(systemName: "trash.fill")
-                        .font(.system(size: 16))
-                    if fileTrayViewModel.hasSelection {
-                        AnimatedLevelText(level: fileTrayViewModel.selectedCount, fontSize: 14)
-                    } else {
-                        Text(locale.dn("notch.dragDrop.all", fallback: "All"))
-                            .font(.system(size: 14))
-                    }
-                }
-            }
-            .buttonStyle(PressedButtonStyle(width: 60, height: 30))
-        }
-        .foregroundStyle(.white)
-    }
-
-    private var trayItems: some View {
-        HStack(spacing: 10) {
-            trayItemViews
-        }
-        .padding(.horizontal, 8)
-    }
-
+    
     @ViewBuilder
     private var trayItemViews: some View {
         ForEach(fileTrayViewModel.items) { item in
             let isSelected = fileTrayViewModel.selectedItemIDs.contains(item.id)
-
+            
             TrayExpandedItemView(
                 item: item,
                 isSelected: isSelected,
-                showsRemoveButton: !mediaSettings.isFileTrayRemoveButtonHidden,
                 draggedItems: {
                     fileTrayViewModel.itemsForDrag(startingAt: item)
                 },
@@ -134,7 +68,6 @@ struct TrayExpandedActiveNotchView: View {
 private struct TrayExpandedItemView: View {
     let item: FileTrayItem
     let isSelected: Bool
-    let showsRemoveButton: Bool
     let draggedItems: () -> [FileTrayItem]
     let onMoveCompleted: ([FileTrayItem]) -> Void
     let onSelect: () -> Void
@@ -167,7 +100,6 @@ private struct TrayExpandedItemView: View {
         .overlay {
             TrayExpandedItemDragView(
                 draggedItems: draggedItems,
-                showsRemoveButton: showsRemoveButton,
                 onMoveCompleted: onMoveCompleted,
                 onSelect: onSelect,
                 onPressedChange: { isPressed in
@@ -176,17 +108,15 @@ private struct TrayExpandedItemView: View {
             )
         }
         .overlay(alignment: .topTrailing) {
-            if showsRemoveButton {
-                Button(action: onRemove) {
-                    Image(systemName: "xmark.circle.fill")
-                        .font(.system(size: 14, weight: .semibold))
-                        .foregroundStyle(.white.opacity(0.58))
-                        .background(Circle().fill(.black.opacity(0.28)))
-                }
-                .buttonStyle(PressedButtonStyle(width: 18, height: 18))
-                .padding(.top, 5)
-                .padding(.trailing, 5)
+            Button(action: onRemove) {
+                Image(systemName: "xmark.circle.fill")
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundStyle(.white.opacity(0.58))
+                    .background(Circle().fill(.black.opacity(0.28)))
             }
+            .buttonStyle(PressedButtonStyle(width: 18, height: 18))
+            .padding(.top, 5)
+            .padding(.trailing, 5)
         }
         .scaleEffect(isPressed ? 0.9 : 1)
         .animation(.spring(response: 0.22, dampingFraction: 0.58), value: isPressed)
@@ -196,7 +126,6 @@ private struct TrayExpandedItemView: View {
 
 private struct TrayExpandedItemDragView: NSViewRepresentable {
     let draggedItems: () -> [FileTrayItem]
-    let showsRemoveButton: Bool
     let onMoveCompleted: ([FileTrayItem]) -> Void
     let onSelect: () -> Void
     let onPressedChange: (Bool) -> Void
@@ -204,7 +133,6 @@ private struct TrayExpandedItemDragView: NSViewRepresentable {
     func makeNSView(context: Context) -> TrayExpandedItemDragNSView {
         let view = TrayExpandedItemDragNSView()
         view.draggedItems = draggedItems
-        view.showsRemoveButton = showsRemoveButton
         view.onMoveCompleted = onMoveCompleted
         view.onSelect = onSelect
         view.onPressedChange = onPressedChange
@@ -213,7 +141,6 @@ private struct TrayExpandedItemDragView: NSViewRepresentable {
     
     func updateNSView(_ nsView: TrayExpandedItemDragNSView, context: Context) {
         nsView.draggedItems = draggedItems
-        nsView.showsRemoveButton = showsRemoveButton
         nsView.onMoveCompleted = onMoveCompleted
         nsView.onSelect = onSelect
         nsView.onPressedChange = onPressedChange
@@ -222,11 +149,10 @@ private struct TrayExpandedItemDragView: NSViewRepresentable {
 
 private final class TrayExpandedItemDragNSView: NSView, NSDraggingSource, QLPreviewPanelDataSource, QLPreviewPanelDelegate {
     var draggedItems: () -> [FileTrayItem] = { [] }
-    var showsRemoveButton = true
     var onMoveCompleted: ([FileTrayItem]) -> Void = { _ in }
     var onSelect: () -> Void = {}
     var onPressedChange: (Bool) -> Void = { _ in }
-
+    
     private var mouseDownEvent: NSEvent?
     private var didBeginDragging = false
     private var activeDragItems: [FileTrayItem] = []
@@ -236,9 +162,9 @@ private final class TrayExpandedItemDragNSView: NSView, NSDraggingSource, QLPrev
     override func acceptsFirstMouse(for event: NSEvent?) -> Bool {
         true
     }
-
+    
     override func hitTest(_ point: NSPoint) -> NSView? {
-        if showsRemoveButton && closeButtonHitRect.contains(point) {
+        if closeButtonHitRect.contains(point) {
             return nil
         }
         
@@ -341,7 +267,7 @@ private final class TrayExpandedItemDragNSView: NSView, NSDraggingSource, QLPrev
     ) -> NSDragOperation {
         dragOperation(for: activeDragItems)
     }
-
+    
     func draggingSession(
         _ session: NSDraggingSession,
         endedAt screenPoint: NSPoint,
@@ -352,16 +278,16 @@ private final class TrayExpandedItemDragNSView: NSView, NSDraggingSource, QLPrev
             mouseDownEvent = nil
             didBeginDragging = false
         }
-
+        
         guard operation.contains(.move) else {
             return
         }
-
+        
         let movedItems = activeDragItems.filter(\.movesOutOfTrayOnDrag)
         guard movedItems.isEmpty == false else {
             return
         }
-
+        
         onMoveCompleted(movedItems)
     }
     
@@ -374,9 +300,9 @@ private final class TrayExpandedItemDragNSView: NSView, NSDraggingSource, QLPrev
         guard items.isEmpty == false else {
             return
         }
-
+        
         activeDragItems = items
-
+        
         let point = convert(event.locationInWindow, from: nil)
         let draggingItems = items.enumerated().map { index, item in
             makeDraggingItem(for: item, index: index, at: point)
@@ -385,15 +311,15 @@ private final class TrayExpandedItemDragNSView: NSView, NSDraggingSource, QLPrev
         beginDraggingSession(with: draggingItems, event: event, source: self)
         mouseDownEvent = nil
     }
-
+    
     private func dragOperation(for items: [FileTrayItem]) -> NSDragOperation {
         guard items.isEmpty == false else {
             return []
         }
-
+        
         return items.allSatisfy(\.movesOutOfTrayOnDrag) ? .move : .copy
     }
-
+    
     private func makeDraggingItem(
         for item: FileTrayItem,
         index: Int,

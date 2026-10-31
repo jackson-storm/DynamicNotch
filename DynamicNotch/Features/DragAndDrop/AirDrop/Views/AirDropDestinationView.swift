@@ -231,7 +231,7 @@ final class DragAndDropView: NSView {
             return outerDropZoneRect
         }
 
-        let spacing = AirDropDropZoneMetrics.combinedSpacing
+        let spacing: CGFloat = 12
         let spacingWidth = spacing * CGFloat(targets.count - 1)
         let itemWidth = max((outerDropZoneRect.width - spacingWidth) / CGFloat(targets.count), 0)
         let xOffset = CGFloat(index) * (itemWidth + spacing)
@@ -245,12 +245,12 @@ final class DragAndDropView: NSView {
     }
 
     private var outerDropZoneRect: NSRect {
-        let width = max(bounds.width - (AirDropDropZoneMetrics.horizontalPadding * 2), 0)
-        let height = min(AirDropDropZoneMetrics.height, bounds.height)
+        let width = max(bounds.width - (36 * 2), 0)
+        let height = min(90, bounds.height)
 
         return NSRect(
-            x: AirDropDropZoneMetrics.horizontalPadding,
-            y: AirDropDropZoneMetrics.verticalPadding,
+            x: 36,
+            y: 12,
             width: width,
             height: height
         )

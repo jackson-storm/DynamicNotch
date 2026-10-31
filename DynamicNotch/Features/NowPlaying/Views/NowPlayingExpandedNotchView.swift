@@ -66,8 +66,6 @@ struct NowPlayingExpandedNotchView: View {
         let appearance = settings.nowPlayingAppearanceOptions
 
         return VStack(spacing: 12) {
-            Spacer()
-            
             headerSection(snapshot: snapshot, appearance: appearance)
             
             PlayerProgressBar(
@@ -99,10 +97,7 @@ struct NowPlayingExpandedNotchView: View {
                     scrubProgress = nil
                 }
             )
-            
             controlsSection(snapshot: snapshot, appearance: appearance)
-            
-            Spacer()
         }
         .padding(.top, isNotchlessScreen ? 5 : 20)
         .padding(.horizontal, isNotchlessScreen ? 20 : 55)

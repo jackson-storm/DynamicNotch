@@ -41,10 +41,8 @@ struct LocalTimerSetupNotchView: View {
 
     var body: some View {
         VStack {
-            Spacer()
             rulerSection
             bottomControls
-            Spacer()
         }
         .padding(.top, isNotchlessScreen ? 25 : 35)
         .padding(.horizontal, isNotchlessScreen ? 15 : 45)

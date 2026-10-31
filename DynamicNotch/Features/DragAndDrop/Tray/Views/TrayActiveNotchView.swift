@@ -25,6 +25,6 @@ struct TrayActiveNotchView: View {
                 .foregroundStyle(.white)
         }
         .padding(.leading, isNotchlessScreen ? 5.scaled(by: scale) : 14.scaled(by: scale))
-        .padding(.trailing, isNotchlessScreen ? 8.scaled(by: scale) : 14.scaled(by: scale))
+        .padding(.trailing, isNotchlessScreen ? 8.scaled(by: scale) : 15.scaled(by: scale))
     }
 }

@@ -40,7 +40,7 @@ enum OnboardingSteps: String, Equatable, CaseIterable {
     func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         switch self {
         case .first:
-            .init(width: baseWidth + 180, height: baseHeight + 95)
+            .init(width: baseWidth + 180, height: baseHeight + 100)
         case .second:
             .init(width: baseWidth + 250, height: baseHeight + 130)
         case .third:

@@ -8,15 +8,11 @@ struct ScreenRecordingExpandedNotchView: View {
 
     var body: some View {
         VStack {
-            Spacer()
-            
             HStack() {
                 rightContent
                 Spacer()
                 leftContent
             }
-            
-            Spacer()
         }
         .padding(.top, isNotchlessScreen ? 0 : 20)
         .padding(.leading, isNotchlessScreen ? 25 : 45)

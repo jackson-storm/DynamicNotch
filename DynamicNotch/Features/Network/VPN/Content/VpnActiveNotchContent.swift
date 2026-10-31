@@ -27,7 +27,7 @@ struct VpnActiveNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     }
     
     func expandedDynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        .init(width: baseWidth + 250, height: baseHeight + 65)
+        .init(width: baseWidth + 250, height: baseHeight + 55)
     }
 
     func expandedCornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
@@ -35,7 +35,7 @@ struct VpnActiveNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     }
     
     func expandedDynamicIslandCornerRadius(baseHeight: CGFloat) -> CGFloat {
-        baseHeight * 0.45
+        baseHeight * 0.5
     }
 
     var windowLink: (@MainActor () -> Void)? {

@@ -7,8 +7,6 @@ struct ScreenshotNotchView: View {
     
     var body: some View {
         VStack {
-            Spacer()
-            
             HStack {
                 leftContent
                 Spacer()
@@ -17,8 +15,6 @@ struct ScreenshotNotchView: View {
             .padding(.horizontal, 10)
             
             buttons
-            
-            Spacer()
         }
         .padding(.top, isNotchlessScreen ? 10 : 25)
         .padding(.horizontal, isNotchlessScreen ? 15 : 40)

@@ -9,19 +9,19 @@ struct CalendarMinimalNotchView: View {
     var body: some View {
         HStack {
             Image(systemName: "calendar")
-                .font(.system(size: isNotchlessScreen ? 16 : 20, weight: .semibold))
-                .foregroundColor(.white)
+                .font(.system(size: isNotchlessScreen ? 18 : 20, weight: .semibold))
+                .foregroundStyle(.white)
             
             Spacer()
             
             if calendarViewModel.nextEvent != nil {
                 Text(calendarViewModel.formattedNextEventTime)
                     .font(.system(size: 14, design: .rounded))
-                    .foregroundStyle(.red)
+                    .foregroundStyle(.red.gradient)
                     .monospacedDigit()
             }
         }
         .padding(.leading, isNotchlessScreen ? 6.scaled(by: notchScale) : 14.scaled(by: notchScale))
-        .padding(.trailing, isNotchlessScreen ? 6.scaled(by: notchScale) : 14.scaled(by: notchScale))
+        .padding(.trailing, isNotchlessScreen ? 7.scaled(by: notchScale) : 14.scaled(by: notchScale))
     }
 }

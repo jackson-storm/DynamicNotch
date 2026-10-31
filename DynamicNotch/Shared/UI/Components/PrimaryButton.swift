@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PrimaryButtonStyle: ButtonStyle {
     var width: CGFloat = .infinity
-    var height: CGFloat = 30
+    var height: CGFloat = .infinity
     var backgroundColor: Color = .blue
     var foregroundColor: Color = .white
     

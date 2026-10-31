@@ -16,40 +16,47 @@ struct DownloadNotchView: View {
     
     var body: some View {
         HStack {
-            if let url = download?.url {
-                DownloadFileThumbnailView(url: url, size: isNotchlessScreen ? 20 : 25)
-            } else {
-                Image(systemName: "document.fill")
-                    .font(.system(size: 18, weight: .semibold))
-                    .foregroundStyle(.white)
-            }
-            
+            image
             Spacer()
-            
-            if settings.downloadsProgressIndicatorStyle == .circle {
-                DownloadProgressIndicatorView(
-                    progress: download?.progress ?? 0.08,
-                    indicatorStyle: indicatorStyle,
-                    barWidth: 34,
-                    barHeight: 4,
-                    circleSize: 18,
-                    circleLineWidth: 3,
-                    percentFontSize: 14
-                )
-            } else {
-                DownloadProgressIndicatorView(
-                    progress: download?.progress ?? 0.08,
-                    indicatorStyle: indicatorStyle,
-                    barWidth: 34,
-                    barHeight: 4,
-                    circleSize: isNotchlessScreen ? 16 : 18,
-                    circleLineWidth: 3,
-                    percentFontSize: 14
-                )
-            }
+            indicator
         }
         .padding(.leading, isNotchlessScreen ? 7.scaled(by: scale) : 12.scaled(by: scale))
         .padding(.trailing, isNotchlessScreen ? trailingPadding.scaled(by: scale) : 14.scaled(by: scale))
+    }
+    
+    @ViewBuilder
+    private var image: some View {
+        if let url = download?.url {
+            DownloadFileThumbnailView(url: url, size: isNotchlessScreen ? 20 : 25)
+        } else {
+            Image(systemName: "document.fill")
+                .font(.system(size: 18, weight: .semibold))
+                .foregroundStyle(.white)
+        }
+    }
+    
+    private var indicator: some View {
+        if settings.downloadsProgressIndicatorStyle == .circle {
+            DownloadProgressIndicatorView(
+                progress: download?.progress ?? 0.08,
+                indicatorStyle: indicatorStyle,
+                barWidth: 34,
+                barHeight: 4,
+                circleSize: 18,
+                circleLineWidth: 3,
+                percentFontSize: 14
+            )
+        } else {
+            DownloadProgressIndicatorView(
+                progress: download?.progress ?? 0.08,
+                indicatorStyle: indicatorStyle,
+                barWidth: 34,
+                barHeight: 4,
+                circleSize: isNotchlessScreen ? 16 : 18,
+                circleLineWidth: 3,
+                percentFontSize: 14
+            )
+        }
     }
     
     private static let byteCountFormatter: ByteCountFormatter = {

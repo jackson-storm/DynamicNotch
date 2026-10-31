@@ -29,7 +29,7 @@ struct VpnActiveNotchView: View {
                 Image(nsImage: nsImage)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 26, height: 26)
+                    .frame(width: isNotchlessScreen ? 24 : 26, height: isNotchlessScreen ? 24 : 26)
                     .cornerRadius(8)
             }
             

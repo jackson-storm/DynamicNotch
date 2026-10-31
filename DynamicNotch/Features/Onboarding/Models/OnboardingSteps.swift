@@ -27,7 +27,7 @@ enum OnboardingSteps: String, Equatable, CaseIterable {
     func notchSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         switch self {
         case .first:
-            .init(width: baseWidth + 70, height: baseHeight + 120)
+            .init(width: baseWidth + 70, height: baseHeight + 110)
         case .second:
             .init(width: baseWidth + 160, height: baseHeight + 140)
         case .third:
@@ -40,13 +40,13 @@ enum OnboardingSteps: String, Equatable, CaseIterable {
     func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
         switch self {
         case .first:
-            .init(width: baseWidth + 180, height: baseHeight + 120)
+            .init(width: baseWidth + 180, height: baseHeight + 100)
         case .second:
-            .init(width: baseWidth + 250, height: baseHeight + 140)
+            .init(width: baseWidth + 250, height: baseHeight + 130)
         case .third:
-            .init(width: baseWidth + 250, height: baseHeight + 140)
+            .init(width: baseWidth + 250, height: baseHeight + 130)
         case .fourth:
-            .init(width: baseWidth + 250, height: baseHeight + 140)
+            .init(width: baseWidth + 250, height: baseHeight + 130)
         }
     }
     

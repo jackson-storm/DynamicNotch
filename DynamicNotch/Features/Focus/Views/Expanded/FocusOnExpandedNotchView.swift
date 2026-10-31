@@ -26,35 +26,42 @@ struct FocusOnExpandedNotchView: View {
     
     var body: some View {
         VStack {
-            Spacer()
-            
             HStack(spacing: 15) {
-                ZStack {
-                    Circle()
-                        .fill(.white)
-                        .frame(width: 45, height: 45)
-                    
-                    Image(systemName: activeFocusModeType.icon)
-                        .font(.system(size: 20, weight: .medium))
-                        .foregroundStyle(activeFocusModeType.tint)
-                }
-                
-                Text(titleText)
-                    .font(.system(size: 14, weight: .semibold))
-                    .foregroundStyle(.white)
-                    .lineLimit(1)
-                
-                Spacer()
-                
-                Text(locale.dn("notch.focus.on", fallback: "On."))
-                    .font(.system(size: 16, weight: .medium))
-                    .foregroundStyle(activeFocusModeType.tint)
-                    .lineLimit(1)
-                    .padding(.trailing, 5)
+                icon
+                description
             }
         }
-        .padding(.horizontal, isNotchlessScreen ? 15 : 40)
-        .padding(.bottom, isNotchlessScreen ? 18 : 15)
+        .padding(.top, isNotchlessScreen ? 0 : 24)
+        .padding(.horizontal, isNotchlessScreen ? 15 : 38)
+    }
+    
+    private var icon: some View {
+        ZStack {
+            Circle()
+                .fill(.white)
+                .frame(width: 45, height: 45)
+            
+            Image(systemName: activeFocusModeType.icon)
+                .font(.system(size: 20, weight: .medium))
+                .foregroundStyle(activeFocusModeType.tint)
+        }
+    }
+    
+    private var description: some View {
+        HStack(spacing: 15) {
+            Text(titleText)
+                .font(.system(size: 14, weight: .semibold))
+                .foregroundStyle(.white)
+                .lineLimit(1)
+            
+            Spacer()
+            
+            Text(locale.dn("notch.focus.on", fallback: "On."))
+                .font(.system(size: 16, weight: .medium))
+                .foregroundStyle(activeFocusModeType.tint)
+                .lineLimit(1)
+                .padding(.trailing, 5)
+        }
     }
     
     private var activeFocusModeType: FocusModeType {

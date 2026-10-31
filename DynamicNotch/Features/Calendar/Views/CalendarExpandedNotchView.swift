@@ -10,8 +10,6 @@ struct CalendarExpandedNotchView: View {
     
     var body: some View {
         VStack {
-            Spacer()
-            
             if let event = calendarViewModel.nextEvent {
                 HStack {
                     VStack(alignment: .leading, spacing: 6) {
@@ -30,9 +28,9 @@ struct CalendarExpandedNotchView: View {
                     .foregroundColor(.gray.opacity(0.6))
             }
         }
+        .padding(.top, isNotchlessScreen ? 0 : 20)
         .padding(.leading, isNotchlessScreen ? 20 : 45)
-        .padding(.trailing, isNotchlessScreen ? 15 : 40)
-        .padding(.bottom, isNotchlessScreen ? 20 : 18)
+        .padding(.trailing, isNotchlessScreen ? 10 : 35)
     }
     
     @ViewBuilder
@@ -91,35 +89,37 @@ struct CalendarExpandedNotchView: View {
     
     @ViewBuilder
     private func buttons(event: EKEvent) -> some View {
-        HStack {
-            Button {
-                calendarViewModel.dismissEvent(event)
-                notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Calendar.upcoming.id))
-            } label: {
-                Image(systemName: "xmark")
-                    .font(.system(size: 20, weight: .semibold))
-                    .foregroundColor(.white)
-            }
-            .buttonStyle(PrimaryButtonStyle(width: 45, height: 45, backgroundColor: .gray.opacity(0.3)))
-            
+        VStack {
             if let url = event.url, isVideoCall(url: url) {
                 Button {
                     NSWorkspace.shared.open(url)
                     notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Calendar.upcoming.id))
                 } label: {
-                    HStack {
-                        Image(systemName: "video.fill")
-                        Text(locale.dn("notch.calendar.joinMeeting", fallback: "Join Meeting"))
-                            .fontWeight(.bold)
-                    }
-                    .foregroundColor(.white)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 10)
-                    .background(Color.blue)
-                    .cornerRadius(12)
+                    Image(systemName: "video.fill")
+                        .font(.system(size: 20, weight: .semibold))
+                        .foregroundColor(.green)
                 }
-                .buttonStyle(PlainButtonStyle())
+                .buttonStyle(PrimaryButtonStyle(width: 45, height: 45, backgroundColor: .green.opacity(0.25)))
+                
+            } else {
+                Button {} label: {
+                    Image(systemName: "video.slash.fill")
+                        .font(.system(size: 20, weight: .semibold))
+                        .foregroundColor(.gray)
+                }
+                .buttonStyle(PrimaryButtonStyle(width: 45, height: 45, backgroundColor: .gray.opacity(0.3)))
+                .disabled(true)
             }
+            
+            Button {
+                calendarViewModel.dismissEvent(event)
+                notchViewModel.send(.hideLiveActivity(id: NotchContentRegistry.Calendar.upcoming.id))
+            } label: {
+                Image(systemName: "trash.fill")
+                    .font(.system(size: 20, weight: .semibold))
+                    .foregroundColor(.red)
+            }
+            .buttonStyle(PrimaryButtonStyle(width: 45, height: 45, backgroundColor: .red.opacity(0.25)))
         }
     }
     

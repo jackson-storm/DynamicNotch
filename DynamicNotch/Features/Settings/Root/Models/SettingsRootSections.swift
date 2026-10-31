@@ -11,7 +11,6 @@ private struct SettingsSectionDescriptor {
     let fallbackTitle: String
     let subtitleKey: String
     let fallbackSubtitle: String
-    let searchKeywords: [String]
     let systemImage: String
     let imageName: String?
     let tint: Color
@@ -25,7 +24,6 @@ private struct SettingsSectionDescriptor {
         fallbackTitle: String,
         subtitleKey: String,
         fallbackSubtitle: String,
-        searchKeywords: [String],
         systemImage: String,
         imageName: String?,
         tint: Color,
@@ -38,7 +36,6 @@ private struct SettingsSectionDescriptor {
         self.fallbackTitle = fallbackTitle
         self.subtitleKey = subtitleKey
         self.fallbackSubtitle = fallbackSubtitle
-        self.searchKeywords = searchKeywords
         self.systemImage = systemImage
         self.imageName = imageName
         self.tint = tint
@@ -117,10 +114,6 @@ extension SettingsRootViewModel {
 
         var fallbackSubtitle: String {
             descriptor.fallbackSubtitle
-        }
-
-        var searchKeywords: [String] {
-            descriptor.searchKeywords
         }
 
         var systemImage: String {
@@ -223,16 +216,6 @@ private enum SettingsSectionCatalog {
                 fallbackTitle: "General",
                 subtitleKey: "settings.section.general.subtitle",
                 fallbackSubtitle: "Startup, display placement, and app language.",
-                searchKeywords: [
-                    "launch at login",
-                    "dock icon",
-                    "menu bar",
-                    "appearance",
-                    "language",
-                    "display",
-                    "full screen",
-                    "fullscreen"
-                ],
                 systemImage: "gear",
                 imageName: nil,
                 tint: .gray,
@@ -247,15 +230,6 @@ private enum SettingsSectionCatalog {
                 fallbackTitle: "Now Playing",
                 subtitleKey: "settings.section.nowPlaying.subtitle",
                 fallbackSubtitle: "Media playback controls shown in the notch.",
-                searchKeywords: [
-                    "player appearance",
-                    "favorite",
-                    "output device",
-                    "progress",
-                    "artwork",
-                    "stroke",
-                    "playback"
-                ],
                 systemImage: "play.fill",
                 imageName: nil,
                 tint: .pink,
@@ -270,13 +244,6 @@ private enum SettingsSectionCatalog {
                 fallbackTitle: "Debug",
                 subtitleKey: "settings.section.debug.subtitle",
                 fallbackSubtitle: "Manual previews and event triggers for testing.",
-                searchKeywords: [
-                    "debug",
-                    "preview",
-                    "onboarding",
-                    "trigger",
-                    "testing"
-                ],
                 systemImage: "ladybug.fill",
                 imageName: nil,
                 tint: .red,
@@ -292,10 +259,6 @@ private enum SettingsSectionCatalog {
                 fallbackTitle: "Calendar",
                 subtitleKey: "settings.section.calendar.subtitle",
                 fallbackSubtitle: "Configure upcoming calendar events settings.",
-                searchKeywords: [
-                    "Calendar",
-                    "Events"
-                ],
                 systemImage: "calendar",
                 imageName: nil,
                 tint: .blue,
@@ -310,16 +273,6 @@ private enum SettingsSectionCatalog {
                 fallbackTitle: "Timer",
                 subtitleKey: "settings.section.timer.subtitle",
                 fallbackSubtitle: "Clock timer live activity and stroke appearance.",
-                searchKeywords: [
-                    "timer",
-                    "clock",
-                    "countdown",
-                    "stopwatch",
-                    "alarm",
-                    "sound",
-                    "stroke",
-                    "live activity"
-                ],
                 systemImage: "timer",
                 imageName: nil,
                 tint: .orange,
@@ -333,14 +286,6 @@ private enum SettingsSectionCatalog {
                 fallbackTitle: "External Devices",
                 subtitleKey: "settings.section.notifications.subtitle",
                 fallbackSubtitle: "Notifications and settings for connected external devices.",
-                searchKeywords: [
-                    "notifications",
-                    "external devices",
-                    "devices",
-                    "external drives",
-                    "drives",
-                    "disks"
-                ],
                 systemImage: "externaldrive.fill",
                 imageName: nil,
                 tint: .gray,
@@ -354,15 +299,6 @@ private enum SettingsSectionCatalog {
                 fallbackTitle: "Downloads",
                 subtitleKey: "settings.section.downloads.subtitle",
                 fallbackSubtitle: "Live download tracking and transfer previews.",
-                searchKeywords: [
-                    "download",
-                    "transfer",
-                    "file",
-                    "download style",
-                    "progress indicator",
-                    "default stroke",
-                    "live activity"
-                ],
                 systemImage: "arrow.down.circle.fill",
                 imageName: nil,
                 tint: .blue,
@@ -376,16 +312,6 @@ private enum SettingsSectionCatalog {
                 fallbackTitle: "Drag&Drop",
                 subtitleKey: "settings.section.drop.subtitle",
                 fallbackSubtitle: "AirDrop and Tray targets for files dragged through the notch.",
-                searchKeywords: [
-                    "drag and drop",
-                    "drag",
-                    "drop",
-                    "airdrop",
-                    "tray",
-                    "share",
-                    "transfer",
-                    "stroke"
-                ],
                 systemImage: "tray.and.arrow.down.fill",
                 imageName: nil,
                 tint: .gray,
@@ -399,18 +325,6 @@ private enum SettingsSectionCatalog {
                 fallbackTitle: "Screen Capture",
                 subtitleKey: "settings.section.screenRecording.subtitle",
                 fallbackSubtitle: "Screenshot and screen recording activity behavior.",
-                searchKeywords: [
-                    "screenshot",
-                    "screenshots",
-                    "screen recording",
-                    "recording",
-                    "capture",
-                    "record",
-                    "ocr",
-                    "indicator",
-                    "stroke",
-                    "live activity"
-                ],
                 systemImage: "camera.viewfinder",
                 imageName: nil,
                 tint: .red,
@@ -424,13 +338,6 @@ private enum SettingsSectionCatalog {
                 fallbackTitle: "Focus",
                 subtitleKey: "settings.section.focus.subtitle",
                 fallbackSubtitle: "Focus mode state changes and quick status updates.",
-                searchKeywords: [
-                    "focus",
-                    "icons only",
-                    "style",
-                    "stroke",
-                    "duration"
-                ],
                 systemImage: "moon.fill",
                 imageName: nil,
                 tint: .indigo,
@@ -444,16 +351,6 @@ private enum SettingsSectionCatalog {
                 fallbackTitle: "Bluetooth",
                 subtitleKey: "settings.section.bluetooth.subtitle",
                 fallbackSubtitle: "Connection feedback for Bluetooth accessories.",
-                searchKeywords: [
-                    "bluetooth",
-                    "device",
-                    "detailed",
-                    "battery indicator",
-                    "percent",
-                    "circle",
-                    "stroke",
-                    "duration"
-                ],
                 systemImage: "headphones",
                 imageName: "bluetooth.white",
                 tint: .blue,
@@ -467,21 +364,6 @@ private enum SettingsSectionCatalog {
                 fallbackTitle: "Network",
                 subtitleKey: "settings.section.network.subtitle",
                 fallbackSubtitle: "Wi-Fi, Personal Hotspot, and VPN connection settings.",
-                searchKeywords: [
-                    "network",
-                    "wifi",
-                    "hotspot",
-                    "vpn",
-                    "connection",
-                    "select",
-                    "preferred",
-                    "timer",
-                    "details",
-                    "change",
-                    "stroke",
-                    "duration",
-                    "live activity"
-                ],
                 systemImage: "network",
                 imageName: nil,
                 tint: .blue,
@@ -495,15 +377,6 @@ private enum SettingsSectionCatalog {
                 fallbackTitle: "Battery",
                 subtitleKey: "settings.section.battery.subtitle",
                 fallbackSubtitle: "Charging, low battery, and full battery notifications.",
-                searchKeywords: [
-                    "charging",
-                    "low battery",
-                    "full battery",
-                    "threshold",
-                    "stroke",
-                    "style",
-                    "duration"
-                ],
                 systemImage: "battery.100",
                 imageName: nil,
                 tint: .green,
@@ -517,16 +390,6 @@ private enum SettingsSectionCatalog {
                 fallbackTitle: "HUD",
                 subtitleKey: "settings.section.hud.subtitle",
                 fallbackSubtitle: "Custom replacements for volume, brightness, and keyboard HUDs.",
-                searchKeywords: [
-                    "brightness",
-                    "keyboard",
-                    "volume",
-                    "level indicator",
-                    "bar",
-                    "circle",
-                    "stroke",
-                    "duration"
-                ],
                 systemImage: "slider.horizontal.below.sun.max",
                 imageName: nil,
                 tint: .teal.opacity(0.9),
@@ -540,15 +403,6 @@ private enum SettingsSectionCatalog {
                 fallbackTitle: "Lock Screen",
                 subtitleKey: "settings.section.lockScreen.subtitle",
                 fallbackSubtitle: "Lock transitions, sound, and lock-screen media behavior.",
-                searchKeywords: [
-                    "lock sound",
-                    "unlock sound",
-                    "media panel",
-                    "widget appearance",
-                    "background brightness",
-                    "accent tint",
-                    "liquid glass"
-                ],
                 systemImage: "lock.fill",
                 imageName: nil,
                 tint: .black,
@@ -562,16 +416,6 @@ private enum SettingsSectionCatalog {
                 fallbackTitle: "Face ID",
                 subtitleKey: "settings.section.faceID.subtitle",
                 fallbackSubtitle: "Facial recognition unlocking and face profile security.",
-                searchKeywords: [
-                    "face",
-                    "faceid",
-                    "biometrics",
-                    "camera",
-                    "unlock",
-                    "security",
-                    "liveness",
-                    "eyes"
-                ],
                 systemImage: "faceid",
                 imageName: nil,
                 tint: .green,

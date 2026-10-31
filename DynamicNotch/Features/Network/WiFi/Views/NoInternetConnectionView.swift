@@ -15,27 +15,25 @@ struct NoInternetConnectionView: View {
     let onOpenNetworkSettings: @MainActor () -> Void
 
     var body: some View {
-        VStack(spacing: 14) {
-            Spacer()
-
+        VStack(spacing: 12) {
             HStack(spacing: 6) {
                 image
                 Spacer()
                 titleAndDescription
             }
-            .padding(.horizontal, 6)
-
+            .padding(.leading, 12)
+            
             actionButton
         }
-        .padding(.horizontal, isNotchlessScreen ? 14 : 35)
-        .padding(.bottom, 10)
+        .padding(.top, isNotchlessScreen ? 20 : 40)
+        .padding(.horizontal, isNotchlessScreen ? 12 : 35)
     }
 
     @ViewBuilder
     private var image: some View {
         ZStack {
             Image(systemName: "antenna.radiowaves.left.and.right")
-                .font(.system(size: 32))
+                .font(.system(size: 36))
                 .foregroundStyle(.green.gradient)
         }
     }

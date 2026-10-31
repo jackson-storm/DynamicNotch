@@ -7,7 +7,6 @@ struct ScreenRecordingResultNotchView: View {
     
     var body: some View {
         VStack {
-            Spacer()
             HStack {
                 rightContent
                 Spacer()
@@ -17,8 +16,8 @@ struct ScreenRecordingResultNotchView: View {
             
             buttons
         }
-        .padding(.horizontal, isNotchlessScreen ? 14 : 40)
-        .padding(.bottom, isNotchlessScreen ? 10 : 10)
+        .padding(.top, isNotchlessScreen ? 10 : 25)
+        .padding(.horizontal, isNotchlessScreen ? 15 : 40)
     }
     
     private var rightContent: some View {

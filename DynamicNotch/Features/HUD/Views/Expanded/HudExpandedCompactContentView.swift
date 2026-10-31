@@ -11,8 +11,6 @@ struct HudExpandedCompactContentView: View {
     
     var body: some View {
         VStack {
-            Spacer()
-            
             ZStack {
                 HudLevelIndicatorView(
                     level: clampedLevel,
@@ -37,16 +35,8 @@ struct HudExpandedCompactContentView: View {
                 }
             }
         }
-        .padding(.bottom, bottomPadding)
-        .padding(.horizontal, horizontalPadding)
-    }
-    
-    private var bottomPadding: CGFloat {
-        isNotchlessScreen ? 12 : 12
-    }
-    
-    private var horizontalPadding: CGFloat {
-        isNotchlessScreen ? 16 : 30
+        .padding(.top, isNotchlessScreen ? 15 : 30)
+        .padding(.horizontal, isNotchlessScreen ? 15 : 30)
     }
     
     private var clampedLevel: Int {

@@ -12,8 +12,6 @@ struct HudExpandedDetailedContentView: View {
     
     var body: some View {
         VStack {
-            Spacer()
-            
             VStack(spacing: 10) {
                 MarqueeText(
                     .constant(text),
@@ -51,16 +49,8 @@ struct HudExpandedDetailedContentView: View {
                 }
             }
         }
-        .padding(.bottom, bottomPadding)
-        .padding(.horizontal, horizontalPadding)
-    }
-    
-    private var bottomPadding: CGFloat {
-        isNotchlessScreen ? 14 : 14
-    }
-    
-    private var horizontalPadding: CGFloat {
-        isNotchlessScreen ? 24 : 34
+        .padding(.top, isNotchlessScreen ? 15 : 25)
+        .padding(.horizontal, isNotchlessScreen ? 25 : 35)
     }
     
     private var clampedLevel: Int {

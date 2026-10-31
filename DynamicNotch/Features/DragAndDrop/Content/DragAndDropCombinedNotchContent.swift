@@ -37,7 +37,7 @@ struct DragAndDropCombinedNotchContent: NotchContentProtocol, DynamicIslandCusto
     }
     
     func dynamicIslandCornerRadius(baseHeight: CGFloat) -> CGFloat {
-        baseHeight * 0.2
+        baseHeight * 0.25
     }
 
     @MainActor

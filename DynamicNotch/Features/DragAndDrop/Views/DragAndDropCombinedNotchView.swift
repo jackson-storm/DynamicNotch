@@ -13,23 +13,31 @@ struct DragAndDropCombinedNotchView: View {
 
     var body: some View {
         VStack {
-            Spacer()
-
-            HStack(spacing: AirDropDropZoneMetrics.combinedSpacing) {
+            HStack(spacing: 12) {
                 ForEach(DragAndDropActivityMode.combined.targets, id: \.self) { target in
                     DragAndDropDropZoneContent(
                         target: target,
                         isTargeted: airDropViewModel.targetedDropTarget == target
                     )
-                    .frame(
-                        maxWidth: .infinity,
-                        minHeight: AirDropDropZoneMetrics.height,
-                        maxHeight: AirDropDropZoneMetrics.height
-                    )
+                    .frame(maxWidth: .infinity, minHeight: 90, maxHeight: 90)
                 }
             }
         }
-        .padding(.horizontal, isNotchlessScreen ? 10 : AirDropDropZoneMetrics.horizontalPadding)
-        .padding(.vertical, isNotchlessScreen ? 10 : AirDropDropZoneMetrics.verticalPadding)
+        .padding(.top, isNotchlessScreen ? 30 : 35)
+        .padding(.horizontal, isNotchlessScreen ? 10 : 35)
+    }
+}
+
+private struct DragAndDropDropZoneContent: View {
+    let target: DragAndDropTarget
+    let isTargeted: Bool
+
+    var body: some View {
+        switch target {
+        case .airDrop:
+            AirDropDropZoneContent(isTargeted: isTargeted)
+        case .tray:
+            TrayDropZoneContent(isTargeted: isTargeted)
+        }
     }
 }

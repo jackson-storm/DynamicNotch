@@ -10,34 +10,30 @@ struct ExternalDriveNotificationView: View {
 
     var body: some View {
         VStack {
-            Spacer()
-            content
-        }
-        .padding(.leading, isNotchlessScreen ? 20 : 40)
-        .padding(.trailing, isNotchlessScreen ? 15 : 35)
-        .padding(.bottom, isNotchlessScreen ? 20 : 15)
-    }
-
-    private var content: some View {
-        HStack(spacing: 12) {
-            driveIcon
-            
-            VStack(alignment: .leading, spacing: 2) {
-                Text(drive.name)
-                    .font(.system(size: 13, weight: .semibold))
-                    .foregroundStyle(.white)
-                    .lineLimit(1)
+            HStack(spacing: 12) {
+                driveIcon
                 
-                subtitleView
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(drive.name)
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundStyle(.white)
+                        .lineLimit(1)
+                    
+                    subtitleView
+                }
+                
+                Spacer()
+                
+                if drive.eventType == .connected && drive.isEjectable, let onEject {
+                    ejectButton(action: onEject)
+                }
             }
-            Spacer()
-            
-            if drive.eventType == .connected && drive.isEjectable, let onEject {
-                ejectButton(action: onEject)
-            }
+            .id(drive.id + "-\(drive.eventType)")
+            .transition(.blurAndFade.combined(with: .opacity).animation(.spring(response: 0.6)))
         }
-        .id(drive.id + "-\(drive.eventType)")
-        .transition(.blurAndFade.combined(with: .opacity).animation(.spring(response: 0.6)))
+        .padding(.top, isNotchlessScreen ? 0 : 20)
+        .padding(.leading, isNotchlessScreen ? 20 : 40)
+        .padding(.trailing, isNotchlessScreen ? 15 : 33)
     }
 
     @ViewBuilder

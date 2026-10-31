@@ -18,12 +18,11 @@ struct OnboardingNotchView: View {
     
     var body: some View {
         VStack {
-            Spacer()
             stepContent
             buttons
         }
-        .padding(.horizontal, isNotchlessScreen ? 12 : 35)
-        .padding(.bottom, 10)
+        .padding(.top, isNotchlessScreen ? 10 : 30)
+        .padding(.horizontal, isNotchlessScreen ? 15 : 35)
     }
     
     @ViewBuilder

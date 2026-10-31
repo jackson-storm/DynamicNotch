@@ -10,31 +10,30 @@ import SwiftUI
 struct AirDropNotchView: View {
     @ObservedObject var airDropViewModel: AirDropNotchViewModel
     @Environment(\.isNotchlessScreen) private var isNotchlessScreen
-
+    
     private var isTargeted: Bool {
         airDropViewModel.targetedDropTarget == .airDrop
     }
-
+    
     var body: some View {
         VStack {
-            Spacer()
             AirDropDropZoneContent(isTargeted: isTargeted)
-                .frame(maxWidth: .infinity, maxHeight: AirDropDropZoneMetrics.height)
+                .frame(maxWidth: .infinity, maxHeight: 90)
         }
-        .padding(.horizontal, isNotchlessScreen ? 10 : AirDropDropZoneMetrics.horizontalPadding)
-        .padding(.vertical, isNotchlessScreen ? 10 : AirDropDropZoneMetrics.verticalPadding)
+        .padding(.top, isNotchlessScreen ? 30 : 35)
+        .padding(.horizontal, isNotchlessScreen ? 10 : 35)
     }
 }
 
 struct AirDropDropZoneContent: View {
     let isTargeted: Bool
-
+    
     private var fillColor: Color {
         Color.blue.opacity(isTargeted ? 0.4 : 0.3)
     }
-
+    
     var body: some View {
-        RoundedRectangle(cornerRadius: AirDropDropZoneMetrics.cornerRadius)
+        RoundedRectangle(cornerRadius: 22)
             .fill(fillColor)
             .overlay {
                 HStack {
@@ -42,7 +41,7 @@ struct AirDropDropZoneContent: View {
                         DragAndDropTarget.airDrop.icon()
                         DragAndDropTarget.airDrop.titleIcon()
                     }
-
+                    
                     Spacer()
                 }
                 .padding(.leading)

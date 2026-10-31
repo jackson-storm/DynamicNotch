@@ -21,18 +21,13 @@ struct VpnExpandedNotchView: View {
     @State private var timeString: String = "00:00"
     
     var body: some View {
-        VStack {
-            HStack(spacing: 14) {
-                if let vpn = viewModel.vpns.first(where: { $0.isConnected }) {
-                    logoOrFlag(for: vpn)
-                    
-                    description(for: vpn)
-                        .padding(.top, isNotchlessScreen ? 15 : 0)
-                    
-                    Spacer()
-                    
-                    button(for: vpn)
-                }
+        HStack(spacing: 14) {
+            if let vpn = viewModel.vpns.first(where: { $0.isConnected }) {
+                logoOrFlag(for: vpn)
+                description(for: vpn)
+                    .padding(.top, isNotchlessScreen ? 15 : 0)
+                Spacer()
+                button(for: vpn)
             }
         }
         .padding(.top, isNotchlessScreen ? 0 : 25)

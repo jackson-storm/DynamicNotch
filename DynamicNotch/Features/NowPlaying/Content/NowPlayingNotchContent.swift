@@ -46,12 +46,18 @@ struct NowPlayingNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
         .init(width: baseWidth + 65, height: baseHeight)
     }
     
+    private var lyricsHeight: CGFloat {
+        guard settings.isNowPlayingNotchLyricsEnabled else { return 0 }
+        let showsTranslation = settings.isLyricsTranslationEnabled && settings.isNotchLyricsTranslationEnabled
+        return showsTranslation ? 48 : 30
+    }
+    
     func expandedSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        .init(width: baseWidth + 190, height: baseHeight + 160)
+        .init(width: baseWidth + 190, height: baseHeight + 160 + lyricsHeight)
     }
     
     func expandedDynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        .init(width: baseWidth + 260, height: baseHeight + 150)
+        .init(width: baseWidth + 260, height: baseHeight + 150 + lyricsHeight)
     }
     
     func expandedCornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {

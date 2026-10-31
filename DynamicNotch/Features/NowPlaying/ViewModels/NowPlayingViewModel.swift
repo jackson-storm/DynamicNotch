@@ -5,6 +5,7 @@ import SwiftUI
 @MainActor
 final class NowPlayingViewModel: ObservableObject {
     private static let favoriteTrackKeysStorageKey = "settings.nowPlaying.favoriteTrackKeys"
+    static let lyricsTrackDelaysStorageKey = "settings.lyrics.trackDelays"
 
     @Published private(set) var snapshot: NowPlayingSnapshot?
     @Published private(set) var artworkImage: NSImage?
@@ -15,6 +16,13 @@ final class NowPlayingViewModel: ObservableObject {
     @Published private(set) var currentAudioOutputRoute: AudioOutputRoute?
     @Published private(set) var isCurrentTrackFavorite = false
     @Published private(set) var lyricsState: NowPlayingLyricsState = .idle
+    /// Backoff between lyrics lookup attempts. Transient network or server errors are common right
+    /// after launch or wake, so a failed lookup is retried before the track is marked as failed.
+    var lyricsRetryDelays: [TimeInterval] = [1.5, 4, 8]
+    /// Per-song lyrics delay in seconds; positive values show lines later.
+    @Published private(set) var lyricsTrackDelay: TimeInterval = 0
+    /// Bumped whenever the user nudges the delay, so lyrics surfaces can flash the new value.
+    @Published private(set) var lyricsDelayChangeCount = 0
     @Published var event: NowPlayingEvent?
 
     private var service: any NowPlayingMonitoring
@@ -36,7 +44,7 @@ final class NowPlayingViewModel: ObservableObject {
     private var artworkFlipTrackKey: String?
     private var artworkFlipStartedAt: Date?
     private var activeDetailedPresentationSources = Set<String>()
-    private var isLyricsPresentationActive = false
+    private var activeLyricsPresentationSources = Set<String>()
     private var recentSeekTargetTime: TimeInterval?
     private var recentSeekDate: Date?
     private let seekGracePeriodDuration: TimeInterval = 1.5
@@ -115,7 +123,7 @@ final class NowPlayingViewModel: ObservableObject {
         ignoresServiceSnapshots = true
         service.stopMonitoring()
         activeDetailedPresentationSources.removeAll()
-        setLyricsPresentationActive(false)
+        clearLyricsPresentationSources()
         updateDetailPollingState()
         cancelPendingSessionEnd()
         cancelPendingArtworkPresentation()
@@ -293,26 +301,88 @@ final class NowPlayingViewModel: ObservableObject {
         updateDetailPollingState()
     }
 
-    func setLyricsPresentationActive(_ isActive: Bool) {
-        guard isLyricsPresentationActive != isActive else {
-            if isActive {
-                loadLyricsIfNeeded(for: snapshot)
-            }
-            return
-        }
+    private var isLyricsPresentationActive: Bool {
+        !activeLyricsPresentationSources.isEmpty
+    }
 
-        isLyricsPresentationActive = isActive
+    func setLyricsPresentationActive(_ isActive: Bool, source: String = "lockScreen") {
+        let wasActive = isLyricsPresentationActive
 
         if isActive {
-            loadLyricsIfNeeded(for: snapshot)
+            activeLyricsPresentationSources.insert(source)
         } else {
+            activeLyricsPresentationSources.remove(source)
+        }
+
+        if isLyricsPresentationActive {
+            loadLyricsIfNeeded(for: snapshot)
+        } else if wasActive {
             cancelLyricsLookup()
+        }
+    }
+
+    private func clearLyricsPresentationSources() {
+        activeLyricsPresentationSources.removeAll()
+        cancelLyricsLookup()
+    }
+
+    /// Position used to pick the active lyric line, after the global and per-song delays.
+    func lyricsPlaybackTime(at date: Date) -> TimeInterval {
+        elapsedTime(at: date) - lyricsGlobalDelay - lyricsTrackDelay
+    }
+
+    var lyricsGlobalDelay: TimeInterval {
+        favoritesStore.double(forKey: GeneralSettingsStorage.Keys.lyricsGlobalDelay)
+    }
+
+    var lyricsTotalDelay: TimeInterval {
+        lyricsGlobalDelay + lyricsTrackDelay
+    }
+
+    func adjustLyricsTrackDelay(by delta: TimeInterval) {
+        setLyricsTrackDelay(((lyricsTrackDelay + delta) * 10).rounded() / 10)
+    }
+
+    func resetLyricsTrackDelay() {
+        setLyricsTrackDelay(0)
+    }
+
+    private func setLyricsTrackDelay(_ delay: TimeInterval) {
+        guard let key = snapshot?.lyricsLookupKey else { return }
+
+        var delays = favoritesStore.dictionary(forKey: Self.lyricsTrackDelaysStorageKey) as? [String: Double] ?? [:]
+        delays[key] = delay == 0 ? nil : delay
+        favoritesStore.set(delays, forKey: Self.lyricsTrackDelaysStorageKey)
+
+        lyricsTrackDelay = delay
+        lyricsDelayChangeCount += 1
+    }
+
+    private func storedLyricsTrackDelay(for key: String) -> TimeInterval {
+        let delays = favoritesStore.dictionary(forKey: Self.lyricsTrackDelaysStorageKey) as? [String: Double]
+        return delays?[key] ?? 0
+    }
+
+    /// Notes a global delay change made outside the view model (settings or a shortcut).
+    func noteLyricsGlobalDelayChanged() {
+        lyricsDelayChangeCount += 1
+    }
+
+    /// Drops cached results for the current track and looks its lyrics up again.
+    func reloadLyrics() {
+        guard let snapshot else { return }
+        lyricsProvider.invalidateCache(for: snapshot)
+        cancelLyricsLookup()
+        lyricsState = .idle
+
+        if isLyricsPresentationActive {
+            loadLyricsIfNeeded(for: snapshot)
         }
     }
 
     func clearPresentationActivityState() {
         activeDetailedPresentationSources.removeAll()
-        setLyricsPresentationActive(false)
+        clearLyricsPresentationSources()
         updateDetailPollingState()
     }
 
@@ -461,6 +531,7 @@ private extension NowPlayingViewModel {
         if previousLyricsKey != newLyricsKey {
             cancelLyricsLookup()
             lyricsState = .idle
+            lyricsTrackDelay = newLyricsKey.map(storedLyricsTrackDelay(for:)) ?? 0
         }
 
         snapshot = newSnapshot
@@ -564,20 +635,32 @@ private extension NowPlayingViewModel {
         lyricsLookupTask = Task { [weak self, snapshot, trackKey] in
             guard let self else { return }
 
-            do {
-                let lyrics = try await lyricsProvider.lyrics(for: snapshot)
-                guard Task.isCancelled == false else { return }
+            let retryDelays = lyricsRetryDelays
+            var attempt = 0
 
-                if let lyrics {
-                    lyricsState = .loaded(lyrics)
-                } else {
-                    lyricsState = .notFound(trackKey: trackKey)
+            while true {
+                do {
+                    let lyrics = try await lyricsProvider.lyrics(for: snapshot)
+                    guard Task.isCancelled == false else { return }
+
+                    if let lyrics {
+                        lyricsState = .loaded(lyrics)
+                    } else {
+                        lyricsState = .notFound(trackKey: trackKey)
+                    }
+                    return
+                } catch {
+                    guard Task.isCancelled == false, (error is CancellationError) == false else { return }
+
+                    guard attempt < retryDelays.count else {
+                        lyricsState = .failed(trackKey: trackKey)
+                        return
+                    }
+
+                    try? await Task.sleep(nanoseconds: UInt64(retryDelays[attempt] * 1_000_000_000))
+                    guard Task.isCancelled == false else { return }
+                    attempt += 1
                 }
-            } catch is CancellationError {
-                return
-            } catch {
-                guard Task.isCancelled == false else { return }
-                lyricsState = .failed(trackKey: trackKey)
             }
         }
     }
@@ -585,6 +668,11 @@ private extension NowPlayingViewModel {
     func cancelLyricsLookup() {
         lyricsLookupTask?.cancel()
         lyricsLookupTask = nil
+
+        // A cancelled lookup never finishes, so leave room for the next request to start over.
+        if case .loading = lyricsState {
+            lyricsState = .idle
+        }
     }
 
     func scheduleSessionEnd() {

@@ -75,6 +75,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             _ = lockScreenPanelManager
             _ = lockScreenLiveActivityWindowManager
             _ = lockScreenFaceIDWindowManager
+            _ = container.floatingLyricsWindowManager
             hardwareHUDMonitor.startMonitoring()
             container.notchlessWindowConstrainer.start()
 
@@ -88,7 +89,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
             DispatchQueue.main.async {
                 for w in NSApp.windows {
-                    if w !== self.window {
+                    if w !== self.window && w.frameAutosaveName != FloatingLyricsWindowManager.frameAutosaveName {
                         w.orderOut(nil)
                     }
                 }
@@ -122,6 +123,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             container.lockScreenPanelManager.invalidate()
             container.lockScreenLiveActivityWindowManager.invalidate()
             container.lockScreenFaceIDWindowManager.invalidate()
+            container.floatingLyricsWindowManager.invalidate()
         }
         stopOutsideClickMonitoring()
         hideWindowWorkItem?.cancel()

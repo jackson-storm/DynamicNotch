@@ -30,7 +30,7 @@ struct LockScreenLyricsView: View {
     }
     
     private func activeIndex(at date: Date) -> Int {
-        let elapsedTime = nowPlayingViewModel.elapsedTime(at: date)
+        let elapsedTime = nowPlayingViewModel.lyricsPlaybackTime(at: date)
         if case .loaded(let lyrics) = nowPlayingViewModel.lyricsState {
             return lyrics.activeLineIndex(at: elapsedTime) ?? 0
         }

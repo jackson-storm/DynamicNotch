@@ -19,7 +19,9 @@ struct NowPlayingExpandedNotchView: View {
     let onOpenPlaybackSource: @MainActor () -> Void
     
     @State private var scrubProgress: CGFloat?
+    @ObservedObject private var translationStore = LyricsTranslationStore.shared
     private let detailedPresentationSource = "nowPlaying.notch.expanded"
+    private let lyricsPresentationSource = "nowPlaying.notch.expanded.lyrics"
     
     private var resolvedSnapshot: NowPlayingSnapshot {
         nowPlayingViewModel.snapshot ?? NowPlayingSnapshot(
@@ -45,13 +47,32 @@ struct NowPlayingExpandedNotchView: View {
                 true,
                 source: detailedPresentationSource
             )
+            syncLyricsPresentationState()
         }
         .onDisappear {
             nowPlayingViewModel.setDetailedPresentationActive(
                 false,
                 source: detailedPresentationSource
             )
+            nowPlayingViewModel.setLyricsPresentationActive(false, source: lyricsPresentationSource)
         }
+        .onChange(of: settings.isNowPlayingNotchLyricsEnabled) { _, _ in
+            syncLyricsPresentationState()
+        }
+        .lyricsTranslationSession(store: translationStore)
+    }
+
+    private var showsLyricsTranslation: Bool {
+        settings.isNowPlayingNotchLyricsEnabled &&
+        settings.isLyricsTranslationEnabled &&
+        settings.isNotchLyricsTranslationEnabled
+    }
+
+    private func syncLyricsPresentationState() {
+        nowPlayingViewModel.setLyricsPresentationActive(
+            settings.isNowPlayingNotchLyricsEnabled,
+            source: lyricsPresentationSource
+        )
     }
 
     private func timelineContent(snapshot: NowPlayingSnapshot, at date: Date) -> some View {
@@ -67,6 +88,17 @@ struct NowPlayingExpandedNotchView: View {
 
         return VStack(spacing: 12) {
             headerSection(snapshot: snapshot, appearance: appearance)
+
+            if appearance.showsLyrics {
+                let lyricLine = currentLyricLine(at: elapsedTime - nowPlayingViewModel.lyricsTotalDelay)
+                NotchLyricLineView(
+                    lineID: lyricLine.id,
+                    text: lyricLine.text,
+                    translation: lyricLine.translation,
+                    showsTranslation: showsLyricsTranslation
+                )
+                .equatable()
+            }
             
             PlayerProgressBar(
                 progress: displayedProgress,
@@ -239,6 +271,23 @@ struct NowPlayingExpandedNotchView: View {
         snapshot.album.trimmed.isEmpty ? locale.dn("notch.nowPlaying.unknownAlbum", fallback: "Unknown Album") : snapshot.album
     }
     
+    private func currentLyricLine(at elapsedTime: TimeInterval) -> (id: Int, text: String?, translation: String?) {
+        guard case .loaded(let lyrics) = nowPlayingViewModel.lyricsState,
+              let index = lyrics.activeLineIndex(at: elapsedTime),
+              lyrics.lines.indices.contains(index) else {
+            return (-1, nil, nil)
+        }
+
+        let line = lyrics.lines[index]
+        if let startTime = line.startTime, startTime > elapsedTime + 0.18 {
+            return (-1, nil, nil)
+        }
+
+        let text = line.text.trimmed
+        let translation = showsLyricsTranslation ? translationStore.translations[line.id] : nil
+        return (index, text.isEmpty ? nil : text, translation)
+    }
+
     private func progressValue(elapsedTime: TimeInterval, duration: TimeInterval) -> CGFloat {
         guard duration > 0 else { return 0 }
         return min(max(CGFloat(elapsedTime / duration), 0), 1)
@@ -293,5 +342,49 @@ struct NowPlayingExpandedNotchView: View {
         if !applicationSettings.isCloseAtFocusLiveActivityEnabled {
             onOpenPlaybackSource()
         }
+    }
+}
+
+private struct NotchLyricLineView: View, Equatable {
+    static let translationHeight: CGFloat = 18
+
+    let lineID: Int
+    let text: String?
+    let translation: String?
+    let showsTranslation: Bool
+
+    var body: some View {
+        ZStack {
+            VStack(spacing: 2) {
+                Text(text ?? "♪")
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundStyle(.white.opacity(text == nil ? 0.35 : 0.9))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.75)
+                    .truncationMode(.tail)
+                    .frame(height: 18)
+
+                if showsTranslation {
+                    Text(translation ?? "")
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundStyle(.white.opacity(0.55))
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.75)
+                        .truncationMode(.tail)
+                        .frame(height: 16)
+                }
+            }
+            .frame(maxWidth: .infinity)
+            .id(lineID)
+                .transition(
+                    .asymmetric(
+                        insertion: .move(edge: .bottom).combined(with: .opacity),
+                        removal: .move(edge: .top).combined(with: .opacity)
+                    )
+                )
+        }
+        .frame(height: showsTranslation ? 18 + Self.translationHeight : 18)
+        .clipped()
+        .animation(.spring(response: 0.4, dampingFraction: 0.85), value: lineID)
     }
 }

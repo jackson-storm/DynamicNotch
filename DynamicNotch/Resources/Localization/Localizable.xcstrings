@@ -147435,6 +147435,1332 @@
         }
       }
     },
+    "settings.nowPlaying.notchLyrics.desc": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show the current synced lyric line in the expanded notch."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tampilkan baris lirik yang sedang diputar di notch saat diperbesar."
+          }
+        }
+      }
+    },
+    "settings.nowPlaying.notchLyrics.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lyrics in Notch"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lirik di Notch"
+          }
+        }
+      }
+    },
+    "settings.nowPlaying.floatingLyrics.desc": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show synced lyrics in a floating panel you can drag anywhere. Right-click it to hide."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tampilkan lirik di panel melayang yang bisa digeser ke mana saja. Klik kanan untuk menyembunyikan."
+          }
+        }
+      }
+    },
+    "settings.nowPlaying.floatingLyrics.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Floating Lyrics"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lirik Melayang"
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.card.general": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Floating Lyrics"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lirik Melayang"
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.card.layout": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Floating Lyrics Appearance"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tampilan Lirik Melayang"
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.card.translation": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lyrics Translation"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Terjemahan Lirik"
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.resetPosition.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Panel Position"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Posisi Panel"
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.resetPosition.desc": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drag the panel anywhere. Reset moves it back to the bottom-left corner."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geser panel ke mana saja. Reset mengembalikannya ke pojok kiri bawah."
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.resetPosition.button": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reset Position"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reset Posisi"
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.trackInfo.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show Track Info"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tampilkan Info Lagu"
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.trackInfo.desc": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show the song title and artist above the lyrics."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tampilkan judul lagu dan artis di atas lirik."
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.nextLine.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show Next Line"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tampilkan Baris Berikutnya"
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.nextLine.desc": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preview the upcoming lyric line below the current one."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tampilkan baris lirik selanjutnya di bawah baris yang sedang diputar."
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.artworkColor.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Artwork Color"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Warna dari Artwork"
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.artworkColor.desc": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tint the current line with the album artwork color."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Warnai baris aktif dengan warna dari cover album."
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.alignment.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Text Alignment"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Perataan Teks"
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.alignment.desc": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Align lyrics to the left or center of the panel."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ratakan lirik ke kiri atau tengah panel."
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.alignment.leading": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Left"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kiri"
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.alignment.center": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Center"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tengah"
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.fontSize.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Font Size"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ukuran Font"
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.fontSize.desc": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Size of the current lyric line."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ukuran baris lirik yang sedang diputar."
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.width.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Panel Width"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lebar Panel"
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.width.desc": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wider panels fit longer lines without shrinking the text."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Panel lebih lebar memuat baris panjang tanpa mengecilkan teks."
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.opacity.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Background Opacity"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Opasitas Latar"
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.opacity.desc": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Set to 0% for lyrics floating directly over your screen."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Atur ke 0% agar lirik melayang langsung di atas layar."
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.translation.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translate Lyrics"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Terjemahkan Lirik"
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.translation.desc": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show a translation under each lyric line in the floating panel and the notch, using Apple's on-device translation. Requires macOS 15 or later."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tampilkan terjemahan di bawah tiap baris lirik di panel melayang dan notch, memakai terjemahan on-device Apple. Butuh macOS 15 atau lebih baru."
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.translationLanguage.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translate To"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Terjemahkan ke"
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.translationLanguage.desc": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Songs already in this language aren't translated."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lagu yang sudah dalam bahasa ini tidak diterjemahkan."
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.translationLanguages.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translation Languages"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bahasa Terjemahan"
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.translationLanguages.desc": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "If translations don't appear, download the song's language and your target language in Language & Region → Translation Languages."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jika terjemahan tidak muncul, unduh bahasa lagu dan bahasa tujuan di Bahasa & Wilayah → Bahasa Terjemahan."
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.translationLanguages.button": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Settings"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buka Pengaturan"
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.reset.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reset Floating Lyrics"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reset Lirik Melayang"
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.reset.desc": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restore all floating lyrics options to their defaults."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kembalikan semua opsi lirik melayang ke bawaan."
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.reset.button": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reset"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reset"
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.color.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lyrics Color"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Warna Lirik"
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.color.desc": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Color of the line being sung."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Warna baris yang sedang dinyanyikan."
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.color.white": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "White"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Putih"
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.color.artwork": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Artwork Color"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Warna Artwork"
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.color.accent": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accent Color"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Warna Aksen"
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.color.custom": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Custom"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kustom"
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.font.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lyrics Font"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Font Lirik"
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.font.desc": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Typeface style used for the lyrics."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gaya huruf untuk lirik."
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.font.standard": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "System"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistem"
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.font.rounded": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rounded"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bulat"
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.font.serif": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Serif"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Serif"
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.font.monospaced": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Monospaced"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Monospace"
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.shadow.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lyrics Shadow"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bayangan Lirik"
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.shadow.desc": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keeps lyrics readable over bright backgrounds."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Membuat lirik tetap terbaca di atas latar terang."
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.card.behavior": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Floating Lyrics Behavior"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Perilaku Lirik Melayang"
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.hideOnHover.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hide on Mouse Over"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sembunyikan Saat Disorot Mouse"
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.hideOnHover.desc": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fades the panel and lets clicks pass through while the pointer is over it. Hold ⌘ to drag or right-click it."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Panel memudar dan klik tembus saat kursor di atasnya. Tahan ⌘ untuk menggeser atau klik kanan."
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.hideWhenPaused.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hide When Paused"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sembunyikan Saat Dijeda"
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.hideWhenPaused.desc": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hides the panel a moment after music pauses and brings it back when playback resumes."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sembunyikan panel sesaat setelah musik dijeda dan tampilkan lagi saat diputar."
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.lockPosition.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lock Position"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kunci Posisi"
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.lockPosition.desc": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prevents the panel from being dragged by accident."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mencegah panel tergeser tanpa sengaja."
+          }
+        }
+      }
+    },
+    "settings.lyrics.card.timing": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lyrics Timing"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Waktu Lirik"
+          }
+        }
+      }
+    },
+    "settings.lyrics.globalDelay.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Global Lyrics Delay"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delay Lirik Global"
+          }
+        }
+      }
+    },
+    "settings.lyrics.globalDelay.desc": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Applies to every song, on top of each song's own delay. Positive values show lyrics later."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Berlaku untuk semua lagu, ditambah delay masing-masing lagu. Nilai positif menampilkan lirik lebih lambat."
+          }
+        }
+      }
+    },
+    "settings.lyrics.songDelay.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Per-Song Delay"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delay per Lagu"
+          }
+        }
+      }
+    },
+    "settings.lyrics.songDelay.desc": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adjust a single song from the floating panel's right-click menu or with the shortcuts below. It's remembered for that song."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Atur satu lagu lewat menu klik kanan panel melayang atau shortcut di bawah. Disimpan untuk lagu tersebut."
+          }
+        }
+      }
+    },
+    "settings.lyrics.globalDelay.reset": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reset Global Delay"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reset Delay Global"
+          }
+        }
+      }
+    },
+    "settings.lyrics.card.shortcuts": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lyrics Shortcuts"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shortcut Lirik"
+          }
+        }
+      }
+    },
+    "settings.lyrics.shortcut.toggleFloating.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show / Hide Floating Lyrics"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tampilkan / Sembunyikan Lirik Melayang"
+          }
+        }
+      }
+    },
+    "settings.lyrics.shortcut.toggleFloating.desc": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Works from any app."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Berfungsi dari aplikasi mana pun."
+          }
+        }
+      }
+    },
+    "settings.lyrics.shortcut.delayLater.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lyrics Later (+0.5s)"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lirik Lebih Lambat (+0,5 dtk)"
+          }
+        }
+      }
+    },
+    "settings.lyrics.shortcut.delayLater.desc": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use when lyrics appear before the singer."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gunakan jika lirik muncul sebelum penyanyi."
+          }
+        }
+      }
+    },
+    "settings.lyrics.shortcut.delayEarlier.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lyrics Earlier (−0.5s)"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lirik Lebih Cepat (−0,5 dtk)"
+          }
+        }
+      }
+    },
+    "settings.lyrics.shortcut.delayEarlier.desc": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use when lyrics lag behind the singer."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gunakan jika lirik tertinggal dari penyanyi."
+          }
+        }
+      }
+    },
+    "settings.lyrics.notchTranslation.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show Translation in Notch"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tampilkan Terjemahan di Notch"
+          }
+        }
+      }
+    },
+    "settings.lyrics.notchTranslation.desc": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show the translated line under the lyric in the expanded notch."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tampilkan baris terjemahan di bawah lirik saat notch diperbesar."
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.languageDownload.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Current Song's Language"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bahasa Lagu Saat Ini"
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.languageDownload.desc": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translation runs on your Mac. Some language pairs need a one-time download."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Terjemahan berjalan di Mac Anda. Beberapa pasangan bahasa perlu diunduh sekali."
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.languageDownload.needed": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This song's language isn't downloaded yet. Download it to see translations."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bahasa lagu ini belum diunduh. Unduh untuk melihat terjemahan."
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.languageDownload.ready": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This song is being translated."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lagu ini sedang diterjemahkan."
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.languageDownload.same": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This song is already in your translation language."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lagu ini sudah dalam bahasa terjemahan Anda."
+          }
+        }
+      }
+    },
+    "settings.floatingLyrics.languageDownload.button": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Download"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unduh"
+          }
+        }
+      }
+    },
     "settings.nowPlaying.artwork3D.desc": {
       "extractionState": "manual",
       "localizations": {

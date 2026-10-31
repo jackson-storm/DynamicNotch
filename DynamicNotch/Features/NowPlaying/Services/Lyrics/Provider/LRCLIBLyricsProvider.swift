@@ -58,6 +58,11 @@ final class LRCLIBLyricsProvider: LyricsProviding {
         return searchedLyrics
     }
 
+    func invalidateCache(for snapshot: NowPlayingSnapshot) {
+        guard let trackKey = snapshot.lyricsLookupKey else { return }
+        cache[trackKey] = nil
+    }
+
     private func fetchExactLyrics(for snapshot: NowPlayingSnapshot, trackKey: String) async throws -> TrackLyrics? {
         guard let url = makeURL(
             endpoint: "get",

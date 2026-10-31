@@ -20,6 +20,7 @@ struct NowPlayingSettingsView: View {
             playbackActivity
             pausedPlaybackBehavior
             playerAppearance
+            FloatingLyricsSettingsSection(settings: settings)
         }
     }
     
@@ -106,6 +107,21 @@ struct NowPlayingSettingsView: View {
                 iconBadge: false,
                 isOn: $settings.isNowPlayingArtwork3DEffectEnabled,
                 accessibilityIdentifier: "settings.activities.live.nowPlaying.artwork3DEffect"
+            )
+
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+
+            SettingsToggleRow(
+                title: "settings.nowPlaying.notchLyrics.title",
+                description: "settings.nowPlaying.notchLyrics.desc",
+                systemImage: "quote.bubble.fill",
+                color: .pink,
+                iconBadge: false,
+                isOn: $settings.isNowPlayingNotchLyricsEnabled,
+                accessibilityIdentifier: "settings.activities.live.nowPlaying.notchLyrics"
             )
             
             Divider().opacity(0.6)

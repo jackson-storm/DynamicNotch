@@ -14,7 +14,7 @@ struct LowPowerNotchView: View {
     @State private var pulse = false
     
     let style: BatteryNotificationStyle
-
+    
     var body: some View {
         Group {
             if style == .compact {
@@ -31,28 +31,24 @@ struct LowPowerNotchView: View {
     
     @ViewBuilder
     private var detailStyle: some View {
-        VStack {
+        HStack {
+            VStack(alignment: .leading, spacing: 3) {
+                title
+                description
+            }
             Spacer()
-
-            HStack {
-                VStack(alignment: .leading, spacing: 3) {
-                    title
-                    description
-                }
-                Spacer()
-
-                if powerService.isLowPowerMode {
-                    yellowIndicator
-                } else {
-                    redIndicator
-                }
+            
+            if powerService.isLowPowerMode {
+                yellowIndicator
+            } else {
+                redIndicator
             }
         }
+        .padding(.top, isNotchlessScreen ? 0 : 30)
         .padding(.leading, isNotchlessScreen ? 25 : 45)
         .padding(.trailing, isNotchlessScreen ? 15 : 40)
-        .padding(.bottom, isNotchlessScreen ? 25 : 20)
     }
-
+    
     @ViewBuilder
     private var title: some View {
         HStack {
@@ -60,21 +56,21 @@ struct LowPowerNotchView: View {
                 .font(.system(size: 14, weight: .semibold))
                 .foregroundColor(.white)
                 .lineLimit(1)
-
+            
             Text("\(powerService.batteryLevel)%")
                 .font(.system(size: 13))
                 .fontWeight(.semibold)
                 .foregroundStyle(batteryColor)
         }
     }
-
+    
     @ViewBuilder
     private var description: some View {
         if powerService.isLowPowerMode {
             Text(locale.dn("notch.battery.detail.lowPowerModeEnabled", fallback: "Low Power Mode enabled"))
                 .foregroundColor(.yellow)
                 .font(.system(size: 11, weight: .medium))
-
+            
             + Text(locale.dn("notch.battery.detail.recommendedCharge", fallback: ", it is recommended to charge it."))
                 .foregroundColor(.gray.opacity(0.55))
                 .font(.system(size: 11, weight: .medium))
@@ -85,32 +81,32 @@ struct LowPowerNotchView: View {
                 .lineLimit(2)
         }
     }
-
+    
     @ViewBuilder
     private var redIndicator: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 30)
                 .fill(.red.opacity(0.2))
                 .frame(width: 75, height: 45)
-
+            
             HStack(spacing: 2) {
                 RoundedRectangle(cornerRadius: 10)
                     .fill(.red.opacity(0.4))
                     .frame(width: 40, height: 24)
-
+                
                 RoundedRectangle(cornerRadius: 10)
                     .fill(.red.opacity(0.4))
                     .frame(width: 3, height: 8)
             }
             .padding(.trailing, 5)
-
+            
             RoundedRectangle(cornerRadius: 8)
                 .fill(Color.red.gradient)
                 .frame(width: 8, height: 14)
                 .opacity(pulse ? 1 : 0.3)
                 .offset(x: -15)
                 .onAppear { startPulse() }
-
+            
             RoundedRectangle(cornerRadius: 30)
                 .stroke(Color.red.opacity(0.9).gradient, lineWidth: 1.5)
                 .frame(width: pulse ? 8 : 30, height: pulse ? 14 : 32)
@@ -118,25 +114,25 @@ struct LowPowerNotchView: View {
                 .opacity(pulse ? 0.3 : 1)
         }
     }
-
+    
     @ViewBuilder
     private var yellowIndicator: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 30)
                 .fill(.yellow.opacity(0.2))
                 .frame(width: 75, height: 45)
-
+            
             HStack(spacing: 2) {
                 RoundedRectangle(cornerRadius: 10)
                     .fill(.yellow.opacity(0.4))
                     .frame(width: 40, height: 24)
-
+                
                 RoundedRectangle(cornerRadius: 10)
                     .fill(.yellow.opacity(0.4))
                     .frame(width: 3, height: 8)
             }
             .padding(.trailing, 5)
-
+            
             RoundedRectangle(cornerRadius: 8)
                 .fill(.yellow.gradient)
                 .frame(width: 8, height: 14)
@@ -147,7 +143,7 @@ struct LowPowerNotchView: View {
     private var batteryColor: Color {
         powerService.isLowPowerMode ? .yellow : .red
     }
-
+    
     private func startPulse() {
         pulse = false
         withAnimation(

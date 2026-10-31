@@ -17,7 +17,7 @@ struct FullPowerNotchView: View {
     @State private var changeBatteryIndicator = false
     
     let style: BatteryNotificationStyle
-
+    
     var body: some View {
         Group {
             if style == .compact {
@@ -34,39 +34,35 @@ struct FullPowerNotchView: View {
     
     @ViewBuilder
     private var detailStyle: some View {
-        VStack {
+        HStack {
+            VStack(alignment: .leading, spacing: 3) {
+                title
+                description
+            }
+            
             Spacer()
-
-            HStack {
-                VStack(alignment: .leading, spacing: 3) {
-                    title
-                    description
-                }
-
-                Spacer()
-
-                if showBatteryIndicator {
-                    if powerService.isLowPowerMode {
-                        yellowIndicator
-                            .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .scale))
-                    } else {
-                        greenIndicator
-                            .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .scale))
-                    }
-                } else {
-                    magSafeIndicator
+            
+            if showBatteryIndicator {
+                if powerService.isLowPowerMode {
+                    yellowIndicator
                         .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .scale))
-                        .padding(.trailing, 5)
+                } else {
+                    greenIndicator
+                        .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .scale))
                 }
+            } else {
+                magSafeIndicator
+                    .transition(.blurAndFade.animation(.spring(duration: 0.4)).combined(with: .scale))
+                    .padding(.trailing, 5)
             }
         }
+        .padding(.top, isNotchlessScreen ? 0 : 30)
         .padding(.leading, isNotchlessScreen ? 25 : 40)
         .padding(.trailing, isNotchlessScreen ? 15 : 35)
-        .padding(.bottom, isNotchlessScreen ? 25 : 15)
         .onAppear {
             showBatteryIndicator = true
             changeBatteryIndicator = true
-
+            
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 if showBatteryIndicator {
                     withAnimation(.spring(duration: 0.4)) {
@@ -74,7 +70,7 @@ struct FullPowerNotchView: View {
                     }
                 }
             }
-
+            
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                 if changeBatteryIndicator {
                     withAnimation(.spring(duration: 0.2)) {
@@ -84,7 +80,7 @@ struct FullPowerNotchView: View {
             }
         }
     }
-
+    
     @ViewBuilder
     private var title: some View {
         HStack {
@@ -92,14 +88,14 @@ struct FullPowerNotchView: View {
                 .font(.system(size: 14, weight: .semibold))
                 .foregroundColor(.white)
                 .lineLimit(1)
-
+            
             Text("\(powerService.batteryLevel)%")
                 .font(.system(size: 13))
                 .fontWeight(.semibold)
                 .foregroundStyle(batteryColor)
         }
     }
-
+    
     @ViewBuilder
     private var description: some View {
         Text(locale.dn("notch.battery.detail.fullyCharged", fallback: "Your Mac is fully charged."))
@@ -107,14 +103,14 @@ struct FullPowerNotchView: View {
             .foregroundStyle(.gray.opacity(0.55))
             .lineLimit(1)
     }
-
+    
     @ViewBuilder
     private var greenIndicator: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 30)
                 .fill(.green.opacity(0.2))
                 .frame(width: 75, height: 45)
-
+            
             HStack(spacing: 2) {
                 RoundedRectangle(cornerRadius: 10)
                     .fill(.green.opacity(0.4))
@@ -128,21 +124,21 @@ struct FullPowerNotchView: View {
                                 startPulse()
                             }
                     )
-
+                
                 RoundedRectangle(cornerRadius: 10)
                     .fill(.green.opacity(0.4))
                     .frame(width: 3, height: 8)
             }
         }
     }
-
+    
     @ViewBuilder
     private var yellowIndicator: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 30)
                 .fill(.yellow.opacity(0.2))
                 .frame(width: 75, height: 45)
-
+            
             HStack(spacing: 2) {
                 RoundedRectangle(cornerRadius: 10)
                     .fill(.yellow.opacity(0.4))
@@ -156,26 +152,26 @@ struct FullPowerNotchView: View {
                                 startPulse()
                             }
                     )
-
+                
                 RoundedRectangle(cornerRadius: 10)
                     .fill(.yellow.opacity(0.4))
                     .frame(width: 3, height: 8)
             }
         }
     }
-
+    
     @ViewBuilder
     private var magSafeIndicator: some View {
         HStack(spacing: 0) {
             Rectangle()
                 .fill(.gray.opacity(0.15))
                 .frame(width: 30, height: 6)
-
+            
             ZStack {
                 RoundedRectangle(cornerRadius: 2)
                     .fill(.gray.opacity(0.2).gradient)
                     .frame(width: 35, height: 45)
-
+                
                 Circle()
                     .fill(changeBatteryIndicator ? .orange : .green)
                     .shadow(color: changeBatteryIndicator ? .orange : .green, radius: 5)
@@ -191,7 +187,7 @@ struct FullPowerNotchView: View {
     private var batteryColor: Color {
         powerService.isLowPowerMode ? .yellow : .green
     }
-
+    
     private func startPulse() {
         pulse = false
         withAnimation(

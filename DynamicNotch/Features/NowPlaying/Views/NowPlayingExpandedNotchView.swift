@@ -36,10 +36,20 @@ struct NowPlayingExpandedNotchView: View {
     
     var body: some View {
         let snapshot = resolvedSnapshot
+        let appearance = settings.nowPlayingAppearanceOptions
 
-        return TimelineView(.periodic(from: .now, by: progressTick(for: snapshot))) { context in
-            timelineContent(snapshot: snapshot, at: context.date)
+        // Only the progress bar changes per tick, so the timeline wraps just that row.
+        return VStack(spacing: 12) {
+            headerSection(snapshot: snapshot, appearance: appearance)
+
+            TimelineView(.periodic(from: .now, by: progressTick(for: snapshot))) { context in
+                progressBar(snapshot: snapshot, appearance: appearance, at: context.date)
+            }
+
+            controlsSection(snapshot: snapshot, appearance: appearance)
         }
+        .padding(.top, isNotchlessScreen ? 5 : 20)
+        .padding(.horizontal, isNotchlessScreen ? 20 : 55)
         .onAppear {
             nowPlayingViewModel.setDetailedPresentationActive(
                 true,
@@ -54,7 +64,11 @@ struct NowPlayingExpandedNotchView: View {
         }
     }
 
-    private func timelineContent(snapshot: NowPlayingSnapshot, at date: Date) -> some View {
+    private func progressBar(
+        snapshot: NowPlayingSnapshot,
+        appearance: NowPlayingAppearanceOptions,
+        at date: Date
+    ) -> some View {
         let elapsedTime = nowPlayingViewModel.snapshot != nil ?
         nowPlayingViewModel.elapsedTime(at: date) :
         snapshot.elapsedTime
@@ -63,12 +77,8 @@ struct NowPlayingExpandedNotchView: View {
         let displayedElapsedTime = snapshot.duration > 0 ?
         TimeInterval(displayedProgress) * snapshot.duration :
         elapsedTime
-        let appearance = settings.nowPlayingAppearanceOptions
 
-        return VStack(spacing: 12) {
-            headerSection(snapshot: snapshot, appearance: appearance)
-            
-            PlayerProgressBar(
+        return PlayerProgressBar(
                 progress: displayedProgress,
                 displayedElapsedTime: displayedElapsedTime,
                 duration: snapshot.duration,
@@ -97,10 +107,6 @@ struct NowPlayingExpandedNotchView: View {
                     scrubProgress = nil
                 }
             )
-            controlsSection(snapshot: snapshot, appearance: appearance)
-        }
-        .padding(.top, isNotchlessScreen ? 5 : 20)
-        .padding(.horizontal, isNotchlessScreen ? 20 : 55)
     }
 
     @ViewBuilder

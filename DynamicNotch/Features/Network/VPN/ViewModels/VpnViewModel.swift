@@ -218,7 +218,9 @@ final class VpnViewModel: ObservableObject {
             let finalBundleID = bundleID
             
             await MainActor.run {
-                self.vpns = finalVPNList
+                if self.vpns != finalVPNList {
+                    self.vpns = finalVPNList
+                }
                 self.isLoading = false
                 
                 if finalActiveUuid != nil || self.vpnConnected {
@@ -239,8 +241,12 @@ final class VpnViewModel: ObservableObject {
                 }
                 
                 if let finalBundleID {
-                    self.vpnBundleID = finalBundleID
-                    self.lastVpnBundleID = finalBundleID
+                    if self.vpnBundleID != finalBundleID {
+                        self.vpnBundleID = finalBundleID
+                    }
+                    if self.lastVpnBundleID != finalBundleID {
+                        self.lastVpnBundleID = finalBundleID
+                    }
                 }
                 
                 if let uuid = finalActiveUuid {

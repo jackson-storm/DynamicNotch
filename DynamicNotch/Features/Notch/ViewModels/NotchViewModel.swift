@@ -14,6 +14,13 @@ final class NotchViewModel: ObservableObject {
     @Published private(set) var hasDisplayedContent = false
     @Published private(set) var topInset: CGFloat = 0
     
+    /// Supplied by the real window owner; NSApp.delegate can be a SwiftUI proxy.
+    var interactionRegionProvider: (@MainActor () -> CGRect?)?
+
+    func isPointerInsideInteractionRegion(_ point: CGPoint) -> Bool {
+        interactionRegionProvider?()?.contains(point) ?? false
+    }
+
     @Published var isLocked = false
     @Published var isHoveringScrollableContent = false
     @Published var isHomePageOnLastPage = false

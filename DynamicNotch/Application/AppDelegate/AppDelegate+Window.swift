@@ -22,6 +22,9 @@ extension AppDelegate {
             level: OverlayWindowLevel.interactiveNotch
         )
         window.title = "DynamicNotch"
+        notchViewModel.interactionRegionProvider = { [weak self] in
+            self?.activeNotchScreenRect
+        }
 
         let hostingView = NotchHostingView(
             rootView: NotchView(

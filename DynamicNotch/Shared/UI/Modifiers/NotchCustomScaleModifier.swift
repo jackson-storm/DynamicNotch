@@ -320,11 +320,8 @@ private extension NotchCustomScaleModifier {
                 return
             }
 
-            if let appDelegate = NSApp.delegate as? AppDelegate {
-                let mouseLocation = NSEvent.mouseLocation
-                if let notchRect = appDelegate.activeNotchScreenRect, notchRect.contains(mouseLocation) {
-                    return
-                }
+            if notchViewModel.isPointerInsideInteractionRegion(NSEvent.mouseLocation) {
+                return
             }
 
             pendingCollapseToken = nil

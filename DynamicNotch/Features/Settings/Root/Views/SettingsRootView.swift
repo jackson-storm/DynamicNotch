@@ -147,7 +147,7 @@ struct SettingsRootView: View {
                 }
             }
             .scrollContentBackground(.hidden)
-            .navigationSplitViewColumnWidth(min: 170, ideal: 200, max: 200)
+            .navigationSplitViewColumnWidth(ideal: 200, max: 200)
 
         } detail: {
             NavigationStack(path: $navigationPath) {
@@ -212,9 +212,8 @@ struct SettingsRootView: View {
                                 settingsViewModel.application.resetDisplay()
                             case .language:
                                 settingsViewModel.application.resetLanguage()
-                            case .theme:
-                                settingsViewModel.application.resetAppearance()
                             case .other:
+                                settingsViewModel.application.resetAppearance()
                                 settingsViewModel.application.resetSystem()
                             }
                         } else {
@@ -245,8 +244,7 @@ struct SettingsRootView: View {
                 case .about, .softwareUpdate, .support:
                     applySelection(.about, origin: .sidebar)
                 case .permissions:
-                    applySelection(.general, origin: .sidebar)
-                    selectedGeneralTab = .permissions
+                    applySelection(.permissions, origin: .sidebar)
                 case .notch:
                     applySelection(.general, origin: .sidebar)
                     selectedGeneralTab = .notch
@@ -255,7 +253,7 @@ struct SettingsRootView: View {
                     selectedGeneralTab = .language
                 case .appearance:
                     applySelection(.general, origin: .sidebar)
-                    selectedGeneralTab = .theme
+                    selectedGeneralTab = .other
                 case .system:
                     applySelection(.general, origin: .sidebar)
                     selectedGeneralTab = .other
@@ -359,9 +357,16 @@ struct SettingsRootView: View {
                 GeneralSettingsView(
                     powerService: powerService,
                     applicationSettings: settingsViewModel.application,
-                    permissionController: permissionController,
                     availableDisplays: $availableDisplays,
                     selectedTab: $selectedGeneralTab
+                )
+            }
+
+        case .permissions:
+            detailContainer(for: section) {
+                PermissionsSettingsView(
+                    permissionController: permissionController,
+                    applicationSettings: settingsViewModel.application
                 )
             }
 
@@ -524,21 +529,19 @@ struct SettingsRootView: View {
             .accessibilityIdentifier("settings.toolbar.forward")
         }
 
-        if section == .general && navigationPath.isEmpty {
-            ToolbarItem(placement: .principal) {
-                Picker("", selection: $selectedGeneralTab.animation(.easeInOut(duration: 0.15))) {
-                    ForEach(GeneralTab.allCases) { tab in
-                        Text(tab.titleKey).tag(tab)
-                    }
-                }
-                .pickerStyle(.segmented)
-                .labelsHidden()
-                .offset(x: 100)
-            }
-        }
-
         if let subPage = navigationPath.last {
-            if subPage.canReset {
+            if subPage == .permissions {
+                ToolbarItem(placement: .primaryAction) {
+                    Button {
+                        permissionController.refresh()
+                    } label: {
+                        Text(localized("settings.permissions.action.check", fallback: "Check Permission"))
+                            .padding(.horizontal, 5)
+                    }
+                    .help(localized("settings.permissions.action.check", fallback: "Check Permission"))
+                    .accessibilityIdentifier("settings.toolbar.checkPermissions")
+                }
+            } else if subPage.canReset {
                 ToolbarItem(placement: .primaryAction) {
                     Button {
                         pendingResetTarget = .subPage(subPage)
@@ -554,6 +557,17 @@ struct SettingsRootView: View {
                     )
                     .accessibilityIdentifier("settings.toolbar.resetCurrentSubPage")
                 }
+            }
+        } else if section == .permissions {
+            ToolbarItem(placement: .primaryAction) {
+                Button {
+                    permissionController.refresh()
+                } label: {
+                    Text(localized("settings.permissions.action.check", fallback: "Check Permission"))
+                        .padding(.horizontal, 5)
+                }
+                .help(localized("settings.permissions.action.check", fallback: "Check Permission"))
+                .accessibilityIdentifier("settings.toolbar.checkPermissions")
             }
         } else if viewModel.canReset(section) && section != .general {
             ToolbarItem(placement: .primaryAction) {
@@ -578,7 +592,7 @@ struct SettingsRootView: View {
     private func subPageView(for subPage: SettingsSubPage) -> some View {
         switch subPage {
         case .appearance:
-            SystemSettingsView(applicationSettings: settingsViewModel.application)
+            OtherSettingsView(applicationSettings: settingsViewModel.application)
         case .notch:
             NotchSettingsView(
                 powerService: powerService,
@@ -588,7 +602,7 @@ struct SettingsRootView: View {
         case .language:
             LanguageSettingsView(applicationSettings: settingsViewModel.application)
         case .system:
-            SystemSettingsView(applicationSettings: settingsViewModel.application)
+            OtherSettingsView(applicationSettings: settingsViewModel.application)
         case .permissions:
             PermissionsSettingsView(permissionController: permissionController, applicationSettings: settingsViewModel.application)
         case .softwareUpdate:
@@ -632,18 +646,12 @@ struct SettingsRootView: View {
         if let subPage = navigationPath.last {
             return localized(subPage.titleKey, fallback: subPage.fallbackTitle)
         }
-        if selectedSection == .general {
-            return ""
-        }
         return localized(selectedSection.titleKey, fallback: selectedSection.fallbackTitle)
     }
 
     private var currentSubtitle: String {
         if let subPage = navigationPath.last {
             return localized(subPage.subtitleKey, fallback: subPage.fallbackSubtitle)
-        }
-        if selectedSection == .general {
-            return ""
         }
         return localized(selectedSection.subtitleKey, fallback: selectedSection.fallbackSubtitle)
     }

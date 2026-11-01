@@ -4,8 +4,6 @@ internal import AppKit
 enum GeneralTab: String, CaseIterable, Identifiable {
     case notch
     case language
-    case permissions
-    case theme
     case other
     
     var id: String { rawValue }
@@ -16,10 +14,6 @@ enum GeneralTab: String, CaseIterable, Identifiable {
             return "settings.section.notch.title"
         case .language:
             return "settings.section.language.title"
-        case .permissions:
-            return "settings.section.permissions.title"
-        case .theme:
-            return "settings.appearance.theme.headerTitle"
         case .other:
             return "settings.general.tab.other"
         }
@@ -31,10 +25,6 @@ enum GeneralTab: String, CaseIterable, Identifiable {
             return "settings.section.notch.title"
         case .language:
             return "settings.section.language.title"
-        case .permissions:
-            return "settings.section.permissions.title"
-        case .theme:
-            return "settings.appearance.theme.headerTitle"
         case .other:
             return "settings.general.tab.other"
         }
@@ -46,10 +36,6 @@ enum GeneralTab: String, CaseIterable, Identifiable {
             return "Notch"
         case .language:
             return "Language"
-        case .permissions:
-            return "Permissions"
-        case .theme:
-            return "Theme"
         case .other:
             return "Other"
         }
@@ -59,20 +45,17 @@ enum GeneralTab: String, CaseIterable, Identifiable {
 struct GeneralSettingsView: View {
     @ObservedObject var powerService: PowerService
     @ObservedObject var applicationSettings: ApplicationSettingsStore
-    @ObservedObject var permissionController: SettingsPermissionController
     @Binding var availableDisplays: [NotchDisplayOption]
     @Binding var selectedTab: GeneralTab
     
     init(
         powerService: PowerService,
         applicationSettings: ApplicationSettingsStore,
-        permissionController: SettingsPermissionController,
         availableDisplays: Binding<[NotchDisplayOption]>,
         selectedTab: Binding<GeneralTab>
     ) {
         self._powerService = ObservedObject(wrappedValue: powerService)
         self._applicationSettings = ObservedObject(wrappedValue: applicationSettings)
-        self._permissionController = ObservedObject(wrappedValue: permissionController)
         self._availableDisplays = availableDisplays
         self._selectedTab = selectedTab
     }
@@ -91,32 +74,24 @@ struct GeneralSettingsView: View {
                     applicationSettings: applicationSettings,
                     isEmbedded: true
                 )
-            case .permissions:
-                PermissionsSettingsView(
-                    permissionController: permissionController,
+            case .other:
+                OtherSettingsView(
                     applicationSettings: applicationSettings
                 )
-            case .theme:
-                SettingsPageScrollView {
-                    themeCard
-                    SettingsResetCard(targetName: localized("settings.appearance.theme.headerTitle", fallback: "Theme")) {
-                        applicationSettings.resetAppearance()
-                    }
-                }
-            case .other:
-                SettingsPageScrollView {
-                    systemCard
-                    SettingsResetCard(targetName: localized("settings.general.tab.other", fallback: "Other")) {
-                        applicationSettings.resetSystem()
-                    }
-                }
             }
         }
         .accessibilityIdentifier("settings.general.root")
-    }
-
-    private func localized(_ key: String, fallback: String? = nil) -> String {
-        applicationSettings.appLanguage.locale.dn(key, fallback: fallback)
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                Picker("", selection: $selectedTab.animation(.easeInOut(duration: 0.15))) {
+                    ForEach(GeneralTab.allCases) { tab in
+                        Text(tab.titleKey).tag(tab)
+                    }
+                }
+                .pickerStyle(.segmented)
+                .labelsHidden()
+            }
+        }
     }
     
     private var systemCard: some View {
@@ -170,24 +145,6 @@ struct GeneralSettingsView: View {
                     }
                 }
             }
-        }
-    }
-    
-    private var themeCard: some View {
-        SettingsCard(title: "settings.general.appearance.title") {
-            CustomPicker(
-                selection: $applicationSettings.appearanceMode,
-                options: Array(SettingsAppearanceMode.allCases),
-                title: { $0.title },
-                headerTitle: "settings.appearance.theme.headerTitle",
-                headerDescription: "settings.appearance.theme.headerDesc",
-                itemHeight: 110,
-                lightBackgroundImage: Image("backgroundLight"),
-                darkBackgroundImage: Image("backgroundDark")
-            ) { mode, isSelected in
-                ThemeAppearancePickerContent(mode: mode, isSelected: isSelected)
-            }
-            .accessibilityIdentifier("settings.general.appearanceMode")
         }
     }
 }

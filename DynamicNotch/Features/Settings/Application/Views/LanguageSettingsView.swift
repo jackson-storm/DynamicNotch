@@ -60,15 +60,7 @@ struct LanguageSettingsView: View {
             case .notch:
                 notchLanguageListCard
             }
-
-            SettingsResetCard(targetName: localized("settings.section.language.title", fallback: "Language")) {
-                applicationSettings.resetLanguage()
-            }
         }
-    }
-
-    private func localized(_ key: String, fallback: String? = nil) -> String {
-        applicationSettings.appLanguage.locale.dn(key, fallback: fallback)
     }
     
     private var systemLanguageCard: some View {

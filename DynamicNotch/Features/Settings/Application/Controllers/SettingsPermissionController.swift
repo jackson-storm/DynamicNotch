@@ -191,8 +191,8 @@ final class SettingsPermissionController: NSObject, ObservableObject, CBCentralM
                 fallbackTitle: "Media Controls",
                 descriptionKey: "settings.permissions.mediaControls.description",
                 fallbackDescription: "Allow media control event access so play, pause, and track buttons work from Now Playing.",
-                systemImage: "music.note",
-                tintColor: .red,
+                systemImage: "play.fill",
+                tintColor: .pink,
                 isGranted: canPostMediaKeyEvents,
                 actionTitleKey: canPostMediaKeyEvents ? nil : (
                     didPromptForPostEventAccess ?
@@ -209,7 +209,7 @@ final class SettingsPermissionController: NSObject, ObservableObject, CBCentralM
                 titleKey: "settings.permissions.fullDiskAccess.title",
                 fallbackTitle: "Full Disk Access",
                 descriptionKey: "settings.permissions.fullDiskAccess.description",
-                fallbackDescription: "Allow Full Disk Access to display real names and custom icons of Focus modes.",
+                fallbackDescription: "Allow Full Disk Access only to obtain Focus mode icons.",
                 systemImage: "opticaldiscdrive.fill",
                 tintColor: .gray,
                 isGranted: isFullDiskAccessGranted,

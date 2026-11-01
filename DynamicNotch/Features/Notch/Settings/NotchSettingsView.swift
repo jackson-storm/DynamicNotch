@@ -15,10 +15,6 @@ struct NotchSettingsView: View {
         SettingsPageScrollView {
             appearanceCard
             otherSettings
-            SettingsResetCard(targetName: localized("settings.section.notch.title", fallback: "Notch")) {
-                applicationSettings.resetNotch()
-                applicationSettings.resetDisplay()
-            }
         }
         .accessibilityIdentifier("settings.notch.root")
         .onAppear(perform: refreshAvailableDisplays)
@@ -26,13 +22,9 @@ struct NotchSettingsView: View {
             refreshAvailableDisplays()
         }
     }
-
-    private func localized(_ key: String, fallback: String? = nil) -> String {
-        applicationSettings.appLanguage.locale.dn(key, fallback: fallback)
-    }
     
     private var appearanceCard: some View {
-        SettingsCard(title: "settings.general.appearance.title") {
+        SettingsCard {
             SettingsToggleRow(
                 title: "settings.notch.showStroke.title",
                 description: "settings.notch.showStroke.desc",

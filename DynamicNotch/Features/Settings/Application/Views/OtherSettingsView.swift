@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SystemSettingsView: View {
+struct OtherSettingsView: View {
     @ObservedObject var applicationSettings: ApplicationSettingsStore
     
     var body: some View {
@@ -18,7 +18,7 @@ struct SystemSettingsView: View {
     }
     
     private var themeCard: some View {
-        SettingsCard(title: "settings.general.appearance.title") {
+        SettingsCard {
             CustomPicker(
                 selection: $applicationSettings.appearanceMode,
                 options: Array(SettingsAppearanceMode.allCases),
@@ -36,7 +36,7 @@ struct SystemSettingsView: View {
     }
     
     private var systemCard: some View {
-        SettingsCard(title: "settings.general.system.title") {
+        SettingsCard {
             SettingsToggleRow(
                 title: "settings.system.launchAtLogin.title",
                 description: "settings.system.launchAtLogin.desc",

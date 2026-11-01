@@ -69,7 +69,7 @@ extension SettingsRootViewModel {
 
     enum Section: String, CaseIterable, Identifiable {
         case general
-        static var permissions: Section { .general }
+        case permissions
         case about
         #if DEBUG
         case debug
@@ -155,7 +155,7 @@ extension SettingsRootViewModel {
             case "language":
                 return .general
             case "permissions":
-                return .general
+                return .permissions
             case "notch":
                 return .general
             case "about":
@@ -226,6 +226,19 @@ private enum SettingsSectionCatalog {
                 imageName: nil,
                 tint: .gray,
                 resetGroup: .general
+            )
+
+        case .permissions:
+            return .init(
+                sidebarGroup: .application,
+                titleKey: "settings.section.permissions.title",
+                fallbackTitle: "Permissions",
+                subtitleKey: "settings.section.permissions.subtitle",
+                fallbackSubtitle: "Manage system access for DynamicNotch features.",
+                systemImage: "checkmark.seal.fill",
+                imageName: nil,
+                tint: .green.opacity(0.9),
+                resetGroup: nil
             )
 
         case .nowPlaying:

@@ -58,6 +58,7 @@ final class DragAndDropView: NSView {
 
     private var workspaceObserver: NSObjectProtocol?
     private var screenUnlockObserver: NSObjectProtocol?
+    private var cachedDragClassification: (sequenceNumber: Int, changeCount: Int, isAccepted: Bool)?
 
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
@@ -159,8 +160,7 @@ final class DragAndDropView: NSView {
     }
 
     override func draggingEntered(_ sender: NSDraggingInfo) -> NSDragOperation {
-        guard sender.draggingPasteboard.isFileTrayLocalDrag == false,
-              sender.draggingPasteboard.containsAirDropFiles else {
+        guard isAcceptedAirDropDrag(sender) else {
             onTargetedChange(false)
             onTargetedDropTargetChange(nil)
             return []
@@ -173,8 +173,7 @@ final class DragAndDropView: NSView {
     }
 
     override func draggingUpdated(_ sender: NSDraggingInfo) -> NSDragOperation {
-        guard sender.draggingPasteboard.isFileTrayLocalDrag == false,
-              sender.draggingPasteboard.containsAirDropFiles else {
+        guard isAcceptedAirDropDrag(sender) else {
             onTargetedChange(false)
             onTargetedDropTargetChange(nil)
             return []
@@ -192,14 +191,12 @@ final class DragAndDropView: NSView {
     }
 
     override func prepareForDragOperation(_ sender: NSDraggingInfo) -> Bool {
-        sender.draggingPasteboard.isFileTrayLocalDrag == false &&
-        sender.draggingPasteboard.containsAirDropFiles &&
+        isAcceptedAirDropDrag(sender) &&
         dropTarget(for: sender)?.acceptsDrop == true
     }
 
     override func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
-        guard sender.draggingPasteboard.isFileTrayLocalDrag == false,
-              sender.draggingPasteboard.containsAirDropFiles,
+        guard isAcceptedAirDropDrag(sender),
               let target = dropTarget(for: sender) else {
             onTargetedDropTargetChange(nil)
             return false
@@ -214,6 +211,24 @@ final class DragAndDropView: NSView {
     override func concludeDragOperation(_ sender: NSDraggingInfo?) {
         onTargetedChange(false)
         onTargetedDropTargetChange(nil)
+    }
+
+    /// Reading the drag pasteboard crosses process boundaries. Its contents stay fixed for one drag
+    /// session.
+    private func isAcceptedAirDropDrag(_ sender: NSDraggingInfo) -> Bool {
+        let pasteboard = sender.draggingPasteboard
+        let sequenceNumber = sender.draggingSequenceNumber
+        let changeCount = pasteboard.changeCount
+
+        if let cached = cachedDragClassification,
+           cached.sequenceNumber == sequenceNumber,
+           cached.changeCount == changeCount {
+            return cached.isAccepted
+        }
+
+        let isAccepted = pasteboard.isFileTrayLocalDrag == false && pasteboard.containsAirDropFiles
+        cachedDragClassification = (sequenceNumber, changeCount, isAccepted)
+        return isAccepted
     }
 
     private func dropTarget(for sender: NSDraggingInfo) -> DragAndDropTarget? {

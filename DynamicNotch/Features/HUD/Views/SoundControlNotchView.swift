@@ -5,6 +5,8 @@ struct SoundControlNotchView: View {
     let isActive: Bool
     @Environment(\.isNotchlessScreen) private var isNotchlessScreen
 
+    @State private var soundObservationOwner = UUID()
+
     var body: some View {
         VStack(alignment: .leading, spacing: 11) {
             Spacer(minLength: 0)
@@ -64,11 +66,11 @@ struct SoundControlNotchView: View {
         .foregroundStyle(.white)
         .padding(.horizontal, isNotchlessScreen ? 22 : 40)
         .padding(.bottom, 16)
-        .onAppear { if isActive { model.startObserving() } }
+        .onAppear { if isActive { model.startObserving(owner: soundObservationOwner) } }
         .onChange(of: isActive) { _, active in
-            if active { model.startObserving() } else { model.stopObserving() }
+            if active { model.startObserving(owner: soundObservationOwner) } else { model.stopObserving(owner: soundObservationOwner) }
         }
-        .onDisappear { model.stopObserving() }
+        .onDisappear { model.stopObserving(owner: soundObservationOwner) }
     }
 
     private var statusText: LocalizedStringKey {

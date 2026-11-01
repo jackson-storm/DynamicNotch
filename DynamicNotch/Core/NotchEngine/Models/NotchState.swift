@@ -25,6 +25,9 @@ enum NotchState {
     /// Dismiss a Live Activity from the Dynamic Island display while keeping it in the restorable stack.
     case dismissLiveActivity(id: String)
 
+    /// Expand a chosen ongoing activity without removing the other activities.
+    case selectLiveActivity(id: String)
+
     /// Show a transient alert / HUD notification for a specified duration, temporarily preempting any active Live Activity.
     case showTemporaryNotification(NotchContentProtocol, duration: TimeInterval)
 

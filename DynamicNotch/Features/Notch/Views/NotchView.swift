@@ -53,8 +53,13 @@ struct NotchView: View {
                 )
             )
             .zIndex(1.0)
+
+            SecondaryLiveActivityView(notchViewModel: notchViewModel)
+                .environment(\.isNotchlessScreen, notchViewModel.isDynamicIsland)
+                .zIndex(2.0)
         }
         .environmentObject(homePageTools)
+        .environmentObject(homePageTools.sound)
         .environment(\.locale, settingsViewModel.application.appLanguage.locale)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }

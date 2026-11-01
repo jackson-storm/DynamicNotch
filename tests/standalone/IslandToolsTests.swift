@@ -21,6 +21,19 @@ struct IslandToolsTests {
             input.forEach { engine.press($0) }
             return engine
         }
+        var session = HomePageSessionMemory()
+        try expect(session.pageForExpansion(current: "sound", first: "screenshots", at: 90) == "sound", "open page never expires while in use")
+        session.didClose(at: 100)
+        try expect(session.pageForExpansion(current: "sound", first: "screenshots", at: 104.99) == "sound", "reopening before five seconds retains page")
+        try expect(session.pageForExpansion(current: "sound", first: "screenshots", at: 150) == "sound", "opening consumes the close deadline")
+        session.didClose(at: 200)
+        try expect(session.pageForExpansion(current: "calculator", first: "screenshots", at: 205) == "screenshots", "five seconds resets to the first configured page")
+        session.didClose(at: 300)
+        try expect(session.pageForExpansion(current: "sound", first: "timer", at: 400) == "timer", "expiry respects a reordered first page")
+        session.didClose(at: 500)
+        _ = session.pageForExpansion(current: "sound", first: "timer", at: 501)
+        session.didClose(at: 502)
+        try expect(session.pageForExpansion(current: "sound", first: "timer", at: 506) == "sound", "a fresh close starts a fresh five seconds")
         let ru = Locale(identifier: "ru_RU")
         var c = calculate([.digit(2), .operation(.add), .digit(3), .operation(.multiply), .digit(4), .equals])
         try expect(c.value == Decimal(14), "multiplication has precedence")

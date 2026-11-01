@@ -29,6 +29,8 @@ struct NowPlayingNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     var priority: Int { NotchContentRegistry.Media.nowPlaying.priority }
     
     var isExpandable: Bool { true }
+    var supportsMinimalPresentation: Bool { true }
+    var prefersCompactPresentation: Bool { nowPlayingViewModel.snapshot?.isPlaying == true }
 
     var windowLink: (@MainActor () -> Void)? {
         guard nowPlayingViewModel.canOpenPlaybackSource else { return nil }
@@ -43,7 +45,7 @@ struct NowPlayingNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     }
     
     func expandedSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        .init(width: baseWidth + 200, height: baseHeight + 160)
+        .init(width: baseWidth + 200, height: baseHeight + 235)
     }
     
     func expandedCornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat) {
@@ -58,6 +60,16 @@ struct NowPlayingNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
         baseHeight * 0.2
     }
     
+    @MainActor
+    func makeMinimalView() -> AnyView {
+        AnyView(
+            Image(systemName: "music.note")
+                .font(.system(size: 14, weight: .medium))
+                .foregroundStyle(.white)
+                .accessibilityLabel(Text("settings.nowPlaying.card.playback"))
+        )
+    }
+
     @MainActor
     func makeView() -> AnyView {
         AnyView(

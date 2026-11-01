@@ -175,7 +175,8 @@ struct HomePagePageIndicatorView: View {
                     nowPlayingViewModel: homePageContent.nowPlayingViewModel,
                     mediaAndFilesSettings: settingsViewModel.mediaAndFiles,
                     applicationSettings: settingsViewModel.application,
-                    minimumExpandedSize: notchViewModel.presentedNotchSize
+                    minimumExpandedSize: notchViewModel.presentedNotchSize,
+                    navigationDirection: (activePages.firstIndex(of: page) ?? 0) >= (activePages.firstIndex(of: homePageContent.homePages) ?? 0) ? 1 : -1
                 )
             )
         )

@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct NowPlayingExpandedNotchView: View {
+    @EnvironmentObject private var sound: SoundControlModel
     @Environment(\.notchScale) var scale
     @Environment(\.isNotchlessScreen) var isNotchlessScreen
     
@@ -33,6 +34,8 @@ struct NowPlayingExpandedNotchView: View {
         )
     }
     
+    @State private var soundObservationOwner = UUID()
+
     var body: some View {
         let snapshot = resolvedSnapshot
 
@@ -40,12 +43,14 @@ struct NowPlayingExpandedNotchView: View {
             timelineContent(snapshot: snapshot, at: context.date)
         }
         .onAppear {
+            sound.startObserving(owner: soundObservationOwner)
             nowPlayingViewModel.setDetailedPresentationActive(
                 true,
                 source: detailedPresentationSource
             )
         }
         .onDisappear {
+            sound.stopObserving(owner: soundObservationOwner)
             nowPlayingViewModel.setDetailedPresentationActive(
                 false,
                 source: detailedPresentationSource
@@ -64,13 +69,11 @@ struct NowPlayingExpandedNotchView: View {
         elapsedTime
         let appearance = settings.nowPlayingAppearanceOptions
 
-        return VStack {
-            Spacer()
+        return VStack(spacing: 10) {
+            Spacer(minLength: 0)
 
             headerSection(snapshot: snapshot, appearance: appearance)
             
-            Spacer()
-
             PlayerProgressBar(
                 progress: displayedProgress,
                 displayedElapsedTime: displayedElapsedTime,
@@ -101,9 +104,8 @@ struct NowPlayingExpandedNotchView: View {
                 }
             )
 
-            Spacer()
-
             controlsSection(snapshot: snapshot, appearance: appearance)
+            NowPlayingVolumeControlView(model: sound)
         }
         .padding(.horizontal, isNotchlessScreen ? 25 : 55)
         .padding(.top, isNotchlessScreen ? 15 : 25)

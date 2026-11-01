@@ -12,6 +12,7 @@ final class NotchViewModel: ObservableObject {
     @Published private(set) var isExpandingLiveActivityTransition = false
     @Published private(set) var isActivityPresentationHidden = false
     @Published private(set) var hasDisplayedContent = false
+    @Published private(set) var visibleLiveActivities: [NotchContentProtocol] = []
     @Published private(set) var topInset: CGFloat = 0
     
     /// Supplied by the real window owner; NSApp.delegate can be a SwiftUI proxy.
@@ -43,6 +44,7 @@ final class NotchViewModel: ObservableObject {
     private var expansionTransitionTask: Task<Void, Never>?
     private var swipeStretchResetWorkItem: DispatchWorkItem?
     private var notchPulseResetWorkItem: DispatchWorkItem?
+    private var homePageSessionMemory = HomePageSessionMemory()
     private var isClosingHeightStaged = false
     private var isFocusCloseAnimating = false
 
@@ -61,6 +63,15 @@ final class NotchViewModel: ObservableObject {
     var displayedPresentationID: String? {
         displayedNotchModel.presentationID
     }
+
+    var secondaryLiveActivity: NotchContentProtocol? {
+        guard !isLocked, !isActivityPresentationHidden, !isDisplayingExpandedLiveActivity,
+              notchModel.temporaryNotificationContent == nil,
+              let primary = displayedContent, primary.supportsMinimalPresentation else { return nil }
+        return visibleLiveActivities.first { $0.id != primary.id && $0.supportsMinimalPresentation }
+    }
+
+    func expandLiveActivity(id: String) { engine.send(.selectLiveActivity(id: id)) }
 
     var isDynamicIsland: Bool {
         topInset == 0
@@ -524,6 +535,7 @@ final class NotchViewModel: ObservableObject {
     }
 
     private func performActiveLiveActivityExpansion() {
+        prepareHomePageForExpansion()
         expansionTransitionTask?.cancel()
         isExpandingLiveActivityTransition = true
 
@@ -541,6 +553,20 @@ final class NotchViewModel: ObservableObject {
         }
     }
     
+    private func prepareHomePageForExpansion() {
+        guard let home = notchModel.content as? HomePageNotchContent,
+              let first = home.settings.homePageOrder.first(where: { !home.settings.homePageDisabled.contains($0) }) else { return }
+        let page = homePageSessionMemory.pageForExpansion(
+            current: home.homePages, first: first, at: ProcessInfo.processInfo.systemUptime
+        )
+        guard page != home.homePages else { return }
+        engine.send(.showLiveActivity(HomePageNotchContent(
+            notchViewModel: self, settings: home.settings, homePages: page,
+            localTimerViewModel: home.localTimerViewModel, nowPlayingViewModel: home.nowPlayingViewModel,
+            mediaAndFilesSettings: home.mediaAndFilesSettings, applicationSettings: home.applicationSettings
+        )))
+    }
+
     func handleOutsideClick() {
         engine.handleOutsideClick()
     }
@@ -606,6 +632,9 @@ final class NotchViewModel: ObservableObject {
     }
     
     private func bindEngine() {
+        engine.$visibleLiveActivities
+            .sink { [weak self] in self?.visibleLiveActivities = $0 }
+            .store(in: &cancellables)
         notchModel = engine.notchModel
         showNotch = engine.showNotch
         cachedStrokeColor = engine.cachedStrokeColor
@@ -617,6 +646,11 @@ final class NotchViewModel: ObservableObject {
             .dropFirst()
             .sink { [weak self] in
                 guard let self else { return }
+                if self.notchModel.isPresentingExpanded,
+                   self.notchModel.content is HomePageNotchContent,
+                   !($0.isPresentingExpanded && $0.content is HomePageNotchContent) {
+                    self.homePageSessionMemory.didClose(at: ProcessInfo.processInfo.systemUptime)
+                }
                 self.scheduleStagedHeightUpdate(to: $0.size.height)
                 self.notchModel = $0
                 self.hasDisplayedContent = self.displayedContent != nil

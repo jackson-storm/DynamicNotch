@@ -18,11 +18,12 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     let mediaAndFilesSettings: MediaAndFilesSettingsStore
     let applicationSettings: ApplicationSettingsStore
     let minimumExpandedSize: CGSize
+    let navigationDirection: Int
 
     init(notchViewModel: NotchViewModel, settings: HomePageSettingsStore, homePages: HomePages,
          localTimerViewModel: LocalTimerViewModel, nowPlayingViewModel: NowPlayingViewModel,
          mediaAndFilesSettings: MediaAndFilesSettingsStore, applicationSettings: ApplicationSettingsStore,
-         minimumExpandedSize: CGSize = .zero) {
+         minimumExpandedSize: CGSize = .zero, navigationDirection: Int = 1) {
         self.notchViewModel = notchViewModel
         self.settings = settings
         self.homePages = homePages
@@ -31,6 +32,7 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
         self.mediaAndFilesSettings = mediaAndFilesSettings
         self.applicationSettings = applicationSettings
         self.minimumExpandedSize = minimumExpandedSize
+        self.navigationDirection = navigationDirection
     }
 
     var priority: Int { NotchContentRegistry.HomePage.active.priority }
@@ -102,7 +104,8 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
                 mediaAndFilesSettings: mediaAndFilesSettings,
                 applicationSettings: applicationSettings,
                 initialPage: homePages,
-                minimumExpandedSize: minimumExpandedSize
+                minimumExpandedSize: minimumExpandedSize,
+                navigationDirection: navigationDirection
             )
         )
     }

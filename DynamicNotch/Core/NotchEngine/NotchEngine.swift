@@ -29,10 +29,17 @@ final class NotchEngine: ObservableObject {
     private let configuredQueueDelay: TimeInterval?
 
     /// Priority-ordered stack of currently active Live Activities (Apple: active `Activity<Attributes>` instances).
-    private var activeLiveActivities: [NotchContentProtocol] = []
+    private var activeLiveActivities: [NotchContentProtocol] = [] {
+        didSet { publishVisibleActivities() }
+    }
+
+    @Published private(set) var visibleLiveActivities: [NotchContentProtocol] = []
+    private var focusedLiveActivityID: String?
 
     /// Unique IDs of Live Activities dismissed by the user (swiped away / dismissed from the Dynamic Island).
-    private var dismissedLiveActivityIDs: [String] = []
+    private var dismissedLiveActivityIDs: [String] = [] {
+        didSet { publishVisibleActivities() }
+    }
 
     private var temporaryTask: Task<Void, Never>?
     private var temporaryTimerID = UUID()
@@ -161,7 +168,8 @@ final class NotchEngine: ObservableObject {
             dismissedLiveActivityIDs.removeAll(where: { $0 == content.id })
             updateLiveActivityStack(with: content)
 
-            if notchModel.liveActivityContent?.id == content.id {
+            if notchModel.liveActivityContent?.id == content.id,
+               highestPriorityVisibleActivity?.id == content.id {
                 withAnimation(animations.contentUpdate) {
                     notchModel.liveActivityContent = content
                     notchModel.updateToken = UUID()
@@ -193,7 +201,12 @@ final class NotchEngine: ObservableObject {
             }
 
         case .hide:
+            focusedLiveActivityID = nil
             eventQueue.removeAll()
+
+        case .selectLiveActivity(let id):
+            guard visibleLiveActivities.contains(where: { $0.id == id && $0.isExpandable }) else { return }
+            eventQueue.removeAll { if case .selectLiveActivity = $0 { return true }; return false }
 
         case .dismissLiveActivity:
             break
@@ -313,6 +326,10 @@ final class NotchEngine: ObservableObject {
             cancelTemporary()
         }
 
+        if notchModel.temporaryNotificationContent == nil,
+           let content = notchModel.liveActivityContent, content.supportsMinimalPresentation {
+            focusedLiveActivityID = content.id
+        }
         withAnimation(animations.expandLiveActivity) {
             notchModel.isExpanded = true
         }
@@ -350,6 +367,7 @@ final class NotchEngine: ObservableObject {
         }
 
         guard notchModel.isLiveActivityExpanded else { return }
+        focusedLiveActivityID = nil
 
         if let temporaryContent = notchModel.temporaryNotificationContent {
             let duration = currentTemporaryNotificationDuration
@@ -372,7 +390,7 @@ final class NotchEngine: ObservableObject {
             return
         }
 
-        guard let liveActivityContent = notchModel.liveActivityContent else { return }
+        guard notchModel.liveActivityContent != nil else { return }
 
         transition(
             hide: {
@@ -383,7 +401,7 @@ final class NotchEngine: ObservableObject {
             },
             show: {
                 withAnimation(self.animations.contentShow) {
-                    self.notchModel.liveActivityContent = liveActivityContent
+                    self.notchModel.liveActivityContent = self.highestPriorityVisibleActivity
                 }
             }
         )
@@ -403,7 +421,24 @@ final class NotchEngine: ObservableObject {
     }
 
     private var highestPriorityVisibleActivity: NotchContentProtocol? {
-        activeLiveActivities.first { dismissedLiveActivityIDs.contains($0.id) == false }
+        let visible = activeLiveActivities.filter { !dismissedLiveActivityIDs.contains($0.id) }
+        guard let first = visible.first else { return nil }
+        if notchModel.isLiveActivityExpanded, let focusedLiveActivityID,
+           let focused = visible.first(where: { $0.id == focusedLiveActivityID }) {
+            if !first.supportsMinimalPresentation && first.priority > focused.priority { return first }
+            return focused
+        }
+        let minimal = visible.filter(\.supportsMinimalPresentation)
+        if first.supportsMinimalPresentation, minimal.count > 1,
+           let preferred = minimal.first(where: \.prefersCompactPresentation) { return preferred }
+        return first
+    }
+
+    private func publishVisibleActivities() {
+        visibleLiveActivities = activeLiveActivities.filter { !dismissedLiveActivityIDs.contains($0.id) }
+        if let focusedLiveActivityID, !visibleLiveActivities.contains(where: { $0.id == focusedLiveActivityID }) {
+            self.focusedLiveActivityID = nil
+        }
     }
 
     private func recordDismissedLiveActivity(id: String) {
@@ -483,6 +518,16 @@ final class NotchEngine: ObservableObject {
         case .dismissLiveActivity(let id):
             guard notchModel.liveActivityContent?.id == id else { return }
             await showLiveContentTransition(highestPriorityVisibleActivity)
+
+        case .selectLiveActivity(let id):
+            guard notchModel.temporaryNotificationContent == nil,
+                  let content = visibleLiveActivities.first(where: { $0.id == id && $0.isExpandable }) else { return }
+            focusedLiveActivityID = id
+            withAnimation(animations.expandLiveActivity) {
+                notchModel.liveActivityContent = content
+                notchModel.isLiveActivityExpanded = true
+                notchModel.updateToken = UUID()
+            }
 
         case .showTemporaryNotification(let content, let duration):
             if notchModel.temporaryNotificationContent?.id == content.id {

@@ -20,6 +20,7 @@ struct TimerNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     }
 
     var isExpandable: Bool { true }
+    var supportsMinimalPresentation: Bool { true }
 
     var windowLink: (@MainActor () -> Void)? {
         switch source {
@@ -76,6 +77,9 @@ struct TimerNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     func expandedDynamicIslandCornerRadius(baseHeight: CGFloat) -> CGFloat {
         baseHeight * 0.5
     }
+
+    @MainActor
+    func makeMinimalView() -> AnyView { AnyView(TimerDetachedActivityView(source: source)) }
 
     @MainActor
     func makeView() -> AnyView {

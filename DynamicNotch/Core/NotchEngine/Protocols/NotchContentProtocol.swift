@@ -52,6 +52,11 @@ protocol NotchContentProtocol: DynamicIslandCustomizable {
     /// Indicates whether smooth sizing and morphing animation effects should be applied when content resizes.
     var usesContentResizeEffect: Bool { get }
 
+    /// Opt-in for an independently selectable minimal activity beside the island.
+    var supportsMinimalPresentation: Bool { get }
+    var prefersCompactPresentation: Bool { get }
+    @MainActor func makeMinimalView() -> AnyView
+
     /// Deep-link or navigation action invoked when the user interacts with the activity to open the host application window.
     /// Equivalent to Apple's `widgetURL` / `Link` action in Dynamic Island.
     var widgetURL: (@MainActor () -> Void)? { get }
@@ -102,6 +107,9 @@ extension NotchContentProtocol {
     var expandsOnTap: Bool { isExpandable }
     var isRestorable: Bool { true }
     var usesContentResizeEffect: Bool { true }
+    var supportsMinimalPresentation: Bool { false }
+    var prefersCompactPresentation: Bool { false }
+    @MainActor func makeMinimalView() -> AnyView { makeView() }
 
     var widgetURL: (@MainActor () -> Void)? { windowLink }
     var windowLink: (@MainActor () -> Void)? { nil }

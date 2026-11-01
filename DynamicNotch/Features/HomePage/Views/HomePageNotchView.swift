@@ -18,13 +18,15 @@ struct HomePageNotchView: View {
     let applicationSettings: ApplicationSettingsStore
     let initialPage: HomePages
     let minimumExpandedSize: CGSize
+    let navigationDirection: Int
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     private var currentPage: HomePages? {
         let pages = settings.homePageOrder.filter { !settings.homePageDisabled.contains($0) }
         return pages.contains(initialPage) ? initialPage : pages.first
     }
     
-    init(notchViewModel: NotchViewModel, settings: HomePageSettingsStore, localTimerViewModel: LocalTimerViewModel, nowPlayingViewModel: NowPlayingViewModel, mediaAndFilesSettings: MediaAndFilesSettingsStore, applicationSettings: ApplicationSettingsStore, initialPage: HomePages, minimumExpandedSize: CGSize = .zero) {
+    init(notchViewModel: NotchViewModel, settings: HomePageSettingsStore, localTimerViewModel: LocalTimerViewModel, nowPlayingViewModel: NowPlayingViewModel, mediaAndFilesSettings: MediaAndFilesSettingsStore, applicationSettings: ApplicationSettingsStore, initialPage: HomePages, minimumExpandedSize: CGSize = .zero, navigationDirection: Int = 1) {
         self.notchViewModel = notchViewModel
         self.settings = settings
         self.localTimerViewModel = localTimerViewModel
@@ -33,6 +35,7 @@ struct HomePageNotchView: View {
         self.applicationSettings = applicationSettings
         self.initialPage = initialPage
         self.minimumExpandedSize = minimumExpandedSize
+        self.navigationDirection = navigationDirection
     }
     
     var body: some View {
@@ -44,10 +47,12 @@ struct HomePageNotchView: View {
                     .padding(.top, [.screenshots, .calculator, .sound].contains(page) ? notchViewModel.notchModel.baseHeight + 6 : 0)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
                     .id(page)
-                    .transition(.identity)
+                    .transition(reduceMotion ? .opacity : .push(from: navigationDirection >= 0 ? .bottom : .top))
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .clipped()
+        .animation(.easeInOut(duration: reduceMotion ? 0.12 : 0.24), value: currentPage)
         .background(HomePageScrollInput { direction, minimumSize in
             guard notchViewModel.isDisplayingExpandedLiveActivity,
                   let content = notchViewModel.displayedContent as? HomePageNotchContent,
@@ -88,7 +93,8 @@ struct HomePageNotchView: View {
             notchViewModel: notchViewModel, settings: settings, homePages: page,
             localTimerViewModel: localTimerViewModel, nowPlayingViewModel: nowPlayingViewModel,
             mediaAndFilesSettings: mediaAndFilesSettings, applicationSettings: applicationSettings,
-            minimumExpandedSize: minimumSize
+            minimumExpandedSize: minimumSize,
+            navigationDirection: (activePages.firstIndex(of: page) ?? 0) >= (activePages.firstIndex(of: currentPage ?? page) ?? 0) ? 1 : -1
         )))
     }
     

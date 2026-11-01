@@ -24,6 +24,8 @@ final class SoundControlModel: ObservableObject {
     private var monitorPoll: Timer?
     private var pendingMonitorVolume: Double?
     private var lastAudibleMonitorVolume: [UInt32: Double] = [:]
+    private var observationOwners = Set<UUID>()
+    private let defaultObservationOwner = UUID()
     private var isObserving = false
     private lazy var routeListener: AudioObjectPropertyListenerBlock = { [weak self] _, _ in
         MainActor.assumeIsolated { self?.refresh() }
@@ -38,12 +40,14 @@ final class SoundControlModel: ObservableObject {
     }
 
     isolated deinit {
+        observationOwners.removeAll()
         stopObserving()
         monitorReadTask?.cancel()
         monitorWriteTask?.cancel()
     }
 
-    func startObserving() {
+    func startObserving(owner: UUID? = nil) {
+        observationOwners.insert(owner ?? defaultObservationOwner)
         guard !isObserving else { return }
         isObserving = true
         refresh()
@@ -57,8 +61,9 @@ final class SoundControlModel: ObservableObject {
         }
     }
 
-    func stopObserving() {
-        guard isObserving else { return }
+    func stopObserving(owner: UUID? = nil) {
+        observationOwners.remove(owner ?? defaultObservationOwner)
+        guard observationOwners.isEmpty, isObserving else { return }
         isObserving = false
         monitorPoll?.invalidate()
         monitorPoll = nil

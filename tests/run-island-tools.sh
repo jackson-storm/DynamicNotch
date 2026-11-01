@@ -7,6 +7,7 @@ xcrun swiftc -parse-as-library \
   "$ROOT_DIR/DynamicNotch/Features/HUD/Services/DisplayDDCProtocol.swift" \
   "$ROOT_DIR/DynamicNotch/Features/HomePage/Components/HomePageScrollGesture.swift" \
   "$ROOT_DIR/DynamicNotch/Features/HomePage/Models/HomePageNavigationLayout.swift" \
+  "$ROOT_DIR/DynamicNotch/Features/HomePage/Models/HomePageSessionMemory.swift" \
   "$ROOT_DIR/DynamicNotch/Features/ScreenshotHub/Services/ScreenshotCaptureFlow.swift" \
   "$ROOT_DIR/tests/standalone/IslandToolsTests.swift" \
   -o "$TEST_OUTPUT/island-tools-tests"

@@ -48,7 +48,7 @@ struct LockScreenNotchView: View {
     }
     
     private var leadingPadding: CGFloat {
-        isFaceIDActive ? 18 : 14
+        isFaceIDActive ? 19 : 14
     }
 
     var body: some View {

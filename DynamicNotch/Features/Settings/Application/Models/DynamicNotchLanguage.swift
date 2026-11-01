@@ -595,17 +595,21 @@ enum DynamicNotchLanguage: String, CaseIterable, Identifiable {
     ]
 
     var effectiveNotchLanguage: DynamicNotchLanguage {
+        effectiveNotchLanguage(preferredLanguages: Locale.preferredLanguages)
+    }
+
+    /// The notch follows the user's first preferred language. Only the first one counts: a
+    /// Mac whose first language the notch does not speak gets English, not whichever
+    /// language further down the list happens to be supported.
+    func effectiveNotchLanguage(preferredLanguages: [String]) -> DynamicNotchLanguage {
         switch self {
         case .system:
-            for preferred in Locale.preferredLanguages {
-                let code = preferred.lowercased()
-                if code.starts(with: "ru") { return .russian }
-                if code.starts(with: "de") { return .german }
-                if code.starts(with: "es") { return .spanish }
-                if code.starts(with: "fr") { return .french }
-                if code.starts(with: "zh-hans") || code.starts(with: "zh-cn") { return .simplifiedChinese }
-                if code.starts(with: "en") { return .english }
-            }
+            guard let code = preferredLanguages.first?.lowercased() else { return .english }
+            if code.starts(with: "ru") { return .russian }
+            if code.starts(with: "de") { return .german }
+            if code.starts(with: "es") { return .spanish }
+            if code.starts(with: "fr") { return .french }
+            if code.starts(with: "zh-hans") || code.starts(with: "zh-cn") { return .simplifiedChinese }
             return .english
         case .english, .russian, .german, .spanish, .french, .simplifiedChinese:
             return self

@@ -106,20 +106,31 @@ private extension L10n {
 private extension Bundle {
     static func localizedBundle(for languageCodes: [String]) -> Bundle {
         for languageCode in languageCodes {
-            if let path = Bundle.main.path(forResource: languageCode, ofType: "lproj"),
-               let bundle = Bundle(path: path) {
+            if let bundle = lproj(languageCode) {
                 return bundle
             }
         }
 
-        if let fallbackPath = Bundle.main.path(
-            forResource: Bundle.main.preferredLocalizations.first,
-            ofType: "lproj"
-        ),
-           let fallbackBundle = Bundle(path: fallbackPath) {
-            return fallbackBundle
+        // Nothing asked for is shipped, or the app follows the system language. Use the
+        // user's first preferred language when the app has it, otherwise English, the
+        // language the strings are written in. preferredLocalizations is not used here:
+        // it walks the whole preferred list, so a Mac whose first language is not
+        // shipped would get whichever lower-ranked language happens to be.
+        if let preferred = Locale.preferredLanguages.first {
+            for candidate in Locale(identifier: preferred).dynamicNotchLocalizationCandidates {
+                if let bundle = lproj(candidate) {
+                    return bundle
+                }
+            }
         }
 
-        return .main
+        return lproj("en") ?? .main
+    }
+
+    private static func lproj(_ languageCode: String) -> Bundle? {
+        guard let path = Bundle.main.path(forResource: languageCode, ofType: "lproj") else {
+            return nil
+        }
+        return Bundle(path: path)
     }
 }

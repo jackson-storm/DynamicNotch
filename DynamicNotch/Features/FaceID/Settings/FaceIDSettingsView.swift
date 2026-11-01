@@ -81,7 +81,7 @@ struct FaceIDSettingsView: View {
         if settings.isEnrolled && !settings.enrolledDateString.isEmpty {
             return LocalizedStringKey(applicationSettings.appLanguage.locale.dnFormat(
                 "settings.faceid.status.enrolled.date",
-                fallback: "Настроено: %@ • Защищено связкой ключей",
+                fallback: "Configured: %@ • Secured by Keychain",
                 settings.enrolledDateString
             ))
         } else if settings.isEnrolled {

@@ -33,7 +33,7 @@ struct BluetoothConnectedNotchContent: NotchContentProtocol, DynamicIslandCustom
 
         switch settings.bluetoothAppearanceStyle {
         case .compact:
-            width = settings.bluetoothBatteryIndicatorStyle == .circle ? 50 : 90
+            width = settings.bluetoothBatteryIndicatorStyle == .circle ? 65 : 95
         case .detailed:
             width = 145
         }

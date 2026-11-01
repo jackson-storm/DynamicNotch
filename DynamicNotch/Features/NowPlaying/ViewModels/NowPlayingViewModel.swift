@@ -15,6 +15,9 @@ final class NowPlayingViewModel: ObservableObject {
     @Published private(set) var currentAudioOutputRoute: AudioOutputRoute?
     @Published private(set) var isCurrentTrackFavorite = false
     @Published private(set) var lyricsState: NowPlayingLyricsState = .idle
+    /// Backoff between lyrics lookup attempts. Transient network or server errors are common right
+    /// after launch or wake, so a failed lookup is retried before the track is marked as failed.
+    var lyricsRetryDelays: [TimeInterval] = [1.5, 4, 8]
     @Published var event: NowPlayingEvent?
 
     private var service: any NowPlayingMonitoring
@@ -36,7 +39,7 @@ final class NowPlayingViewModel: ObservableObject {
     private var artworkFlipTrackKey: String?
     private var artworkFlipStartedAt: Date?
     private var activeDetailedPresentationSources = Set<String>()
-    private var isLyricsPresentationActive = false
+    private var activeLyricsPresentationSources = Set<String>()
     private var recentSeekTargetTime: TimeInterval?
     private var recentSeekDate: Date?
     private let seekGracePeriodDuration: TimeInterval = 1.5
@@ -115,7 +118,7 @@ final class NowPlayingViewModel: ObservableObject {
         ignoresServiceSnapshots = true
         service.stopMonitoring()
         activeDetailedPresentationSources.removeAll()
-        setLyricsPresentationActive(false)
+        clearLyricsPresentationSources()
         updateDetailPollingState()
         cancelPendingSessionEnd()
         cancelPendingArtworkPresentation()
@@ -293,26 +296,46 @@ final class NowPlayingViewModel: ObservableObject {
         updateDetailPollingState()
     }
 
-    func setLyricsPresentationActive(_ isActive: Bool) {
-        guard isLyricsPresentationActive != isActive else {
-            if isActive {
-                loadLyricsIfNeeded(for: snapshot)
-            }
-            return
-        }
+    private var isLyricsPresentationActive: Bool {
+        !activeLyricsPresentationSources.isEmpty
+    }
 
-        isLyricsPresentationActive = isActive
+    func setLyricsPresentationActive(_ isActive: Bool, source: String = "lockScreen") {
+        let wasActive = isLyricsPresentationActive
 
         if isActive {
-            loadLyricsIfNeeded(for: snapshot)
+            activeLyricsPresentationSources.insert(source)
         } else {
+            activeLyricsPresentationSources.remove(source)
+        }
+
+        if isLyricsPresentationActive {
+            loadLyricsIfNeeded(for: snapshot)
+        } else if wasActive {
             cancelLyricsLookup()
+        }
+    }
+
+    private func clearLyricsPresentationSources() {
+        activeLyricsPresentationSources.removeAll()
+        cancelLyricsLookup()
+    }
+
+    /// Drops cached results for the current track and looks its lyrics up again.
+    func reloadLyrics() {
+        guard let snapshot else { return }
+        lyricsProvider.invalidateCache(for: snapshot)
+        cancelLyricsLookup()
+        lyricsState = .idle
+
+        if isLyricsPresentationActive {
+            loadLyricsIfNeeded(for: snapshot)
         }
     }
 
     func clearPresentationActivityState() {
         activeDetailedPresentationSources.removeAll()
-        setLyricsPresentationActive(false)
+        clearLyricsPresentationSources()
         updateDetailPollingState()
     }
 
@@ -564,20 +587,32 @@ private extension NowPlayingViewModel {
         lyricsLookupTask = Task { [weak self, snapshot, trackKey] in
             guard let self else { return }
 
-            do {
-                let lyrics = try await lyricsProvider.lyrics(for: snapshot)
-                guard Task.isCancelled == false else { return }
+            let retryDelays = lyricsRetryDelays
+            var attempt = 0
 
-                if let lyrics {
-                    lyricsState = .loaded(lyrics)
-                } else {
-                    lyricsState = .notFound(trackKey: trackKey)
+            while true {
+                do {
+                    let lyrics = try await lyricsProvider.lyrics(for: snapshot)
+                    guard Task.isCancelled == false else { return }
+
+                    if let lyrics {
+                        lyricsState = .loaded(lyrics)
+                    } else {
+                        lyricsState = .notFound(trackKey: trackKey)
+                    }
+                    return
+                } catch {
+                    guard Task.isCancelled == false, (error is CancellationError) == false else { return }
+
+                    guard attempt < retryDelays.count else {
+                        lyricsState = .failed(trackKey: trackKey)
+                        return
+                    }
+
+                    try? await Task.sleep(nanoseconds: UInt64(retryDelays[attempt] * 1_000_000_000))
+                    guard Task.isCancelled == false else { return }
+                    attempt += 1
                 }
-            } catch is CancellationError {
-                return
-            } catch {
-                guard Task.isCancelled == false else { return }
-                lyricsState = .failed(trackKey: trackKey)
             }
         }
     }
@@ -585,6 +620,11 @@ private extension NowPlayingViewModel {
     func cancelLyricsLookup() {
         lyricsLookupTask?.cancel()
         lyricsLookupTask = nil
+
+        // A cancelled lookup never finishes, so leave room for the next request to start over.
+        if case .loading = lyricsState {
+            lyricsState = .idle
+        }
     }
 
     func scheduleSessionEnd() {

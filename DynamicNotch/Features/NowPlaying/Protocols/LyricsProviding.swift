@@ -8,4 +8,9 @@
 @MainActor
 protocol LyricsProviding: AnyObject {
     func lyrics(for snapshot: NowPlayingSnapshot) async throws -> TrackLyrics?
+    func invalidateCache(for snapshot: NowPlayingSnapshot)
+}
+
+extension LyricsProviding {
+    func invalidateCache(for snapshot: NowPlayingSnapshot) {}
 }

@@ -604,13 +604,17 @@ final class NotchEngine: ObservableObject {
     }
 
     private func sortActiveLiveActivitiesByPriority() {
-        activeLiveActivities.sort { lhs, rhs in
-            if lhs.priority == rhs.priority {
-                return lhs.id < rhs.id
-            }
+        // Each priority read uses UserDefaults, so read the priority once per activity.
+        activeLiveActivities = activeLiveActivities
+            .map { (content: $0, priority: $0.priority) }
+            .sorted { lhs, rhs in
+                if lhs.priority == rhs.priority {
+                    return lhs.content.id < rhs.content.id
+                }
 
-            return lhs.priority > rhs.priority
-        }
+                return lhs.priority > rhs.priority
+            }
+            .map(\.content)
     }
 
     @discardableResult

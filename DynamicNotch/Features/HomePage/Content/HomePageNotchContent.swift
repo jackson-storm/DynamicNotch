@@ -17,9 +17,25 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     let nowPlayingViewModel: NowPlayingViewModel
     let mediaAndFilesSettings: MediaAndFilesSettingsStore
     let applicationSettings: ApplicationSettingsStore
+    let minimumExpandedSize: CGSize
+
+    init(notchViewModel: NotchViewModel, settings: HomePageSettingsStore, homePages: HomePages,
+         localTimerViewModel: LocalTimerViewModel, nowPlayingViewModel: NowPlayingViewModel,
+         mediaAndFilesSettings: MediaAndFilesSettingsStore, applicationSettings: ApplicationSettingsStore,
+         minimumExpandedSize: CGSize = .zero) {
+        self.notchViewModel = notchViewModel
+        self.settings = settings
+        self.homePages = homePages
+        self.localTimerViewModel = localTimerViewModel
+        self.nowPlayingViewModel = nowPlayingViewModel
+        self.mediaAndFilesSettings = mediaAndFilesSettings
+        self.applicationSettings = applicationSettings
+        self.minimumExpandedSize = minimumExpandedSize
+    }
 
     var priority: Int { NotchContentRegistry.HomePage.active.priority }
     var isExpandable: Bool { true }
+    var usesContentResizeEffect: Bool { false }
     
     var strokeColor: Color {
         if notchViewModel.isDisplayingExpandedLiveActivity {
@@ -62,11 +78,17 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     }
 
     func expandedDynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        activePageContent.expandedDynamicIslandSize(baseWidth: baseWidth, baseHeight: baseHeight)
+        HomePageNavigationLayout.expandedSize(
+            preferred: activePageContent.expandedDynamicIslandSize(baseWidth: baseWidth, baseHeight: baseHeight),
+            minimum: minimumExpandedSize
+        )
     }
 
     func expandedSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        activePageContent.expandedSize(baseWidth: baseWidth, baseHeight: baseHeight)
+        HomePageNavigationLayout.expandedSize(
+            preferred: activePageContent.expandedSize(baseWidth: baseWidth, baseHeight: baseHeight),
+            minimum: minimumExpandedSize
+        )
     }
     
     @MainActor
@@ -79,7 +101,8 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
                 nowPlayingViewModel: nowPlayingViewModel,
                 mediaAndFilesSettings: mediaAndFilesSettings,
                 applicationSettings: applicationSettings,
-                initialPage: homePages
+                initialPage: homePages,
+                minimumExpandedSize: minimumExpandedSize
             )
         )
     }

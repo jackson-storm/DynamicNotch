@@ -4,7 +4,7 @@ import SwiftUI
 /// Pages have different heights. Observe the gesture without scrolling their
 /// contents, so resizing cannot move the selected page or crop its controls.
 struct HomePageScrollInput: NSViewRepresentable {
-    let onStep: (Int) -> Void
+    let onStep: (Int, CGSize) -> Void
 
     func makeNSView(context: Context) -> HomePageScrollMonitorView {
         let view = HomePageScrollMonitorView()
@@ -18,10 +18,9 @@ struct HomePageScrollInput: NSViewRepresentable {
 }
 
 final class HomePageScrollMonitorView: NSView {
-    var onStep: ((Int) -> Void)?
+    var onStep: ((Int, CGSize) -> Void)?
     private var monitor: Any?
     private var gesture = HomePageScrollGesture()
-    private var lastWheelStep: TimeInterval = -.infinity
 
     override func hitTest(_ point: NSPoint) -> NSView? { nil }
 
@@ -45,25 +44,35 @@ final class HomePageScrollMonitorView: NSView {
 
     private func handle(_ event: NSEvent) -> NSEvent? {
         guard let window, event.window === window, window.isVisible,
-              !isHiddenOrHasHiddenAncestor, !visibleRect.isEmpty,
-              visibleRect.contains(convert(event.locationInWindow, from: nil)) else { return event }
-
-        if event.phase.isEmpty && event.momentumPhase.isEmpty {
-            guard abs(event.scrollingDeltaY) > abs(event.scrollingDeltaX) * 1.25 else { return event }
-            if abs(event.scrollingDeltaY) > 0, event.timestamp - lastWheelStep > 0.3 {
-                lastWheelStep = event.timestamp
-                onStep?(event.scrollingDeltaY < 0 ? 1 : -1)
-            }
-            return nil
+              !isHiddenOrHasHiddenAncestor, !visibleRect.isEmpty else { return event }
+        let point = convert(event.locationInWindow, from: nil)
+        if (event.phase.contains(.began) || event.phase.contains(.mayBegin)), !visibleRect.contains(point) {
+            gesture = HomePageScrollGesture()
+            return event
         }
-        switch gesture.process(
-            deltaX: event.scrollingDeltaX, deltaY: event.scrollingDeltaY,
-            began: event.phase.contains(.began) || event.phase.contains(.mayBegin),
-            momentum: !event.momentumPhase.isEmpty
-        ) {
+        guard visibleRect.contains(point) || gesture.ownsGesture else { return event }
+        switch gesture.process(event) {
         case .passThrough: return event
         case .consume: return nil
-        case .step(let direction): onStep?(direction); return nil
+        case .step(let direction):
+            let pointer = CGPoint(x: point.x - bounds.minX, y: bounds.maxY - point.y)
+            onStep?(direction, HomePageNavigationLayout.minimumSize(size: bounds.size, pointer: pointer))
+            return nil
         }
+    }
+}
+
+extension HomePageScrollGesture {
+    mutating func process(_ event: NSEvent) -> Action {
+        let phase: Phase
+        if event.phase.contains(.cancelled) { phase = .cancelled }
+        else if event.phase.contains(.ended) { phase = .ended }
+        else if event.phase.contains(.began) { phase = .began }
+        else if event.phase.contains(.mayBegin) { phase = .mayBegin }
+        else if event.phase.isEmpty { phase = .none }
+        else { phase = .changed }
+        return process(deltaX: event.scrollingDeltaX, deltaY: event.scrollingDeltaY,
+                       phase: phase, momentum: !event.momentumPhase.isEmpty,
+                       precise: event.hasPreciseScrollingDeltas, timestamp: event.timestamp)
     }
 }

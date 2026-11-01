@@ -17,10 +17,14 @@ struct HomePageNotchView: View {
     let mediaAndFilesSettings: MediaAndFilesSettingsStore
     let applicationSettings: ApplicationSettingsStore
     let initialPage: HomePages
+    let minimumExpandedSize: CGSize
+
+    private var currentPage: HomePages? {
+        let pages = settings.homePageOrder.filter { !settings.homePageDisabled.contains($0) }
+        return pages.contains(initialPage) ? initialPage : pages.first
+    }
     
-    @State private var currentPage: HomePages?
-    
-    init(notchViewModel: NotchViewModel, settings: HomePageSettingsStore, localTimerViewModel: LocalTimerViewModel, nowPlayingViewModel: NowPlayingViewModel, mediaAndFilesSettings: MediaAndFilesSettingsStore, applicationSettings: ApplicationSettingsStore, initialPage: HomePages) {
+    init(notchViewModel: NotchViewModel, settings: HomePageSettingsStore, localTimerViewModel: LocalTimerViewModel, nowPlayingViewModel: NowPlayingViewModel, mediaAndFilesSettings: MediaAndFilesSettingsStore, applicationSettings: ApplicationSettingsStore, initialPage: HomePages, minimumExpandedSize: CGSize = .zero) {
         self.notchViewModel = notchViewModel
         self.settings = settings
         self.localTimerViewModel = localTimerViewModel
@@ -28,10 +32,7 @@ struct HomePageNotchView: View {
         self.mediaAndFilesSettings = mediaAndFilesSettings
         self.applicationSettings = applicationSettings
         self.initialPage = initialPage
-        
-        let activePages = settings.homePageOrder.filter { !settings.homePageDisabled.contains($0) }
-        let pageToSelect = activePages.contains(initialPage) ? initialPage : (activePages.first ?? .camera)
-        self._currentPage = State(initialValue: pageToSelect)
+        self.minimumExpandedSize = minimumExpandedSize
     }
     
     var body: some View {
@@ -47,60 +48,47 @@ struct HomePageNotchView: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(HomePageScrollInput { direction in
-            guard let currentPage, let index = activePages.firstIndex(of: currentPage) else { return }
+        .background(HomePageScrollInput { direction, minimumSize in
+            guard notchViewModel.isDisplayingExpandedLiveActivity,
+                  let content = notchViewModel.displayedContent as? HomePageNotchContent,
+                  let index = activePages.firstIndex(of: content.homePages) else { return }
             let next = index + direction
             if activePages.indices.contains(next) {
-                selectPage(activePages[next], activePages: activePages)
+                selectPage(activePages[next], activePages: activePages, minimumSize: minimumSize)
                 NSHapticFeedbackManager.defaultPerformer.perform(.alignment, performanceTime: .now)
-            } else if next >= activePages.count {
-                notchViewModel.dismissActiveContent()
             }
         })
-        .onHover { notchViewModel.isHoveringScrollableContent = $0 }
-        .onAppear { updateLastPageStatus(page: currentPage, activePages: activePages) }
-        .onChange(of: initialPage) { _, page in
-            if activePages.contains(page), page != currentPage {
-                withAnimation(.easeInOut(duration: 0.18)) { currentPage = page }
-                updateLastPageStatus(page: page, activePages: activePages)
+        .onAppear {
+            updateLastPageStatus(page: currentPage, activePages: activePages)
+            // A new expansion starts at its natural size; navigation may have
+            // kept the previous expansion larger to avoid ejecting the pointer.
+            if (minimumExpandedSize != .zero || !activePages.contains(initialPage)), let currentPage {
+                selectPage(currentPage, activePages: activePages)
             }
         }
+        .onChange(of: initialPage) { _, page in
+            updateLastPageStatus(page: page, activePages: activePages)
+        }
         .onChange(of: activePages) { _, pages in
-            if let currentPage, pages.contains(currentPage) {
-                updateLastPageStatus(page: currentPage, activePages: pages)
+            if pages.contains(initialPage) {
+                updateLastPageStatus(page: initialPage, activePages: pages)
             } else if let first = pages.first {
                 selectPage(first, activePages: pages)
-            } else { currentPage = nil }
+            }
         }
         .onDisappear {
             notchViewModel.isHomePageOnLastPage = false
-            notchViewModel.isHoveringScrollableContent = false
-            let activePages = settings.homePageOrder.filter { !settings.homePageDisabled.contains($0) }
-            notchViewModel.send(
-                .showLiveActivity(
-                    HomePageNotchContent(
-                        notchViewModel: notchViewModel,
-                        settings: settings,
-                        homePages: activePages.first ?? .camera,
-                        localTimerViewModel: localTimerViewModel,
-                        nowPlayingViewModel: nowPlayingViewModel,
-                        mediaAndFilesSettings: mediaAndFilesSettings,
-                        applicationSettings: applicationSettings
-                    )
-                )
-            )
         }
     }
 
-    private func selectPage(_ page: HomePages, activePages: [HomePages]) {
+    private func selectPage(_ page: HomePages, activePages: [HomePages], minimumSize: CGSize = .zero) {
         guard activePages.contains(page) else { return }
-        withAnimation(.easeInOut(duration: 0.18)) { currentPage = page }
         updateLastPageStatus(page: page, activePages: activePages)
-        guard page != initialPage else { return }
         notchViewModel.send(.showLiveActivity(HomePageNotchContent(
             notchViewModel: notchViewModel, settings: settings, homePages: page,
             localTimerViewModel: localTimerViewModel, nowPlayingViewModel: nowPlayingViewModel,
-            mediaAndFilesSettings: mediaAndFilesSettings, applicationSettings: applicationSettings
+            mediaAndFilesSettings: mediaAndFilesSettings, applicationSettings: applicationSettings,
+            minimumExpandedSize: minimumSize
         )))
     }
     

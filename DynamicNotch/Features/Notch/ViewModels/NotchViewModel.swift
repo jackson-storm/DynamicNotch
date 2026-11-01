@@ -161,7 +161,7 @@ final class NotchViewModel: ObservableObject {
         settings.isNotchSwipeDismissEnabled &&
         (!isActivityPresentationHidden || isLocked || notchModel.temporaryNotificationContent != nil) &&
         displayedContent != nil &&
-        (displayedContent?.id != NotchContentRegistry.HomePage.active.id || (notchModel.isLiveActivityExpanded && isHomePageOnLastPage))
+        displayedContent?.id != NotchContentRegistry.HomePage.active.id
     }
     
     var canRestoreWithTrackpadSwipe: Bool {

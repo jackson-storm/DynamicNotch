@@ -58,15 +58,13 @@ struct VpnActiveNotchView: View {
     }
     
     private func getAppIcon(for bundleID: String) -> NSImage? {
-        if let appURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleID) {
-            return NSWorkspace.shared.icon(forFile: appURL.path)
+        if let icon = VPNAppIconCache.icon(for: bundleID) {
+            return icon
         }
         let parts = bundleID.components(separatedBy: ".")
         if parts.count > 2 {
             let parentID = parts.dropLast().joined(separator: ".")
-            if let appURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier: parentID) {
-                return NSWorkspace.shared.icon(forFile: appURL.path)
-            }
+            return VPNAppIconCache.icon(for: parentID)
         }
         return nil
     }

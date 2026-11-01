@@ -12,6 +12,7 @@ struct LanguageSettingsView: View {
     var isEmbedded: Bool = false
     
     @State private var selectedTarget: LanguageTarget = .settings
+    @State private var searchIndex = LanguageSearchIndex()
     
     enum LanguageTarget: String, CaseIterable, Identifiable {
         case settings
@@ -137,10 +138,7 @@ struct LanguageSettingsView: View {
                 title: { $0.titleKey },
                 subtitle: { $0.fallbackDisplayName },
                 matchesQuery: { language, query in
-                    language.fallbackDisplayName.lowercased().contains(query) ||
-                    language.nativeDisplayName.lowercased().contains(query) ||
-                    language.rawValue.lowercased().contains(query) ||
-                    L10n.string(language.titleKeyString, language: applicationSettings.appLanguage).lowercased().contains(query)
+                    searchIndex.matches(language, query: query, appLanguage: applicationSettings.appLanguage)
                 },
                 accessibilityIdentifier: { "settings.language.option.\($0.rawValue)" }
             ) { language in
@@ -157,10 +155,7 @@ struct LanguageSettingsView: View {
                 title: { $0.titleKey },
                 subtitle: { $0.fallbackDisplayName },
                 matchesQuery: { language, query in
-                    language.fallbackDisplayName.lowercased().contains(query) ||
-                    language.nativeDisplayName.lowercased().contains(query) ||
-                    language.rawValue.lowercased().contains(query) ||
-                    L10n.string(language.titleKeyString, language: applicationSettings.appLanguage).lowercased().contains(query)
+                    searchIndex.matches(language, query: query, appLanguage: applicationSettings.appLanguage)
                 },
                 accessibilityIdentifier: { "settings.language.notch.option.\($0.rawValue)" }
             ) { language in
@@ -191,5 +186,61 @@ struct LanguageSettingsView: View {
             }
         }
         .frame(width: 28, height: 20)
+    }
+}
+
+final class LanguageSearchIndex {
+    private struct Key: Equatable {
+        let appLanguage: DynamicNotchLanguage
+        let preferredLocalization: String?
+    }
+
+    private struct Entry {
+        let fallbackDisplayName: String
+        let nativeDisplayName: String
+        let rawValue: String
+        let localizedTitle: String
+    }
+
+    private let localizedTitle: (DynamicNotchLanguage, DynamicNotchLanguage) -> String
+    private let preferredLocalization: () -> String?
+    private var key: Key?
+    private var entries: [DynamicNotchLanguage: Entry] = [:]
+
+    init(
+        localizedTitle: @escaping (DynamicNotchLanguage, DynamicNotchLanguage) -> String = {
+            L10n.string($0.titleKeyString, language: $1)
+        },
+        preferredLocalization: @escaping () -> String? = { Bundle.main.preferredLocalizations.first }
+    ) {
+        self.localizedTitle = localizedTitle
+        self.preferredLocalization = preferredLocalization
+    }
+
+    func matches(_ language: DynamicNotchLanguage, query: String, appLanguage: DynamicNotchLanguage) -> Bool {
+        let entry = entry(for: language, appLanguage: appLanguage)
+        return entry.fallbackDisplayName.contains(query) ||
+            entry.nativeDisplayName.contains(query) ||
+            entry.rawValue.contains(query) ||
+            entry.localizedTitle.contains(query)
+    }
+
+    private func entry(for language: DynamicNotchLanguage, appLanguage: DynamicNotchLanguage) -> Entry {
+        let currentKey = Key(appLanguage: appLanguage, preferredLocalization: preferredLocalization())
+        if currentKey != key {
+            key = currentKey
+            entries.removeAll()
+        }
+        if let entry = entries[language] {
+            return entry
+        }
+        let entry = Entry(
+            fallbackDisplayName: language.fallbackDisplayName.lowercased(),
+            nativeDisplayName: language.nativeDisplayName.lowercased(),
+            rawValue: language.rawValue.lowercased(),
+            localizedTitle: localizedTitle(language, appLanguage).lowercased()
+        )
+        entries[language] = entry
+        return entry
     }
 }

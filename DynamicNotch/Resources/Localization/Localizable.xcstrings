@@ -190975,7 +190975,7 @@
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "WLAN-Aktivität"
+            "value": "Netzwerkaktivität"
           }
         },
         "el": {
@@ -190987,13 +190987,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Wi-Fi activity"
+            "value": "Network activity"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Actividad de Wi-Fi"
+            "value": "Actividad de red"
           }
         },
         "fa": {
@@ -191017,7 +191017,7 @@
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Activité Wi-Fi"
+            "value": "Activité réseau"
           }
         },
         "he": {
@@ -191053,13 +191053,13 @@
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Attività Wi-Fi"
+            "value": "Attività di rete"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "Wi-Fiアクティビティ"
+            "value": "ネットワークアクティビティ"
           }
         },
         "kk": {
@@ -191071,7 +191071,7 @@
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "Wi-Fi 활동"
+            "value": "네트워크 활동"
           }
         },
         "ms": {
@@ -191089,19 +191089,19 @@
         "nl": {
           "stringUnit": {
             "state": "translated",
-            "value": "Wifi-activiteit"
+            "value": "Netwerkactiviteit"
           }
         },
         "pl": {
           "stringUnit": {
             "state": "translated",
-            "value": "Aktywność Wi-Fi"
+            "value": "Aktywność sieciowa"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Atividade Wi-Fi"
+            "value": "Atividade de rede"
           }
         },
         "ro": {
@@ -191113,7 +191113,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Активность Wi-Fi"
+            "value": "Сетевая активность"
           }
         },
         "sk": {
@@ -191143,13 +191143,13 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Wi-Fi etkinliği"
+            "value": "Ağ etkinliği"
           }
         },
         "uk": {
           "stringUnit": {
             "state": "translated",
-            "value": "Активність Wi-Fi"
+            "value": "Мережева активність"
           }
         },
         "vi": {
@@ -191161,13 +191161,13 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "Wi-Fi 活动"
+            "value": "网络活动"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "Wi-Fi 活動"
+            "value": "網絡活動"
           }
         }
       }
@@ -217552,6 +217552,101 @@
           "stringUnit": {
             "state": "translated",
             "value": "Sprawdź uprawnienia"
+          }
+        }
+      }
+    },
+    "settings.network.card.activity": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Network activity"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сетевая активность"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Netzwerkaktivität"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activité réseau"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Actividad de red"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Attività di rete"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Мережева активність"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "网络活动"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "網絡活動"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ネットワークアクティビティ"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "네트워크 활동"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Atividade de rede"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Netwerkactiviteit"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ağ etkinliği"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktywność sieciowa"
           }
         }
       }

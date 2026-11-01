@@ -77,23 +77,9 @@ struct DisplaySettingsView: View {
                 title: "settings.notch.display.hideInFullScreen.title",
                 description: "settings.notch.display.hideInFullScreen.desc",
                 systemImage: "arrow.up.left.and.arrow.down.right",
-                color: LinearGradient.blueGradient,
+                color: .blue,
                 isOn: $applicationSettings.isNotchHiddenInFullscreenEnabled,
                 accessibilityIdentifier: "settings.general.hideNotchInFullscreen"
-            )
-            
-            Divider()
-                .opacity(0.6)
-                .padding(.leading, 43)
-                .frame(maxWidth: .infinity, alignment: .trailing)
-
-            SettingsToggleRow(
-                title: "settings.notch.display.hideDynamicIslandInFullScreen.title",
-                description: "settings.notch.display.hideDynamicIslandInFullScreen.desc",
-                systemImage: "capsule.portrait",
-                color: LinearGradient.blueGradient,
-                isOn: $applicationSettings.isDynamicIslandHiddenInFullscreenEnabled,
-                accessibilityIdentifier: "settings.general.hideDynamicIslandInFullscreen"
             )
             
             Divider()
@@ -105,7 +91,7 @@ struct DisplaySettingsView: View {
                 title: "settings.general.display.closeAtFocus.title",
                 description: "settings.general.display.closeAtFocus.description",
                 systemImage: "macwindow.and.pointer.arrow",
-                color: LinearGradient.blueGradient,
+                color: .orange,
                 isOn: $applicationSettings.isCloseAtFocusLiveActivityEnabled,
                 accessibilityIdentifier: "settings.notch.closeAtFocus"
             )
@@ -119,9 +105,24 @@ struct DisplaySettingsView: View {
                 title: "settings.notch.display.windowMargin.title",
                 description: "settings.notch.display.windowMargin.desc",
                 systemImage: "rectangle.topthird.inset.filled",
-                color: LinearGradient.blueGradient,
+                color: .gray,
                 isOn: $applicationSettings.isNotchlessWindowMarginEnabled,
                 accessibilityIdentifier: "settings.notch.display.windowMargin"
+            )
+            
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+
+            SettingsToggleRow(
+                title: "settings.notch.display.hideDynamicIslandInFullScreen.title",
+                description: "settings.notch.display.hideDynamicIslandInFullScreen.desc",
+                systemImage: "inset.filled.circle.slash",
+                color: .black,
+                stroke: true,
+                isOn: $applicationSettings.isDynamicIslandHiddenInFullscreenEnabled,
+                accessibilityIdentifier: "settings.general.hideDynamicIslandInFullscreen"
             )
         }
     }

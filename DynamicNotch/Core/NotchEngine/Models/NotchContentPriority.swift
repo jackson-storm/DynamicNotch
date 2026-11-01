@@ -79,7 +79,7 @@ enum NotchContentPriority {
             case .airDropTransferActive:
                 return "airdrop.white"
             case .nowPlaying:
-                return "music.note"
+                return "play.fill"
             case .timer:
                 return "timer"
             case .screenRecording:
@@ -123,11 +123,11 @@ enum NotchContentPriority {
         .focus,
         .hotspot,
         .vpn,
+        .timer,
         .download,
         .trayActive,
         .airDropTransferActive,
         .nowPlaying,
-        .timer,
         .calendar,
         .screenRecording,
     ]
@@ -136,11 +136,11 @@ enum NotchContentPriority {
     static let focus = 1
     static let hotspot = 2
     static let vpn = 3
-    static let download = 4
-    static let trayActive = 5
-    static let airDropTransferActive = 6
-    static let nowPlaying = 7
-    static let timer = 8
+    static let timer = 4
+    static let download = 5
+    static let trayActive = 6
+    static let airDropTransferActive = 7
+    static let nowPlaying = 8
     static let calendar = 9
     static let screenRecording = 10
 

@@ -22,7 +22,7 @@ struct PermissionsSettingsView: View {
     }
 
     private var permissionsCard: some View {
-        SettingsCard() {
+        SettingsCard {
             ForEach(Array(permissionController.permissionItems.enumerated()), id: \.element.id) { index, item in
                 permissionRow(for: item)
 
@@ -89,11 +89,21 @@ struct PermissionsSettingsView: View {
 
             if let actionTitleKey = item.actionTitleKey,
                let fallbackActionTitle = item.fallbackActionTitle {
-                Button(localized(actionTitleKey, fallback: fallbackActionTitle)) {
+                let isOpenPrivacySettings = actionTitleKey == "settings.permissions.action.openPrivacySettings"
+
+                Button {
                     permissionController.performAction(for: item.kind)
+                } label: {
+                    if isOpenPrivacySettings {
+                        Image(systemName: "gearshape")
+                    } else {
+                        Text(localized(actionTitleKey, fallback: fallbackActionTitle))
+                    }
                 }
                 .buttonStyle(.bordered)
                 .controlSize(.small)
+                .help(isOpenPrivacySettings ? localized(actionTitleKey, fallback: fallbackActionTitle) : "")
+                .accessibilityLabel(localized(actionTitleKey, fallback: fallbackActionTitle))
                 .accessibilityIdentifier("\(item.accessibilityIdentifier).action")
             } else {
                 Image(systemName: "checkmark.circle.fill")

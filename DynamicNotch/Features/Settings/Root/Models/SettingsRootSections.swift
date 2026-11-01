@@ -69,6 +69,8 @@ extension SettingsRootViewModel {
 
     enum Section: String, CaseIterable, Identifiable {
         case general
+        case permissions
+        case about
         #if DEBUG
         case debug
         #endif
@@ -153,7 +155,11 @@ extension SettingsRootViewModel {
             case "language":
                 return .general
             case "permissions":
+                return .permissions
+            case "notch":
                 return .general
+            case "about":
+                return .about
             case "homePage", "homeScreen":
                 return .general
             case "activities", "liveActivity":
@@ -222,6 +228,18 @@ private enum SettingsSectionCatalog {
                 resetGroup: .general
             )
 
+        case .permissions:
+            return .init(
+                sidebarGroup: .application,
+                titleKey: "settings.section.permissions.title",
+                fallbackTitle: "Permissions",
+                subtitleKey: "settings.section.permissions.subtitle",
+                fallbackSubtitle: "Manage system access for DynamicNotch features.",
+                systemImage: "checkmark.seal.fill",
+                imageName: nil,
+                tint: .green.opacity(0.9),
+                resetGroup: nil
+            )
 
         case .nowPlaying:
             return .init(
@@ -420,6 +438,19 @@ private enum SettingsSectionCatalog {
                 imageName: nil,
                 tint: .green,
                 resetGroup: .faceID
+            )
+
+        case .about:
+            return .init(
+                sidebarGroup: .application,
+                titleKey: "settings.section.about.title",
+                fallbackTitle: "About",
+                subtitleKey: "settings.section.about.subtitle",
+                fallbackSubtitle: "Version information, updates, and support.",
+                systemImage: "info.circle.fill",
+                imageName: nil,
+                tint: .gray,
+                resetGroup: nil
             )
         }
     }

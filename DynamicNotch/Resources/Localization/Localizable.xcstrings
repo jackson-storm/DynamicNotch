@@ -156559,7 +156559,7 @@
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Erlaube Festplattenvollzugriff, um Mitteilungen von Mail und Nachrichten sowie tatsächliche Namen und eigene Symbole von Fokusmodi anzuzeigen."
+            "value": "Vollständigen Festplattenzugriff nur zum Abrufen der Symbole für Fokusmodi erlauben."
           }
         },
         "el": {
@@ -156571,13 +156571,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Allow Full Disk Access to display Mail and Messages notifications, and real names and custom icons of Focus modes."
+            "value": "Allow Full Disk Access only to obtain Focus mode icons."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Permite el acceso total al disco para mostrar notificaciones de Mail y Mensajes, así como los nombres reales y los iconos personalizados de los modos de concentración."
+            "value": "Permite el acceso total al disco solo para obtener los iconos de los modos de concentración."
           }
         },
         "fa": {
@@ -156601,7 +156601,7 @@
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Autorisez l’accès complet au disque pour afficher les notifications de Mail et Messages, ainsi que les noms réels et les icônes personnalisées des modes Concentration."
+            "value": "Autorisez l’accès complet au disque uniquement pour obtenir les icônes des modes de concentration."
           }
         },
         "he": {
@@ -156637,13 +156637,13 @@
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Consenti l’accesso completo al disco per mostrare le notifiche di Mail e Messaggi, nonché i nomi reali e le icone personalizzate delle modalità Full immersion."
+            "value": "Consenti l’accesso completo al disco solo per ottenere le icone delle modalità Full immersion."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mailと「メッセージ」の通知、および集中モードの実際の名前とカスタムアイコンを表示するために、フルディスクアクセスを許可します。"
+            "value": "集中モードのアイコンを取得するためだけにフルディスクアクセスを許可します。"
           }
         },
         "kk": {
@@ -156655,7 +156655,7 @@
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mail 및 메시지 알림과 집중 모드의 실제 이름 및 사용자 설정 아이콘을 표시하도록 전체 디스크 접근 권한을 허용합니다."
+            "value": "집중 모드 아이콘을 가져오기 위한 목적으로만 전체 디스크 접근 권한을 허용합니다."
           }
         },
         "ms": {
@@ -156673,19 +156673,19 @@
         "nl": {
           "stringUnit": {
             "state": "translated",
-            "value": "Sta volledige schijftoegang toe om meldingen van Mail en Berichten en de echte namen en aangepaste symbolen van Focus-modi weer te geven."
+            "value": "Sta volledige schijftoegang toe alleen om de symbolen van Focus-modi op te halen."
           }
         },
         "pl": {
           "stringUnit": {
             "state": "translated",
-            "value": "Zezwól na pełny dostęp do dysku, aby wyświetlać powiadomienia z Mail i Wiadomości oraz rzeczywiste nazwy i niestandardowe ikony trybów Skupienia."
+            "value": "Zezwól na pełny dostęp do dysku tylko w celu pobierania ikon trybów skupienia."
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Permita o Acesso Total ao Disco para mostrar notificações do Mail e das Mensagens, bem como os nomes reais e os ícones personalizados dos modos de Concentração."
+            "value": "Permita o Acesso Total ao Disco apenas para obter os ícones dos modos de Foco."
           }
         },
         "ro": {
@@ -156697,7 +156697,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Разрешите полный доступ к диску для отображения уведомлений Mail и «Сообщений», а также названий и пользовательских значков режимов фокусирования."
+            "value": "Разрешите полный доступ к диску только для получения иконок режимов фокусирования."
           }
         },
         "sk": {
@@ -156727,13 +156727,13 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mail ve Mesajlar bildirimleri ile Odak modlarının gerçek adlarını ve özel simgelerini göstermek için Tam Disk Erişimi’ne izin verin."
+            "value": "Tam Disk Erişimi’ne yalnızca Odak modu simgelerini almak için izin verin."
           }
         },
         "uk": {
           "stringUnit": {
             "state": "translated",
-            "value": "Надайте повний доступ до диска для показу сповіщень Mail і Повідомлень, а також справжніх назв і власних значків режимів Фокусування."
+            "value": "Дозвольте повний доступ до диска лише для отримання іконок режимів зосередження."
           }
         },
         "vi": {
@@ -156745,13 +156745,13 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "允许完全磁盘访问权限，以显示“邮件”和“信息”通知，以及专注模式的真实名称和自定义图标。"
+            "value": "允许“完全磁盘访问权限”仅用于获取专注模式图标。"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "允許完全磁碟存取權限，以顯示「郵件」和「訊息」通知，以及專注模式的真實名稱和自訂圖示。"
+            "value": "允許「完全磁碟取用權限」僅用於取得專注模式圖示。"
           }
         }
       }
@@ -190975,7 +190975,7 @@
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "WLAN-Aktivität"
+            "value": "Netzwerkaktivität"
           }
         },
         "el": {
@@ -190987,13 +190987,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Wi-Fi activity"
+            "value": "Network activity"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Actividad de Wi-Fi"
+            "value": "Actividad de red"
           }
         },
         "fa": {
@@ -191017,7 +191017,7 @@
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Activité Wi-Fi"
+            "value": "Activité réseau"
           }
         },
         "he": {
@@ -191053,13 +191053,13 @@
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Attività Wi-Fi"
+            "value": "Attività di rete"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "Wi-Fiアクティビティ"
+            "value": "ネットワークアクティビティ"
           }
         },
         "kk": {
@@ -191071,7 +191071,7 @@
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "Wi-Fi 활동"
+            "value": "네트워크 활동"
           }
         },
         "ms": {
@@ -191089,19 +191089,19 @@
         "nl": {
           "stringUnit": {
             "state": "translated",
-            "value": "Wifi-activiteit"
+            "value": "Netwerkactiviteit"
           }
         },
         "pl": {
           "stringUnit": {
             "state": "translated",
-            "value": "Aktywność Wi-Fi"
+            "value": "Aktywność sieciowa"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "translated",
-            "value": "Atividade Wi-Fi"
+            "value": "Atividade de rede"
           }
         },
         "ro": {
@@ -191113,7 +191113,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Активность Wi-Fi"
+            "value": "Сетевая активность"
           }
         },
         "sk": {
@@ -191143,13 +191143,13 @@
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Wi-Fi etkinliği"
+            "value": "Ağ etkinliği"
           }
         },
         "uk": {
           "stringUnit": {
             "state": "translated",
-            "value": "Активність Wi-Fi"
+            "value": "Мережева активність"
           }
         },
         "vi": {
@@ -191161,13 +191161,13 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "Wi-Fi 活动"
+            "value": "网络活动"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "Wi-Fi 活動"
+            "value": "網絡活動"
           }
         }
       }
@@ -216979,6 +216979,769 @@
           "stringUnit": {
             "state": "translated",
             "value": "刪除面孔"
+          }
+        }
+      }
+    },
+    "settings.about.card.socialLinks": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Social Links"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Социальные сети"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Соціальні мережі"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Soziale Netzwerke"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réseaux sociaux"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Redes sociales"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Social"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Redes sociais"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sociale media"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Media społecznościowe"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sosyal Medya"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "社交网络"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "社群網路"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ソーシャルリンク"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "소셜 링크"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "روابط التواصل"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sociální sítě"
+          }
+        },
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sociale medier"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sosiaaliset mediat"
+          }
+        },
+        "el": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Κοινωνικά δίκτυα"
+          }
+        },
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "רשתות חברתיות"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "सोशल लिंक्स"
+          }
+        },
+        "hr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Društvene mreže"
+          }
+        },
+        "hu": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Közösségi média"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Media Sosial"
+          }
+        },
+        "ms": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Media Sosial"
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sosiale medier"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rețele sociale"
+          }
+        },
+        "sk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sociálne siete"
+          }
+        },
+        "sr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Друштвене мреже"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sociala medier"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "โซเชียลมีเดีย"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mạng xã hội"
+          }
+        },
+        "bg": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Социални мрежи"
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "সামাজিক মাধ্যম"
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xarxes socials"
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شبکه‌های اجتماعی"
+          }
+        },
+        "fil": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mga Social Link"
+          }
+        },
+        "kk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Әлеуметтік желілер"
+          }
+        }
+      }
+    },
+    "settings.general.tab.other": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Other"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Прочее"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Інше"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sonstiges"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Autre"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otros"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Altro"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Outros"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Overig"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inne"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diğer"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "其他"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "其他"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "その他"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "기타"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أخرى"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ostatní"
+          }
+        },
+        "da": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Andet"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Muut"
+          }
+        },
+        "el": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Άλλα"
+          }
+        },
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "אחר"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "अन्य"
+          }
+        },
+        "hr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ostalo"
+          }
+        },
+        "hu": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Egyéb"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lainnya"
+          }
+        },
+        "ms": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lain-lain"
+          }
+        },
+        "nb": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Annet"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Altele"
+          }
+        },
+        "sk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ostatné"
+          }
+        },
+        "sr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Остало"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Övrigt"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "อื่นๆ"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Khác"
+          }
+        },
+        "bg": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Други"
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "অন্যান্য"
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Altres"
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سایر"
+          }
+        },
+        "fil": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Iba pa"
+          }
+        },
+        "kk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Басқа"
+          }
+        }
+      }
+    },
+    "settings.permissions.action.check": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Check Permissions"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Проверить разрешения"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Berechtigungen prüfen"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vérifier les autorisations"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comprobar permisos"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verifica autorizzazioni"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перевірити дозволи"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "检查权限"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "檢查權限"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アクセス権を確認"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "권한 확인"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verificar permissões"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bevoegdheden controleren"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İzinleri kontrol et"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sprawdź uprawnienia"
+          }
+        }
+      }
+    },
+    "settings.network.card.activity": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Network activity"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сетевая активность"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Netzwerkaktivität"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activité réseau"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Actividad de red"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Attività di rete"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Мережева активність"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "网络活动"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "網絡活動"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ネットワークアクティビティ"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "네트워크 활동"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Atividade de rede"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Netwerkactiviteit"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ağ etkinliği"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktywność sieciowa"
+          }
+        }
+      }
+    },
+    "settings.faceid.card.appearance": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Face ID appearance"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Внешний вид Face ID"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Face ID-Erscheinungsbild"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apparence de Face ID"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aspecto de Face ID"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aspetto di Face ID"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Вигляд Face ID"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Face ID 外观"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Face ID 外觀"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Face IDの外観"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Face ID 모양"
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aparência do Face ID"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Face ID-weergave"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Face ID görünümü"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wygląd Face ID"
           }
         }
       }

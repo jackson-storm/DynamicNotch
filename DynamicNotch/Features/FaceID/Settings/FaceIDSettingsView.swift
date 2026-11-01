@@ -23,6 +23,7 @@ struct FaceIDSettingsView: View {
         SettingsPageScrollView {
             faceIDGeneralCard
             faceEnrollmentCard
+            faceIDAppearanceCard
             securityOptionsCard
         }
         .sheet(isPresented: $isShowingEnrollmentSheet) {
@@ -127,18 +128,76 @@ struct FaceIDSettingsView: View {
                     requestSecurityVerification()
                 }
             }
-            Divider()
-                .opacity(0.6)
-
-            SettingsMenuRow(
-                title: "settings.faceid.style.title",
-                description: "settings.faceid.style.desc",
-                options: FaceIDPresentationStyle.allCases,
-                optionTitle: { $0.title },
-                accessibilityIdentifier: "settings.faceid.style",
-                selection: $settings.presentationStyle
-            )
         }
+    }
+
+    private var faceIDAppearanceCard: some View {
+        SettingsCard(title: "settings.faceid.card.appearance") {
+            CustomPicker(
+                selection: $settings.presentationStyle,
+                options: Array(FaceIDPresentationStyle.allCases),
+                title: { $0.title },
+                headerTitle: "settings.faceid.style.title",
+                headerDescription: "settings.faceid.style.desc",
+                itemHeight: 100,
+                lightBackgroundImage: Image("backgroundLight"),
+                darkBackgroundImage: Image("backgroundDark")
+            ) { style, isSelected in
+                faceIDStylePickerContent(for: style, isSelected: isSelected)
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func faceIDStylePickerContent(for style: FaceIDPresentationStyle, isSelected: Bool) -> some View {
+        switch style {
+        case .expanded:
+            ZStack {
+                RoundedRectangle(cornerRadius: 16, style: .continuous)
+                    .fill(.black)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 16, style: .continuous)
+                            .stroke(faceIDPreviewStrokeColor, lineWidth: 1)
+                    }
+
+                Image(systemName: "faceid")
+                    .font(.system(size: 32, weight: .regular))
+                    .foregroundStyle(.green)
+            }
+            .frame(width: 64, height: 64)
+            .environment(\.colorScheme, .dark)
+            .scaleEffect(isSelected ? 1 : 0.97)
+
+        case .compact:
+            ZStack {
+                Capsule()
+                    .fill(.black)
+                    .overlay {
+                        Capsule()
+                            .stroke(.white.opacity(0.2), lineWidth: 1)
+                    }
+
+                HStack {
+                    Image(systemName: "lock.fill")
+                        .font(.system(size: 18, weight: .semibold))
+                        .foregroundStyle(.white)
+
+                    Spacer()
+
+                    Image(systemName: "faceid")
+                        .font(.system(size: 18, weight: .semibold))
+                        .foregroundStyle(.green)
+                }
+                .padding(.horizontal, 12)
+            }
+            .frame(width: 170, height: 40)
+            .environment(\.colorScheme, .dark)
+            .scaleEffect(isSelected ? 1 : 0.97)
+        }
+    }
+
+    private var faceIDPreviewStrokeColor: Color {
+        applicationSettings.isShowNotchStrokeEnabled ? .green.opacity(0.3) : .clear
     }
 
     private var securityOptionsCard: some View {

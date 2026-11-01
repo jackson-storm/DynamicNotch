@@ -2,7 +2,6 @@ enum GeneralSettingsStorage {
     enum Keys {
         static let launchAtLogin = "isLaunchAtLoginEnabled"
         static let dockIcon = "isDockIconVisible"
-        static let isBlueNightMode = "settings.general.isBlueNightMode"
         static let appearanceMode = "settings.general.appearance.mode"
 
         static let notchBackgroundStyle = "settings.notch.backgroundStyle"
@@ -134,7 +133,6 @@ enum GeneralSettingsStorage {
     static let defaultValues: [String: Any] = [
         Keys.launchAtLogin: true,
         Keys.dockIcon: false,
-        Keys.isBlueNightMode: false,
         Keys.appearanceMode: SettingsAppearanceMode.system.rawValue,
 
         Keys.notchBackgroundStyle: NotchBackgroundStyle.black.rawValue,

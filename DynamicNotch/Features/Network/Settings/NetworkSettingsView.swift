@@ -11,14 +11,13 @@ struct NetworkSettingsView: View {
     
     var body: some View {
         SettingsPageScrollView {
-            wifiActivity
-            vpnActivity
+            networkActivity
             hotspotAppearance
         }
     }
     
-    private var wifiActivity: some View {
-        SettingsCard(title: "settings.wifi.card.activity") {
+    private var networkActivity: some View {
+        SettingsCard(title: "settings.network.card.activity") {
             SettingsToggleRow(
                 title: "settings.wifi.noInternet.title",
                 description: "settings.wifi.noInternet.desc",
@@ -41,11 +40,12 @@ struct NetworkSettingsView: View {
                 isOn: $connectivitySettings.isHotspotLiveActivityEnabled,
                 accessibilityIdentifier: "settings.activities.live.hotspot"
             )
-        }
-    }
-
-    private var vpnActivity: some View {
-        SettingsCard(title: "settings.section.vpn.title") {
+            
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+            
             SettingsToggleRow(
                 title: "settings.network.vpnLiveActivity.title",
                 description: "settings.network.vpnLiveActivity.desc",

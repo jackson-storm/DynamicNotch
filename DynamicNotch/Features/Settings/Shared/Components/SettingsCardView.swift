@@ -68,7 +68,6 @@ private struct SettingsCardGroupBoxStyle: GroupBoxStyle {
     let padding: CGFloat
     
     @Environment(\.colorScheme) private var colorScheme
-    @AppStorage("settings.general.isBlueNightMode") private var isBlueNightMode = false
 
     func makeBody(configuration: Configuration) -> some View {
         VStack(alignment: .leading, spacing: 4) {
@@ -77,19 +76,31 @@ private struct SettingsCardGroupBoxStyle: GroupBoxStyle {
             configuration.content
                 .padding(padding)
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .background(
-                    RoundedRectangle(cornerRadius: 16, style: .continuous)
+                .background {
+                    RoundedRectangle(cornerRadius: 15, style: .continuous)
                         .fill(cardFillStyle)
-                )
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 15, style: .continuous)
+                                .strokeBorder(cardStrokeColor, lineWidth: 0.5)
+                        }
+                }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     private var cardFillStyle: AnyShapeStyle {
-        if isBlueNightMode && colorScheme == .dark {
-            return AnyShapeStyle(Color(red: 0.094, green: 0.145, blue: 0.200))
+        if colorScheme == .dark {
+            return AnyShapeStyle(Color.white.opacity(0.05))
         } else {
-            return AnyShapeStyle(colorScheme == .dark ? Color.gray.opacity(0.08) : .white)
+            return AnyShapeStyle(Color.white.opacity(0.5))
+        }
+    }
+
+    private var cardStrokeColor: Color {
+        if colorScheme == .dark {
+            return Color.white.opacity(0.04)
+        } else {
+            return Color.black.opacity(0.06)
         }
     }
 }

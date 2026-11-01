@@ -24,8 +24,7 @@ struct NotchSettingsView: View {
     }
     
     private var appearanceCard: some View {
-        SettingsCard() {
-
+        SettingsCard {
             SettingsToggleRow(
                 title: "settings.notch.showStroke.title",
                 description: "settings.notch.showStroke.desc",

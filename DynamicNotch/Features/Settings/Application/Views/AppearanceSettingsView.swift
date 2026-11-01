@@ -9,7 +9,6 @@ import SwiftUI
 
 struct AppearanceSettingsView: View {
     @ObservedObject var applicationSettings: ApplicationSettingsStore
-    @Environment(\.colorScheme) private var colorScheme
     
     var body: some View {
         SettingsPageScrollView {
@@ -32,36 +31,11 @@ struct AppearanceSettingsView: View {
                 ThemeAppearancePickerContent(mode: mode, isSelected: isSelected)
             }
             .accessibilityIdentifier("settings.general.appearanceMode")
-            
-            if isCurrentlyDark {
-                Divider().opacity(0.6)
-                
-                SettingsToggleRow(
-                    title: "settings.general.blueNightMode.title",
-                    description: "settings.general.blueNightMode.description",
-                    systemImage: "powersleep",
-                    color: LinearGradient.darkBlueGradient,
-                    iconBadge: false,
-                    isOn: $applicationSettings.isBlueNightMode,
-                    accessibilityIdentifier: "settings.general.blueNightMode"
-                )
-            }
-        }
-    }
-    
-    private var isCurrentlyDark: Bool {
-        switch applicationSettings.appearanceMode {
-        case .dark:
-            return true
-        case .system:
-            return colorScheme == .dark
-        case .light:
-            return false
         }
     }
 }
 
-private struct ThemeAppearancePickerContent: View {
+struct ThemeAppearancePickerContent: View {
     let mode: SettingsAppearanceMode
     let isSelected: Bool
     
@@ -94,7 +68,7 @@ private struct ThemeAppearancePickerContent: View {
     }
 }
 
-private struct ThemeMiniWindow: View {
+struct ThemeMiniWindow: View {
     enum Style {
         case light
         case dark

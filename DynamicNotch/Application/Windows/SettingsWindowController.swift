@@ -32,9 +32,11 @@ class SettingsWindowController: NSWindowController {
         guard let window = window else { return }
         
         window.title = NSLocalizedString("settings.title", comment: "")
-        window.titlebarAppearsTransparent = true
+        window.titlebarAppearsTransparent = false
         window.titleVisibility = .visible
         window.toolbarStyle = .unified
+        window.isOpaque = false
+        window.backgroundColor = .clear
         window.level = .normal
         
         window.collectionBehavior = [.managed, .participatesInCycle, .fullScreenNone]

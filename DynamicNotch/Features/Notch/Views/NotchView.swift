@@ -5,6 +5,7 @@ import UniformTypeIdentifiers
 
 struct NotchView: View {
     let notchEventCoordinator: NotchEventCoordinator
+    let homePageTools: HomePageTools
     
     @ObservedObject var notchViewModel: NotchViewModel
     @ObservedObject var airDropViewModel: AirDropNotchViewModel
@@ -53,6 +54,7 @@ struct NotchView: View {
             )
             .zIndex(1.0)
         }
+        .environmentObject(homePageTools)
         .environment(\.locale, settingsViewModel.application.appLanguage.locale)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }

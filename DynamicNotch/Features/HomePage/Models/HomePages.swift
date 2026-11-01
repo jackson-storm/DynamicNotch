@@ -11,6 +11,9 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
     case camera
     case localTimer
     case vpn
+    case screenshots
+    case calculator
+    case sound
     
     var id: String { rawValue }
     
@@ -19,6 +22,9 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
         case .camera: return "settings.homePage.pages.camera.title"
         case .localTimer: return "settings.homePage.pages.timer.title"
         case .vpn: return "settings.homePage.pages.vpn.title"
+        case .screenshots: return "settings.homePage.pages.screenshots.title"
+        case .calculator: return "settings.homePage.pages.calculator.title"
+        case .sound: return "settings.homePage.pages.sound.title"
         }
     }
     
@@ -27,6 +33,9 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
         case .camera: return "settings.homePage.pages.camera.subtitle"
         case .localTimer: return "settings.homePage.pages.timer.subtitle"
         case .vpn: return "settings.homePage.pages.vpn.subtitle"
+        case .screenshots: return "settings.homePage.pages.screenshots.subtitle"
+        case .calculator: return "settings.homePage.pages.calculator.subtitle"
+        case .sound: return "settings.homePage.pages.sound.subtitle"
         }
     }
     
@@ -35,6 +44,9 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
         case .camera: return "camera.fill"
         case .localTimer: return "timer"
         case .vpn: return "network.badge.shield.half.filled"
+        case .screenshots: return "camera.viewfinder"
+        case .calculator: return "plus.forwardslash.minus"
+        case .sound: return "speaker.wave.2.fill"
         }
     }
     
@@ -43,6 +55,9 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
         case .camera: return .gray
         case .localTimer: return .orange
         case .vpn: return .blue
+        case .screenshots: return .blue
+        case .calculator: return .orange
+        case .sound: return .white
         }
     }
     
@@ -51,6 +66,9 @@ enum HomePages: String, CaseIterable, Hashable, Codable, Identifiable {
         case .camera: return .black
         case .localTimer: return .white
         case .vpn: return .white
+        case .screenshots: return .white
+        case .calculator: return .white
+        case .sound: return .black
         }
     }
 }

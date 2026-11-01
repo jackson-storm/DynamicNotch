@@ -21,10 +21,12 @@ extension AppDelegate {
             frame: frame,
             level: OverlayWindowLevel.interactiveNotch
         )
+        window.title = "DynamicNotch"
 
         let hostingView = NotchHostingView(
             rootView: NotchView(
                 notchEventCoordinator: notchEventCoordinator,
+                homePageTools: container.homePageTools,
                 notchViewModel: notchViewModel,
                 airDropViewModel: airDropViewModel,
                 airDropController: airDropController,
@@ -123,6 +125,10 @@ extension AppDelegate {
 
     private func updatePrimaryWindowPresentation(on screen: NSScreen) {
         guard let window, !isPrimaryWindowSuspendedForLock else { return }
+        guard !container.homePageTools.screenshots.isCapturing else {
+            window.orderOut(nil)
+            return
+        }
 
         let isFullscreen = SkyLightOperator.shared.isFullscreenSpaceActive(on: screen)
         let shouldHideActivities = settingsViewModel.application.isNotchHiddenInFullscreenEnabled && isFullscreen

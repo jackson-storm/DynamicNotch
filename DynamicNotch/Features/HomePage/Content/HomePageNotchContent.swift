@@ -36,6 +36,8 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
             return LocalTimerHomePageNotchContent()
         case .vpn:
             return VpnHomePageNotchContent()
+        case .screenshots, .calculator, .sound:
+            return ToolHomePageNotchContent(page: homePages)
         }
     }
 

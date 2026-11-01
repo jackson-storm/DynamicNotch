@@ -26,6 +26,10 @@ struct HomePagePageIndicatorView: View {
                             .frame(width: size.dotSize, height: size.dotSize)
                             .scaleEffect(hoveredPage == page ? 1.25 : 1.0)
                             .contentShape(Rectangle())
+                            .help(Text(page.title))
+                            .accessibilityLabel(Text(page.title))
+                            .accessibilityAddTraits(.isButton)
+                            .accessibilityAction { switchToPage(page, playHaptic: false) }
                             .onHover { isHovering in
                                 withAnimation(.spring(response: 0.2, dampingFraction: 0.6)) {
                                     hoveredPage = isHovering ? page : nil

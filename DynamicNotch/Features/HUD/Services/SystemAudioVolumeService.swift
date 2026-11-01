@@ -23,6 +23,24 @@ final class SystemAudioVolumeService {
         defaultOutputDeviceID()
     }
 
+    var canSetVolume: Bool {
+        volumeElements(on: currentOutputDeviceID).contains {
+            propertyIsSettable(deviceID: currentOutputDeviceID, selector: kAudioDevicePropertyVolumeScalar, element: $0)
+        }
+    }
+
+    var canToggleMute: Bool {
+        canSetVolume || muteElements(on: currentOutputDeviceID).contains {
+            propertyIsSettable(deviceID: currentOutputDeviceID, selector: kAudioDevicePropertyMute, element: $0)
+        }
+    }
+
+    private func propertyIsSettable(deviceID: AudioDeviceID, selector: AudioObjectPropertySelector, element: AudioObjectPropertyElement) -> Bool {
+        var address = AudioObjectPropertyAddress(mSelector: selector, mScope: kAudioDevicePropertyScopeOutput, mElement: element)
+        var settable = DarwinBoolean(false)
+        return AudioObjectIsPropertySettable(deviceID, &address, &settable) == noErr && settable.boolValue
+    }
+
     func adjust(direction: MediaKeyDirection, granularity: MediaKeyGranularity) -> Int {
         let delta = stepSize(for: granularity) * (direction == .increase ? 1 : -1)
         return setVolume(currentEffectiveVolume + delta)

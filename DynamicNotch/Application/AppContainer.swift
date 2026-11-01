@@ -14,6 +14,8 @@ final class AppContainer {
     let localTimerViewModel = LocalTimerViewModel()
     let calendarViewModel = CalendarViewModel()
     let screenshotViewModel = ScreenshotViewModel()
+    let audioVolumeService = SystemAudioVolumeService()
+    lazy var homePageTools = HomePageTools(audioService: audioVolumeService)
 
     let powerViewModel: PowerViewModel
     let downloadViewModel: DownloadViewModel
@@ -27,7 +29,11 @@ final class AppContainer {
 
     lazy var hardwareHUDMonitor: HardwareHUDMonitor = {
         MainActor.assumeIsolated {
-            let monitor = HardwareHUDMonitor()
+            let monitor = HardwareHUDMonitor(
+                mediaKeyTap: SystemMediaKeyTap(),
+                audioService: audioVolumeService,
+                brightnessService: SystemDisplayBrightnessService()
+            )
             monitor.onEvent = { [weak self] event in
                 self?.notchEventCoordinator.handleHudEvent(event)
             }

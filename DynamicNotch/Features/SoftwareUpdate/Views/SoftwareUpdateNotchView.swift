@@ -50,11 +50,11 @@ struct SoftwareUpdateExpandedNotchView: View {
                     .cornerRadius(12)
                 
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(verbatim: "Update Available")
+                    Text("Update Available")
                         .font(.system(size: 14, weight: .medium))
                         .foregroundColor(.white)
                     
-                    Text(verbatim: "Version \(updater.latestVersionString)")
+                    Text("Version \(updater.latestVersionString)")
                         .font(.system(size: 14))
                         .foregroundColor(.white.opacity(0.6))
                 }

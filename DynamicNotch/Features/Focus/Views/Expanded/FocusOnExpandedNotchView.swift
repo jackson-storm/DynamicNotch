@@ -45,7 +45,7 @@ struct FocusOnExpandedNotchView: View {
                 
                 Spacer()
                 
-                Text(verbatim: "On")
+                Text("On")
                     .font(.system(size: 16, weight: .medium))
                     .foregroundStyle(activeFocusModeType.tint)
                     .lineLimit(1)

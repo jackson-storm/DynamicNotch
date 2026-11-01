@@ -61,7 +61,7 @@ struct LanguageSettingsView: View {
                 items: availableLanguages,
                 selection: $applicationSettings.appLanguage,
                 title: { $0.titleKey },
-                subtitle: { $0.fallbackDisplayName },
+                subtitle: { $0.nativeDisplayName },
                 matchesQuery: { language, query in
                     language.fallbackDisplayName.lowercased().contains(query) ||
                     language.nativeDisplayName.lowercased().contains(query) ||

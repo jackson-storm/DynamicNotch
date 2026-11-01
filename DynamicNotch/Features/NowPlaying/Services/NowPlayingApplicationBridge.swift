@@ -330,7 +330,7 @@ enum NowPlayingAppleScriptRunner {
                         throwing: NSError(
                             domain: "DynamicNotch.AppleScriptError",
                             code: 1,
-                            userInfo: [NSLocalizedDescriptionKey: "Unknown AppleScript error"]
+                            userInfo: [NSLocalizedDescriptionKey: L10n.app("Unknown AppleScript error")]
                         )
                     )
                 }

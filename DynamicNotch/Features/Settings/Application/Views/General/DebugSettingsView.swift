@@ -80,7 +80,7 @@ struct DebugSettingsView: View {
             Picker("", selection: $selectedPersistentCategory) {
                 ForEach(PersistentDebugCategory.allCases) { category in
                     Label {
-                        Text(verbatim: category.title)
+                        Text(LocalizedStringKey(category.title))
                     } icon: {
                         Image(systemName: category.icon)
                     }
@@ -232,7 +232,7 @@ struct DebugSettingsView: View {
             Picker("", selection: $selectedTriggerCategory) {
                 ForEach(TriggerDebugCategory.allCases) { category in
                     Label {
-                        Text(verbatim: category.title)
+                        Text(LocalizedStringKey(category.title))
                     } icon: {
                         Image(systemName: category.icon)
                     }
@@ -674,10 +674,10 @@ struct DebugActionRow: View {
             }
             
             VStack(alignment: .leading, spacing: 3) {
-                Text(verbatim: title)
+                Text(LocalizedStringKey(title))
                     .font(.system(size: 13, weight: .medium))
                 
-                Text(verbatim: description)
+                Text(LocalizedStringKey(description))
                     .font(.system(size: 11))
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
@@ -686,7 +686,7 @@ struct DebugActionRow: View {
             Spacer(minLength: 16)
             
             Button(action: action) {
-                Text(verbatim: buttonTitle)
+                Text(LocalizedStringKey(buttonTitle))
             }
             .controlSize(.small)
         }

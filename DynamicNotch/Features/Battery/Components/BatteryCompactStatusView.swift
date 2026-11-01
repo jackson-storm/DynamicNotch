@@ -10,9 +10,11 @@ struct BatteryCompactStatusView: View {
 
     var body: some View {
         HStack {
-            Text(verbatim: title)
+            Text(LocalizedStringKey(title))
                 .font(.system(size: isNotchlessScreen ? 13 : 14))
                 .foregroundColor(.white)
+                .lineLimit(1)
+                .minimumScaleFactor(0.75)
 
             Spacer()
 

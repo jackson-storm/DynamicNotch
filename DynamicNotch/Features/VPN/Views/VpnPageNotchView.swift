@@ -155,7 +155,7 @@ struct VpnPageNotchView: View {
                 SettingsWindowController.shared.showWindow(selecting: .vpn)
                 notchViewModel.dismissActiveContent()
             }) {
-                Text(verbatim: "Open Settings")
+                Text("Open Settings")
                     .fontWeight(.medium)
                     .foregroundStyle(.white)
             }
@@ -165,7 +165,7 @@ struct VpnPageNotchView: View {
                 viewModel.toggleVPN(vpn)
                 notchViewModel.dismissActiveContent()
             }) {
-                Text(verbatim: vpn.isConnected ? "Disconnect" : "Connect VPN")
+                Text(vpn.isConnected ? LocalizedStringKey("Disconnect") : LocalizedStringKey("Connect VPN"))
                     .fontWeight(.medium)
                     .foregroundStyle(vpn.isConnected ? .red : .blue)
             }
@@ -180,12 +180,12 @@ struct VpnPageNotchView: View {
                 .font(.system(size: 28, weight: .semibold))
                 .foregroundColor(.gray.opacity(0.8))
             
-            Text(verbatim: "No VPN Selected")
+            Text("No VPN Selected")
                 .font(.system(size: 14, weight: .semibold))
                 .foregroundColor(.white)
                 .lineLimit(1)
             
-            Text(verbatim: "Please select your preferred VPN in Settings.")
+            Text("Please select your preferred VPN in Settings.")
                 .font(.system(size: 11))
                 .foregroundColor(.gray.opacity(0.6))
                 .lineLimit(1)
@@ -202,12 +202,12 @@ struct VpnPageNotchView: View {
                 .font(.system(size: 28, weight: .semibold))
                 .foregroundColor(.gray.opacity(0.8))
             
-            Text(verbatim: "No VPN configurations found")
+            Text("No VPN configurations found")
                 .font(.system(size: 14, weight: .semibold))
                 .lineLimit(1)
                 .foregroundColor(.white)
             
-            Text(verbatim: "Add a VPN in macOS Settings -> VPN.")
+            Text("Add a VPN in macOS Settings -> VPN.")
                 .font(.system(size: 11))
                 .lineLimit(1)
                 .foregroundColor(.gray.opacity(0.6))

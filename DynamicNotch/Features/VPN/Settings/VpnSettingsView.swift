@@ -255,7 +255,7 @@ struct VpnSettingsView: View {
                             .foregroundStyle(.white.opacity(0.8))
                         
                         VStack(alignment: .leading, spacing: 0) {
-                            Text(verbatim: "Connected")
+                            Text("Connected")
                                 .lineLimit(1)
                                 .font(.system(size: 10))
                                 .foregroundStyle(.white.opacity(0.4))
@@ -323,7 +323,7 @@ struct VPNStatusRowView: View {
         
         if isConnected {
             if isRussian {
-                return "подключен в течение \(elapsedString)"
+                return locale.dnFormat("vpn.connectedFor", fallback: "connected for %@", elapsedString)
             } else if isSpanish {
                 return "conectado durante \(elapsedString)"
             } else if isChinese {
@@ -333,7 +333,7 @@ struct VPNStatusRowView: View {
             }
         } else {
             if isRussian {
-                return "отключено"
+                return locale.dn("Disconnected")
             } else if isSpanish {
                 return "desconectado"
             } else if isChinese {

@@ -139,7 +139,7 @@ struct FocusSettingsView: View {
                     
                     Spacer()
                     
-                    Text(verbatim: "On")
+                    Text("On")
                         .foregroundStyle(.indigo.opacity(0.8))
                 }
             }

@@ -39,12 +39,12 @@ enum DragAndDropTarget: String, Hashable, CaseIterable {
     func titleIcon() -> some View {
         switch self {
         case .airDrop:
-            Text(verbatim: "AirDrop")
+            Text("AirDrop")
                 .font(.system(size: 12))
                 .foregroundStyle(.white)
 
         case .tray:
-            Text(verbatim: "Tray")
+            Text("Tray")
                 .font(.system(size: 12))
                 .foregroundStyle(color)
         }

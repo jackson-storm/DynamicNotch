@@ -31,7 +31,7 @@ struct ScreenRecordingResultNotchView: View {
                     .font(.system(size: 16, weight: .regular))
                     .foregroundColor(.red)
             }
-            Text(verbatim: "Saved to \"\(viewModel.savedLocation)\"")
+            Text("Saved to \"\(viewModel.savedLocation)\"")
                 .font(.system(size: 16, weight: .regular))
                 .foregroundColor(.white)
                 .lineLimit(1)
@@ -65,14 +65,14 @@ struct ScreenRecordingResultNotchView: View {
     private var buttons: some View {
         HStack {
             Button(action: { viewModel.openVideo() }) {
-                Text(verbatim: "Watch")
+                Text("Watch")
                     .fontWeight(.medium)
                     .foregroundStyle(.white)
             }
             .buttonStyle(PrimaryButtonStyle(height: 35, backgroundColor: .gray.opacity(0.25)))
             
             Button(action: { viewModel.deleteVideo() }) {
-                Text(verbatim: "Delete")
+                Text("Delete")
                     .fontWeight(.medium)
                     .foregroundStyle(.red)
             }

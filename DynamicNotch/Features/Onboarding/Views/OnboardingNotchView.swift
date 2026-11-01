@@ -48,7 +48,7 @@ struct OnboardingNotchView: View {
                 Button(action: {
                     NSApp.terminate(nil)
                 }) {
-                    Text(verbatim: "Exit")
+                    Text("Exit")
                         .fontWeight(.medium)
                         .foregroundStyle(.red)
                 }
@@ -59,7 +59,7 @@ struct OnboardingNotchView: View {
                 Button(action: {
                     onStepChange(.second)
                 }) {
-                    Text(verbatim: "Continue")
+                    Text("Continue")
                         .fontWeight(.medium)
                         .foregroundStyle(.blue)
                 }
@@ -75,7 +75,7 @@ struct OnboardingNotchView: View {
                     openURL(url)
                     
                 }) {
-                    Text(verbatim: "Open Settings")
+                    Text("Open Settings")
                         .fontWeight(.medium)
                         .foregroundStyle(.white)
                 }
@@ -86,7 +86,7 @@ struct OnboardingNotchView: View {
                 Button(action: {
                     onStepChange(.third)
                 }) {
-                    Text(verbatim: "Continue")
+                    Text("Continue")
                         .fontWeight(.medium)
                         .foregroundStyle(.blue)
                 }
@@ -101,7 +101,7 @@ struct OnboardingNotchView: View {
                     }
                     openURL(url)
                 }) {
-                    Text(verbatim: "Open GitHub")
+                    Text("Open GitHub")
                         .fontWeight(.medium)
                         .foregroundStyle(.white)
                 }
@@ -112,7 +112,7 @@ struct OnboardingNotchView: View {
                 Button(action: {
                     onStepChange(.fourth)
                 }) {
-                    Text(verbatim: "Continue")
+                    Text("Continue")
                         .fontWeight(.medium)
                         .foregroundStyle(.blue)
                 }
@@ -128,7 +128,7 @@ struct OnboardingNotchView: View {
                     openURL(url)
                     onFinish()
                 }) {
-                    Text(verbatim: "Open Telegram")
+                    Text("Open Telegram")
                         .fontWeight(.medium)
                         .foregroundStyle(.white)
                 }
@@ -139,7 +139,7 @@ struct OnboardingNotchView: View {
                 Button(action: {
                     onFinish()
                 }) {
-                    Text(verbatim: "Finish")
+                    Text("Finish")
                         .fontWeight(.medium)
                         .foregroundStyle(.blue)
                 }

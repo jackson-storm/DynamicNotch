@@ -30,7 +30,7 @@ struct TimerFinishedNotchView: View {
     
     private var content: some View {
         HStack {
-            Text(verbatim: "Timer")
+            Text("Timer")
                 .font(.system(size: 30, weight: .semibold, design: .rounded))
                 .monospacedDigit()
                 .foregroundStyle(Color.orange)

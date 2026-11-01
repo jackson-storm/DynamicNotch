@@ -88,7 +88,7 @@ private struct TimerExpandedNotchViewInternal<VM: ObservableObject>: View {
     
     private var rightContent: some View {
         HStack {
-            Text(verbatim: "Timer")
+            Text("Timer")
                 .font(.system(size: 14))
                 .foregroundStyle(Color.orange.opacity(0.8))
                 .offset(y: 8)

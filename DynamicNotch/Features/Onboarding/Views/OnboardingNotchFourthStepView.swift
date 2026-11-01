@@ -19,12 +19,12 @@ struct OnboardingNotchFourthStepView: View {
                 .id(contentAppear)
 
             VStack(alignment: .leading, spacing: 5) {
-                Text(verbatim: "Telegram channel")
+                Text("Telegram channel")
                     .font(.system(size: 16, weight: .semibold))
                     .foregroundColor(.white)
                     .lineLimit(1)
 
-                Text(verbatim: "Join the Telegram channel to stay up-to-date with new updates.")
+                Text("Join the Telegram channel to stay up-to-date with new updates.")
                     .foregroundColor(.gray.opacity(0.6))
                     .font(.system(size: 12, weight: .medium))
                     .lineLimit(3)

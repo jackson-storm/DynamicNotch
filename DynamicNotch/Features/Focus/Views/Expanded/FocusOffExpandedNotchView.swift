@@ -45,7 +45,7 @@ struct FocusOffExpandedNotchView: View {
                 
                 Spacer()
                 
-                Text(verbatim: "Off")
+                Text("Off")
                     .font(.system(size: 16, weight: .medium))
                     .foregroundStyle(.white.opacity(0.3))
                     .lineLimit(1)

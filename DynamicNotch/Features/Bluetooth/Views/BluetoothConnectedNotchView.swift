@@ -95,7 +95,7 @@ struct BluetoothConnectedNotchView: View {
                         .padding(.bottom, 10)
                     
                     VStack(alignment: .leading, spacing: 3) {
-                        Text(verbatim: "Connected")
+                        Text("Connected")
                             .lineLimit(1)
                             .font(.system(size: 13))
                             .foregroundStyle(.white.opacity(0.4))

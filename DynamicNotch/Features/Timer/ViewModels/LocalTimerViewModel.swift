@@ -107,8 +107,8 @@ class LocalTimerViewModel: ObservableObject {
         let hours = displaySeconds / 3600
         let minutes = (displaySeconds % 3600) / 60
         if minutes > 0 {
-            return "\(hours)h \(minutes)min"
+            return L10n.format("%lldh %lldmin", locale: L10n.locale, hours, minutes)
         }
-        return "\(hours)h"
+        return L10n.format("%lldh", locale: L10n.locale, hours)
     }
 }

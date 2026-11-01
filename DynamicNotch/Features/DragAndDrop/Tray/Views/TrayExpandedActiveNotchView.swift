@@ -76,7 +76,7 @@ struct TrayExpandedActiveNotchView: View {
                     if fileTrayViewModel.hasSelection {
                         AnimatedLevelText(level: fileTrayViewModel.selectedCount, fontSize: 14)
                     } else {
-                        Text(verbatim: "All")
+                        Text("All")
                             .font(.system(size: 14))
                     }
                 }

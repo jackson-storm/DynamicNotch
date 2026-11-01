@@ -1028,7 +1028,7 @@ final class DebugSettingsViewModel: ObservableObject {
             throw NSError(
                 domain: "DynamicNotch.DebugPreview",
                 code: 1,
-                userInfo: [NSLocalizedDescriptionKey: "Could not create the debug preview image."]
+                userInfo: [NSLocalizedDescriptionKey: L10n.app("Could not create the debug preview image.")]
             )
         }
 

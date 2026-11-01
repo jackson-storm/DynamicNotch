@@ -101,7 +101,7 @@ struct WifiSettingsView: View {
                     
                     Spacer()
                     
-                    Text(verbatim: "On")
+                    Text("On")
                         .foregroundStyle(.green)
                 }
                 .padding(.leading, 7)
@@ -126,7 +126,7 @@ struct WifiSettingsView: View {
                     
                     Spacer()
                     
-                    Text(verbatim: "78%")
+                    Text("78%")
                         .foregroundStyle(.green.gradient)
                         .font(.system(size: 12))
                 }

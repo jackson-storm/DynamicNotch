@@ -23,7 +23,7 @@ struct LockScreenNotchView: View {
             Spacer()
 
             if style == .enlarged {
-                Text(verbatim: lockScreenManager.isShowingLockPresentation ? "Locked" : "Unlocked")
+                Text(lockScreenManager.isShowingLockPresentation ? LocalizedStringKey("Locked") : LocalizedStringKey("Unlocked"))
                     .font(.system(size: 14))
                     .foregroundColor(.white)
             }

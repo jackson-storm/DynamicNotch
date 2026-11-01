@@ -244,7 +244,7 @@ struct HUDSettingsView: View {
                     .frame(height: 30)
                 
                 HStack(spacing: 8) {
-                    Text(verbatim: "Volume")
+                    Text("Volume")
                         .lineLimit(1)
                     
                     Spacer()
@@ -293,7 +293,7 @@ struct HUDSettingsView: View {
                     
                     Spacer()
                     
-                    Text(verbatim: "72")
+                    Text("72")
                 }
                 .foregroundStyle(.white)
                 .padding(.horizontal, 8)
@@ -320,7 +320,7 @@ struct HUDSettingsView: View {
                             
                             Spacer()
                             
-                            Text(verbatim: "72")
+                            Text("72")
                                 .font(.system(size: 14, design: .rounded))
                         }
                     }
@@ -344,7 +344,7 @@ struct HUDSettingsView: View {
                     Spacer()
                     
                     VStack(alignment: .leading, spacing: 5) {
-                        Text(verbatim: "Volume")
+                        Text("Volume")
                             .font(.system(size: 12))
                             .padding(.horizontal, 10)
                         
@@ -357,7 +357,7 @@ struct HUDSettingsView: View {
                                 
                                 Spacer()
                                 
-                                Text(verbatim: "72")
+                                Text("72")
                                     .font(.system(size: 14, design: .rounded))
                             }
                         }

@@ -57,7 +57,7 @@ struct VpnDisconnectedNotchView: View {
             }
             Spacer()
             
-            Text(verbatim: "Inactive")
+            Text("Inactive")
                 .foregroundStyle(.red)
         }
         .padding(.leading, isNotchlessScreen ? 4.scaled(by: scale) : 11.scaled(by: scale))
@@ -87,7 +87,7 @@ struct VpnDisconnectedNotchView: View {
                     }
                     
                     VStack(alignment: .leading, spacing: 3) {
-                        Text(verbatim: "Disconnected")
+                        Text("Disconnected")
                             .lineLimit(1)
                             .font(.system(size: 13))
                             .foregroundStyle(.red)

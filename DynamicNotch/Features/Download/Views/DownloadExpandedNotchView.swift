@@ -86,8 +86,8 @@ private struct DownloadExpandedNotchContentView: View {
     }
 
     private func speedLabel(for download: DownloadModel) -> String {
-        guard download.bytesPerSecond > 0 else { return "0 KB/s" }
-        return "\(Self.byteCountFormatter.string(fromByteCount: download.bytesPerSecond))/s"
+        guard download.bytesPerSecond > 0 else { return L10n.app("0 KB/s") }
+        return L10n.format("%@/s", locale: L10n.locale, Self.byteCountFormatter.string(fromByteCount: download.bytesPerSecond))
     }
     
     private func progressLabel(for progress: Double) -> String {

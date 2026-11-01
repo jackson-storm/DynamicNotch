@@ -131,7 +131,7 @@ final class CalendarViewModel: ObservableObject {
     var formattedNextEventTime: String {
         guard let event = nextEvent else { return "" }
         if event.isAllDay {
-            return "All Day"
+            return L10n.app("All Day")
         }
         
         let now = Date()
@@ -140,18 +140,21 @@ final class CalendarViewModel: ObservableObject {
         
         let formatter = DateFormatter()
         formatter.timeStyle = .short
+        formatter.locale = L10n.locale
         let exactTime = formatter.string(from: event.startDate)
         
         let minutesUntilStart = max(0, Int(ceil(event.startDate.timeIntervalSince(now) / 60)))
         let relativeTime: String
         if minutesUntilStart == 0 {
-            relativeTime = "Now"
+            relativeTime = L10n.app("Now")
         } else if minutesUntilStart < 60 {
-            relativeTime = "in \(minutesUntilStart)m"
+            relativeTime = L10n.format("in %lldm", locale: L10n.locale, minutesUntilStart)
         } else {
             let hours = minutesUntilStart / 60
             let mins = minutesUntilStart % 60
-            relativeTime = mins > 0 ? "in \(hours)h \(mins)m" : "in \(hours)h"
+            relativeTime = mins > 0
+                ? L10n.format("in %lldh %lldm", locale: L10n.locale, hours, mins)
+                : L10n.format("in %lldh", locale: L10n.locale, hours)
         }
         
         switch format {
@@ -170,9 +173,9 @@ final class CalendarViewModel: ObservableObject {
 
     func displayTitle(for event: EKEvent) -> String {
         if isPrivacyModeEnabled {
-            return "Calendar Event"
+            return L10n.app("Calendar Event")
         }
-        return event.title.isEmpty ? "Empty Title" : event.title
+        return event.title.isEmpty ? L10n.app("Empty Title") : event.title
     }
 
     func displayLocation(for event: EKEvent) -> String? {

@@ -12,7 +12,7 @@ final class BluetoothViewModel: ObservableObject {
     @Published var deviceType: BluetoothAudioDeviceType = .generic
     @Published var event: BluetoothEvent?
     @Published var isConnected: Bool = false
-    @Published var deviceName: String = "Unknown"
+    @Published var deviceName: String = L10n.app("Unknown")
     @Published var batteryLevel: Int? = nil
     
     private var cancellables = Set<AnyCancellable>()
@@ -64,7 +64,7 @@ final class BluetoothViewModel: ObservableObject {
                     self.batteryLevel = device?.batteryLevel
                     self.deviceType = device?.deviceType ?? .generic
                 } else {
-                    self.deviceName = "Unknown"
+                    self.deviceName = L10n.app("Unknown")
                     self.batteryLevel = nil
                     self.deviceType = .generic
                 }

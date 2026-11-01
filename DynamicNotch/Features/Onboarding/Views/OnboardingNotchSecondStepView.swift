@@ -19,12 +19,12 @@ struct OnboardingNotchSecondStepView: View {
                 .id(imageAppear)
             
             VStack(alignment: .leading, spacing: 5) {
-                Text(verbatim: "Confirm all permissions")
+                Text("Confirm all permissions")
                     .font(.system(size: 16, weight: .semibold))
                     .foregroundColor(.white)
                     .lineLimit(1)
                 
-                Text(verbatim: "You need to make sure that the application has been granted permission.")
+                Text("You need to make sure that the application has been granted permission.")
                     .foregroundColor(.gray.opacity(0.6))
                     .font(.system(size: 12, weight: .medium))
                     .lineLimit(3)

@@ -177,7 +177,7 @@ struct LockScreenSettingsView: View {
                 Spacer()
                 
                 if style == .enlarged {
-                    Text(verbatim: "Locked")
+                    Text("Locked")
                 }
             }
             .foregroundStyle(.white.opacity(0.8))

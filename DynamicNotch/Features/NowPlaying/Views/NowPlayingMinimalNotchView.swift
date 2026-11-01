@@ -16,7 +16,7 @@ struct NowPlayingMinimalNotchView: View {
     
     private var resolvedSnapshot: NowPlayingSnapshot {
         nowPlayingViewModel.snapshot ?? NowPlayingSnapshot(
-            title: "Nothing Playing",
+            title: L10n.app("Nothing Playing"),
             artist: "Nothing artists",
             album: "",
             duration: 0,

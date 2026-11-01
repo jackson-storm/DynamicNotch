@@ -55,7 +55,7 @@ struct FocusStatusNotchView: View {
 
             Spacer()
 
-            Text(verbatim: title)
+            Text(LocalizedStringKey(title))
                 .font(.system(size: isNotchlessScreen ? 13 : 14))
                 .padding(.bottom, isNotchlessScreen ? 2 : 0)
         }

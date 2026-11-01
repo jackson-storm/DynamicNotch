@@ -81,7 +81,7 @@ struct CalendarExpandedNotchView: View {
                 frameWidth: 200
             )
         } else {
-            Text(calendarViewModel.isPrivacyModeEnabled ? "Private Event" : "Empty Location")
+            Text(calendarViewModel.isPrivacyModeEnabled ? LocalizedStringKey("Private Event") : LocalizedStringKey("Empty Location"))
                 .font(.system(size: 12))
                 .lineLimit(1)
                 .foregroundColor(.gray.opacity(0.8))
@@ -125,6 +125,7 @@ struct CalendarExpandedNotchView: View {
     private func timeString(from date: Date) -> String {
         let formatter = DateFormatter()
         formatter.timeStyle = .short
+        formatter.locale = L10n.locale
         return formatter.string(from: date)
     }
     

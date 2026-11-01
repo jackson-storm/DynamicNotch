@@ -71,7 +71,7 @@ struct HotspotActiveNotchView: View {
             
             Spacer()
             
-            Text(verbatim: "On")
+            Text("On")
                 .foregroundStyle(.green)
         }
     }

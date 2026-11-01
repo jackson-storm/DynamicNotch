@@ -1,6 +1,12 @@
 import Foundation
 
 enum L10n {
+    static var locale: Locale {
+        DynamicNotchLanguage.resolved(
+            UserDefaults.standard.string(forKey: GeneralSettingsStorage.Keys.appLanguage)
+        ).locale
+    }
+
     static func app(_ key: String, fallback: String? = nil) -> String {
         string(
             key,

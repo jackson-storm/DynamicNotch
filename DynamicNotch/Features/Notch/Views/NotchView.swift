@@ -53,6 +53,7 @@ struct NotchView: View {
             )
             .zIndex(1.0)
         }
+        .environment(\.locale, settingsViewModel.application.appLanguage.locale)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
 }

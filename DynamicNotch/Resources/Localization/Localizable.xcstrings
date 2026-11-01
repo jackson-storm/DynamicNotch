@@ -715,7 +715,16 @@
         }
       }
     },
-    "%@%%": {},
+    "%@%%": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@%%"
+          }
+        }
+      }
+    },
     "%lld": {
       "localizations": {
         "ar": {
@@ -1131,9 +1140,33 @@
           }
         },
         "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld файлов"
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld файл"
+                }
+              },
+              "few": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld файла"
+                }
+              },
+              "many": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld файлов"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld файла"
+                }
+              }
+            }
           }
         },
         "sk": {
@@ -5433,7 +5466,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Низкий заряд батареи"
+            "value": "Низкий уровень заряда"
           }
         },
         "sk": {
@@ -8062,7 +8095,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ансамбль отладки"
+            "value": "Демоисполнитель"
           }
         },
         "sk": {
@@ -9735,7 +9768,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Пустое место"
+            "value": "Место не указано"
           }
         },
         "sk": {
@@ -11169,7 +11202,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Полный заряд батареи"
+            "value": "Полностью заряжен"
           }
         },
         "sk": {
@@ -11886,7 +11919,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Скрыть живую активность загрузок событием остановки."
+            "value": "Скрыть Эфир активности загрузок событием остановки."
           }
         },
         "sk": {
@@ -12125,7 +12158,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Скрыть живую активность точки доступа событием скрытия."
+            "value": "Скрыть Эфир активности точки доступа событием скрытия."
           }
         },
         "sk": {
@@ -12364,7 +12397,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Скрыть живую активность экрана блокировки событием остановки."
+            "value": "Скрыть Эфир активности экрана блокировки событием остановки."
           }
         },
         "sk": {
@@ -12603,7 +12636,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Скрыть живую активность «Исполняется» событием остановки."
+            "value": "Скрыть Эфир активности «Исполняется» событием остановки."
           }
         },
         "sk": {
@@ -12842,7 +12875,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Скрыть живую активность записи экрана."
+            "value": "Скрыть Эфир активности записи экрана."
           }
         },
         "sk": {
@@ -13081,7 +13114,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Скрыть живую активность таймера событием остановки."
+            "value": "Скрыть Эфир активности таймера событием остановки."
           }
         },
         "sk": {
@@ -13320,7 +13353,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Точка доступа активна"
+            "value": "Режим модема включён"
           }
         },
         "sk": {
@@ -13559,7 +13592,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Точка доступа скрыта"
+            "value": "Режим модема скрыт"
           }
         },
         "sk": {
@@ -17622,7 +17655,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Midnight Echoes"
+            "value": "Полночное эхо"
           }
         },
         "sk": {
@@ -20490,7 +20523,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Предпросмотр живой активности блокировки без фактической блокировки macOS."
+            "value": "Предпросмотр Эфира активности блокировки без фактической блокировки macOS."
           }
         },
         "sk": {
@@ -20729,7 +20762,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Предпросмотр постоянной живой активности «Фокусирование»."
+            "value": "Предпросмотр постоянной Эфира активности «Фокусирование»."
           }
         },
         "sk": {
@@ -21207,7 +21240,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Предпросмотр живой активности доступного обновления ПО."
+            "value": "Предпросмотр Эфира активности доступного обновления ПО."
           }
         },
         "sk": {
@@ -21924,7 +21957,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Обновить живую активность таймера событием обновления."
+            "value": "Обновить Эфир активности таймера событием обновления."
           }
         },
         "sk": {
@@ -47736,7 +47769,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Показывать живую активность при загрузке файлов в отслеживаемые папки: Загрузки, Рабочий стол и Документы."
+            "value": "Показывать Эфир активности при загрузке файлов в отслеживаемые папки: Загрузки, Рабочий стол и Документы."
           }
         },
         "sk": {
@@ -47975,7 +48008,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Живая активность загрузок"
+            "value": "Эфир активности загрузок"
           }
         },
         "sk": {
@@ -49170,7 +49203,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Показывать живую активность в вырезе при передаче файлов через AirDrop."
+            "value": "Показывать Эфир активности в вырезе при передаче файлов через AirDrop."
           }
         },
         "sk": {
@@ -49409,7 +49442,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Живая активность AirDrop"
+            "value": "Эфир активности AirDrop"
           }
         },
         "sk": {
@@ -50604,7 +50637,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Живая активность перетаскивания"
+            "value": "Эфир активности перетаскивания"
           }
         },
         "sk": {
@@ -54667,7 +54700,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Живая активность Лотка"
+            "value": "Эфир активности Лотка"
           }
         },
         "sk": {
@@ -57057,7 +57090,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Показывать живую активность при включённом режиме Фокусирования."
+            "value": "Показывать Эфир активности при включённом режиме Фокусирования."
           }
         },
         "sk": {
@@ -57296,7 +57329,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Живая активность Фокусирования"
+            "value": "Эфир активности Фокусирования"
           }
         },
         "sk": {
@@ -69963,7 +69996,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Живая активность главной страницы"
+            "value": "Эфир активности главной страницы"
           }
         },
         "sk": {
@@ -107725,7 +107758,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Автоматически скрывать живую активность, когда выбранный дисплей показывает полноэкранное пространство."
+            "value": "Автоматически скрывать Эфир активности, когда выбранный дисплей показывает полноэкранное пространство."
           }
         },
         "sk": {
@@ -107964,7 +107997,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Скрывать живую активность в полноэкранном режиме"
+            "value": "Скрывать Эфир активности в полноэкранном режиме"
           }
         },
         "sk": {
@@ -110354,7 +110387,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Позволить выбранному жесту выреза открывать расширенный вид живой активности."
+            "value": "Позволить выбранному жесту выреза открывать расширенный вид Эфира активности."
           }
         },
         "sk": {
@@ -110593,7 +110626,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Развернуть живую активность"
+            "value": "Развернуть Эфир активности"
           }
         },
         "sk": {
@@ -116090,7 +116123,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Хот-спот"
+            "value": "Режим модема"
           }
         },
         "sk": {
@@ -127084,7 +127117,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Показывать живую активность Сейчас играет при воспроизведении аудио или видео."
+            "value": "Показывать Эфир активности Сейчас играет при воспроизведении аудио или видео."
           }
         },
         "sk": {
@@ -127323,7 +127356,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Живая активность Сейчас играет"
+            "value": "Эфир активности Сейчас играет"
           }
         },
         "sk": {
@@ -139273,7 +139306,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Показывать живую активность при записи экрана."
+            "value": "Показывать Эфир активности при записи экрана."
           }
         },
         "sk": {
@@ -139512,7 +139545,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Живая активность записи экрана"
+            "value": "Эфир активности записи экрана"
           }
         },
         "sk": {
@@ -151701,7 +151734,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Живая активность таймера и стиль обводки."
+            "value": "Эфир активности таймера и стиль обводки."
           }
         },
         "sk": {
@@ -166758,7 +166791,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Показывать живую активность при включённом Режиме модема."
+            "value": "Показывать Эфир активности при подключении к Режиму модема."
           }
         },
         "sk": {
@@ -166997,7 +167030,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Живая активность Режима модема"
+            "value": "Режим модема"
           }
         },
         "sk": {
@@ -167236,7 +167269,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Батарея"
+            "value": "Аккумулятор"
           }
         },
         "sk": {
@@ -168909,7 +168942,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Показать безопасный предпросмотр живой активности приветствия."
+            "value": "Показать безопасный предпросмотр Эфира активности приветствия."
           }
         },
         "sk": {
@@ -169865,7 +169898,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Показать живую активность лотка с образцами файлов."
+            "value": "Показать Эфир активности лотка с образцами файлов."
           }
         },
         "sk": {
@@ -171299,7 +171332,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Показать живую активность конвертера с образцом изображения."
+            "value": "Показать Эфир активности конвертера с образцом изображения."
           }
         },
         "sk": {
@@ -171538,7 +171571,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Показать живую активность загрузки с образцом данных передачи."
+            "value": "Показать Эфир активности загрузки с образцом данных передачи."
           }
         },
         "sk": {
@@ -172494,7 +172527,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Показать живую активность музыки с образцом данных трека."
+            "value": "Показать Эфир активности музыки с образцом данных трека."
           }
         },
         "sk": {
@@ -172972,7 +173005,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Показать живую активность таймера с образцом данных."
+            "value": "Показать Эфир активности таймера с образцом данных."
           }
         },
         "sk": {
@@ -178523,6 +178556,1422 @@
           "stringUnit": {
             "state": "translated",
             "value": "WireGuard VPN"
+          }
+        }
+      }
+    },
+    "%@/s": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@/с"
+          }
+        }
+      }
+    },
+    "%lldh": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld ч"
+          }
+        }
+      }
+    },
+    "%lldh %lldmin": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld ч %lld мин"
+          }
+        }
+      }
+    },
+    "0 KB/s": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "0 КБ/с"
+          }
+        }
+      }
+    },
+    "72": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "72"
+          }
+        }
+      }
+    },
+    "78%": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "78%"
+          }
+        }
+      }
+    },
+    "Add a VPN in macOS Settings -> VPN.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Добавьте VPN в Системных настройках macOS → VPN."
+          }
+        }
+      }
+    },
+    "AirDrop service is not available on this Mac.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AirDrop недоступен на этом Mac."
+          }
+        }
+      }
+    },
+    "Alarm": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сигнал тревоги"
+          }
+        }
+      }
+    },
+    "Apex": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Апекс"
+          }
+        }
+      }
+    },
+    "Beacon": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Маяк"
+          }
+        }
+      }
+    },
+    "Bulletin": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Вестник"
+          }
+        }
+      }
+    },
+    "By The Seaside": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Прогулка у моря"
+          }
+        }
+      }
+    },
+    "Calendar Event": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Событие календаря"
+          }
+        }
+      }
+    },
+    "Chimes": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перезвон"
+          }
+        }
+      }
+    },
+    "Circuit": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Электросхема"
+          }
+        }
+      }
+    },
+    "Confirm all permissions": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разрешения приложения"
+          }
+        }
+      }
+    },
+    "Connect VPN": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подключить VPN"
+          }
+        }
+      }
+    },
+    "Connect to Wi-Fi, Ethernet, or Personal Hotspot to continue.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подключитесь к Wi‑Fi, Ethernet или Режиму модема."
+          }
+        }
+      }
+    },
+    "Connected": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подключено"
+          }
+        }
+      }
+    },
+    "Connectivity": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подключения"
+          }
+        }
+      }
+    },
+    "Constellation": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Созвездие"
+          }
+        }
+      }
+    },
+    "Continue": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Продолжить"
+          }
+        }
+      }
+    },
+    "Copy": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Скопировать"
+          }
+        }
+      }
+    },
+    "Cosmic": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Космос"
+          }
+        }
+      }
+    },
+    "Could not create the debug preview image.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось создать изображение для предпросмотра."
+          }
+        }
+      }
+    },
+    "Crystals": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Кристаллы"
+          }
+        }
+      }
+    },
+    "Debug Preview": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Предпросмотр"
+          }
+        }
+      }
+    },
+    "Delete": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Удалить"
+          }
+        }
+      }
+    },
+    "Desktop": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Рабочий стол"
+          }
+        }
+      }
+    },
+    "Disconnect": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отключить"
+          }
+        }
+      }
+    },
+    "Disconnected": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отключено"
+          }
+        }
+      }
+    },
+    "Display": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Дисплей"
+          }
+        }
+      }
+    },
+    "Drag & Drop": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перетаскивание"
+          }
+        }
+      }
+    },
+    "Empty Title": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Без названия"
+          }
+        }
+      }
+    },
+    "Exit": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выйти"
+          }
+        }
+      }
+    },
+    "External Drive (Connected SSD)": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Внешний SSD подключён"
+          }
+        }
+      }
+    },
+    "External Drive (Safely Ejected)": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Накопитель извлечён"
+          }
+        }
+      }
+    },
+    "External Drive (USB Flash)": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "USB-накопитель подключён"
+          }
+        }
+      }
+    },
+    "Files": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Файлы"
+          }
+        }
+      }
+    },
+    "Finish": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Готово"
+          }
+        }
+      }
+    },
+    "Hide the Focus live activity and show the short \"Off\" notification.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Скрыть Эфир активности фокусирования и показать уведомление «Выкл.»."
+          }
+        }
+      }
+    },
+    "Hillside": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Обрыв"
+          }
+        }
+      }
+    },
+    "Illuminate": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Иллюминация"
+          }
+        }
+      }
+    },
+    "Inactive": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Неактивно"
+          }
+        }
+      }
+    },
+    "Join the Telegram channel to stay up-to-date with new updates.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подпишитесь на канал в Telegram, чтобы узнавать об обновлениях."
+          }
+        }
+      }
+    },
+    "Keyboard": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Клавиатура"
+          }
+        }
+      }
+    },
+    "Locked": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Заблокировано"
+          }
+        }
+      }
+    },
+    "Low Battery": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Низкий уровень заряда"
+          }
+        }
+      }
+    },
+    "Low Power Mode enabled": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Режим энергосбережения включён"
+          }
+        }
+      }
+    },
+    "Marimba": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Маримба"
+          }
+        }
+      }
+    },
+    "Media": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Мультимедиа"
+          }
+        }
+      }
+    },
+    "Media & State": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Мультимедиа и состояния"
+          }
+        }
+      }
+    },
+    "Night Owl": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Полуночник"
+          }
+        }
+      }
+    },
+    "No VPN Selected": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "VPN не выбран"
+          }
+        }
+      }
+    },
+    "No VPN configurations found": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нет настроенных подключений VPN"
+          }
+        }
+      }
+    },
+    "No audio outputs available": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нет устройств вывода звука"
+          }
+        }
+      }
+    },
+    "Nothing Playing": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не исполняется"
+          }
+        }
+      }
+    },
+    "Now": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сейчас"
+          }
+        }
+      }
+    },
+    "OK": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ОК"
+          }
+        }
+      }
+    },
+    "Off": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выкл."
+          }
+        }
+      }
+    },
+    "On": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Вкл."
+          }
+        }
+      }
+    },
+    "One or more dropped files could not be loaded.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось загрузить один или несколько перетаскиваемых файлов."
+          }
+        }
+      }
+    },
+    "Open GitHub": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Открыть GitHub"
+          }
+        }
+      }
+    },
+    "Open Settings": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Открыть настройки"
+          }
+        }
+      }
+    },
+    "Open Telegram": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Открыть Telegram"
+          }
+        }
+      }
+    },
+    "Opening": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Вступление"
+          }
+        }
+      }
+    },
+    "Ping": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пинг"
+          }
+        }
+      }
+    },
+    "Playtime": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Час потехи"
+          }
+        }
+      }
+    },
+    "Please give it a star on GitHub – it will really help with promotion.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Поставьте звезду на GitHub, чтобы поддержать развитие приложения."
+          }
+        }
+      }
+    },
+    "Please select your preferred VPN in Settings.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выберите подключение VPN в настройках."
+          }
+        }
+      }
+    },
+    "Presto": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Скорей, скорей"
+          }
+        }
+      }
+    },
+    "Radar": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Радар"
+          }
+        }
+      }
+    },
+    "Radiate": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Свечение"
+          }
+        }
+      }
+    },
+    "Reflection": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отражение"
+          }
+        }
+      }
+    },
+    "Resume": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Возобновить"
+          }
+        }
+      }
+    },
+    "Ripples": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Зыбь"
+          }
+        }
+      }
+    },
+    "Saved to \"%@\"": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сохранено в «%@»"
+          }
+        }
+      }
+    },
+    "Screenshot": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Снимок экрана"
+          }
+        }
+      }
+    },
+    "Sencha": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сентя"
+          }
+        }
+      }
+    },
+    "Settings": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Настройки"
+          }
+        }
+      }
+    },
+    "Show all drag targets.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Показать все области перетаскивания."
+          }
+        }
+      }
+    },
+    "Show notification for connected USB flash drive.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Показать уведомление о подключении USB-накопителя."
+          }
+        }
+      }
+    },
+    "Show notification for connected external SSD with capacity.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Показать уведомление о подключении внешнего SSD с его ёмкостью."
+          }
+        }
+      }
+    },
+    "Show notification for safely ejected drive.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Показать уведомление об извлечении накопителя."
+          }
+        }
+      }
+    },
+    "Show the VPN notification and Home Page with a 3-digit timer (100+ min).": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Показать VPN и домашнюю панель с таймером на 100 и более минут."
+          }
+        }
+      }
+    },
+    "Show the brightness HUD preview at 72%.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Показать индикатор яркости на 72 %."
+          }
+        }
+      }
+    },
+    "Show the keyboard backlight HUD preview at 64%.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Показать индикатор подсветки клавиатуры на 64 %."
+          }
+        }
+      }
+    },
+    "Show the volume HUD preview at 42%.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Показать индикатор громкости на 42 %."
+          }
+        }
+      }
+    },
+    "Signal": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Позывной"
+          }
+        }
+      }
+    },
+    "Silk": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Шелк"
+          }
+        }
+      }
+    },
+    "Slow Rise": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Медленно в гору"
+          }
+        }
+      }
+    },
+    "Stargaze": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Грезы"
+          }
+        }
+      }
+    },
+    "Start Camera": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Включить камеру"
+          }
+        }
+      }
+    },
+    "Start Timer": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Старт"
+          }
+        }
+      }
+    },
+    "Start playback to see live metadata": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Включите музыку, чтобы увидеть сведения о треке"
+          }
+        }
+      }
+    },
+    "Summit": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Вершина"
+          }
+        }
+      }
+    },
+    "Support this app": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Поддержите приложение"
+          }
+        }
+      }
+    },
+    "System": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Система"
+          }
+        }
+      }
+    },
+    "System & HUD": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Система и индикаторы"
+          }
+        }
+      }
+    },
+    "Telegram channel": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Канал в Telegram"
+          }
+        }
+      }
+    },
+    "The lyrics didn't load": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось загрузить текст песни"
+          }
+        }
+      }
+    },
+    "The lyrics were not found": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Текст песни не найден"
+          }
+        }
+      }
+    },
+    "These items cannot be shared via AirDrop.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Эти объекты нельзя передать через AirDrop."
+          }
+        }
+      }
+    },
+    "Twinkle": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Мерцание"
+          }
+        }
+      }
+    },
+    "Unknown": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Неизвестное устройство"
+          }
+        }
+      }
+    },
+    "Unknown Album": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Неизвестный альбом"
+          }
+        }
+      }
+    },
+    "Unknown AppleScript error": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Неизвестная ошибка AppleScript"
+          }
+        }
+      }
+    },
+    "Unknown Artist": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Неизвестный исполнитель"
+          }
+        }
+      }
+    },
+    "Unknown Track": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Неизвестная композиция"
+          }
+        }
+      }
+    },
+    "Unlocked": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разблокировано"
+          }
+        }
+      }
+    },
+    "Uplift": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подъем"
+          }
+        }
+      }
+    },
+    "VPN Connected (100+ min)": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "VPN подключён, более 100 мин"
+          }
+        }
+      }
+    },
+    "Volume": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Громкость"
+          }
+        }
+      }
+    },
+    "Watch": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Смотреть"
+          }
+        }
+      }
+    },
+    "Waves": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Волны"
+          }
+        }
+      }
+    },
+    "You need to make sure that the application has been granted permission.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Предоставьте приложению разрешения для нужных функций."
+          }
+        }
+      }
+    },
+    "Your Mac is fully charged.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ваш Mac полностью заряжен."
+          }
+        }
+      }
+    },
+    "battery.lowPower.connectPower": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turn on Low Power Mode or connect your Mac to power."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Включите режим энергосбережения\nили подключите питание."
+          }
+        }
+      }
+    },
+    "battery.lowPower.recommendation": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Режим энергосбережения включён.\nПодключите Mac к источнику питания."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Low Power Mode is on. Connect your Mac to power."
+          }
+        }
+      }
+    },
+    "in %lldh": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "через %lld ч"
+          }
+        }
+      }
+    },
+    "in %lldh %lldm": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "через %lld ч %lld мин"
+          }
+        }
+      }
+    },
+    "in %lldm": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "через %lld мин"
+          }
+        }
+      }
+    },
+    "onboarding.welcome": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Привет"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hello"
+          }
+        }
+      }
+    },
+    "timer.action.cancel": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отмена"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stop"
+          }
+        }
+      }
+    },
+    "vpn.connectedFor": {
+      "extractionState": "manual",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "подключено: %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "connected for %@"
           }
         }
       }

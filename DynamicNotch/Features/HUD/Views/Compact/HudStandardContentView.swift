@@ -12,7 +12,7 @@ struct HudStandardContentView: View {
     
     var body: some View {
         HStack(spacing: 12) {
-            Text(verbatim: kind.title)
+            Text(LocalizedStringKey(kind.title))
                 .font(.system(size: 14))
                 .foregroundColor(.white)
             

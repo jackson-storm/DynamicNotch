@@ -197,7 +197,7 @@ private final class NotchAirDropShareSession: NSObject, NSSharingServiceDelegate
             throw NSError(
                 domain: "DynamicNotch.AirDrop",
                 code: 1,
-                userInfo: [NSLocalizedDescriptionKey: "AirDrop service is not available on this Mac."]
+                userInfo: [NSLocalizedDescriptionKey: L10n.app("AirDrop service is not available on this Mac.")]
             )
         }
 
@@ -205,7 +205,7 @@ private final class NotchAirDropShareSession: NSObject, NSSharingServiceDelegate
             throw NSError(
                 domain: "DynamicNotch.AirDrop",
                 code: 2,
-                userInfo: [NSLocalizedDescriptionKey: "These items cannot be shared via AirDrop."]
+                userInfo: [NSLocalizedDescriptionKey: L10n.app("These items cannot be shared via AirDrop.")]
             )
         }
 
@@ -342,7 +342,7 @@ private extension Array where Element == NSItemProvider {
                 throw NSError(
                     domain: "DynamicNotch.AirDrop",
                     code: 3,
-                    userInfo: [NSLocalizedDescriptionKey: "One or more dropped files could not be loaded."]
+                    userInfo: [NSLocalizedDescriptionKey: L10n.app("One or more dropped files could not be loaded.")]
                 )
             }
 

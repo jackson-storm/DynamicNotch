@@ -41,7 +41,7 @@ struct ScreenRecordingExpandedNotchView: View {
                     .foregroundColor(.red)
             }
             
-            Text(verbatim: "Screen Recording")
+            Text("Screen Recording")
                 .font(.system(size: 16, weight: .regular))
                 .foregroundColor(.white)
                 .lineLimit(1)

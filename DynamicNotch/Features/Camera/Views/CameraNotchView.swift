@@ -181,7 +181,7 @@ struct CameraNotchView: View {
                             .font(.system(size: 36))
                             .foregroundStyle(.white)
                         
-                        Text(verbatim: "Start Camera")
+                        Text("Start Camera")
                             .font(.system(size: 14, weight: .semibold))
                             .foregroundStyle(.white)
                     }

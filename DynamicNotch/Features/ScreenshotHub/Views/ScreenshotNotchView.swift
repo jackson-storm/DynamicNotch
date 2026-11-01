@@ -27,11 +27,11 @@ struct ScreenshotNotchView: View {
                     .font(.system(size: 18))
                     .foregroundStyle(.gray)
 
-                Text(verbatim: "Screenshot")
+                Text("Screenshot")
                     .font(.system(size: 16, weight: .regular))
                     .foregroundColor(.gray)
             }
-            Text(verbatim: "Saved to \"\(screenshotViewModel.savedLocation)\"")
+            Text("Saved to \"\(screenshotViewModel.savedLocation)\"")
                 .font(.system(size: 16, weight: .regular))
                 .foregroundColor(.white)
                 .lineLimit(1)
@@ -72,14 +72,14 @@ struct ScreenshotNotchView: View {
     private var buttons: some View {
         HStack {
             Button(action: { screenshotViewModel.copyImageToClipboard() }) {
-                Text(verbatim: "Copy")
+                Text("Copy")
                     .fontWeight(.medium)
                     .foregroundStyle(.white)
             }
             .buttonStyle(PrimaryButtonStyle(height: 35, backgroundColor: .gray.opacity(0.25)))
             
             Button(action: { screenshotViewModel.deleteScreenshot() }) {
-                Text(verbatim: "Delete")
+                Text("Delete")
                     .fontWeight(.medium)
                     .foregroundStyle(.red)
             }

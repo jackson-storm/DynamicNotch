@@ -324,8 +324,8 @@ final class NowPlayingViewModel: ObservableObject {
 
     private static func makeDebugPreviewSnapshot() -> NowPlayingSnapshot {
         NowPlayingSnapshot(
-            title: "Midnight Echoes",
-            artist: "Debug Ensemble",
+            title: L10n.app("Midnight Echoes"),
+            artist: L10n.app("Debug Ensemble"),
             album: "Preview Mode",
             duration: 214,
             elapsedTime: 81,

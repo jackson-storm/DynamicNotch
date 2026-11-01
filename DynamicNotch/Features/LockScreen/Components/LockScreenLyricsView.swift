@@ -130,7 +130,7 @@ private struct LockScreenLyricsContentView: View, Equatable {
                 .font(.system(size: 38, weight: .medium))
                 .foregroundStyle(.white.opacity(0.32))
             
-            Text(title)
+            Text(LocalizedStringKey(title))
                 .font(.system(size: 22, weight: .bold, design: .rounded))
                 .foregroundStyle(.white.opacity(0.42))
                 .multilineTextAlignment(.center)

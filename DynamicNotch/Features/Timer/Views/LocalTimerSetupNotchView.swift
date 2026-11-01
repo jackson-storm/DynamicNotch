@@ -142,7 +142,7 @@ struct LocalTimerSetupNotchView: View {
         switch localTimerViewModel.state {
         case .running:
             Button(action: stopTimer) {
-                Text(verbatim: "Stop")
+                Text("timer.action.cancel")
                     .font(.system(size: 15, weight: .semibold))
                     .foregroundStyle(Color.red)
             }
@@ -150,15 +150,17 @@ struct LocalTimerSetupNotchView: View {
 
         case .paused:
             Button(action: resumeTimer) {
-                Text(verbatim: "Resume")
+                Text("Resume")
                     .font(.system(size: 15, weight: .semibold))
                     .foregroundStyle(Color.green)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
             }
             .buttonStyle(PrimaryButtonStyle(width: 100, height: 40, backgroundColor: .green.opacity(0.2)))
 
         case .stopped:
             Button(action: startTimer) {
-                Text(verbatim: "Start Timer")
+                Text("Start Timer")
                     .font(.system(size: 15, weight: .semibold))
                     .foregroundStyle(Color.orange)
             }

@@ -22,9 +22,9 @@ struct NowPlayingExpandedNotchView: View {
     
     private var resolvedSnapshot: NowPlayingSnapshot {
         nowPlayingViewModel.snapshot ?? NowPlayingSnapshot(
-            title: "Nothing Playing",
-            artist: "Start playback to see live metadata",
-            album: "Debug Preview",
+            title: L10n.app("Nothing Playing"),
+            artist: L10n.app("Start playback to see live metadata"),
+            album: L10n.app("Debug Preview"),
             duration: 0,
             elapsedTime: 0,
             playbackRate: 0,
@@ -235,15 +235,15 @@ struct NowPlayingExpandedNotchView: View {
     }
     
     private func displayTitle(for snapshot: NowPlayingSnapshot) -> String {
-        snapshot.title.trimmed.isEmpty ? "Unknown Track" : snapshot.title
+        snapshot.title.trimmed.isEmpty ? L10n.app("Unknown Track") : snapshot.title
     }
     
     private func displayArtist(for snapshot: NowPlayingSnapshot) -> String {
-        snapshot.artist.trimmed.isEmpty ? "Unknown Artist" : snapshot.artist
+        snapshot.artist.trimmed.isEmpty ? L10n.app("Unknown Artist") : snapshot.artist
     }
     
     private func displayAlbum(for snapshot: NowPlayingSnapshot) -> String {
-        snapshot.album.trimmed.isEmpty ? "Unknown Album" : snapshot.album
+        snapshot.album.trimmed.isEmpty ? L10n.app("Unknown Album") : snapshot.album
     }
     
     private func progressValue(elapsedTime: TimeInterval, duration: TimeInterval) -> CGFloat {

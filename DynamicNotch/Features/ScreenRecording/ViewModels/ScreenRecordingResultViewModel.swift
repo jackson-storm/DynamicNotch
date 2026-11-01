@@ -12,7 +12,7 @@ final class ScreenRecordingResultViewModel: ObservableObject {
     var savedLocation: String {
         guard let fileURL = activeResult?.fileURL else {
             let desktopURL = fileManager.urls(for: .desktopDirectory, in: .userDomainMask).first
-            return desktopURL.map { fileManager.displayName(atPath: $0.path) } ?? "Desktop"
+            return desktopURL.map { fileManager.displayName(atPath: $0.path) } ?? L10n.app("Desktop")
         }
         let dirURL = fileURL.deletingLastPathComponent()
         let name = fileManager.displayName(atPath: dirURL.path)

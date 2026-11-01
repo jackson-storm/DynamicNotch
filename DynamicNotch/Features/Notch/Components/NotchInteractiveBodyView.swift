@@ -44,8 +44,9 @@ struct NotchInteractiveBodyView: View {
     private var isVisiblyHiddenInFullscreen: Bool {
         guard notchViewModel.isDynamicIsland else { return false }
         guard settingsViewModel.application.isDynamicIslandHiddenInFullscreenEnabled else { return false }
+        guard !notchViewModel.hasDisplayedContent else { return false }
         guard let screen = NSScreen.preferredNotchScreen(for: settingsViewModel) ?? NSScreen.main else { return false }
-        return SkyLightOperator.shared.isFullscreenSpaceActive(on: screen) && !notchViewModel.hasDisplayedContent
+        return SkyLightOperator.shared.isFullscreenSpaceActive(on: screen)
     }
     
     private var shouldEnableNotchSwipeGestures: Bool {

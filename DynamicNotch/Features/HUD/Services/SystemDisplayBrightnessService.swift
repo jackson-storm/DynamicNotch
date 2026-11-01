@@ -17,6 +17,7 @@ final class SystemDisplayBrightnessService {
     private var rampTimer: Timer?
     private var rampCurrent: Float = 0.5
     private var rampTarget: Float = 0.5
+    private var rampDisplayID: CGDirectDisplayID?
 
     private let rampTickInterval: TimeInterval = 1.0 / 60.0
     private let rampEaseFactor: Float = 0.34
@@ -44,6 +45,7 @@ final class SystemDisplayBrightnessService {
             // opening the lid) and never jump from a stale value.
             rampCurrent = currentBrightness
             base = rampCurrent
+            rampDisplayID = targetDisplayID()
         }
 
         let target = max(0, min(1, base + delta))
@@ -58,6 +60,7 @@ final class SystemDisplayBrightnessService {
         let clampedValue = max(0, min(1, value))
         rampTimer?.invalidate()
         rampTimer = nil
+        rampDisplayID = nil
         rampCurrent = clampedValue
         rampTarget = clampedValue
         applyBrightness(clampedValue)
@@ -82,9 +85,10 @@ final class SystemDisplayBrightnessService {
 
         if abs(remaining) <= rampSnapEpsilon {
             rampCurrent = rampTarget
-            applyBrightness(rampTarget)
+            applyBrightness(rampTarget, displayID: rampDisplayID)
             rampTimer?.invalidate()
             rampTimer = nil
+            rampDisplayID = nil
             return
         }
 
@@ -94,14 +98,14 @@ final class SystemDisplayBrightnessService {
         }
 
         rampCurrent += delta
-        applyBrightness(rampCurrent)
+        applyBrightness(rampCurrent, displayID: rampDisplayID)
     }
 
     /// One immediate write to the panel. Never uses the smooth setter (see above);
     /// falls back to IOKit for non-DisplayServices displays.
-    private func applyBrightness(_ value: Float) {
+    private func applyBrightness(_ value: Float, displayID resolvedDisplayID: CGDirectDisplayID? = nil) {
         let clampedValue = max(0, min(1, value))
-        let displayID = targetDisplayID()
+        let displayID = resolvedDisplayID ?? targetDisplayID()
 
         if let result = displayServicesBridge.setBrightness(displayID: displayID, value: clampedValue),
            result == kIOReturnSuccess {

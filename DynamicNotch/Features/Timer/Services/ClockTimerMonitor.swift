@@ -408,7 +408,7 @@ private extension ClockTimerMonitor {
     }
 
     func applyStartedTimerMessage(_ message: String) {
-        guard let identifier = firstMatch(pattern: "started timer:\\s*([A-Fa-f0-9\\-]+)", in: message) else {
+        guard let identifier = firstMatch(regex: ClockTimerPatterns.startedTimer, in: message) else {
             return
         }
 
@@ -421,7 +421,7 @@ private extension ClockTimerMonitor {
     }
 
     func applyNextTimerChangedMessage(_ message: String) {
-        guard let token = firstMatch(pattern: "next timer changed:\\s*([^\n]+)", in: message) else {
+        guard let token = firstMatch(regex: ClockTimerPatterns.nextTimerChanged, in: message) else {
             return
         }
 
@@ -439,7 +439,7 @@ private extension ClockTimerMonitor {
     }
 
     func applyWillFireMessage(_ message: String) {
-        guard let minutesToken = firstMatch(pattern: "Timer will fire\\s+([0-9.]+)\\s+minutes?", in: message),
+        guard let minutesToken = firstMatch(regex: ClockTimerPatterns.willFire, in: message),
               let minutes = Double(minutesToken) else {
             return
         }
@@ -448,7 +448,7 @@ private extension ClockTimerMonitor {
     }
 
     func applyRemainingTimeMessage(_ message: String) {
-        guard let remainingToken = firstMatch(pattern: "remainingTime:\\s*([-0-9.]+)", in: message),
+        guard let remainingToken = firstMatch(regex: ClockTimerPatterns.remainingTime, in: message),
               let remaining = Double(remainingToken) else {
             return
         }
@@ -800,8 +800,8 @@ private extension ClockTimerMonitor {
         }.first
     }
 
-    func firstMatch(pattern: String, in text: String) -> String? {
-        guard let regex = try? NSRegularExpression(pattern: pattern) else {
+    func firstMatch(regex: NSRegularExpression?, in text: String) -> String? {
+        guard let regex else {
             return nil
         }
 
@@ -818,7 +818,7 @@ private extension ClockTimerMonitor {
     }
 
     func parseLoggedTimers(from message: String) -> [LoggedTimerSummary] {
-        guard let regex = try? NSRegularExpression(pattern: "<MT(?:Mutable)?Timer:[^>]+>") else {
+        guard let regex = ClockTimerPatterns.loggedTimer else {
             return []
         }
 
@@ -830,17 +830,17 @@ private extension ClockTimerMonitor {
 
             let timerDescription = String(message[swiftRange])
             guard let identifier = firstMatch(
-                pattern: "TimerID:\\s*([A-Fa-f0-9\\-]+)",
+                regex: ClockTimerPatterns.timerID,
                 in: timerDescription
             ) else {
                 return nil
             }
 
-            let stateToken = firstMatch(pattern: "state:([A-Za-z]+)", in: timerDescription)?.lowercased()
+            let stateToken = firstMatch(regex: ClockTimerPatterns.state, in: timerDescription)?.lowercased()
             let state = Self.preferencesState(from: stateToken)
-            let title = firstMatch(pattern: "Title:\\s*([^,]+)", in: timerDescription)
+            let title = firstMatch(regex: ClockTimerPatterns.title, in: timerDescription)
             let duration = firstMatch(
-                pattern: "duration:([0-9]+(?:\\.[0-9]+)?)",
+                regex: ClockTimerPatterns.duration,
                 in: timerDescription
             ).flatMap(Double.init)
 
@@ -1028,7 +1028,7 @@ private extension ClockTimerMonitor {
             }
         }
 
-        guard let regex = try? NSRegularExpression(pattern: "([0-9]+)([hms])") else {
+        guard let regex = ClockTimerPatterns.unitCountdown else {
             return nil
         }
 
@@ -1091,4 +1091,17 @@ private extension ClockTimerMonitor {
             )
         }
     }
+}
+
+nonisolated enum ClockTimerPatterns {
+    static let startedTimer = try? NSRegularExpression(pattern: "started timer:\\s*([A-Fa-f0-9\\-]+)")
+    static let nextTimerChanged = try? NSRegularExpression(pattern: "next timer changed:\\s*([^\n]+)")
+    static let willFire = try? NSRegularExpression(pattern: "Timer will fire\\s+([0-9.]+)\\s+minutes?")
+    static let remainingTime = try? NSRegularExpression(pattern: "remainingTime:\\s*([-0-9.]+)")
+    static let loggedTimer = try? NSRegularExpression(pattern: "<MT(?:Mutable)?Timer:[^>]+>")
+    static let timerID = try? NSRegularExpression(pattern: "TimerID:\\s*([A-Fa-f0-9\\-]+)")
+    static let state = try? NSRegularExpression(pattern: "state:([A-Za-z]+)")
+    static let title = try? NSRegularExpression(pattern: "Title:\\s*([^,]+)")
+    static let duration = try? NSRegularExpression(pattern: "duration:([0-9]+(?:\\.[0-9]+)?)")
+    static let unitCountdown = try? NSRegularExpression(pattern: "([0-9]+)([hms])")
 }

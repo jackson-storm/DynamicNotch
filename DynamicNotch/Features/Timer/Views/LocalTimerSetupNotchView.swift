@@ -17,6 +17,7 @@ struct LocalTimerSetupNotchView: View {
     @State private var dragStartIndex: Int = 20
     @State private var isDragging: Bool = false
     @State private var scrollDirection: Int = 1
+    @State private var trackpadPosition: TimerRulerScrollPosition?
 
     private let tickSpacing: CGFloat = 9.0
     private static let subMinuteCount: Int = 5
@@ -77,6 +78,13 @@ struct LocalTimerSetupNotchView: View {
             }
             .frame(width: containerWidth, height: 50)
             .contentShape(Rectangle())
+            .background {
+                TimerRulerScrollInput(
+                    isEnabled: localTimerViewModel.state == .stopped,
+                    onScroll: scrollRuler,
+                    onEnd: finishRulerScroll
+                )
+            }
             .highPriorityGesture(dragGesture)
             .onTapGesture { location in
                 let clickedOffset = location.x - centerOffset
@@ -161,6 +169,9 @@ struct LocalTimerSetupNotchView: View {
     private var dragGesture: some Gesture {
         DragGesture(minimumDistance: 1)
             .onChanged { value in
+                if trackpadPosition != nil {
+                    finishRulerScroll()
+                }
                 if !isDragging {
                     isDragging = true
                 }
@@ -191,6 +202,37 @@ struct LocalTimerSetupNotchView: View {
                 isDragging = false
                 NSHapticFeedbackManager.defaultPerformer.perform(.alignment, performanceTime: .default)
             }
+    }
+
+    private func scrollRuler(by delta: CGFloat) {
+        guard !isDragging || trackpadPosition != nil else { return }
+        var position = trackpadPosition ?? TimerRulerScrollPosition(
+            selectedIndex: selectedIndex,
+            maximumIndex: Self.maxIndex,
+            tickSpacing: tickSpacing
+        )
+        position.scroll(by: delta)
+        trackpadPosition = position
+        isDragging = true
+        dragStartIndex = position.startIndex
+        dragOffset = position.offset
+
+        let nextIndex = position.selectedIndex
+        if nextIndex != selectedIndex {
+            scrollDirection = nextIndex >= selectedIndex ? 1 : -1
+            selectedIndex = nextIndex
+            NSHapticFeedbackManager.defaultPerformer.perform(.alignment, performanceTime: .now)
+        }
+    }
+
+    private func finishRulerScroll() {
+        guard trackpadPosition != nil else { return }
+        withAnimation(.spring(response: 0.28, dampingFraction: 0.82)) {
+            dragStartIndex = selectedIndex
+            dragOffset = 0
+        }
+        trackpadPosition = nil
+        isDragging = false
     }
 
     private var timeDisplay: some View {

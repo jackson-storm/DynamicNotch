@@ -86,7 +86,7 @@ struct NowPlayingExpandedNotchView: View {
             )
             controlsSection(snapshot: snapshot, appearance: appearance)
         }
-        .padding(.top, isNotchlessScreen ? 5 : 20)
+        .padding(.top, isNotchlessScreen ? 0 : 20)
         .padding(.horizontal, isNotchlessScreen ? 25 : 55)
     }
 
@@ -98,8 +98,8 @@ struct NowPlayingExpandedNotchView: View {
             }) {
                 ArtworkView(
                     nowPlayingViewModel: nowPlayingViewModel,
-                    width: 60,
-                    height: 60,
+                    width: isNotchlessScreen ? 55 : 60,
+                    height: isNotchlessScreen ? 55 : 60,
                     cornerRadius: 10,
                     usesFlipAnimation: appearance.usesArtwork3DEffect
                 )

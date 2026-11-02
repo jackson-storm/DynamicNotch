@@ -9,7 +9,7 @@ import SwiftUI
 
 enum NotchTransitionMetrics {
     static func verticalCompensationOffset(for notchHeight: CGFloat, baseHeight: CGFloat, isNotchlessScreen: Bool = false) -> CGFloat {
-        let multiplier: CGFloat = isNotchlessScreen ? 0.65 : 0.75
+        let multiplier: CGFloat = isNotchlessScreen ? 0.5 : 0.7
         return -(max(0, notchHeight - baseHeight) * multiplier)
     }
 

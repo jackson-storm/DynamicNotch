@@ -37,7 +37,7 @@ private struct TimerMinimalNotchViewInternal<VM: ObservableObject>: View {
             Spacer()
             TimerCountdownText(source: source)
         }
-        .padding(.leading, isNotchlessScreen ? 5.scaled(by: scale) : 14.scaled(by: scale))
+        .padding(.leading, isNotchlessScreen ? 5.scaled(by: scale) : 15.scaled(by: scale))
         .padding(.trailing, isNotchlessScreen ? 7.scaled(by: scale) : 15.scaled(by: scale))
     }
 }

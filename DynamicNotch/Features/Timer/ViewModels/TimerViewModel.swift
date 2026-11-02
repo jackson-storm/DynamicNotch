@@ -210,6 +210,9 @@ private extension TimerViewModel {
 
     func refreshFormattedTime() {
         let remainingTime = snapshot?.remainingTime(at: .now) ?? 0
-        formattedTime = formatTime(remainingTime)
+        let nextFormattedTime = formatTime(remainingTime)
+        if nextFormattedTime != formattedTime {
+            formattedTime = nextFormattedTime
+        }
     }
 }

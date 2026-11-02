@@ -49,13 +49,39 @@ enum TimerSource {
         }
     }
 
-    func formattedTime(at date: Date) -> String {
+    var countdownFlipOffset: TimeInterval {
         switch self {
         case .system(let vm):
-            return vm.formattedTime
+            // Clock rounds its countdown to the nearest second, at redraws that land
+            // `displayDelay` after each half-second crossing.
+            guard let snapshot = vm.snapshot, !snapshot.isPaused else { return 0.5 }
+            return 0.5 - snapshot.displayDelay
+        case .local:
+            return 0
+        }
+    }
+
+    var countdownEndDate: Date? {
+        switch self {
+        case .system(let vm):
+            return vm.snapshot?.endDate
         case .local(let vm):
-            let remaining = vm.remainingTime(at: date)
-            return vm.formatTime(remaining)
+            return vm.endDate
+        }
+    }
+
+    func displayedSeconds(at date: Date) -> Int {
+        TimerCountdownSchedule.displayedSeconds(remaining: remainingTime(at: date), flipOffset: countdownFlipOffset)
+    }
+
+    func formattedTime(at date: Date) -> String {
+        let seconds = TimeInterval(displayedSeconds(at: date))
+
+        switch self {
+        case .system(let vm):
+            return vm.formatTime(seconds)
+        case .local(let vm):
+            return vm.formatTime(seconds)
         }
     }
 

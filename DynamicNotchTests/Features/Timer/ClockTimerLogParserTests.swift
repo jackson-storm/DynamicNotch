@@ -63,6 +63,22 @@ final class ClockTimerLogParserTests: XCTestCase {
         XCTAssertEqual(ClockTimerPreferencesParser.state(forTimer: ["MTTimerState": 9]), .unknown)
     }
 
+    func testLogTimestampKeepsMicroseconds() throws {
+        let pacific = try XCTUnwrap(ClockTimerLogParser.logTimestamp("2026-11-02 11:20:38.639916-0800"))
+        XCTAssertEqual(pacific.timeIntervalSince1970, 1_793_647_238.639916, accuracy: 0.000_001)
+
+        let india = try XCTUnwrap(ClockTimerLogParser.logTimestamp("2026-11-02 11:20:38.639916+0530"))
+        XCTAssertEqual(india.timeIntervalSince1970, 1_793_598_638.639916, accuracy: 0.000_001)
+    }
+
+    func testLogTimestampRejectsMalformedInput() {
+        XCTAssertNil(ClockTimerLogParser.logTimestamp("not a date"))
+        XCTAssertNil(ClockTimerLogParser.logTimestamp("2026-11-02 11:20:38.-0800"))
+        XCTAssertNil(ClockTimerLogParser.logTimestamp("2026-11-02 11:20:38.639916"))
+        XCTAssertNil(ClockTimerLogParser.logTimestamp("2026-11-02 11:20:38.639916-08"))
+        XCTAssertNil(ClockTimerLogParser.logTimestamp(""))
+    }
+
     private func transitionMessage(from oldState: String, to newState: String) -> String {
         """
         <MTTimerDurationManager: 0x600001234500> didUpdateTimers fromTimers: (

@@ -93,10 +93,10 @@ private struct TimerExpandedNotchViewInternal<VM: ObservableObject>: View {
                 .offset(y: 8)
             
             if source.isPaused {
-                countdownText(remaining: source.remainingTime(at: .now))
+                countdownText(seconds: source.displayedSeconds(at: .now))
             } else {
                 TimelineView(.periodic(from: countdownScheduleStart, by: 1)) { context in
-                    countdownText(remaining: source.remainingTime(at: context.date))
+                    countdownText(seconds: source.displayedSeconds(at: context.date))
                 }
             }
         }
@@ -104,35 +104,24 @@ private struct TimerExpandedNotchViewInternal<VM: ObservableObject>: View {
     
     private var countdownScheduleStart: Date {
         let now = Date.now
-        let endDate: Date?
-        
-        switch source {
-        case .system(let vm):
-            endDate = vm.snapshot?.endDate
-        case .local(let vm):
-            endDate = vm.endDate
-        }
-        
-        guard let endDate else { return now }
-        return TimerCountdownSchedule.start(endDate: endDate, now: now)
+        guard let endDate = source.countdownEndDate else { return now }
+        return TimerCountdownSchedule.start(endDate: endDate.addingTimeInterval(-source.countdownFlipOffset), now: now)
     }
     
-    private func countdownText(remaining: TimeInterval) -> some View {
-        let roundedSeconds = max(0, Int(remaining.rounded()))
-        let hours = roundedSeconds / 3600
+    private func countdownText(seconds: Int) -> some View {
+        let hours = seconds / 3600
         
-        return Text(formattedDuration(remaining))
+        return Text(formattedDuration(seconds))
             .font(.system(size: hours > 0 ? 26 : 36, weight: .semibold, design: .rounded))
             .monospacedDigit()
             .foregroundStyle(Color.orange)
             .contentTransition(.numericText())
     }
     
-    private func formattedDuration(_ duration: TimeInterval) -> String {
-        let roundedSeconds = max(0, Int(duration.rounded()))
-        let hours = roundedSeconds / 3600
-        let minutes = (roundedSeconds % 3600) / 60
-        let seconds = roundedSeconds % 60
+    private func formattedDuration(_ totalSeconds: Int) -> String {
+        let hours = totalSeconds / 3600
+        let minutes = (totalSeconds % 3600) / 60
+        let seconds = totalSeconds % 60
         
         if hours > 0 {
             return String(format: "%d:%02d:%02d", hours, minutes, seconds)

@@ -15,6 +15,7 @@ struct CameraNotchView: View {
     let nowPlayingViewModel: NowPlayingViewModel
     let mediaAndFilesSettings: MediaAndFilesSettingsStore
     let applicationSettings: ApplicationSettingsStore
+    var isActive = true
     
     @Environment(\.isNotchlessScreen) private var isNotchlessScreen
     @StateObject private var cameraViewModel = CameraViewModel()
@@ -52,13 +53,18 @@ struct CameraNotchView: View {
         .onAppear {
             previewID = UUID()
         }
-        .onDisappear {
-            isNotchLocked = false
-            isCameraStarted = false
-            cameraViewModel.stopSession()
+        .onChange(of: isActive) { _, active in
+            if !active { stopCamera() }
         }
+        .onDisappear { stopCamera() }
     }
     
+    private func stopCamera() {
+        isNotchLocked = false
+        isCameraStarted = false
+        cameraViewModel.stopSession()
+    }
+
     @ViewBuilder
     private var cameraView: some View {
         VStack {

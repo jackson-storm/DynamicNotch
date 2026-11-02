@@ -18,7 +18,6 @@ struct HomePageNotchView: View {
     let applicationSettings: ApplicationSettingsStore
     let initialPage: HomePages
     let minimumExpandedSize: CGSize
-    let navigationDirection: Int
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     private var currentPage: HomePages? {
@@ -26,7 +25,7 @@ struct HomePageNotchView: View {
         return pages.contains(initialPage) ? initialPage : pages.first
     }
     
-    init(notchViewModel: NotchViewModel, settings: HomePageSettingsStore, localTimerViewModel: LocalTimerViewModel, nowPlayingViewModel: NowPlayingViewModel, mediaAndFilesSettings: MediaAndFilesSettingsStore, applicationSettings: ApplicationSettingsStore, initialPage: HomePages, minimumExpandedSize: CGSize = .zero, navigationDirection: Int = 1) {
+    init(notchViewModel: NotchViewModel, settings: HomePageSettingsStore, localTimerViewModel: LocalTimerViewModel, nowPlayingViewModel: NowPlayingViewModel, mediaAndFilesSettings: MediaAndFilesSettingsStore, applicationSettings: ApplicationSettingsStore, initialPage: HomePages, minimumExpandedSize: CGSize = .zero) {
         self.notchViewModel = notchViewModel
         self.settings = settings
         self.localTimerViewModel = localTimerViewModel
@@ -35,24 +34,44 @@ struct HomePageNotchView: View {
         self.applicationSettings = applicationSettings
         self.initialPage = initialPage
         self.minimumExpandedSize = minimumExpandedSize
-        self.navigationDirection = navigationDirection
     }
     
     var body: some View {
         let activePages = settings.homePageOrder.filter { !settings.homePageDisabled.contains($0) }
         
-        ZStack(alignment: .bottom) {
-            if let page = currentPage, activePages.contains(page) {
-                pageView(for: page)
-                    .padding(.top, [.screenshots, .calculator, .sound].contains(page) ? notchViewModel.notchModel.baseHeight + 6 : 0)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
-                    .id(page)
-                    .transition(reduceMotion ? .opacity : .push(from: navigationDirection >= 0 ? .bottom : .top))
+        let pageHeights = activePages.map { pageHeight(for: $0) }
+        let offsets = pageHeights.reduce(into: [CGFloat(0)]) { result, height in
+            result.append((result.last ?? 0) + height + 20)
+        }
+        let selectedIndex = currentPage.flatMap { activePages.firstIndex(of: $0) } ?? 0
+        let position = offsets[selectedIndex]
+        let visiblePageHeight = currentPage.map { pageHeight(for: $0) } ?? 0
+
+        GeometryReader { viewport in
+            ZStack(alignment: .top) {
+                ForEach(Array(activePages.enumerated()), id: \.element) { index, page in
+                    pageView(for: page)
+                        .padding(.top, [.screenshots, .calculator, .sound].contains(page) ? notchViewModel.notchModel.baseHeight + 6 : 0)
+                        .frame(height: pageHeights[index], alignment: .bottom)
+                        .modifier(HomePageScrollMotion(
+                            origin: offsets[index], height: pageHeights[index],
+                            position: position, reduceMotion: reduceMotion
+                        ))
+                        .allowsHitTesting(page == currentPage)
+                        .accessibilityHidden(page != currentPage)
+                }
+            }
+            .frame(width: viewport.size.width, height: viewport.size.height, alignment: .top)
+            .clipped()
+            .mask(alignment: .top) {
+                // A hover safety floor can leave spare black space below a
+                // short card; the next page must not appear there at rest.
+                Rectangle()
+                    .frame(height: visiblePageHeight)
+                    .animation(nil, value: visiblePageHeight)
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .clipped()
-        .animation(.easeInOut(duration: reduceMotion ? 0.12 : 0.24), value: currentPage)
+        .animation(reduceMotion ? nil : .spring(response: 0.4, dampingFraction: 0.85), value: currentPage)
         .background(HomePageScrollInput { direction, minimumSize in
             guard notchViewModel.isDisplayingExpandedLiveActivity,
                   let content = notchViewModel.displayedContent as? HomePageNotchContent,
@@ -86,6 +105,15 @@ struct HomePageNotchView: View {
         }
     }
 
+    private func pageHeight(for page: HomePages) -> CGFloat {
+        let content = HomePageNotchContent.pageContent(for: page)
+        let model = notchViewModel.notchModel
+        let size = notchViewModel.isDynamicIsland
+            ? content.expandedDynamicIslandSize(baseWidth: model.baseWidth, baseHeight: model.baseHeight)
+            : content.expandedSize(baseWidth: model.baseWidth, baseHeight: model.baseHeight)
+        return size.height
+    }
+
     private func selectPage(_ page: HomePages, activePages: [HomePages], minimumSize: CGSize = .zero) {
         guard activePages.contains(page) else { return }
         updateLastPageStatus(page: page, activePages: activePages)
@@ -93,8 +121,7 @@ struct HomePageNotchView: View {
             notchViewModel: notchViewModel, settings: settings, homePages: page,
             localTimerViewModel: localTimerViewModel, nowPlayingViewModel: nowPlayingViewModel,
             mediaAndFilesSettings: mediaAndFilesSettings, applicationSettings: applicationSettings,
-            minimumExpandedSize: minimumSize,
-            navigationDirection: (activePages.firstIndex(of: page) ?? 0) >= (activePages.firstIndex(of: currentPage ?? page) ?? 0) ? 1 : -1
+            minimumExpandedSize: minimumSize
         )))
     }
     
@@ -109,7 +136,7 @@ struct HomePageNotchView: View {
     private func pageView(for page: HomePages) -> some View {
         switch page {
         case .camera:
-            CameraNotchView(notchViewModel: notchViewModel, settings: settings, localTimerViewModel: localTimerViewModel, nowPlayingViewModel: nowPlayingViewModel, mediaAndFilesSettings: mediaAndFilesSettings, applicationSettings: applicationSettings)
+            CameraNotchView(notchViewModel: notchViewModel, settings: settings, localTimerViewModel: localTimerViewModel, nowPlayingViewModel: nowPlayingViewModel, mediaAndFilesSettings: mediaAndFilesSettings, applicationSettings: applicationSettings, isActive: currentPage == .camera)
         case .localTimer:
             LocalTimerSetupNotchView(localTimerViewModel: localTimerViewModel)
         case .vpn:

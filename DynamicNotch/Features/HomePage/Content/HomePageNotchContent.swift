@@ -18,12 +18,11 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     let mediaAndFilesSettings: MediaAndFilesSettingsStore
     let applicationSettings: ApplicationSettingsStore
     let minimumExpandedSize: CGSize
-    let navigationDirection: Int
 
     init(notchViewModel: NotchViewModel, settings: HomePageSettingsStore, homePages: HomePages,
          localTimerViewModel: LocalTimerViewModel, nowPlayingViewModel: NowPlayingViewModel,
          mediaAndFilesSettings: MediaAndFilesSettingsStore, applicationSettings: ApplicationSettingsStore,
-         minimumExpandedSize: CGSize = .zero, navigationDirection: Int = 1) {
+         minimumExpandedSize: CGSize = .zero) {
         self.notchViewModel = notchViewModel
         self.settings = settings
         self.homePages = homePages
@@ -32,7 +31,6 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
         self.mediaAndFilesSettings = mediaAndFilesSettings
         self.applicationSettings = applicationSettings
         self.minimumExpandedSize = minimumExpandedSize
-        self.navigationDirection = navigationDirection
     }
 
     var priority: Int { NotchContentRegistry.HomePage.active.priority }
@@ -47,7 +45,11 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     }
     
     private var activePageContent: any NotchContentProtocol {
-        switch homePages {
+        Self.pageContent(for: homePages)
+    }
+
+    static func pageContent(for page: HomePages) -> any NotchContentProtocol {
+        switch page {
         case .camera:
             return CameraActiveNotchContent()
         case .localTimer:
@@ -55,7 +57,7 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
         case .vpn:
             return VpnHomePageNotchContent()
         case .screenshots, .calculator, .sound:
-            return ToolHomePageNotchContent(page: homePages)
+            return ToolHomePageNotchContent(page: page)
         }
     }
 
@@ -104,8 +106,7 @@ struct HomePageNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
                 mediaAndFilesSettings: mediaAndFilesSettings,
                 applicationSettings: applicationSettings,
                 initialPage: homePages,
-                minimumExpandedSize: minimumExpandedSize,
-                navigationDirection: navigationDirection
+                minimumExpandedSize: minimumExpandedSize
             )
         )
     }

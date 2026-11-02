@@ -5,16 +5,16 @@ struct BatterySettingsView: View {
         case low
         case full
     }
-
+    
     @ObservedObject var batterySettings: BatterySettingsStore
     @ObservedObject var appearanceSettings: ApplicationSettingsStore
     @Environment(\.locale) private var locale
-
+    
     private var temporaryActivityDurationRange: ClosedRange<Double> {
         Double(SettingsStoreBase.temporaryActivityDurationRange.lowerBound)...Double(SettingsStoreBase.temporaryActivityDurationRange.upperBound)
     }
-
-
+    
+    
     var body: some View {
         SettingsPageScrollView {
             batteryActivity
@@ -23,23 +23,23 @@ struct BatterySettingsView: View {
             fullBattery
         }
     }
-
+    
     private var batteryActivity: some View {
         SettingsCard(title: "settings.battery.card.activity") {
             SettingsToggleRow(
                 title: "settings.battery.charging.title",
                 description: "settings.battery.charging.desc",
                 systemImage: "bolt.fill",
-                color: .blue,
+                color: .green,
                 isOn: $batterySettings.isChargerTemporaryActivityEnabled,
                 accessibilityIdentifier: "settings.activities.temporary.charger"
             )
-
+            
             Divider()
                 .opacity(0.6)
                 .padding(.leading, 43)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
-
+            
             SettingsToggleRow(
                 title: "settings.battery.lowPower2.title",
                 description: "settings.battery.lowPower2.desc",
@@ -48,12 +48,12 @@ struct BatterySettingsView: View {
                 isOn: $batterySettings.isLowPowerTemporaryActivityEnabled,
                 accessibilityIdentifier: "settings.activities.temporary.lowPower"
             )
-
+            
             Divider()
                 .opacity(0.6)
                 .padding(.leading, 43)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
-
+            
             SettingsToggleRow(
                 title: "settings.battery.fullyCharged.title",
                 description: "settings.battery.fullyCharged.desc",
@@ -62,10 +62,10 @@ struct BatterySettingsView: View {
                 isOn: $batterySettings.isFullPowerTemporaryActivityEnabled,
                 accessibilityIdentifier: "settings.activities.temporary.fullPower"
             )
-
+            
         }
     }
-
+    
     private var batteryDuration: some View {
         SettingsCard(title: "settings.battery.card.duration") {
             SettingsSliderRow(
@@ -83,9 +83,9 @@ struct BatterySettingsView: View {
             )
             .disabled(!batterySettings.isChargerTemporaryActivityEnabled)
             .opacity(batterySettings.isChargerTemporaryActivityEnabled ? 1 : 0.5)
-
+            
             Divider().opacity(0.6)
-
+            
             SettingsSliderRow(
                 title: "settings.battery.lowBatteryDuration.title",
                 description: "settings.battery.lowPowerDuration.desc",
@@ -101,9 +101,9 @@ struct BatterySettingsView: View {
             )
             .disabled(!batterySettings.isLowPowerTemporaryActivityEnabled)
             .opacity(batterySettings.isLowPowerTemporaryActivityEnabled ? 1 : 0.5)
-
+            
             Divider().opacity(0.6)
-
+            
             SettingsSliderRow(
                 title: "settings.battery.fullBatteryDuration.title",
                 description: "settings.battery.fullPowerDuration.desc",
@@ -121,7 +121,7 @@ struct BatterySettingsView: View {
             .opacity(batterySettings.isFullPowerTemporaryActivityEnabled ? 1 : 0.5)
         }
     }
-
+    
     private var lowBattery: some View {
         SettingsCard(title: "settings.battery.card.lowBattery") {
             CustomPicker(
@@ -130,7 +130,7 @@ struct BatterySettingsView: View {
                 title: { $0.title },
                 headerTitle: "settings.battery.lowBatteryStyle.headerTitle",
                 headerDescription: "settings.battery.lowBatteryStyle.headerDesc",
-                itemHeight: 82,
+                itemHeight: 100,
                 lightBackgroundImage: Image("backgroundLight"),
                 darkBackgroundImage: Image("backgroundDark")
             ) { style, isSelected in
@@ -140,7 +140,7 @@ struct BatterySettingsView: View {
                     isSelected: isSelected
                 )
             }
-
+            
             Divider().opacity(0.6)
             
             SettingsToggleRow(
@@ -152,7 +152,7 @@ struct BatterySettingsView: View {
                 accessibilityIdentifier: "settings.activities.lowBatterySound"
             )
             
-
+            
             Divider().opacity(0.6)
             
             SettingsSliderRow(
@@ -170,7 +170,7 @@ struct BatterySettingsView: View {
             )
         }
     }
-
+    
     private var fullBattery: some View {
         SettingsCard(title: "settings.battery.card.fullBattery") {
             CustomPicker(
@@ -179,7 +179,7 @@ struct BatterySettingsView: View {
                 title: { $0.title },
                 headerTitle: "settings.battery.fullBatteryStyle.headerTitle",
                 headerDescription: "settings.battery.fullBatteryStyle.headerDesc",
-                itemHeight: 82,
+                itemHeight: 100,
                 lightBackgroundImage: Image("backgroundLight"),
                 darkBackgroundImage: Image("backgroundDark")
             ) { style, isSelected in
@@ -189,7 +189,7 @@ struct BatterySettingsView: View {
                     isSelected: isSelected
                 )
             }
-
+            
             Divider().opacity(0.6)
             
             SettingsToggleRow(
@@ -218,18 +218,18 @@ struct BatterySettingsView: View {
             )
         }
     }
-
+    
     @ViewBuilder
     private func batteryStylePickerContent(for style: BatteryNotificationStyle, kind: BatteryNotificationPreviewKind, isSelected: Bool) -> some View {
         switch style {
         case .standard:
             batteryStandardPickerContent(for: kind, isSelected: isSelected)
-
+            
         case .compact:
             batteryCompactPickerContent(for: kind, isSelected: isSelected)
         }
     }
-
+    
     private func batteryStandardPickerContent(for kind: BatteryNotificationPreviewKind, isSelected: Bool) -> some View {
         ZStack {
             Capsule()
@@ -238,37 +238,34 @@ struct BatterySettingsView: View {
                     Capsule()
                         .stroke(batteryPreviewStrokeColor(for: kind), lineWidth: 1)
                 }
-
-            VStack {
-                Spacer(minLength: 0)
-
-                HStack(spacing: 10) {
-                    VStack(alignment: .leading, spacing: kind == .low ? 2 : 3) {
-                        batteryStandardTitle(for: kind)
-                        batteryStandardDescription(for: kind)
-                    }
-
-                    Spacer(minLength: 8)
-
-                    if kind == .low {
-                        lowBatteryStandardIndicator
-                    } else {
-                        fullBatteryStandardIndicator
-                    }
+            
+            HStack(spacing: 10) {
+                VStack(alignment: .leading, spacing: 3) {
+                    batteryStandardTitle(for: kind)
+                    batteryStandardDescription(for: kind)
                 }
-                .padding(.leading, 20)
-                .padding(.trailing, 10)
-                .padding(.bottom, kind == .full ? 12 : 10)
+                
+                Spacer()
+                
+                if kind == .low {
+                    lowBatteryStandardIndicator
+                } else {
+                    fullBatteryStandardIndicator
+                }
             }
+            .padding(.leading, 20)
+            .padding(.trailing, 15)
         }
-        .frame(height: kind == .low ? 56 : 52)
+        .frame(width: 230, height: 60)
         .scaleEffect(isSelected ? 1 : 0.97)
     }
-
+    
     private func batteryCompactPickerContent(for kind: BatteryNotificationPreviewKind, isSelected: Bool) -> some View {
-        let batteryLevel = kind == .low ? 20 : 100
+        let lowBatteryLevel = batterySettings.lowPowerNotificationThreshold
+        let fullBatteryLevel = batterySettings.fullPowerNotificationThreshold
+        let batteryLevel = kind == .low ? lowBatteryLevel : fullBatteryLevel
         let tint: Color = kind == .low ? .red : .green
-
+        
         return ZStack {
             Capsule()
                 .fill(.black)
@@ -276,7 +273,7 @@ struct BatterySettingsView: View {
                     Capsule()
                         .stroke(batteryPreviewStrokeColor(for: kind), lineWidth: 1)
                 }
-
+            
             HStack {
                 if kind == .low {
                     Text(locale.dn("notch.battery.low", fallback: "Low Battery"))
@@ -287,14 +284,14 @@ struct BatterySettingsView: View {
                         .foregroundStyle(.white.opacity(0.8))
                         .lineLimit(1)
                 }
-
-                Spacer(minLength: 8)
-
+                
+                Spacer()
+                
                 HStack(spacing: 6) {
                     Text("\(batteryLevel)%")
                         .font(.system(size: 12, weight: .medium, design: .rounded))
                         .foregroundStyle(tint)
-
+                    
                     batteryCompactIndicator(
                         fillFraction: CGFloat(batteryLevel) / 100,
                         tint: tint
@@ -303,12 +300,16 @@ struct BatterySettingsView: View {
             }
             .padding(.horizontal, 10)
         }
-        .frame(height: 30)
+        .frame(width: 200, height: 30)
         .scaleEffect(isSelected ? 1 : 0.97)
     }
-
+    
     @ViewBuilder
     private func batteryStandardTitle(for kind: BatteryNotificationPreviewKind) -> some View {
+        let lowBatteryLevel = batterySettings.lowPowerNotificationThreshold
+        let fullBatteryLevel = batterySettings.fullPowerNotificationThreshold
+        let batteryLevel = kind == .low ? lowBatteryLevel : fullBatteryLevel
+        
         HStack(spacing: 5) {
             if kind == .low {
                 Text(locale.dn("notch.battery.detail.lowTitle", fallback: "Battery Low"))
@@ -321,13 +322,12 @@ struct BatterySettingsView: View {
                     .foregroundStyle(.white.opacity(0.82))
                     .lineLimit(1)
             }
-
-            Text(verbatim: kind == .low ? "20%" : "100%")
-                .font(.system(size: kind == .low ? 10 : 10.5, weight: .semibold))
+            Text("\(batteryLevel)%")
+                .font(.system(size: 10.5, weight: .semibold))
                 .foregroundStyle(kind == .low ? .red : .green)
         }
     }
-
+    
     @ViewBuilder
     private func batteryStandardDescription(for kind: BatteryNotificationPreviewKind) -> some View {
         if kind == .low {
@@ -342,82 +342,82 @@ struct BatterySettingsView: View {
                 .lineLimit(1)
         }
     }
-
+    
     private var lowBatteryStandardIndicator: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 30, style: .continuous)
                 .fill(Color.red.opacity(0.2))
-                .frame(width: 44, height: 26)
-
+                .frame(width: 55, height: 35)
+            
             HStack(spacing: 2) {
                 RoundedRectangle(cornerRadius: 8, style: .continuous)
                     .fill(Color.red.opacity(0.4))
-                    .frame(width: 26, height: 16)
-
+                    .frame(width: 35, height: 20)
+                
                 RoundedRectangle(cornerRadius: 8, style: .continuous)
                     .fill(Color.red.opacity(0.4))
-                    .frame(width: 2, height: 5)
+                    .frame(width: 3, height: 7)
             }
-
+            
             RoundedRectangle(cornerRadius: 4, style: .continuous)
                 .fill(Color.red.gradient)
-                .frame(width: 5, height: 9)
-                .offset(x: -9)
-
+                .frame(width: 7, height: 11)
+                .offset(x: -12)
+            
             RoundedRectangle(cornerRadius: 20, style: .continuous)
                 .stroke(Color.red.opacity(0.9), lineWidth: 1.2)
-                .frame(width: 16, height: 18)
-                .offset(x: -9)
+                .frame(width: 18, height: 20)
+                .offset(x: -12)
         }
     }
-
+    
     private var fullBatteryStandardIndicator: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 30, style: .continuous)
                 .fill(Color.green.opacity(0.2))
-                .frame(width: 44, height: 26)
-
+                .frame(width: 55, height: 35)
+            
             HStack(spacing: 2) {
                 RoundedRectangle(cornerRadius: 8, style: .continuous)
                     .fill(Color.green.opacity(0.4))
-                    .frame(width: 28, height: 16)
+                    .frame(width: 35, height: 20)
                     .overlay {
-                        RoundedRectangle(cornerRadius: 3.5, style: .continuous)
+                        RoundedRectangle(cornerRadius: 4, style: .continuous)
                             .fill(Color.green.gradient)
-                            .frame(width: 20, height: 8)
+                            .frame(width: 24, height: 11)
                     }
-
+                
                 RoundedRectangle(cornerRadius: 8, style: .continuous)
                     .fill(Color.green.opacity(0.4))
-                    .frame(width: 2, height: 5)
+                    .frame(width: 3, height: 7)
             }
         }
     }
-
+    
     private func batteryCompactIndicator(fillFraction: CGFloat, tint: Color) -> some View {
         HStack(spacing: 1.5) {
             ZStack(alignment: .leading) {
                 RoundedRectangle(cornerRadius: 6, style: .continuous)
                     .fill(tint.opacity(0.3))
-
+                
                 Rectangle()
                     .fill(tint.gradient)
                     .frame(width: 28 * fillFraction)
             }
             .frame(width: 28, height: 16)
             .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
-
+            
             RoundedRectangle(cornerRadius: 1.5, style: .continuous)
                 .fill(fillFraction >= 1 ? tint.gradient : tint.opacity(0.3).gradient)
                 .frame(width: 2, height: 6)
         }
     }
-
+    
     private func batteryPreviewStrokeColor(for kind: BatteryNotificationPreviewKind) -> Color {
         guard appearanceSettings.isShowNotchStrokeEnabled else {
             return .clear
         }
-
+        
         return kind == .low ? .red.opacity(0.3) : .green.opacity(0.3)
     }
 }

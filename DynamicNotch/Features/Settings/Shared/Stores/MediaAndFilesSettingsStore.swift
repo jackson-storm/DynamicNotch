@@ -1,7 +1,6 @@
 import Foundation
 import Combine
 
-extension NowPlayingProgressTintStyle: StoredSettingValue {}
 extension NowPlayingSourceFilter: StoredSettingValue {}
 extension DownloadProgressIndicatorStyle: StoredSettingValue {}
 extension FileTrayUsageMode: StoredSettingValue {}
@@ -21,9 +20,6 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
 
     @StoredDefault(key: GeneralSettingsStorage.Keys.nowPlayingArtwork3DEffectEnabled, defaultValue: true)
     var isNowPlayingArtwork3DEffectEnabled: Bool
-
-    @StoredDefault(key: GeneralSettingsStorage.Keys.nowPlayingProgressTintStyle, defaultValue: .default)
-    var nowPlayingProgressTintStyle: NowPlayingProgressTintStyle
 
     @StoredDefault(key: GeneralSettingsStorage.Keys.nowPlayingPauseHideTimerEnabled, defaultValue: true)
     var isNowPlayingPauseHideTimerEnabled: Bool
@@ -81,14 +77,6 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
     var localTimerShortcutKeyDisplay: String
 
     override init(defaults: UserDefaults) {
-        if defaults.string(forKey: GeneralSettingsStorage.Keys.nowPlayingProgressTintStyle) == nil {
-            let legacyTint = defaults.bool(forKey: GeneralSettingsStorage.Keys.nowPlayingArtworkTintEnabled)
-            defaults.set(
-                legacyTint ? NowPlayingProgressTintStyle.artwork.rawValue : NowPlayingProgressTintStyle.default.rawValue,
-                forKey: GeneralSettingsStorage.Keys.nowPlayingProgressTintStyle
-            )
-        }
-
         if defaults.object(forKey: GeneralSettingsStorage.Keys.downloadsLiveActivityEnabled) == nil,
            let legacyDownloads = defaults.object(forKey: GeneralSettingsStorage.Keys.legacyFileTransfersLiveActivityEnabled) as? Bool {
             defaults.set(legacyDownloads, forKey: GeneralSettingsStorage.Keys.downloadsLiveActivityEnabled)
@@ -102,7 +90,6 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
         isNowPlayingFavoriteButtonVisible = defaultBool(for: GeneralSettingsStorage.Keys.nowPlayingFavoriteButtonVisible)
         isNowPlayingOutputDeviceButtonVisible = defaultBool(for: GeneralSettingsStorage.Keys.nowPlayingOutputDeviceButtonVisible)
         isNowPlayingArtwork3DEffectEnabled = defaultBool(for: GeneralSettingsStorage.Keys.nowPlayingArtwork3DEffectEnabled)
-        nowPlayingProgressTintStyle = .default
         isNowPlayingPauseHideTimerEnabled = defaultBool(for: GeneralSettingsStorage.Keys.nowPlayingPauseHideTimerEnabled)
         nowPlayingPauseHideDelay = defaultInt(for: GeneralSettingsStorage.Keys.nowPlayingPauseHideDelay)
         nowPlayingSourceFilter = .any
@@ -140,7 +127,6 @@ struct NowPlayingAppearanceOptions {
     let showsFavoriteButton: Bool
     let showsOutputDeviceButton: Bool
     let usesArtwork3DEffect: Bool
-    let progressTintStyle: NowPlayingProgressTintStyle
 }
 
 extension MediaAndFilesSettingsStore {
@@ -148,8 +134,7 @@ extension MediaAndFilesSettingsStore {
         .init(
             showsFavoriteButton: isNowPlayingFavoriteButtonVisible,
             showsOutputDeviceButton: isNowPlayingOutputDeviceButtonVisible,
-            usesArtwork3DEffect: isNowPlayingArtwork3DEffectEnabled,
-            progressTintStyle: nowPlayingProgressTintStyle
+            usesArtwork3DEffect: isNowPlayingArtwork3DEffectEnabled
         )
     }
 }

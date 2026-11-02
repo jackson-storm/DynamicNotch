@@ -139,7 +139,7 @@ struct BluetoothSettingsView: View {
                 }
                 .padding(.horizontal, 7)
             }
-            .frame(width: 160, height: 30)
+            .frame(width: 130, height: 30)
             .scaleEffect(isSelected ? 1 : 0.97)
             
         case .detailed:
@@ -186,7 +186,7 @@ struct BluetoothSettingsView: View {
                 }
                 .padding(.horizontal, 12)
             }
-            .frame(width: 210, height: 50)
+            .frame(width: 200, height: 50)
             .scaleEffect(isSelected ? 1 : 0.97)
         }
     }

@@ -73,22 +73,9 @@ struct NowPlayingExpandedNotchView: View {
                 displayedElapsedTime: displayedElapsedTime,
                 duration: snapshot.duration,
                 isInteractive: snapshot.duration > 0,
-                tintGradient: {
-                    switch appearance.progressTintStyle {
-                    case .default:
-                        return nil
-                    case .artwork:
-                        return nowPlayingViewModel.artworkPalette.equalizerGradient
-                    case .systemAccent:
-                        return LinearGradient(
-                            colors: [.accentColor, .accentColor.opacity(0.7)],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                    }
-                }(),
-                primaryColor: progressTimeColor(isPrimary: true, appearance: appearance),
-                secondaryColor: progressTimeColor(isPrimary: false, appearance: appearance),
+                tintGradient: nil,
+                primaryColor: .white.opacity(0.4),
+                secondaryColor: .white.opacity(0.4),
                 onScrubChanged: { newProgress in
                     scrubProgress = newProgress
                 },
@@ -100,7 +87,7 @@ struct NowPlayingExpandedNotchView: View {
             controlsSection(snapshot: snapshot, appearance: appearance)
         }
         .padding(.top, isNotchlessScreen ? 5 : 20)
-        .padding(.horizontal, isNotchlessScreen ? 20 : 55)
+        .padding(.horizontal, isNotchlessScreen ? 25 : 55)
     }
 
     @ViewBuilder
@@ -259,20 +246,6 @@ struct NowPlayingExpandedNotchView: View {
         return String(format: "%02d:%02d", minutes, seconds)
     }
 
-    private func progressTimeColor(isPrimary: Bool, appearance: NowPlayingAppearanceOptions) -> Color {
-        switch appearance.progressTintStyle {
-        case .default:
-            return .white.opacity(0.4)
-        case .artwork:
-            let nsColor = isPrimary ?
-            nowPlayingViewModel.artworkPalette.equalizerHighlightColor :
-            nowPlayingViewModel.artworkPalette.equalizerBaseColor
-            return Color(nsColor: nsColor)
-        case .systemAccent:
-            return isPrimary ? .accentColor : .accentColor.opacity(0.7)
-        }
-    }
-    
     private func playbackStatusColor(for snapshot: NowPlayingSnapshot) -> Color {
         if nowPlayingViewModel.snapshot == nil {
             return .white.opacity(0.48)

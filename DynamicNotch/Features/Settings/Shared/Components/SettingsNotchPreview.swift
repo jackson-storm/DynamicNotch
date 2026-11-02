@@ -14,14 +14,8 @@ struct SettingsNotchPreview<Overlay: View>: View {
     let height: CGFloat
     let previewWidth: CGFloat
     let previewHeight: CGFloat
-    let topCornerRadius: CGFloat
-    let bottomCornerRadius: CGFloat
-    let backgroundStyle: NotchBackgroundStyle
-    let isDynamicIsland: Bool
-    let dynamicIslandCornerRadius: CGFloat
-    let showsStroke: Bool
+    let сornerRadius: CGFloat
     let strokeColor: Color
-    let strokeWidth: CGFloat
     let lightBackgroundImage: Image?
     let darkBackgroundImage: Image?
     let backgroundImageContentMode: ContentMode
@@ -34,13 +28,8 @@ struct SettingsNotchPreview<Overlay: View>: View {
         height: CGFloat = 38,
         previewWidth: CGFloat = .infinity,
         previewHeight: CGFloat = 138,
-        topCornerRadius: CGFloat = 9,
-        bottomCornerRadius: CGFloat = 13,
-        backgroundStyle: NotchBackgroundStyle = .black,
-        isDynamicIsland: Bool = false,
-        dynamicIslandCornerRadius: CGFloat = 0,
-        showsStroke: Bool = true,
-        strokeColor: Color = .green.opacity(0.3),
+        сornerRadius: CGFloat = 20,
+        strokeColor: Color = .white.opacity(0.2),
         strokeWidth: CGFloat = 2.5,
         lightBackgroundImage: Image? = nil,
         darkBackgroundImage: Image? = nil,
@@ -52,14 +41,8 @@ struct SettingsNotchPreview<Overlay: View>: View {
         self.height = height
         self.previewWidth = previewWidth
         self.previewHeight = previewHeight
-        self.topCornerRadius = topCornerRadius
-        self.bottomCornerRadius = bottomCornerRadius
-        self.backgroundStyle = backgroundStyle
-        self.isDynamicIsland = isDynamicIsland
-        self.dynamicIslandCornerRadius = dynamicIslandCornerRadius
-        self.showsStroke = showsStroke
+        self.сornerRadius = сornerRadius
         self.strokeColor = strokeColor
-        self.strokeWidth = strokeWidth
         self.lightBackgroundImage = lightBackgroundImage
         self.darkBackgroundImage = darkBackgroundImage
         self.backgroundImageContentMode = backgroundImageContentMode
@@ -68,22 +51,20 @@ struct SettingsNotchPreview<Overlay: View>: View {
     }
     
     var body: some View {
-        ZStack(alignment: .top) {
+        ZStack(alignment: .center) {
             GeometryReader { proxy in
                 ZStack {
-                    RoundedRectangle(cornerRadius: 10)
+                    RoundedRectangle(cornerRadius: 12)
                         .fill(colorScheme == .dark ? Color.gray.opacity(0.08) : Color.gray.opacity(0.18))
 
                     previewBackgroundImage(size: proxy.size)
                 }
             }
-            .clipShape(RoundedRectangle(cornerRadius: 10))
-            .overlay {
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(Color.gray.opacity(0.1), lineWidth: 1)
-            }
+            .clipShape(RoundedRectangle(cornerRadius: 12))
             
-            notchSurface
+            RoundedRectangle(cornerRadius: сornerRadius)
+                .fill(.black)
+                .stroke(strokeColor, lineWidth: 2.5)
                 .overlay {
                     overlay
                 }
@@ -91,7 +72,7 @@ struct SettingsNotchPreview<Overlay: View>: View {
                 .frame(width: width, height: height)
         }
         .frame(maxWidth: previewWidth)
-        .frame(height: previewHeight, alignment: .top)
+        .frame(height: previewHeight, alignment: .center)
         .clipped()
     }
 
@@ -114,20 +95,5 @@ struct SettingsNotchPreview<Overlay: View>: View {
                 .clipped()
                 .opacity(backgroundImageOpacity)
         }
-    }
-    
-    @ViewBuilder
-    private var notchSurface: some View {
-        NotchBackgroundSurface(
-            style: backgroundStyle,
-            topCornerRadius: topCornerRadius,
-            bottomCornerRadius: bottomCornerRadius,
-            isDynamicIsland: isDynamicIsland,
-            dynamicIslandCornerRadius: dynamicIslandCornerRadius,
-            strokeColor: showsStroke ? strokeColor : .clear,
-            strokeWidth: strokeWidth,
-            height: height,
-            baseHeight: height
-        )
     }
 }

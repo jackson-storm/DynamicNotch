@@ -317,7 +317,13 @@ private extension NotchMouseSwipeMonitorView {
         guard let window else { return nil }
 
         let rectInWindow = convert(bounds, to: nil)
-        return window.convertToScreen(rectInWindow)
+        let screenRect = window.convertToScreen(rectInWindow)
+        return CGRect(
+            x: screenRect.minX,
+            y: screenRect.minY,
+            width: screenRect.width,
+            height: screenRect.height + 4
+        )
     }
 
     func updateStretchProgress(for translation: CGSize) {

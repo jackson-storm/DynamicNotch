@@ -92,18 +92,40 @@ private struct TimerExpandedNotchViewInternal<VM: ObservableObject>: View {
                 .foregroundStyle(Color.orange.opacity(0.8))
                 .offset(y: 8)
             
-            TimelineView(.animation(minimumInterval: 0.25, paused: source.isPaused)) { context in
-                let remaining = source.remainingTime(at: context.date)
-                let roundedSeconds = max(0, Int(remaining.rounded()))
-                let hours = roundedSeconds / 3600
-                
-                Text(formattedDuration(remaining))
-                    .font(.system(size: hours > 0 ? 26 : 36, weight: .semibold, design: .rounded))
-                    .monospacedDigit()
-                    .foregroundStyle(Color.orange)
-                    .contentTransition(.numericText())
+            if source.isPaused {
+                countdownText(remaining: source.remainingTime(at: .now))
+            } else {
+                TimelineView(.periodic(from: countdownScheduleStart, by: 1)) { context in
+                    countdownText(remaining: source.remainingTime(at: context.date))
+                }
             }
         }
+    }
+    
+    private var countdownScheduleStart: Date {
+        let now = Date.now
+        let endDate: Date?
+        
+        switch source {
+        case .system(let vm):
+            endDate = vm.snapshot?.endDate
+        case .local(let vm):
+            endDate = vm.endDate
+        }
+        
+        guard let endDate else { return now }
+        return TimerCountdownSchedule.start(endDate: endDate, now: now)
+    }
+    
+    private func countdownText(remaining: TimeInterval) -> some View {
+        let roundedSeconds = max(0, Int(remaining.rounded()))
+        let hours = roundedSeconds / 3600
+        
+        return Text(formattedDuration(remaining))
+            .font(.system(size: hours > 0 ? 26 : 36, weight: .semibold, design: .rounded))
+            .monospacedDigit()
+            .foregroundStyle(Color.orange)
+            .contentTransition(.numericText())
     }
     
     private func formattedDuration(_ duration: TimeInterval) -> String {

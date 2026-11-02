@@ -5,6 +5,239 @@ import ApplicationServices
 #endif
 import OSLog
 
+nonisolated enum ClockTimerState: Int {
+    case unknown = 0
+    case stopped = 1
+    case running = 2
+    case paused = 3
+    case fired = 4
+
+    var isActive: Bool {
+        self == .running || self == .paused
+    }
+}
+
+nonisolated enum ClockTimerLogParser {
+    struct Entry: Equatable {
+        let identifier: String
+        let state: ClockTimerState?
+        let title: String?
+        let duration: TimeInterval?
+    }
+
+    static func updatedTimers(in message: String) -> [Entry] {
+        guard message.contains("didUpdateTimers"),
+              let range = message.range(of: "toTimers:") else {
+            return []
+        }
+
+        // The fromTimers section is the state before the change, so only the text after toTimers: counts.
+        return timers(in: String(message[range.upperBound...]))
+    }
+
+    static func timers(in message: String) -> [Entry] {
+        guard let regex = try? NSRegularExpression(pattern: "<MT(?:Mutable)?Timer:[^>]+>") else {
+            return []
+        }
+
+        let fullRange = NSRange(message.startIndex..<message.endIndex, in: message)
+        return regex.matches(in: message, range: fullRange).compactMap { match in
+            guard let swiftRange = Range(match.range, in: message) else {
+                return nil
+            }
+
+            let timerDescription = String(message[swiftRange])
+            guard let identifier = firstMatch(
+                pattern: "TimerID:\\s*([A-Fa-f0-9\\-]+)",
+                in: timerDescription
+            ) else {
+                return nil
+            }
+
+            let stateToken = firstMatch(pattern: "state:([A-Za-z]+)", in: timerDescription)?.lowercased()
+            let title = firstMatch(pattern: "Title:\\s*([^,]+)", in: timerDescription)
+            let duration = firstMatch(
+                pattern: "duration:([0-9]+(?:\\.[0-9]+)?)",
+                in: timerDescription
+            ).flatMap(Double.init)
+
+            return Entry(
+                identifier: identifier.uppercased(),
+                state: state(from: stateToken),
+                title: title,
+                duration: duration
+            )
+        }
+    }
+
+    static func state(from token: String?) -> ClockTimerState? {
+        switch token {
+        case "running":
+            return .running
+        case "paused":
+            return .paused
+        case "stopped":
+            return .stopped
+        case "fired":
+            return .fired
+        default:
+            return nil
+        }
+    }
+
+    static func firstMatch(pattern: String, in text: String) -> String? {
+        guard let regex = try? NSRegularExpression(pattern: pattern) else {
+            return nil
+        }
+
+        let fullRange = NSRange(text.startIndex..<text.endIndex, in: text)
+        guard
+            let match = regex.firstMatch(in: text, range: fullRange),
+            match.numberOfRanges >= 2,
+            let swiftRange = Range(match.range(at: 1), in: text)
+        else {
+            return nil
+        }
+
+        return String(text[swiftRange])
+    }
+}
+
+nonisolated enum ClockTimerPreferencesParser {
+    static func state(forTimer timer: [String: Any]) -> ClockTimerState {
+        let rawState = timer["MTTimerState"] as? Int ?? 0
+
+        // Running and paused timers both persist raw state 2. Only a running timer stores its fire
+        // time as an MTTimerDate.
+        if rawState == ClockTimerState.running.rawValue,
+           timer["MTTimerFireTimerClass"] as? String != "MTTimerDate" {
+            return .paused
+        }
+
+        return ClockTimerState(rawValue: rawState) ?? .unknown
+    }
+
+    /// `defaults` renders the date as a string, so both forms are accepted.
+    static func fireDate(forTimer timer: [String: Any]) -> Date? {
+        let fireTime = (timer["MTTimerFireTime"] as? [String: Any])?["$MTTimerDate"] as? [String: Any]
+        switch fireTime?["MTTimerTimeDate"] {
+        case let date as Date:
+            return date
+        case let text as String:
+            return fireDateFormatter.date(from: text)
+        default:
+            return nil
+        }
+    }
+
+    private static let fireDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
+        return formatter
+    }()
+}
+
+/// All state stays in `queue`.
+nonisolated final class ReplaceableFileWatcher: @unchecked Sendable {
+    private let path: String
+    private let queue: DispatchQueue
+    private let reopenAttempts: Int
+    private let reopenDelay: TimeInterval
+    private let onChange: () -> Void
+
+    private var descriptor: CInt = -1
+    private var source: DispatchSourceFileSystemObject?
+    private var isCancelled = false
+
+    init(
+        path: String,
+        queue: DispatchQueue,
+        reopenAttempts: Int = 5,
+        reopenDelay: TimeInterval = 0.05,
+        onChange: @escaping () -> Void
+    ) {
+        self.path = path
+        self.queue = queue
+        self.reopenAttempts = reopenAttempts
+        self.reopenDelay = reopenDelay
+        self.onChange = onChange
+    }
+
+    @discardableResult
+    func start() -> Bool {
+        isCancelled = false
+        return arm()
+    }
+
+    func cancel() {
+        isCancelled = true
+        disarm()
+    }
+
+    private func arm() -> Bool {
+        let descriptor = open(path, O_EVTONLY)
+        guard descriptor != -1 else { return false }
+
+        self.descriptor = descriptor
+
+        let source = DispatchSource.makeFileSystemObjectSource(
+            fileDescriptor: descriptor,
+            eventMask: [.write, .extend, .rename, .delete, .attrib],
+            queue: queue
+        )
+
+        source.setEventHandler { [weak self, weak source] in
+            guard let self, let source else { return }
+            self.handle(events: source.data)
+        }
+
+        source.resume()
+        self.source = source
+        return true
+    }
+
+    private func disarm() {
+        source?.setEventHandler {}
+        source?.cancel()
+        source = nil
+
+        if descriptor != -1 {
+            close(descriptor)
+            descriptor = -1
+        }
+    }
+
+    private func handle(events: DispatchSource.FileSystemEvent) {
+        guard !isCancelled else { return }
+
+        guard events.contains(.delete) || events.contains(.rename) else {
+            onChange()
+            return
+        }
+
+        // An atomic replace unlinks the watched inode, so the descriptor never sees another event.
+        disarm()
+        rearm(attempt: 0)
+    }
+
+    private func rearm(attempt: Int) {
+        guard !isCancelled else { return }
+
+        if arm() {
+            onChange()
+            return
+        }
+
+        guard attempt < reopenAttempts else { return }
+
+        queue.asyncAfter(deadline: .now() + reopenDelay) { [weak self] in
+            self?.rearm(attempt: attempt + 1)
+        }
+    }
+}
+
 final class ClockTimerMonitor: ClockTimerMonitoring {
     var onSnapshotChange: ((ClockTimerSnapshot?) -> Void)?
 
@@ -22,6 +255,12 @@ final class ClockTimerMonitor: ClockTimerMonitoring {
     private var totalDurationHint: TimeInterval?
     private var currentRemaining: TimeInterval?
     private var currentPausedState = false
+    /// Use the pause state from the last logged transition. cfprefsd rewrites the preferences after
+    /// the log, so this pause state takes precedence once set.
+    private var loggedPausedState: Bool?
+    /// The logged pause was applied at this remaining time. A resume requires a drop greater than
+    /// one sample's rounding because Clock logs one more remainingTime sample after a pause.
+    private var pausedBaselineRemaining: TimeInterval?
     private var lastPublishedSnapshot: ClockTimerSnapshot?
 
     private var logProcess: Process?
@@ -30,8 +269,7 @@ final class ClockTimerMonitor: ClockTimerMonitoring {
     private var logRestartWorkItem: DispatchWorkItem?
     private var completionClearWorkItem: DispatchWorkItem?
 
-    private var fileDescriptor: CInt = -1
-    private var fileMonitor: DispatchSourceFileSystemObject?
+    private var preferencesWatcher: ReplaceableFileWatcher?
     private var accessibilityTicker: DispatchSourceTimer?
     private var didWarnAboutAccessibility = false
 
@@ -93,35 +331,36 @@ final class ClockTimerMonitor: ClockTimerMonitoring {
             self?.teardown(clearSnapshot: false)
         }
     }
+
+    /// Handles one mobiletimerd or Clock log message on the monitor's queue.
+    func ingestLogMessage(_ message: String) {
+        queue.async { [weak self] in
+            self?.processLogMessage(message)
+        }
+    }
+
+    /// This rereads the preferences timer on the monitor's queue, as the preferences watcher does.
+    func ingestPreferencesChange() {
+        queue.async { [weak self] in
+            self?.reloadPreferencesTimer()
+        }
+    }
 }
 
 private extension ClockTimerMonitor {
     struct PreferencesTimer: Equatable {
-        enum State: Int {
-            case unknown = 0
-            case stopped = 1
-            case running = 2
-            case paused = 3
-            case fired = 4
-
-            var isActive: Bool {
-                self == .running || self == .paused
-            }
-        }
+        typealias State = ClockTimerState
 
         let identifier: String
         let title: String
         let duration: TimeInterval
         let state: State
         let lastModified: Date?
+        /// Only a running timer stores the end of the visible countdown.
+        let fireDate: Date?
     }
 
-    struct LoggedTimerSummary {
-        let identifier: String
-        let state: PreferencesTimer.State?
-        let title: String?
-        let duration: TimeInterval?
-    }
+    typealias LoggedTimerSummary = ClockTimerLogParser.Entry
 
     #if canImport(ApplicationServices)
     struct MenuBarTimerSample {
@@ -131,7 +370,7 @@ private extension ClockTimerMonitor {
     #endif
 
     var isMonitoring: Bool {
-        logProcess != nil || fileMonitor != nil || accessibilityTicker != nil
+        logProcess != nil || preferencesWatcher != nil || accessibilityTicker != nil
     }
 
     func teardown(clearSnapshot: Bool) {
@@ -146,14 +385,8 @@ private extension ClockTimerMonitor {
         accessibilityTicker?.cancel()
         accessibilityTicker = nil
 
-        fileMonitor?.setEventHandler {}
-        fileMonitor?.cancel()
-        fileMonitor = nil
-
-        if fileDescriptor != -1 {
-            close(fileDescriptor)
-            fileDescriptor = -1
-        }
+        preferencesWatcher?.cancel()
+        preferencesWatcher = nil
 
         #if canImport(ApplicationServices)
         menuBarTimerItem = nil
@@ -173,28 +406,18 @@ private extension ClockTimerMonitor {
     }
 
     func startPreferencesMonitor() {
-        guard fileMonitor == nil else { return }
+        guard preferencesWatcher == nil else { return }
 
-        let descriptor = open(metadataFilePath, O_EVTONLY)
-        guard descriptor != -1 else {
+        let watcher = ReplaceableFileWatcher(path: metadataFilePath, queue: queue) { [weak self] in
+            self?.reloadPreferencesTimer()
+        }
+
+        guard watcher.start() else {
             logger.debug("Timer preferences file is not available at \(self.metadataFilePath, privacy: .public)")
             return
         }
 
-        fileDescriptor = descriptor
-
-        let source = DispatchSource.makeFileSystemObjectSource(
-            fileDescriptor: descriptor,
-            eventMask: [.write, .extend, .rename, .attrib],
-            queue: queue
-        )
-
-        source.setEventHandler { [weak self] in
-            self?.reloadPreferencesTimer()
-        }
-
-        source.resume()
-        fileMonitor = source
+        preferencesWatcher = watcher
     }
 
     @discardableResult
@@ -320,6 +543,10 @@ private extension ClockTimerMonitor {
     }
 
     func processLogMessage(_ message: String) {
+        if message.contains("didUpdateTimers") {
+            applyUpdatedTimersMessage(message)
+        }
+
         if message.contains("scheduled timers:") {
             applyScheduledTimersMessage(message)
         }
@@ -378,16 +605,62 @@ private extension ClockTimerMonitor {
         }
 
         guard let state = selectedTimer.state else { return }
+        applyLoggedState(state)
+    }
 
+    func applyUpdatedTimersMessage(_ message: String) {
+        let timers = ClockTimerLogParser.updatedTimers(in: message)
+        guard !timers.isEmpty else { return }
+
+        let selectedTimer: LoggedTimerSummary?
+
+        if let trackedID = trackedTimerID?.uppercased() {
+            selectedTimer = timers.first(where: { $0.identifier == trackedID })
+        } else {
+            selectedTimer = timers.first(where: { $0.state?.isActive == true })
+            if let selectedTimer {
+                beginTracking(timerID: selectedTimer.identifier)
+            }
+        }
+
+        guard let state = selectedTimer?.state else { return }
+
+        if state == .paused, let liveRemaining = liveRunningRemaining() {
+            currentRemaining = liveRemaining.rounded()
+        }
+
+        applyLoggedState(state)
+    }
+
+    /// The remaining time for the running snapshot advances on screen between log lines, while
+    /// `currentRemaining` keeps the value from the last line that included one.
+    func liveRunningRemaining() -> TimeInterval? {
+        guard
+            let lastPublishedSnapshot,
+            !lastPublishedSnapshot.isPaused,
+            lastPublishedSnapshot.identifier == trackedTimerID
+        else {
+            return nil
+        }
+
+        return lastPublishedSnapshot.remainingTime(at: dateProvider())
+    }
+
+    func applyLoggedState(_ state: PreferencesTimer.State) {
         switch state {
         case .paused:
+            loggedPausedState = true
+            pausedBaselineRemaining = nil
             if let currentRemaining {
                 applyLogDrivenUpdate(remaining: currentRemaining, paused: true)
             } else {
                 currentPausedState = true
             }
+            pausedBaselineRemaining = currentRemaining
 
         case .running:
+            loggedPausedState = false
+            pausedBaselineRemaining = nil
             if let currentRemaining {
                 applyLogDrivenUpdate(remaining: currentRemaining, paused: false)
             } else {
@@ -429,6 +702,11 @@ private extension ClockTimerMonitor {
         guard !cleanedToken.isEmpty else { return }
 
         if cleanedToken.lowercased().contains("null") {
+            // After the transition sets the paused state, the pause also logs a null next timer.
+            if currentPausedState {
+                return
+            }
+
             if preferencesTimer?.state.isActive != true {
                 clearTrackedTimer()
             }
@@ -443,6 +721,10 @@ private extension ClockTimerMonitor {
               let minutes = Double(minutesToken) else {
             return
         }
+
+        // The scheduler fires its alert 10 s before the countdown ends, so it only seeds an unknown
+        // remaining time.
+        guard currentRemaining == nil else { return }
 
         applyLogDrivenUpdate(remaining: minutes * 60, paused: currentPausedState)
     }
@@ -471,16 +753,28 @@ private extension ClockTimerMonitor {
         let resolvedRemaining = max(0, remaining.rounded())
         var resolvedPaused = paused
 
-        if let previousRemaining = currentRemaining,
-           paused,
-           (previousRemaining - resolvedRemaining) > 0.75 {
-            resolvedPaused = false
-        }
+        if loggedPausedState == true, paused {
+            if let baseline = pausedBaselineRemaining {
+                // The log did not record the resume. Treat the resume as recorded so the paused
+                // preferences cached since the pause cannot pause the timer again.
+                if (baseline - resolvedRemaining) > 1.75 {
+                    resolvedPaused = false
+                    loggedPausedState = false
+                    pausedBaselineRemaining = nil
+                }
+            } else {
+                pausedBaselineRemaining = resolvedRemaining
+            }
+        } else if loggedPausedState == nil {
+            if let previousRemaining = currentRemaining,
+               paused,
+               (previousRemaining - resolvedRemaining) > 0.75 {
+                resolvedPaused = false
+            }
 
-        if preferencesTimer?.state == .running {
-            resolvedPaused = false
-        } else if preferencesTimer?.state == .paused {
-            resolvedPaused = true
+            if preferencesTimer?.state == .paused {
+                resolvedPaused = true
+            }
         }
 
         currentRemaining = resolvedRemaining
@@ -698,6 +992,8 @@ private extension ClockTimerMonitor {
         totalDurationHint = preferencesTimer?.duration
         currentRemaining = nil
         currentPausedState = preferencesTimer?.state == .paused
+        loggedPausedState = nil
+        pausedBaselineRemaining = nil
         cancelCompletionClear()
     }
 
@@ -709,6 +1005,8 @@ private extension ClockTimerMonitor {
         totalDurationHint = nil
         currentRemaining = nil
         currentPausedState = false
+        loggedPausedState = nil
+        pausedBaselineRemaining = nil
         publish(snapshot: nil)
     }
 
@@ -734,12 +1032,20 @@ private extension ClockTimerMonitor {
 
         switch preferencesTimer.state {
         case .running:
-            currentPausedState = false
-            if previousTimer?.duration != preferencesTimer.duration, currentRemaining != nil {
+            let wasPaused = currentPausedState
+            if loggedPausedState == nil {
+                currentPausedState = false
+            }
+            let pauseChanged = wasPaused != currentPausedState
+            if applyPreferencesFireDate(of: preferencesTimer) {
+                break
+            }
+            if currentRemaining != nil, pauseChanged || previousTimer?.duration != preferencesTimer.duration {
                 publishCurrentSnapshot()
             }
 
         case .paused:
+            guard loggedPausedState == nil else { break }
             currentPausedState = true
             if currentRemaining != nil {
                 publishCurrentSnapshot()
@@ -763,6 +1069,29 @@ private extension ClockTimerMonitor {
         }
     }
 
+    /// Returns true when the fire date replaces the remaining time.
+    func applyPreferencesFireDate(of preferencesTimer: PreferencesTimer) -> Bool {
+        guard
+            loggedPausedState != true,
+            let fireDate = preferencesTimer.fireDate,
+            preferencesTimer.identifier.uppercased() == trackedTimerID?.uppercased()
+        else {
+            return false
+        }
+
+        let exact = fireDate.timeIntervalSince(dateProvider())
+        guard exact > 0 else { return false }
+
+        if currentRemaining != nil,
+           let liveRemaining = liveRunningRemaining(),
+           abs(liveRemaining - exact) <= 1 {
+            return false
+        }
+
+        recordRemaining(exact, paused: false)
+        return true
+    }
+
     func loadPreferencesTimer() -> PreferencesTimer? {
         CFPreferencesAppSynchronize(metadataDomain)
 
@@ -780,14 +1109,14 @@ private extension ClockTimerMonitor {
             let rawTitle = (timer["MTTimerTitle"] as? String)?.trimmingCharacters(in: .whitespacesAndNewlines)
             let title = (rawTitle?.isEmpty == false) ? rawTitle! : "Timer"
             let duration = timer["MTTimerDuration"] as? TimeInterval ?? 0
-            let rawState = timer["MTTimerState"] as? Int ?? 0
 
             return PreferencesTimer(
                 identifier: identifier,
                 title: title,
                 duration: duration,
-                state: PreferencesTimer.State(rawValue: rawState) ?? .unknown,
-                lastModified: timer["MTTimerLastModifiedDate"] as? Date
+                state: ClockTimerPreferencesParser.state(forTimer: timer),
+                lastModified: timer["MTTimerLastModifiedDate"] as? Date,
+                fireDate: ClockTimerPreferencesParser.fireDate(forTimer: timer)
             )
         }
 
@@ -801,71 +1130,11 @@ private extension ClockTimerMonitor {
     }
 
     func firstMatch(pattern: String, in text: String) -> String? {
-        guard let regex = try? NSRegularExpression(pattern: pattern) else {
-            return nil
-        }
-
-        let fullRange = NSRange(text.startIndex..<text.endIndex, in: text)
-        guard
-            let match = regex.firstMatch(in: text, range: fullRange),
-            match.numberOfRanges >= 2,
-            let swiftRange = Range(match.range(at: 1), in: text)
-        else {
-            return nil
-        }
-
-        return String(text[swiftRange])
+        ClockTimerLogParser.firstMatch(pattern: pattern, in: text)
     }
 
     func parseLoggedTimers(from message: String) -> [LoggedTimerSummary] {
-        guard let regex = try? NSRegularExpression(pattern: "<MT(?:Mutable)?Timer:[^>]+>") else {
-            return []
-        }
-
-        let fullRange = NSRange(message.startIndex..<message.endIndex, in: message)
-        return regex.matches(in: message, range: fullRange).compactMap { match in
-            guard let swiftRange = Range(match.range, in: message) else {
-                return nil
-            }
-
-            let timerDescription = String(message[swiftRange])
-            guard let identifier = firstMatch(
-                pattern: "TimerID:\\s*([A-Fa-f0-9\\-]+)",
-                in: timerDescription
-            ) else {
-                return nil
-            }
-
-            let stateToken = firstMatch(pattern: "state:([A-Za-z]+)", in: timerDescription)?.lowercased()
-            let state = Self.preferencesState(from: stateToken)
-            let title = firstMatch(pattern: "Title:\\s*([^,]+)", in: timerDescription)
-            let duration = firstMatch(
-                pattern: "duration:([0-9]+(?:\\.[0-9]+)?)",
-                in: timerDescription
-            ).flatMap(Double.init)
-
-            return LoggedTimerSummary(
-                identifier: identifier.uppercased(),
-                state: state,
-                title: title,
-                duration: duration
-            )
-        }
-    }
-
-    static func preferencesState(from token: String?) -> PreferencesTimer.State? {
-        switch token {
-        case "running":
-            return .running
-        case "paused":
-            return .paused
-        case "stopped":
-            return .stopped
-        case "fired":
-            return .fired
-        default:
-            return nil
-        }
+        ClockTimerLogParser.timers(in: message)
     }
 
     func startAccessibilityFallbackIfPossible() {

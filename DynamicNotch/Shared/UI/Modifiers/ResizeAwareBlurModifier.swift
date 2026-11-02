@@ -83,30 +83,50 @@ struct ResizeAwareBlurModifier: AnimatableModifier {
             return targetHeight > baseHeight + 1
         }()
 
-        if animatedProgress > 0.001, let _ = swipeInteraction, isExceedingBaseHeight, let baseSize = referenceBaseSize, baseSize.width > 0, baseSize.height > 0 {
-            xScale = targetWidth / baseSize.width
-            yScale = targetHeight / baseSize.height
-            effectiveAnchor = anchor
-            
-        } else if animatedProgress > 0.001, let interaction = swipeInteraction {
-            effectiveAnchor = .center
-            let isBaseHeight = targetHeight <= baseHeight + 1
+        let refBaseWidth = referenceBaseSize?.width ?? 0
+        let refBaseHeight = referenceBaseSize?.height ?? 0
+
+        if let interaction = swipeInteraction {
             switch interaction {
-            case .dismiss:
-                if isBaseHeight {
-                    yScale = 1.0 + animatedProgress * 0.05
-                    xScale = 1.0
+            case .horizontalDismiss:
+                effectiveAnchor = .center
+                yScale = 1.0
+                if refBaseWidth > 0 {
+                    xScale = min(1.0, targetWidth / refBaseWidth)
                 } else {
-                    yScale = max(0.8, 1.0 - animatedProgress * 0.1)
-                    xScale = 1.0
+                    xScale = max(0.8, 1.0 - animatedProgress * 0.1)
+                }
+            case .dismiss:
+                if isExceedingBaseHeight, refBaseWidth > 0, refBaseHeight > 0 {
+                    xScale = targetWidth / refBaseWidth
+                    yScale = targetHeight / refBaseHeight
+                    effectiveAnchor = anchor
+                } else {
+                    effectiveAnchor = .center
+                    let isBaseHeight = targetHeight <= baseHeight + 1
+                    if isBaseHeight {
+                        yScale = 1.0 + animatedProgress * 0.05
+                        xScale = 1.0
+                    } else {
+                        yScale = max(0.8, 1.0 - animatedProgress * 0.1)
+                        xScale = 1.0
+                    }
                 }
             case .restore:
-                if isBaseHeight {
-                    yScale = 1.0 + animatedProgress * 0.5
-                    xScale = 1.0
+                if isExceedingBaseHeight, refBaseWidth > 0, refBaseHeight > 0 {
+                    xScale = targetWidth / refBaseWidth
+                    yScale = targetHeight / refBaseHeight
+                    effectiveAnchor = anchor
                 } else {
-                    yScale = 1.0 + animatedProgress * 0.02
-                    xScale = 1.0
+                    effectiveAnchor = .center
+                    let isBaseHeight = targetHeight <= baseHeight + 1
+                    if isBaseHeight {
+                        yScale = 1.0 + animatedProgress * 0.5
+                        xScale = 1.0
+                    } else {
+                        yScale = 1.0 + animatedProgress * 0.02
+                        xScale = 1.0
+                    }
                 }
             }
             
@@ -121,11 +141,29 @@ struct ResizeAwareBlurModifier: AnimatableModifier {
             effectiveAnchor = anchor
         }
 
-        return content
-            .scaleEffect(x: xScale, y: yScale, anchor: effectiveAnchor)
-            .blur(radius: blurRadius)
-            .opacity(opacity)
-            .compositingGroup()
+        return positionedContent(
+            content,
+            baseWidth: refBaseWidth,
+            baseHeight: refBaseHeight
+        )
+        .scaleEffect(x: xScale, y: yScale, anchor: effectiveAnchor)
+        .blur(radius: blurRadius)
+        .opacity(opacity)
+        .compositingGroup()
+    }
+
+    @ViewBuilder
+    private func positionedContent(
+        _ content: Content,
+        baseWidth: CGFloat,
+        baseHeight: CGFloat
+    ) -> some View {
+        if baseWidth > 0, baseHeight > 0 {
+            content
+                .frame(width: baseWidth, height: baseHeight)
+        } else {
+            content
+        }
     }
 
     private func normalizedDelta(_ delta: CGFloat, relativeTo target: CGFloat) -> CGFloat {

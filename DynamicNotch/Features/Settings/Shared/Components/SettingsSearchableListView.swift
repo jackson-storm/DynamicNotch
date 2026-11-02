@@ -95,7 +95,9 @@ struct SettingsSearchableListView<Item: Identifiable & Hashable, LeadingAccessor
     }
     
     private var itemList: some View {
-        LazyVStack(spacing: 0) {
+        let filteredItems = filteredItems
+
+        return LazyVStack(spacing: 0) {
             ForEach(Array(filteredItems.enumerated()), id: \.element) { index, item in
                 if index > 0 {
                     Divider()

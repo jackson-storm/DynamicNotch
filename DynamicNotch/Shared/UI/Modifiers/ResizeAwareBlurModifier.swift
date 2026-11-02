@@ -96,21 +96,23 @@ struct ResizeAwareBlurModifier: AnimatableModifier {
                 } else {
                     xScale = max(0.8, 1.0 - animatedProgress * 0.1)
                 }
-            case .dismiss:
+            case .simultaneousDismiss:
+                effectiveAnchor = .center
                 if isExceedingBaseHeight, refBaseWidth > 0, refBaseHeight > 0 {
-                    xScale = targetWidth / refBaseWidth
-                    yScale = targetHeight / refBaseHeight
-                    effectiveAnchor = anchor
+                    xScale = min(1.0, targetWidth / refBaseWidth)
+                    yScale = min(1.0, targetHeight / refBaseHeight)
                 } else {
-                    effectiveAnchor = .center
-                    let isBaseHeight = targetHeight <= baseHeight + 1
-                    if isBaseHeight {
-                        yScale = 1.0 + animatedProgress * 0.05
-                        xScale = 1.0
-                    } else {
-                        yScale = max(0.8, 1.0 - animatedProgress * 0.1)
-                        xScale = 1.0
-                    }
+                    yScale = 1.0
+                    xScale = refBaseWidth > 0 ? min(1.0, targetWidth / refBaseWidth) : 1.0
+                }
+            case .dismiss:
+                effectiveAnchor = .center
+                if isExceedingBaseHeight, refBaseWidth > 0, refBaseHeight > 0 {
+                    xScale = min(1.0, targetWidth / refBaseWidth)
+                    yScale = min(1.0, targetHeight / refBaseHeight)
+                } else {
+                    yScale = 1.0
+                    xScale = refBaseWidth > 0 ? min(1.0, targetWidth / refBaseWidth) : 1.0
                 }
             case .restore:
                 if isExceedingBaseHeight, refBaseWidth > 0, refBaseHeight > 0 {

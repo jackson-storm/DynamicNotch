@@ -31,9 +31,7 @@ struct LocalTimerSetupNotchView: View {
     init(localTimerViewModel: LocalTimerViewModel, onClose: (() -> Void)? = nil) {
         self.localTimerViewModel = localTimerViewModel
         self.onClose = onClose
-        let initialSeconds = localTimerViewModel.totalTime > 0
-            ? Int(localTimerViewModel.totalTime)
-            : 15 * 60
+        let initialSeconds = localTimerViewModel.totalTime > 0 ? Int(localTimerViewModel.totalTime) : 15 * 60
         let initialIndex = Self.index(forTotalSeconds: initialSeconds)
         self._selectedIndex = State(initialValue: initialIndex)
         self._dragStartIndex = State(initialValue: initialIndex)

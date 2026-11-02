@@ -11,14 +11,14 @@ final class NotchTransitionMetricsTests: XCTestCase {
         XCTAssertEqual(offset, 0, accuracy: 0.001)
     }
 
-    func testVerticalCompensationOffsetMatchesExtraHeightMinusTwentyFivePercent() {
-        // baseHeight + 140 -> -105 (140 * 0.75)
+    func testVerticalCompensationOffsetMatchesExtraHeightMinusThirtyPercent() {
+        // baseHeight + 140 -> -98 (140 * 0.7)
         let offset = NotchTransitionMetrics.verticalCompensationOffset(
             for: 178,
             baseHeight: 38
         )
 
-        XCTAssertEqual(offset, -105, accuracy: 0.001)
+        XCTAssertEqual(offset, -98, accuracy: 0.001)
     }
 
     func testCompactScaleXSynchronizedWithNotchWidth() {

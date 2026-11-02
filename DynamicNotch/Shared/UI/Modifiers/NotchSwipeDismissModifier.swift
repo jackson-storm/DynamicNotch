@@ -87,12 +87,6 @@ private final class NotchSwipeDismissMonitorView: NSView {
         static let lockThreshold: CGFloat = 2
     }
 
-    private enum SwipeDirectionLock {
-        case undetermined
-        case vertical
-        case horizontal
-    }
-
     private var localScrollMonitor: Any?
     private var globalScrollMonitor: Any?
 
@@ -108,7 +102,6 @@ private final class NotchSwipeDismissMonitorView: NSView {
 
     private var isTrackingSwipe = false
     private var isGestureActionLocked = false
-    private var swipeDirectionLock: SwipeDirectionLock = .undetermined
     private var accumulatedUpwardSwipe: CGFloat = 0
     private var accumulatedDownwardSwipe: CGFloat = 0
     private var accumulatedLeftSwipe: CGFloat = 0
@@ -221,7 +214,6 @@ private extension NotchSwipeDismissMonitorView {
         if event.phase.contains(.mayBegin) || event.phase.contains(.began) {
             resetSwipeTracking()
             isGestureActionLocked = false
-            swipeDirectionLock = .undetermined
             isTrackingSwipe = isInsideNotch
         } else if event.phase.contains(.ended) || event.phase.contains(.cancelled) {
             resetSwipeTracking()
@@ -256,37 +248,50 @@ private extension NotchSwipeDismissMonitorView {
             accumulatedUpwardSwipe = max(0, accumulatedUpwardSwipe + verticalDelta)
         }
         
-        let maxVertical = max(accumulatedUpwardSwipe, accumulatedDownwardSwipe)
-        if swipeDirectionLock == .undetermined {
-            if accumulatedHorizontalSwipe > SwipeMetrics.lockThreshold || maxVertical > SwipeMetrics.lockThreshold {
-                if accumulatedHorizontalSwipe > maxVertical * SwipeMetrics.directionDominanceMultiplier {
-                    swipeDirectionLock = .horizontal
-                } else {
-                    swipeDirectionLock = .vertical
+        let effectiveUpward = max(0, accumulatedUpwardSwipe - SwipeMetrics.lockThreshold)
+        let effectiveDownward = max(0, accumulatedDownwardSwipe - SwipeMetrics.lockThreshold)
+        let effectiveVerticalThreshold = max(1, SwipeMetrics.verticalThreshold - SwipeMetrics.lockThreshold)
+
+        let effectiveHorizontal = max(0, accumulatedHorizontalSwipe - SwipeMetrics.lockThreshold)
+        let effectiveHorizontalThreshold = max(1, SwipeMetrics.horizontalThreshold - SwipeMetrics.lockThreshold)
+
+        let upwardProgress = canSwipeUp
+            ? min(1.5, effectiveUpward / effectiveVerticalThreshold)
+            : 0
+        let downwardProgress = canSwipeDown
+            ? min(1.5, effectiveDownward / effectiveVerticalThreshold)
+            : 0
+        let horizontalProgress = canSwipeHorizontal
+            ? min(1.5, effectiveHorizontal / effectiveHorizontalThreshold)
+            : 0
+
+        // 1. Downward swipe (restore)
+        if downwardProgress > 0, downwardProgress >= upwardProgress, downwardProgress > horizontalProgress {
+            onSwipeStretchChanged?(.restore, downwardProgress)
+
+            if !didTriggerSwipe, accumulatedDownwardSwipe >= SwipeMetrics.verticalThreshold {
+                didTriggerSwipe = true
+                isGestureActionLocked = true
+                DispatchQueue.main.async { [weak self] in
+                    self?.onSwipeDown?()
                 }
-            }
-        }
-        
-        if swipeDirectionLock == .horizontal {
-            guard canSwipeHorizontal else {
-                onSwipeStretchReset?()
+                resetSwipeTracking()
                 return
             }
+            return
+        }
 
-            let dominanceThreshold = maxVertical * SwipeMetrics.directionDominanceMultiplier
-            let effectiveSwipe = max(0, accumulatedHorizontalSwipe - SwipeMetrics.lockThreshold)
-            let effectiveThreshold = max(1, SwipeMetrics.horizontalThreshold - SwipeMetrics.lockThreshold)
-            let horizontalProgress = effectiveSwipe / effectiveThreshold
-
-            if horizontalProgress > 0 {
-                onSwipeStretchChanged?(.horizontalDismiss, horizontalProgress)
-            } else {
-                onSwipeStretchReset?()
-            }
+        // 2. Both upward and horizontal active (simultaneous dismiss)
+        if upwardProgress > 0 && horizontalProgress > 0 {
+            onSwipeStretchChanged?(
+                .simultaneousDismiss(verticalProgress: upwardProgress, horizontalProgress: horizontalProgress),
+                max(upwardProgress, horizontalProgress)
+            )
 
             if !didTriggerSwipe {
-                if accumulatedHorizontalSwipe > dominanceThreshold,
-                   accumulatedHorizontalSwipe >= SwipeMetrics.horizontalThreshold {
+                if (canSwipeUp && accumulatedUpwardSwipe >= SwipeMetrics.verticalThreshold) ||
+                   (canSwipeHorizontal && accumulatedHorizontalSwipe >= SwipeMetrics.horizontalThreshold) ||
+                   (upwardProgress + horizontalProgress >= 1.2) {
                     didTriggerSwipe = true
                     isGestureActionLocked = true
                     DispatchQueue.main.async { [weak self] in
@@ -299,39 +304,11 @@ private extension NotchSwipeDismissMonitorView {
             return
         }
 
-        guard swipeDirectionLock != .horizontal else {
-            onSwipeStretchReset?()
-            return
-        }
+        // 3. Upward swipe active
+        if upwardProgress > 0 {
+            onSwipeStretchChanged?(.dismiss, upwardProgress)
 
-        let dominanceThreshold =
-            accumulatedHorizontalSwipe * SwipeMetrics.directionDominanceMultiplier
-
-        let effectiveUpward = max(0, accumulatedUpwardSwipe - SwipeMetrics.lockThreshold)
-        let effectiveDownward = max(0, accumulatedDownwardSwipe - SwipeMetrics.lockThreshold)
-        let effectiveVerticalThreshold = max(1, SwipeMetrics.verticalThreshold - SwipeMetrics.lockThreshold)
-
-        let upwardProgress = canSwipeUp
-            ? effectiveUpward / effectiveVerticalThreshold
-            : 0
-        let downwardProgress = canSwipeDown
-            ? effectiveDownward / effectiveVerticalThreshold
-            : 0
-
-        if upwardProgress > 0 || downwardProgress > 0 {
-            if upwardProgress >= downwardProgress {
-                onSwipeStretchChanged?(.dismiss, upwardProgress)
-            } else {
-                onSwipeStretchChanged?(.restore, downwardProgress)
-            }
-        } else {
-            onSwipeStretchReset?()
-        }
-
-        if !didTriggerSwipe {
-            if canSwipeUp,
-               accumulatedUpwardSwipe > dominanceThreshold,
-               accumulatedUpwardSwipe >= SwipeMetrics.verticalThreshold {
+            if !didTriggerSwipe, canSwipeUp, accumulatedUpwardSwipe >= SwipeMetrics.verticalThreshold {
                 didTriggerSwipe = true
                 isGestureActionLocked = true
                 DispatchQueue.main.async { [weak self] in
@@ -340,20 +317,27 @@ private extension NotchSwipeDismissMonitorView {
                 resetSwipeTracking()
                 return
             }
+            return
+        }
 
-            if canSwipeDown,
-               accumulatedDownwardSwipe > dominanceThreshold,
-               accumulatedDownwardSwipe >= SwipeMetrics.verticalThreshold {
+        // 4. Horizontal swipe active
+        if horizontalProgress > 0 {
+            onSwipeStretchChanged?(.horizontalDismiss, horizontalProgress)
+
+            if !didTriggerSwipe, canSwipeHorizontal, accumulatedHorizontalSwipe >= SwipeMetrics.horizontalThreshold {
                 didTriggerSwipe = true
                 isGestureActionLocked = true
                 DispatchQueue.main.async { [weak self] in
-                    self?.onSwipeDown?()
+                    self?.onSwipeHorizontal?()
                 }
                 resetSwipeTracking()
                 return
             }
-
+            return
         }
+
+        // 5. Neither
+        onSwipeStretchReset?()
     }
 
     func shouldTrackSwipe(for event: NSEvent) -> Bool {
@@ -391,7 +375,6 @@ private extension NotchSwipeDismissMonitorView {
         accumulatedRightSwipe = 0
         accumulatedHorizontalSwipe = 0
         didTriggerSwipe = false
-        swipeDirectionLock = .undetermined
         onSwipeStretchReset?()
     }
 }

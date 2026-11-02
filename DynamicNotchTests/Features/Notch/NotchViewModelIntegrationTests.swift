@@ -1326,6 +1326,59 @@ final class NotchViewModelIntegrationTests: XCTestCase {
     }
 
     @MainActor
+    func testSimultaneousVerticalAndHorizontalDismissSwipeCompressesBothDimensionsInExpandedMode() async {
+        let viewModel = NotchViewModel(
+            settings: TestNotchSettings(),
+            hideDelay: 0.01,
+            queueDelay: 0
+        )
+        TestLifetime.retain(viewModel)
+
+        viewModel.send(
+            .showLiveActivity(
+                TestNotchContent(
+                    id: "simultaneous",
+                    priority: 10,
+                    collapsedWidthOffset: 30,
+                    collapsedHeightOffset: 0,
+                    isExpandable: true,
+                    expandedWidthOffset: 120,
+                    expandedHeightOffset: 80
+                )
+            )
+        )
+
+        await assertEventually {
+            await MainActor.run { viewModel.notchModel.liveActivityContent?.id == "simultaneous" }
+        }
+
+        viewModel.handleActiveContentTap()
+
+        await assertEventually {
+            await MainActor.run { viewModel.notchModel.isLiveActivityExpanded }
+        }
+
+        let initialSize = await MainActor.run { viewModel.notchModel.size }
+        XCTAssertGreaterThan(initialSize.height, viewModel.notchModel.baseHeight)
+        XCTAssertGreaterThan(initialSize.width, viewModel.notchModel.baseWidth)
+
+        // Simultaneous swipe stretch
+        viewModel.updateSwipeStretch(
+            for: .simultaneousDismiss(verticalProgress: 0.8, horizontalProgress: 0.8),
+            progress: 0.8
+        )
+
+        let compressedSize = await MainActor.run { viewModel.interactiveNotchSize }
+        XCTAssertLessThan(compressedSize.width, initialSize.width)
+        XCTAssertLessThan(compressedSize.height, initialSize.height)
+
+        let blur = await MainActor.run { viewModel.contentResizeBlurRadius }
+        let opacity = await MainActor.run { viewModel.contentResizeOpacity }
+        XCTAssertGreaterThan(blur, 0)
+        XCTAssertLessThan(opacity, 1.0)
+    }
+
+    @MainActor
     func testTapToExpandSettingBlocksExpansion() async {
         let viewModel = NotchViewModel(
             settings: TestNotchSettings(isNotchTapToExpandEnabled: false),

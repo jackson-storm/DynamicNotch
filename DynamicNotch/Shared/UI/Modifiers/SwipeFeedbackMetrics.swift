@@ -11,6 +11,7 @@ enum SwipeInteraction: Equatable {
     case dismiss
     case restore
     case horizontalDismiss
+    case simultaneousDismiss(verticalProgress: CGFloat, horizontalProgress: CGFloat)
 }
 
 enum SwipeFeedbackMetrics {

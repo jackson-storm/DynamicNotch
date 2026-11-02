@@ -15,19 +15,6 @@ extension AnyTransition {
         )
     }
 
-    static var cameraBlurTransition: AnyTransition {
-        .asymmetric(
-            insertion: .modifier(
-                active: BlurFadeModifier(blur: 24, opacity: 0),
-                identity: BlurFadeModifier(blur: 0, opacity: 1)
-            ),
-            removal: .modifier(
-                active: BlurFadeModifier(blur: 26, opacity: 0),
-                identity: BlurFadeModifier(blur: 0, opacity: 1)
-            )
-        )
-    }
-
     static func notchContent(
         notchWidth: CGFloat = 0,
         notchHeight: CGFloat,
@@ -104,7 +91,7 @@ extension AnyTransition {
         return .asymmetric(
             insertion: .modifier(
                 active: NotchTransitionModifier(
-                    blur: 15,
+                    blur: 20,
                     opacity: 0,
                     offsetY: verticalOffset,
                     scaleX: 0.6,
@@ -115,7 +102,7 @@ extension AnyTransition {
             ),
             removal: .modifier(
                 active: NotchTransitionModifier(
-                    blur: 15,
+                    blur: 20,
                     opacity: 0,
                     offsetY: verticalOffset,
                     scaleX: isNotchlessScreen ? 0.001 : 0.4,

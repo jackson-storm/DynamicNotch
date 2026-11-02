@@ -45,10 +45,11 @@ struct NotchSurfaceContainerView: View {
     @ViewBuilder
     private var contentOverlayWrapped: some View {
         let isDynamicIsland = notchViewModel.isDynamicIsland
+        let presentedSize = notchViewModel.presentedNotchSize
         if notchViewModel.isDynamicIsland {
             contentOverlay
                 .environment(\.isNotchlessScreen, true)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .frame(width: presentedSize.width, height: presentedSize.height)
                 .mask {
                     dynamicIslandMaskShape
                     .scaleEffect(
@@ -60,7 +61,7 @@ struct NotchSurfaceContainerView: View {
         } else {
             contentOverlay
                 .environment(\.isNotchlessScreen, false)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .frame(width: presentedSize.width, height: presentedSize.height)
                 .mask {
                     NotchShape(
                         topCornerRadius: max(0, notchViewModel.interactiveCornerRadius.top - 2),

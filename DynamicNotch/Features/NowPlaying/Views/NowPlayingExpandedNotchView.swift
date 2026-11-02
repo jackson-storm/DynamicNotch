@@ -25,7 +25,7 @@ struct NowPlayingExpandedNotchView: View {
         nowPlayingViewModel.snapshot ?? NowPlayingSnapshot(
             title: locale.dn("notch.nowPlaying.nothingPlaying", fallback: "Nothing Playing"),
             artist: locale.dn("notch.nowPlaying.startPlayback", fallback: "Start playback to see live metadata"),
-            album: "Debug Preview",
+            album: "Nothing Playing",
             duration: 0,
             elapsedTime: 0,
             playbackRate: 0,
@@ -86,7 +86,7 @@ struct NowPlayingExpandedNotchView: View {
             )
             controlsSection(snapshot: snapshot, appearance: appearance)
         }
-        .padding(.top, isNotchlessScreen ? 5 : 20)
+        .padding(.top, isNotchlessScreen ? 0 : 20)
         .padding(.horizontal, isNotchlessScreen ? 25 : 55)
     }
 
@@ -98,8 +98,8 @@ struct NowPlayingExpandedNotchView: View {
             }) {
                 ArtworkView(
                     nowPlayingViewModel: nowPlayingViewModel,
-                    width: 60,
-                    height: 60,
+                    width: 55,
+                    height: 55,
                     cornerRadius: 10,
                     usesFlipAnimation: appearance.usesArtwork3DEffect
                 )

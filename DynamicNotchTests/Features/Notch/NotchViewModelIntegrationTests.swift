@@ -1151,6 +1151,8 @@ final class NotchViewModelIntegrationTests: XCTestCase {
                 TestNotchContent(
                     id: "expanded",
                     priority: 10,
+                    collapsedWidthOffset: 0,
+                    collapsedHeightOffset: 0,
                     isExpandable: true,
                     expandedWidthOffset: 140,
                     expandedHeightOffset: 80
@@ -1184,6 +1186,196 @@ final class NotchViewModelIntegrationTests: XCTestCase {
         XCTAssertEqual(interactiveCornerRadius.bottom, baseCornerRadius.bottom, accuracy: 0.001)
         XCTAssertGreaterThan(blurRadius, 0)
         XCTAssertLessThan(opacity, 1)
+    }
+
+    @MainActor
+    func testHorizontalDismissSwipeCompressesNotchAlongWidthAndKeepsHeight() async {
+        let viewModel = NotchViewModel(
+            settings: TestNotchSettings(),
+            hideDelay: 0.01,
+            queueDelay: 0
+        )
+        TestLifetime.retain(viewModel)
+
+        viewModel.send(
+            .showLiveActivity(
+                TestNotchContent(
+                    id: "expanded",
+                    priority: 10,
+                    collapsedWidthOffset: 0,
+                    collapsedHeightOffset: 0,
+                    isExpandable: true,
+                    expandedWidthOffset: 140,
+                    expandedHeightOffset: 80
+                )
+            )
+        )
+
+        await assertEventually {
+            await MainActor.run { viewModel.notchModel.liveActivityContent?.id == "expanded" }
+        }
+
+        viewModel.handleActiveContentTap()
+
+        await assertEventually {
+            await MainActor.run { viewModel.notchModel.isLiveActivityExpanded }
+        }
+
+        let expandedSize = await MainActor.run { viewModel.notchModel.size }
+
+        viewModel.updateSwipeStretch(for: .horizontalDismiss, progress: 1)
+
+        let interactiveSize = await MainActor.run { viewModel.interactiveNotchSize }
+        let blurRadius = await MainActor.run { viewModel.contentResizeBlurRadius }
+        let opacity = await MainActor.run { viewModel.contentResizeOpacity }
+
+        XCTAssertLessThan(interactiveSize.width, expandedSize.width)
+        XCTAssertEqual(interactiveSize.height, expandedSize.height, accuracy: 0.001)
+        XCTAssertGreaterThan(blurRadius, 0)
+        XCTAssertLessThan(opacity, 1)
+    }
+
+    @MainActor
+    func testHorizontalDismissSwipeAvailabilityInCompactAndExpandedModes() async {
+        let viewModel = NotchViewModel(
+            settings: TestNotchSettings(),
+            hideDelay: 0.01,
+            queueDelay: 0
+        )
+        TestLifetime.retain(viewModel)
+
+        viewModel.send(
+            .showLiveActivity(
+                TestNotchContent(
+                    id: "compact",
+                    priority: 10,
+                    collapsedWidthOffset: 20,
+                    collapsedHeightOffset: 0,
+                    isExpandable: true
+                )
+            )
+        )
+
+        await assertEventually {
+            await MainActor.run { viewModel.notchModel.liveActivityContent?.id == "compact" }
+        }
+
+        // Compact: trackpad horizontal swipe is disallowed, mouse drag horizontal swipe is allowed
+        XCTAssertFalse(viewModel.canDismissWithHorizontalTrackpadSwipe)
+        XCTAssertTrue(viewModel.canDismissWithHorizontalMouseDrag)
+
+        // Expand:
+        viewModel.handleActiveContentTap()
+
+        await assertEventually {
+            await MainActor.run { viewModel.notchModel.isLiveActivityExpanded }
+        }
+
+        // Expanded: both trackpad and mouse horizontal dismiss are allowed
+        XCTAssertTrue(viewModel.canDismissWithHorizontalTrackpadSwipe)
+        XCTAssertTrue(viewModel.canDismissWithHorizontalMouseDrag)
+    }
+
+    @MainActor
+    func testHorizontalDismissSwipeStopsAtBaseWidth() async {
+        let viewModel = NotchViewModel(
+            settings: TestNotchSettings(),
+            hideDelay: 0.01,
+            queueDelay: 0
+        )
+        TestLifetime.retain(viewModel)
+
+        let baseWidth = await MainActor.run { viewModel.notchModel.baseWidth }
+
+        viewModel.send(
+            .showLiveActivity(
+                TestNotchContent(
+                    id: "compactSmallOffset",
+                    priority: 10,
+                    collapsedWidthOffset: 10,
+                    collapsedHeightOffset: 0
+                )
+            )
+        )
+
+        await assertEventually {
+            await MainActor.run { viewModel.notchModel.liveActivityContent?.id == "compactSmallOffset" }
+        }
+
+        let initialSize = await MainActor.run { viewModel.notchModel.size }
+        XCTAssertEqual(initialSize.width, baseWidth + 10, accuracy: 0.001)
+
+        // Test gradual deceleration as width approaches baseWidth
+        viewModel.updateSwipeStretch(for: .horizontalDismiss, progress: 0.3)
+        let sizeAt03 = await MainActor.run { viewModel.interactiveNotchSize }
+
+        viewModel.updateSwipeStretch(for: .horizontalDismiss, progress: 0.8)
+        let sizeAt08 = await MainActor.run { viewModel.interactiveNotchSize }
+
+        viewModel.updateSwipeStretch(for: .horizontalDismiss, progress: 1.5)
+        let sizeAt15 = await MainActor.run { viewModel.interactiveNotchSize }
+
+        // Width decelerates smoothly: change between 0.3 and 0.8 is larger than between 0.8 and 1.5
+        let delta1 = sizeAt03.width - sizeAt08.width
+        let delta2 = sizeAt08.width - sizeAt15.width
+        XCTAssertGreaterThan(delta1, delta2)
+
+        // Width never drops below baseWidth and asymptotically approaches it
+        XCTAssertGreaterThanOrEqual(sizeAt15.width, baseWidth)
+        XCTAssertEqual(sizeAt15.width, baseWidth, accuracy: 0.5)
+    }
+
+    @MainActor
+    func testSimultaneousVerticalAndHorizontalDismissSwipeCompressesBothDimensionsInExpandedMode() async {
+        let viewModel = NotchViewModel(
+            settings: TestNotchSettings(),
+            hideDelay: 0.01,
+            queueDelay: 0
+        )
+        TestLifetime.retain(viewModel)
+
+        viewModel.send(
+            .showLiveActivity(
+                TestNotchContent(
+                    id: "simultaneous",
+                    priority: 10,
+                    collapsedWidthOffset: 30,
+                    collapsedHeightOffset: 0,
+                    isExpandable: true,
+                    expandedWidthOffset: 120,
+                    expandedHeightOffset: 80
+                )
+            )
+        )
+
+        await assertEventually {
+            await MainActor.run { viewModel.notchModel.liveActivityContent?.id == "simultaneous" }
+        }
+
+        viewModel.handleActiveContentTap()
+
+        await assertEventually {
+            await MainActor.run { viewModel.notchModel.isLiveActivityExpanded }
+        }
+
+        let initialSize = await MainActor.run { viewModel.notchModel.size }
+        XCTAssertGreaterThan(initialSize.height, viewModel.notchModel.baseHeight)
+        XCTAssertGreaterThan(initialSize.width, viewModel.notchModel.baseWidth)
+
+        // Simultaneous swipe stretch
+        viewModel.updateSwipeStretch(
+            for: .simultaneousDismiss(verticalProgress: 0.8, horizontalProgress: 0.8),
+            progress: 0.8
+        )
+
+        let compressedSize = await MainActor.run { viewModel.interactiveNotchSize }
+        XCTAssertLessThan(compressedSize.width, initialSize.width)
+        XCTAssertLessThan(compressedSize.height, initialSize.height)
+
+        let blur = await MainActor.run { viewModel.contentResizeBlurRadius }
+        let opacity = await MainActor.run { viewModel.contentResizeOpacity }
+        XCTAssertGreaterThan(blur, 0)
+        XCTAssertLessThan(opacity, 1.0)
     }
 
     @MainActor

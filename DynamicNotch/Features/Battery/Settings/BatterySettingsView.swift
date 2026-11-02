@@ -232,10 +232,10 @@ struct BatterySettingsView: View {
     
     private func batteryStandardPickerContent(for kind: BatteryNotificationPreviewKind, isSelected: Bool) -> some View {
         ZStack {
-            Capsule()
+            RoundedRectangle(cornerRadius: 25)
                 .fill(.black)
                 .overlay {
-                    Capsule()
+                    RoundedRectangle(cornerRadius: 25)
                         .stroke(batteryPreviewStrokeColor(for: kind), lineWidth: 1)
                 }
             
@@ -256,7 +256,7 @@ struct BatterySettingsView: View {
             .padding(.leading, 20)
             .padding(.trailing, 15)
         }
-        .frame(width: 230, height: 60)
+        .frame(width: 220, height: 70)
         .scaleEffect(isSelected ? 1 : 0.97)
     }
     
@@ -334,12 +334,12 @@ struct BatterySettingsView: View {
             Text(locale.dn("notch.battery.detail.turnOnLowPower", fallback: "Turn on Low Power Mode or it\nis recommended to charge it."))
                 .font(.system(size: 8.5, weight: .medium))
                 .foregroundStyle(.white.opacity(0.45))
-                .lineLimit(2)
+                .lineLimit(3)
         } else {
             Text(locale.dn("notch.battery.detail.fullyCharged", fallback: "Your Mac is fully charged."))
                 .font(.system(size: 9, weight: .medium))
                 .foregroundStyle(.white.opacity(0.45))
-                .lineLimit(1)
+                .lineLimit(3)
         }
     }
     

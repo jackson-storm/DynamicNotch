@@ -10,11 +10,15 @@ struct NotchMouseSwipeModifier: ViewModifier {
             NotchMouseSwipeMonitorRepresentable(
                 canSwipeUp: isEnabled && notchViewModel.canDismissWithMouseDrag,
                 canSwipeDown: isEnabled && notchViewModel.canRestoreWithMouseDrag,
+                canSwipeHorizontal: isEnabled && notchViewModel.canDismissWithHorizontalMouseDrag,
                 onSwipeUp: {
                     notchViewModel.dismissActiveContent()
                 },
                 onSwipeDown: {
                     notchViewModel.restoreDismissedContent()
+                },
+                onSwipeHorizontal: {
+                    notchViewModel.dismissActiveContent()
                 },
                 onSwipeStretchChanged: { interaction, progress in
                     notchViewModel.updateSwipeStretch(for: interaction, progress: progress)
@@ -30,8 +34,10 @@ struct NotchMouseSwipeModifier: ViewModifier {
 private struct NotchMouseSwipeMonitorRepresentable: NSViewRepresentable {
     let canSwipeUp: Bool
     let canSwipeDown: Bool
+    let canSwipeHorizontal: Bool
     let onSwipeUp: () -> Void
     let onSwipeDown: () -> Void
+    let onSwipeHorizontal: () -> Void
     let onSwipeStretchChanged: (SwipeInteraction, CGFloat) -> Void
     let onSwipeStretchReset: () -> Void
 
@@ -40,8 +46,10 @@ private struct NotchMouseSwipeMonitorRepresentable: NSViewRepresentable {
         view.update(
             canSwipeUp: canSwipeUp,
             canSwipeDown: canSwipeDown,
+            canSwipeHorizontal: canSwipeHorizontal,
             onSwipeUp: onSwipeUp,
             onSwipeDown: onSwipeDown,
+            onSwipeHorizontal: onSwipeHorizontal,
             onSwipeStretchChanged: onSwipeStretchChanged,
             onSwipeStretchReset: onSwipeStretchReset
         )
@@ -52,8 +60,10 @@ private struct NotchMouseSwipeMonitorRepresentable: NSViewRepresentable {
         nsView.update(
             canSwipeUp: canSwipeUp,
             canSwipeDown: canSwipeDown,
+            canSwipeHorizontal: canSwipeHorizontal,
             onSwipeUp: onSwipeUp,
             onSwipeDown: onSwipeDown,
+            onSwipeHorizontal: onSwipeHorizontal,
             onSwipeStretchChanged: onSwipeStretchChanged,
             onSwipeStretchReset: onSwipeStretchReset
         )
@@ -67,17 +77,23 @@ private struct NotchMouseSwipeMonitorRepresentable: NSViewRepresentable {
 private final class NotchMouseSwipeMonitorView: NSView {
     private enum SwipeMetrics {
         static let verticalThreshold: CGFloat = 60
+        static let horizontalThreshold: CGFloat = 60
         static let directionDominanceMultiplier: CGFloat = 1.15
+        static let lockThreshold: CGFloat = 3
     }
 
     private var mouseDownMonitor: Any?
     private var mouseDraggedMonitor: Any?
     private var mouseUpMonitor: Any?
+    private var keyDownMonitor: Any?
+    private var globalKeyDownMonitor: Any?
 
     private var canSwipeUp = false
     private var canSwipeDown = false
+    private var canSwipeHorizontal = false
     private var onSwipeUp: (() -> Void)?
     private var onSwipeDown: (() -> Void)?
+    private var onSwipeHorizontal: (() -> Void)?
     private var onSwipeStretchChanged: ((SwipeInteraction, CGFloat) -> Void)?
     private var onSwipeStretchReset: (() -> Void)?
 
@@ -105,19 +121,23 @@ private final class NotchMouseSwipeMonitorView: NSView {
     func update(
         canSwipeUp: Bool,
         canSwipeDown: Bool,
+        canSwipeHorizontal: Bool,
         onSwipeUp: @escaping () -> Void,
         onSwipeDown: @escaping () -> Void,
+        onSwipeHorizontal: @escaping () -> Void,
         onSwipeStretchChanged: @escaping (SwipeInteraction, CGFloat) -> Void,
         onSwipeStretchReset: @escaping () -> Void
     ) {
         self.canSwipeUp = canSwipeUp
         self.canSwipeDown = canSwipeDown
+        self.canSwipeHorizontal = canSwipeHorizontal
         self.onSwipeUp = onSwipeUp
         self.onSwipeDown = onSwipeDown
+        self.onSwipeHorizontal = onSwipeHorizontal
         self.onSwipeStretchChanged = onSwipeStretchChanged
         self.onSwipeStretchReset = onSwipeStretchReset
 
-        if !canSwipeUp && !canSwipeDown {
+        if !canSwipeUp && !canSwipeDown && !canSwipeHorizontal {
             resetTracking()
         }
     }
@@ -135,9 +155,19 @@ private final class NotchMouseSwipeMonitorView: NSView {
             NSEvent.removeMonitor(mouseUpMonitor)
         }
 
+        if let keyDownMonitor {
+            NSEvent.removeMonitor(keyDownMonitor)
+        }
+
+        if let globalKeyDownMonitor {
+            NSEvent.removeMonitor(globalKeyDownMonitor)
+        }
+
         mouseDownMonitor = nil
         mouseDraggedMonitor = nil
         mouseUpMonitor = nil
+        keyDownMonitor = nil
+        globalKeyDownMonitor = nil
         resetTracking()
     }
 }
@@ -164,10 +194,44 @@ private extension NotchMouseSwipeMonitorView {
                 return event
             }
         }
+
+        if keyDownMonitor == nil {
+            keyDownMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak self] event in
+                if self?.handleKeyDown(event) == true {
+                    return nil
+                }
+                return event
+            }
+        }
+
+        if globalKeyDownMonitor == nil {
+            globalKeyDownMonitor = NSEvent.addGlobalMonitorForEvents(matching: .keyDown) { [weak self] event in
+                _ = self?.handleKeyDown(event)
+            }
+        }
+    }
+
+    func handleKeyDown(_ event: NSEvent) -> Bool {
+        guard canSwipeHorizontal else { return false }
+        guard event.keyCode == 123 || event.keyCode == 124 else { return false }
+
+        let screenLocation = NSEvent.mouseLocation
+        let isInsideNotch = currentScreenRect()?.contains(screenLocation) == true
+        let isKeyWindow = window?.isKeyWindow == true
+        guard isInsideNotch || isKeyWindow else { return false }
+
+        DispatchQueue.main.async { [weak self] in
+            self?.onSwipeStretchChanged?(.horizontalDismiss, 1.0)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.08) {
+                self?.onSwipeHorizontal?()
+                self?.onSwipeStretchReset?()
+            }
+        }
+        return true
     }
 
     func handleMouseDown(_ event: NSEvent) {
-        guard canSwipeUp || canSwipeDown else {
+        guard canSwipeUp || canSwipeDown || canSwipeHorizontal else {
             resetTracking()
             return
         }
@@ -211,17 +275,31 @@ private extension NotchMouseSwipeMonitorView {
             resetTracking()
         }
 
+        if canSwipeDown, isRestoreTranslation(translation) {
+            DispatchQueue.main.async { [weak self] in
+                self?.onSwipeDown?()
+            }
+            return
+        }
+
+        let upwardDistance = max(0, translation.height)
+        let horizontalDistance = abs(translation.width)
+        let isSimultaneousDismiss = canSwipeHorizontal && canSwipeUp && (
+            (upwardDistance / SwipeMetrics.verticalThreshold) + (horizontalDistance / SwipeMetrics.horizontalThreshold) >= 1.2
+        )
+
+        if canSwipeHorizontal, isHorizontalDismissTranslation(translation) || isSimultaneousDismiss {
+            DispatchQueue.main.async { [weak self] in
+                self?.onSwipeHorizontal?()
+            }
+            return
+        }
+
         if canSwipeUp, isDismissTranslation(translation) {
             DispatchQueue.main.async { [weak self] in
                 self?.onSwipeUp?()
             }
             return
-        }
-
-        if canSwipeDown, isRestoreTranslation(translation) {
-            DispatchQueue.main.async { [weak self] in
-                self?.onSwipeDown?()
-            }
         }
     }
 
@@ -239,39 +317,68 @@ private extension NotchMouseSwipeMonitorView {
         guard let window else { return nil }
 
         let rectInWindow = convert(bounds, to: nil)
-        return window.convertToScreen(rectInWindow)
+        let screenRect = window.convertToScreen(rectInWindow)
+        return CGRect(
+            x: screenRect.minX,
+            y: screenRect.minY,
+            width: screenRect.width,
+            height: screenRect.height + 4
+        )
     }
 
     func updateStretchProgress(for translation: CGSize) {
-        let verticalDistance = abs(translation.height)
+        let upwardDistance = max(0, translation.height)
+        let downwardDistance = max(0, -translation.height)
         let horizontalDistance = abs(translation.width)
 
-        guard verticalDistance > horizontalDistance * SwipeMetrics.directionDominanceMultiplier else {
-            onSwipeStretchReset?()
+        let effectiveUpward = max(0, upwardDistance - SwipeMetrics.lockThreshold)
+        let effectiveDownward = max(0, downwardDistance - SwipeMetrics.lockThreshold)
+        let effectiveVerticalThreshold = max(1, SwipeMetrics.verticalThreshold - SwipeMetrics.lockThreshold)
+
+        let effectiveHorizontal = max(0, horizontalDistance - SwipeMetrics.lockThreshold)
+        let effectiveHorizontalThreshold = max(1, SwipeMetrics.horizontalThreshold - SwipeMetrics.lockThreshold)
+
+        let upwardProgress = canSwipeUp ? min(1.5, effectiveUpward / effectiveVerticalThreshold) : 0
+        let downwardProgress = canSwipeDown ? min(1.5, effectiveDownward / effectiveVerticalThreshold) : 0
+        let horizontalProgress = canSwipeHorizontal ? min(1.5, effectiveHorizontal / effectiveHorizontalThreshold) : 0
+
+        // 1. Downward (restore)
+        if downwardProgress > 0, downwardProgress >= upwardProgress, downwardProgress > horizontalProgress {
+            onSwipeStretchChanged?(.restore, downwardProgress)
             return
         }
 
-        if translation.height > 0, canSwipeUp {
-            let progress = verticalDistance / SwipeMetrics.verticalThreshold
-            onSwipeStretchChanged?(.dismiss, progress)
+        // 2. Both upward and horizontal active (simultaneous dismiss)
+        if upwardProgress > 0 && horizontalProgress > 0 {
+            onSwipeStretchChanged?(
+                .simultaneousDismiss(verticalProgress: upwardProgress, horizontalProgress: horizontalProgress),
+                max(upwardProgress, horizontalProgress)
+            )
             return
         }
 
-        if translation.height < 0, canSwipeDown {
-            let progress = verticalDistance / SwipeMetrics.verticalThreshold
-            onSwipeStretchChanged?(.restore, progress)
+        // 3. Only upward
+        if upwardProgress > 0 {
+            onSwipeStretchChanged?(.dismiss, upwardProgress)
+            return
+        }
+
+        // 4. Only horizontal
+        if horizontalProgress > 0 {
+            onSwipeStretchChanged?(.horizontalDismiss, horizontalProgress)
             return
         }
 
         onSwipeStretchReset?()
     }
 
-    func isDismissTranslation(_ translation: CGSize) -> Bool {
-        let verticalDistance = abs(translation.height)
+    func isHorizontalDismissTranslation(_ translation: CGSize) -> Bool {
         let horizontalDistance = abs(translation.width)
+        return horizontalDistance >= SwipeMetrics.horizontalThreshold
+    }
 
-        return translation.height >= SwipeMetrics.verticalThreshold &&
-        verticalDistance > horizontalDistance * SwipeMetrics.directionDominanceMultiplier
+    func isDismissTranslation(_ translation: CGSize) -> Bool {
+        return translation.height >= SwipeMetrics.verticalThreshold
     }
 
     func isRestoreTranslation(_ translation: CGSize) -> Bool {

@@ -41,6 +41,11 @@ private extension NotchCustomScaleModifier {
             .simultaneousGesture(
                 DragGesture(minimumDistance: 0)
                     .onChanged { value in
+                        guard !notchViewModel.isSwipeInteractionActive else {
+                            resetInteractionState(cancelScaleAnimation: true)
+                            return
+                        }
+
                         guard !notchViewModel.notchModel.isPresentingExpandedLiveActivity else {
                             resetInteractionState(cancelScaleAnimation: true)
                             return
@@ -114,6 +119,11 @@ private extension NotchCustomScaleModifier {
             .onChange(of: notchViewModel.notchModel.isPresentingExpandedLiveActivity) {
                 if notchViewModel.notchModel.isPresentingExpandedLiveActivity {
                     lastExpansionTime = Date()
+                }
+            }
+            .onChange(of: notchViewModel.isSwipeInteractionActive) { isActive in
+                if isActive {
+                    resetInteractionState(cancelScaleAnimation: true)
                 }
             }
             .onDisappear {

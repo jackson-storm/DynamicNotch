@@ -4,7 +4,7 @@ struct HUDSettingsView: View {
     @ObservedObject var settings: HUDSettingsStore
     @ObservedObject var applicationSettings: ApplicationSettingsStore
     @Environment(\.locale) private var locale
-
+    
     private var layoutTypeBinding: Binding<HudLayoutType> {
         Binding(
             get: {
@@ -21,11 +21,11 @@ struct HUDSettingsView: View {
             }
         )
     }
-
+    
     private var temporaryActivityDurationRange: ClosedRange<Double> {
         Double(SettingsStoreBase.temporaryActivityDurationRange.lowerBound)...Double(SettingsStoreBase.temporaryActivityDurationRange.upperBound)
     }
-
+    
     var body: some View {
         SettingsPageScrollView {
             hudActivity
@@ -74,7 +74,7 @@ struct HUDSettingsView: View {
             )
         }
     }
-
+    
     private var hudDuration: some View {
         SettingsCard(title: "settings.hud.card.duration") {
             SettingsSliderRow(
@@ -92,9 +92,9 @@ struct HUDSettingsView: View {
             )
             .disabled(!settings.isBrightnessHUDEnabled)
             .opacity(settings.isBrightnessHUDEnabled ? 1 : 0.5)
-
+            
             Divider().opacity(0.6)
-
+            
             SettingsSliderRow(
                 title: "settings.hud.keyboardDuration.title",
                 description: "settings.hud.keyboardDuration.desc",
@@ -110,9 +110,9 @@ struct HUDSettingsView: View {
             )
             .disabled(!settings.isKeyboardHUDEnabled)
             .opacity(settings.isKeyboardHUDEnabled ? 1 : 0.5)
-
+            
             Divider().opacity(0.6)
-
+            
             SettingsSliderRow(
                 title: "settings.hud.volumeDuration.title",
                 description: "settings.hud.volumeDuration.desc",
@@ -141,7 +141,7 @@ struct HUDSettingsView: View {
                 accessibilityIdentifier: "settings.hud.layoutType.title",
                 selection: layoutTypeBinding
             )
-
+            
             if layoutTypeBinding.wrappedValue == .compact {
                 CustomPicker(
                     selection: $settings.hudStyle,
@@ -166,10 +166,10 @@ struct HUDSettingsView: View {
                 }
                 .accessibilityIdentifier("settings.hud.style.title.expanded")
             }
-
+            
             if layoutTypeBinding.wrappedValue == .compact {
                 Divider().opacity(0.6)
-
+                
                 SettingsMenuRow(
                     title: "settings.hud.indicatorStyle.title",
                     description: "settings.hud.indicatorStyle.desc",
@@ -179,9 +179,9 @@ struct HUDSettingsView: View {
                     selection: $settings.indicatorStyle
                 )
             }
-
+            
             Divider().opacity(0.6)
-
+            
             SettingsMenuRow(
                 title: "settings.hud.indicatorTintStyle.title",
                 description: "settings.hud.indicatorTintStyle.desc",
@@ -208,7 +208,7 @@ struct HUDSettingsView: View {
                 .opacity(0.6)
                 .padding(.leading, 43)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
-
+            
             SettingsToggleRow(
                 title: "settings.hud.indicatorGlow.title",
                 description: "settings.hud.indicatorGlow.desc",
@@ -219,11 +219,11 @@ struct HUDSettingsView: View {
             )
         }
     }
-
+    
     @ViewBuilder
     private func hudStylePickerContent(for style: HudStyle, isSelected: Bool) -> some View {
         let strokeColor = pickerStrokeColor
-
+        
         switch style {
         case .standard:
             ZStack {
@@ -233,7 +233,6 @@ struct HUDSettingsView: View {
                         Capsule()
                             .stroke(strokeColor, lineWidth: 1)
                     }
-                    .frame(height: 30)
                 
                 HStack(spacing: 8) {
                     Text(locale.dn("notch.hud.volume", fallback: "Volume"))
@@ -246,7 +245,8 @@ struct HUDSettingsView: View {
                 .foregroundStyle(.white)
                 .padding(.horizontal, 8)
             }
-
+            .frame(width: 130, height: 30)
+            
         case .compact:
             ZStack {
                 Capsule()
@@ -255,7 +255,6 @@ struct HUDSettingsView: View {
                         Capsule()
                             .stroke(strokeColor, lineWidth: 1)
                     }
-                    .frame(height: 30)
                 
                 HStack(spacing: 8) {
                     Image(systemName: "speaker.wave.2.fill")
@@ -268,7 +267,8 @@ struct HUDSettingsView: View {
                 .foregroundStyle(.white)
                 .padding(.horizontal, 8)
             }
-
+            .frame(width: 130, height: 30)
+            
         case .minimal:
             ZStack {
                 Capsule()
@@ -277,7 +277,6 @@ struct HUDSettingsView: View {
                         Capsule()
                             .stroke(strokeColor, lineWidth: 1)
                     }
-                    .frame(height: 30)
                 
                 HStack(spacing: 8) {
                     Image(systemName: "speaker.wave.2.fill")
@@ -290,7 +289,8 @@ struct HUDSettingsView: View {
                 .foregroundStyle(.white)
                 .padding(.horizontal, 8)
             }
-
+            .frame(width: 130, height: 30)
+            
         case .expandedCompact:
             ZStack {
                 RoundedRectangle(cornerRadius: 30, style: .continuous)
@@ -321,14 +321,14 @@ struct HUDSettingsView: View {
                 .padding(.bottom, 8)
             }
             .foregroundStyle(.white)
-            .frame(width: 150, height: 48)
-
+            .frame(width: 150, height: 50)
+            
         case .expandedDetailed:
             ZStack {
-                RoundedRectangle(cornerRadius: 30, style: .continuous)
+                RoundedRectangle(cornerRadius: 18, style: .continuous)
                     .fill(.black)
                     .overlay {
-                        RoundedRectangle(cornerRadius: 30, style: .continuous)
+                        RoundedRectangle(cornerRadius: 18, style: .continuous)
                             .stroke(strokeColor, lineWidth: 1)
                     }
                 
@@ -341,7 +341,7 @@ struct HUDSettingsView: View {
                             .padding(.horizontal, 10)
                         
                         ZStack {
-                            pickerIndicator(for: .expandedDetailed, barWidth: 60, barHeight: 6)
+                            pickerIndicator(for: .expandedDetailed, barWidth: 65, barHeight: 6)
                             
                             HStack {
                                 Image(systemName: "speaker.wave.2.fill")
@@ -353,17 +353,16 @@ struct HUDSettingsView: View {
                                     .font(.system(size: 14, design: .rounded))
                             }
                         }
-                        .frame(width: 120)
                         .padding(.horizontal, 10)
                     }
                 }
                 .padding(.bottom, 8)
             }
             .foregroundStyle(.white)
-            .frame(width: 150, height: 48)
+            .frame(width: 150, height: 50)
         }
     }
-
+    
     private func pickerIndicator(for style: HudStyle, barWidth: CGFloat = 30, barHeight: CGFloat = 4) -> some View {
         let isExpanded = style == .expandedCompact || style == .expandedDetailed
         return HudLevelIndicatorView(
@@ -377,12 +376,12 @@ struct HUDSettingsView: View {
             circleLineWidth: 2.5
         )
     }
-
+    
     private var pickerStrokeColor: Color {
         guard applicationSettings.isShowNotchStrokeEnabled else {
             return .clear
         }
-
+        
         return HudLevelStyling.previewStrokeTint(
             isEnabled: settings.isColoredLevelStrokeEnabled
         )

@@ -3,11 +3,11 @@ import SwiftUI
 struct NowPlayingSettingsView: View {
     @ObservedObject var settings: MediaAndFilesSettingsStore
     @ObservedObject var applicationSettings: ApplicationSettingsStore
-
+    
     private var temporaryActivityDurationRange: ClosedRange<Double> {
         Double(SettingsStoreBase.temporaryActivityDurationRange.lowerBound)...Double(SettingsStoreBase.temporaryActivityDurationRange.upperBound)
     }
-
+    
     private var isWithoutCloseTimer: Binding<Bool> {
         Binding(
             get: { !settings.isNowPlayingPauseHideTimerEnabled },
@@ -35,7 +35,7 @@ struct NowPlayingSettingsView: View {
             )
             
             Divider().opacity(0.6)
-
+            
             SettingsMenuRow(
                 title: "settings.nowPlaying.playbackSource.title",
                 description: "settings.nowPlaying.playbackSource.desc",
@@ -46,7 +46,7 @@ struct NowPlayingSettingsView: View {
             )
         }
     }
-
+    
     private var pausedPlaybackBehavior: some View {
         SettingsCard(title: "settings.nowPlaying.card.paused") {
             SettingsToggleRow(
@@ -57,9 +57,9 @@ struct NowPlayingSettingsView: View {
                 isOn: isWithoutCloseTimer,
                 accessibilityIdentifier: "settings.activities.live.nowPlaying.withoutCloseTimer"
             )
-
+            
             Divider().opacity(0.6)
-
+            
             SettingsSliderRow(
                 title: "settings.nowPlaying.closeDelay.title",
                 description: "settings.nowPlaying.closeDelay.desc",
@@ -84,18 +84,7 @@ struct NowPlayingSettingsView: View {
                 settings: settings,
                 applicationSettings: applicationSettings
             )
-
-            Divider().opacity(0.6)
             
-            SettingsMenuRow(
-                title: "settings.nowPlaying.progressBarTint.title",
-                description: "settings.nowPlaying.progressBarTint.desc",
-                options: Array(NowPlayingProgressTintStyle.allCases),
-                optionTitle: { $0.title },
-                accessibilityIdentifier: "settings.activities.live.nowPlaying.progressTintStyle",
-                selection: $settings.nowPlayingProgressTintStyle
-            )
-
             Divider().opacity(0.6)
             
             SettingsToggleRow(
@@ -109,7 +98,7 @@ struct NowPlayingSettingsView: View {
             )
             
             Divider().opacity(0.6)
-
+            
             SettingsToggleRow(
                 title: "settings.nowPlaying.hideFavorite.title",
                 description: "settings.nowPlaying.hideFavorite.desc",
@@ -123,10 +112,7 @@ struct NowPlayingSettingsView: View {
                 accessibilityIdentifier: "settings.activities.live.nowPlaying.hideFavorite"
             )
             
-            Divider()
-                .opacity(0.6)
-                .padding(.leading, 43)
-                .frame(maxWidth: .infinity, alignment: .trailing)
+            Divider().opacity(0.6)
             
             SettingsToggleRow(
                 title: "settings.nowPlaying.hideOutputDevice.title",
@@ -148,78 +134,48 @@ private struct NowPlayingAppearancePreview: View {
     @ObservedObject var settings: MediaAndFilesSettingsStore
     @ObservedObject var applicationSettings: ApplicationSettingsStore
     
-    private let highlightColor = Color(red: 0.98, green: 0.77, blue: 0.31)
-    private let baseColor = Color(red: 0.96, green: 0.48, blue: 0.2)
-    
     var body: some View {
         let appearance = settings.nowPlayingAppearanceOptions
-        let previewEqualizerHeights: [CGFloat] = [8, 6, 9, 5, 9]
         let showsNotchStroke = applicationSettings.isShowNotchStrokeEnabled
-        let progressGradient = LinearGradient(
-            colors: [highlightColor, baseColor],
-            startPoint: .leading,
-            endPoint: .trailing
-        )
         
         SettingsNotchPreview(
-            width: 360,
-            height: 168,
-            previewHeight: 186,
-            topCornerRadius: 28,
-            bottomCornerRadius: 38,
-            backgroundStyle: .black,
-            showsStroke: showsNotchStroke,
-            strokeColor: showsNotchStroke
-            ? Color.white.opacity(0.2).opacity(applicationSettings.notchStrokeOpacity)
-            : .clear,
-            strokeWidth: applicationSettings.notchStrokeWidth,
+            width: 300,
+            height: 170,
+            previewHeight: 200,
+            сornerRadius: 35,
+            strokeColor: showsNotchStroke ? Color.white.opacity(0.2).opacity(applicationSettings.notchStrokeOpacity) : .clear,
             lightBackgroundImage: Image("backgroundLight"),
             darkBackgroundImage: Image("backgroundDark")
         ) {
             VStack(spacing: 13) {
                 HStack(spacing: 13) {
                     RoundedRectangle(cornerRadius: 10, style: .continuous)
-                        .fill(
-                            LinearGradient(
-                                colors: [baseColor, highlightColor],
-                                startPoint: .bottomLeading,
-                                endPoint: .topTrailing
-                            )
-                        )
+                        .fill(.gray.opacity(0.2))
                         .overlay {
                             Image(systemName: "music.note")
-                                .font(.system(size: 16, weight: .bold))
-                                .foregroundStyle(.white.opacity(0.82))
+                                .font(.system(size: 18, weight: .bold))
+                                .foregroundStyle(.white.opacity(0.8))
                         }
-                        .frame(width: 54, height: 54)
+                        .frame(width: 55, height: 55)
                     
                     VStack(alignment: .leading, spacing: 2) {
                         HStack(alignment: .center, spacing: 8) {
-                            Text("Midnight Echoes")
+                            Text(verbatim: "Debug Song Name")
                                 .font(.system(size: 15, weight: .medium))
-                                .foregroundStyle(.white.opacity(0.85))
+                                .foregroundStyle(.white)
                                 .lineLimit(1)
                             
-                            Spacer(minLength: 0)
+                            Spacer()
                             
-                            HStack(alignment: .bottom, spacing: 2.5) {
-                                ForEach(Array(previewEqualizerHeights.enumerated()), id: \.offset) { entry in
-                                    let height = entry.element
-                                    RoundedRectangle(cornerRadius: 3, style: .continuous)
-                                        .fill(
-                                            LinearGradient(
-                                                colors: [highlightColor, baseColor],
-                                                startPoint: .top,
-                                                endPoint: .bottom
-                                            )
-                                        )
-                                        .frame(width: 2.5, height: height)
-                                }
-                            }
-                            .frame(height: 15, alignment: .bottom)
-                            
+                            LightweightNowPlayingEqualizerView(
+                                isPlaying: true,
+                                colors: [.gray],
+                                barHeight: 23,
+                                barWidth: 2.7
+                            )
+                            .frame(width: 23, height: 18)
                         }
-                        Text("Debug Ensemble")
+                        Text(verbatim: "Debug Autor")
                             .font(.system(size: 13))
                             .foregroundStyle(.white.opacity(0.5))
                             .lineLimit(1)
@@ -227,10 +183,10 @@ private struct NowPlayingAppearancePreview: View {
                 }
                 
                 HStack(spacing: 8) {
-                    Text("01:21")
+                    Text(verbatim: "01:21")
                         .font(.system(size: 10, weight: .medium, design: .rounded))
                         .monospacedDigit()
-                        .foregroundStyle(progressTimeColor(isPrimary: true, style: appearance.progressTintStyle))
+                        .foregroundStyle(.white.opacity(0.4))
                     
                     GeometryReader { proxy in
                         let trackHeight: CGFloat = 6
@@ -241,44 +197,34 @@ private struct NowPlayingAppearancePreview: View {
                                 .frame(height: trackHeight)
                             
                             Capsule(style: .continuous)
-                                .fill(progressFillStyle(style: appearance.progressTintStyle, gradient: progressGradient))
+                                .fill(.white.opacity(0.5))
                                 .frame(width: proxy.size.width * 0.38, height: trackHeight)
                         }
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                     }
                     .frame(height: 14)
                     
-                    Text("03:34")
+                    Text(verbatim: "03:34")
                         .font(.system(size: 10, weight: .medium, design: .rounded))
                         .monospacedDigit()
-                        .foregroundStyle(progressTimeColor(isPrimary: false, style: appearance.progressTintStyle))
+                        .foregroundStyle(.white.opacity(0.4))
                 }
-                
                 ZStack {
                     HStack(spacing: 22) {
                         previewControlButton(systemImage: "backward.fill", fontSize: 20)
                         previewControlButton(systemImage: "pause.fill", fontSize: 28)
                         previewControlButton(systemImage: "forward.fill", fontSize: 20)
                     }
-                    
                     HStack {
-                        if appearance.showsFavoriteButton {
-                            previewSideButton(systemImage: "star")
-                        }
-                        
+                        if appearance.showsFavoriteButton {previewSideButton(systemImage: "star")}
                         Spacer()
-                        
-                        if appearance.showsOutputDeviceButton {
-                            previewSideButton(systemImage: "airplayaudio")
-                        }
+                        if appearance.showsOutputDeviceButton {previewSideButton(systemImage: "airplayaudio")}
                     }
                     .padding(.horizontal, 4)
                 }
                 .frame(maxWidth: .infinity)
             }
-            .padding(.horizontal, 40)
-            .padding(.top, 20)
-            .padding(.bottom, 16)
+            .padding(.horizontal, 20)
         }
     }
     
@@ -286,7 +232,7 @@ private struct NowPlayingAppearancePreview: View {
         ZStack {
             Image(systemName: systemImage)
                 .font(.system(size: fontSize, weight: .semibold))
-                .foregroundStyle(.white.opacity(0.92))
+                .foregroundStyle(.white)
         }
         .frame(width: 38, height: 38)
     }
@@ -295,35 +241,8 @@ private struct NowPlayingAppearancePreview: View {
         ZStack {
             Image(systemName: systemImage)
                 .font(.system(size: 18, weight: .semibold))
-                .foregroundStyle(.white.opacity(0.52))
+                .foregroundStyle(.white.opacity(0.5))
         }
         .frame(width: 34, height: 34)
-    }
-
-    private func progressTimeColor(isPrimary: Bool, style: NowPlayingProgressTintStyle) -> Color {
-        switch style {
-        case .default:
-            return .white.opacity(0.4)
-        case .artwork:
-            return isPrimary ? highlightColor : baseColor
-        case .systemAccent:
-            return isPrimary ? .accentColor : .accentColor.opacity(0.7)
-        }
-    }
-
-    private func progressFillStyle(style: NowPlayingProgressTintStyle, gradient: LinearGradient) -> AnyShapeStyle {
-        switch style {
-        case .default:
-            return AnyShapeStyle(.white.opacity(0.5))
-        case .artwork:
-            return AnyShapeStyle(gradient)
-        case .systemAccent:
-            let systemGradient = LinearGradient(
-                colors: [.accentColor, .accentColor.opacity(0.7)],
-                startPoint: .leading,
-                endPoint: .trailing
-            )
-            return AnyShapeStyle(systemGradient)
-        }
     }
 }

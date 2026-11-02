@@ -58,7 +58,7 @@ struct BluetoothCompactNotchView: View {
                 }
             }
         }
-        .padding(.leading, isNotchlessScreen ? 4.scaled(by: scale) : 14.scaled(by: scale))
+        .padding(.leading, isNotchlessScreen ? 4.scaled(by: scale) : 13.scaled(by: scale))
         .padding(.trailing, isNotchlessScreen ? compactLeadingPadding.scaled(by: scale) : 14.scaled(by: scale))
     }
     

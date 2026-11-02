@@ -125,7 +125,7 @@ struct FocusSettingsView: View {
                         .stroke(focusPreviewStrokeColor, lineWidth: 1)
                 }
             
-            HStack(spacing: 0) {
+            HStack {
                 if style == .iconsOnly {
                     Image(systemName: "moon.fill")
                         .font(.system(size: 14, weight: .semibold))
@@ -147,8 +147,7 @@ struct FocusSettingsView: View {
             .padding(.leading, 7)
             .padding(.trailing, 10)
         }
-        .frame(width: 160, height: 30)
-        .environment(\.colorScheme, .dark)
+        .frame(width: 130, height: 30)
         .scaleEffect(isSelected ? 1 : 0.97)
     }
     

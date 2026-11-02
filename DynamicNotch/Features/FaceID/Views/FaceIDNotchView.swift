@@ -47,6 +47,7 @@ struct FaceIDNotchView: View {
         VStack {
             ScanAnimationView(media: scanMedia, tintColor: headlineColor)
                 .frame(width: isNotchlessScreen ? 100 : 110, height: isNotchlessScreen ? 100 : 110)
+                .padding(.top, isNotchlessScreen ? 0 : 10)
         }
         .onChange(of: service.state) { _, newState in
             if case .success = newState {

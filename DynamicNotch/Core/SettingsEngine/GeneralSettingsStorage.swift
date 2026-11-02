@@ -55,8 +55,6 @@ enum GeneralSettingsStorage {
         static let nowPlayingFavoriteButtonVisible = "settings.nowPlaying.favoriteButtonVisible"
         static let nowPlayingOutputDeviceButtonVisible = "settings.nowPlaying.outputDeviceButtonVisible"
         static let nowPlayingArtwork3DEffectEnabled = "settings.nowPlaying.artwork3DEffectEnabled"
-        static let nowPlayingArtworkTintEnabled = "settings.nowPlaying.artworkTintEnabled"
-        static let nowPlayingProgressTintStyle = "settings.nowPlaying.progressTintStyle"
         static let nowPlayingPauseHideTimerEnabled = "settings.nowPlaying.pauseHideTimerEnabled"
         static let nowPlayingPauseHideDelay = "settings.nowPlaying.pauseHideDelay"
         static let nowPlayingSourceFilter = "settings.nowPlaying.sourceFilter"
@@ -186,8 +184,6 @@ enum GeneralSettingsStorage {
         Keys.nowPlayingFavoriteButtonVisible: true,
         Keys.nowPlayingOutputDeviceButtonVisible: true,
         Keys.nowPlayingArtwork3DEffectEnabled: true,
-        Keys.nowPlayingArtworkTintEnabled: false,
-        Keys.nowPlayingProgressTintStyle: NowPlayingProgressTintStyle.default.rawValue,
         Keys.nowPlayingPauseHideTimerEnabled: true,
         Keys.nowPlayingPauseHideDelay: 5,
         Keys.nowPlayingSourceFilter: NowPlayingSourceFilter.any.rawValue,

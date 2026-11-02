@@ -128,10 +128,10 @@ struct CustomPicker<Option: Hashable, Content: View>: View {
                         pickerCardBackground(isSelected: isSelected)
                     }
                     .overlay(
-                        RoundedRectangle(cornerRadius: 10, style: .continuous)
-                            .stroke(isSelected ? Color.accentColor.opacity(0.9) : Color.gray.opacity(0.1), lineWidth: isSelected ? 2 : 1)
+                        RoundedRectangle(cornerRadius: 15, style: .continuous)
+                            .stroke(isSelected ? Color.accentColor : Color.gray.opacity(0.1), lineWidth: isSelected ? 2 : 1)
                     )
-                    .contentShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                    .contentShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
             }
             .buttonStyle(.plain)
 
@@ -174,7 +174,7 @@ struct CustomPicker<Option: Hashable, Content: View>: View {
 
     @ViewBuilder
     private func pickerCardBackground(isSelected: Bool) -> some View {
-        let shape = RoundedRectangle(cornerRadius: 10, style: .continuous)
+        let shape = RoundedRectangle(cornerRadius: 15, style: .continuous)
 
         shape
             .fill(baseCardFillColor(isSelected: isSelected))

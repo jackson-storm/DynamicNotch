@@ -21,6 +21,7 @@ private struct LockScreenContentSyncKey: Equatable {
 
 @MainActor
 final class LockScreenLiveActivityWindowManager {
+    private let homePageTools: HomePageTools
     private let notchViewModel: NotchViewModel
     private let lockScreenManager: LockScreenManager
     private let settingsViewModel: SettingsViewModel
@@ -36,12 +37,14 @@ final class LockScreenLiveActivityWindowManager {
     private var hasDelegatedWindow = false
     
     init(
+        homePageTools: HomePageTools,
         notchViewModel: NotchViewModel,
         lockScreenManager: LockScreenManager,
         settingsViewModel: SettingsViewModel,
         airDropViewModel: AirDropNotchViewModel,
         airDropController: NotchAirDropController
     ) {
+        self.homePageTools = homePageTools
         self.notchViewModel = notchViewModel
         self.lockScreenManager = lockScreenManager
         self.settingsViewModel = settingsViewModel
@@ -226,6 +229,7 @@ final class LockScreenLiveActivityWindowManager {
         }
         
         let rootView = LockScreenNotchOverlayView(
+            homePageTools: homePageTools,
             notchViewModel: notchViewModel,
             settingsViewModel: settingsViewModel,
             animator: animator
@@ -338,6 +342,7 @@ final class LockScreenLiveActivityWindowManager {
         
         hostingView?.frame = NSRect(origin: .zero, size: targetFrame.size)
         hostingView?.rootView = AnyView(LockScreenNotchOverlayView(
+            homePageTools: homePageTools,
             notchViewModel: notchViewModel,
             settingsViewModel: settingsViewModel,
             animator: animator

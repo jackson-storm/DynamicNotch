@@ -60,6 +60,7 @@ final class AppContainer {
     )
 
     lazy var lockScreenLiveActivityWindowManager = LockScreenLiveActivityWindowManager(
+        homePageTools: homePageTools,
         notchViewModel: notchViewModel,
         lockScreenManager: lockScreenManager,
         settingsViewModel: settingsViewModel,

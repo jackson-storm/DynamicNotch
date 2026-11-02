@@ -7,6 +7,7 @@ internal import AppKit
 enum NotchAnimationPreset { case balanced }
 enum NotchContentPriority { static let `default` = 0 }
 enum NotchContentRegistry {
+ enum Media { static let nowPlaying = (id: "music", priority: 10) }
  enum HomePage { static let active = (id: "home", priority: 0) }
  enum LockScreen { static let activity = (id: "lock", priority: 1000) }
  enum Focus { static let active = (id: "focus.on", priority: 100); static let inactive = (id: "focus.off", priority: 100) }
@@ -46,6 +47,15 @@ struct HomePageNotchContent: NotchContentProtocol {
  var isExpandable: Bool { true }
  func makeView() -> AnyView { AnyView(EmptyView()) }
 }
+struct PlaybackActivity: NotchContentProtocol {
+ let id = NotchContentRegistry.Media.nowPlaying.id
+ let priority = 10
+ var isExpandable: Bool { true }
+ var supportsMinimalPresentation: Bool { true }
+ var prefersCompactPresentation: Bool { true }
+ func size(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize { CGSize(width:baseWidth+70,height:baseHeight) }
+ func makeView() -> AnyView { AnyView(EmptyView()) }
+}
 @main struct HomePageSessionIntegration {
  @MainActor static func main() async {
   let vm = NotchViewModel(settings:TestSettings(),hideDelay:0,queueDelay:0,screenMetricsProvider:{ _ in (width:1440,topInset:0,notchSize:nil) })
@@ -73,6 +83,25 @@ struct HomePageNotchContent: NotchContentProtocol {
   vm.interactionRegionProvider = { CGRect(x:100,y:200,width:300,height:100) }
   check(vm.isPointerInsideInteractionRegion(CGPoint(x:150,y:250)),"hover containment uses actual window owner")
   check(!vm.isPointerInsideInteractionRegion(CGPoint(x:50,y:250)),"a genuine pointer exit remains outside")
-  print("PASS: \(count) production view-model checks including real five-second waits")
+  vm.handleOutsideClick(); await settle()
+  vm.send(.showLiveActivity(PlaybackActivity())); await settle()
+  vm.expandActiveLiveActivity(); await settle()
+  check(vm.notchModel.content?.id == "music" && vm.notchModel.isExpanded,"playback opens the player by default")
+  vm.dismissActiveContent(); await settle()
+  check(vm.notchModel.content?.id == "home" && vm.notchModel.isExpanded,"one swipe on the player opens tools directly")
+  check(!vm.canDismissWithTrackpadSwipe,"tool page gestures stay with the home pager after leaving the player")
+  for _ in 0..<5 { vm.send(.showLiveActivity(PlaybackActivity())) }
+  await settle()
+  check(vm.notchModel.content?.id == "home" && vm.notchModel.isExpanded,"playback updates cannot steal the tools session")
+  show(.calculator); await settle()
+  check(page() == .calculator && vm.notchModel.isExpanded,"tools remain navigable during ongoing playback")
+  vm.handleOutsideClick(); await settle()
+  check(vm.notchModel.content?.id == "music" && !vm.notchModel.isExpanded,"closing tools restores the default player")
+  vm.expandActiveLiveActivity(); await settle()
+  check(vm.notchModel.content?.id == "music" && vm.notchModel.isExpanded,"next hover opens the default player again")
+  vm.handleOutsideClick(); await settle()
+  vm.dismissActiveContent(); await settle()
+  check(vm.notchModel.content?.id == "home" && vm.notchModel.isExpanded,"a swipe on compact playback can also open tools")
+  print("PASS: \(count) production view-model checks including real five-second waits and player-to-tools swipes")
  }
 }

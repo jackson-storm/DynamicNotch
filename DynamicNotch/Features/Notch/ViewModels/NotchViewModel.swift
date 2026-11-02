@@ -393,6 +393,18 @@ final class NotchViewModel: ObservableObject {
             return
         }
 
+        if notchModel.temporaryNotificationContent == nil,
+           notchModel.liveActivityContent?.id == NotchContentRegistry.Media.nowPlaying.id,
+           let home = visibleLiveActivities.first(where: { $0.id == NotchContentRegistry.HomePage.active.id }) as? HomePageNotchContent,
+           home.settings.homePageOrder.contains(where: { !home.settings.homePageDisabled.contains($0) }) {
+            prepareHomePageForExpansion(home)
+            resetSwipeStretch()
+            // Keep playback alive in the background. The engine pins the
+            // tools while expanded, then restores the player on collapse.
+            engine.send(.selectLiveActivity(id: home.id))
+            return
+        }
+
         if notchModel.isLiveActivityExpanded {
             engine.handleOutsideClick()
             return
@@ -553,8 +565,8 @@ final class NotchViewModel: ObservableObject {
         }
     }
     
-    private func prepareHomePageForExpansion() {
-        guard let home = notchModel.content as? HomePageNotchContent,
+    private func prepareHomePageForExpansion(_ homePage: HomePageNotchContent? = nil) {
+        guard let home = homePage ?? (notchModel.content as? HomePageNotchContent),
               let first = home.settings.homePageOrder.first(where: { !home.settings.homePageDisabled.contains($0) }) else { return }
         let page = homePageSessionMemory.pageForExpansion(
             current: home.homePages, first: first, at: ProcessInfo.processInfo.systemUptime

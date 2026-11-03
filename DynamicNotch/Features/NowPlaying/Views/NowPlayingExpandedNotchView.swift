@@ -98,8 +98,8 @@ struct NowPlayingExpandedNotchView: View {
             }) {
                 ArtworkView(
                     nowPlayingViewModel: nowPlayingViewModel,
-                    width: 55,
-                    height: 55,
+                    width: isNotchlessScreen ? 55 : 58,
+                    height: isNotchlessScreen ? 55 : 58,
                     cornerRadius: 10,
                     usesFlipAnimation: appearance.usesArtwork3DEffect
                 )

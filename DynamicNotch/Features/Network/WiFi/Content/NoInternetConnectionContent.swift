@@ -12,6 +12,7 @@ struct NoInternetConnectionContent: NotchContentProtocol, DynamicIslandCustomiza
     let id = NotchContentRegistry.Wifi.noInternet.id
     var priority: Int { NotchContentRegistry.Wifi.noInternet.priority }
 
+    var allowsCompactPressScaleEffect: Bool = false
     let onDismiss: @MainActor () -> Void
     let onOpenNetworkSettings: @MainActor () -> Void
 

@@ -174,6 +174,11 @@ final class ClockTimerMonitorRedrawPhaseTests: XCTestCase {
         )
     }
 
+    func testDelayNearTheGridPeriodIsPublished() {
+        _ = establishPhase(delay: 0.248)
+        XCTAssertEqual(latestSnapshot()?.displayDelay ?? 0, 0.248, accuracy: 0.000_001)
+    }
+
     func testCircularMedianAcrossTheGridBoundary() {
         let median = ClockTimerMonitor.circularMedian([0.249, 0.001, 0.003], period: 0.25)
         XCTAssertEqual(median, 0.001, accuracy: 0.000_001)
@@ -196,13 +201,14 @@ final class ClockTimerMonitorRedrawPhaseTests: XCTestCase {
 
     /// Samples four redraws on a 250 ms grid whose implied delay is `establishedDelay`, and
     /// returns the offset of the last one.
-    private func establishPhase() -> TimeInterval {
-        let firstOffset = (establishedDelay - 0.5 + endOffset).truncatingRemainder(dividingBy: 0.25)
+    private func establishPhase(delay: TimeInterval? = nil) -> TimeInterval {
+        let delay = delay ?? establishedDelay
+        let firstOffset = (delay - 0.5 + endOffset).truncatingRemainder(dividingBy: 0.25)
         let offsets = (0..<4).map { firstOffset + Double($0) * 0.25 }
         for offset in offsets {
             sample(at: offset)
         }
-        XCTAssertEqual(latestSnapshot()?.displayDelay ?? 0, establishedDelay, accuracy: 0.000_001)
+        XCTAssertEqual(latestSnapshot()?.displayDelay ?? 0, delay, accuracy: 0.000_001)
         return offsets[3]
     }
 

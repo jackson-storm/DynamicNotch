@@ -75,14 +75,27 @@ enum TimerSource {
     }
 
     func formattedTime(at date: Date) -> String {
-        let seconds = TimeInterval(displayedSeconds(at: date))
+        let seconds = displayedSeconds(at: date)
+        if let abbreviated = Self.abbreviatedTime(seconds) {
+            return abbreviated
+        }
 
         switch self {
         case .system(let vm):
-            return vm.formatTime(seconds)
+            return vm.formatTime(TimeInterval(seconds))
         case .local(let vm):
-            return vm.formatTime(seconds)
+            return vm.formatTime(TimeInterval(seconds))
         }
+    }
+
+    /// Returns nil for durations of 10 minutes or less. Above 10 minutes, it returns whole minutes.
+    /// From one hour, it returns hours with minutes. Minutes round down, like the countdown's minute field.
+    static func abbreviatedTime(_ seconds: Int) -> String? {
+        guard seconds > 600 else { return nil }
+
+        let hours = seconds / 3600
+        let minutes = (seconds % 3600) / 60
+        return hours > 0 ? "\(hours)h \(minutes)m" : "\(minutes)m"
     }
 
     @MainActor

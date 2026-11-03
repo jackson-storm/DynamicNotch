@@ -96,8 +96,8 @@ extension TimerNotchContent {
     var minimalTimerSize: CGFloat {
         switch source.formattedTime(at: .now) {
         case let value where value.contains("h"):
-            return 170
-        case let value where value.contains(":"):
+            return 150
+        case let value where value.contains(":") || value.hasSuffix("m"):
             return 110
         default:
             return 170

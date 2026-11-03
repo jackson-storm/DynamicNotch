@@ -10,22 +10,15 @@ import SwiftUI
 struct TimerCompactIndicatorView: View {
     let source: TimerSource
     
-    @Environment(\.isNotchlessScreen) private var isNotchlessScreen
-    
     private var lineWidth: CGFloat { 2.8 }
-    private var cornerRadius: CGFloat { 5 }
 
     var body: some View {
         TimelineView(.animation(minimumInterval: 1 / 24, paused: source.isPaused)) { context in
             let progress = resolvedProgress(at: context.date)
-            let angle = Angle.degrees((-Double(progress) * 360) - 90)
+            let angle = Self.handAngle(remainingFraction: progress)
 
             ZStack {
-                if isNotchlessScreen {
-                    circleIndicator(progress: progress)
-                } else {
-                    roundedRectangleIndicator(progress: progress)
-                }
+                circleIndicator(progress: progress)
 
                 if source.isPaused {
                     Image(systemName: "pause.fill")
@@ -49,46 +42,39 @@ struct TimerCompactIndicatorView: View {
             .fill(.white.opacity(0.04))
 
         Circle()
-            .stroke(.white.opacity(0.16), lineWidth: lineWidth)
+            .stroke(.orange.opacity(0.32), lineWidth: lineWidth)
 
         Circle()
-            .trim(from: 0, to: progress)
+            .trim(from: 1 - progress, to: 1)
             .stroke(.orange.gradient, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
             .rotationEffect(.degrees(-90))
             .scaleEffect(x: -1, y: 1)
 
         Circle()
-            .fill(.black.opacity(0.34))
-            .padding(lineWidth + 2)
-    }
-
-    @ViewBuilder
-    private func roundedRectangleIndicator(progress: CGFloat) -> some View {
-        RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-            .fill(.white.opacity(0.04))
-
-        RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-            .stroke(.white.opacity(0.16), lineWidth: lineWidth)
-
-        RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-            .trim(from: 0, to: progress)
-            .stroke(.orange.gradient, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
-            .rotationEffect(.degrees(-90))
-            .scaleEffect(x: -1, y: 1)
-
-        RoundedRectangle(cornerRadius: max(1, cornerRadius - 2.5), style: .continuous)
             .fill(.black.opacity(0.34))
             .padding(lineWidth + 2)
     }
 
     private func resolvedProgress(at date: Date) -> CGFloat {
-        let rawProgress = CGFloat(source.progress(at: date))
-        let remaining = source.remainingTime(at: date)
-        guard remaining > 0 else { return 1 }
+        Self.ringFraction(
+            elapsedFraction: source.progress(at: date),
+            remaining: source.remainingTime(at: date),
+            isPaused: source.isPaused
+        )
+    }
 
-        if source.isPaused {
-            return max(0, min(rawProgress, 1))
-        }
-        return max(0.03, min(rawProgress, 1))
+    /// The ring shows the time remaining, so it empties as the timer runs. A running timer stays
+    /// between 3% and 92% filled until it ends. The 92% limit leaves a small dark gap past the
+    /// round line caps from the start.
+    /// The hand sweeps counterclockwise from the top as time passes and stays at the edge of the
+    /// remaining arc.
+    static func handAngle(remainingFraction: CGFloat) -> Angle {
+        .degrees(-90 - 360 * Double(1 - remainingFraction))
+    }
+
+    static func ringFraction(elapsedFraction: Double, remaining: TimeInterval, isPaused: Bool) -> CGFloat {
+        guard remaining > 0 else { return 0 }
+        let remainingFraction = CGFloat(1 - min(max(elapsedFraction, 0), 1))
+        return isPaused ? remainingFraction : min(max(0.03, remainingFraction), 0.92)
     }
 }

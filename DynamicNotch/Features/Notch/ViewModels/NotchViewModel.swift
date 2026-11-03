@@ -6,10 +6,6 @@ typealias NotchScreenMetrics = (width: CGFloat, topInset: CGFloat, notchSize: CG
 @MainActor
 final class NotchViewModel: ObservableObject {
     @Published private(set) var notchModel = NotchModel()
-    @Published private(set) var swipeStretchProgress: CGFloat = 0
-    @Published private(set) var verticalSwipeStretchProgress: CGFloat = 0
-    @Published private(set) var horizontalSwipeStretchProgress: CGFloat = 0
-    @Published private(set) var swipeInteraction: SwipeInteraction?
     @Published private(set) var stagedNotchHeight: CGFloat = NotchModel().baseHeight
     @Published private(set) var isExpandingLiveActivityTransition = false
     @Published private(set) var isActivityPresentationHidden = false
@@ -18,6 +14,7 @@ final class NotchViewModel: ObservableObject {
     
     @Published var isLocked = false
     @Published var isHoveringScrollableContent = false
+    @Published var isScrubbingContent = false
     @Published var showNotch = false
     @Published var isPressed = false
     @Published var cachedStrokeColor: Color = .clear
@@ -29,17 +26,42 @@ final class NotchViewModel: ObservableObject {
     @Published var notchPulseWidth: CGFloat = 0.0
     @Published var notchPulseHeight: CGFloat = 0.0
 
+    let gestureCoordinator: GestureCoordinator
+
     private let settings: NotchSettingsProviding
     private let engine: NotchEngine
     private let screenMetricsProvider: (any NotchSettingsProviding) -> NotchScreenMetrics?
     
     private var cancellables = Set<AnyCancellable>()
     private var expansionTransitionTask: Task<Void, Never>?
-    private var swipeStretchResetWorkItem: DispatchWorkItem?
     private var restoreContentWorkItem: DispatchWorkItem?
     private var notchPulseResetWorkItem: DispatchWorkItem?
     private var isClosingHeightStaged = false
     private var isFocusCloseAnimating = false
+
+    var swipeStretchProgress: CGFloat {
+        gestureCoordinator.swipeStretchProgress
+    }
+
+    var verticalSwipeStretchProgress: CGFloat {
+        gestureCoordinator.verticalSwipeStretchProgress
+    }
+
+    var horizontalSwipeStretchProgress: CGFloat {
+        gestureCoordinator.horizontalSwipeStretchProgress
+    }
+
+    var swipeInteraction: SwipeInteraction? {
+        gestureCoordinator.swipeInteraction
+    }
+
+    var isSwipeInteractionActive: Bool {
+        gestureCoordinator.isSwipeInteractionActive
+    }
+
+    var easedSwipeStretchProgress: CGFloat {
+        gestureCoordinator.easedSwipeStretchProgress
+    }
 
     var animations: NotchAnimations {
         engine.animations
@@ -96,10 +118,6 @@ final class NotchViewModel: ObservableObject {
             width: size.width,
             height: stagedNotchHeight
         )
-    }
-
-    var isSwipeInteractionActive: Bool {
-        swipeInteraction != nil
     }
     
     var canExpandActiveLiveActivity: Bool {
@@ -161,42 +179,60 @@ final class NotchViewModel: ObservableObject {
     }
     
     var canDismissWithMouseDrag: Bool {
-        settings.isNotchMouseDragGesturesEnabled &&
-        settings.isNotchSwipeDismissEnabled &&
-        (!isActivityPresentationHidden || isLocked || notchModel.temporaryNotificationContent != nil) &&
-        hasRealDisplayedContent
+        gestureCoordinator.canDismissWithMouseDrag(
+            isMouseDragEnabled: settings.isNotchMouseDragGesturesEnabled,
+            isSwipeDismissEnabled: settings.isNotchSwipeDismissEnabled,
+            isLocked: isLocked,
+            isActivityPresentationHidden: isActivityPresentationHidden,
+            hasTemporaryNotification: notchModel.temporaryNotificationContent != nil,
+            hasRealDisplayedContent: hasRealDisplayedContent
+        )
     }
     
     var canRestoreWithMouseDrag: Bool {
-        guard !isLocked else { return false }
-        guard !notchModel.isLiveActivityExpanded else { return false }
-        return settings.isNotchMouseDragGesturesEnabled &&
-        settings.isNotchSwipeRestoreEnabled &&
-        canRestoreDismissedContent
+        gestureCoordinator.canRestoreWithMouseDrag(
+            isMouseDragEnabled: settings.isNotchMouseDragGesturesEnabled,
+            isSwipeRestoreEnabled: settings.isNotchSwipeRestoreEnabled,
+            isLocked: isLocked,
+            isLiveActivityExpanded: notchModel.isLiveActivityExpanded,
+            canRestoreDismissedContent: canRestoreDismissedContent
+        )
     }
     
     var canDismissWithTrackpadSwipe: Bool {
-        settings.isNotchTrackpadSwipeGesturesEnabled &&
-        settings.isNotchSwipeDismissEnabled &&
-        (!isActivityPresentationHidden || isLocked || notchModel.temporaryNotificationContent != nil) &&
-        hasRealDisplayedContent
+        gestureCoordinator.canDismissWithTrackpadSwipe(
+            isTrackpadSwipeEnabled: settings.isNotchTrackpadSwipeGesturesEnabled,
+            isSwipeDismissEnabled: settings.isNotchSwipeDismissEnabled,
+            isLocked: isLocked,
+            isActivityPresentationHidden: isActivityPresentationHidden,
+            hasTemporaryNotification: notchModel.temporaryNotificationContent != nil,
+            hasRealDisplayedContent: hasRealDisplayedContent
+        )
     }
     
     var canRestoreWithTrackpadSwipe: Bool {
-        guard !isLocked else { return false }
-        guard !notchModel.isLiveActivityExpanded else { return false }
-        return settings.isNotchTrackpadSwipeGesturesEnabled &&
-        settings.isNotchSwipeRestoreEnabled &&
-        canRestoreDismissedContent
+        gestureCoordinator.canRestoreWithTrackpadSwipe(
+            isTrackpadSwipeEnabled: settings.isNotchTrackpadSwipeGesturesEnabled,
+            isSwipeRestoreEnabled: settings.isNotchSwipeRestoreEnabled,
+            isLocked: isLocked,
+            isLiveActivityExpanded: notchModel.isLiveActivityExpanded,
+            canRestoreDismissedContent: canRestoreDismissedContent
+        )
     }
 
     var canDismissWithHorizontalTrackpadSwipe: Bool {
-        guard canDismissWithTrackpadSwipe else { return false }
-        return isDisplayingExpandedLiveActivity || notchModel.size.height > notchModel.baseHeight + 1
+        gestureCoordinator.canDismissWithHorizontalTrackpadSwipe(
+            canDismissWithTrackpadSwipe: canDismissWithTrackpadSwipe,
+            isDisplayingExpandedLiveActivity: isDisplayingExpandedLiveActivity,
+            notchHeight: notchModel.size.height,
+            baseHeight: notchModel.baseHeight
+        )
     }
 
     var canDismissWithHorizontalMouseDrag: Bool {
-        canDismissWithMouseDrag
+        gestureCoordinator.canDismissWithHorizontalMouseDrag(
+            canDismissWithMouseDrag: canDismissWithMouseDrag
+        )
     }
     
     var isNotchHoverHapticEnabled: Bool {
@@ -204,116 +240,12 @@ final class NotchViewModel: ObservableObject {
     }
     
     var interactiveNotchSize: CGSize {
-        let model = displayedNotchModel
-        let baseSize = model.size
-        let progress = easedSwipeStretchProgress
-        let calculatedSize: CGSize
-        
-        switch swipeInteraction {
-        case .dismiss:
-            if model.isPresentingExpandedLiveActivity || baseSize.height > model.baseHeight + 1 {
-                let heightCompression = min(
-                    max(baseSize.height * SwipeFeedbackMetrics.expandedDismissHeightFactor, SwipeFeedbackMetrics.expandedDismissMinimumHeight),
-                    SwipeFeedbackMetrics.expandedDismissMaximumHeight
-                )
-                
-                calculatedSize = CGSize(
-                    width: baseSize.width,
-                    height: max(model.baseHeight, baseSize.height - (heightCompression * progress))
-                )
-            } else {
-                let widthCompression = min(
-                    max(baseSize.width * SwipeFeedbackMetrics.collapsedDismissWidthFactor, SwipeFeedbackMetrics.collapsedDismissMinimumWidth),
-                    SwipeFeedbackMetrics.collapsedDismissMaximumWidth
-                )
-                
-                let targetWidth = deceleratedWidthTowardsBase(
-                    currentWidth: baseSize.width,
-                    baseWidth: model.baseWidth,
-                    nominalCompression: widthCompression,
-                    progress: progress
-                )
-                
-                calculatedSize = CGSize(
-                    width: targetWidth,
-                    height: baseSize.height
-                )
-            }
-            
-        case .horizontalDismiss:
-            let widthCompression = min(
-                max(baseSize.width * SwipeFeedbackMetrics.collapsedDismissWidthFactor, SwipeFeedbackMetrics.collapsedDismissMinimumWidth),
-                SwipeFeedbackMetrics.collapsedDismissMaximumWidth
-            )
-            
-            let targetWidth = deceleratedWidthTowardsBase(
-                currentWidth: baseSize.width,
-                baseWidth: model.baseWidth,
-                nominalCompression: widthCompression,
-                progress: progress
-            )
-            
-            calculatedSize = CGSize(
-                width: targetWidth,
-                height: baseSize.height
-            )
-
-        case .simultaneousDismiss:
-            let easedHProgress = easedProgress(for: horizontalSwipeStretchProgress)
-            let easedVProgress = easedProgress(for: verticalSwipeStretchProgress)
-
-            let widthCompression = min(
-                max(baseSize.width * SwipeFeedbackMetrics.collapsedDismissWidthFactor, SwipeFeedbackMetrics.collapsedDismissMinimumWidth),
-                SwipeFeedbackMetrics.collapsedDismissMaximumWidth
-            )
-
-            if model.isPresentingExpandedLiveActivity || baseSize.height > model.baseHeight + 1 {
-                let targetWidth = deceleratedWidthTowardsBase(
-                    currentWidth: baseSize.width,
-                    baseWidth: model.baseWidth,
-                    nominalCompression: widthCompression,
-                    progress: easedHProgress
-                )
-
-                let heightCompression = min(
-                    max(baseSize.height * SwipeFeedbackMetrics.expandedDismissHeightFactor, SwipeFeedbackMetrics.expandedDismissMinimumHeight),
-                    SwipeFeedbackMetrics.expandedDismissMaximumHeight
-                )
-
-                let targetHeight = max(model.baseHeight, baseSize.height - (heightCompression * easedVProgress))
-
-                calculatedSize = CGSize(
-                    width: targetWidth,
-                    height: targetHeight
-                )
-            } else {
-                let combinedProgress = max(easedHProgress, easedVProgress)
-                let targetWidth = deceleratedWidthTowardsBase(
-                    currentWidth: baseSize.width,
-                    baseWidth: model.baseWidth,
-                    nominalCompression: widthCompression,
-                    progress: combinedProgress
-                )
-
-                calculatedSize = CGSize(
-                    width: targetWidth,
-                    height: baseSize.height
-                )
-            }
-
-        case .restore:
-            calculatedSize = CGSize(
-                width: baseSize.width,
-                height: baseSize.height + (SwipeFeedbackMetrics.restoreHeightExpansion * progress)
-            )
-            
-        case nil:
-            calculatedSize = baseSize
-        }
-
-        return CGSize(
-            width: calculatedSize.width + focusCloseStretchWidth + notchPulseWidth,
-            height: calculatedSize.height + focusCloseStretchHeight + notchPulseHeight
+        gestureCoordinator.interactiveNotchSize(
+            model: displayedNotchModel,
+            focusCloseStretchWidth: focusCloseStretchWidth,
+            focusCloseStretchHeight: focusCloseStretchHeight,
+            notchPulseWidth: notchPulseWidth,
+            notchPulseHeight: notchPulseHeight
         )
     }
     
@@ -347,41 +279,20 @@ final class NotchViewModel: ObservableObject {
         }
         
         let model = displayedNotchModel
-        if isDynamicIsland && swipeInteraction != nil && model.size.height > model.baseHeight {
-            let swipeRadiusExpansion = SwipeFeedbackMetrics.swipeCornerRadiusExpansion * easedSwipeStretchProgress
-            return baseRadius + swipeRadiusExpansion
-        }
-        return baseRadius
+        let expansion = gestureCoordinator.dynamicIslandCornerRadiusExpansion(
+            isDynamicIsland: isDynamicIsland,
+            modelHeight: model.size.height,
+            baseHeight: model.baseHeight
+        )
+        return baseRadius + expansion
     }
     
     var contentResizeBlurRadius: CGFloat {
-        let progress = min(1.0, easedSwipeStretchProgress)
-        
-        switch swipeInteraction {
-        case .dismiss, .horizontalDismiss, .simultaneousDismiss:
-            return SwipeFeedbackMetrics.dismissBlurRadius * progress
-            
-        case .restore:
-            return SwipeFeedbackMetrics.restoreBlurRadius * progress
-            
-        case nil:
-            return 0
-        }
+        gestureCoordinator.contentResizeBlurRadius()
     }
     
     var contentResizeOpacity: Double {
-        let progress = Double(easedSwipeStretchProgress)
-        
-        switch swipeInteraction {
-        case .dismiss, .horizontalDismiss, .simultaneousDismiss:
-            return max(0, 1 - (SwipeFeedbackMetrics.dismissOpacityReduction * progress))
-            
-        case .restore:
-            return max(0, 1 - (SwipeFeedbackMetrics.restoreOpacityReduction * progress))
-            
-        case nil:
-            return 1
-        }
+        gestureCoordinator.contentResizeOpacity()
     }
     
     init(
@@ -390,9 +301,11 @@ final class NotchViewModel: ObservableObject {
         hideDelay: TimeInterval? = nil,
         queueDelay: TimeInterval? = nil,
         engine: NotchEngine? = nil,
+        gestureCoordinator: GestureCoordinator? = nil,
         screenMetricsProvider: (((any NotchSettingsProviding) -> NotchScreenMetrics?))? = nil
     ) {
         self.settings = settings
+        self.gestureCoordinator = gestureCoordinator ?? GestureCoordinator()
         self.screenMetricsProvider = screenMetricsProvider ?? { settings in
             NSScreen.metrics(for: settings)
         }
@@ -584,55 +497,15 @@ final class NotchViewModel: ObservableObject {
     }
     
     func updateSwipeStretch(for interaction: SwipeInteraction, progress: CGFloat) {
-        swipeStretchResetWorkItem?.cancel()
-        swipeStretchResetWorkItem = nil
-
-        let clampedProgress = max(progress, 0)
-        guard swipeInteraction != interaction || abs(swipeStretchProgress - clampedProgress) > 0.001 else {
-            return
-        }
-
-        swipeInteraction = interaction
-        swipeStretchProgress = clampedProgress
-
-        switch interaction {
-        case .simultaneousDismiss(let v, let h):
-            verticalSwipeStretchProgress = max(0, v)
-            horizontalSwipeStretchProgress = max(0, h)
-        case .dismiss:
-            verticalSwipeStretchProgress = clampedProgress
-            horizontalSwipeStretchProgress = 0
-        case .horizontalDismiss:
-            verticalSwipeStretchProgress = 0
-            horizontalSwipeStretchProgress = clampedProgress
-        case .restore:
-            verticalSwipeStretchProgress = clampedProgress
-            horizontalSwipeStretchProgress = 0
-        }
+        gestureCoordinator.updateSwipeStretch(for: interaction, progress: progress)
     }
     
     func resetSwipeStretch() {
-        guard swipeStretchProgress > 0 || verticalSwipeStretchProgress > 0 || horizontalSwipeStretchProgress > 0 || swipeInteraction != nil else { return }
-
-        swipeStretchResetWorkItem?.cancel()
-
-        let workItem = DispatchWorkItem { [weak self] in
-            self?.applySwipeStretchReset()
-        }
-        swipeStretchResetWorkItem = workItem
-        DispatchQueue.main.async(execute: workItem)
+        gestureCoordinator.resetSwipeStretch(animation: animations.stretchReset)
     }
 
     private func applySwipeStretchReset() {
-        swipeStretchResetWorkItem = nil
-        guard swipeStretchProgress > 0 || verticalSwipeStretchProgress > 0 || horizontalSwipeStretchProgress > 0 || swipeInteraction != nil else { return }
-
-        withAnimation(animations.stretchReset) {
-            swipeStretchProgress = 0
-            verticalSwipeStretchProgress = 0
-            horizontalSwipeStretchProgress = 0
-            swipeInteraction = nil
-        }
+        gestureCoordinator.applySwipeStretchReset(animation: animations.stretchReset)
     }
     
     func handleActiveContentTap() {
@@ -675,12 +548,7 @@ final class NotchViewModel: ObservableObject {
     }
     
     func easedProgress(for rawProgress: CGFloat) -> CGFloat {
-        let p = max(0, rawProgress)
-        return (1.5 * p) / (0.5 + p)
-    }
-
-    var easedSwipeStretchProgress: CGFloat {
-        easedProgress(for: swipeStretchProgress)
+        gestureCoordinator.easedProgress(for: rawProgress)
     }
 
     private var isHoldingStrokeAfterContentHide: Bool {
@@ -742,6 +610,12 @@ final class NotchViewModel: ObservableObject {
         stagedNotchHeight = engine.notchModel.size.height
         isClosingHeightStaged = false
         hasDisplayedContent = hasRealDisplayedContent
+
+        gestureCoordinator.objectWillChange
+            .sink { [weak self] _ in
+                self?.objectWillChange.send()
+            }
+            .store(in: &cancellables)
         
         engine.$notchModel
             .dropFirst()
@@ -807,23 +681,6 @@ final class NotchViewModel: ObservableObject {
         withAnimation(animation) {
             stagedNotchHeight = targetHeight
         }
-    }
-
-    private func deceleratedWidthTowardsBase(
-        currentWidth: CGFloat,
-        baseWidth: CGFloat,
-        nominalCompression: CGFloat,
-        progress: CGFloat
-    ) -> CGFloat {
-        let distanceToBase = currentWidth - baseWidth
-        guard distanceToBase > 0, progress > 0 else {
-            return currentWidth
-        }
-
-        let linearCompression = nominalCompression * progress
-        let ratio = Double(linearCompression / distanceToBase)
-        let compression = distanceToBase * CGFloat(tanh(ratio))
-        return max(baseWidth, currentWidth - compression)
     }
 }
 

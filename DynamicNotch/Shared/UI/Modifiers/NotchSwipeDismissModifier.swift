@@ -13,6 +13,7 @@ struct NotchSwipeDismissModifier: ViewModifier {
                 canSwipeDown: isEnabled && notchViewModel.canRestoreWithTrackpadSwipe,
                 canSwipeHorizontal: isEnabled && notchViewModel.canDismissWithHorizontalTrackpadSwipe,
                 isHoveringScrollableContent: notchViewModel.isHoveringScrollableContent,
+                isScrubbingContent: notchViewModel.isScrubbingContent,
                 onSwipeUp: {
                     notchViewModel.dismissActiveContent()
                 },
@@ -38,6 +39,7 @@ private struct NotchSwipeDismissMonitorRepresentable: NSViewRepresentable {
     let canSwipeDown: Bool
     let canSwipeHorizontal: Bool
     let isHoveringScrollableContent: Bool
+    let isScrubbingContent: Bool
     let onSwipeUp: () -> Void
     let onSwipeDown: () -> Void
     let onSwipeHorizontal: () -> Void
@@ -51,6 +53,7 @@ private struct NotchSwipeDismissMonitorRepresentable: NSViewRepresentable {
             canSwipeDown: canSwipeDown,
             canSwipeHorizontal: canSwipeHorizontal,
             isHoveringScrollableContent: isHoveringScrollableContent,
+            isScrubbingContent: isScrubbingContent,
             onSwipeUp: onSwipeUp,
             onSwipeDown: onSwipeDown,
             onSwipeHorizontal: onSwipeHorizontal,
@@ -66,6 +69,7 @@ private struct NotchSwipeDismissMonitorRepresentable: NSViewRepresentable {
             canSwipeDown: canSwipeDown,
             canSwipeHorizontal: canSwipeHorizontal,
             isHoveringScrollableContent: isHoveringScrollableContent,
+            isScrubbingContent: isScrubbingContent,
             onSwipeUp: onSwipeUp,
             onSwipeDown: onSwipeDown,
             onSwipeHorizontal: onSwipeHorizontal,
@@ -94,6 +98,7 @@ private final class NotchSwipeDismissMonitorView: NSView {
     private var canSwipeDown = false
     private var canSwipeHorizontal = false
     private var isHoveringScrollableContent = false
+    private var isScrubbingContent = false
     private var onSwipeUp: (() -> Void)?
     private var onSwipeDown: (() -> Void)?
     private var onSwipeHorizontal: (() -> Void)?
@@ -132,6 +137,7 @@ private final class NotchSwipeDismissMonitorView: NSView {
         canSwipeDown: Bool,
         canSwipeHorizontal: Bool,
         isHoveringScrollableContent: Bool,
+        isScrubbingContent: Bool,
         onSwipeUp: @escaping () -> Void,
         onSwipeDown: @escaping () -> Void,
         onSwipeHorizontal: @escaping () -> Void,
@@ -142,13 +148,14 @@ private final class NotchSwipeDismissMonitorView: NSView {
         self.canSwipeDown = canSwipeDown
         self.canSwipeHorizontal = canSwipeHorizontal
         self.isHoveringScrollableContent = isHoveringScrollableContent
+        self.isScrubbingContent = isScrubbingContent
         self.onSwipeUp = onSwipeUp
         self.onSwipeDown = onSwipeDown
         self.onSwipeHorizontal = onSwipeHorizontal
         self.onSwipeStretchChanged = onSwipeStretchChanged
         self.onSwipeStretchReset = onSwipeStretchReset
 
-        if !canSwipeUp && !canSwipeDown && !canSwipeHorizontal {
+        if isScrubbingContent || isHoveringScrollableContent || (!canSwipeUp && !canSwipeDown && !canSwipeHorizontal) {
             resetSwipeTracking()
         }
     }
@@ -341,7 +348,7 @@ private extension NotchSwipeDismissMonitorView {
     }
 
     func shouldTrackSwipe(for event: NSEvent) -> Bool {
-        guard !isHoveringScrollableContent else { return false }
+        guard !isHoveringScrollableContent && !isScrubbingContent else { return false }
         guard canSwipeUp || canSwipeDown || canSwipeHorizontal else { return false }
         guard window != nil else { return false }
         guard event.hasPreciseScrollingDeltas else { return false }

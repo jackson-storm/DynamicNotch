@@ -184,14 +184,6 @@ final class ScreenshotViewModel: ObservableObject {
         }
     }
     
-    func makePasteboardWriter(for screenshot: ScreenshotModel) -> NSPasteboardWriting {
-        if let url = getFileURL(for: screenshot) {
-            return url as NSURL
-        } else {
-            return screenshot.image
-        }
-    }
-    
     private func getFileURL(for screenshot: ScreenshotModel) -> URL? {
         if let tempURL = screenshot.tempFileURL, fileManager.fileExists(atPath: tempURL.path) {
             return tempURL
@@ -287,14 +279,6 @@ final class ScreenshotViewModel: ObservableObject {
            let pngData = bitmap.representation(using: .png, properties: [:]) {
             try? pngData.write(to: url)
         }
-    }
-    
-    private func defaultScreenshotDirectory() -> URL {
-        if let customLocation = UserDefaults(suiteName: "com.apple.screencapture")?.string(forKey: "location") {
-            let expanded = (customLocation as NSString).expandingTildeInPath
-            return URL(fileURLWithPath: expanded)
-        }
-        return fileManager.urls(for: .desktopDirectory, in: .userDomainMask).first ?? URL(fileURLWithPath: NSHomeDirectory())
     }
     
     private func setupMonitoring() {

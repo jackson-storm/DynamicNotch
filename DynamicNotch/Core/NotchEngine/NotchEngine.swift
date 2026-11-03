@@ -9,8 +9,8 @@ private enum RestorableDismissedContent {
 /// Central presentation engine coordinating Live Activities and Dynamic Island presentations.
 ///
 /// **Apple LiveActivity & Dynamic Island Lifecycle Management:**
-/// - Maintains the active presentation state model (`NotchModel` / `LiveActivityModel`).
-/// - Coordinates priority-based scheduling for concurrent Live Activities (`NotchContentProtocol` / `LiveActivityContentProtocol`).
+/// - Maintains the active presentation state model (`NotchModel`).
+/// - Coordinates priority-based scheduling for concurrent Live Activities (`NotchContentProtocol`).
 /// - Handles transient alert / HUD preemption and restoration of background Live Activities.
 /// - Manages interactive transitions between Compact and Expanded presentation modes.
 @MainActor
@@ -300,11 +300,6 @@ final class NotchEngine: ObservableObject {
         }
     }
 
-    /// Apple LiveActivity equivalent: Open the host app URL / deep link.
-    func openWidgetURL() {
-        openActiveWindowLink()
-    }
-
     /// Handles user tap to expand the Dynamic Island from Compact mode to Expanded presentation mode.
     func handleActiveContentTap() {
         guard canExpandActiveLiveActivity else { return }
@@ -316,31 +311,6 @@ final class NotchEngine: ObservableObject {
         withAnimation(animations.expandLiveActivity) {
             notchModel.isExpanded = true
         }
-    }
-
-    /// Apple LiveActivity equivalent: Expands the Dynamic Island into expanded mode.
-    func expand() {
-        handleActiveContentTap()
-    }
-
-    /// Apple LiveActivity equivalent: Collapses the Dynamic Island back to compact mode.
-    func collapse() {
-        handleOutsideClick()
-    }
-
-    /// Apple LiveActivity equivalent: Dismisses the currently presented activity or alert.
-    func dismiss() {
-        dismissActiveContent()
-    }
-
-    /// Apple LiveActivity equivalent: Restores the most recently dismissed activity or alert.
-    func restore() {
-        restoreDismissedContent()
-    }
-
-    /// Apple LiveActivity equivalent: Hides the active alert and restores any suspended Live Activity.
-    func dismissAlert() {
-        hideTemporaryNotification()
     }
 
     /// Handles user clicks outside the expanded island to collapse it back to Compact presentation mode.

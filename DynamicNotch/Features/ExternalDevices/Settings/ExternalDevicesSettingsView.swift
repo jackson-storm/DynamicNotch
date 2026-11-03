@@ -8,5 +8,4 @@ struct ExternalDevicesSettingsView: View {
     }
 }
 
-typealias NotificationsSettingsView = ExternalDevicesSettingsView
 

@@ -7,12 +7,6 @@
 
 import SwiftUI
 
-enum TrayEvent {
-    case dragStarted
-    case dragEnded
-    case dropped
-}
-
 struct TrayNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     let id = NotchContentRegistry.DragAndDrop.tray.id
 

@@ -76,15 +76,6 @@ final class ScreenRecordingResultViewModel: ObservableObject {
         dismiss()
     }
 
-    func copyToClipboard() {
-        guard let fileURL = activeResult?.fileURL else { return }
-
-        let pasteboard = NSPasteboard.general
-        pasteboard.clearContents()
-        pasteboard.writeObjects([fileURL as NSURL])
-        dismiss()
-    }
-
     func deleteVideo() {
         isDeleted = true
         if let fileURL = activeResult?.fileURL, fileManager.fileExists(atPath: fileURL.path) {

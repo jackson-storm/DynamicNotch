@@ -27,5 +27,4 @@ final class ExternalDevicesSettingsStore: SettingsStoreBase {
     }
 }
 
-typealias NotificationsSettingsStore = ExternalDevicesSettingsStore
 

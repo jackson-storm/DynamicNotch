@@ -11,6 +11,7 @@ struct NotchMouseSwipeModifier: ViewModifier {
                 canSwipeUp: isEnabled && notchViewModel.canDismissWithMouseDrag,
                 canSwipeDown: isEnabled && notchViewModel.canRestoreWithMouseDrag,
                 canSwipeHorizontal: isEnabled && notchViewModel.canDismissWithHorizontalMouseDrag,
+                isScrubbingContent: notchViewModel.isScrubbingContent,
                 onSwipeUp: {
                     notchViewModel.dismissActiveContent()
                 },
@@ -35,6 +36,7 @@ private struct NotchMouseSwipeMonitorRepresentable: NSViewRepresentable {
     let canSwipeUp: Bool
     let canSwipeDown: Bool
     let canSwipeHorizontal: Bool
+    let isScrubbingContent: Bool
     let onSwipeUp: () -> Void
     let onSwipeDown: () -> Void
     let onSwipeHorizontal: () -> Void
@@ -47,6 +49,7 @@ private struct NotchMouseSwipeMonitorRepresentable: NSViewRepresentable {
             canSwipeUp: canSwipeUp,
             canSwipeDown: canSwipeDown,
             canSwipeHorizontal: canSwipeHorizontal,
+            isScrubbingContent: isScrubbingContent,
             onSwipeUp: onSwipeUp,
             onSwipeDown: onSwipeDown,
             onSwipeHorizontal: onSwipeHorizontal,
@@ -61,6 +64,7 @@ private struct NotchMouseSwipeMonitorRepresentable: NSViewRepresentable {
             canSwipeUp: canSwipeUp,
             canSwipeDown: canSwipeDown,
             canSwipeHorizontal: canSwipeHorizontal,
+            isScrubbingContent: isScrubbingContent,
             onSwipeUp: onSwipeUp,
             onSwipeDown: onSwipeDown,
             onSwipeHorizontal: onSwipeHorizontal,
@@ -91,6 +95,7 @@ private final class NotchMouseSwipeMonitorView: NSView {
     private var canSwipeUp = false
     private var canSwipeDown = false
     private var canSwipeHorizontal = false
+    private var isScrubbingContent = false
     private var onSwipeUp: (() -> Void)?
     private var onSwipeDown: (() -> Void)?
     private var onSwipeHorizontal: (() -> Void)?
@@ -122,6 +127,7 @@ private final class NotchMouseSwipeMonitorView: NSView {
         canSwipeUp: Bool,
         canSwipeDown: Bool,
         canSwipeHorizontal: Bool,
+        isScrubbingContent: Bool,
         onSwipeUp: @escaping () -> Void,
         onSwipeDown: @escaping () -> Void,
         onSwipeHorizontal: @escaping () -> Void,
@@ -131,13 +137,14 @@ private final class NotchMouseSwipeMonitorView: NSView {
         self.canSwipeUp = canSwipeUp
         self.canSwipeDown = canSwipeDown
         self.canSwipeHorizontal = canSwipeHorizontal
+        self.isScrubbingContent = isScrubbingContent
         self.onSwipeUp = onSwipeUp
         self.onSwipeDown = onSwipeDown
         self.onSwipeHorizontal = onSwipeHorizontal
         self.onSwipeStretchChanged = onSwipeStretchChanged
         self.onSwipeStretchReset = onSwipeStretchReset
 
-        if !canSwipeUp && !canSwipeDown && !canSwipeHorizontal {
+        if isScrubbingContent || (!canSwipeUp && !canSwipeDown && !canSwipeHorizontal) {
             resetTracking()
         }
     }
@@ -236,6 +243,11 @@ private extension NotchMouseSwipeMonitorView {
             return
         }
 
+        guard !isScrubbingContent else {
+            resetTracking()
+            return
+        }
+
         let screenLocation = screenLocation(for: event)
         let isInsideNotch = currentScreenRect()?.contains(screenLocation) == true
 
@@ -248,6 +260,10 @@ private extension NotchMouseSwipeMonitorView {
     }
 
     func handleMouseDragged(_ event: NSEvent) {
+        guard !isScrubbingContent else {
+            resetTracking()
+            return
+        }
         guard isTrackingDrag, let initialScreenLocation else { return }
 
         let currentLocation = screenLocation(for: event)
@@ -260,6 +276,10 @@ private extension NotchMouseSwipeMonitorView {
     }
 
     func handleMouseUp(_ event: NSEvent) {
+        guard !isScrubbingContent else {
+            resetTracking()
+            return
+        }
         guard isTrackingDrag, let initialScreenLocation else {
             resetTracking()
             return

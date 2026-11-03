@@ -15,6 +15,10 @@ struct IsNotchlessScreenKey: EnvironmentKey {
     static let defaultValue: Bool = false
 }
 
+struct OnScrubbingChangedKey: EnvironmentKey {
+    static let defaultValue: (Bool) -> Void = { _ in }
+}
+
 extension EnvironmentValues {
     var notchScale: CGFloat {
         get { self[NotchScaleKey.self] }
@@ -26,9 +30,9 @@ extension EnvironmentValues {
         set { self[IsNotchlessScreenKey.self] = newValue }
     }
 
-    @available(*, deprecated, renamed: "isNotchlessScreen")
-    var isDynamicIsland: Bool {
-        get { isNotchlessScreen }
-        set { isNotchlessScreen = newValue }
+    var onScrubbingChanged: (Bool) -> Void {
+        get { self[OnScrubbingChangedKey.self] }
+        set { self[OnScrubbingChangedKey.self] = newValue }
     }
 }
+

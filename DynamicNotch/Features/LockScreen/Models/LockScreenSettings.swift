@@ -85,14 +85,6 @@ enum LockScreenSettings {
         return style
     }
 
-    static func isLyricsEnabled(in defaults: UserDefaults = .standard) -> Bool {
-        resolvedBoolean(forKey: lyricsEnabledKey, defaultValue: true, in: defaults)
-    }
-
-    static func isArtworkExpanded(in defaults: UserDefaults = .standard) -> Bool {
-        resolvedBoolean(forKey: artworkExpandedKey, defaultValue: false, in: defaults)
-    }
-
     static func mediaPanelVerticalOffset(in defaults: UserDefaults = .standard) -> Double {
         guard let value = defaults.object(forKey: mediaPanelVerticalOffsetKey) as? Double else {
             return 0

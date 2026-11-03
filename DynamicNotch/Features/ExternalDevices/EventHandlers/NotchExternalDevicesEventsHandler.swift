@@ -58,5 +58,4 @@ final class NotchExternalDevicesEventsHandler {
     }
 }
 
-typealias NotchNotificationsEventsHandler = NotchExternalDevicesEventsHandler
 

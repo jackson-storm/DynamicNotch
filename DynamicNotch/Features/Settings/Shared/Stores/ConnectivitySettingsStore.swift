@@ -109,11 +109,6 @@ final class ConnectivitySettingsStore: SettingsStoreBase {
         hotspotAppearanceStyle = .minimal
     }
 
-    func resetNetwork() {
-        resetWifi()
-        resetVpn()
-    }
-
     func resetVpn() {
         isVpnLiveActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.vpnLiveActivityEnabled)
         isVpnTemporaryActivityEnabled = defaultBool(for: GeneralSettingsStorage.Keys.vpnTemporaryActivityEnabled)

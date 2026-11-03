@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct PlayerProgressBar: View {
+    @Environment(\.onScrubbingChanged) private var onScrubbingChanged
+
     let progress: CGFloat
     let displayedElapsedTime: TimeInterval
     let duration: TimeInterval
@@ -19,6 +21,7 @@ struct PlayerProgressBar: View {
     let onScrubEnded: (CGFloat) -> Void
     
     @State private var scaleEffect: Bool = false
+    @State private var isHovering: Bool = false
     
     var body: some View {
         HStack(spacing: 10) {
@@ -50,17 +53,28 @@ struct PlayerProgressBar: View {
                 .clipShape(Capsule(style: .continuous))
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                 .contentShape(Rectangle())
+                .onHover { isHovered in
+                    guard isInteractive else { return }
+                    isHovering = isHovered
+                    if !scaleEffect {
+                        onScrubbingChanged(isHovered)
+                    }
+                }
                 .gesture(
                     DragGesture(minimumDistance: 0)
                         .onChanged { value in
                             guard isInteractive else { return }
                             scaleEffect = true
+                            onScrubbingChanged(true)
                             onScrubChanged(progress(at: value.location.x, in: proxy.size.width))
                         }
                         .onEnded { value in
                             guard isInteractive else { return }
                             scaleEffect = false
                             onScrubEnded(progress(at: value.location.x, in: proxy.size.width))
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+                                onScrubbingChanged(isHovering)
+                            }
                         }
                 )
             }
@@ -70,6 +84,9 @@ struct PlayerProgressBar: View {
                 .font(.system(size: 10, weight: .medium, design: .rounded))
                 .monospacedDigit()
                 .foregroundStyle(scaleEffect ? .white : secondaryColor)
+        }
+        .onDisappear {
+            onScrubbingChanged(false)
         }
         .animation(.spring(response: 0.3, dampingFraction: 0.6), value: scaleEffect)
     }

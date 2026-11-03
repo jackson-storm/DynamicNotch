@@ -120,15 +120,25 @@ DynamicNotch/
 
 To keep the codebase maintainable and clean, please adhere to these rules:
 
-1. **Follow Swift API Design Guidelines**: Write clean, self-documenting Swift code. Use meaningful names, swift-native types, and avoid unnecessary force unwraps (`!`).
-2. **Architecture Conformity**:
+1. **Dynamic Island First (Features & UI)**:
+   - New features and UI components must strictly match or closely resemble the native Apple iOS Dynamic Island behaviors, layouts, and physics-based spring animations.
+   - Do not invent non-standard UI elements that break the Apple design language (use proper rounded corners, padding, and San Francisco typography).
+2. **Minimal & Targeted Bug Fixes**:
+   - Fix bugs pinpointed to their cause without altering unrelated business logic, existing view layouts, or user flows.
+3. **Architecture Conformity**:
    - If writing a new feature, place it in `DynamicNotch/Features/[FeatureName]`.
-   - Keep Views layout-focused and delegate logic to their ViewModels.
-3. **Animations**: DynamicNotch prioritizes smooth, premium animations that mimic Apple's native physics-based transitions. Use spring animations (`.spring()` or custom springs) and test behavior transitions extensively.
-4. **Formatting**:
-   - Use 4 spaces for indentation (Xcode default).
-   - Clean up unused imports, dead code, and commented-out snippets.
-5. **No Placeholders**: Avoid committing hardcoded dummy assets or debug overrides. Use runtime configuration or settings checks.
+   - Follow the MVVM architecture: keep Views declarative and delegate state and event handling to ViewModels.
+4. **Battery & Performance Consciousness**:
+   - DynamicNotch is a background overlay app. Avoid high-frequency polling, tight timer loops, or heavy background computations.
+   - Guard against memory leaks: ensure subscriptions and notification observers use `[weak self]` where appropriate.
+   - Ensure UI updates execute on the `@MainActor`.
+5. **Zero Unnecessary Dependencies**:
+   - Avoid adding external SPM dependencies unless absolutely necessary and agreed upon. Use native macOS, AppKit, and SwiftUI APIs whenever possible.
+6. **Code Style & Swift Guidelines**:
+   - Write clean, self-documenting Swift code following the Swift API Design Guidelines.
+   - Avoid force unwrapping (`!`).
+   - Use 4 spaces for indentation.
+   - Clean up unused imports, dead code, debug `print()` statements, and commented-out snippets before submitting.
 
 ---
 
@@ -144,11 +154,13 @@ DynamicNotch has a test suite located in the `DynamicNotchTests` folder.
 ## Pull Request Checklist
 
 Before submitting your pull request, please make sure:
-- [ ] The project compiles successfully without errors or warnings.
-- [ ] All unit and UI tests pass (`Cmd + U`).
-- [ ] Your code follows the project's formatting and style guidelines.
-- [ ] Your branch is rebased onto the latest `main` branch.
-- [ ] You have provided a clear description of the problem your PR solves and how it was implemented.
+- [ ] New features/UI strictly adhere to native iOS Dynamic Island design and animations.
+- [ ] Bug fixes do not alter unrelated logic or UI.
+- [ ] No performance regressions, high-frequency polling, or memory leaks.
+- [ ] No unnecessary third-party dependencies are introduced.
+- [ ] The project compiles successfully without errors or new warnings.
+- [ ] All unit tests pass (`Cmd + U`).
+- [ ] Code follows project formatting and Swift conventions (no leftover `print()`, clean commits).
 - [ ] You have included screenshots or screen recordings for UI changes.
 
 Thank you for contributing to DynamicNotch! 🚀

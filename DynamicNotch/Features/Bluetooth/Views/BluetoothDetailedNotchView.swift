@@ -36,9 +36,9 @@ struct BluetoothDetailedNotchView: View {
             Spacer()
             indicator
         }
-        .padding(.bottom, isNotchlessScreen ? 0 : 25)
+        .padding(.top, isNotchlessScreen ? 0 : 20)
         .padding(.leading, isNotchlessScreen ? 15 : 38)
-        .padding(.trailing, isNotchlessScreen ? 15 : 38)
+        .padding(.trailing, isNotchlessScreen ? 15 : 36)
     }
     
     private var deviceImage: some View {

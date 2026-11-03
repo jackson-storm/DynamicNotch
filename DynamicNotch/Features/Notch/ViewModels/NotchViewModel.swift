@@ -14,6 +14,7 @@ final class NotchViewModel: ObservableObject {
     
     @Published var isLocked = false
     @Published var isHoveringScrollableContent = false
+    @Published var isScrubbingContent = false
     @Published var showNotch = false
     @Published var isPressed = false
     @Published var cachedStrokeColor: Color = .clear

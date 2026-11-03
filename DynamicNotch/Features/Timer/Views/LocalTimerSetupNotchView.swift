@@ -12,11 +12,14 @@ struct LocalTimerSetupNotchView: View {
     @ObservedObject var localTimerViewModel: LocalTimerViewModel
     @Environment(\.isNotchlessScreen) private var isNotchlessScreen
     @Environment(\.locale) private var locale
+    @Environment(\.onScrubbingChanged) private var onScrubbingChanged
 
     @State private var selectedIndex: Int = 20
     @State private var dragOffset: CGFloat = 0
     @State private var dragStartIndex: Int = 20
     @State private var isDragging: Bool = false
+    @State private var isHoveringRuler: Bool = false
+    @State private var scrollAccumulator: CGFloat = 0
     @State private var scrollDirection: Int = 1
 
     var onClose: (() -> Void)? = nil
@@ -44,6 +47,9 @@ struct LocalTimerSetupNotchView: View {
         }
         .padding(.top, isNotchlessScreen ? 25 : 35)
         .padding(.horizontal, isNotchlessScreen ? 15 : 45)
+        .onDisappear {
+            onScrubbingChanged(false)
+        }
     }
 
     private var rulerSection: some View {
@@ -77,6 +83,17 @@ struct LocalTimerSetupNotchView: View {
             }
             .frame(width: containerWidth, height: 50)
             .contentShape(Rectangle())
+            .overlay {
+                RulerScrollTrackpadViewRepresentable { event in
+                    handleScrollWheel(event: event)
+                }
+            }
+            .onHover { hovering in
+                isHoveringRuler = hovering
+                if !isDragging {
+                    onScrubbingChanged(hovering)
+                }
+            }
             .highPriorityGesture(dragGesture)
             .onTapGesture { location in
                 let clickedOffset = location.x - centerOffset
@@ -158,14 +175,23 @@ struct LocalTimerSetupNotchView: View {
         }
     }
     
+    private func clampedOffset(_ rawOffset: CGFloat, from startIndex: Int) -> CGFloat {
+        let minOffset = CGFloat(startIndex - Self.maxIndex) * tickSpacing
+        let maxOffset = CGFloat(startIndex - 1) * tickSpacing
+        return min(max(rawOffset, minOffset), maxOffset)
+    }
+
     private var dragGesture: some Gesture {
         DragGesture(minimumDistance: 1)
             .onChanged { value in
                 if !isDragging {
                     isDragging = true
+                    onScrubbingChanged(true)
                 }
-                dragOffset = value.translation.width
-                let continuousIndex = Double(dragStartIndex) - Double(value.translation.width / tickSpacing)
+                scrollAccumulator = 0
+                let effectiveOffset = clampedOffset(value.translation.width, from: dragStartIndex)
+                dragOffset = effectiveOffset
+                let continuousIndex = Double(dragStartIndex) - Double(effectiveOffset / tickSpacing)
                 let clamped = min(max(1, Int(round(continuousIndex))), Self.maxIndex)
                 if clamped != selectedIndex {
                     scrollDirection = clamped >= selectedIndex ? 1 : -1
@@ -176,7 +202,8 @@ struct LocalTimerSetupNotchView: View {
             .onEnded { value in
                 let velocity = value.velocity.width
                 let projectedTranslation = value.translation.width + (velocity * 0.04)
-                let continuousIndex = Double(dragStartIndex) - Double(projectedTranslation / tickSpacing)
+                let effectiveProjected = clampedOffset(projectedTranslation, from: dragStartIndex)
+                let continuousIndex = Double(dragStartIndex) - Double(effectiveProjected / tickSpacing)
                 let targetIndex = min(max(1, Int(round(continuousIndex))), Self.maxIndex)
 
                 if targetIndex != selectedIndex {
@@ -188,9 +215,83 @@ struct LocalTimerSetupNotchView: View {
                     dragStartIndex = targetIndex
                     dragOffset = 0
                 }
+                scrollAccumulator = 0
                 isDragging = false
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+                    onScrubbingChanged(isHoveringRuler)
+                }
                 NSHapticFeedbackManager.defaultPerformer.perform(.alignment, performanceTime: .default)
             }
+    }
+
+    private func handleScrollWheel(event: NSEvent) {
+        if event.hasPreciseScrollingDeltas {
+            handleTrackpadScroll(event: event)
+        } else {
+            handleMouseWheel(event: event)
+        }
+    }
+
+    private func handleTrackpadScroll(event: NSEvent) {
+        let deltaX = CGFloat(event.scrollingDeltaX)
+        let deltaY = CGFloat(event.scrollingDeltaY)
+        let rawDelta = abs(deltaX) >= abs(deltaY) ? deltaX : deltaY
+        let physicalDelta = event.isDirectionInvertedFromDevice ? rawDelta : -rawDelta
+
+        if event.phase.contains(.began) || !isDragging {
+            isDragging = true
+            onScrubbingChanged(true)
+            scrollAccumulator = 0
+            dragStartIndex = selectedIndex
+        }
+
+        let newAccumulator = scrollAccumulator + physicalDelta
+        let clampedAcc = clampedOffset(newAccumulator, from: dragStartIndex)
+        scrollAccumulator = clampedAcc
+        dragOffset = clampedAcc
+
+        let continuousIndex = Double(dragStartIndex) - Double(clampedAcc / tickSpacing)
+        let clamped = min(max(1, Int(round(continuousIndex))), Self.maxIndex)
+        if clamped != selectedIndex {
+            scrollDirection = clamped >= selectedIndex ? 1 : -1
+            selectedIndex = clamped
+            NSHapticFeedbackManager.defaultPerformer.perform(.alignment, performanceTime: .default)
+        }
+
+        let isGestureEnded = event.phase.contains(.ended) || event.phase.contains(.cancelled)
+        let isMomentumEnded = event.momentumPhase.contains(.ended) || event.momentumPhase.contains(.cancelled)
+        let hasActiveMomentum = !event.momentumPhase.isEmpty && !isMomentumEnded
+
+        if isMomentumEnded || (isGestureEnded && !hasActiveMomentum) {
+            withAnimation(.spring(response: 0.32, dampingFraction: 0.82)) {
+                dragStartIndex = selectedIndex
+                dragOffset = 0
+            }
+            scrollAccumulator = 0
+            isDragging = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+                onScrubbingChanged(isHoveringRuler)
+            }
+            NSHapticFeedbackManager.defaultPerformer.perform(.alignment, performanceTime: .default)
+        }
+    }
+
+    private func handleMouseWheel(event: NSEvent) {
+        let raw = abs(event.scrollingDeltaX) > abs(event.scrollingDeltaY) ? event.scrollingDeltaX : event.scrollingDeltaY
+        let delta = event.isDirectionInvertedFromDevice ? raw : -raw
+        guard abs(delta) > 0.1 else { return }
+
+        let step = delta > 0 ? 1 : -1
+        let targetIndex = min(max(1, selectedIndex + step), Self.maxIndex)
+        if targetIndex != selectedIndex {
+            scrollDirection = targetIndex >= selectedIndex ? 1 : -1
+            withAnimation(.spring(response: 0.28, dampingFraction: 0.82)) {
+                selectedIndex = targetIndex
+                dragStartIndex = targetIndex
+                dragOffset = 0
+            }
+            NSHapticFeedbackManager.defaultPerformer.perform(.alignment, performanceTime: .default)
+        }
     }
 
     private var timeDisplay: some View {
@@ -380,5 +481,44 @@ private struct RulerTickView: View {
                 glow = 0.0
             }
         }
+    }
+}
+
+private struct RulerScrollTrackpadViewRepresentable: NSViewRepresentable {
+    let onScroll: (NSEvent) -> Void
+
+    func makeNSView(context: Context) -> RulerScrollTrackpadNSView {
+        let view = RulerScrollTrackpadNSView()
+        view.onScroll = onScroll
+        return view
+    }
+
+    func updateNSView(_ nsView: RulerScrollTrackpadNSView, context: Context) {
+        nsView.onScroll = onScroll
+    }
+}
+
+private final class RulerScrollTrackpadNSView: NSView {
+    var onScroll: ((NSEvent) -> Void)?
+
+    override init(frame frameRect: NSRect) {
+        super.init(frame: frameRect)
+        wantsLayer = true
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        wantsLayer = true
+    }
+
+    override func hitTest(_ point: NSPoint) -> NSView? {
+        if NSApp.currentEvent?.type == .scrollWheel || window?.currentEvent?.type == .scrollWheel {
+            return self
+        }
+        return nil
+    }
+
+    override func scrollWheel(with event: NSEvent) {
+        onScroll?(event)
     }
 }

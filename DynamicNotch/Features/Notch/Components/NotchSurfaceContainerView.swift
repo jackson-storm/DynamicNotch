@@ -131,6 +131,10 @@ struct NotchSurfaceContainerView: View {
             }
         }
         .id(content.id)
+        .environment(\.onScrubbingChanged) { [weak notchViewModel] isScrubbing in
+            notchViewModel?.isScrubbingContent = isScrubbing
+            notchViewModel?.isHoveringScrollableContent = isScrubbing
+        }
     }
     
     private var shouldApplyPressScale: Bool {

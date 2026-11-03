@@ -9,16 +9,18 @@ final class ClockTimerMonitorPauseStateTests: XCTestCase {
     private var queue: DispatchQueue!
     private var monitor: ClockTimerMonitor!
     private var snapshots: [ClockTimerSnapshot?] = []
+    private var clock: TestClock!
 
     override func setUp() {
         super.setUp()
         domain = "com.dynamicnotch.tests.clocktimer.\(UUID().uuidString)" as CFString
         queue = DispatchQueue(label: "ClockTimerMonitorPauseStateTests")
-        let fixedNow = now
+        let clock = TestClock(now: now)
+        self.clock = clock
         monitor = ClockTimerMonitor(
             metadataDomain: domain,
             metadataFilePath: "/nonexistent/\(UUID().uuidString).plist",
-            dateProvider: { fixedNow },
+            dateProvider: { clock.now },
             queue: queue
         )
         snapshots = []
@@ -33,6 +35,7 @@ final class ClockTimerMonitorPauseStateTests: XCTestCase {
         monitor = nil
         queue = nil
         domain = nil
+        clock = nil
         super.tearDown()
     }
 
@@ -98,7 +101,7 @@ final class ClockTimerMonitorPauseStateTests: XCTestCase {
         settle()
 
         XCTAssertEqual(latestSnapshot()?.isPaused, true)
-        XCTAssertEqual(latestSnapshot()?.pausedRemaining, 867)
+        XCTAssertEqual(latestSnapshot()?.pausedRemaining ?? 0, 866.374438, accuracy: 0.000_001)
         let laterRunning = snapshots[pauseIndex...].compactMap { $0 }.filter { !$0.isPaused }
         XCTAssertTrue(laterRunning.isEmpty)
     }
@@ -185,10 +188,16 @@ final class ClockTimerMonitorPauseStateTests: XCTestCase {
         XCTAssertEqual(latestSnapshot()?.remainingTime(at: now) ?? 0, 900, accuracy: 1)
 
         let countAfterCorrection = snapshots.count
-        writePreferences(running: true, fireDate: now.addingTimeInterval(900.4))
+        writePreferences(running: true, fireDate: now.addingTimeInterval(900.0015))
         monitor.ingestPreferencesChange()
         settle()
         XCTAssertEqual(snapshots.count, countAfterCorrection)
+
+        writePreferences(running: true, fireDate: now.addingTimeInterval(900.004))
+        monitor.ingestPreferencesChange()
+        settle()
+        XCTAssertEqual(snapshots.count, countAfterCorrection + 1)
+        XCTAssertEqual(latestSnapshot()?.endDate.timeIntervalSince(now) ?? 0, 900.004, accuracy: 0.000_001)
     }
 
     func testPausedPreferencesIgnoreStaleFireDate() {
@@ -199,7 +208,87 @@ final class ClockTimerMonitorPauseStateTests: XCTestCase {
         settle()
 
         XCTAssertEqual(latestSnapshot()?.isPaused, true)
-        XCTAssertEqual(latestSnapshot()?.pausedRemaining, 867)
+        XCTAssertEqual(latestSnapshot()?.pausedRemaining ?? 0, 866.590850, accuracy: 0.000_001)
+    }
+
+    func testRemainingTimeSampleSetsExactEndDate() {
+        startTimerAndLogRemaining898()
+
+        XCTAssertEqual(latestSnapshot()?.isPaused, false)
+        XCTAssertEqual(latestSnapshot()?.endDate.timeIntervalSince(now) ?? 0, 898.558, accuracy: 0.000_001)
+    }
+
+    func testRemainingTimeJitterDoesNotRepublish() {
+        startTimerAndLogRemaining898()
+        let countAfterSample = snapshots.count
+
+        monitor.ingestLogMessage("remainingTime: 898.5595")
+        settle()
+        XCTAssertEqual(snapshots.count, countAfterSample)
+
+        monitor.ingestLogMessage("remainingTime: 898.554")
+        settle()
+        XCTAssertEqual(snapshots.count, countAfterSample + 1)
+        XCTAssertEqual(latestSnapshot()?.endDate.timeIntervalSince(now) ?? 0, 898.554, accuracy: 0.000_001)
+    }
+
+    func testPreferencesFireDateCorrectsSampleEndOnlyBeyondTwoMilliseconds() {
+        startTimerAndLogRemaining898()
+        let countAfterSample = snapshots.count
+
+        writePreferences(running: true, fireDate: now.addingTimeInterval(898.5595))
+        monitor.ingestPreferencesChange()
+        settle()
+        XCTAssertEqual(snapshots.count, countAfterSample)
+        XCTAssertEqual(latestSnapshot()?.endDate.timeIntervalSince(now) ?? 0, 898.558, accuracy: 0.000_001)
+
+        writePreferences(running: true, fireDate: now.addingTimeInterval(898.562))
+        monitor.ingestPreferencesChange()
+        settle()
+        XCTAssertEqual(snapshots.count, countAfterSample + 1)
+        XCTAssertEqual(latestSnapshot()?.endDate.timeIntervalSince(now) ?? 0, 898.562, accuracy: 0.000_001)
+    }
+
+    func testStaleScheduledTimersRepublishKeepsExactEndDate() {
+        startTimerAndLogRemaining898()
+        clock.now = now.addingTimeInterval(0.4)
+
+        monitor.ingestLogMessage(scheduledTimersMessage(state: "Running"))
+        settle()
+
+        XCTAssertEqual(latestSnapshot()?.isPaused, false)
+        XCTAssertEqual(latestSnapshot()?.endDate.timeIntervalSince(now) ?? 0, 898.558, accuracy: 0.000_001)
+    }
+
+    func testStaleLoggedRunningTransitionKeepsExactEndDate() {
+        startTimerAndLogRemaining898()
+        clock.now = now.addingTimeInterval(0.4)
+
+        monitor.ingestLogMessage(transitionMessage(from: "Paused", to: "Running"))
+        settle()
+
+        XCTAssertEqual(latestSnapshot()?.isPaused, false)
+        XCTAssertEqual(latestSnapshot()?.endDate.timeIntervalSince(now) ?? 0, 898.558, accuracy: 0.000_001)
+    }
+
+    func testTrailingExactSampleReplacesPausedEstimate() {
+        writePreferences(running: true)
+        monitor.ingestPreferencesChange()
+        monitor.ingestLogMessage("<MTTimerScheduler: 0x600001234570> Timer will fire 14.631088 minutes from now")
+        monitor.ingestLogMessage("remainingTime: 867.0")
+        monitor.ingestLogMessage(transitionMessage(from: "Running", to: "Paused"))
+        settle()
+        XCTAssertEqual(latestSnapshot()?.isPaused, true)
+        XCTAssertEqual(latestSnapshot()?.pausedRemaining ?? 0, 867, accuracy: 0.000_001)
+        let pauseIndex = snapshots.count
+
+        monitor.ingestLogMessage("remainingTime: 866.374")
+        settle()
+
+        XCTAssertEqual(latestSnapshot()?.isPaused, true)
+        XCTAssertEqual(latestSnapshot()?.pausedRemaining ?? 0, 866.374, accuracy: 0.000_001)
+        let laterRunning = snapshots[pauseIndex...].compactMap { $0 }.filter { !$0.isPaused }
+        XCTAssertTrue(laterRunning.isEmpty)
     }
 
     func testFireDateParserAcceptsDateAndDefaultsString() {
@@ -227,7 +316,15 @@ final class ClockTimerMonitorPauseStateTests: XCTestCase {
         monitor.ingestLogMessage(transitionMessage(from: "Running", to: "Paused"))
         settle()
         XCTAssertEqual(latestSnapshot()?.isPaused, true)
-        XCTAssertEqual(latestSnapshot()?.pausedRemaining, 867)
+        XCTAssertEqual(latestSnapshot()?.pausedRemaining ?? 0, 866.590850, accuracy: 0.000_001)
+    }
+
+    private func startTimerAndLogRemaining898() {
+        writePreferences(running: true)
+        monitor.ingestPreferencesChange()
+        monitor.ingestLogMessage("<MTTimerScheduler: 0x600001234570> Timer will fire 14.83 minutes from now")
+        monitor.ingestLogMessage("remainingTime: 898.558")
+        settle()
     }
 
     private func latestSnapshot() -> ClockTimerSnapshot? {
@@ -279,5 +376,13 @@ final class ClockTimerMonitorPauseStateTests: XCTestCase {
             "<MTMutableTimer:0x600002345610 TimerID: \(timerID), Title: (null), state:\(newState), duration:900, firedDate: (null), dismissedDate: (null), sound: <MTSound:0x1>>"
         )
         """
+    }
+}
+
+private final class TestClock: @unchecked Sendable {
+    var now: Date
+
+    init(now: Date) {
+        self.now = now
     }
 }

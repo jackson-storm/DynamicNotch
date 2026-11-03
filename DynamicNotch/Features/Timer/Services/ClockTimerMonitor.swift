@@ -101,6 +101,39 @@ nonisolated enum ClockTimerLogParser {
 
         return String(text[swiftRange])
     }
+
+    /// Parses an ndjson `timestamp` such as `2026-11-02 11:20:38.639916-0800`.
+    static func logTimestamp(_ text: String) -> Date? {
+        guard let dot = text.firstIndex(of: ".") else {
+            return logTimestampFormatter.date(from: text)
+        }
+
+        let afterDot = text[text.index(after: dot)...]
+        let digits = afterDot.prefix(while: \.isNumber)
+        let offset = afterDot.dropFirst(digits.count)
+
+        guard
+            !digits.isEmpty,
+            offset.count == 5,
+            offset.first == "+" || offset.first == "-",
+            offset.dropFirst().allSatisfy(\.isNumber),
+            let base = logTimestampFormatter.date(from: String(text[..<dot]) + offset),
+            let fraction = Double("0." + digits)
+        else {
+            return nil
+        }
+
+        return base.addingTimeInterval(fraction)
+    }
+
+    // DateFormatter keeps only milliseconds, so the fraction is added separately.
+    private static let logTimestampFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ssZ"
+        return formatter
+    }()
 }
 
 nonisolated enum ClockTimerPreferencesParser {
@@ -262,6 +295,15 @@ final class ClockTimerMonitor: ClockTimerMonitoring {
     /// one sample's rounding because Clock logs one more remainingTime sample after a pause.
     private var pausedBaselineRemaining: TimeInterval?
     private var lastPublishedSnapshot: ClockTimerSnapshot?
+    private var lastSampleTime: Date?
+    private var lastSampleRemaining: TimeInterval?
+    private var recentSampleIntervals: [TimeInterval] = []
+    private var redrawPeriod: TimeInterval?
+    /// Implied delays that agree with the current phase. Empty while the phase is unknown.
+    private var phaseDelays: [TimeInterval] = []
+    /// One implied delay that disagreed with the current phase, kept to confirm a phase change.
+    private var pendingPhaseDelay: TimeInterval?
+    private var displayDelay: TimeInterval = 0
 
     private var logProcess: Process?
     private var logPipe: Pipe?
@@ -339,6 +381,13 @@ final class ClockTimerMonitor: ClockTimerMonitoring {
         }
     }
 
+    /// Handles one `log stream --style ndjson` line on the monitor's queue.
+    func ingestLogLine(_ line: String) {
+        queue.async { [weak self] in
+            self?.processLogLine(Data(line.utf8))
+        }
+    }
+
     /// This rereads the preferences timer on the monitor's queue, as the preferences watcher does.
     func ingestPreferencesChange() {
         queue.async { [weak self] in
@@ -399,6 +448,7 @@ private extension ClockTimerMonitor {
         totalDurationHint = nil
         currentRemaining = nil
         currentPausedState = false
+        resetRedrawPhase()
 
         if clearSnapshot {
             publish(snapshot: nil)
@@ -539,10 +589,11 @@ private extension ClockTimerMonitor {
             return
         }
 
-        processLogMessage(message)
+        let sampleTime = (payload["timestamp"] as? String).flatMap(ClockTimerLogParser.logTimestamp)
+        processLogMessage(message, sampleTime: sampleTime)
     }
 
-    func processLogMessage(_ message: String) {
+    func processLogMessage(_ message: String, sampleTime: Date? = nil) {
         if message.contains("didUpdateTimers") {
             applyUpdatedTimersMessage(message)
         }
@@ -564,7 +615,7 @@ private extension ClockTimerMonitor {
         }
 
         if message.contains("remainingTime:") {
-            applyRemainingTimeMessage(message)
+            applyRemainingTimeMessage(message, sampleTime: sampleTime)
         }
 
         if message.contains("Timer stopped") {
@@ -626,7 +677,7 @@ private extension ClockTimerMonitor {
         guard let state = selectedTimer?.state else { return }
 
         if state == .paused, let liveRemaining = liveRunningRemaining() {
-            currentRemaining = liveRemaining.rounded()
+            currentRemaining = liveRemaining
         }
 
         applyLoggedState(state)
@@ -649,6 +700,7 @@ private extension ClockTimerMonitor {
     func applyLoggedState(_ state: PreferencesTimer.State) {
         switch state {
         case .paused:
+            resetRedrawPhase()
             loggedPausedState = true
             pausedBaselineRemaining = nil
             if let currentRemaining {
@@ -659,6 +711,9 @@ private extension ClockTimerMonitor {
             pausedBaselineRemaining = currentRemaining
 
         case .running:
+            if currentPausedState {
+                resetRedrawPhase()
+            }
             loggedPausedState = false
             pausedBaselineRemaining = nil
             if let currentRemaining {
@@ -729,13 +784,89 @@ private extension ClockTimerMonitor {
         applyLogDrivenUpdate(remaining: minutes * 60, paused: currentPausedState)
     }
 
-    func applyRemainingTimeMessage(_ message: String) {
+    func applyRemainingTimeMessage(_ message: String, sampleTime: Date?) {
         guard let remainingToken = firstMatch(pattern: "remainingTime:\\s*([-0-9.]+)", in: message),
               let remaining = Double(remainingToken) else {
             return
         }
 
-        applyLogDrivenUpdate(remaining: remaining, paused: currentPausedState)
+        let isRunning = !currentPausedState
+        if !isRunning || trackedTimerID == nil {
+            resetRedrawPhase()
+        } else if let sampleTime {
+            learnRedrawPhase(sampleTime: sampleTime, remaining: remaining)
+        }
+
+        let sampleAge = sampleTime.map { max(0, dateProvider().timeIntervalSince($0)) } ?? 0
+        let remainingNow = isRunning ? remaining - sampleAge : remaining
+        applyLogDrivenUpdate(remaining: remainingNow, paused: currentPausedState, isExact: true)
+
+        if currentPausedState {
+            resetRedrawPhase()
+        }
+    }
+
+    func learnRedrawPhase(sampleTime: Date, remaining: TimeInterval) {
+        let previousRemaining = lastSampleRemaining
+        // A gap longer than 1.5 s says nothing about the grid period, and the next redraws confirm
+        // or replace the phase.
+        if let lastSampleTime {
+            let interval = sampleTime.timeIntervalSince(lastSampleTime)
+            if interval <= 1.5 {
+                recentSampleIntervals = Array((recentSampleIntervals + [interval]).suffix(4))
+            }
+        }
+        lastSampleTime = sampleTime
+        lastSampleRemaining = remaining
+
+        if phaseDelays.isEmpty {
+            redrawPeriod = Self.redrawGridPeriod(intervals: recentSampleIntervals)
+        } else if let gridPeriod = Self.redrawGridPeriod(intervals: recentSampleIntervals),
+                  let redrawPeriod,
+                  abs(gridPeriod - redrawPeriod) > 0.000_001 {
+            phaseDelays = []
+            pendingPhaseDelay = nil
+            self.redrawPeriod = gridPeriod
+        }
+        guard let period = redrawPeriod else { return }
+
+        let delay = Self.impliedRedrawDelay(remaining: remaining, period: period)
+        if phaseDelays.isEmpty {
+            guard let previousRemaining else { return }
+            let previousDelay = Self.impliedRedrawDelay(remaining: previousRemaining, period: period)
+            // Two consecutive redraws within 4 ms of each other fix the phase.
+            guard Self.circularDistance(delay, previousDelay, period: period) <= 0.004 else { return }
+            phaseDelays = [previousDelay, delay]
+        } else {
+            let currentDelay = Self.circularMedian(phaseDelays, period: period)
+            // 12 ms covers the grid's measured jitter, so one late redraw stays in the current phase.
+            if Self.circularDistance(delay, currentDelay, period: period) <= 0.012 {
+                phaseDelays = Array((phaseDelays + [delay]).suffix(5))
+                pendingPhaseDelay = nil
+            } else if let pendingPhaseDelay,
+                      Self.circularDistance(delay, pendingPhaseDelay, period: period) <= 0.004 {
+                phaseDelays = [pendingPhaseDelay, delay]
+                self.pendingPhaseDelay = nil
+            } else {
+                pendingPhaseDelay = delay
+            }
+        }
+
+        // 4 ms is a quarter of a 60 Hz frame, so jitter does not republish four times a second.
+        let learnedDelay = Self.circularMedian(phaseDelays, period: period)
+        if Self.circularDistance(learnedDelay, displayDelay, period: period) > 0.004 {
+            displayDelay = learnedDelay
+        }
+    }
+
+    func resetRedrawPhase() {
+        lastSampleTime = nil
+        lastSampleRemaining = nil
+        recentSampleIntervals = []
+        redrawPeriod = nil
+        phaseDelays = []
+        pendingPhaseDelay = nil
+        displayDelay = 0
     }
 
     func handleTimerStoppedMessage() {
@@ -744,13 +875,13 @@ private extension ClockTimerMonitor {
         clearTrackedTimer()
     }
 
-    func applyLogDrivenUpdate(remaining: TimeInterval, paused: Bool) {
+    func applyLogDrivenUpdate(remaining: TimeInterval, paused: Bool, isExact: Bool = false) {
         guard trackedTimerID != nil || preferencesTimer?.state.isActive == true else { return }
-        recordRemaining(remaining, paused: paused)
+        recordRemaining(remaining, paused: paused, isExact: isExact)
     }
 
-    func recordRemaining(_ remaining: TimeInterval, paused: Bool) {
-        let resolvedRemaining = max(0, remaining.rounded())
+    func recordRemaining(_ remaining: TimeInterval, paused: Bool, isExact: Bool = false) {
+        let resolvedRemaining = max(0, remaining)
         var resolvedPaused = paused
 
         if loggedPausedState == true, paused {
@@ -781,16 +912,16 @@ private extension ClockTimerMonitor {
         currentPausedState = resolvedPaused
 
         if resolvedRemaining <= 0 {
-            publishCurrentSnapshot()
+            publishCurrentSnapshot(isExact: isExact)
             scheduleCompletionClear()
             return
         }
 
         cancelCompletionClear()
-        publishCurrentSnapshot()
+        publishCurrentSnapshot(isExact: isExact)
     }
 
-    func publishCurrentSnapshot() {
+    func publishCurrentSnapshot(isExact: Bool = false) {
         guard let currentRemaining else {
             publish(snapshot: nil)
             return
@@ -806,10 +937,11 @@ private extension ClockTimerMonitor {
             duration: duration,
             remaining: currentRemaining,
             isPaused: currentPausedState,
-            now: now
+            now: now,
+            displayDelay: displayDelay
         )
 
-        publish(snapshot: stabilizedSnapshot(for: candidate, now: now))
+        publish(snapshot: stabilizedSnapshot(for: candidate, now: now, isExact: isExact))
     }
 
     func resolvedTitle() -> String {
@@ -847,10 +979,11 @@ private extension ClockTimerMonitor {
         duration: TimeInterval,
         remaining: TimeInterval,
         isPaused: Bool,
-        now: Date
+        now: Date,
+        displayDelay: TimeInterval = 0
     ) -> ClockTimerSnapshot {
-        let roundedRemaining = max(0, remaining.rounded())
-        let endDate = now.addingTimeInterval(roundedRemaining)
+        let resolvedRemaining = max(0, remaining)
+        let endDate = now.addingTimeInterval(resolvedRemaining)
 
         return snapshot(
             identifier: identifier,
@@ -858,7 +991,8 @@ private extension ClockTimerMonitor {
             duration: duration,
             endDate: endDate,
             isPaused: isPaused,
-            pausedRemaining: isPaused ? roundedRemaining : nil
+            pausedRemaining: isPaused ? resolvedRemaining : nil,
+            displayDelay: isPaused ? 0 : displayDelay
         )
     }
 
@@ -868,10 +1002,11 @@ private extension ClockTimerMonitor {
         duration: TimeInterval,
         endDate: Date,
         isPaused: Bool,
-        pausedRemaining: TimeInterval?
+        pausedRemaining: TimeInterval?,
+        displayDelay: TimeInterval = 0
     ) -> ClockTimerSnapshot {
         let roundedDuration = max(1, duration.rounded())
-        let roundedPausedRemaining = pausedRemaining.map { max(0, $0.rounded()) }
+        let resolvedPausedRemaining = pausedRemaining.map { max(0, $0) }
         let fingerprint: String
 
         if isPaused {
@@ -879,7 +1014,7 @@ private extension ClockTimerMonitor {
                 identifier,
                 title,
                 "paused",
-                String(Int((roundedPausedRemaining ?? 0).rounded())),
+                String(Int((resolvedPausedRemaining ?? 0).rounded())),
                 String(Int(roundedDuration))
             ].joined(separator: "|")
         } else {
@@ -898,12 +1033,13 @@ private extension ClockTimerMonitor {
             duration: roundedDuration,
             endDate: endDate,
             isPaused: isPaused,
-            pausedRemaining: roundedPausedRemaining,
-            fingerprint: fingerprint
+            pausedRemaining: resolvedPausedRemaining,
+            fingerprint: fingerprint,
+            displayDelay: isPaused ? 0 : displayDelay
         )
     }
 
-    func stabilizedSnapshot(for snapshot: ClockTimerSnapshot, now: Date) -> ClockTimerSnapshot {
+    func stabilizedSnapshot(for snapshot: ClockTimerSnapshot, now: Date, isExact: Bool = false) -> ClockTimerSnapshot {
         guard let lastPublishedSnapshot else {
             return snapshot
         }
@@ -915,11 +1051,16 @@ private extension ClockTimerMonitor {
             return snapshot
         }
 
+        // Exact sources agree within microseconds, so they may correct a published snapshot by more
+        // than 0.002 s.
+        let pausedTolerance: TimeInterval = isExact ? 0.002 : 1
+        let runningTolerance: TimeInterval = isExact ? 0.002 : 2
+
         if snapshot.isPaused {
             let previousRemaining = lastPublishedSnapshot.pausedRemaining ?? lastPublishedSnapshot.remainingTime(at: now)
             let currentRemaining = snapshot.pausedRemaining ?? snapshot.remainingTime(at: now)
 
-            guard lastPublishedSnapshot.isPaused, abs(previousRemaining - currentRemaining) <= 1 else {
+            guard lastPublishedSnapshot.isPaused, abs(previousRemaining - currentRemaining) <= pausedTolerance else {
                 return snapshot
             }
 
@@ -935,7 +1076,7 @@ private extension ClockTimerMonitor {
 
         guard
             !lastPublishedSnapshot.isPaused,
-            abs(lastPublishedSnapshot.endDate.timeIntervalSince(snapshot.endDate)) <= 2
+            abs(lastPublishedSnapshot.endDate.timeIntervalSince(snapshot.endDate)) <= runningTolerance
         else {
             return snapshot
         }
@@ -946,7 +1087,8 @@ private extension ClockTimerMonitor {
             duration: max(lastPublishedSnapshot.duration, snapshot.duration, snapshot.remainingTime(at: now)),
             endDate: lastPublishedSnapshot.endDate,
             isPaused: false,
-            pausedRemaining: nil
+            pausedRemaining: nil,
+            displayDelay: snapshot.displayDelay
         )
     }
 
@@ -994,6 +1136,7 @@ private extension ClockTimerMonitor {
         currentPausedState = preferencesTimer?.state == .paused
         loggedPausedState = nil
         pausedBaselineRemaining = nil
+        resetRedrawPhase()
         cancelCompletionClear()
     }
 
@@ -1007,6 +1150,7 @@ private extension ClockTimerMonitor {
         currentPausedState = false
         loggedPausedState = nil
         pausedBaselineRemaining = nil
+        resetRedrawPhase()
         publish(snapshot: nil)
     }
 
@@ -1084,11 +1228,11 @@ private extension ClockTimerMonitor {
 
         if currentRemaining != nil,
            let liveRemaining = liveRunningRemaining(),
-           abs(liveRemaining - exact) <= 1 {
+           abs(liveRemaining - exact) <= 0.002 {
             return false
         }
 
-        recordRemaining(exact, paused: false)
+        recordRemaining(exact, paused: false, isExact: true)
         return true
     }
 
@@ -1359,5 +1503,52 @@ private extension ClockTimerMonitor {
                 "Grant access in System Settings -> Privacy & Security -> Accessibility."
             )
         }
+    }
+}
+
+extension ClockTimerMonitor {
+    /// Clock redraws on a grid whose period divides one second, so each digit flips at the same
+    /// delay after its half-second crossing. The last three intervals must all be within 5 ms of
+    /// the same 1/n s because one startup redraw can fall near a wrong frame length.
+    static func redrawGridPeriod(intervals: [TimeInterval]) -> TimeInterval? {
+        guard intervals.count >= 3 else { return nil }
+        let recent = Array(intervals.suffix(3))
+        let median = recent.sorted()[1]
+        guard median > 0 else { return nil }
+
+        let frames = (1 / median).rounded()
+        guard frames >= 1, frames <= 120 else { return nil }
+        let period = 1 / frames
+        return recent.allSatisfy { abs($0 - period) <= 0.005 } ? period : nil
+    }
+
+    static func impliedRedrawDelay(remaining: TimeInterval, period: TimeInterval) -> TimeInterval {
+        normalizedDelay(0.5 - remaining, period: period)
+    }
+
+    static func normalizedDelay(_ delay: TimeInterval, period: TimeInterval) -> TimeInterval {
+        let wrapped = delay.truncatingRemainder(dividingBy: period)
+        return wrapped < 0 ? wrapped + period : wrapped
+    }
+
+    static func circularDistance(_ lhs: TimeInterval, _ rhs: TimeInterval, period: TimeInterval) -> TimeInterval {
+        let difference = abs(lhs - rhs).truncatingRemainder(dividingBy: period)
+        return min(difference, period - difference)
+    }
+
+    static func circularMedian(_ delays: [TimeInterval], period: TimeInterval) -> TimeInterval {
+        guard let reference = delays.first else { return 0 }
+        let offsets = delays.map { delay -> TimeInterval in
+            var offset = (delay - reference).truncatingRemainder(dividingBy: period)
+            if offset >= period / 2 { offset -= period }
+            if offset < -period / 2 { offset += period }
+            return offset
+        }.sorted()
+
+        let middle = offsets.count / 2
+        let medianOffset = offsets.count.isMultiple(of: 2)
+            ? (offsets[middle - 1] + offsets[middle]) / 2
+            : offsets[middle]
+        return normalizedDelay(reference + medianOffset, period: period)
     }
 }

@@ -3,6 +3,7 @@ internal import AppKit
 struct ScreenshotModel: Identifiable, Equatable {
     let id = UUID()
     let image: NSImage
+    let previewImage: NSImage
     let fileURL: URL?
     let tempFileURL: URL?
     var targetDestinationURL: URL?

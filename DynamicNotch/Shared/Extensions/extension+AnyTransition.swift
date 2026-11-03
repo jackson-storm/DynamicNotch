@@ -15,29 +15,6 @@ extension AnyTransition {
         )
     }
 
-    static func notchContent(
-        notchWidth: CGFloat = 0,
-        notchHeight: CGFloat,
-        baseWidth: CGFloat = 0,
-        baseHeight: CGFloat,
-        isExpandedPresentation: Bool,
-        isNotchlessScreen: Bool = false) -> AnyTransition {
-        if isExpandedPresentation {
-            return notchExpanded(
-                notchHeight: notchHeight,
-                baseHeight: baseHeight,
-                isNotchlessScreen: isNotchlessScreen
-            )
-        }
-        return notchCompact(
-            notchWidth: notchWidth,
-            notchHeight: notchHeight,
-            baseWidth: baseWidth,
-            baseHeight: baseHeight,
-            isNotchlessScreen: isNotchlessScreen
-        )
-    }
-
     static func notchCompact(
         notchWidth: CGFloat = 0,
         notchHeight: CGFloat,

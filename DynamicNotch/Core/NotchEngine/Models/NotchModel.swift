@@ -197,7 +197,3 @@ struct NotchModel: Equatable {
     }
 }
 
-// MARK: - Apple LiveActivity Semantic Typealias
-
-/// Semantic alias aligning with Apple's ActivityKit / Dynamic Island naming.
-typealias LiveActivityModel = NotchModel

@@ -235,24 +235,5 @@ final class WifiMonitor: NSObject, WifiMonitoring, CWEventDelegate {
         let name = (SCNetworkServiceGetName(service) as String?)?.trimmingCharacters(in: .whitespacesAndNewlines)
         return name?.isEmpty == false ? name : nil
     }
-
-    private func isLikelyVPNService(_ service: SCNetworkService) -> Bool {
-        guard let interface = SCNetworkServiceGetInterface(service) else {
-            return false
-        }
-
-        let values = [
-            SCNetworkInterfaceGetInterfaceType(interface) as String?,
-            SCNetworkInterfaceGetLocalizedDisplayName(interface) as String?
-        ]
-        .compactMap { $0?.lowercased() }
-
-        return values.contains { value in
-            value.contains("vpn") ||
-            value.contains("ppp") ||
-            value.contains("ipsec") ||
-            value.contains("l2tp") ||
-            value.contains("utun")
-        }
-    }
 }
+

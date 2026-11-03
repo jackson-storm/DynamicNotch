@@ -175,20 +175,10 @@ class SettingsStoreBase: ObservableObject {
         (GeneralSettingsStorage.defaultValues[key] as? String) ?? ""
     }
 
-    func defaultStringArray(for key: String) -> [String] {
-        (GeneralSettingsStorage.defaultValues[key] as? [String]) ?? []
-    }
-
     class func clampTemporaryActivityDuration(_ value: Int) -> Int {
         min(
             max(value, temporaryActivityDurationRange.lowerBound),
             temporaryActivityDurationRange.upperBound
-        )
-    }
-
-    class func defaultTemporaryActivityDuration(for key: String) -> Int {
-        clampTemporaryActivityDuration(
-            (GeneralSettingsStorage.defaultValues[key] as? Int) ?? temporaryActivityDurationRange.lowerBound
         )
     }
 

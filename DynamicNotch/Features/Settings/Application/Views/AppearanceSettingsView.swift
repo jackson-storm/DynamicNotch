@@ -1,39 +1,11 @@
 //
-//  AppearanceSettingsView.swift
+//  ThemeAppearancePickerContent.swift
 //  DynamicNotch
 //
 //  Created by Евгений Петрукович on 7/13/26.
 //
 
 import SwiftUI
-
-struct AppearanceSettingsView: View {
-    @ObservedObject var applicationSettings: ApplicationSettingsStore
-    
-    var body: some View {
-        SettingsPageScrollView {
-            themeCard
-        }
-    }
-    
-    private var themeCard: some View {
-        SettingsCard() {
-            CustomPicker(
-                selection: $applicationSettings.appearanceMode,
-                options: Array(SettingsAppearanceMode.allCases),
-                title: { $0.title },
-                headerTitle: "settings.appearance.theme.headerTitle",
-                headerDescription: "settings.appearance.theme.headerDesc",
-                itemHeight: 110,
-                lightBackgroundImage: Image("backgroundLight"),
-                darkBackgroundImage: Image("backgroundDark")
-            ) { mode, isSelected in
-                ThemeAppearancePickerContent(mode: mode, isSelected: isSelected)
-            }
-            .accessibilityIdentifier("settings.general.appearanceMode")
-        }
-    }
-}
 
 struct ThemeAppearancePickerContent: View {
     let mode: SettingsAppearanceMode

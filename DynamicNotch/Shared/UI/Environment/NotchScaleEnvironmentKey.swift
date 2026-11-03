@@ -25,10 +25,5 @@ extension EnvironmentValues {
         get { self[IsNotchlessScreenKey.self] }
         set { self[IsNotchlessScreenKey.self] = newValue }
     }
-
-    @available(*, deprecated, renamed: "isNotchlessScreen")
-    var isDynamicIsland: Bool {
-        get { isNotchlessScreen }
-        set { isNotchlessScreen = newValue }
-    }
 }
+

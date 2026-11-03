@@ -152,5 +152,3 @@ struct NetworkSettingsView: View {
     }
 }
 
-typealias WifiSettingsView = NetworkSettingsView
-typealias VpnSettingsView = NetworkSettingsView

@@ -88,10 +88,7 @@ protocol NotchContentProtocol: DynamicIslandCustomizable {
     func expandedCornerRadius(baseRadius: CGFloat) -> (top: CGFloat, bottom: CGFloat)
 }
 
-// MARK: - Apple LiveActivity Semantic Aliases & Default Implementations
-
-/// Semantic alias aligning with Apple's ActivityKit / Dynamic Island naming.
-typealias LiveActivityContentProtocol = NotchContentProtocol
+// MARK: - Default Implementations
 
 extension NotchContentProtocol {
     var stackID: String { id }

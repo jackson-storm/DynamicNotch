@@ -138,11 +138,6 @@ final class CalendarViewModel: ObservableObject {
             }
     }
     
-    func stopAutoRefresh() {
-        cancellables.removeAll()
-        timerCancellable?.cancel()
-    }
-    
     var formattedNextEventTime: String {
         guard let event = nextEvent else { return "" }
         if event.isAllDay {

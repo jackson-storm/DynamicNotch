@@ -162,12 +162,5 @@ final class BluetoothService: ObservableObject, BluetoothServiceProtocol, @unche
     func refreshConnectedDeviceBatteries() {
         refreshBatteryLevelsForConnectedDevices()
     }
-
-    @MainActor
-    func activeDeviceIconSymbol() -> String? {
-        if let prioritizedDevice = connectedDevices.last ?? lastConnectedDevice {
-            return prioritizedDevice.deviceType.sfSymbol
-        }
-        return nil
-    }
 }
+

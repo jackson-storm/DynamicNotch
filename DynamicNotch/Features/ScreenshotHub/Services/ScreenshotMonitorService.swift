@@ -54,10 +54,6 @@ final class ScreenshotMonitorService {
         Self.setSystemScreenshotLocation(originalScreenshotLocation)
     }
     
-    func updateLastPasteboardChangeCount() {}
-    
-    func suppressMonitoring(for duration: TimeInterval = 3.0) {}
-    
     func rawStagingDirectoryURL() -> URL {
         let caches = fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first ?? fileManager.temporaryDirectory
         return caches.appendingPathComponent("com.Jackson.DynamicNotch/RawScreenshots")

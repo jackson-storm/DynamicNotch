@@ -121,7 +121,7 @@ private extension NotchCustomScaleModifier {
                     lastExpansionTime = Date()
                 }
             }
-            .onChange(of: notchViewModel.isSwipeInteractionActive) { isActive in
+            .onChange(of: notchViewModel.isSwipeInteractionActive) { _, isActive in
                 if isActive {
                     resetInteractionState(cancelScaleAnimation: true)
                 }

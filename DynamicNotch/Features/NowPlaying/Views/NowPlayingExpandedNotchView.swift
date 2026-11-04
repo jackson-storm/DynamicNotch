@@ -210,7 +210,6 @@ struct NowPlayingExpandedNotchView: View {
                     )
                 }
             }
-            .padding(.horizontal, 3)
         }
     }
     

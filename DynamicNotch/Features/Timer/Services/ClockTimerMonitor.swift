@@ -140,14 +140,21 @@ nonisolated enum ClockTimerPreferencesParser {
     static func state(forTimer timer: [String: Any]) -> ClockTimerState {
         let rawState = timer["MTTimerState"] as? Int ?? 0
 
-        // Running and paused timers both persist raw state 2. Only a running timer stores its fire
-        // time as an MTTimerDate.
-        if rawState == ClockTimerState.running.rawValue,
-           timer["MTTimerFireTimerClass"] as? String != "MTTimerDate" {
-            return .paused
+        // Clock persists 3 for a running timer and 2 for a paused one, the reverse of this enum's
+        // raw values. Only a running timer stores its fire time as an MTTimerDate.
+        switch rawState {
+        case 2, 3:
+            if timer["MTTimerFireTimerClass"] as? String == "MTTimerDate" {
+                return .running
+            }
+            return rawState == 3 ? .running : .paused
+        case 1:
+            return .stopped
+        case 4:
+            return .fired
+        default:
+            return .unknown
         }
-
-        return ClockTimerState(rawValue: rawState) ?? .unknown
     }
 
     /// `defaults` renders the date as a string, so both forms are accepted.
@@ -674,6 +681,10 @@ private extension ClockTimerMonitor {
             }
         }
 
+        if let duration = selectedTimer?.duration, duration > 0 {
+            preferredDuration = duration
+        }
+
         guard let state = selectedTimer?.state else { return }
 
         if state == .paused, let liveRemaining = liveRunningRemaining() {
@@ -741,11 +752,8 @@ private extension ClockTimerMonitor {
         }
 
         beginTracking(timerID: identifier)
-        if preferencesTimer?.state == .paused {
-            currentPausedState = true
-        } else {
-            currentPausedState = false
-        }
+        loggedPausedState = false
+        currentPausedState = false
     }
 
     func applyNextTimerChangedMessage(_ message: String) {
@@ -853,8 +861,9 @@ private extension ClockTimerMonitor {
         }
 
         // 4 ms is a quarter of a 60 Hz frame, so jitter does not republish four times a second.
+        // The delay is a flip offset, not a phase, so a delay near the period is far from 0.
         let learnedDelay = Self.circularMedian(phaseDelays, period: period)
-        if Self.circularDistance(learnedDelay, displayDelay, period: period) > 0.004 {
+        if abs(learnedDelay - displayDelay) > 0.004 {
             displayDelay = learnedDelay
         }
     }
@@ -903,7 +912,7 @@ private extension ClockTimerMonitor {
                 resolvedPaused = false
             }
 
-            if preferencesTimer?.state == .paused {
+            if trackedPreferencesTimer?.state == .paused {
                 resolvedPaused = true
             }
         }
@@ -947,7 +956,7 @@ private extension ClockTimerMonitor {
     func resolvedTitle() -> String {
         let candidates = [
             preferredTitle,
-            preferencesTimer?.title
+            trackedPreferencesTimer?.title
         ]
 
         for candidate in candidates {
@@ -964,7 +973,7 @@ private extension ClockTimerMonitor {
         let candidates = [
             totalDurationHint,
             preferredDuration,
-            preferencesTimer?.duration,
+            trackedPreferencesTimer?.duration,
             remaining
         ]
 
@@ -1119,6 +1128,15 @@ private extension ClockTimerMonitor {
         completionClearWorkItem = nil
     }
 
+    var trackedPreferencesTimer: PreferencesTimer? {
+        guard let preferencesTimer,
+              let trackedTimerID,
+              preferencesTimer.identifier.uppercased() == trackedTimerID.uppercased() else {
+            return nil
+        }
+        return preferencesTimer
+    }
+
     func beginTracking(timerID: String) {
         let normalizedID = timerID
             .trimmingCharacters(in: CharacterSet(charactersIn: " <>"))
@@ -1131,9 +1149,9 @@ private extension ClockTimerMonitor {
         trackedTimerID = normalizedID
         preferredTitle = nil
         preferredDuration = nil
-        totalDurationHint = preferencesTimer?.duration
+        totalDurationHint = trackedPreferencesTimer?.duration
         currentRemaining = nil
-        currentPausedState = preferencesTimer?.state == .paused
+        currentPausedState = trackedPreferencesTimer?.state == .paused
         loggedPausedState = nil
         pausedBaselineRemaining = nil
         resetRedrawPhase()
@@ -1169,6 +1187,9 @@ private extension ClockTimerMonitor {
         if trackedTimerID == nil, preferencesTimer.state.isActive {
             beginTracking(timerID: preferencesTimer.identifier)
         }
+
+        // Until cfprefsd rewrites the file, it can report an entry from an older timer.
+        guard trackedTimerID == nil || trackedPreferencesTimer != nil else { return }
 
         if preferencesTimer.duration > 0 {
             totalDurationHint = max(totalDurationHint ?? 0, preferencesTimer.duration)

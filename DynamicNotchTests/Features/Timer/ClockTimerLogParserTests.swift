@@ -57,6 +57,13 @@ final class ClockTimerLogParserTests: XCTestCase {
         XCTAssertEqual(ClockTimerPreferencesParser.state(forTimer: timer), .paused)
     }
 
+    func testClockPersistsThreeForRunningAndTwoForPaused() {
+        XCTAssertEqual(ClockTimerPreferencesParser.state(forTimer: ["MTTimerState": 3, "MTTimerFireTimerClass": "MTTimerDate"]), .running)
+        XCTAssertEqual(ClockTimerPreferencesParser.state(forTimer: ["MTTimerState": 3]), .running)
+        XCTAssertEqual(ClockTimerPreferencesParser.state(forTimer: ["MTTimerState": 2]), .paused)
+        XCTAssertEqual(ClockTimerPreferencesParser.state(forTimer: ["MTTimerState": 3, "MTTimerFireTimerClass": "MTTimerTimeInterval"]), .running)
+    }
+
     func testOtherPreferencesStatesKeepRawMapping() {
         XCTAssertEqual(ClockTimerPreferencesParser.state(forTimer: ["MTTimerState": 1]), .stopped)
         XCTAssertEqual(ClockTimerPreferencesParser.state(forTimer: ["MTTimerState": 4]), .fired)

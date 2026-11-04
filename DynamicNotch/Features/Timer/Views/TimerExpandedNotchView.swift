@@ -86,11 +86,10 @@ private struct TimerExpandedNotchViewInternal<VM: ObservableObject>: View {
     }
     
     private var rightContent: some View {
-        HStack {
-            Text(locale.dn("notch.timer.title", fallback: "Timer."))
+        HStack(alignment: .firstTextBaseline) {
+            Text(locale.dn("notch.timer.title", fallback: "Timer"))
                 .font(.system(size: 14))
                 .foregroundStyle(Color.orange.opacity(0.8))
-                .offset(y: 8)
             
             if source.isPaused {
                 countdownText(seconds: source.displayedSeconds(at: .now))
@@ -112,10 +111,13 @@ private struct TimerExpandedNotchViewInternal<VM: ObservableObject>: View {
         let hours = seconds / 3600
         
         return Text(formattedDuration(seconds))
-            .font(.system(size: hours > 0 ? 26 : 36, weight: .semibold, design: .rounded))
+            .font(.system(size: hours > 0 ? 26 : 36, weight: .thin))
             .monospacedDigit()
             .foregroundStyle(Color.orange)
-            .contentTransition(.numericText())
+            // SwiftUI reverses countsDown for apps that target macOS 14, so false rolls the digits
+            // down here, like Clock. Use true once the app targets macOS 15 or later.
+            .contentTransition(.numericText(countsDown: false))
+            .animation(.snappy(duration: 0.3), value: seconds)
     }
     
     private func formattedDuration(_ totalSeconds: Int) -> String {

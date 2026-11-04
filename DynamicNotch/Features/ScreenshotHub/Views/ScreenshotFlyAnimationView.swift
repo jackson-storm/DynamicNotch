@@ -12,6 +12,10 @@ struct ScreenshotFlyAnimationView: View {
     let onEarlyComplete: @MainActor () -> Void
     let onFinished: @MainActor () -> Void
     
+    private let trajectory: ScreenshotFlyTrajectory
+    private let baseWidth: CGFloat
+    private let baseHeight: CGFloat
+    
     @State private var startTime: Date?
     @State private var hasTriggeredReachNotch = false
     @State private var hasTriggeredEarlyComplete = false
@@ -19,6 +23,73 @@ struct ScreenshotFlyAnimationView: View {
     
     private let duration: Double = 0.44
     private let sliceCount: Int = 36
+    private static let shadowBlurRadius: CGFloat = 14
+    private static let maxFlightBlurRadius: CGFloat = 14
+    private static let glowBlurRadius: CGFloat = 12
+    
+    init(
+        image: NSImage,
+        startPoint: CGPoint,
+        notchPoint: CGPoint,
+        screenSize: CGSize,
+        isNotchless: Bool,
+        onReachNotch: (@MainActor () -> Void)?,
+        onEarlyComplete: @escaping @MainActor () -> Void,
+        onFinished: @escaping @MainActor () -> Void
+    ) {
+        self.image = image
+        self.startPoint = startPoint
+        self.notchPoint = notchPoint
+        self.screenSize = screenSize
+        self.isNotchless = isNotchless
+        self.onReachNotch = onReachNotch
+        self.onEarlyComplete = onEarlyComplete
+        self.onFinished = onFinished
+        self.trajectory = ScreenshotFlyTrajectory(start: startPoint, notch: notchPoint, screenSize: screenSize)
+        let baseWidth = Self.baseWidth(for: screenSize)
+        self.baseWidth = baseWidth
+        self.baseHeight = baseWidth / Self.clampedAspect(of: image.size)
+    }
+    
+    private static func baseWidth(for screenSize: CGSize) -> CGFloat {
+        min(360.0, max(240.0, screenSize.width * 0.24))
+    }
+    
+    private static func clampedAspect(of imgSize: CGSize) -> CGFloat {
+        let aspect = (imgSize.width > 0 && imgSize.height > 0) ? (imgSize.width / imgSize.height) : 1.0
+        return clampedAspect(aspect)
+    }
+    
+    private static func clampedAspect(_ aspect: CGFloat) -> CGFloat {
+        max(0.5, min(2.5, aspect.isFinite && aspect > 0 ? aspect : 1.0))
+    }
+    
+    /// The region of a `screenSize` canvas (top-left origin) that the flight can draw into.
+    /// A cubic Bezier lies inside the convex hull of its control points, so their bounding rect
+    /// holds every spine point; the margin covers the widest strip, the tallest strip, the bow,
+    /// and three blur radii of halo.
+    static func flightBounds(start: CGPoint, notch: CGPoint, screenSize: CGSize, imageAspect: CGFloat) -> CGRect {
+        let trajectory = ScreenshotFlyTrajectory(start: start, notch: notch, screenSize: screenSize)
+        let controlPoints = [trajectory.p0, trajectory.p1, trajectory.p2, trajectory.p3]
+        let xs = controlPoints.map(\.x)
+        let ys = controlPoints.map(\.y)
+        let hull = CGRect(
+            x: xs.min() ?? start.x,
+            y: ys.min() ?? start.y,
+            width: (xs.max() ?? start.x) - (xs.min() ?? start.x),
+            height: (ys.max() ?? start.y) - (ys.min() ?? start.y)
+        )
+        
+        let baseWidth = baseWidth(for: screenSize)
+        let maxStripHeight = baseWidth / clampedAspect(imageAspect)
+        let blurMargin = 3 * max(shadowBlurRadius, maxFlightBlurRadius, glowBlurRadius)
+        let bowAllowance = abs(trajectory.deltaX) * 0.045
+        let margin = baseWidth / 2 + maxStripHeight + blurMargin + bowAllowance
+        
+        let screenRect = CGRect(origin: .zero, size: screenSize)
+        let bounds = hull.insetBy(dx: -margin, dy: -margin).integral.intersection(screenRect)
+        return bounds.isNull ? screenRect : bounds
+    }
     
     private func easeFlightProgress(_ t: CGFloat) -> CGFloat {
         if t < 0.40 {
@@ -37,17 +108,6 @@ struct ScreenshotFlyAnimationView: View {
             
             ZStack(alignment: .top) {
                 Canvas { context, size in
-                    let trajectory = ScreenshotFlyTrajectory(
-                        start: startPoint,
-                        notch: notchPoint,
-                        screenSize: screenSize
-                    )
-                    
-                    let imgSize = image.size
-                    let aspect = max(0.5, min(2.5, (imgSize.width > 0 && imgSize.height > 0) ? (imgSize.width / imgSize.height) : 1.0))
-                    let baseWidth = min(360.0, max(240.0, screenSize.width * 0.24))
-                    let baseHeight = baseWidth / aspect
-                    
                     let scale = max(0.18, 1.0 - 0.75 * progress)
                     let alpha = progress < 0.72 ? 1.0 : max(0.0, 1.0 - (progress - 0.72) / 0.28)
                     let deltaT = max(0.06, 0.18 * (1.0 - 0.65 * progress))
@@ -103,14 +163,31 @@ struct ScreenshotFlyAnimationView: View {
                         boundaryPath.closeSubpath()
                     }
                     
+                    // A Canvas filter rasterizes the whole current clip, so each blur is clipped
+                    // to what it draws plus three radii of halo before the filter is added.
                     var shadowContext = context
-                    shadowContext.addFilter(.blur(radius: 14))
+                    shadowContext.clip(to: Path(boundaryPath.boundingRect.insetBy(
+                        dx: -3 * Self.shadowBlurRadius,
+                        dy: -3 * Self.shadowBlurRadius
+                    )))
+                    shadowContext.addFilter(.blur(radius: Self.shadowBlurRadius))
                     shadowContext.fill(boundaryPath, with: .color(.black.opacity(0.35 * alpha)))
                     
                     let resolvedImage = context.resolve(Image(nsImage: image))
                     let flightBlurRadius: CGFloat = 8.0 + 6.0 * progress
                     
-                    context.drawLayer { layerCtx in
+                    var maxStripHeight: CGFloat = 2.5
+                    for i in 0..<(sliceCount - 1) {
+                        let dist = hypot(spinePoints[i + 1].x - spinePoints[i].x, spinePoints[i + 1].y - spinePoints[i].y)
+                        maxStripHeight = max(maxStripHeight, dist * 1.30)
+                    }
+                    let stripBounds = Self.boundingRect(of: leftBoundary + rightBoundary)
+                        .insetBy(dx: -3 * flightBlurRadius, dy: -3 * flightBlurRadius)
+                        .insetBy(dx: -(maxStripHeight + baseWidth * scale * 0.01), dy: -(maxStripHeight + baseWidth * scale * 0.01))
+                    
+                    var imageContext = context
+                    imageContext.clip(to: Path(stripBounds))
+                    imageContext.drawLayer { layerCtx in
                         layerCtx.addFilter(.blur(radius: flightBlurRadius))
                         
                         for i in 0..<(sliceCount - 1) {
@@ -141,9 +218,10 @@ struct ScreenshotFlyAnimationView: View {
                     if progress > 0.45 && !spinePoints.isEmpty {
                         let glowOpacity = min(0.35, (progress - 0.45) * 0.9) * alpha
                         var glowCtx = context
-                        glowCtx.addFilter(.blur(radius: 12))
                         let frontPt = spinePoints[0]
                         let glowRect = CGRect(x: frontPt.x - 45, y: frontPt.y - 15, width: 90, height: 30)
+                        glowCtx.clip(to: Path(glowRect.insetBy(dx: -3 * Self.glowBlurRadius, dy: -3 * Self.glowBlurRadius)))
+                        glowCtx.addFilter(.blur(radius: Self.glowBlurRadius))
                         glowCtx.fill(Path(ellipseIn: glowRect), with: .color(.white.opacity(glowOpacity)))
                     }
                 }
@@ -169,6 +247,18 @@ struct ScreenshotFlyAnimationView: View {
             }
             .ignoresSafeArea()
         }
+    }
+    
+    private static func boundingRect(of points: [CGPoint]) -> CGRect {
+        guard let first = points.first else { return .null }
+        var minX = first.x, maxX = first.x, minY = first.y, maxY = first.y
+        for point in points.dropFirst() {
+            minX = min(minX, point.x)
+            maxX = max(maxX, point.x)
+            minY = min(minY, point.y)
+            maxY = max(maxY, point.y)
+        }
+        return CGRect(x: minX, y: minY, width: maxX - minX, height: maxY - minY)
     }
     
     private struct ScreenshotFlyTrajectory {
@@ -275,8 +365,22 @@ final class ScreenshotFlyAnimationService {
         let startY = max(notchPoint.y + 90.0, min(screenFrame.height - 70.0, rawStartY))
         let startPoint = CGPoint(x: startX, y: startY)
         
+        let imageSize = image.size
+        let flightBounds = ScreenshotFlyAnimationView.flightBounds(
+            start: startPoint,
+            notch: notchPoint,
+            screenSize: screenFrame.size,
+            imageAspect: imageSize.height > 0 ? imageSize.width / imageSize.height : 1.0
+        )
+        let panelFrame = NSRect(
+            x: screenFrame.minX + flightBounds.minX,
+            y: screenFrame.maxY - flightBounds.maxY,
+            width: flightBounds.width,
+            height: flightBounds.height
+        )
+        
         let panel = OverlayPanelFactory.makePanel(
-            frame: screenFrame,
+            frame: panelFrame,
             level: .floating,
             isFloatingPanel: true
         )
@@ -285,8 +389,8 @@ final class ScreenshotFlyAnimationService {
         
         let flyView = ScreenshotFlyAnimationView(
             image: image,
-            startPoint: startPoint,
-            notchPoint: notchPoint,
+            startPoint: CGPoint(x: startPoint.x - flightBounds.minX, y: startPoint.y - flightBounds.minY),
+            notchPoint: CGPoint(x: notchPoint.x - flightBounds.minX, y: notchPoint.y - flightBounds.minY),
             screenSize: screenFrame.size,
             isNotchless: isNotchless,
             onReachNotch: onReachNotch,

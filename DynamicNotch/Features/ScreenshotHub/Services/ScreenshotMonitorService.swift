@@ -4,7 +4,7 @@ import Combine
 import AVFoundation
 
 final class ScreenshotMonitorService {
-    var onScreenshotCaptured: ((NSImage, URL?, String) -> Void)?
+    var onScreenshotCaptured: ((NSImage, NSImage, URL?, String) -> Void)?
     var onScreenRecordingCaptured: ((URL, NSImage, String) -> Void)?
     
     private(set) var userTargetDirectoryURL: URL = FileManager.default.urls(for: .desktopDirectory, in: .userDomainMask).first ?? URL(fileURLWithPath: NSHomeDirectory())
@@ -12,10 +12,15 @@ final class ScreenshotMonitorService {
     private var originalScreenshotLocation: String?
     private var fileWatcherTimer: Timer?
     private var knownFilePaths = Set<String>()
+    private(set) var decodingPaths = Set<String>()
+    private var failedDecodePaths = Set<String>()
+    private let stagingDirectoryOverride: URL?
     private var isMonitoring = false
     private let fileManager = FileManager.default
     
-    init() {}
+    init(stagingDirectoryURL: URL? = nil) {
+        self.stagingDirectoryOverride = stagingDirectoryURL
+    }
     
     deinit {
         stopMonitoring()
@@ -55,6 +60,9 @@ final class ScreenshotMonitorService {
     }
     
     func rawStagingDirectoryURL() -> URL {
+        if let stagingDirectoryOverride {
+            return stagingDirectoryOverride
+        }
         let caches = fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first ?? fileManager.temporaryDirectory
         return caches.appendingPathComponent("com.Jackson.DynamicNotch/RawScreenshots")
     }
@@ -121,7 +129,7 @@ final class ScreenshotMonitorService {
         scanTargetDirectoryForRecordings()
     }
 
-    private func scanForNewScreenshots() {
+    func scanForNewScreenshots() {
         let dir = rawStagingDirectoryURL()
         guard let urls = try? fileManager.contentsOfDirectory(
             at: dir,
@@ -130,9 +138,10 @@ final class ScreenshotMonitorService {
         ) else { return }
         
         let now = Date()
+        var imageCandidates: [URL] = []
         for url in urls {
             let path = url.path
-            guard !knownFilePaths.contains(path) else { continue }
+            guard !knownFilePaths.contains(path), !decodingPaths.contains(path) else { continue }
             
             let filename = url.lastPathComponent
             let lower = filename.lowercased()
@@ -166,17 +175,40 @@ final class ScreenshotMonitorService {
                   let modDate = resourceValues.contentModificationDate,
                   now.timeIntervalSince(modDate) < 10.0 else {
                 knownFilePaths.insert(path)
+                failedDecodePaths.remove(path)
                 continue
             }
             
             if lower.contains("screenshot") || lower.contains("скриншот") || lower.hasSuffix(".png") || lower.hasSuffix(".jpg") {
-                if let image = NSImage(contentsOf: url) {
-                    knownFilePaths.insert(path)
-                    DispatchQueue.main.async { [weak self] in
-                        self?.onScreenshotCaptured?(image, url, filename)
-                    }
-                    break
+                imageCandidates.append(url)
+            }
+        }
+
+        // A file that failed to decode is retried only when no other new file is waiting. Thus, it
+        // cannot delay the next screenshot while it waits for the age check to retire it.
+        guard let url = imageCandidates.first(where: { !failedDecodePaths.contains($0.path) }) ?? imageCandidates.first else {
+            return
+        }
+        startDecoding(url)
+    }
+
+    private func startDecoding(_ url: URL) {
+        let path = url.path
+        let filename = url.lastPathComponent
+        decodingPaths.insert(path)
+        let previewMaxPixelSize = ScreenshotImageLoader.previewMaxPixelSize
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            let loaded = ScreenshotImageLoader.load(contentsOf: url, previewMaxPixelSize: previewMaxPixelSize)
+            DispatchQueue.main.async {
+                guard let self else { return }
+                self.decodingPaths.remove(path)
+                guard let loaded else {
+                    self.failedDecodePaths.insert(path)
+                    return
                 }
+                self.failedDecodePaths.remove(path)
+                self.knownFilePaths.insert(path)
+                self.onScreenshotCaptured?(loaded.image, loaded.preview, url, filename)
             }
         }
     }

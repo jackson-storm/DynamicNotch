@@ -49,7 +49,7 @@ final class ScreenshotViewModel: ObservableObject {
         monitorService.stopMonitoring()
     }
     
-    func processNewScreenshot(image: NSImage, fileURL: URL?, fileName: String) {
+    func processNewScreenshot(image: NSImage, previewImage: NSImage? = nil, fileURL: URL?, fileName: String) {
         let now = Date()
         if let last = lastProcessedDate, now.timeIntervalSince(last) < 0.8 {
             return
@@ -79,6 +79,10 @@ final class ScreenshotViewModel: ObservableObject {
         
         let model = ScreenshotModel(
             image: image,
+            previewImage: previewImage ?? ScreenshotImageLoader.makePreview(
+                from: image,
+                maxPixelSize: ScreenshotImageLoader.previewMaxPixelSize
+            ),
             fileURL: tempURL,
             tempFileURL: tempURL,
             targetDestinationURL: targetURL,
@@ -91,8 +95,15 @@ final class ScreenshotViewModel: ObservableObject {
         self.activeScreenshot = model
         self.onScreenshotReady?(model)
         
+        let ocrService = self.ocrService
+        let ocrFileURL = fileManager.fileExists(atPath: tempURL.path) ? tempURL : nil
         Task { @MainActor [weak self] in
-            let extractedText = await self?.ocrService.recognizeText(in: image) ?? ""
+            let extractedText: String
+            if let ocrFileURL {
+                extractedText = await ocrService.recognizeText(at: ocrFileURL)
+            } else {
+                extractedText = await ocrService.recognizeText(in: image)
+            }
             guard var current = self?.activeScreenshot, current.id == model.id else { return }
             current.recognizedText = extractedText
             current.isRecognizing = false
@@ -282,8 +293,8 @@ final class ScreenshotViewModel: ObservableObject {
     }
     
     private func setupMonitoring() {
-        monitorService.onScreenshotCaptured = { [weak self] image, fileURL, fileName in
-            self?.processNewScreenshot(image: image, fileURL: fileURL, fileName: fileName)
+        monitorService.onScreenshotCaptured = { [weak self] image, previewImage, fileURL, fileName in
+            self?.processNewScreenshot(image: image, previewImage: previewImage, fileURL: fileURL, fileName: fileName)
         }
     }
 }

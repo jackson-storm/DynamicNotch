@@ -18,7 +18,7 @@ struct HudMinimalContentView: View {
             
             AnimatedLevelText(
                 level: clampedLevel,
-                fontSize: isNotchlessScreen ? 14 : 16,
+                fontSize: isNotchlessScreen ? 14 : 15,
                 color: .white
             )
         }

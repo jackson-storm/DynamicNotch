@@ -373,6 +373,10 @@ final class NotchViewModel: ObservableObject {
         engine.send(notchState)
     }
 
+    func setPreferredLiveActivity(id: String?) {
+        engine.setPreferredLiveActivity(id: id)
+    }
+
     func setActivityPresentationHidden(_ isHidden: Bool) {
         guard isActivityPresentationHidden != isHidden else { return }
 

@@ -43,6 +43,12 @@ final class NotchEngine: ObservableObject {
     /// Last dismissed activity or alert saved for user restoration.
     private var lastDismissedContent: RestorableDismissedContent?
 
+    private(set) var preferredLiveActivityID: String?
+
+    func setPreferredLiveActivity(id: String?) {
+        preferredLiveActivityID = id
+    }
+
     private var currentTemporaryNotificationDuration: TimeInterval?
     private var eventQueue: [NotchState] = []
     private var isProcessingQueue = false
@@ -170,6 +176,9 @@ final class NotchEngine: ObservableObject {
             }
 
         case .hideLiveActivity(let id):
+            if preferredLiveActivityID == id {
+                preferredLiveActivityID = nil
+            }
             let wasVisible = notchModel.liveActivityContent?.id == id
             activeLiveActivities.removeAll(where: { $0.id == id })
             dismissedLiveActivityIDs.removeAll(where: { $0 == id })
@@ -193,6 +202,7 @@ final class NotchEngine: ObservableObject {
             }
 
         case .hide:
+            preferredLiveActivityID = nil
             eventQueue.removeAll()
 
         case .dismissLiveActivity:
@@ -373,10 +383,17 @@ final class NotchEngine: ObservableObject {
     }
 
     private var highestPriorityVisibleActivity: NotchContentProtocol? {
-        activeLiveActivities.first { dismissedLiveActivityIDs.contains($0.id) == false }
+        if let preferredLiveActivityID,
+           let preferred = activeLiveActivities.first(where: { $0.id == preferredLiveActivityID && !dismissedLiveActivityIDs.contains($0.id) }) {
+            return preferred
+        }
+        return activeLiveActivities.first { dismissedLiveActivityIDs.contains($0.id) == false }
     }
 
     private func recordDismissedLiveActivity(id: String) {
+        if preferredLiveActivityID == id {
+            preferredLiveActivityID = nil
+        }
         dismissedLiveActivityIDs.removeAll(where: { $0 == id })
         dismissedLiveActivityIDs.append(id)
     }

@@ -85,6 +85,10 @@ final class NotchLocalTimerEventsHandler {
             .showLiveActivity(
                 LocalTimerSetupNotchContent(
                     localTimerViewModel: localTimerViewModel,
+                    onStart: { [weak self] in
+                        guard let self else { return }
+                        self.notchViewModel.setPreferredLiveActivity(id: NotchContentRegistry.Media.localTimer.id)
+                    },
                     onClose: { [weak self] in
                         guard let self else { return }
                         self.hideTimerSetup()

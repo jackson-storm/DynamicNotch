@@ -8,6 +8,7 @@ import SwiftUI
 struct LocalTimerSetupNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     let id = NotchContentRegistry.Media.localTimerSetup.id
     let localTimerViewModel: LocalTimerViewModel
+    var onStart: (() -> Void)? = nil
     var onClose: (() -> Void)? = nil
     var priority: Int { NotchContentPriority.localTimerSetup }
     var allowsCompactPressScaleEffect: Bool = false
@@ -34,6 +35,6 @@ struct LocalTimerSetupNotchContent: NotchContentProtocol, DynamicIslandCustomiza
 
     @MainActor
     func compactView() -> AnyView {
-        AnyView(LocalTimerSetupNotchView(localTimerViewModel: localTimerViewModel, onClose: onClose))
+        AnyView(LocalTimerSetupNotchView(localTimerViewModel: localTimerViewModel, onStart: onStart, onClose: onClose))
     }
 }

@@ -152,6 +152,53 @@ final class NotchTimerEventsHandlerTests: XCTestCase {
         XCTAssertEqual(TimerSound.resolved(nil), .radar)
         XCTAssertEqual(TimerSound.allCases.count, 31)
     }
+
+    func testStartingLocalTimerFromSetupOpensTimerOverHigherPriorityActivity() async {
+        let context = makeContext()
+        let localTimerViewModel = LocalTimerViewModel()
+        let localHandler = NotchLocalTimerEventsHandler(
+            notchViewModel: context.notchViewModel,
+            localTimerViewModel: localTimerViewModel,
+            timerViewModel: context.timerViewModel,
+            settingsViewModel: context.settingsViewModel
+        )
+
+        // Show a higher priority activity first (priority 10)
+        let higherPriorityContent = TestNotchContent(id: "test.higherPriority", priority: 10)
+        context.notchViewModel.send(.showLiveActivity(higherPriorityContent))
+
+        await assertEventually {
+            await MainActor.run {
+                context.notchViewModel.notchModel.liveActivityContent?.id == "test.higherPriority"
+            }
+        }
+
+        // Show timer setup
+        localHandler.showTimerSetup()
+
+        await assertEventually {
+            await MainActor.run {
+                context.notchViewModel.notchModel.liveActivityContent?.id == NotchContentRegistry.Media.localTimerSetup.id
+            }
+        }
+
+        // Setup view starts timer (mimicking LocalTimerSetupNotchView.startTimer)
+        if let setupContent = await MainActor.run(body: { context.notchViewModel.notchModel.liveActivityContent as? LocalTimerSetupNotchContent }) {
+            await MainActor.run {
+                setupContent.onStart?()
+                localTimerViewModel.start(hours: 0, minutes: 5, seconds: 0)
+                localHandler.handleLocalTimerStateChanged(.running)
+                setupContent.onClose?()
+            }
+        }
+
+        // Should close setup and open timer, NOT the higher priority activity
+        await assertEventually {
+            await MainActor.run {
+                context.notchViewModel.notchModel.liveActivityContent?.id == NotchContentRegistry.Media.localTimer.id
+            }
+        }
+    }
 }
 
 private extension NotchTimerEventsHandlerTests {

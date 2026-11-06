@@ -90,7 +90,6 @@ The main goal is to make the project as native as possible, both in terms of des
 - Feature-specific permissions as needed:
   - Accessibility for custom HUD interception and some system-level interactions
   - Bluetooth access for accessory status updates
-  - Screen Recording access for audio-reactive Now Playing visualization where macOS requires it
   - Media/Now Playing access where macOS requires it
 
 ## 🛠️ Build From Source
@@ -129,17 +128,6 @@ Then run the `DynamicNotch` scheme from Xcode. Swift Package Manager dependencie
 </table>
 
 > **Note:** This gallery displays only a selection of the events, live activities, and temporary alerts supported by DynamicNotch. Many other states, animations, and system transitions are supported.
-
-## 🧰 Tech Stack
-
-- SwiftUI for notch content and settings UI
-- AppKit for windows, input handling, and macOS integration
-- Combine for feature and settings streams
-- [Lottie](https://github.com/airbnb/lottie-ios) for animation assets
-
-## 🌍 Localization
-
-DynamicNotch features full native localization support for **38+ languages** across interface elements, notch activities, and settings. You can switch languages instantly in the app settings.
 
 ## 💖 Support
 

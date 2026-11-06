@@ -89,10 +89,9 @@ final class WifiViewModel: ObservableObject {
             self.wifiConnected = wifi
             self.hotspotActive = hotspot
             self.isInternetAvailable = nextInternetAvailable
-            print("[WifiViewModel] onStatusChange: wifi=\(wifi), hotspot=\(hotspot), isInitial=\(self.isInitialCheck)")
+            
             if hotspot {
                 self.hotspotBatteryLevel = self.monitor.currentHotspotBatteryLevel ?? HotspotBatteryMonitor.shared.currentBatteryLevel
-                print("[WifiViewModel] Hotspot active, set hotspotBatteryLevel = \(String(describing: self.hotspotBatteryLevel))")
             } else {
                 self.hotspotBatteryLevel = nil
             }
@@ -101,7 +100,6 @@ final class WifiViewModel: ObservableObject {
         }
         monitor.onHotspotBatteryChange = { [weak self] level in
             guard let self = self, self.hotspotActive else { return }
-            print("[WifiViewModel] onHotspotBatteryChange received: \(level)%")
             self.hotspotBatteryLevel = level
         }
         monitor.startMonitoring()

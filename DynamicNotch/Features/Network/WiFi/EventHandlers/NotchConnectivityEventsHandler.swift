@@ -8,18 +8,28 @@ final class NotchConnectivityEventsHandler {
     private let vpnViewModel: VpnViewModel
     private let settingsViewModel: SettingsViewModel
 
+    private var wifiTask: Task<Void, Never>?
+    var wifiEventDelay: TimeInterval
+
     init(
         notchViewModel: NotchViewModel,
         bluetoothViewModel: BluetoothViewModel,
         wifiViewModel: WifiViewModel,
         vpnViewModel: VpnViewModel,
-        settingsViewModel: SettingsViewModel
+        settingsViewModel: SettingsViewModel,
+        wifiEventDelay: TimeInterval = 5.0
     ) {
         self.notchViewModel = notchViewModel
         self.bluetoothViewModel = bluetoothViewModel
         self.wifiViewModel = wifiViewModel
         self.vpnViewModel = vpnViewModel
         self.settingsViewModel = settingsViewModel
+        self.wifiEventDelay = wifiEventDelay
+    }
+
+    func cancelPendingWifiEvents() {
+        wifiTask?.cancel()
+        wifiTask = nil
     }
 
     func handleBluetooth(_ event: BluetoothEvent) {
@@ -40,6 +50,22 @@ final class NotchConnectivityEventsHandler {
     }
 
     func handleWifi(_ event: WifiEvent) {
+        wifiTask?.cancel()
+        wifiTask = Task { @MainActor [weak self] in
+            if let delay = self?.wifiEventDelay, delay > 0 {
+                try? await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
+            }
+            guard let self, !Task.isCancelled else { return }
+
+            if event == .noInternetConnection && self.wifiViewModel.isInternetAvailable {
+                return
+            }
+
+            self.executeWifiEvent(event)
+        }
+    }
+
+    private func executeWifiEvent(_ event: WifiEvent) {
         switch event {
         case .noInternetConnection:
             guard settingsViewModel.connectivity.isNoInternetTemporaryActivityEnabled else { return }
@@ -55,7 +81,6 @@ final class NotchConnectivityEventsHandler {
             )
 
         case .hotspotActive:
-            print("[NotchConnectivityEventsHandler] handleWifi(.hotspotActive), wifiViewModel.hotspotBatteryLevel=\(String(describing: wifiViewModel.hotspotBatteryLevel))")
             guard settingsViewModel.isLiveActivityEnabled(.hotspot) else { return }
             notchViewModel.send(
                 .showLiveActivity(

@@ -247,6 +247,9 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
 
     func testNoInternetEventShowsTemporaryNotification() async {
         let context = makeContext()
+        await MainActor.run {
+            context.wifiViewModel.isInternetAvailable = false
+        }
 
         context.coordinator.handleWifiEvent(.noInternetConnection)
 
@@ -259,6 +262,9 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
 
     func testDisabledNoInternetTemporaryActivitySuppressesNotification() async {
         let context = makeContext(noInternetTemporaryActivityEnabled: false)
+        await MainActor.run {
+            context.wifiViewModel.isInternetAvailable = false
+        }
 
         context.coordinator.handleWifiEvent(.noInternetConnection)
 
@@ -268,6 +274,39 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
             context.notchViewModel.notchModel.temporaryNotificationContent
         }
         XCTAssertNil(temporaryContent)
+    }
+
+    func testNoInternetEventCancelledIfInternetBecomesAvailableWithinDelay() async {
+        let context = makeContext(wifiEventDelay: 0.05)
+        await MainActor.run {
+            context.wifiViewModel.isInternetAvailable = true
+        }
+
+        context.coordinator.handleWifiEvent(.noInternetConnection)
+
+        try? await Task.sleep(nanoseconds: 100_000_000)
+
+        let notification = await MainActor.run {
+            context.notchViewModel.notchModel.temporaryNotificationContent
+        }
+        XCTAssertNil(notification)
+    }
+
+    func testWifiEventDelaysExecutionByConfiguredDelay() async {
+        let context = makeContext(wifiEventDelay: 0.1)
+
+        context.coordinator.handleWifiEvent(.hotspotActive)
+
+        let immediateContent = await MainActor.run {
+            context.notchViewModel.notchModel.liveActivityContent
+        }
+        XCTAssertNil(immediateContent)
+
+        await assertEventually {
+            await MainActor.run {
+                context.notchViewModel.notchModel.liveActivityContent?.id == NotchContentRegistry.Wifi.hotspot.id
+            }
+        }
     }
 
     func testVolumeHUDEventsShowTemporaryNotificationWhenEnabled() async {
@@ -729,6 +768,7 @@ private extension NotchEventCoordinatorIntegrationTests {
         let downloadMonitor: FakeFileDownloadMonitor
         let airDropViewModel: AirDropNotchViewModel
         let fileTrayViewModel: FileTrayViewModel
+        let wifiViewModel: WifiViewModel
         let vpnViewModel: VpnViewModel
         let settingsViewModel: SettingsViewModel
         let nowPlayingViewModel: NowPlayingViewModel
@@ -750,7 +790,8 @@ private extension NotchEventCoordinatorIntegrationTests {
         trayLiveActivityEnabled: Bool = true,
         noInternetTemporaryActivityEnabled: Bool = true,
         focusOnAutoHideEnabled: Bool = true,
-        vpnLiveActivityEnabled: Bool = true
+        vpnLiveActivityEnabled: Bool = true,
+        wifiEventDelay: TimeInterval = 0.01
     ) -> TestContext {
         UserDefaults.standard.set(false, forKey: "isLaunchAtLoginEnabled")
         UserDefaults.standard.set(0, forKey: "notchWidth")
@@ -829,7 +870,8 @@ private extension NotchEventCoordinatorIntegrationTests {
             lockScreenManager: lockScreenManager,
             localTimerViewModel: localTimerViewModel,
             calendarViewModel: calendarViewModel,
-            externalDrivesMonitor: ExternalDrivesMonitor()
+            externalDrivesMonitor: ExternalDrivesMonitor(),
+            wifiEventDelay: wifiEventDelay
         )
         let cancellables = Set<AnyCancellable>()
 
@@ -840,6 +882,7 @@ private extension NotchEventCoordinatorIntegrationTests {
             downloadMonitor: downloadMonitor,
             airDropViewModel: airDropViewModel,
             fileTrayViewModel: fileTrayViewModel,
+            wifiViewModel: wifiViewModel,
             vpnViewModel: vpnViewModel,
             settingsViewModel: settingsViewModel,
             nowPlayingViewModel: nowPlayingViewModel,

@@ -83,7 +83,8 @@ final class NotchEventCoordinator: ObservableObject {
         calendarViewModel: CalendarViewModel,
         screenshotViewModel: ScreenshotViewModel? = nil,
         screenRecordingResultViewModel: ScreenRecordingResultViewModel? = nil,
-        externalDrivesMonitor: ExternalDrivesMonitor
+        externalDrivesMonitor: ExternalDrivesMonitor,
+        wifiEventDelay: TimeInterval = 5.0
     ) {
         self.notchViewModel = notchViewModel
         self.settingsViewModel = settingsViewModel
@@ -107,7 +108,8 @@ final class NotchEventCoordinator: ObservableObject {
             bluetoothViewModel: bluetoothViewModel,
             wifiViewModel: wifiViewModel,
             vpnViewModel: vpnViewModel,
-            settingsViewModel: settingsViewModel
+            settingsViewModel: settingsViewModel,
+            wifiEventDelay: wifiEventDelay
         )
         self.powerHandler = NotchPowerEventsHandler(
             notchViewModel: notchViewModel,

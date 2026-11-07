@@ -80,23 +80,60 @@ extension BluetoothService {
         pollingTimer?.tolerance = pollingTolerance
     }
 
-    func isDeviceConnected(_ device: IOBluetoothDevice) -> Bool {
-        if device.isConnected() {
-            return true
-        }
-        return isDeviceConnectedInCoreAudio(device)
+    func connectedAudioDevices(in pairedDevices: [IOBluetoothDevice]) -> [IOBluetoothDevice] {
+        Self.connectedAudioDevices(
+            in: pairedDevices,
+            isConnected: { $0.isConnected() },
+            isAudioDevice: { isAudioDevice($0) },
+            isListedInCoreAudio: { device, activeDevices in
+                Self.isListed(
+                    address: normalizeBluetoothIdentifier(device.addressString ?? ""),
+                    name: normalizeProductName(device.name ?? ""),
+                    in: activeDevices
+                )
+            },
+            activeCoreAudioDevices: {
+                activeCoreAudioBluetoothDevices().map { bt in
+                    (name: normalizeProductName(bt.name), uid: normalizeBluetoothIdentifier(bt.uid))
+                }
+            }
+        )
     }
 
-    func isDeviceConnectedInCoreAudio(_ device: IOBluetoothDevice) -> Bool {
-        let activeBTDevices = activeCoreAudioBluetoothDevices()
-        let targetAddr = normalizeBluetoothIdentifier(device.addressString ?? "")
-        let targetName = normalizeProductName(device.name ?? "")
+    /// Keeps paired audio devices that report a connection or appear in the CoreAudio device list.
+    /// It reads the CoreAudio list at most once and only when a device does not report a
+    /// connection.
+    static func connectedAudioDevices<Device>(
+        in pairedDevices: [Device],
+        isConnected: (Device) -> Bool,
+        isAudioDevice: (Device) -> Bool,
+        isListedInCoreAudio: (Device, [(name: String, uid: String)]) -> Bool,
+        activeCoreAudioDevices: () -> [(name: String, uid: String)]
+    ) -> [Device] {
+        var activeDevices: [(name: String, uid: String)]?
 
-        for bt in activeBTDevices {
-            if !targetAddr.isEmpty && normalizeBluetoothIdentifier(bt.uid).contains(targetAddr) {
+        return pairedDevices.filter { device in
+            if !isConnected(device) {
+                let snapshot = activeDevices ?? activeCoreAudioDevices()
+                activeDevices = snapshot
+                guard isListedInCoreAudio(device, snapshot) else { return false }
+            }
+            return isAudioDevice(device)
+        }
+    }
+
+    /// Returns true when a CoreAudio device's UID contains `address` or its name equals `name`. All
+    /// values must already be normalized. An empty `address` or `name` never matches.
+    nonisolated static func isListed(
+        address: String,
+        name: String,
+        in activeDevices: [(name: String, uid: String)]
+    ) -> Bool {
+        for bt in activeDevices {
+            if !address.isEmpty && bt.uid.contains(address) {
                 return true
             }
-            if !targetName.isEmpty && normalizeProductName(bt.name) == targetName {
+            if !name.isEmpty && bt.name == name {
                 return true
             }
         }
@@ -184,8 +221,7 @@ extension BluetoothService {
         }
 
         let currentlyConnectedAddresses = Set(
-            pairedDevices
-                .filter { isDeviceConnected($0) && isAudioDevice($0) }
+            connectedAudioDevices(in: pairedDevices)
                 .compactMap { $0.addressString }
         )
 
@@ -217,9 +253,7 @@ extension BluetoothService {
             return
         }
 
-        let connectedAudioDevices = pairedDevices.filter { device in
-            isDeviceConnected(device) && isAudioDevice(device)
-        }
+        let connectedAudioDevices = connectedAudioDevices(in: pairedDevices)
 
         print("🎧 [BluetoothAudioManager] Found \(connectedAudioDevices.count) connected audio devices")
 
@@ -307,9 +341,7 @@ extension BluetoothService {
             return
         }
 
-        let currentlyConnectedDevices = pairedDevices.filter { device in
-            isDeviceConnected(device) && isAudioDevice(device)
-        }
+        let currentlyConnectedDevices = connectedAudioDevices(in: pairedDevices)
 
         for device in currentlyConnectedDevices {
             processConnectedDevice(device)
@@ -321,8 +353,7 @@ extension BluetoothService {
             return
         }
 
-        let currentlyConnectedAddresses = pairedDevices
-            .filter { isDeviceConnected($0) && isAudioDevice($0) }
+        let currentlyConnectedAddresses = connectedAudioDevices(in: pairedDevices)
             .compactMap { $0.addressString }
 
         let removedDevices = connectedDevices.filter { device in

@@ -132,8 +132,6 @@ enum GeneralSettingsStorage {
         Keys.launchAtLogin: true,
         Keys.dockIcon: false,
         Keys.appearanceMode: SettingsAppearanceMode.system.rawValue,
-
-        Keys.notchBackgroundStyle: NotchBackgroundStyle.black.rawValue,
         Keys.notchWidth: 0,
         Keys.notchHeight: 0,
         Keys.menuBarIcon: true,
@@ -242,7 +240,6 @@ enum GeneralSettingsStorage {
         Keys.hotspotAppearanceStyle: HotspotAppearanceStyle.minimal.rawValue,
         Keys.networkShowVPNDetail: false,
         Keys.networkShowVPNTimer: true,
-
         Keys.focusOffTemporaryActivityEnabled: true,
         Keys.focusOffTemporaryActivityDuration: 3,
         Keys.notchSizeTemporaryActivityEnabled: true,

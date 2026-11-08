@@ -7,18 +7,6 @@
 
 import SwiftUI
 
-struct NotchScaleKey: EnvironmentKey {
-    static let defaultValue: CGFloat = 1.0
-}
-
-struct IsNotchlessScreenKey: EnvironmentKey {
-    static let defaultValue: Bool = false
-}
-
-struct OnScrubbingChangedKey: EnvironmentKey {
-    static let defaultValue: (Bool) -> Void = { _ in }
-}
-
 extension EnvironmentValues {
     var notchScale: CGFloat {
         get { self[NotchScaleKey.self] }

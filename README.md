@@ -5,7 +5,7 @@
 <h1 align="center">DynamicNotch</h1>
 
 <p align="center">
-  <strong>Turn the MacBook notch into a living native surface.</strong>
+  <strong>The native Dynamic Island and notch experience for macOS.</strong>
 </p>
 
 <p align="center">

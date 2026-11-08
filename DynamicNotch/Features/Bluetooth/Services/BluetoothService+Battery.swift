@@ -22,7 +22,7 @@ private struct PmsetAccessoryBatteryEntry {
 
 extension BluetoothService {
     func refreshBatteryLevelsForConnectedDevices(forceCacheRefresh: Bool = true) {
-        if forceCacheRefresh {
+        if forceCacheRefresh, !connectedDevices.isEmpty {
             updateBatteryStatuses(force: true)
         }
 

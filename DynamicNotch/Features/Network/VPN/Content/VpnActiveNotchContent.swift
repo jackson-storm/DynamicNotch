@@ -14,12 +14,30 @@ struct VpnActiveNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     var priority: Int { NotchContentRegistry.Vpn.vpn.priority }
     var isExpandable: Bool { true }
 
+    var minimalTimerSize: CGFloat {
+        let formattedTime = formattedConnectedTime
+        switch formattedTime {
+        case let value where value.contains("h"):
+            return 140
+        case let value where value.contains(":") || value.hasSuffix("m"):
+            return 90
+        default:
+            return 140
+        }
+    }
+
+    private var formattedConnectedTime: String {
+        guard let startDate = vpnViewModel.vpnConnectedAt else { return "0:00" }
+        let elapsed = max(0, Int(Date.now.timeIntervalSince(startDate)))
+        return VpnActiveNotchView.formattedTime(elapsed)
+    }
+
     func compactSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        .init(width: baseWidth + 105, height: baseHeight)
+        .init(width: baseWidth + minimalTimerSize, height: baseHeight)
     }
     
     func dynamicIslandSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {
-        .init(width: baseWidth + 105, height: baseHeight)
+        .init(width: baseWidth + minimalTimerSize, height: baseHeight)
     }
 
     func expandedSize(baseWidth: CGFloat, baseHeight: CGFloat) -> CGSize {

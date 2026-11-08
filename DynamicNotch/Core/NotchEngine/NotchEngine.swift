@@ -263,6 +263,7 @@ final class NotchEngine: ObservableObject {
 
     /// Restores the most recently dismissed Live Activity or notification to the Dynamic Island presentation.
     func restoreDismissedContent() {
+        notchModel.isLiveActivityExpanded = false
         if let lastDismissedContent {
             self.lastDismissedContent = nil
 

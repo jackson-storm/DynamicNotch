@@ -46,10 +46,7 @@ struct NotchAnimations {
     /// Minimum pacing delay when processing queue items.
     let queuePacingDelay: TimeInterval
 
-    // MARK: - Presets
-    static let `default`: Self = .balanced
-
-    static let balanced: Self = {
+    static let animations: Self = {
         let damping: Double = 0.70
         let expandDamping: Double = 0.75
         let baseResponse: Double = 0.5
@@ -76,8 +73,4 @@ struct NotchAnimations {
             queuePacingDelay: 0.30
         )
     }()
-
-    static func preset(_ preset: NotchAnimationPreset = .balanced) -> Self {
-        .balanced
-    }
 }

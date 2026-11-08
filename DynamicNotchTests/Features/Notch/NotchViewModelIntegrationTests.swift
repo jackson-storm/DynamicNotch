@@ -1236,6 +1236,47 @@ final class NotchViewModelIntegrationTests: XCTestCase {
     }
 
     @MainActor
+    func testHorizontalExpandSwipeIncreasesWidthAndKeepsHeight() async {
+        let viewModel = NotchViewModel(
+            settings: TestNotchSettings(),
+            hideDelay: 0.01,
+            queueDelay: 0
+        )
+        TestLifetime.retain(viewModel)
+
+        viewModel.send(
+            .showLiveActivity(
+                TestNotchContent(
+                    id: "horizontalExpandTest",
+                    priority: 10,
+                    collapsedWidthOffset: 20,
+                    collapsedHeightOffset: 0,
+                    isExpandable: true,
+                    expandedWidthOffset: 120,
+                    expandedHeightOffset: 60
+                )
+            )
+        )
+
+        await assertEventually {
+            await MainActor.run { viewModel.notchModel.liveActivityContent?.id == "horizontalExpandTest" }
+        }
+
+        let baseSize = await MainActor.run { viewModel.notchModel.size }
+
+        viewModel.updateSwipeStretch(for: .horizontalExpand, progress: 1)
+
+        let interactiveSize = await MainActor.run { viewModel.interactiveNotchSize }
+        let blurRadius = await MainActor.run { viewModel.contentResizeBlurRadius }
+        let opacity = await MainActor.run { viewModel.contentResizeOpacity }
+
+        XCTAssertGreaterThan(interactiveSize.width, baseSize.width)
+        XCTAssertEqual(interactiveSize.height, baseSize.height, accuracy: 0.001)
+        XCTAssertGreaterThan(blurRadius, 0)
+        XCTAssertLessThan(opacity, 1)
+    }
+
+    @MainActor
     func testHorizontalDismissSwipeAvailabilityInCompactAndExpandedModes() async {
         let viewModel = NotchViewModel(
             settings: TestNotchSettings(),
@@ -1260,8 +1301,8 @@ final class NotchViewModelIntegrationTests: XCTestCase {
             await MainActor.run { viewModel.notchModel.liveActivityContent?.id == "compact" }
         }
 
-        // Compact: trackpad horizontal swipe is disallowed, mouse drag horizontal swipe is allowed
-        XCTAssertFalse(viewModel.canDismissWithHorizontalTrackpadSwipe)
+        // Compact: both trackpad and mouse horizontal swipe are allowed
+        XCTAssertTrue(viewModel.canDismissWithHorizontalTrackpadSwipe)
         XCTAssertTrue(viewModel.canDismissWithHorizontalMouseDrag)
 
         // Expand:
@@ -1376,6 +1417,51 @@ final class NotchViewModelIntegrationTests: XCTestCase {
         let opacity = await MainActor.run { viewModel.contentResizeOpacity }
         XCTAssertGreaterThan(blur, 0)
         XCTAssertLessThan(opacity, 1.0)
+    }
+
+    @MainActor
+    func testCombinedHorizontalAndVerticalSwipeStretchesBothDimensions() async {
+        let viewModel = NotchViewModel(
+            settings: TestNotchSettings(),
+            hideDelay: 0.01,
+            queueDelay: 0
+        )
+        TestLifetime.retain(viewModel)
+
+        viewModel.send(
+            .showLiveActivity(
+                TestNotchContent(
+                    id: "combined2D",
+                    priority: 10,
+                    collapsedWidthOffset: 30,
+                    collapsedHeightOffset: 0,
+                    isExpandable: true
+                )
+            )
+        )
+
+        await assertEventually {
+            await MainActor.run { viewModel.notchModel.liveActivityContent?.id == "combined2D" }
+        }
+
+        XCTAssertTrue(viewModel.canRestoreWithMouseDrag)
+        XCTAssertTrue(viewModel.canRestoreWithTrackpadSwipe)
+
+        let initialSize = await MainActor.run { viewModel.notchModel.size }
+
+        viewModel.updateSwipeStretch(
+            for: .combined(
+                verticalDirection: .down,
+                verticalProgress: 1.0,
+                horizontalDirection: .outward,
+                horizontalProgress: 1.0
+            ),
+            progress: 1.0
+        )
+
+        let stretchedSize = await MainActor.run { viewModel.interactiveNotchSize }
+        XCTAssertGreaterThan(stretchedSize.width, initialSize.width)
+        XCTAssertGreaterThan(stretchedSize.height, initialSize.height)
     }
 
     @MainActor

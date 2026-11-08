@@ -51,13 +51,12 @@ final class GestureCoordinator: ObservableObject {
         isSwipeRestoreEnabled: Bool,
         isLocked: Bool,
         isLiveActivityExpanded: Bool,
-        canRestoreDismissedContent: Bool
+        canRestoreDismissedContent: Bool,
+        hasRealDisplayedContent: Bool = false
     ) -> Bool {
         guard !isLocked else { return false }
-        guard !isLiveActivityExpanded else { return false }
-        return isMouseDragEnabled &&
-        isSwipeRestoreEnabled &&
-        canRestoreDismissedContent
+        guard isMouseDragEnabled && isSwipeRestoreEnabled else { return false }
+        return canRestoreDismissedContent
     }
 
     func canDismissWithTrackpadSwipe(
@@ -79,13 +78,12 @@ final class GestureCoordinator: ObservableObject {
         isSwipeRestoreEnabled: Bool,
         isLocked: Bool,
         isLiveActivityExpanded: Bool,
-        canRestoreDismissedContent: Bool
+        canRestoreDismissedContent: Bool,
+        hasRealDisplayedContent: Bool = false
     ) -> Bool {
         guard !isLocked else { return false }
-        guard !isLiveActivityExpanded else { return false }
-        return isTrackpadSwipeEnabled &&
-        isSwipeRestoreEnabled &&
-        canRestoreDismissedContent
+        guard isTrackpadSwipeEnabled && isSwipeRestoreEnabled else { return false }
+        return canRestoreDismissedContent
     }
 
     func canDismissWithHorizontalTrackpadSwipe(
@@ -94,14 +92,31 @@ final class GestureCoordinator: ObservableObject {
         notchHeight: CGFloat,
         baseHeight: CGFloat
     ) -> Bool {
-        guard canDismissWithTrackpadSwipe else { return false }
-        return isDisplayingExpandedLiveActivity || notchHeight > baseHeight + 1
+        canDismissWithTrackpadSwipe
     }
 
     func canDismissWithHorizontalMouseDrag(
         canDismissWithMouseDrag: Bool
     ) -> Bool {
         canDismissWithMouseDrag
+    }
+
+    func canStretchWithMouseDrag(
+        isMouseDragEnabled: Bool,
+        isSwipeGesturesEnabled: Bool,
+        isLocked: Bool
+    ) -> Bool {
+        guard !isLocked else { return false }
+        return isMouseDragEnabled && isSwipeGesturesEnabled
+    }
+
+    func canStretchWithTrackpadSwipe(
+        isTrackpadSwipeEnabled: Bool,
+        isSwipeGesturesEnabled: Bool,
+        isLocked: Bool
+    ) -> Bool {
+        guard !isLocked else { return false }
+        return isTrackpadSwipeEnabled && isSwipeGesturesEnabled
     }
 
     // MARK: - Swipe Stretch State Updates
@@ -122,10 +137,13 @@ final class GestureCoordinator: ObservableObject {
         case .simultaneousDismiss(let vertical, let horizontal):
             verticalSwipeStretchProgress = max(0, vertical)
             horizontalSwipeStretchProgress = max(0, horizontal)
+        case .combined(_, let vertical, _, let horizontal):
+            verticalSwipeStretchProgress = max(0, vertical)
+            horizontalSwipeStretchProgress = max(0, horizontal)
         case .dismiss:
             verticalSwipeStretchProgress = clampedProgress
             horizontalSwipeStretchProgress = 0
-        case .horizontalDismiss:
+        case .horizontalDismiss, .horizontalExpand:
             verticalSwipeStretchProgress = 0
             horizontalSwipeStretchProgress = clampedProgress
         case .restore:
@@ -183,9 +201,10 @@ final class GestureCoordinator: ObservableObject {
                     SwipeFeedbackMetrics.expandedDismissMaximumHeight
                 )
 
+                let minHeight = model.isDynamicIsland ? model.baseHeight * 0.75 : model.baseHeight - 4
                 calculatedSize = CGSize(
                     width: baseSize.width,
-                    height: max(model.baseHeight, baseSize.height - (heightCompression * progress))
+                    height: max(minHeight, baseSize.height - (heightCompression * progress))
                 )
             } else {
                 let widthCompression = min(
@@ -197,7 +216,8 @@ final class GestureCoordinator: ObservableObject {
                     currentWidth: baseSize.width,
                     baseWidth: model.baseWidth,
                     nominalCompression: widthCompression,
-                    progress: progress
+                    progress: progress,
+                    isDynamicIsland: model.isDynamicIsland
                 )
 
                 calculatedSize = CGSize(
@@ -216,11 +236,23 @@ final class GestureCoordinator: ObservableObject {
                 currentWidth: baseSize.width,
                 baseWidth: model.baseWidth,
                 nominalCompression: widthCompression,
-                progress: progress
+                progress: progress,
+                isDynamicIsland: model.isDynamicIsland
             )
 
             calculatedSize = CGSize(
                 width: targetWidth,
+                height: baseSize.height
+            )
+
+        case .horizontalExpand:
+            let widthExpansion = min(
+                max(baseSize.width * SwipeFeedbackMetrics.horizontalExpandWidthFactor, SwipeFeedbackMetrics.horizontalExpandMinimumWidth),
+                SwipeFeedbackMetrics.horizontalExpandMaximumWidth
+            )
+
+            calculatedSize = CGSize(
+                width: baseSize.width + (widthExpansion * progress),
                 height: baseSize.height
             )
 
@@ -238,7 +270,8 @@ final class GestureCoordinator: ObservableObject {
                     currentWidth: baseSize.width,
                     baseWidth: model.baseWidth,
                     nominalCompression: widthCompression,
-                    progress: easedHProgress
+                    progress: easedHProgress,
+                    isDynamicIsland: model.isDynamicIsland
                 )
 
                 let heightCompression = min(
@@ -246,7 +279,8 @@ final class GestureCoordinator: ObservableObject {
                     SwipeFeedbackMetrics.expandedDismissMaximumHeight
                 )
 
-                let targetHeight = max(model.baseHeight, baseSize.height - (heightCompression * easedVProgress))
+                let minHeight = model.isDynamicIsland ? model.baseHeight * 0.75 : model.baseHeight - 4
+                let targetHeight = max(minHeight, baseSize.height - (heightCompression * easedVProgress))
 
                 calculatedSize = CGSize(
                     width: targetWidth,
@@ -258,7 +292,8 @@ final class GestureCoordinator: ObservableObject {
                     currentWidth: baseSize.width,
                     baseWidth: model.baseWidth,
                     nominalCompression: widthCompression,
-                    progress: combinedProgress
+                    progress: combinedProgress,
+                    isDynamicIsland: model.isDynamicIsland
                 )
 
                 calculatedSize = CGSize(
@@ -268,9 +303,59 @@ final class GestureCoordinator: ObservableObject {
             }
 
         case .restore:
+            let heightExpansion = min(
+                max(baseSize.height * SwipeFeedbackMetrics.verticalExpandHeightFactor, SwipeFeedbackMetrics.verticalExpandMinimumHeight),
+                SwipeFeedbackMetrics.verticalExpandMaximumHeight
+            )
             calculatedSize = CGSize(
                 width: baseSize.width,
-                height: baseSize.height + (SwipeFeedbackMetrics.restoreHeightExpansion * progress)
+                height: baseSize.height + (heightExpansion * progress)
+            )
+
+        case .combined(let vDir, _, let hDir, _):
+            let easedHProgress = easedProgress(for: horizontalSwipeStretchProgress)
+            let easedVProgress = easedProgress(for: verticalSwipeStretchProgress)
+
+            let targetWidth: CGFloat
+            if hDir == .inward {
+                let widthCompression = min(
+                    max(baseSize.width * SwipeFeedbackMetrics.collapsedDismissWidthFactor, SwipeFeedbackMetrics.collapsedDismissMinimumWidth),
+                    SwipeFeedbackMetrics.collapsedDismissMaximumWidth
+                )
+                targetWidth = deceleratedWidthTowardsBase(
+                    currentWidth: baseSize.width,
+                    baseWidth: model.baseWidth,
+                    nominalCompression: widthCompression,
+                    progress: easedHProgress,
+                    isDynamicIsland: model.isDynamicIsland
+                )
+            } else {
+                let widthExpansion = min(
+                    max(baseSize.width * SwipeFeedbackMetrics.horizontalExpandWidthFactor, SwipeFeedbackMetrics.horizontalExpandMinimumWidth),
+                    SwipeFeedbackMetrics.horizontalExpandMaximumWidth
+                )
+                targetWidth = baseSize.width + (widthExpansion * easedHProgress)
+            }
+
+            let targetHeight: CGFloat
+            if vDir == .up {
+                let heightCompression = min(
+                    max(baseSize.height * SwipeFeedbackMetrics.expandedDismissHeightFactor, SwipeFeedbackMetrics.expandedDismissMinimumHeight),
+                    SwipeFeedbackMetrics.expandedDismissMaximumHeight
+                )
+                let minHeight = model.isDynamicIsland ? model.baseHeight * 0.75 : model.baseHeight - 4
+                targetHeight = max(minHeight, baseSize.height - (heightCompression * easedVProgress))
+            } else {
+                let heightExpansion = min(
+                    max(baseSize.height * SwipeFeedbackMetrics.verticalExpandHeightFactor, SwipeFeedbackMetrics.verticalExpandMinimumHeight),
+                    SwipeFeedbackMetrics.verticalExpandMaximumHeight
+                )
+                targetHeight = baseSize.height + (heightExpansion * easedVProgress)
+            }
+
+            calculatedSize = CGSize(
+                width: targetWidth,
+                height: targetHeight
             )
 
         case nil:
@@ -300,7 +385,7 @@ final class GestureCoordinator: ObservableObject {
         switch swipeInteraction {
         case .dismiss, .horizontalDismiss, .simultaneousDismiss:
             return SwipeFeedbackMetrics.dismissBlurRadius * progress
-        case .restore:
+        case .restore, .horizontalExpand, .combined:
             return SwipeFeedbackMetrics.restoreBlurRadius * progress
         case nil:
             return 0
@@ -313,7 +398,7 @@ final class GestureCoordinator: ObservableObject {
         switch swipeInteraction {
         case .dismiss, .horizontalDismiss, .simultaneousDismiss:
             return max(0, 1 - (SwipeFeedbackMetrics.dismissOpacityReduction * progress))
-        case .restore:
+        case .restore, .horizontalExpand, .combined:
             return max(0, 1 - (SwipeFeedbackMetrics.restoreOpacityReduction * progress))
         case nil:
             return 1
@@ -324,15 +409,24 @@ final class GestureCoordinator: ObservableObject {
         currentWidth: CGFloat,
         baseWidth: CGFloat,
         nominalCompression: CGFloat,
-        progress: CGFloat
+        progress: CGFloat,
+        isDynamicIsland: Bool = false
     ) -> CGFloat {
         let distanceToBase = currentWidth - baseWidth
-        guard distanceToBase > 0, progress > 0 else {
+        if distanceToBase > 0, progress > 0 {
+            let effectiveCompression = min(nominalCompression, distanceToBase)
+            let actualCompression = effectiveCompression * progress
+            return max(baseWidth, currentWidth - actualCompression)
+        } else if progress > 0 {
+            if isDynamicIsland {
+                let compression = min(nominalCompression, baseWidth * 0.2) * progress
+                return max(baseWidth * 0.7, currentWidth - compression)
+            } else {
+                let compression = min(8.0, nominalCompression * 0.2) * progress
+                return max(baseWidth - 8.0, currentWidth - compression)
+            }
+        } else {
             return currentWidth
         }
-
-        let effectiveCompression = min(nominalCompression, distanceToBase)
-        let actualCompression = effectiveCompression * progress
-        return max(baseWidth, currentWidth - actualCompression)
     }
 }

@@ -38,7 +38,7 @@ final class NotchScreenshotEventsHandler {
             guard self.settingsViewModel.screenRecording.isScreenshotActivityEnabled else { return }
             
             ScreenshotFlyAnimationService.shared.playFlyToNotchAnimation(
-                image: screenshot.image,
+                image: screenshot.previewImage,
                 onReachNotch: { [weak self] in
                     self?.notchViewModel.pulseNotch()
                 },

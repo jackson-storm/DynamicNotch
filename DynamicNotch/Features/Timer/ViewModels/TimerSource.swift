@@ -49,14 +49,53 @@ enum TimerSource {
         }
     }
 
-    func formattedTime(at date: Date) -> String {
+    var countdownFlipOffset: TimeInterval {
         switch self {
         case .system(let vm):
-            return vm.formattedTime
-        case .local(let vm):
-            let remaining = vm.remainingTime(at: date)
-            return vm.formatTime(remaining)
+            // Clock rounds its countdown to the nearest second, at redraws that land
+            // `displayDelay` after each half-second crossing.
+            guard let snapshot = vm.snapshot, !snapshot.isPaused else { return 0.5 }
+            return 0.5 - snapshot.displayDelay
+        case .local:
+            return 0
         }
+    }
+
+    var countdownEndDate: Date? {
+        switch self {
+        case .system(let vm):
+            return vm.snapshot?.endDate
+        case .local(let vm):
+            return vm.endDate
+        }
+    }
+
+    func displayedSeconds(at date: Date) -> Int {
+        TimerCountdownSchedule.displayedSeconds(remaining: remainingTime(at: date), flipOffset: countdownFlipOffset)
+    }
+
+    func formattedTime(at date: Date) -> String {
+        let seconds = displayedSeconds(at: date)
+        if let abbreviated = Self.abbreviatedTime(seconds) {
+            return abbreviated
+        }
+
+        switch self {
+        case .system(let vm):
+            return vm.formatTime(TimeInterval(seconds))
+        case .local(let vm):
+            return vm.formatTime(TimeInterval(seconds))
+        }
+    }
+
+    /// Returns nil for durations of 10 minutes or less. Above 10 minutes, it returns whole minutes.
+    /// From one hour, it returns hours with minutes. Minutes round down, like the countdown's minute field.
+    static func abbreviatedTime(_ seconds: Int) -> String? {
+        guard seconds > 600 else { return nil }
+
+        let hours = seconds / 3600
+        let minutes = (seconds % 3600) / 60
+        return hours > 0 ? "\(hours)h \(minutes)m" : "\(minutes)m"
     }
 
     @MainActor

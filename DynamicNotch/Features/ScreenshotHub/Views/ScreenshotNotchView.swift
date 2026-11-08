@@ -48,7 +48,7 @@ struct ScreenshotNotchView: View {
                         Color.clear
                             .frame(width: 50, height: 50)
                             .overlay(
-                                Image(nsImage: screenshot.image)
+                                Image(nsImage: screenshot.previewImage)
                                     .resizable()
                                     .interpolation(.high)
                                     .antialiased(true)

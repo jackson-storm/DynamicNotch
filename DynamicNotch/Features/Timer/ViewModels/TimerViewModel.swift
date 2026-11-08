@@ -15,6 +15,27 @@ struct ClockTimerSnapshot: Equatable {
     let isPaused: Bool
     let pausedRemaining: TimeInterval?
     let fingerprint: String
+    let displayDelay: TimeInterval
+
+    init(
+        identifier: String,
+        title: String,
+        duration: TimeInterval,
+        endDate: Date,
+        isPaused: Bool,
+        pausedRemaining: TimeInterval?,
+        fingerprint: String,
+        displayDelay: TimeInterval = 0
+    ) {
+        self.identifier = identifier
+        self.title = title
+        self.duration = duration
+        self.endDate = endDate
+        self.isPaused = isPaused
+        self.pausedRemaining = pausedRemaining
+        self.fingerprint = fingerprint
+        self.displayDelay = displayDelay
+    }
 
     func remainingTime(at date: Date) -> TimeInterval {
         if isPaused, let pausedRemaining {
@@ -210,6 +231,9 @@ private extension TimerViewModel {
 
     func refreshFormattedTime() {
         let remainingTime = snapshot?.remainingTime(at: .now) ?? 0
-        formattedTime = formatTime(remainingTime)
+        let nextFormattedTime = formatTime(remainingTime)
+        if nextFormattedTime != formattedTime {
+            formattedTime = nextFormattedTime
+        }
     }
 }

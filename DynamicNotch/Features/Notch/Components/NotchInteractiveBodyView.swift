@@ -49,9 +49,7 @@ struct NotchInteractiveBodyView: View {
     }
     
     private var shouldEnableNotchSwipeGestures: Bool {
-        guard (!notchViewModel.isActivityPresentationHidden || notchViewModel.isLocked) || notchViewModel.notchModel.temporaryNotificationContent != nil else { return false }
-        
-        return !(
+        !(
             notchViewModel.isDisplayingExpandedLiveActivity &&
             notchViewModel.displayedContent?.id == NotchContentRegistry.DragAndDrop.trayActive.id
         )

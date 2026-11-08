@@ -4,10 +4,8 @@ internal import AppKit
 import ServiceManagement
 
 extension SettingsAppearanceMode: StoredSettingValue {}
-extension NotchBackgroundStyle: StoredSettingValue {}
 extension NotchDisplayLocation: StoredSettingValue {}
 extension DynamicNotchLanguage: StoredSettingValue {}
-extension NotchAnimationPreset: StoredSettingValue {}
 extension NotchExpandInteraction: StoredSettingValue {}
 extension NotchCollapseInteraction: StoredSettingValue {}
 
@@ -32,9 +30,6 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
 
     @StoredDefault(key: GeneralSettingsStorage.Keys.appearanceMode, defaultValue: .system)
     var appearanceMode: SettingsAppearanceMode
-
-    @StoredDefault(key: GeneralSettingsStorage.Keys.notchBackgroundStyle, defaultValue: .black)
-    var notchBackgroundStyle: NotchBackgroundStyle
 
     @Published var notchWidth: Int {
         didSet {
@@ -323,9 +318,6 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         )
         notchStrokeWidth = defaultDouble(for: GeneralSettingsStorage.Keys.notchStrokeWidth)
         notchStrokeOpacity = defaultDouble(for: GeneralSettingsStorage.Keys.notchStrokeOpacity)
-        notchBackgroundStyle = NotchBackgroundStyle.resolved(
-            defaultString(for: GeneralSettingsStorage.Keys.notchBackgroundStyle)
-        )
         notchWidth = defaultInt(for: GeneralSettingsStorage.Keys.notchWidth)
         notchHeight = defaultInt(for: GeneralSettingsStorage.Keys.notchHeight)
     }

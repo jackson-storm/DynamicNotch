@@ -25,7 +25,6 @@ struct NotchSurfaceContainerView: View {
     private var notchSurface: some View {
         let isDynamicIsland = notchViewModel.isDynamicIsland
         NotchBackgroundSurface(
-            style: settingsViewModel.application.notchBackgroundStyle,
             topCornerRadius: notchViewModel.interactiveCornerRadius.top,
             bottomCornerRadius: notchViewModel.interactiveCornerRadius.bottom,
             isDynamicIsland: isDynamicIsland,

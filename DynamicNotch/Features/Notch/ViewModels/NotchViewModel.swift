@@ -87,6 +87,10 @@ final class NotchViewModel: ObservableObject {
         displayedNotchModel.isPresentingExpandedLiveActivity
     }
 
+    var isExpandedPresentation: Bool {
+        isDisplayingExpandedLiveActivity || displayedBaseNotchSize.height > notchModel.baseHeight + 1
+    }
+
     var hasRealDisplayedContent: Bool {
         displayedContent != nil
     }
@@ -195,7 +199,8 @@ final class NotchViewModel: ObservableObject {
             isSwipeRestoreEnabled: settings.isNotchSwipeRestoreEnabled,
             isLocked: isLocked,
             isLiveActivityExpanded: notchModel.isLiveActivityExpanded,
-            canRestoreDismissedContent: canRestoreDismissedContent
+            canRestoreDismissedContent: canRestoreDismissedContent,
+            hasRealDisplayedContent: hasRealDisplayedContent
         )
     }
     
@@ -216,7 +221,8 @@ final class NotchViewModel: ObservableObject {
             isSwipeRestoreEnabled: settings.isNotchSwipeRestoreEnabled,
             isLocked: isLocked,
             isLiveActivityExpanded: notchModel.isLiveActivityExpanded,
-            canRestoreDismissedContent: canRestoreDismissedContent
+            canRestoreDismissedContent: canRestoreDismissedContent,
+            hasRealDisplayedContent: hasRealDisplayedContent
         )
     }
 
@@ -232,6 +238,22 @@ final class NotchViewModel: ObservableObject {
     var canDismissWithHorizontalMouseDrag: Bool {
         gestureCoordinator.canDismissWithHorizontalMouseDrag(
             canDismissWithMouseDrag: canDismissWithMouseDrag
+        )
+    }
+
+    var isMouseDragStretchEnabled: Bool {
+        gestureCoordinator.canStretchWithMouseDrag(
+            isMouseDragEnabled: settings.isNotchMouseDragGesturesEnabled,
+            isSwipeGesturesEnabled: settings.isNotchSwipeDismissEnabled || settings.isNotchSwipeRestoreEnabled,
+            isLocked: isLocked
+        )
+    }
+
+    var isTrackpadSwipeStretchEnabled: Bool {
+        gestureCoordinator.canStretchWithTrackpadSwipe(
+            isTrackpadSwipeEnabled: settings.isNotchTrackpadSwipeGesturesEnabled,
+            isSwipeGesturesEnabled: settings.isNotchSwipeDismissEnabled || settings.isNotchSwipeRestoreEnabled,
+            isLocked: isLocked
         )
     }
     
@@ -311,7 +333,7 @@ final class NotchViewModel: ObservableObject {
         }
         self.engine = engine ?? NotchEngine(
             animations: {
-                animations ?? .balanced
+                animations ?? .animations
             },
             hideDelay: hideDelay,
             queueDelay: queueDelay
@@ -415,15 +437,19 @@ final class NotchViewModel: ObservableObject {
         restoreContentWorkItem?.cancel()
         restoreContentWorkItem = nil
 
+        notchModel.isLiveActivityExpanded = false
+
         if swipeStretchProgress > 0 || swipeInteraction != nil {
             applySwipeStretchReset()
             let workItem = DispatchWorkItem { [weak self] in
                 self?.restoreContentWorkItem = nil
+                self?.notchModel.isLiveActivityExpanded = false
                 self?.engine.restoreDismissedContent()
             }
             restoreContentWorkItem = workItem
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.18, execute: workItem)
         } else {
+            notchModel.isLiveActivityExpanded = false
             engine.restoreDismissedContent()
         }
     }

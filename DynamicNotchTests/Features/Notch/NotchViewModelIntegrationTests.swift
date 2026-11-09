@@ -1461,7 +1461,7 @@ final class NotchViewModelIntegrationTests: XCTestCase {
 
         let stretchedSize = await MainActor.run { viewModel.interactiveNotchSize }
         XCTAssertGreaterThan(stretchedSize.width, initialSize.width)
-        XCTAssertGreaterThan(stretchedSize.height, initialSize.height)
+        XCTAssertEqual(stretchedSize.height, initialSize.height, accuracy: 0.001)
     }
 
     @MainActor

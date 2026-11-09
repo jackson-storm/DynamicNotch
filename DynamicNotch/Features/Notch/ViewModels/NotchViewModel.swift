@@ -198,7 +198,7 @@ final class NotchViewModel: ObservableObject {
             isMouseDragEnabled: settings.isNotchMouseDragGesturesEnabled,
             isSwipeRestoreEnabled: settings.isNotchSwipeRestoreEnabled,
             isLocked: isLocked,
-            isLiveActivityExpanded: notchModel.isLiveActivityExpanded,
+            isLiveActivityExpanded: isExpandedPresentation,
             canRestoreDismissedContent: canRestoreDismissedContent,
             hasRealDisplayedContent: hasRealDisplayedContent
         )
@@ -220,7 +220,7 @@ final class NotchViewModel: ObservableObject {
             isTrackpadSwipeEnabled: settings.isNotchTrackpadSwipeGesturesEnabled,
             isSwipeRestoreEnabled: settings.isNotchSwipeRestoreEnabled,
             isLocked: isLocked,
-            isLiveActivityExpanded: notchModel.isLiveActivityExpanded,
+            isLiveActivityExpanded: isExpandedPresentation,
             canRestoreDismissedContent: canRestoreDismissedContent,
             hasRealDisplayedContent: hasRealDisplayedContent
         )
@@ -429,7 +429,7 @@ final class NotchViewModel: ObservableObject {
     }
     
     func restoreDismissedContent() {
-        if isLocked {
+        if isLocked || isExpandedPresentation || notchModel.isLiveActivityExpanded {
             resetSwipeStretch()
             return
         }

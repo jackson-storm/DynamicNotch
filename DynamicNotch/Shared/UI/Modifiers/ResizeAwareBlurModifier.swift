@@ -115,15 +115,24 @@ struct ResizeAwareBlurModifier: AnimatableModifier {
                 }
             case .combined(let vDir, _, let hDir, _):
                 effectiveAnchor = .center
-                if hDir == .inward {
-                    xScale = refBaseWidth > 0 ? min(1.0, targetWidth / refBaseWidth) : max(0.8, 1.0 - animatedProgress * 0.1)
+                if isExceedingBaseHeight {
+                    if hDir == .inward {
+                        xScale = refBaseWidth > 0 ? min(1.0, targetWidth / refBaseWidth) : max(0.8, 1.0 - animatedProgress * 0.1)
+                    } else {
+                        xScale = refBaseWidth > 0 ? max(1.0, targetWidth / refBaseWidth) : min(1.2, 1.0 + animatedProgress * 0.1)
+                    }
+                    if vDir == .up {
+                        yScale = refBaseHeight > 0 ? min(1.0, targetHeight / refBaseHeight) : max(0.8, 1.0 - animatedProgress * 0.1)
+                    } else {
+                        yScale = refBaseHeight > 0 ? max(1.0, targetHeight / refBaseHeight) : min(1.2, 1.0 + animatedProgress * 0.1)
+                    }
                 } else {
-                    xScale = refBaseWidth > 0 ? max(1.0, targetWidth / refBaseWidth) : min(1.2, 1.0 + animatedProgress * 0.1)
-                }
-                if vDir == .up {
-                    yScale = refBaseHeight > 0 ? min(1.0, targetHeight / refBaseHeight) : max(0.8, 1.0 - animatedProgress * 0.1)
-                } else {
-                    yScale = refBaseHeight > 0 ? max(1.0, targetHeight / refBaseHeight) : min(1.2, 1.0 + animatedProgress * 0.1)
+                    yScale = 1.0
+                    if targetWidth > refBaseWidth {
+                        xScale = refBaseWidth > 0 ? max(1.0, targetWidth / refBaseWidth) : min(1.2, 1.0 + animatedProgress * 0.1)
+                    } else {
+                        xScale = refBaseWidth > 0 ? min(1.0, targetWidth / refBaseWidth) : max(0.8, 1.0 - animatedProgress * 0.1)
+                    }
                 }
             case .dismiss:
                 effectiveAnchor = .center
@@ -141,13 +150,11 @@ struct ResizeAwareBlurModifier: AnimatableModifier {
                     effectiveAnchor = anchor
                 } else {
                     effectiveAnchor = .center
-                    let isBaseHeight = targetHeight <= baseHeight + 1
-                    if isBaseHeight {
-                        yScale = 1.0 + animatedProgress * 0.5
-                        xScale = 1.0
+                    yScale = 1.0
+                    if refBaseWidth > 0 {
+                        xScale = max(1.0, targetWidth / refBaseWidth)
                     } else {
-                        yScale = 1.0 + animatedProgress * 0.02
-                        xScale = 1.0
+                        xScale = min(1.2, 1.0 + animatedProgress * 0.1)
                     }
                 }
             }

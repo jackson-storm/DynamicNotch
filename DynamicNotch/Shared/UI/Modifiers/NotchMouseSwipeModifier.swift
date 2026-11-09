@@ -7,20 +7,19 @@ struct NotchMouseSwipeModifier: ViewModifier {
 
     func body(content: Content) -> some View {
         let stretchEnabled = isEnabled && notchViewModel.isMouseDragStretchEnabled
-        let isExpanded = notchViewModel.isExpandedPresentation
         content.background(
             NotchMouseSwipeMonitorRepresentable(
-                canSwipeUp: stretchEnabled && isExpanded,
-                canSwipeDown: stretchEnabled && isExpanded,
+                canSwipeUp: stretchEnabled,
+                canSwipeDown: stretchEnabled,
                 canSwipeHorizontal: stretchEnabled,
                 canTriggerDismiss: isEnabled && notchViewModel.canDismissWithMouseDrag,
-                canTriggerRestore: isEnabled && notchViewModel.canRestoreDismissedContent,
+                canTriggerRestore: isEnabled && notchViewModel.canRestoreWithMouseDrag,
                 isScrubbingContent: notchViewModel.isScrubbingContent,
                 onSwipeUp: {
                     notchViewModel.dismissActiveContent()
                 },
                 onSwipeDown: {
-                    if notchViewModel.canRestoreDismissedContent {
+                    if notchViewModel.canRestoreWithMouseDrag {
                         notchViewModel.restoreDismissedContent()
                     }
                 },
@@ -28,7 +27,7 @@ struct NotchMouseSwipeModifier: ViewModifier {
                     notchViewModel.dismissActiveContent()
                 },
                 onSwipeHorizontalRestore: {
-                    if notchViewModel.canRestoreDismissedContent {
+                    if notchViewModel.canRestoreWithMouseDrag {
                         notchViewModel.restoreDismissedContent()
                     }
                 },

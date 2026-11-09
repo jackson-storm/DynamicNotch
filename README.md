@@ -31,41 +31,30 @@
   <img src="assets/DynamicIsland/IslandLockScreen.png" alt="DynamicNotch preview" width="49%" />
 </p>
 
-## 🧐 Why DynamicNotch
-
-The app is built with SwiftUI and AppKit, so the notch window, settings UI, and event handling feel
-like part of macOS rather than a web-style overlay.
-
-The difference between this project and others is that it is built on its own engine, and not taken from other ready-made repositories. It completely copies the logic, animations, and behavior of a real Dynamic Island on an iPhone, unlike other projects. 
-
-The main goal is to make the project as native as possible, both in terms of design and interaction.
-
 ## 🎯 Highlights
 
-**Live Activities**: Now Playing (media control, album artwork, audio visualizer, customizable progress bar tint style), Downloads progress, AirDrop, Timer, Screen Recording indicator, Focus mode, Personal Hotspot, and Lock Screen media/live activity surfaces.
+- **Live Activities**: Now Playing (media control, album artwork, audio visualizer, customizable progress bar tint style), Downloads progress, AirDrop, Timer, Screen Recording indicator, Focus mode, Personal Hotspot, and Lock Screen media/live activity surfaces.
 
-**Temporary Alerts**: Interactive HUD status for battery charging, low/full battery, Bluetooth connections, Wi-Fi, VPN, Focus-off toggling, and notch size modification settings feedback.
+- **Temporary Alerts**: Interactive HUD status for battery charging, low/full battery, Bluetooth connections, Wi-Fi, VPN, Focus-off toggling, and notch size modification settings feedback.
 
-**Gestures & Swipe Controls**: Native interactive gestures including mouse drag, trackpad swipes, vertical swipe-to-dismiss/restore with adaptive corner radii and swipe-aware blur, and horizontal trackpad/mouse scroll-to-dismiss.
+- **Gestures & Swipe Controls**: Native interactive gestures including mouse drag, trackpad swipes, vertical swipe-to-dismiss/restore with adaptive corner radii and swipe-aware blur, and horizontal trackpad/mouse scroll-to-dismiss.
 
-**Fluid Physics Animations**: True-to-life replication of the iOS Dynamic Island's motion design, featuring responsive physics-based spring animations, jelly-like morphing transitions, and synchronized content interpolation that matches the stretch, squash, and elastic behavior of Apple's implementation.
+- **Fluid Physics Animations**: True-to-life replication of the iOS Dynamic Island's motion design, featuring responsive physics-based spring animations, jelly-like morphing transitions, and synchronized content interpolation that matches the stretch, squash, and elastic behavior of Apple's implementation.
 
-**Dynamic Island (Floating Capsule)**: Automatic support for devices without a physical hardware notch (e.g. non-notched MacBooks, iMac, Mac mini, or external monitors). Transitions to a floating capsule shape (`DynamicIslandShape`) when `topInset == 0`, utilizing dynamic, smooth corner radius transitions.
+- **Dynamic Island (Floating Capsule)**: Automatic support for devices without a physical hardware notch (e.g. non-notched MacBooks, iMac, Mac mini, or external monitors). Transitions to a floating capsule shape (`DynamicIslandShape`) when `topInset == 0`, utilizing dynamic, smooth corner radius transitions.
 
 ## 💻 Preview
 
-<table align="center">
+<table align="center" cellpadding="0" cellspacing="0" width="100%">
   <tr>
-    <td align="center" width="12%"><b>Compact</b></td>
-    <td width="44%"><img src="assets/DynamicNotch/NotchCompactNowPlaying.png" alt="Compact Now Playing" width="100%" /></td>
-    <td width="44%"><img src="assets/DynamicIsland/IslandCompactNowPlaying.png" alt="Compact Now Playing" width="100%" /></td>
+    <td align="center" width="10%"><b>Compact</b></td>
+    <td width="45%"><img src="assets/DynamicNotch/NotchCompactNowPlaying.png" alt="Compact Now Playing" width="100%" /></td>
+    <td width="45%"><img src="assets/DynamicIsland/IslandCompactNowPlaying.png" alt="Compact Now Playing" width="100%" /></td>
   </tr>
-</table>
-<table align="center">
   <tr>
-    <td align="center" width="12%"><b>Expanded</b></td>
-    <td width="44%"><img src="assets/DynamicNotch/NotchNowPlaying.png" alt="Expanded Now Playing" width="100%" /></td>
-    <td width="44%"><img src="assets/DynamicIsland/IslandNowPlaying.png" alt="Expanded Now Playing" width="100%" /></td>
+    <td align="center" width="10%"><b>Expanded</b></td>
+    <td width="45%"><img src="assets/DynamicNotch/NotchNowPlaying.png" alt="Expanded Now Playing" width="100%" /></td>
+    <td width="45%"><img src="assets/DynamicIsland/IslandNowPlaying.png" alt="Expanded Now Playing" width="100%" /></td>
   </tr>
 </table>
 

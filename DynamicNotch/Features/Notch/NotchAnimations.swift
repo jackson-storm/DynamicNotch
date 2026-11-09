@@ -9,8 +9,6 @@ import SwiftUI
 
 struct NotchAnimations {
     // MARK: - Notifications & Content Lifecycle
-    /// Animation used when updating notch content/geometry without full collapse.
-    let updateContent: Animation
     /// Animation used when collapsing/hiding notch content.
     let hideContent: Animation
     /// Animation used when expanding/showing notch content from collapsed state.
@@ -27,6 +25,8 @@ struct NotchAnimations {
     let collapsedLiveActivityContentTransition: Animation
 
     // MARK: - Gestures & Interactions
+    /// Animation used when updating notch content/geometry without full collapse.
+    let updateContent: Animation
     /// Spring animation returning the notch to resting state after swipe/drag stretch.
     let stretchReset: Animation
     /// Squeeze-and-bounce spring animation when notch loses focus or is dismissed.
@@ -45,29 +45,28 @@ struct NotchAnimations {
     let queuePacingDelay: TimeInterval
 
     static let animations: Self = {
-        let damping: Double = 0.70
-        let expandDamping: Double = 0.75
-        let baseResponse: Double = 0.5
-        let blend: Double = 1.0
+        let damping: Double = 0.8
+        let baseResponse: Double = 0.48
+        let blend: Double = 0.3
         
         return Self(
-            updateContent: .spring(response: baseResponse, blendDuration: blend),
             hideContent: .spring(response: baseResponse, dampingFraction: damping, blendDuration: blend),
             showContent: .spring(response: baseResponse, dampingFraction: damping, blendDuration: blend),
             
-            expandLiveActivity: .spring(response: baseResponse, dampingFraction: expandDamping, blendDuration: blend),
-            expandedLiveActivityContentTransition: .spring(response: baseResponse, dampingFraction: expandDamping, blendDuration: blend),
+            expandLiveActivity: .spring(response: baseResponse, dampingFraction: damping, blendDuration: blend),
+            expandedLiveActivityContentTransition: .spring(response: baseResponse, dampingFraction: damping, blendDuration: blend),
             
             collapseLiveActivity: .spring(response: baseResponse, blendDuration: blend),
             collapsedLiveActivityContentTransition: .spring(response: baseResponse, blendDuration: blend),
             
-            stretchReset: .spring(response: baseResponse, blendDuration: blend),
-            focusDismissBounce: .spring(response: baseResponse, blendDuration: blend),
-            strokeVisibility: .spring(response: baseResponse, blendDuration: blend),
-            notchVisibility: .spring(response: baseResponse, blendDuration: blend),
+            updateContent: .spring(response: baseResponse),
+            stretchReset: .spring(response: baseResponse),
+            focusDismissBounce: .spring(response: baseResponse),
+            strokeVisibility: .spring(response: baseResponse),
+            notchVisibility: .spring(response: baseResponse),
             
-            transitionDelay: 0.30,
-            queuePacingDelay: 0.30
+            transitionDelay: 0.3,
+            queuePacingDelay: 0.3
         )
     }()
 }

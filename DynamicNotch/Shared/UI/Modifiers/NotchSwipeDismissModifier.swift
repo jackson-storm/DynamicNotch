@@ -291,16 +291,16 @@ private extension NotchSwipeDismissMonitorView {
         let effectiveHorizontalThreshold = max(1, SwipeMetrics.horizontalThreshold - SwipeMetrics.lockThreshold)
 
         let upwardProgress = canSwipeUp
-            ? min(1.5, effectiveUpward / effectiveVerticalThreshold)
+            ? (effectiveUpward / effectiveVerticalThreshold)
             : 0
         let downwardProgress = canSwipeDown
-            ? min(1.5, effectiveDownward / effectiveVerticalThreshold)
+            ? (effectiveDownward / effectiveVerticalThreshold)
             : 0
         let inwardProgress = canSwipeHorizontal
-            ? min(1.5, effectiveInward / effectiveHorizontalThreshold)
+            ? (effectiveInward / effectiveHorizontalThreshold)
             : 0
         let outwardProgress = canSwipeHorizontal
-            ? min(1.5, effectiveOutward / effectiveHorizontalThreshold)
+            ? (effectiveOutward / effectiveHorizontalThreshold)
             : 0
 
         let vProgress: CGFloat

@@ -414,10 +414,10 @@ private extension NotchMouseSwipeMonitorView {
         let effectiveOutward = max(0, outwardDistance - SwipeMetrics.lockThreshold)
         let effectiveHorizontalThreshold = max(1, SwipeMetrics.horizontalThreshold - SwipeMetrics.lockThreshold)
 
-        let upwardProgress = canSwipeUp ? min(1.5, effectiveUpward / effectiveVerticalThreshold) : 0
-        let downwardProgress = canSwipeDown ? min(1.5, effectiveDownward / effectiveVerticalThreshold) : 0
-        let inwardProgress = canSwipeHorizontal ? min(1.5, effectiveInward / effectiveHorizontalThreshold) : 0
-        let outwardProgress = canSwipeHorizontal ? min(1.5, effectiveOutward / effectiveHorizontalThreshold) : 0
+        let upwardProgress = canSwipeUp ? (effectiveUpward / effectiveVerticalThreshold) : 0
+        let downwardProgress = canSwipeDown ? (effectiveDownward / effectiveVerticalThreshold) : 0
+        let inwardProgress = canSwipeHorizontal ? (effectiveInward / effectiveHorizontalThreshold) : 0
+        let outwardProgress = canSwipeHorizontal ? (effectiveOutward / effectiveHorizontalThreshold) : 0
 
         let vProgress: CGFloat
         let vDirection: VerticalSwipeDirection?

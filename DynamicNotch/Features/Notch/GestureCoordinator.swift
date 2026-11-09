@@ -248,13 +248,17 @@ final class GestureCoordinator: ObservableObject {
             )
 
         case .horizontalExpand:
-            let widthExpansion = min(
-                max(baseSize.width * SwipeFeedbackMetrics.horizontalExpandWidthFactor, SwipeFeedbackMetrics.horizontalExpandMinimumWidth),
-                SwipeFeedbackMetrics.horizontalExpandMaximumWidth
+            let nominalWidthExpansion = max(
+                baseSize.width * SwipeFeedbackMetrics.horizontalExpandWidthFactor,
+                SwipeFeedbackMetrics.horizontalExpandMinimumWidth
+            )
+            let widthExpansion = deceleratedExpansion(
+                nominalExpansion: nominalWidthExpansion,
+                progress: progress
             )
 
             calculatedSize = CGSize(
-                width: baseSize.width + (widthExpansion * progress),
+                width: baseSize.width + widthExpansion,
                 height: baseSize.height
             )
 
@@ -306,22 +310,30 @@ final class GestureCoordinator: ObservableObject {
 
         case .restore:
             if model.isPresentingExpandedLiveActivity || baseSize.height > model.baseHeight + 1 {
-                let heightExpansion = min(
-                    max(baseSize.height * SwipeFeedbackMetrics.verticalExpandHeightFactor, SwipeFeedbackMetrics.verticalExpandMinimumHeight),
-                    SwipeFeedbackMetrics.verticalExpandMaximumHeight
+                let nominalHeightExpansion = max(
+                    baseSize.height * SwipeFeedbackMetrics.verticalExpandHeightFactor,
+                    SwipeFeedbackMetrics.verticalExpandMinimumHeight
+                )
+                let heightExpansion = deceleratedExpansion(
+                    nominalExpansion: nominalHeightExpansion,
+                    progress: progress
                 )
                 calculatedSize = CGSize(
                     width: baseSize.width,
-                    height: baseSize.height + (heightExpansion * progress)
+                    height: baseSize.height + heightExpansion
                 )
             } else {
-                let widthExpansion = min(
-                    max(baseSize.width * SwipeFeedbackMetrics.horizontalExpandWidthFactor, SwipeFeedbackMetrics.horizontalExpandMinimumWidth),
-                    SwipeFeedbackMetrics.horizontalExpandMaximumWidth
+                let nominalWidthExpansion = max(
+                    baseSize.width * SwipeFeedbackMetrics.horizontalExpandWidthFactor,
+                    SwipeFeedbackMetrics.horizontalExpandMinimumWidth
+                )
+                let widthExpansion = deceleratedExpansion(
+                    nominalExpansion: nominalWidthExpansion,
+                    progress: progress
                 )
 
                 calculatedSize = CGSize(
-                    width: baseSize.width + (widthExpansion * progress),
+                    width: baseSize.width + widthExpansion,
                     height: baseSize.height
                 )
             }
@@ -345,11 +357,14 @@ final class GestureCoordinator: ObservableObject {
                         isDynamicIsland: model.isDynamicIsland
                     )
                 } else {
-                    let widthExpansion = min(
-                        max(baseSize.width * SwipeFeedbackMetrics.horizontalExpandWidthFactor, SwipeFeedbackMetrics.horizontalExpandMinimumWidth),
-                        SwipeFeedbackMetrics.horizontalExpandMaximumWidth
+                    let nominalWidthExpansion = max(
+                        baseSize.width * SwipeFeedbackMetrics.horizontalExpandWidthFactor,
+                        SwipeFeedbackMetrics.horizontalExpandMinimumWidth
                     )
-                    targetWidth = baseSize.width + (widthExpansion * easedHProgress)
+                    targetWidth = baseSize.width + deceleratedExpansion(
+                        nominalExpansion: nominalWidthExpansion,
+                        progress: easedHProgress
+                    )
                 }
 
                 let targetHeight: CGFloat
@@ -361,11 +376,14 @@ final class GestureCoordinator: ObservableObject {
                     let minHeight = model.isDynamicIsland ? model.baseHeight * 0.75 : model.baseHeight - 4
                     targetHeight = max(minHeight, baseSize.height - (heightCompression * easedVProgress))
                 } else {
-                    let heightExpansion = min(
-                        max(baseSize.height * SwipeFeedbackMetrics.verticalExpandHeightFactor, SwipeFeedbackMetrics.verticalExpandMinimumHeight),
-                        SwipeFeedbackMetrics.verticalExpandMaximumHeight
+                    let nominalHeightExpansion = max(
+                        baseSize.height * SwipeFeedbackMetrics.verticalExpandHeightFactor,
+                        SwipeFeedbackMetrics.verticalExpandMinimumHeight
                     )
-                    targetHeight = baseSize.height + (heightExpansion * easedVProgress)
+                    targetHeight = baseSize.height + deceleratedExpansion(
+                        nominalExpansion: nominalHeightExpansion,
+                        progress: easedVProgress
+                    )
                 }
 
                 calculatedSize = CGSize(
@@ -406,11 +424,14 @@ final class GestureCoordinator: ObservableObject {
                         isDynamicIsland: model.isDynamicIsland
                     )
                 } else {
-                    let widthExpansion = min(
-                        max(baseSize.width * SwipeFeedbackMetrics.horizontalExpandWidthFactor, SwipeFeedbackMetrics.horizontalExpandMinimumWidth),
-                        SwipeFeedbackMetrics.horizontalExpandMaximumWidth
+                    let nominalWidthExpansion = max(
+                        baseSize.width * SwipeFeedbackMetrics.horizontalExpandWidthFactor,
+                        SwipeFeedbackMetrics.horizontalExpandMinimumWidth
                     )
-                    targetWidth = baseSize.width + (widthExpansion * effectiveProgress)
+                    targetWidth = baseSize.width + deceleratedExpansion(
+                        nominalExpansion: nominalWidthExpansion,
+                        progress: effectiveProgress
+                    )
                 }
 
                 calculatedSize = CGSize(
@@ -464,6 +485,16 @@ final class GestureCoordinator: ObservableObject {
         case nil:
             return 1
         }
+    }
+
+    func deceleratedExpansion(
+        nominalExpansion: CGFloat,
+        progress: CGFloat
+    ) -> CGFloat {
+        guard progress > 0, nominalExpansion > 0 else { return 0 }
+        let p = Double(progress)
+        let curve = CGFloat(tanh(p) + 0.35 * log(1.0 + p))
+        return nominalExpansion * curve
     }
 
     private func deceleratedWidthTowardsBase(

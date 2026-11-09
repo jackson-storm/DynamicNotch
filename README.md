@@ -133,12 +133,8 @@ Then run the `DynamicNotch` scheme from Xcode. Swift Package Manager dependencie
 
 Without your support, the project will not be able to develop. If you would like to support the project, you can do so via:
 
-### Services
-
 - **Boosty**: [Support development or subscribe](https://boosty.to/jacksonstormdev)
 - **Donation Alerts**: [One-time donation via cards or crypto](https://www.donationalerts.com/r/jacksonstormdev)
-
-### Cryptocurrency
 
 - **USDT (TRC-20)**: `TWYo42HQNuXSA5gmVoVV1973ScPqCtduvA`
 - **USDT (ERC-20)**: `0xd3261630d7EC2484A3fcf5315f194B58834ab891`

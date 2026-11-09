@@ -62,6 +62,19 @@ private struct ActiveWindowDragSession {
     var targetSnapScreen: NSScreen?
 }
 
+enum NotchlessWindowMargin {
+    /// The margin keeps windows clear of the Dynamic Island. It applies only on the display that shows the island and
+    /// only when that display has no notch. With a notch, the island sits inside the notch and does not cover a window.
+    nonisolated static func applies(
+        toDisplay displayID: CGDirectDisplayID?,
+        islandDisplayID: CGDirectDisplayID?,
+        islandDisplayHasNotch: Bool
+    ) -> Bool {
+        guard let displayID, let islandDisplayID else { return false }
+        return displayID == islandDisplayID && !islandDisplayHasNotch
+    }
+}
+
 @MainActor
 final class NotchlessWindowConstrainer {
     private let settings: ApplicationSettingsStore
@@ -79,6 +92,7 @@ final class NotchlessWindowConstrainer {
     private var retryTimer: AnyCancellable?
     private var isApplyingConstraint = false
     private var isRunning = false
+    private var islandDisplay: (id: CGDirectDisplayID?, hasNotch: Bool)?
     private var windowAnimationTimer: DispatchSourceTimer?
 
     init(settings: ApplicationSettingsStore) {
@@ -149,6 +163,23 @@ final class NotchlessWindowConstrainer {
                 self.constrainAllVisibleWindows()
             }
             .store(in: &cancellables)
+
+        Publishers.Merge3(
+            settings.$displayLocation.map { _ in () },
+            settings.$preferredDisplayUUID.map { _ in () },
+            settings.$isDisplayAutoSwitchEnabled.map { _ in () }
+        )
+        .dropFirst()
+        .receive(on: RunLoop.main)
+        .sink { [weak self] _ in
+            guard let self else { return }
+            self.islandDisplay = nil
+            guard self.settings.isNotchlessWindowMarginEnabled else { return }
+            self.snapPreviewManager.hideImmediately()
+            self.activeDragSession = nil
+            self.constrainAllVisibleWindows()
+        }
+        .store(in: &cancellables)
     }
 
     private func setupWorkspaceNotifications() {
@@ -171,7 +202,9 @@ final class NotchlessWindowConstrainer {
         NotificationCenter.default.publisher(for: NSApplication.didChangeScreenParametersNotification)
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in
-                guard let self, self.settings.isNotchlessWindowMarginEnabled else { return }
+                guard let self else { return }
+                self.islandDisplay = nil
+                guard self.settings.isNotchlessWindowMarginEnabled else { return }
                 self.constrainAllVisibleWindows()
             }
             .store(in: &cancellables)
@@ -411,7 +444,7 @@ final class NotchlessWindowConstrainer {
 
             let currentScreen = screen(forAxPoint: loc)
 
-            if let currentScreen, currentScreen.isNotchless {
+            if let currentScreen, constrains(currentScreen) {
                 let topLimit = minAllowedTopY(for: currentScreen)
                 let minMouseY = topLimit + (drag.isResizeTop ? 0 : drag.clickOffsetY)
 
@@ -647,7 +680,7 @@ final class NotchlessWindowConstrainer {
                            NSScreen.screens.first { axScreenRect(for: $0).intersects(CGRect(origin: position, size: size)) } ??
                            NSScreen.main
 
-        guard let targetScreen, targetScreen.isNotchless else {
+        guard let targetScreen, constrains(targetScreen) else {
             return
         }
 
@@ -863,7 +896,21 @@ final class NotchlessWindowConstrainer {
     }
 
     // MARK: - Geometry Helpers
-    
+
+    private func constrains(_ screen: NSScreen) -> Bool {
+        let island = islandDisplay ?? {
+            let islandScreen = NSScreen.preferredNotchScreen(for: settings)
+            let resolved = (id: islandScreen?.displayID, hasNotch: !(islandScreen?.isNotchless ?? true))
+            islandDisplay = resolved
+            return resolved
+        }()
+        return NotchlessWindowMargin.applies(
+            toDisplay: screen.displayID,
+            islandDisplayID: island.id,
+            islandDisplayHasNotch: island.hasNotch
+        )
+    }
+
     private var windowMarginOffset: CGFloat {
         CGFloat(settings.notchlessWindowMarginOffset) - 4
     }

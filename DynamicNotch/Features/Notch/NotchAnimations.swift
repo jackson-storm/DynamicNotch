@@ -15,8 +15,6 @@ struct NotchAnimations {
     let hideContent: Animation
     /// Animation used when expanding/showing notch content from collapsed state.
     let showContent: Animation
-    /// Transition animation applied to compact notch content on appearance.
-    let compactContentTransition: Animation
 
     // MARK: - Live Activity
     /// Geometry animation when expanding Live Activity from compact to expanded state.
@@ -56,7 +54,6 @@ struct NotchAnimations {
             updateContent: .spring(response: baseResponse, blendDuration: blend),
             hideContent: .spring(response: baseResponse, dampingFraction: damping, blendDuration: blend),
             showContent: .spring(response: baseResponse, dampingFraction: damping, blendDuration: blend),
-            compactContentTransition: .spring(response: baseResponse, dampingFraction: damping, blendDuration: blend),
             
             expandLiveActivity: .spring(response: baseResponse, dampingFraction: expandDamping, blendDuration: blend),
             expandedLiveActivityContentTransition: .spring(response: baseResponse, dampingFraction: expandDamping, blendDuration: blend),

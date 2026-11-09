@@ -8,6 +8,5 @@ struct BlurFadeModifier: ViewModifier {
         content
             .blur(radius: blur)
             .opacity(opacity)
-            .compositingGroup()
     }
 }

@@ -34,6 +34,10 @@ struct NotchSurfaceContainerView: View {
             baseWidth: notchViewModel.notchModel.baseWidth,
             baseHeight: notchViewModel.notchModel.baseHeight
         )
+        .shadow(
+            color: (notchViewModel.presentedNotchSize.height >= notchViewModel.notchModel.baseHeight + 30)
+            ? .black.opacity(0.2) : .clear, radius: 20
+        )
         .scaleEffect(
             x: shouldApplyPressScale ? notchViewModel.pressScale : 1,
             y: shouldApplyPressScale ? notchViewModel.pressScale : 1,
@@ -51,11 +55,11 @@ struct NotchSurfaceContainerView: View {
                 .frame(width: presentedSize.width, height: presentedSize.height)
                 .mask {
                     dynamicIslandMaskShape
-                    .scaleEffect(
-                        x: shouldApplyPressScale ? notchViewModel.pressScale : 1,
-                        y: shouldApplyPressScale ? notchViewModel.pressScale : 1,
-                        anchor: isDynamicIsland ? .center : .top
-                    )
+                        .scaleEffect(
+                            x: shouldApplyPressScale ? notchViewModel.pressScale : 1,
+                            y: shouldApplyPressScale ? notchViewModel.pressScale : 1,
+                            anchor: isDynamicIsland ? .center : .top
+                        )
                 }
         } else {
             contentOverlay
@@ -76,7 +80,7 @@ struct NotchSurfaceContainerView: View {
                 }
         }
     }
-
+    
     @ViewBuilder
     private var dynamicIslandMaskShape: some View {
         DynamicIslandShape(
@@ -139,7 +143,7 @@ struct NotchSurfaceContainerView: View {
     private var shouldApplyPressScale: Bool {
         notchViewModel.shouldApplyPressScale
     }
-
+    
     private var visibleStrokeColor: Color {
         let strokeOpacity = settingsViewModel.application.notchStrokeOpacity
         let baseColor = notchViewModel.displayedContent?.strokeColor ?? notchViewModel.cachedStrokeColor

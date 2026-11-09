@@ -54,7 +54,11 @@ struct NotchSurfaceContainerView: View {
                 .environment(\.isNotchlessScreen, true)
                 .frame(width: presentedSize.width, height: presentedSize.height)
                 .mask {
-                    dynamicIslandMaskShape
+                    DynamicIslandShape(
+                        cornerRadius: max(0, notchViewModel.dynamicIslandCornerRadius - 2)
+                    )
+                    .padding(.horizontal, 2)
+                    .padding(.vertical, 2)
                         .scaleEffect(
                             x: shouldApplyPressScale ? notchViewModel.pressScale : 1,
                             y: shouldApplyPressScale ? notchViewModel.pressScale : 1,
@@ -79,15 +83,6 @@ struct NotchSurfaceContainerView: View {
                     )
                 }
         }
-    }
-    
-    @ViewBuilder
-    private var dynamicIslandMaskShape: some View {
-        DynamicIslandShape(
-            cornerRadius: max(0, notchViewModel.dynamicIslandCornerRadius - 2)
-        )
-        .padding(.horizontal, 3)
-        .padding(.vertical, 3)
     }
     
     @ViewBuilder

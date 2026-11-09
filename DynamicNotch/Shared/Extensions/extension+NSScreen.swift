@@ -158,7 +158,7 @@ extension NSScreen {
         return lhs.name.localizedCaseInsensitiveCompare(rhs.name) == .orderedAscending
     }
 
-    private var displayID: CGDirectDisplayID? {
+    var displayID: CGDirectDisplayID? {
         deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? CGDirectDisplayID
     }
 

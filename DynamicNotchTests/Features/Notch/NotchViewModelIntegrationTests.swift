@@ -1663,7 +1663,7 @@ final class NotchViewModelIntegrationTests: XCTestCase {
     }
 
     @MainActor
-    func testSwipeDismissAndRestoreKeepsCornerRadiusUnchangedWhenHeightEqualsBaseHeight() async {
+    func testSwipeDismissAndRestoreIncreasesCornerRadiusWhenHeightEqualsBaseHeight() async {
         let settings = TestNotchSettings()
         let viewModel = NotchViewModel(
             settings: settings,
@@ -1695,11 +1695,11 @@ final class NotchViewModelIntegrationTests: XCTestCase {
 
         viewModel.updateSwipeStretch(for: .restore, progress: 1.0)
         let restoreRadius = viewModel.dynamicIslandCornerRadius
-        XCTAssertEqual(restoreRadius, initialRadius, accuracy: 0.001)
+        XCTAssertGreaterThan(restoreRadius, initialRadius)
 
         viewModel.updateSwipeStretch(for: .dismiss, progress: 1.0)
         let dismissRadius = viewModel.dynamicIslandCornerRadius
-        XCTAssertEqual(dismissRadius, initialRadius, accuracy: 0.001)
+        XCTAssertGreaterThan(dismissRadius, initialRadius)
     }
 
     @MainActor

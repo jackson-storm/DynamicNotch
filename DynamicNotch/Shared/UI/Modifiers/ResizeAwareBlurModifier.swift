@@ -171,7 +171,6 @@ struct ResizeAwareBlurModifier: AnimatableModifier {
         .scaleEffect(x: xScale, y: yScale, anchor: effectiveAnchor)
         .blur(radius: blurRadius)
         .opacity(opacity)
-        .compositingGroup()
     }
 
     @ViewBuilder

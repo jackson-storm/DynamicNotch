@@ -370,10 +370,10 @@ final class GestureCoordinator: ObservableObject {
 
     func dynamicIslandCornerRadiusExpansion(
         isDynamicIsland: Bool,
-        modelHeight: CGFloat,
-        baseHeight: CGFloat
+        modelHeight: CGFloat = 0,
+        baseHeight: CGFloat = 0
     ) -> CGFloat {
-        if isDynamicIsland && swipeInteraction != nil && modelHeight > baseHeight {
+        if isDynamicIsland && swipeInteraction != nil {
             return SwipeFeedbackMetrics.swipeCornerRadiusExpansion * easedSwipeStretchProgress
         }
         return 0

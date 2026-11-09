@@ -21,6 +21,5 @@ struct NotchTransitionModifier: ViewModifier {
             .offset(y: offsetY)
             .blur(radius: max(0, blur))
             .opacity(max(0, min(1, opacity)))
-            .compositingGroup()
     }
 }

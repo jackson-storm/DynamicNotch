@@ -17,12 +17,8 @@ struct NotchAnimations {
     // MARK: - Live Activity
     /// Geometry animation when expanding Live Activity from compact to expanded state.
     let expandLiveActivity: Animation
-    /// Transition animation for content appearing inside expanded Live Activity.
-    let expandedLiveActivityContentTransition: Animation
     /// Geometry animation when collapsing Live Activity back to compact or closed state.
     let collapseLiveActivity: Animation
-    /// Transition animation for content disappearing when Live Activity collapses.
-    let collapsedLiveActivityContentTransition: Animation
 
     // MARK: - Gestures & Interactions
     /// Animation used when updating notch content/geometry without full collapse.
@@ -45,28 +41,42 @@ struct NotchAnimations {
     let queuePacingDelay: TimeInterval
 
     static let animations: Self = {
-        let damping: Double = 0.8
-        let baseResponse: Double = 0.48
-        let blend: Double = 0.3
+        // Dynamic Island physics (System Aperture / Apple SpringBoard curves)
+        // Expansion: snappy with slight elastic momentum
+        let expandResponse: Double = 0.46
+        let expandDamping: Double = 0.76
+
+        // Collapse / Dismiss: slightly faster and more damped
+        let collapseResponse: Double = 0.46
+        let collapseDamping: Double = 0.86
+
+        // Quick content updates & notifications
+        let contentResponse: Double = 0.48
+        let contentDamping: Double = 0.86
+
+        // Rubber-band gesture snap-back
+        let gestureResponse: Double = 0.42
+        let gestureDamping: Double = 0.76
+        
+        let blendDuration: Double = 0.3
+        let transitionDelay: Double = 0.29
+        let queuePacingDelay: Double = 0.3
         
         return Self(
-            hideContent: .spring(response: baseResponse, dampingFraction: damping, blendDuration: blend),
-            showContent: .spring(response: baseResponse, dampingFraction: damping, blendDuration: blend),
+            hideContent: .spring(response: collapseResponse, dampingFraction: collapseDamping, blendDuration: blendDuration),
+            showContent: .spring(response: contentResponse, dampingFraction: contentDamping, blendDuration: blendDuration),
             
-            expandLiveActivity: .spring(response: baseResponse, dampingFraction: damping, blendDuration: blend),
-            expandedLiveActivityContentTransition: .spring(response: baseResponse, dampingFraction: damping, blendDuration: blend),
+            expandLiveActivity: .spring(response: expandResponse, dampingFraction: expandDamping, blendDuration: blendDuration),
+            collapseLiveActivity: .spring(response: collapseResponse, dampingFraction: collapseDamping, blendDuration: blendDuration),
             
-            collapseLiveActivity: .spring(response: baseResponse, blendDuration: blend),
-            collapsedLiveActivityContentTransition: .spring(response: baseResponse, blendDuration: blend),
+            updateContent: .spring(response: contentResponse, dampingFraction: contentDamping),
+            stretchReset: .spring(response: gestureResponse, dampingFraction: gestureDamping),
+            focusDismissBounce: .spring(response: gestureResponse, dampingFraction: gestureDamping),
+            strokeVisibility: .spring(response: contentResponse, dampingFraction: contentDamping),
+            notchVisibility: .spring(response: contentResponse, dampingFraction: contentDamping),
             
-            updateContent: .spring(response: baseResponse),
-            stretchReset: .spring(response: baseResponse),
-            focusDismissBounce: .spring(response: baseResponse),
-            strokeVisibility: .spring(response: baseResponse),
-            notchVisibility: .spring(response: baseResponse),
-            
-            transitionDelay: 0.3,
-            queuePacingDelay: 0.3
+            transitionDelay: transitionDelay,
+            queuePacingDelay: queuePacingDelay
         )
     }()
 }

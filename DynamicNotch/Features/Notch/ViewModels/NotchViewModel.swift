@@ -510,14 +510,14 @@ final class NotchViewModel: ObservableObject {
     
     func pulseNotch(widthOffset: CGFloat = 30.0, heightOffset: CGFloat = 10.0) {
         notchPulseResetWorkItem?.cancel()
-        withAnimation(.spring(response: 0.4, dampingFraction: 0.55, blendDuration: 0)) {
+        withAnimation(.spring(response: 0.5, dampingFraction: 0.7)) {
             self.notchPulseWidth = widthOffset
             self.notchPulseHeight = heightOffset
         }
         
         let workItem = DispatchWorkItem { [weak self] in
             guard let self else { return }
-            withAnimation(.spring(response: 0.4, dampingFraction: 0.65, blendDuration: 0)) {
+            withAnimation(.spring(response: 0.5, dampingFraction: 0.7)) {
                 self.notchPulseWidth = 0
                 self.notchPulseHeight = 0
             }
@@ -622,8 +622,8 @@ final class NotchViewModel: ObservableObject {
 
         if isExpandedPresentation {
             return .asymmetric(
-                insertion: expandedTransition.animation(animations.expandedLiveActivityContentTransition),
-                removal: expandedTransition.animation(animations.collapsedLiveActivityContentTransition)
+                insertion: expandedTransition.animation(animations.expandLiveActivity),
+                removal: expandedTransition.animation(animations.collapseLiveActivity)
             )
         } else {
             return .asymmetric(

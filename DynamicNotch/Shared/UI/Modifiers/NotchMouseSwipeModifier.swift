@@ -108,8 +108,6 @@ private final class NotchMouseSwipeMonitorView: NSView {
     private var mouseDownMonitor: Any?
     private var mouseDraggedMonitor: Any?
     private var mouseUpMonitor: Any?
-    private var keyDownMonitor: Any?
-    private var globalKeyDownMonitor: Any?
 
     private var canSwipeUp = false
     private var canSwipeDown = false
@@ -191,19 +189,9 @@ private final class NotchMouseSwipeMonitorView: NSView {
             NSEvent.removeMonitor(mouseUpMonitor)
         }
 
-        if let keyDownMonitor {
-            NSEvent.removeMonitor(keyDownMonitor)
-        }
-
-        if let globalKeyDownMonitor {
-            NSEvent.removeMonitor(globalKeyDownMonitor)
-        }
-
         mouseDownMonitor = nil
         mouseDraggedMonitor = nil
         mouseUpMonitor = nil
-        keyDownMonitor = nil
-        globalKeyDownMonitor = nil
         resetTracking()
     }
 }
@@ -230,57 +218,6 @@ private extension NotchMouseSwipeMonitorView {
                 return event
             }
         }
-
-        if keyDownMonitor == nil {
-            keyDownMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak self] event in
-                if self?.handleKeyDown(event) == true {
-                    return nil
-                }
-                return event
-            }
-        }
-
-        if globalKeyDownMonitor == nil {
-            globalKeyDownMonitor = NSEvent.addGlobalMonitorForEvents(matching: .keyDown) { [weak self] event in
-                _ = self?.handleKeyDown(event)
-            }
-        }
-    }
-
-    func handleKeyDown(_ event: NSEvent) -> Bool {
-        guard canSwipeHorizontal else { return false }
-        guard event.keyCode == 123 || event.keyCode == 124 else { return false }
-
-        let screenLocation = NSEvent.mouseLocation
-        let notchRect = currentScreenRect()
-        let isInsideNotch = notchRect?.contains(screenLocation) == true
-        let isKeyWindow = window?.isKeyWindow == true
-        guard isInsideNotch || isKeyWindow else { return false }
-
-        let isRightSide = (notchRect != nil) ? (screenLocation.x >= notchRect!.midX) : true
-        let isOutward = isRightSide ? (event.keyCode == 124) : (event.keyCode == 123)
-
-        DispatchQueue.main.async { [weak self] in
-            guard let self else { return }
-            if isOutward {
-                self.onSwipeStretchChanged?(.horizontalExpand, 1.0)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.12) {
-                    if self.canTriggerRestore {
-                        self.onSwipeHorizontalRestore?()
-                    }
-                    self.onSwipeStretchReset?()
-                }
-            } else {
-                self.onSwipeStretchChanged?(.horizontalDismiss, 1.0)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.08) {
-                    if self.canTriggerDismiss {
-                        self.onSwipeHorizontalDismiss?()
-                    }
-                    self.onSwipeStretchReset?()
-                }
-            }
-        }
-        return true
     }
 
     func handleMouseDown(_ event: NSEvent) {

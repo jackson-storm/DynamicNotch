@@ -98,7 +98,7 @@ struct NotchSurfaceContainerView: View {
                     size: notchViewModel.interactiveNotchSize,
                     baseSize: notchViewModel.displayedBaseNotchSize,
                     baseHeight: notchViewModel.notchModel.baseHeight,
-                    anchor: notchViewModel.isDynamicIsland ? .center : .center,
+                    anchor: .center,
                     isResizeEffectEnabled: content.usesContentResizeEffect,
                     interactiveBlur: notchViewModel.contentResizeBlurRadius,
                     interactiveOpacity: notchViewModel.contentResizeOpacity,

@@ -26,8 +26,8 @@ enum SwipeFeedbackMetrics {
     static let expandedDismissMinimumHeight: CGFloat = 12
     static let expandedDismissMaximumHeight: CGFloat = 28
     
-    static let dismissBlurRadius: CGFloat = 8
-    static let restoreBlurRadius: CGFloat = 8
+    static let dismissBlurRadius: CGFloat = 10
+    static let restoreBlurRadius: CGFloat = 10
     
     static let dismissOpacityReduction: Double = 0.2
     static let restoreOpacityReduction: Double = 0.2

@@ -305,9 +305,7 @@ final class NotchViewModelIntegrationTests: XCTestCase {
             showContent: .linear(duration: 0.01),
             compactContentTransition: .linear(duration: 0.01),
             expandLiveActivity: .linear(duration: 0.01),
-            expandedLiveActivityContentTransition: .linear(duration: 0.01),
             collapseLiveActivity: .linear(duration: 0.01),
-            collapsedLiveActivityContentTransition: .linear(duration: 0.01),
             stretchReset: .linear(duration: 0.01),
             focusDismissBounce: .linear(duration: 0.01),
             strokeVisibility: .linear(duration: 0.01),
@@ -1367,6 +1365,59 @@ final class NotchViewModelIntegrationTests: XCTestCase {
     }
 
     @MainActor
+    func testGradualDecelerationAsWidthExpandsWithoutHardLimits() async {
+        let viewModel = NotchViewModel(
+            settings: TestNotchSettings(),
+            hideDelay: 0.01,
+            queueDelay: 0
+        )
+        TestLifetime.retain(viewModel)
+
+        viewModel.send(
+            .showLiveActivity(
+                TestNotchContent(
+                    id: "expandDecelerationTest",
+                    priority: 10,
+                    collapsedWidthOffset: 20,
+                    collapsedHeightOffset: 0,
+                    isExpandable: true
+                )
+            )
+        )
+
+        await assertEventually {
+            await MainActor.run { viewModel.notchModel.liveActivityContent?.id == "expandDecelerationTest" }
+        }
+
+        let initialSize = await MainActor.run { viewModel.notchModel.size }
+
+        viewModel.updateSwipeStretch(for: .horizontalExpand, progress: 0.3)
+        let sizeAt03 = await MainActor.run { viewModel.interactiveNotchSize }
+
+        viewModel.updateSwipeStretch(for: .horizontalExpand, progress: 0.8)
+        let sizeAt08 = await MainActor.run { viewModel.interactiveNotchSize }
+
+        viewModel.updateSwipeStretch(for: .horizontalExpand, progress: 1.5)
+        let sizeAt15 = await MainActor.run { viewModel.interactiveNotchSize }
+
+        viewModel.updateSwipeStretch(for: .horizontalExpand, progress: 2.5)
+        let sizeAt25 = await MainActor.run { viewModel.interactiveNotchSize }
+
+        // Width expands continuously beyond 1.5 without hard stop
+        XCTAssertGreaterThan(sizeAt03.width, initialSize.width)
+        XCTAssertGreaterThan(sizeAt08.width, sizeAt03.width)
+        XCTAssertGreaterThan(sizeAt15.width, sizeAt08.width)
+        XCTAssertGreaterThan(sizeAt25.width, sizeAt15.width)
+
+        // Expansion rate gradually decelerates smoothly
+        let delta1 = sizeAt08.width - sizeAt03.width
+        let delta2 = sizeAt15.width - sizeAt08.width
+        let delta3 = sizeAt25.width - sizeAt15.width
+        XCTAssertGreaterThan(delta1, delta2)
+        XCTAssertGreaterThan(delta2, delta3)
+    }
+
+    @MainActor
     func testSimultaneousVerticalAndHorizontalDismissSwipeCompressesBothDimensionsInExpandedMode() async {
         let viewModel = NotchViewModel(
             settings: TestNotchSettings(),
@@ -1461,7 +1512,7 @@ final class NotchViewModelIntegrationTests: XCTestCase {
 
         let stretchedSize = await MainActor.run { viewModel.interactiveNotchSize }
         XCTAssertGreaterThan(stretchedSize.width, initialSize.width)
-        XCTAssertGreaterThan(stretchedSize.height, initialSize.height)
+        XCTAssertEqual(stretchedSize.height, initialSize.height, accuracy: 0.001)
     }
 
     @MainActor

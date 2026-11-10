@@ -8,21 +8,20 @@ struct NotchSwipeDismissModifier: ViewModifier {
 
     func body(content: Content) -> some View {
         let stretchEnabled = isEnabled && notchViewModel.isTrackpadSwipeStretchEnabled
-        let isExpanded = notchViewModel.isExpandedPresentation
         content.background(
             NotchSwipeDismissMonitorRepresentable(
-                canSwipeUp: stretchEnabled && isExpanded,
-                canSwipeDown: stretchEnabled && isExpanded,
+                canSwipeUp: stretchEnabled,
+                canSwipeDown: stretchEnabled,
                 canSwipeHorizontal: stretchEnabled,
                 canTriggerDismiss: isEnabled && notchViewModel.canDismissWithTrackpadSwipe,
-                canTriggerRestore: isEnabled && notchViewModel.canRestoreDismissedContent,
+                canTriggerRestore: isEnabled && notchViewModel.canRestoreWithTrackpadSwipe,
                 isHoveringScrollableContent: notchViewModel.isHoveringScrollableContent,
                 isScrubbingContent: notchViewModel.isScrubbingContent,
                 onSwipeUp: {
                     notchViewModel.dismissActiveContent()
                 },
                 onSwipeDown: {
-                    if notchViewModel.canRestoreDismissedContent {
+                    if notchViewModel.canRestoreWithTrackpadSwipe {
                         notchViewModel.restoreDismissedContent()
                     }
                 },
@@ -30,7 +29,7 @@ struct NotchSwipeDismissModifier: ViewModifier {
                     notchViewModel.dismissActiveContent()
                 },
                 onSwipeHorizontalRestore: {
-                    if notchViewModel.canRestoreDismissedContent {
+                    if notchViewModel.canRestoreWithTrackpadSwipe {
                         notchViewModel.restoreDismissedContent()
                     }
                 },
@@ -292,16 +291,16 @@ private extension NotchSwipeDismissMonitorView {
         let effectiveHorizontalThreshold = max(1, SwipeMetrics.horizontalThreshold - SwipeMetrics.lockThreshold)
 
         let upwardProgress = canSwipeUp
-            ? min(1.5, effectiveUpward / effectiveVerticalThreshold)
+            ? (effectiveUpward / effectiveVerticalThreshold)
             : 0
         let downwardProgress = canSwipeDown
-            ? min(1.5, effectiveDownward / effectiveVerticalThreshold)
+            ? (effectiveDownward / effectiveVerticalThreshold)
             : 0
         let inwardProgress = canSwipeHorizontal
-            ? min(1.5, effectiveInward / effectiveHorizontalThreshold)
+            ? (effectiveInward / effectiveHorizontalThreshold)
             : 0
         let outwardProgress = canSwipeHorizontal
-            ? min(1.5, effectiveOutward / effectiveHorizontalThreshold)
+            ? (effectiveOutward / effectiveHorizontalThreshold)
             : 0
 
         let vProgress: CGFloat

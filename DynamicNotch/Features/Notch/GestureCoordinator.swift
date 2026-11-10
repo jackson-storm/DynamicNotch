@@ -55,6 +55,7 @@ final class GestureCoordinator: ObservableObject {
         hasRealDisplayedContent: Bool = false
     ) -> Bool {
         guard !isLocked else { return false }
+        guard !isLiveActivityExpanded else { return false }
         guard isMouseDragEnabled && isSwipeRestoreEnabled else { return false }
         return canRestoreDismissedContent
     }
@@ -82,6 +83,7 @@ final class GestureCoordinator: ObservableObject {
         hasRealDisplayedContent: Bool = false
     ) -> Bool {
         guard !isLocked else { return false }
+        guard !isLiveActivityExpanded else { return false }
         guard isTrackpadSwipeEnabled && isSwipeRestoreEnabled else { return false }
         return canRestoreDismissedContent
     }
@@ -246,13 +248,17 @@ final class GestureCoordinator: ObservableObject {
             )
 
         case .horizontalExpand:
-            let widthExpansion = min(
-                max(baseSize.width * SwipeFeedbackMetrics.horizontalExpandWidthFactor, SwipeFeedbackMetrics.horizontalExpandMinimumWidth),
-                SwipeFeedbackMetrics.horizontalExpandMaximumWidth
+            let nominalWidthExpansion = max(
+                baseSize.width * SwipeFeedbackMetrics.horizontalExpandWidthFactor,
+                SwipeFeedbackMetrics.horizontalExpandMinimumWidth
+            )
+            let widthExpansion = deceleratedExpansion(
+                nominalExpansion: nominalWidthExpansion,
+                progress: progress
             )
 
             calculatedSize = CGSize(
-                width: baseSize.width + (widthExpansion * progress),
+                width: baseSize.width + widthExpansion,
                 height: baseSize.height
             )
 
@@ -303,60 +309,136 @@ final class GestureCoordinator: ObservableObject {
             }
 
         case .restore:
-            let heightExpansion = min(
-                max(baseSize.height * SwipeFeedbackMetrics.verticalExpandHeightFactor, SwipeFeedbackMetrics.verticalExpandMinimumHeight),
-                SwipeFeedbackMetrics.verticalExpandMaximumHeight
-            )
-            calculatedSize = CGSize(
-                width: baseSize.width,
-                height: baseSize.height + (heightExpansion * progress)
-            )
+            if model.isPresentingExpandedLiveActivity || baseSize.height > model.baseHeight + 1 {
+                let nominalHeightExpansion = max(
+                    baseSize.height * SwipeFeedbackMetrics.verticalExpandHeightFactor,
+                    SwipeFeedbackMetrics.verticalExpandMinimumHeight
+                )
+                let heightExpansion = deceleratedExpansion(
+                    nominalExpansion: nominalHeightExpansion,
+                    progress: progress
+                )
+                calculatedSize = CGSize(
+                    width: baseSize.width,
+                    height: baseSize.height + heightExpansion
+                )
+            } else {
+                let nominalWidthExpansion = max(
+                    baseSize.width * SwipeFeedbackMetrics.horizontalExpandWidthFactor,
+                    SwipeFeedbackMetrics.horizontalExpandMinimumWidth
+                )
+                let widthExpansion = deceleratedExpansion(
+                    nominalExpansion: nominalWidthExpansion,
+                    progress: progress
+                )
+
+                calculatedSize = CGSize(
+                    width: baseSize.width + widthExpansion,
+                    height: baseSize.height
+                )
+            }
 
         case .combined(let vDir, _, let hDir, _):
             let easedHProgress = easedProgress(for: horizontalSwipeStretchProgress)
             let easedVProgress = easedProgress(for: verticalSwipeStretchProgress)
 
-            let targetWidth: CGFloat
-            if hDir == .inward {
-                let widthCompression = min(
-                    max(baseSize.width * SwipeFeedbackMetrics.collapsedDismissWidthFactor, SwipeFeedbackMetrics.collapsedDismissMinimumWidth),
-                    SwipeFeedbackMetrics.collapsedDismissMaximumWidth
-                )
-                targetWidth = deceleratedWidthTowardsBase(
-                    currentWidth: baseSize.width,
-                    baseWidth: model.baseWidth,
-                    nominalCompression: widthCompression,
-                    progress: easedHProgress,
-                    isDynamicIsland: model.isDynamicIsland
+            if model.isPresentingExpandedLiveActivity || baseSize.height > model.baseHeight + 1 {
+                let targetWidth: CGFloat
+                if hDir == .inward {
+                    let widthCompression = min(
+                        max(baseSize.width * SwipeFeedbackMetrics.collapsedDismissWidthFactor, SwipeFeedbackMetrics.collapsedDismissMinimumWidth),
+                        SwipeFeedbackMetrics.collapsedDismissMaximumWidth
+                    )
+                    targetWidth = deceleratedWidthTowardsBase(
+                        currentWidth: baseSize.width,
+                        baseWidth: model.baseWidth,
+                        nominalCompression: widthCompression,
+                        progress: easedHProgress,
+                        isDynamicIsland: model.isDynamicIsland
+                    )
+                } else {
+                    let nominalWidthExpansion = max(
+                        baseSize.width * SwipeFeedbackMetrics.horizontalExpandWidthFactor,
+                        SwipeFeedbackMetrics.horizontalExpandMinimumWidth
+                    )
+                    targetWidth = baseSize.width + deceleratedExpansion(
+                        nominalExpansion: nominalWidthExpansion,
+                        progress: easedHProgress
+                    )
+                }
+
+                let targetHeight: CGFloat
+                if vDir == .up {
+                    let heightCompression = min(
+                        max(baseSize.height * SwipeFeedbackMetrics.expandedDismissHeightFactor, SwipeFeedbackMetrics.expandedDismissMinimumHeight),
+                        SwipeFeedbackMetrics.expandedDismissMaximumHeight
+                    )
+                    let minHeight = model.isDynamicIsland ? model.baseHeight * 0.75 : model.baseHeight - 4
+                    targetHeight = max(minHeight, baseSize.height - (heightCompression * easedVProgress))
+                } else {
+                    let nominalHeightExpansion = max(
+                        baseSize.height * SwipeFeedbackMetrics.verticalExpandHeightFactor,
+                        SwipeFeedbackMetrics.verticalExpandMinimumHeight
+                    )
+                    targetHeight = baseSize.height + deceleratedExpansion(
+                        nominalExpansion: nominalHeightExpansion,
+                        progress: easedVProgress
+                    )
+                }
+
+                calculatedSize = CGSize(
+                    width: targetWidth,
+                    height: targetHeight
                 )
             } else {
-                let widthExpansion = min(
-                    max(baseSize.width * SwipeFeedbackMetrics.horizontalExpandWidthFactor, SwipeFeedbackMetrics.horizontalExpandMinimumWidth),
-                    SwipeFeedbackMetrics.horizontalExpandMaximumWidth
-                )
-                targetWidth = baseSize.width + (widthExpansion * easedHProgress)
-            }
+                let isCompressing: Bool
+                let effectiveProgress: CGFloat
 
-            let targetHeight: CGFloat
-            if vDir == .up {
-                let heightCompression = min(
-                    max(baseSize.height * SwipeFeedbackMetrics.expandedDismissHeightFactor, SwipeFeedbackMetrics.expandedDismissMinimumHeight),
-                    SwipeFeedbackMetrics.expandedDismissMaximumHeight
-                )
-                let minHeight = model.isDynamicIsland ? model.baseHeight * 0.75 : model.baseHeight - 4
-                targetHeight = max(minHeight, baseSize.height - (heightCompression * easedVProgress))
-            } else {
-                let heightExpansion = min(
-                    max(baseSize.height * SwipeFeedbackMetrics.verticalExpandHeightFactor, SwipeFeedbackMetrics.verticalExpandMinimumHeight),
-                    SwipeFeedbackMetrics.verticalExpandMaximumHeight
-                )
-                targetHeight = baseSize.height + (heightExpansion * easedVProgress)
-            }
+                let vIsCompress = (vDir == .up)
+                let hIsCompress = (hDir == .inward)
 
-            calculatedSize = CGSize(
-                width: targetWidth,
-                height: targetHeight
-            )
+                if vIsCompress == hIsCompress {
+                    isCompressing = vIsCompress
+                    effectiveProgress = max(easedHProgress, easedVProgress)
+                } else {
+                    if easedHProgress >= easedVProgress {
+                        isCompressing = hIsCompress
+                        effectiveProgress = easedHProgress
+                    } else {
+                        isCompressing = vIsCompress
+                        effectiveProgress = easedVProgress
+                    }
+                }
+
+                let targetWidth: CGFloat
+                if isCompressing {
+                    let widthCompression = min(
+                        max(baseSize.width * SwipeFeedbackMetrics.collapsedDismissWidthFactor, SwipeFeedbackMetrics.collapsedDismissMinimumWidth),
+                        SwipeFeedbackMetrics.collapsedDismissMaximumWidth
+                    )
+                    targetWidth = deceleratedWidthTowardsBase(
+                        currentWidth: baseSize.width,
+                        baseWidth: model.baseWidth,
+                        nominalCompression: widthCompression,
+                        progress: effectiveProgress,
+                        isDynamicIsland: model.isDynamicIsland
+                    )
+                } else {
+                    let nominalWidthExpansion = max(
+                        baseSize.width * SwipeFeedbackMetrics.horizontalExpandWidthFactor,
+                        SwipeFeedbackMetrics.horizontalExpandMinimumWidth
+                    )
+                    targetWidth = baseSize.width + deceleratedExpansion(
+                        nominalExpansion: nominalWidthExpansion,
+                        progress: effectiveProgress
+                    )
+                }
+
+                calculatedSize = CGSize(
+                    width: targetWidth,
+                    height: baseSize.height
+                )
+            }
 
         case nil:
             calculatedSize = baseSize
@@ -403,6 +485,16 @@ final class GestureCoordinator: ObservableObject {
         case nil:
             return 1
         }
+    }
+
+    func deceleratedExpansion(
+        nominalExpansion: CGFloat,
+        progress: CGFloat
+    ) -> CGFloat {
+        guard progress > 0, nominalExpansion > 0 else { return 0 }
+        let p = Double(progress)
+        let curve = CGFloat(tanh(p) + 0.35 * log(1.0 + p))
+        return nominalExpansion * curve
     }
 
     private func deceleratedWidthTowardsBase(

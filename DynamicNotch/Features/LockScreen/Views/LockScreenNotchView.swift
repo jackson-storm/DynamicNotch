@@ -54,7 +54,7 @@ struct LockScreenNotchView: View {
     var body: some View {
         HStack {
             Image(systemName: (lockScreenManager.didUnlockWithFaceID || faceIDService.state.isSuccess || !lockScreenManager.isShowingLockPresentation) ? "lock.open.fill" : "lock.fill")
-                .font(.system(size: 16, weight: .semibold))
+                .font(.system(size: isNotchlessScreen ? 14 : 16, weight: .semibold))
                 .foregroundStyle(.white)
                 .scaleEffect(isFaceIDActive ? 1.4 : 1.0)
             

@@ -454,6 +454,28 @@ final class NotchlessWindowConstrainer {
                     event.location = clamped
 
                     if !drag.isResizeTop && drag.canSnap {
+                        // Only show snap preview if the window is actually moving
+                        // (not a file drag or text selection).
+                        let isWindowMoving: Bool = {
+                            var curPosRef: CFTypeRef?
+                            guard AXUIElementCopyAttributeValue(drag.window, kAXPositionAttribute as CFString, &curPosRef) == .success,
+                                  let posVal = curPosRef else { return false }
+                            var curPos = CGPoint.zero
+                            AXValueGetValue(posVal as! AXValue, .cgPoint, &curPos)
+                            let expectedY = clamped.y - drag.clickOffsetY
+                            return abs(curPos.y - expectedY) < 10
+                        }()
+
+                        guard isWindowMoving else {
+                            if drag.isPushingAgainstTopSnap {
+                                drag.isPushingAgainstTopSnap = false
+                                drag.targetSnapScreen = nil
+                                activeDragSession = drag
+                                snapPreviewManager.hide()
+                            }
+                            break
+                        }
+
                         let screenRect = axScreenRect(for: currentScreen)
                         let sideMargin: CGFloat = 35
                         let isNearSideEdge = loc.x <= screenRect.minX + sideMargin || loc.x >= screenRect.maxX - sideMargin

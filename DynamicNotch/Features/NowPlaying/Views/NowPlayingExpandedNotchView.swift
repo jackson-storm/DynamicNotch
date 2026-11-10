@@ -125,7 +125,7 @@ struct NowPlayingExpandedNotchView: View {
 
                         MarqueeText(
                             .constant(displayArtist(for: snapshot)),
-                            font: .system(size: 14),
+                            font: .system(size: 14, weight: .light),
                             nsFont: .headline,
                             textColor: .white.opacity(0.5),
                             backgroundColor: .clear,

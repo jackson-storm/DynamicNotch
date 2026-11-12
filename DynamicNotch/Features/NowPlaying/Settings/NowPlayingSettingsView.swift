@@ -88,18 +88,6 @@ struct NowPlayingSettingsView: View {
             Divider().opacity(0.6)
             
             SettingsToggleRow(
-                title: "settings.nowPlaying.artwork3D.title",
-                description: "settings.nowPlaying.artwork3D.desc",
-                systemImage: "rotate.3d.fill",
-                color: .blue,
-                iconBadge: false,
-                isOn: $settings.isNowPlayingArtwork3DEffectEnabled,
-                accessibilityIdentifier: "settings.activities.live.nowPlaying.artwork3DEffect"
-            )
-            
-            Divider().opacity(0.6)
-            
-            SettingsToggleRow(
                 title: "settings.nowPlaying.hideFavorite.title",
                 description: "settings.nowPlaying.hideFavorite.desc",
                 systemImage: "star.slash.fill",

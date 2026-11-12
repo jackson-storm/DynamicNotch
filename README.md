@@ -23,7 +23,16 @@
   <a href="LICENSE">
     <img src="https://img.shields.io/github/license/jackson-storm/DynamicNotch?style=for-the-badge&label=License&color=orange&labelColor=black" alt="License" />
   </a>
-    <img src="https://img.shields.io/badge/macOS-14.6%2B-gray?style=for-the-badge&labelColor=black" alt="macOS 14.6 or later" />
+  <img src="https://img.shields.io/badge/macOS-14.6%2B-gray?style=for-the-badge&labelColor=black" alt="macOS 14.6 or later" />
+</p>
+
+<p align="center">
+  <a href="https://t.me/Dynamic_Notch">
+    <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Ftg.sumanjay.workers.dev%2FDynamic_Notch&style=for-the-badge&label=&color=blue&labelColor=26A5E4&logo=telegram&logoColor=white" alt="Telegram subscribers" />
+  </a>
+  <a href="mailto:evgeniy.petrukovich@icloud.com?subject=A%20question%20about%20Dynamic%20Notch">
+    <img src="https://img.shields.io/badge/-Contact%20Me-blue?style=for-the-badge&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0id2hpdGUiPjxwYXRoIGQ9Ik0yMCA0SDRjLTEuMSAwLTIgLjktMiAydjEyYzAgMS4xLjkgMiAyIDJoMTZjMS4xIDAgMi0uOSAyLTJWNmMwLTEuMS0uOS0yLTItMnptMCA0bC04IDUtOC01VjZsOCA1IDgtNXYyeiIvPjwvc3ZnPg%3D%3D&labelColor=0A84FF" alt="Send an email about DynamicNotch" />
+  </a>
 </p>
 
 <p align="center">

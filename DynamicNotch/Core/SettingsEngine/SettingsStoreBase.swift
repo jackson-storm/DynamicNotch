@@ -126,6 +126,7 @@ struct StoredDefault<Value: StoredSettingValue> {
 @MainActor
 class SettingsStoreBase: ObservableObject {
     class var temporaryActivityDurationRange: ClosedRange<Int> { 1...5 }
+    class var pauseHideDelayRange: ClosedRange<Int> { 0...5 }
     class var notificationDurationRange: ClosedRange<Int> { 3...8 }
 
     let defaults: UserDefaults
@@ -179,6 +180,13 @@ class SettingsStoreBase: ObservableObject {
         min(
             max(value, temporaryActivityDurationRange.lowerBound),
             temporaryActivityDurationRange.upperBound
+        )
+    }
+
+    class func clampPauseHideDelay(_ value: Int) -> Int {
+        min(
+            max(value, pauseHideDelayRange.lowerBound),
+            pauseHideDelayRange.upperBound
         )
     }
 

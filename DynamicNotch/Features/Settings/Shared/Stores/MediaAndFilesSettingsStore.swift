@@ -27,7 +27,7 @@ final class MediaAndFilesSettingsStore: SettingsStoreBase {
     @StoredDefault(
         key: GeneralSettingsStorage.Keys.nowPlayingPauseHideDelay,
         defaultValue: 3,
-        transform: SettingsStoreBase.clampTemporaryActivityDuration
+        transform: SettingsStoreBase.clampPauseHideDelay
     )
     var nowPlayingPauseHideDelay: Int
 

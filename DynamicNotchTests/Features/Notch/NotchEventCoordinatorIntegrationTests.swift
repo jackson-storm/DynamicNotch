@@ -449,6 +449,26 @@ final class NotchEventCoordinatorIntegrationTests: XCTestCase {
         }
     }
 
+    func testPlayerThatPausesHidesAtOnceWithAZeroSecondDelay() async {
+        let context = makeContext(nowPlayingPauseHideTimerEnabled: true, nowPlayingPauseHideDelay: 0)
+
+        context.nowPlayingService.publish(makeNowPlayingSnapshot(playbackRate: 1))
+        context.coordinator.handleNowPlayingEvent(context.nowPlayingViewModel.event ?? .started)
+
+        await assertEventually {
+            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id == NotchContentRegistry.Media.nowPlaying.id }
+        }
+        try? await Task.sleep(nanoseconds: 400_000_000)
+
+        context.nowPlayingService.publish(makeNowPlayingSnapshot(playbackRate: 0))
+        context.coordinator.handleNowPlayingEvent(.playbackStateChanged(isPlaying: false))
+
+        // The delay used to be clamped to 1 s, which kept the paused player visible past this timeout.
+        await assertEventually(timeout: 0.6) {
+            await MainActor.run { context.notchViewModel.notchModel.liveActivityContent?.id != NotchContentRegistry.Media.nowPlaying.id }
+        }
+    }
+
     func testPausedNowPlayingStaysVisibleWhenPauseHideTimerIsDisabled() async {
         let context = makeContext(nowPlayingPauseHideTimerEnabled: false, nowPlayingPauseHideDelay: 1)
 

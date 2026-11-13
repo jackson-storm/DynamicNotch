@@ -4,8 +4,8 @@ struct NowPlayingSettingsView: View {
     @ObservedObject var settings: MediaAndFilesSettingsStore
     @ObservedObject var applicationSettings: ApplicationSettingsStore
     
-    private var temporaryActivityDurationRange: ClosedRange<Double> {
-        Double(SettingsStoreBase.temporaryActivityDurationRange.lowerBound)...Double(SettingsStoreBase.temporaryActivityDurationRange.upperBound)
+    private var pauseHideDelayRange: ClosedRange<Double> {
+        Double(SettingsStoreBase.pauseHideDelayRange.lowerBound)...Double(SettingsStoreBase.pauseHideDelayRange.upperBound)
     }
     
     private var isWithoutCloseTimer: Binding<Bool> {
@@ -63,7 +63,7 @@ struct NowPlayingSettingsView: View {
             SettingsSliderRow(
                 title: "settings.nowPlaying.closeDelay.title",
                 description: "settings.nowPlaying.closeDelay.desc",
-                range: temporaryActivityDurationRange,
+                range: pauseHideDelayRange,
                 step: 1,
                 fractionLength: 0,
                 suffix: "s",

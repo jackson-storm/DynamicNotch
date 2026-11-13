@@ -501,6 +501,11 @@ final class NotchEngine: ObservableObject {
             return
         }
 
+        if let content, notchModel.liveActivityContent != nil {
+            await swapLiveContentTransition(to: content)
+            return
+        }
+
         await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
             let didStart = transition(
                 customDelay: (notchModel.content == nil) ? 0.0 : nil,
@@ -518,6 +523,28 @@ final class NotchEngine: ObservableObject {
                 }
             )
             if !didStart {
+                continuation.resume()
+            }
+        }
+    }
+
+    /// Replaces the current live activity with the next one in a single animation, so the island does
+    /// not appear empty between the two activities.
+    private func swapLiveContentTransition(to content: NotchContentProtocol) async {
+        await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+            guard !isTransitioning else {
+                continuation.resume()
+                return
+            }
+
+            isTransitioning = true
+            let wasExpanded = notchModel.isLiveActivityExpanded
+            DispatchQueue.main.async {
+                withAnimation(wasExpanded ? self.animations.collapseLiveActivity : self.animations.showContent) {
+                    self.notchModel.isLiveActivityExpanded = false
+                    self.notchModel.liveActivityContent = content
+                }
+                self.isTransitioning = false
                 continuation.resume()
             }
         }

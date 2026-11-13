@@ -39,7 +39,7 @@ struct NowPlayingMinimalNotchView: View {
                 width: isNotchlessScreen ? 20 : 23,
                 height: isNotchlessScreen ? 20 : 23,
                 cornerRadius: 5,
-                usesFlipAnimation: settings.isNowPlayingArtwork3DEffectEnabled
+                usesFlipAnimation: true
             )
             
             Spacer()

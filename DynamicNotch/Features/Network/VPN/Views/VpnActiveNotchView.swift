@@ -16,7 +16,7 @@ struct VpnActiveNotchView: View {
                 Image(nsImage: nsImage)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: isNotchlessScreen ? 24 : 26, height: isNotchlessScreen ? 24 : 26)
+                    .frame(width: isNotchlessScreen ? 24 : 28, height: isNotchlessScreen ? 24 : 28)
                     .cornerRadius(8)
             }
             
@@ -33,7 +33,7 @@ struct VpnActiveNotchView: View {
                     .monospacedDigit()
             }
         }
-        .padding(.leading, isNotchlessScreen ? 5.scaled(by: scale) : 12.scaled(by: scale))
+        .padding(.leading, isNotchlessScreen ? 5.scaled(by: scale) : 11.scaled(by: scale))
         .padding(.trailing, isNotchlessScreen ? 7.scaled(by: scale) : 14.scaled(by: scale))
         .onAppear {
             vpnViewModel.startMonitoring()

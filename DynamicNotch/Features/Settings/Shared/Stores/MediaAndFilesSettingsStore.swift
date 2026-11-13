@@ -127,6 +127,12 @@ struct NowPlayingAppearanceOptions {
     let showsFavoriteButton: Bool
     let showsOutputDeviceButton: Bool
     let usesArtwork3DEffect: Bool
+
+    init(showsFavoriteButton: Bool, showsOutputDeviceButton: Bool, usesArtwork3DEffect: Bool = true) {
+        self.showsFavoriteButton = showsFavoriteButton
+        self.showsOutputDeviceButton = showsOutputDeviceButton
+        self.usesArtwork3DEffect = usesArtwork3DEffect
+    }
 }
 
 extension MediaAndFilesSettingsStore {
@@ -134,7 +140,7 @@ extension MediaAndFilesSettingsStore {
         .init(
             showsFavoriteButton: isNowPlayingFavoriteButtonVisible,
             showsOutputDeviceButton: isNowPlayingOutputDeviceButtonVisible,
-            usesArtwork3DEffect: isNowPlayingArtwork3DEffectEnabled
+            usesArtwork3DEffect: true
         )
     }
 }

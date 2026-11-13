@@ -1,17 +1,25 @@
+//
+//  NotchViewModel.swift
+//  DynamicNotch
+//
+//  Created by Евгений Петрукович on 11/10/26.
+//
+
 import SwiftUI
 import Combine
 
 typealias NotchScreenMetrics = (width: CGFloat, topInset: CGFloat, notchSize: CGSize?)
 
 @MainActor
-final class NotchViewModel: ObservableObject {
+final class NotchViewModel: ObservableObject, NotchCommandDispatching {
+    // MARK: - Published State
     @Published private(set) var notchModel = NotchModel()
     @Published private(set) var stagedNotchHeight: CGFloat = NotchModel().baseHeight
     @Published private(set) var isExpandingLiveActivityTransition = false
     @Published private(set) var isActivityPresentationHidden = false
     @Published private(set) var hasDisplayedContent = false
     @Published private(set) var topInset: CGFloat = 0
-    
+
     @Published var isLocked = false
     @Published var isHoveringScrollableContent = false
     @Published var isScrubbingContent = false
@@ -19,50 +27,27 @@ final class NotchViewModel: ObservableObject {
     @Published var isPressed = false
     @Published var cachedStrokeColor: Color = .clear
     @Published var pressScale: CGFloat = 1.0
-    
+
     @Published var focusCloseStretchWidth: CGFloat = 0.0
     @Published var focusCloseStretchHeight: CGFloat = 0.0
-    
+
     @Published var notchPulseWidth: CGFloat = 0.0
     @Published var notchPulseHeight: CGFloat = 0.0
 
+    // MARK: - Coordinators & Dependencies
     let gestureCoordinator: GestureCoordinator
+    let geometryCoordinator: NotchGeometryCoordinator
+    let expansionCoordinator: NotchExpansionCoordinator
+    let effectsCoordinator: NotchEffectsCoordinator
 
     private let settings: NotchSettingsProviding
     private let engine: NotchEngine
     private let screenMetricsProvider: (any NotchSettingsProviding) -> NotchScreenMetrics?
-    
+
     private var cancellables = Set<AnyCancellable>()
-    private var expansionTransitionTask: Task<Void, Never>?
     private var restoreContentWorkItem: DispatchWorkItem?
-    private var notchPulseResetWorkItem: DispatchWorkItem?
-    private var isClosingHeightStaged = false
-    private var isFocusCloseAnimating = false
 
-    var swipeStretchProgress: CGFloat {
-        gestureCoordinator.swipeStretchProgress
-    }
-
-    var verticalSwipeStretchProgress: CGFloat {
-        gestureCoordinator.verticalSwipeStretchProgress
-    }
-
-    var horizontalSwipeStretchProgress: CGFloat {
-        gestureCoordinator.horizontalSwipeStretchProgress
-    }
-
-    var swipeInteraction: SwipeInteraction? {
-        gestureCoordinator.swipeInteraction
-    }
-
-    var isSwipeInteractionActive: Bool {
-        gestureCoordinator.isSwipeInteractionActive
-    }
-
-    var easedSwipeStretchProgress: CGFloat {
-        gestureCoordinator.easedSwipeStretchProgress
-    }
-
+    // MARK: - Computed Properties (Animations & Content)
     var animations: NotchAnimations {
         engine.animations
     }
@@ -100,11 +85,11 @@ final class NotchViewModel: ObservableObject {
     }
 
     var shouldApplyPressScale: Bool {
-        guard !isSwipeInteractionActive else { return false }
-        guard let content = displayedContent else { return true }
-        guard !isDisplayingExpandedLiveActivity else { return false }
-
-        return content.allowsPressScaleEffect && content.allowsCompactPressScaleEffect
+        effectsCoordinator.shouldApplyPressScale(
+            isSwipeInteractionActive: isSwipeInteractionActive,
+            displayedContent: displayedContent,
+            isDisplayingExpandedLiveActivity: isDisplayingExpandedLiveActivity
+        )
     }
 
     var displayedBaseNotchSize: CGSize {
@@ -114,7 +99,7 @@ final class NotchViewModel: ObservableObject {
     var presentedNotchSize: CGSize {
         let size = interactiveNotchSize
 
-        guard !isSwipeInteractionActive, isClosingHeightStaged else {
+        guard !isSwipeInteractionActive, geometryCoordinator.isClosingHeightStaged else {
             return size
         }
 
@@ -123,34 +108,41 @@ final class NotchViewModel: ObservableObject {
             height: stagedNotchHeight
         )
     }
-    
+
+    // MARK: - Expansion Rules & State
     var canExpandActiveLiveActivity: Bool {
-        guard (!isActivityPresentationHidden || isLocked) || notchModel.temporaryNotificationContent != nil else { return false }
-        if isLocked {
-            guard notchModel.temporaryNotificationContent != nil || notchModel.liveActivityContent?.id == NotchContentRegistry.LockScreen.activity.id else {
-                return false
-            }
-        }
-        guard hasRealDisplayedContent else { return false }
-        return engine.canExpandActiveLiveActivity
+        expansionCoordinator.canExpandActiveLiveActivity(
+            isActivityPresentationHidden: isActivityPresentationHidden,
+            isLocked: isLocked,
+            hasTemporaryNotification: notchModel.temporaryNotificationContent != nil,
+            liveActivityId: notchModel.liveActivityContent?.id,
+            hasRealDisplayedContent: hasRealDisplayedContent,
+            engineCanExpand: engine.canExpandActiveLiveActivity
+        )
     }
-    
+
     var shouldExpandActiveContentOnClick: Bool {
-        settings.isNotchTapToExpandEnabled &&
-        settings.notchExpandInteraction == .click &&
-        canExpandActiveLiveActivity
+        expansionCoordinator.shouldExpandOnClick(
+            isTapToExpandEnabled: settings.isNotchTapToExpandEnabled,
+            expandInteraction: settings.notchExpandInteraction,
+            canExpand: canExpandActiveLiveActivity
+        )
     }
 
     var shouldExpandActiveContentOnPressAndHold: Bool {
-        settings.isNotchTapToExpandEnabled &&
-        settings.notchExpandInteraction == .pressAndHold &&
-        canExpandActiveLiveActivity
+        expansionCoordinator.shouldExpandOnPressAndHold(
+            isTapToExpandEnabled: settings.isNotchTapToExpandEnabled,
+            expandInteraction: settings.notchExpandInteraction,
+            canExpand: canExpandActiveLiveActivity
+        )
     }
 
     var shouldExpandActiveContentOnHover: Bool {
-        settings.isNotchTapToExpandEnabled &&
-        settings.notchExpandInteraction == .hover &&
-        canExpandActiveLiveActivity
+        expansionCoordinator.shouldExpandOnHover(
+            isTapToExpandEnabled: settings.isNotchTapToExpandEnabled,
+            expandInteraction: settings.notchExpandInteraction,
+            canExpand: canExpandActiveLiveActivity
+        )
     }
 
     var notchExpandInteraction: NotchExpandInteraction {
@@ -158,8 +150,10 @@ final class NotchViewModel: ObservableObject {
     }
 
     var shouldCollapseActiveContentOnHoverLeaves: Bool {
-        settings.notchCollapseInteraction == .hoverLeaves &&
-        isDisplayingExpandedLiveActivity
+        expansionCoordinator.shouldCollapseOnHoverLeaves(
+            collapseInteraction: settings.notchCollapseInteraction,
+            isDisplayingExpandedLiveActivity: isDisplayingExpandedLiveActivity
+        )
     }
 
     var notchPressHoldDuration: TimeInterval {
@@ -169,7 +163,7 @@ final class NotchViewModel: ObservableObject {
     var notchHoverExpandDelay: TimeInterval {
         settings.notchPressHoldDuration
     }
-    
+
     var canRestoreDismissedContent: Bool {
         guard !isLocked else { return false }
         return engine.canRestoreDismissedContent
@@ -181,49 +175,58 @@ final class NotchViewModel: ObservableObject {
         guard hasRealDisplayedContent else { return false }
         return engine.canOpenActiveWindowLink
     }
-    
+
+    // MARK: - Gesture Delegations
+    private var gestureContext: GestureCoordinator.Context {
+        GestureCoordinator.Context(
+            settings: settings,
+            isLocked: isLocked,
+            isActivityPresentationHidden: isActivityPresentationHidden,
+            hasTemporaryNotification: notchModel.temporaryNotificationContent != nil,
+            hasRealDisplayedContent: hasRealDisplayedContent,
+            isExpandedPresentation: isExpandedPresentation,
+            canRestoreDismissedContent: canRestoreDismissedContent
+        )
+    }
+
+    var swipeStretchProgress: CGFloat {
+        gestureCoordinator.swipeStretchProgress
+    }
+
+    var verticalSwipeStretchProgress: CGFloat {
+        gestureCoordinator.verticalSwipeStretchProgress
+    }
+
+    var horizontalSwipeStretchProgress: CGFloat {
+        gestureCoordinator.horizontalSwipeStretchProgress
+    }
+
+    var swipeInteraction: SwipeInteraction? {
+        gestureCoordinator.swipeInteraction
+    }
+
+    var isSwipeInteractionActive: Bool {
+        gestureCoordinator.isSwipeInteractionActive
+    }
+
+    var easedSwipeStretchProgress: CGFloat {
+        gestureCoordinator.easedSwipeStretchProgress
+    }
+
     var canDismissWithMouseDrag: Bool {
-        gestureCoordinator.canDismissWithMouseDrag(
-            isMouseDragEnabled: settings.isNotchMouseDragGesturesEnabled,
-            isSwipeDismissEnabled: settings.isNotchSwipeDismissEnabled,
-            isLocked: isLocked,
-            isActivityPresentationHidden: isActivityPresentationHidden,
-            hasTemporaryNotification: notchModel.temporaryNotificationContent != nil,
-            hasRealDisplayedContent: hasRealDisplayedContent
-        )
+        gestureCoordinator.canDismissWithMouseDrag(context: gestureContext)
     }
-    
+
     var canRestoreWithMouseDrag: Bool {
-        gestureCoordinator.canRestoreWithMouseDrag(
-            isMouseDragEnabled: settings.isNotchMouseDragGesturesEnabled,
-            isSwipeRestoreEnabled: settings.isNotchSwipeRestoreEnabled,
-            isLocked: isLocked,
-            isLiveActivityExpanded: isExpandedPresentation,
-            canRestoreDismissedContent: canRestoreDismissedContent,
-            hasRealDisplayedContent: hasRealDisplayedContent
-        )
+        gestureCoordinator.canRestoreWithMouseDrag(context: gestureContext)
     }
-    
+
     var canDismissWithTrackpadSwipe: Bool {
-        gestureCoordinator.canDismissWithTrackpadSwipe(
-            isTrackpadSwipeEnabled: settings.isNotchTrackpadSwipeGesturesEnabled,
-            isSwipeDismissEnabled: settings.isNotchSwipeDismissEnabled,
-            isLocked: isLocked,
-            isActivityPresentationHidden: isActivityPresentationHidden,
-            hasTemporaryNotification: notchModel.temporaryNotificationContent != nil,
-            hasRealDisplayedContent: hasRealDisplayedContent
-        )
+        gestureCoordinator.canDismissWithTrackpadSwipe(context: gestureContext)
     }
-    
+
     var canRestoreWithTrackpadSwipe: Bool {
-        gestureCoordinator.canRestoreWithTrackpadSwipe(
-            isTrackpadSwipeEnabled: settings.isNotchTrackpadSwipeGesturesEnabled,
-            isSwipeRestoreEnabled: settings.isNotchSwipeRestoreEnabled,
-            isLocked: isLocked,
-            isLiveActivityExpanded: isExpandedPresentation,
-            canRestoreDismissedContent: canRestoreDismissedContent,
-            hasRealDisplayedContent: hasRealDisplayedContent
-        )
+        gestureCoordinator.canRestoreWithTrackpadSwipe(context: gestureContext)
     }
 
     var canDismissWithHorizontalTrackpadSwipe: Bool {
@@ -242,25 +245,17 @@ final class NotchViewModel: ObservableObject {
     }
 
     var isMouseDragStretchEnabled: Bool {
-        gestureCoordinator.canStretchWithMouseDrag(
-            isMouseDragEnabled: settings.isNotchMouseDragGesturesEnabled,
-            isSwipeGesturesEnabled: settings.isNotchSwipeDismissEnabled || settings.isNotchSwipeRestoreEnabled,
-            isLocked: isLocked
-        )
+        gestureCoordinator.canStretchWithMouseDrag(context: gestureContext)
     }
 
     var isTrackpadSwipeStretchEnabled: Bool {
-        gestureCoordinator.canStretchWithTrackpadSwipe(
-            isTrackpadSwipeEnabled: settings.isNotchTrackpadSwipeGesturesEnabled,
-            isSwipeGesturesEnabled: settings.isNotchSwipeDismissEnabled || settings.isNotchSwipeRestoreEnabled,
-            isLocked: isLocked
-        )
+        gestureCoordinator.canStretchWithTrackpadSwipe(context: gestureContext)
     }
-    
+
     var isNotchHoverHapticEnabled: Bool {
         settings.isNotchHoverHapticEnabled
     }
-    
+
     var interactiveNotchSize: CGSize {
         gestureCoordinator.interactiveNotchSize(
             model: displayedNotchModel,
@@ -270,53 +265,55 @@ final class NotchViewModel: ObservableObject {
             notchPulseHeight: notchPulseHeight
         )
     }
-    
+
     var interactiveCornerRadius: (top: CGFloat, bottom: CGFloat) {
-        let model = displayedNotchModel
-        let baseCornerRadius = model.cornerRadius
-        let radiusOffset = (focusCloseStretchHeight + notchPulseHeight) * 0.3
-        
-        return (
-            top: baseCornerRadius.top + radiusOffset,
-            bottom: baseCornerRadius.bottom + radiusOffset
+        geometryCoordinator.interactiveCornerRadius(
+            baseCornerRadius: displayedNotchModel.cornerRadius,
+            focusCloseStretchHeight: focusCloseStretchHeight,
+            notchPulseHeight: notchPulseHeight
         )
     }
-    
+
     var dynamicIslandCornerRadius: CGFloat {
         let height = swipeInteraction != nil ? displayedNotchModel.size.height : presentedNotchSize.height
-        let baseRadius: CGFloat
-        
-        if isDisplayingExpandedLiveActivity {
-            if let customizable = displayedContent {
-                baseRadius = customizable.expandedDynamicIslandCornerRadius(baseHeight: height)
-            } else {
-                baseRadius = height * 0.2
-            }
-        } else {
-            if let customizable = displayedContent {
-                baseRadius = customizable.dynamicIslandCornerRadius(baseHeight: height)
-            } else {
-                baseRadius = height * 0.5
-            }
-        }
-        
-        let model = displayedNotchModel
         let expansion = gestureCoordinator.dynamicIslandCornerRadiusExpansion(
             isDynamicIsland: isDynamicIsland,
-            modelHeight: model.size.height,
-            baseHeight: model.baseHeight
+            modelHeight: displayedNotchModel.size.height,
+            baseHeight: displayedNotchModel.baseHeight
         )
-        return baseRadius + expansion
+        return geometryCoordinator.dynamicIslandCornerRadius(
+            height: height,
+            isDisplayingExpandedLiveActivity: isDisplayingExpandedLiveActivity,
+            displayedContent: displayedContent,
+            gestureExpansion: expansion
+        )
     }
-    
+
     var contentResizeBlurRadius: CGFloat {
         gestureCoordinator.contentResizeBlurRadius()
     }
-    
+
     var contentResizeOpacity: Double {
         gestureCoordinator.contentResizeOpacity()
     }
-    
+
+    func updateSwipeStretch(for interaction: SwipeInteraction, progress: CGFloat) {
+        gestureCoordinator.updateSwipeStretch(for: interaction, progress: progress)
+    }
+
+    func resetSwipeStretch() {
+        gestureCoordinator.resetSwipeStretch(animation: animations.stretchReset)
+    }
+
+    private func applySwipeStretchReset() {
+        gestureCoordinator.applySwipeStretchReset(animation: animations.stretchReset)
+    }
+
+    func easedProgress(for rawProgress: CGFloat) -> CGFloat {
+        gestureCoordinator.easedProgress(for: rawProgress)
+    }
+
+    // MARK: - Initialization
     init(
         settings: NotchSettingsProviding,
         animations: NotchAnimations? = nil,
@@ -324,64 +321,54 @@ final class NotchViewModel: ObservableObject {
         queueDelay: TimeInterval? = nil,
         engine: NotchEngine? = nil,
         gestureCoordinator: GestureCoordinator? = nil,
+        geometryCoordinator: NotchGeometryCoordinator? = nil,
+        expansionCoordinator: NotchExpansionCoordinator? = nil,
+        effectsCoordinator: NotchEffectsCoordinator? = nil,
         screenMetricsProvider: (((any NotchSettingsProviding) -> NotchScreenMetrics?))? = nil
     ) {
         self.settings = settings
         self.gestureCoordinator = gestureCoordinator ?? GestureCoordinator()
-        self.screenMetricsProvider = screenMetricsProvider ?? { settings in
-            NSScreen.metrics(for: settings)
-        }
-        self.engine = engine ?? NotchEngine(
+        let resolvedEngine = engine ?? NotchEngine(
             animations: {
                 animations ?? .animations
             },
             hideDelay: hideDelay,
             queueDelay: queueDelay
         )
+        self.engine = resolvedEngine
+        self.geometryCoordinator = geometryCoordinator ?? NotchGeometryCoordinator(initialBaseHeight: resolvedEngine.notchModel.size.height)
+        self.expansionCoordinator = expansionCoordinator ?? NotchExpansionCoordinator()
+        self.effectsCoordinator = effectsCoordinator ?? NotchEffectsCoordinator()
+        self.screenMetricsProvider = screenMetricsProvider ?? { settings in
+            NSScreen.metrics(for: settings)
+        }
+
         updateDimensions(animated: false)
         bindEngine()
     }
 
+    // MARK: - Dimensions
     func updateDimensions(animated: Bool = true) {
-        guard let screenMetrics = screenMetricsProvider(settings) else {
-            return
-        }
-        
-        self.topInset = screenMetrics.topInset
-        
-        let screenWidth = screenMetrics.width
-        let baseScreenWidth: CGFloat = 1440.0
-        let scale = max(0.35, screenWidth / baseScreenWidth)
-        let widthScale = scale > 1.0 ? 1.0 + (scale - 1.0) * 0.35 : scale
-        
-        let isDynamicIsland = screenMetrics.topInset == 0
-        let widthOffset = CGFloat(settings.notchWidth) + 2
-        let heightOffset = CGFloat(settings.notchHeight)
-        let baseHeightAdjustment: CGFloat = isDynamicIsland ? 5 : 0
-        
-        let finalWidth: CGFloat
-        let finalHeight: CGFloat
-        
-        if let notchSize = screenMetrics.notchSize {
-            let baseWidth = notchSize.width + 14.scaled(by: widthScale) + widthOffset
-            finalWidth = isDynamicIsland ? baseWidth * 0.85 : baseWidth
-            finalHeight = notchSize.height + heightOffset + baseHeightAdjustment
-        } else {
-            let baseWidthValue: CGFloat = isDynamicIsland ? 90 : 190
-            let baseWidth = (baseWidthValue * widthScale) + widthOffset
-            finalWidth = isDynamicIsland ? baseWidth * 0.85 : baseWidth
-            finalHeight = 26 + heightOffset + baseHeightAdjustment
-        }
-        
+        guard let screenMetrics = screenMetricsProvider(settings) else { return }
+
+        let calculated = geometryCoordinator.calculateGeometry(
+            screenMetrics: screenMetrics,
+            notchWidthSetting: Double(settings.notchWidth),
+            notchHeightSetting: Double(settings.notchHeight)
+        )
+
+        self.topInset = calculated.topInset
+        geometryCoordinator.topInset = calculated.topInset
+
         let applyGeometry = {
             self.engine.updateBaseGeometry(
-                width: finalWidth,
-                height: finalHeight,
-                scale: scale,
-                isDynamicIsland: isDynamicIsland
+                width: calculated.width,
+                height: calculated.height,
+                scale: calculated.scale,
+                isDynamicIsland: calculated.isDynamicIsland
             )
         }
-        
+
         if animated {
             withAnimation(.interactiveSpring(response: 0.25, dampingFraction: 0.85)) {
                 applyGeometry()
@@ -390,15 +377,58 @@ final class NotchViewModel: ObservableObject {
             applyGeometry()
         }
     }
-    
-    func send(_ notchState: NotchState) {
-        engine.send(notchState)
+
+    // MARK: - Effects & Animations
+    func pulseNotch(widthOffset: CGFloat = 30.0, heightOffset: CGFloat = 10.0) {
+        effectsCoordinator.pulseNotch(widthOffset: widthOffset, heightOffset: heightOffset)
     }
 
-    func setPreferredLiveActivity(id: String?) {
-        engine.setPreferredLiveActivity(id: id)
+    func triggerFocusCloseAnimation(for id: String, completion: @escaping () -> Void) {
+        effectsCoordinator.triggerFocusCloseAnimation(
+            presentedSize: presentedNotchSize,
+            animations: animations,
+            completion: completion
+        )
     }
 
+    // MARK: - Expansion Actions
+    func handleActiveContentTap() {
+        guard settings.isNotchTapToExpandEnabled,
+              canExpandActiveLiveActivity else { return }
+
+        expansionCoordinator.performExpansion { [weak self] in
+            self?.engine.handleActiveContentTap()
+        }
+    }
+
+    func expandActiveLiveActivity() {
+        guard canExpandActiveLiveActivity else { return }
+
+        expansionCoordinator.performExpansion { [weak self] in
+            self?.engine.handleActiveContentTap()
+        }
+    }
+
+    // MARK: - Transitions
+    func contentTransition(
+        notchWidth: CGFloat? = nil,
+        notchHeight: CGFloat,
+        baseWidth: CGFloat? = nil,
+        baseHeight: CGFloat,
+        isExpandedPresentation: Bool
+    ) -> AnyTransition {
+        NotchTransitionBuilder.build(
+            notchWidth: notchWidth ?? presentedNotchSize.width,
+            notchHeight: notchHeight,
+            baseWidth: baseWidth ?? notchModel.baseWidth,
+            baseHeight: baseHeight,
+            isDynamicIsland: isDynamicIsland,
+            isExpandedPresentation: isExpandedPresentation,
+            animations: animations
+        )
+    }
+
+    // MARK: - NotchCommandDispatching & Content Actions
     func setActivityPresentationHidden(_ isHidden: Bool) {
         guard isActivityPresentationHidden != isHidden else { return }
 
@@ -409,11 +439,11 @@ final class NotchViewModel: ObservableObject {
             hasDisplayedContent = hasRealDisplayedContent
         }
     }
-    
+
     func hideTemporaryNotification() {
         engine.hideTemporaryNotification()
     }
-    
+
     func dismissActiveContent() {
         if isLocked {
             resetSwipeStretch()
@@ -424,10 +454,10 @@ final class NotchViewModel: ObservableObject {
             engine.handleOutsideClick()
             return
         }
-        
+
         engine.dismissActiveContent()
     }
-    
+
     func restoreDismissedContent() {
         if isLocked || isExpandedPresentation || notchModel.isLiveActivityExpanded {
             resetSwipeStretch()
@@ -459,13 +489,13 @@ final class NotchViewModel: ObservableObject {
             engine.openActiveWindowLink()
             return
         }
-        
+
         if notchModel.temporaryNotificationContent != nil {
             engine.openActiveWindowLink()
             engine.hideTemporaryNotification()
             return
         }
-        
+
         let isFocus = content.id == NotchContentRegistry.Focus.active.id || content.id == NotchContentRegistry.Focus.inactive.id
         if isFocus && settings.isCloseAtFocusLiveActivityEnabled {
             triggerFocusCloseAnimation(for: content.id) { [weak self] in
@@ -477,117 +507,29 @@ final class NotchViewModel: ObservableObject {
         }
     }
 
-    func triggerFocusCloseAnimation(for id: String, completion: @escaping () -> Void) {
-        guard !isFocusCloseAnimating else {
-            completion()
-            return
-        }
-        isFocusCloseAnimating = true
-        
-        let currentWidth = presentedNotchSize.width
-        let currentHeight = presentedNotchSize.height
-        
-        let compressWidth = -max(20, currentWidth * 0.2)
-        let stretchHeight = max(40, currentHeight * 0.2)
-        
-        withAnimation(animations.focusDismissBounce) {
-            self.focusCloseStretchWidth = compressWidth
-            self.focusCloseStretchHeight = stretchHeight
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            withAnimation(self.animations.focusDismissBounce) {
-                self.focusCloseStretchWidth = 0
-                self.focusCloseStretchHeight = 0
-            }
-            completion()
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                self.isFocusCloseAnimating = false
-            }
-        }
-    }
-    
-    func pulseNotch(widthOffset: CGFloat = 30.0, heightOffset: CGFloat = 10.0) {
-        notchPulseResetWorkItem?.cancel()
-        withAnimation(.spring(response: 0.5, dampingFraction: 0.7)) {
-            self.notchPulseWidth = widthOffset
-            self.notchPulseHeight = heightOffset
-        }
-        
-        let workItem = DispatchWorkItem { [weak self] in
-            guard let self else { return }
-            withAnimation(.spring(response: 0.5, dampingFraction: 0.7)) {
-                self.notchPulseWidth = 0
-                self.notchPulseHeight = 0
-            }
-        }
-        notchPulseResetWorkItem = workItem
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.12, execute: workItem)
-    }
-    
-    func updateSwipeStretch(for interaction: SwipeInteraction, progress: CGFloat) {
-        gestureCoordinator.updateSwipeStretch(for: interaction, progress: progress)
-    }
-    
-    func resetSwipeStretch() {
-        gestureCoordinator.resetSwipeStretch(animation: animations.stretchReset)
-    }
-
-    private func applySwipeStretchReset() {
-        gestureCoordinator.applySwipeStretchReset(animation: animations.stretchReset)
-    }
-    
-    func handleActiveContentTap() {
-        guard settings.isNotchTapToExpandEnabled,
-              canExpandActiveLiveActivity else { return }
-
-        performActiveLiveActivityExpansion()
-    }
-
-    func expandActiveLiveActivity() {
-        guard canExpandActiveLiveActivity else { return }
-
-        performActiveLiveActivityExpansion()
-    }
-
-    private func performActiveLiveActivityExpansion() {
-        expansionTransitionTask?.cancel()
-        isExpandingLiveActivityTransition = true
-
-        expansionTransitionTask = Task { @MainActor [weak self] in
-            try? await Task.sleep(nanoseconds: ExpansionTransitionTiming.preparationDelay)
-            guard let self, !Task.isCancelled else { return }
-
-            self.engine.handleActiveContentTap()
-
-            try? await Task.sleep(nanoseconds: ExpansionTransitionTiming.resetDelay)
-            guard !Task.isCancelled else { return }
-
-            self.isExpandingLiveActivityTransition = false
-            self.expansionTransitionTask = nil
-        }
-    }
-    
     func handleOutsideClick() {
         engine.handleOutsideClick()
     }
-    
+
     func handleStrokeVisibility() {
         engine.handleStrokeVisibility()
     }
-    
-    func easedProgress(for rawProgress: CGFloat) -> CGFloat {
-        gestureCoordinator.easedProgress(for: rawProgress)
+
+    func send(_ notchState: NotchState) {
+        engine.send(notchState)
     }
 
-    private var isHoldingStrokeAfterContentHide: Bool {
+    func setPreferredLiveActivity(id: String?) {
+        engine.setPreferredLiveActivity(id: id)
+    }
+
+    var isHoldingStrokeAfterContentHide: Bool {
         showNotch &&
         !hasRealDisplayedContent &&
         notchModel.content == nil
     }
 
-    private var displayedNotchModel: NotchModel {
+    var displayedNotchModel: NotchModel {
         guard isActivityPresentationHidden, !isLocked else {
             return notchModel
         }
@@ -598,47 +540,13 @@ final class NotchViewModel: ObservableObject {
         return model
     }
 
-    func contentTransition(
-        notchWidth: CGFloat? = nil,
-        notchHeight: CGFloat,
-        baseWidth: CGFloat? = nil,
-        baseHeight: CGFloat,
-        isExpandedPresentation: Bool
-    ) -> AnyTransition {
-        let width = notchWidth ?? presentedNotchSize.width
-        let bWidth = baseWidth ?? notchModel.baseWidth
-        let expandedTransition = AnyTransition.notchExpanded(
-            notchHeight: notchHeight,
-            baseHeight: baseHeight,
-            isNotchlessScreen: isDynamicIsland
-        )
-        let compactTransition = AnyTransition.notchCompact(
-            notchWidth: width,
-            notchHeight: notchHeight,
-            baseWidth: bWidth,
-            baseHeight: baseHeight,
-            isNotchlessScreen: isDynamicIsland
-        )
-
-        if isExpandedPresentation {
-            return .asymmetric(
-                insertion: expandedTransition.animation(animations.expandLiveActivity),
-                removal: expandedTransition.animation(animations.collapseLiveActivity)
-            )
-        } else {
-            return .asymmetric(
-                insertion: compactTransition.animation(animations.showContent),
-                removal: compactTransition.animation(animations.hideContent)
-            )
-        }
-    }
-    
+    // MARK: - Engine & Coordinator Bindings
     private func bindEngine() {
         notchModel = engine.notchModel
         showNotch = engine.showNotch
         cachedStrokeColor = engine.cachedStrokeColor
         stagedNotchHeight = engine.notchModel.size.height
-        isClosingHeightStaged = false
+        geometryCoordinator.isClosingHeightStaged = false
         hasDisplayedContent = hasRealDisplayedContent
 
         gestureCoordinator.objectWillChange
@@ -646,23 +554,59 @@ final class NotchViewModel: ObservableObject {
                 self?.objectWillChange.send()
             }
             .store(in: &cancellables)
-        
+
+        geometryCoordinator.$stagedNotchHeight
+            .dropFirst()
+            .assign(to: &$stagedNotchHeight)
+
+        geometryCoordinator.$topInset
+            .dropFirst()
+            .assign(to: &$topInset)
+
+        expansionCoordinator.$isExpandingLiveActivityTransition
+            .dropFirst()
+            .assign(to: &$isExpandingLiveActivityTransition)
+
+        effectsCoordinator.$focusCloseStretchWidth
+            .dropFirst()
+            .assign(to: &$focusCloseStretchWidth)
+
+        effectsCoordinator.$focusCloseStretchHeight
+            .dropFirst()
+            .assign(to: &$focusCloseStretchHeight)
+
+        effectsCoordinator.$notchPulseWidth
+            .dropFirst()
+            .assign(to: &$notchPulseWidth)
+
+        effectsCoordinator.$notchPulseHeight
+            .dropFirst()
+            .assign(to: &$notchPulseHeight)
+
+        effectsCoordinator.$pressScale
+            .dropFirst()
+            .assign(to: &$pressScale)
+
         engine.$notchModel
             .dropFirst()
             .sink { [weak self] in
                 guard let self else { return }
-                self.scheduleStagedHeightUpdate(to: $0.size.height)
+                self.geometryCoordinator.scheduleStagedHeightUpdate(
+                    to: $0.size.height,
+                    isSwipeInteractionActive: self.isSwipeInteractionActive,
+                    animation: self.surfaceSizeAnimation
+                )
                 self.notchModel = $0
                 self.hasDisplayedContent = self.hasRealDisplayedContent
             }
             .store(in: &cancellables)
-        
+
         engine.$showNotch
             .sink { [weak self] in
                 self?.showNotch = $0
             }
             .store(in: &cancellables)
-        
+
         engine.$cachedStrokeColor
             .sink { [weak self] in
                 self?.cachedStrokeColor = $0
@@ -676,45 +620,4 @@ final class NotchViewModel: ObservableObject {
             }
             .store(in: &cancellables)
     }
-
-    private func scheduleStagedHeightUpdate(to targetHeight: CGFloat) {
-        guard !isSwipeInteractionActive else {
-            isClosingHeightStaged = false
-            stagedNotchHeight = targetHeight
-            return
-        }
-
-        let currentHeight = stagedNotchHeight
-
-        guard abs(currentHeight - targetHeight) > 0.5 else {
-            isClosingHeightStaged = false
-            stagedNotchHeight = targetHeight
-            return
-        }
-
-        guard targetHeight < currentHeight else {
-            isClosingHeightStaged = false
-            stagedNotchHeight = targetHeight
-            return
-        }
-
-        isClosingHeightStaged = false
-        applyStagedHeight(targetHeight, animated: true)
-    }
-
-    private func applyStagedHeight(_ targetHeight: CGFloat, animated: Bool) {
-        guard animated, let animation = surfaceSizeAnimation else {
-            stagedNotchHeight = targetHeight
-            return
-        }
-
-        withAnimation(animation) {
-            stagedNotchHeight = targetHeight
-        }
-    }
-}
-
-private enum ExpansionTransitionTiming {
-    static let preparationDelay: UInt64 = 16_000_000
-    static let resetDelay: UInt64 = 120_000_000
 }

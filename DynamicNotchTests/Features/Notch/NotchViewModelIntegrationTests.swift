@@ -300,12 +300,11 @@ final class NotchViewModelIntegrationTests: XCTestCase {
     @MainActor
     func testStrokeRemainsVisibleUntilCloseAnimationFinishes() async {
         let animations = NotchAnimations(
-            updateContent: .linear(duration: 0.01),
             hideContent: .linear(duration: 0.01),
             showContent: .linear(duration: 0.01),
-            compactContentTransition: .linear(duration: 0.01),
             expandLiveActivity: .linear(duration: 0.01),
             collapseLiveActivity: .linear(duration: 0.01),
+            updateContent: .linear(duration: 0.01),
             stretchReset: .linear(duration: 0.01),
             focusDismissBounce: .linear(duration: 0.01),
             strokeVisibility: .linear(duration: 0.01),
@@ -1495,8 +1494,8 @@ final class NotchViewModelIntegrationTests: XCTestCase {
             await MainActor.run { viewModel.notchModel.liveActivityContent?.id == "combined2D" }
         }
 
-        XCTAssertTrue(viewModel.canRestoreWithMouseDrag)
-        XCTAssertTrue(viewModel.canRestoreWithTrackpadSwipe)
+        XCTAssertTrue(viewModel.canDismissWithMouseDrag)
+        XCTAssertTrue(viewModel.canDismissWithTrackpadSwipe)
 
         let initialSize = await MainActor.run { viewModel.notchModel.size }
 

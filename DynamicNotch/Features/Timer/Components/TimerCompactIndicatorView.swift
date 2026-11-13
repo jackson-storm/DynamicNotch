@@ -9,8 +9,8 @@ import SwiftUI
 
 struct TimerCompactIndicatorView: View {
     let source: TimerSource
-    
-    private var lineWidth: CGFloat { 2.8 }
+    let size: CGFloat
+    let lineWidth: CGFloat
 
     var body: some View {
         TimelineView(.animation(minimumInterval: 1 / 24, paused: source.isPaused)) { context in
@@ -27,12 +27,12 @@ struct TimerCompactIndicatorView: View {
                 } else {
                     RoundedRectangle(cornerRadius: 1)
                         .fill(.orange.gradient)
-                        .frame(width: 6, height: 2.5)
+                        .frame(width: 5, height: lineWidth)
                         .offset(x: 3.5)
                         .rotationEffect(angle)
                 }
             }
-            .frame(width: 20, height: 20)
+            .frame(width: size, height: size)
         }
     }
 

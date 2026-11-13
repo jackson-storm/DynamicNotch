@@ -33,11 +33,11 @@ private struct TimerMinimalNotchViewInternal<VM: ObservableObject>: View {
 
     var body: some View {
         HStack {
-            TimerCompactIndicatorView(source: source)
+            TimerCompactIndicatorView(source: source, size: isNotchlessScreen ? 16 : 18, lineWidth: isNotchlessScreen ? 2.2 : 2.4)
             Spacer()
             TimerCountdownText(source: source)
         }
-        .padding(.leading, isNotchlessScreen ? 5.scaled(by: scale) : 15.scaled(by: scale))
+        .padding(.leading, isNotchlessScreen ? 7.scaled(by: scale) : 15.scaled(by: scale))
         .padding(.trailing, isNotchlessScreen ? 7.scaled(by: scale) : 15.scaled(by: scale))
     }
 }

@@ -32,6 +32,76 @@ final class GestureCoordinator: ObservableObject {
 
     // MARK: - Gesture Capability Checks
 
+    struct Context {
+        let settings: NotchSettingsProviding
+        let isLocked: Bool
+        let isActivityPresentationHidden: Bool
+        let hasTemporaryNotification: Bool
+        let hasRealDisplayedContent: Bool
+        let isExpandedPresentation: Bool
+        let canRestoreDismissedContent: Bool
+    }
+
+    func canDismissWithMouseDrag(context: Context) -> Bool {
+        canDismissWithMouseDrag(
+            isMouseDragEnabled: context.settings.isNotchMouseDragGesturesEnabled,
+            isSwipeDismissEnabled: context.settings.isNotchSwipeDismissEnabled,
+            isLocked: context.isLocked,
+            isActivityPresentationHidden: context.isActivityPresentationHidden,
+            hasTemporaryNotification: context.hasTemporaryNotification,
+            hasRealDisplayedContent: context.hasRealDisplayedContent
+        )
+    }
+
+    func canRestoreWithMouseDrag(context: Context) -> Bool {
+        canRestoreWithMouseDrag(
+            isMouseDragEnabled: context.settings.isNotchMouseDragGesturesEnabled,
+            isSwipeRestoreEnabled: context.settings.isNotchSwipeRestoreEnabled,
+            isLocked: context.isLocked,
+            isLiveActivityExpanded: context.isExpandedPresentation,
+            canRestoreDismissedContent: context.canRestoreDismissedContent,
+            hasRealDisplayedContent: context.hasRealDisplayedContent
+        )
+    }
+
+    func canDismissWithTrackpadSwipe(context: Context) -> Bool {
+        canDismissWithTrackpadSwipe(
+            isTrackpadSwipeEnabled: context.settings.isNotchTrackpadSwipeGesturesEnabled,
+            isSwipeDismissEnabled: context.settings.isNotchSwipeDismissEnabled,
+            isLocked: context.isLocked,
+            isActivityPresentationHidden: context.isActivityPresentationHidden,
+            hasTemporaryNotification: context.hasTemporaryNotification,
+            hasRealDisplayedContent: context.hasRealDisplayedContent
+        )
+    }
+
+    func canRestoreWithTrackpadSwipe(context: Context) -> Bool {
+        canRestoreWithTrackpadSwipe(
+            isTrackpadSwipeEnabled: context.settings.isNotchTrackpadSwipeGesturesEnabled,
+            isSwipeRestoreEnabled: context.settings.isNotchSwipeRestoreEnabled,
+            isLocked: context.isLocked,
+            isLiveActivityExpanded: context.isExpandedPresentation,
+            canRestoreDismissedContent: context.canRestoreDismissedContent,
+            hasRealDisplayedContent: context.hasRealDisplayedContent
+        )
+    }
+
+    func canStretchWithMouseDrag(context: Context) -> Bool {
+        canStretchWithMouseDrag(
+            isMouseDragEnabled: context.settings.isNotchMouseDragGesturesEnabled,
+            isSwipeGesturesEnabled: context.settings.isNotchSwipeDismissEnabled || context.settings.isNotchSwipeRestoreEnabled,
+            isLocked: context.isLocked
+        )
+    }
+
+    func canStretchWithTrackpadSwipe(context: Context) -> Bool {
+        canStretchWithTrackpadSwipe(
+            isTrackpadSwipeEnabled: context.settings.isNotchTrackpadSwipeGesturesEnabled,
+            isSwipeGesturesEnabled: context.settings.isNotchSwipeDismissEnabled || context.settings.isNotchSwipeRestoreEnabled,
+            isLocked: context.isLocked
+        )
+    }
+
     func canDismissWithMouseDrag(
         isMouseDragEnabled: Bool,
         isSwipeDismissEnabled: Bool,

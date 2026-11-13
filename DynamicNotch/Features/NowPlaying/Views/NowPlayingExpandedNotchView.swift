@@ -101,7 +101,7 @@ struct NowPlayingExpandedNotchView: View {
                     width: isNotchlessScreen ? 55 : 58,
                     height: isNotchlessScreen ? 55 : 58,
                     cornerRadius: 10,
-                    usesFlipAnimation: appearance.usesArtwork3DEffect
+                    usesFlipAnimation: true
                 )
                 .contentShape(Rectangle())
             }

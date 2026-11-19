@@ -18,7 +18,7 @@ extension LinearGradient {
     
     static var logoGradient: LinearGradient {
         LinearGradient(
-            colors: [.yellow.opacity(0.7), .indigo],
+            colors: [.green, .cyan],
             startPoint: .bottomLeading,
             endPoint: .topTrailing
         )

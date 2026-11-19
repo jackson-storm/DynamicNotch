@@ -36,8 +36,8 @@ struct NowPlayingMinimalNotchView: View {
         HStack {
             ArtworkView(
                 nowPlayingViewModel: nowPlayingViewModel,
-                width: isNotchlessScreen ? 20 : 23,
-                height: isNotchlessScreen ? 20 : 23,
+                width: isNotchlessScreen ? 20 : 22,
+                height: isNotchlessScreen ? 20 : 22,
                 cornerRadius: 5,
                 usesFlipAnimation: true
             )
@@ -55,7 +55,7 @@ struct NowPlayingMinimalNotchView: View {
             )
             .frame(width: 18, height: 18)
         }
-        .padding(.leading, isNotchlessScreen ? 7.scaled(by: scale) : 13.scaled(by: scale))
+        .padding(.leading, isNotchlessScreen ? 7.scaled(by: scale) : 14.scaled(by: scale))
         .padding(.trailing, isNotchlessScreen ? 9.scaled(by: scale) : 15.scaled(by: scale))
     }
 }

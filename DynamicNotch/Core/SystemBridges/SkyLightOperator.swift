@@ -98,20 +98,14 @@ final class SkyLightOperator {
         guard let connection,
               let copyManagedDisplaySpaces,
               let displayIdentifier = screen.displayUUIDString,
-              let managedSpaces = copyManagedDisplaySpaces(connection)?.takeRetainedValue() as? [[String: Any]],
-              let displayEntry = managedSpaces.first(where: {
-                  guard let identifier = $0["Display Identifier"] as? String else {
-                      return false
-                  }
-
-                  return identifier.caseInsensitiveCompare(displayIdentifier) == .orderedSame
-              }),
-              let currentSpace = displayEntry["Current Space"] as? [String: Any],
-              let currentSpaceType = currentSpace["type"] as? NSNumber else {
+              let managedSpaces = copyManagedDisplaySpaces(connection)?.takeRetainedValue() as? [[String: Any]] else {
             return false
         }
 
-        return currentSpaceType.intValue == 4
+        return ManagedDisplaySpaces.isFullscreenSpaceActive(
+            in: managedSpaces,
+            displayIdentifier: displayIdentifier
+        )
     }
 
     func delegateWindow(
@@ -130,5 +124,37 @@ final class SkyLightOperator {
             [window.windowNumber] as CFArray,
             7
         )
+    }
+}
+
+/// Reads the dictionaries returned by `CGSCopyManagedDisplaySpaces`.
+nonisolated enum ManagedDisplaySpaces {
+    /// Space type WindowServer reports for a fullscreen app's Space.
+    static let fullscreenSpaceType = 4
+
+    /// When "Displays have separate Spaces" is turned off, WindowServer reports a single
+    /// entry with this identifier instead of one entry per display UUID.
+    static let sharedSpacesDisplayIdentifier = "Main"
+
+    static func isFullscreenSpaceActive(
+        in managedSpaces: [[String: Any]],
+        displayIdentifier: String
+    ) -> Bool {
+        let displayEntry = managedSpaces.first {
+            identifier(of: $0)?.caseInsensitiveCompare(displayIdentifier) == .orderedSame
+        } ?? managedSpaces.first {
+            identifier(of: $0) == sharedSpacesDisplayIdentifier
+        }
+
+        guard let currentSpace = displayEntry?["Current Space"] as? [String: Any],
+              let currentSpaceType = currentSpace["type"] as? NSNumber else {
+            return false
+        }
+
+        return currentSpaceType.intValue == fullscreenSpaceType
+    }
+
+    private static func identifier(of entry: [String: Any]) -> String? {
+        entry["Display Identifier"] as? String
     }
 }

@@ -360,6 +360,7 @@ final class NotchEngine: ObservableObject {
                 withAnimation(self.animations.collapseLiveActivity) {
                     self.notchModel.isLiveActivityExpanded = false
                     self.notchModel.liveActivityContent = nil
+                    //
                 }
             },
             show: {

@@ -59,7 +59,7 @@ struct NotchAnimations {
         let gestureDamping: Double = 0.76
         
         let blendDuration: Double = 0.3
-        let transitionDelay: Double = 0.29
+        let transitionDelay: Double = 0.3
         let queuePacingDelay: Double = 0.3
         
         return Self(

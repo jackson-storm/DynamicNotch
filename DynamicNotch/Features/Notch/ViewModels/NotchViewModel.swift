@@ -19,6 +19,8 @@ final class NotchViewModel: ObservableObject, NotchCommandDispatching {
     @Published private(set) var isActivityPresentationHidden = false
     @Published private(set) var hasDisplayedContent = false
     @Published private(set) var topInset: CGFloat = 0
+    @Published private(set) var collapseHeightBoost: CGFloat = 0
+    @Published private(set) var collapseScale: CGFloat = 1.0
 
     @Published var isLocked = false
     @Published var isHoveringScrollableContent = false
@@ -98,14 +100,17 @@ final class NotchViewModel: ObservableObject, NotchCommandDispatching {
 
     var presentedNotchSize: CGSize {
         let size = interactiveNotchSize
+        let baseHeight: CGFloat
 
-        guard !isSwipeInteractionActive, geometryCoordinator.isClosingHeightStaged else {
-            return size
+        if !isSwipeInteractionActive, geometryCoordinator.isClosingHeightStaged {
+            baseHeight = stagedNotchHeight
+        } else {
+            baseHeight = size.height
         }
 
         return CGSize(
             width: size.width,
-            height: stagedNotchHeight
+            height: baseHeight + collapseHeightBoost
         )
     }
 
@@ -563,6 +568,15 @@ final class NotchViewModel: ObservableObject, NotchCommandDispatching {
             .dropFirst()
             .assign(to: &$topInset)
 
+        geometryCoordinator.$collapseHeightBoost
+            .dropFirst()
+            .assign(to: &$collapseHeightBoost)
+
+        geometryCoordinator.$collapseScale
+            .dropFirst()
+            .assign(to: &$collapseScale)
+
+
         expansionCoordinator.$isExpandingLiveActivityTransition
             .dropFirst()
             .assign(to: &$isExpandingLiveActivityTransition)
@@ -589,14 +603,37 @@ final class NotchViewModel: ObservableObject, NotchCommandDispatching {
 
         engine.$notchModel
             .dropFirst()
-            .sink { [weak self] in
+            .sink { [weak self] newModel in
                 guard let self else { return }
+
+                let wasExpanded = self.isExpandedPresentation ||
+                    self.notchModel.isExpanded ||
+                    self.notchModel.isLiveActivityExpanded
+
+                let isNowExpanded = newModel.isExpanded ||
+                    newModel.isLiveActivityExpanded ||
+                    newModel.size.height > newModel.baseHeight + 1
+
+                let hasContentAfter = newModel.content != nil
+
+                self.geometryCoordinator.handleCollapseTransition(
+                    wasExpanded: wasExpanded,
+                    isNowExpanded: isNowExpanded,
+                    hasContentAfterTransition: hasContentAfter,
+                    expandedHeight: self.notchModel.size.height,
+                    baseHeight: self.notchModel.baseHeight,
+                    targetScale: 1.1,
+                    resetAfter: self.animations.transitionDelay,
+                    animation: self.animations.collapseLiveActivity
+                )
+
+
                 self.geometryCoordinator.scheduleStagedHeightUpdate(
-                    to: $0.size.height,
+                    to: newModel.size.height,
                     isSwipeInteractionActive: self.isSwipeInteractionActive,
                     animation: self.surfaceSizeAnimation
                 )
-                self.notchModel = $0
+                self.notchModel = newModel
                 self.hasDisplayedContent = self.hasRealDisplayedContent
             }
             .store(in: &cancellables)

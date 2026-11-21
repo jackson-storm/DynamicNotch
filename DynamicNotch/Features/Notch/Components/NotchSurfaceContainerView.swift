@@ -43,6 +43,10 @@ struct NotchSurfaceContainerView: View {
             y: shouldApplyPressScale ? notchViewModel.pressScale : 1,
             anchor: isDynamicIsland ? .center : .top
         )
+        .scaleEffect(
+            notchViewModel.collapseScale,
+            anchor: notchViewModel.isDynamicIsland ? .center : .top
+        )
     }
     
     @ViewBuilder
@@ -64,6 +68,10 @@ struct NotchSurfaceContainerView: View {
                             y: shouldApplyPressScale ? notchViewModel.pressScale : 1,
                             anchor: isDynamicIsland ? .center : .top
                         )
+                        .scaleEffect(
+                            notchViewModel.collapseScale,
+                            anchor: notchViewModel.isDynamicIsland ? .center : .top
+                        )
                 }
         } else {
             contentOverlay
@@ -81,6 +89,10 @@ struct NotchSurfaceContainerView: View {
                         y: shouldApplyPressScale ? notchViewModel.pressScale : 1,
                         anchor: isDynamicIsland ? .center : .top
                     )
+                    .scaleEffect(
+                        notchViewModel.collapseScale,
+                        anchor: notchViewModel.isDynamicIsland ? .center : .top
+                    )
                 }
         }
     }
@@ -94,6 +106,11 @@ struct NotchSurfaceContainerView: View {
                     y: shouldApplyPressScale ? notchViewModel.pressScale : 1,
                     anchor: notchViewModel.isDynamicIsland ? .center : .top
                 )
+                .scaleEffect(
+                    notchViewModel.collapseScale,
+                    anchor: notchViewModel.isDynamicIsland ? .center : .top
+                )
+
                 .resizeAwareBlur(
                     size: notchViewModel.interactiveNotchSize,
                     baseSize: notchViewModel.displayedBaseNotchSize,

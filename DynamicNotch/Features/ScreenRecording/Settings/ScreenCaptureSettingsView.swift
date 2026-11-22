@@ -8,7 +8,6 @@ struct ScreenCaptureSettingsView: View {
         SettingsPageScrollView {
             screenCaptureActivity
             screenshotDuration
-            saveLocationSection
             screenRecordingAppearance
         }
     }
@@ -114,46 +113,6 @@ struct ScreenCaptureSettingsView: View {
 
     private var screenRecordingPreviewStrokeColor: Color {
         appearanceSettings.isShowNotchStrokeEnabled ? .red.opacity(0.3) : .clear
-    }
-    
-    private var saveLocationSection: some View {
-        SettingsCard(title: "settings.screenRecording.card.saveLocation") {
-            SettingsChoiceRow(
-                title: localized("settings.screenRecording.screenshotsFolder.title"),
-                description: localized("settings.screenRecording.screenshotsFolder.desc"),
-                statusText: formattedPath(settings.screenshotSavePath),
-                statusColor: .secondary,
-                chooseButtonTitle: settings.screenshotSavePath.isEmpty ? localized("settings.common.choose") : localized("settings.common.change"),
-                onChoose: {
-                    selectFolder { path in
-                        settings.screenshotSavePath = path
-                    }
-                },
-                onReset: !settings.screenshotSavePath.isEmpty ? {
-                    settings.screenshotSavePath = ""
-                } : nil,
-                accessibilityIdentifier: "settings.screenshot.savePath"
-            )
-            
-            Divider().opacity(0.6)
-
-            SettingsChoiceRow(
-                title: localized("settings.screenRecording.recordingsFolder.title"),
-                description: localized("settings.screenRecording.recordingsFolder.desc"),
-                statusText: formattedPath(settings.screenRecordingSavePath),
-                statusColor: .secondary,
-                chooseButtonTitle: settings.screenRecordingSavePath.isEmpty ? localized("settings.common.choose") : localized("settings.common.change"),
-                onChoose: {
-                    selectFolder { path in
-                        settings.screenRecordingSavePath = path
-                    }
-                },
-                onReset: !settings.screenRecordingSavePath.isEmpty ? {
-                    settings.screenRecordingSavePath = ""
-                } : nil,
-                accessibilityIdentifier: "settings.screenRecording.savePath"
-            )
-        }
     }
     
     private var screenshotDuration: some View {

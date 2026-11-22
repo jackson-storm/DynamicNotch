@@ -6,33 +6,36 @@
 import SwiftUI
 
 struct LockScreenFaceIDButtonView: View {
+    let onActivate: () -> Void
+    
     @ObservedObject var service: FaceIDService = .shared
     
-    let faceIDSettings: FaceIDSettingsStore
-    let onActivate: () -> Void
-
-    private var state: FaceIDState {
-        service.state
-    }
-
     var body: some View {
         Button(action: onActivate) {
-            HStack(spacing: 6) {
-                Image(systemName: "faceid")
-                    .font(.system(size: 14, weight: .bold))
-                    .foregroundStyle(Color.white.opacity(0.8))
-                
-                Text(verbatim: "Face ID")
-                    .font(.system(size: 12, weight: .bold, design: .rounded))
-                    .foregroundStyle(Color.white.opacity(0.8))
-            }
-            .padding(6)
-            .background(
-                Capsule()
-                    .fill(.ultraThinMaterial)
-                    .stroke(.gray.opacity(0.15), lineWidth: 1)
-            )
+            Text(verbatim: "Face ID")
+                .font(.system(size: 14, weight: .semibold))
+                .foregroundStyle(.white)
         }
-        .buttonStyle(.plain)
+        .modifier(FaceIDButtonAdaptiveStyle())
+        .environment(\.controlActiveState, .active)
+        .environment(\.colorScheme, .dark)
+    }
+}
+
+private struct FaceIDButtonAdaptiveStyle: ViewModifier {
+    func body(content: Content) -> some View {
+        if #available(macOS 26.0, *) {
+            content
+                .buttonBorderShape(.capsule)
+                .buttonStyle(.glass)
+        } else {
+            content
+                .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 30, style: .continuous))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 30, style: .continuous)
+                        .strokeBorder(.white.opacity(0.1), lineWidth: 1)
+                )
+                .buttonStyle(.plain)
+        }
     }
 }

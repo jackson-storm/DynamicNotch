@@ -212,7 +212,6 @@ final class LockScreenFaceIDWindowManager {
         }
 
         let buttonView = LockScreenFaceIDButtonView(
-            faceIDSettings: faceIDSettings,
             onActivate: { [weak self] in
                 self?.activateFaceID()
             }

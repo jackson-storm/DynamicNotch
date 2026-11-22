@@ -129,9 +129,6 @@ struct LockScreenNowPlayingPanelView: View {
             }
             syncLyricsPresentationState()
         }
-        .onChange(of: settingsViewModel.lockScreen.isLockScreenLyricsEnabled) {
-            syncLyricsPresentationState()
-        }
         .onChange(of: nowPlayingViewModel.snapshot?.lyricsLookupKey) {
             syncLyricsPresentationState()
         }

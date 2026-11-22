@@ -39,6 +39,9 @@ final class LockScreenFeatureSettingsStore: SettingsStoreBase {
 
     @StoredDefault(key: LockScreenSettings.artworkExpandedKey, defaultValue: false)
     var isLockScreenArtworkExpanded: Bool
+    
+    @StoredDefault(key: LockScreenSettings.isLockScreenLyricsShown, defaultValue: false)
+    var isLockScreenLyricsShown: Bool
 
     @StoredDefault(key: LockScreenSettings.mediaPanelVerticalOffsetKey, defaultValue: 0.0)
     var mediaPanelVerticalOffset: Double

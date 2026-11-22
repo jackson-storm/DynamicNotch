@@ -70,7 +70,7 @@ struct LockScreenNowPlayingView: View {
                                 .constant(displayTitle(for: snapshot)),
                                 font: .system(size: 16, weight: .medium),
                                 nsFont: .headline,
-                                textColor: .white.opacity(0.8),
+                                textColor: .white,
                                 backgroundColor: .clear,
                                 minDuration: 2.0,
                                 frameWidth: onTapArtwork ? 260.scaled(by: scale) : 180.scaled(by: scale)
@@ -78,7 +78,7 @@ struct LockScreenNowPlayingView: View {
 
                             MarqueeText(
                                 .constant(displayArtist(for: snapshot)),
-                                font: .system(size: 14),
+                                font: .system(size: 14, weight: .light),
                                 nsFont: .headline,
                                 textColor: .white.opacity(0.5),
                                 backgroundColor: .clear,
@@ -109,9 +109,6 @@ struct LockScreenNowPlayingView: View {
                 displayedElapsedTime: displayedElapsedTime,
                 duration: snapshot.duration,
                 isInteractive: snapshot.duration > 0,
-                tintGradient: nil,
-                primaryColor: .secondary,
-                secondaryColor: .secondary,
                 onScrubChanged: { newProgress in
                     scrubProgress = newProgress
                 },

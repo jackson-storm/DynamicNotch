@@ -14,9 +14,6 @@ struct PlayerProgressBar: View {
     let displayedElapsedTime: TimeInterval
     let duration: TimeInterval
     let isInteractive: Bool
-    let tintGradient: LinearGradient?
-    let primaryColor: Color
-    let secondaryColor: Color
     let onScrubChanged: (CGFloat) -> Void
     let onScrubEnded: (CGFloat) -> Void
     
@@ -28,7 +25,7 @@ struct PlayerProgressBar: View {
             Text(formattedTime(displayedElapsedTime))
                 .font(.system(size: 10, weight: .medium, design: .rounded))
                 .monospacedDigit()
-                .foregroundStyle(scaleEffect ? .white.opacity(0.8) : primaryColor)
+                .foregroundStyle(scaleEffect ? .white : .white.opacity(0.4))
             
             GeometryReader { proxy in
                 let resolvedProgress = min(max(progress, 0), 1)
@@ -40,15 +37,9 @@ struct PlayerProgressBar: View {
                         .fill(.white.opacity(0.15))
                         .frame(height: trackHeight)
                     
-                    if let tintGradient {
-                        Rectangle()
-                            .fill(tintGradient)
-                            .frame(width: filledWidth, height: trackHeight)
-                    } else {
-                        Rectangle()
-                            .fill(scaleEffect ? .white.opacity(0.8) : .white.opacity(0.5))
-                            .frame(width: filledWidth, height: trackHeight)
-                    }
+                    Rectangle()
+                        .fill(scaleEffect ? .white.opacity(0.8) : .white.opacity(0.5))
+                        .frame(width: filledWidth, height: trackHeight)
                 }
                 .clipShape(Capsule(style: .continuous))
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
@@ -80,10 +71,10 @@ struct PlayerProgressBar: View {
             }
             .frame(height: 18)
             
-            Text(duration > 0 ? formattedTime(duration) : "LIVE")
+            Text(duration > 0 ? formattedTime(duration) : "--:--")
                 .font(.system(size: 10, weight: .medium, design: .rounded))
                 .monospacedDigit()
-                .foregroundStyle(scaleEffect ? .white : secondaryColor)
+                .foregroundStyle(scaleEffect ? .white : .white.opacity(0.4))
         }
         .onDisappear {
             onScrubbingChanged(false)

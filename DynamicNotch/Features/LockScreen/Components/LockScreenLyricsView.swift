@@ -11,7 +11,7 @@ internal import AppKit
 struct LockScreenLyricsView: View {
     @ObservedObject var nowPlayingViewModel: NowPlayingViewModel
     
-    let width: CGFloat
+    private let width: CGFloat = 500
     private let height: CGFloat = 520
     
     var body: some View {

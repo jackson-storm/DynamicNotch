@@ -22,7 +22,6 @@ struct FaceIDSettingsView: View {
     var body: some View {
         SettingsPageScrollView {
             faceIDGeneralCard
-            faceEnrollmentCard
             faceIDAppearanceCard
             securityOptionsCard
         }
@@ -74,25 +73,10 @@ struct FaceIDSettingsView: View {
                 isOn: $settings.showLockScreenButton,
                 accessibilityIdentifier: "settings.faceid.showLockScreenButton"
             )
-        }
-    }
-
-    private var faceEnrollmentDescription: LocalizedStringKey {
-        if settings.isEnrolled && !settings.enrolledDateString.isEmpty {
-            return LocalizedStringKey(applicationSettings.appLanguage.locale.dnFormat(
-                "settings.faceid.status.enrolled.date",
-                fallback: "Настроено: %@ • Защищено связкой ключей",
-                settings.enrolledDateString
-            ))
-        } else if settings.isEnrolled {
-            return "settings.faceid.status.enrolled.active"
-        } else {
-            return "settings.faceid.status.notEnrolled.desc"
-        }
-    }
-
-    private var faceEnrollmentCard: some View {
-        SettingsCard(title: "settings.faceid.card.profile") {
+            
+            Divider()
+                .opacity(0.6)
+            
             if settings.isEnrolled {
                 SettingsMenuRow(
                     title: "settings.faceid.status.enrolled",
@@ -302,6 +286,20 @@ struct FaceIDSettingsView: View {
         }
         .padding(24)
         .frame(width: 390)
+    }
+    
+    private var faceEnrollmentDescription: LocalizedStringKey {
+        if settings.isEnrolled && !settings.enrolledDateString.isEmpty {
+            return LocalizedStringKey(applicationSettings.appLanguage.locale.dnFormat(
+                "settings.faceid.status.enrolled.date",
+                fallback: "Настроено: %@ • Защищено связкой ключей",
+                settings.enrolledDateString
+            ))
+        } else if settings.isEnrolled {
+            return "settings.faceid.status.enrolled.active"
+        } else {
+            return "settings.faceid.status.notEnrolled.desc"
+        }
     }
 
     private func requestSecurityVerification() {

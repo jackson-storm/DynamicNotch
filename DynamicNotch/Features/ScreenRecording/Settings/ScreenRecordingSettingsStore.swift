@@ -27,12 +27,6 @@ final class ScreenRecordingSettingsStore: SettingsStoreBase {
     )
     var screenshotTemporaryActivityDuration: Int
 
-    @StoredDefault(key: GeneralSettingsStorage.Keys.screenshotSavePath, defaultValue: "")
-    var screenshotSavePath: String
-
-    @StoredDefault(key: GeneralSettingsStorage.Keys.screenRecordingSavePath, defaultValue: "")
-    var screenRecordingSavePath: String
-
     override init(defaults: UserDefaults) {
         super.init(defaults: defaults)
     }
@@ -44,7 +38,5 @@ final class ScreenRecordingSettingsStore: SettingsStoreBase {
         isScreenshotDisableSystemThumbnailEnabled = defaultBool(for: GeneralSettingsStorage.Keys.screenshotDisableSystemThumbnail)
         isScreenshotAutoHideEnabled = defaultBool(for: GeneralSettingsStorage.Keys.screenshotAutoHideEnabled)
         screenshotTemporaryActivityDuration = defaultInt(for: GeneralSettingsStorage.Keys.screenshotTemporaryActivityDuration)
-        screenshotSavePath = defaultString(for: GeneralSettingsStorage.Keys.screenshotSavePath)
-        screenRecordingSavePath = defaultString(for: GeneralSettingsStorage.Keys.screenRecordingSavePath)
     }
 }

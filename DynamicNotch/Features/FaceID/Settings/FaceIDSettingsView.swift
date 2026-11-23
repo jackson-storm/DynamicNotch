@@ -22,6 +22,7 @@ struct FaceIDSettingsView: View {
     var body: some View {
         SettingsPageScrollView {
             faceIDGeneralCard
+            faceIDProfile
             faceIDAppearanceCard
             securityOptionsCard
         }
@@ -64,6 +65,19 @@ struct FaceIDSettingsView: View {
             Divider()
                 .opacity(0.6)
                 .padding(.leading, 43)
+
+            SettingsToggleRow(
+                title: "settings.faceid.toggle.unlockOnWake.title",
+                description: "settings.faceid.toggle.unlockOnWake.desc",
+                systemImage: "display",
+                color: .gray,
+                isOn: $settings.unlockOnWake,
+                accessibilityIdentifier: "settings.faceid.unlockOnWake"
+            )
+            
+            Divider()
+                .opacity(0.6)
+                .padding(.leading, 43)
             
             SettingsToggleRow(
                 title: "settings.faceid.toggle.lockScreenButton.title",
@@ -73,10 +87,11 @@ struct FaceIDSettingsView: View {
                 isOn: $settings.showLockScreenButton,
                 accessibilityIdentifier: "settings.faceid.showLockScreenButton"
             )
-            
-            Divider()
-                .opacity(0.6)
-            
+        }
+    }
+    
+    private var faceIDProfile: some View {
+        SettingsCard {
             if settings.isEnrolled {
                 SettingsMenuRow(
                     title: "settings.faceid.status.enrolled",
@@ -102,10 +117,6 @@ struct FaceIDSettingsView: View {
                 SettingsButtonRow(
                     title: "settings.faceid.status.notEnrolled",
                     description: "settings.faceid.status.notEnrolled.desc",
-                    systemImage: "person.crop.circle.badge.plus",
-                    iconSize: 14,
-                    iconColor: .white,
-                    color: .blue,
                     buttonTitle: "settings.faceid.action.addFace",
                     accessibilityIdentifier: "settings.faceid.addFace"
                 ) {
@@ -141,7 +152,7 @@ struct FaceIDSettingsView: View {
                     .fill(.black)
                     .overlay {
                         RoundedRectangle(cornerRadius: 16, style: .continuous)
-                            .stroke(faceIDPreviewStrokeColor, lineWidth: 1)
+                            .stroke(.green.opacity(0.3), lineWidth: 1)
                     }
 
                 Image(systemName: "faceid")
@@ -180,10 +191,6 @@ struct FaceIDSettingsView: View {
         }
     }
 
-    private var faceIDPreviewStrokeColor: Color {
-        applicationSettings.isShowNotchStrokeEnabled ? .green.opacity(0.3) : .clear
-    }
-
     private var securityOptionsCard: some View {
         SettingsCard(title: "settings.faceid.card.security") {
             SettingsToggleRow(
@@ -193,20 +200,6 @@ struct FaceIDSettingsView: View {
                 color: .red,
                 isOn: $settings.requireAttention,
                 accessibilityIdentifier: "settings.faceid.requireAttention"
-            )
-
-            Divider()
-                .opacity(0.6)
-                .padding(.leading, 43)
-
-            SettingsToggleRow(
-                title: "settings.faceid.toggle.unlockOnWake.title",
-                description: "settings.faceid.toggle.unlockOnWake.desc",
-                systemImage: "lock.open.display",
-                color: .black,
-                stroke: true,
-                isOn: $settings.unlockOnWake,
-                accessibilityIdentifier: "settings.faceid.unlockOnWake"
             )
         }
     }

@@ -32,7 +32,7 @@ struct FaceIDEnrollmentNotchView: View {
         case .intro:
             introStepView
                 .padding(.horizontal, isNotchlessScreen ? 12 : 40)
-                .padding(.bottom, isNotchlessScreen ? 10 : 10)
+                .padding(.bottom, isNotchlessScreen ? 12 : 12)
         case .camera:
             cameraStepView
                 .padding(.horizontal, isNotchlessScreen ? 15 : 38)

@@ -37,7 +37,7 @@ struct FaceIDNotchView: View {
         case .searching, .scanning, .success:
             return .green
         case .failed:
-            return hasSucceeded ? .green : .white.opacity(0.2)
+            return hasSucceeded ? .green : .white.opacity(0.1)
         default:
             return .green
         }

@@ -11,10 +11,6 @@ extension NotchCollapseInteraction: StoredSettingValue {}
 
 @MainActor
 final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding {
-    static let notchPressHoldDurationRange: ClosedRange<Double> = 0.20...0.60
-    static let notchPressHoldDurationStep: Double = 0.01
-    static let defaultNotchPressHoldDuration: TimeInterval = 0.25
-    static let notchStrokeWidthRange: ClosedRange<Double> = 1.0...3.0
     static let maxNotchStrokeOpacity: Double = 0.6
     static let notchStrokeOpacityRange: ClosedRange<Double> = 0.0...maxNotchStrokeOpacity
 
@@ -62,13 +58,6 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
     @StoredDefault(key: GeneralSettingsStorage.Keys.notchStrokeEnabled, defaultValue: false)
     var isShowNotchStrokeEnabled: Bool
 
-    @StoredDefault(
-        key: GeneralSettingsStorage.Keys.notchStrokeWidth,
-        defaultValue: 2.5,
-        transform: ApplicationSettingsStore.clampNotchStrokeWidth
-    )
-    var notchStrokeWidth: Double
-
     @Published var notchStrokeOpacity: Double {
         didSet {
             let clamped = Self.clampNotchStrokeOpacity(notchStrokeOpacity)
@@ -113,21 +102,11 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
     @StoredDefault(key: GeneralSettingsStorage.Keys.hideDynamicIslandInFullscreenEnabled, defaultValue: true)
     var isDynamicIslandHiddenInFullscreenEnabled: Bool
 
-    @StoredDefault(key: GeneralSettingsStorage.Keys.notchTapToExpandEnabled, defaultValue: true)
-    var isNotchTapToExpandEnabled: Bool
-
     @StoredDefault(key: GeneralSettingsStorage.Keys.notchExpandInteraction, defaultValue: .hover)
     var notchExpandInteraction: NotchExpandInteraction
 
     @StoredDefault(key: GeneralSettingsStorage.Keys.notchCollapseInteraction, defaultValue: .click)
     var notchCollapseInteraction: NotchCollapseInteraction
-
-    @StoredDefault(
-        key: GeneralSettingsStorage.Keys.notchPressHoldDuration,
-        defaultValue: 0.25,
-        transform: ApplicationSettingsStore.clampNotchPressHoldDuration
-    )
-    var notchPressHoldDuration: TimeInterval
 
     var isNotchMouseDragGesturesEnabled: Bool {
         get { true }
@@ -292,15 +271,11 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
     }
 
     func resetGestures() {
-        isNotchTapToExpandEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchTapToExpandEnabled)
         notchExpandInteraction = NotchExpandInteraction.resolved(
             defaultString(for: GeneralSettingsStorage.Keys.notchExpandInteraction)
         )
         notchCollapseInteraction = NotchCollapseInteraction.resolved(
             defaultString(for: GeneralSettingsStorage.Keys.notchCollapseInteraction)
-        )
-        notchPressHoldDuration = Self.clampNotchPressHoldDuration(
-            defaultDouble(for: GeneralSettingsStorage.Keys.notchPressHoldDuration)
         )
         isNotchSwipeDismissEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchSwipeDismissEnabled)
         isNotchSwipeRestoreEnabled = defaultBool(for: GeneralSettingsStorage.Keys.notchSwipeRestoreEnabled)
@@ -316,7 +291,6 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         notchSizeTemporaryActivityDuration = Self.clampTemporaryActivityDuration(
             defaultInt(for: GeneralSettingsStorage.Keys.notchSizeTemporaryActivityDuration)
         )
-        notchStrokeWidth = defaultDouble(for: GeneralSettingsStorage.Keys.notchStrokeWidth)
         notchStrokeOpacity = defaultDouble(for: GeneralSettingsStorage.Keys.notchStrokeOpacity)
         notchWidth = defaultInt(for: GeneralSettingsStorage.Keys.notchWidth)
         notchHeight = defaultInt(for: GeneralSettingsStorage.Keys.notchHeight)
@@ -356,27 +330,8 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         return (GeneralSettingsStorage.defaultValues[key] as? Bool) ?? false
     }
 
-    private static func resolvedNotchStrokeWidth(defaults: UserDefaults) -> Double {
-        let key = GeneralSettingsStorage.Keys.notchStrokeWidth
-
-        guard let currentValue = (defaults.object(forKey: key) as? NSNumber)?.doubleValue else {
-            return defaultDoubleValue(for: key)
-        }
-
-        return clampNotchStrokeWidth(currentValue)
-    }
-
-
-
     private static func defaultDoubleValue(for key: String) -> Double {
         (GeneralSettingsStorage.defaultValues[key] as? Double) ?? 0
-    }
-
-    static func clampNotchStrokeWidth(_ value: Double) -> Double {
-        min(
-            max(value, notchStrokeWidthRange.lowerBound),
-            notchStrokeWidthRange.upperBound
-        )
     }
 
     static func clampNotchStrokeOpacity(_ value: Double) -> Double {
@@ -400,14 +355,7 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
         return clampNotchStrokeOpacity(currentValue)
     }
 
-
-
     private func persistSanitizedNotchStrokeSettingsIfNeeded() {
-        let key = GeneralSettingsStorage.Keys.notchStrokeWidth
-        if defaults.object(forKey: key) != nil {
-            defaults.removeObject(forKey: key)
-        }
-
         let opacityKey = GeneralSettingsStorage.Keys.notchStrokeOpacity
         if let storedOpacity = (defaults.object(forKey: opacityKey) as? NSNumber)?.doubleValue {
             let clampedOpacity = Self.clampNotchStrokeOpacity(storedOpacity)
@@ -415,15 +363,6 @@ final class ApplicationSettingsStore: SettingsStoreBase, NotchSettingsProviding 
                 persist(clampedOpacity, for: opacityKey)
             }
         }
-
-
-    }
-
-    static func clampNotchPressHoldDuration(_ value: TimeInterval) -> TimeInterval {
-        min(
-            max(value, notchPressHoldDurationRange.lowerBound),
-            notchPressHoldDurationRange.upperBound
-        )
     }
 
     private func updateLaunchAtLogin() {

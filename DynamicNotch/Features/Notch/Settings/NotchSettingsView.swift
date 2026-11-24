@@ -14,12 +14,50 @@ struct NotchSettingsView: View {
     var body: some View {
         SettingsPageScrollView {
             appearanceCard
+            gesturesCard
             otherSettings
         }
         .accessibilityIdentifier("settings.notch.root")
         .onAppear(perform: refreshAvailableDisplays)
         .onReceive(NotificationCenter.default.publisher(for: NSApplication.didChangeScreenParametersNotification)) { _ in
             refreshAvailableDisplays()
+        }
+    }
+    
+    private var gesturesCard: some View {
+        SettingsCard {
+            SettingsToggleRow(
+                title: "settings.notch.gestures.hoverHaptic.title",
+                description: "settings.notch.gestures.hoverHaptic.desc",
+                systemImage: "rectangle.and.hand.point.up.left.fill",
+                color: .orangeGradient,
+                isOn: $applicationSettings.isNotchHoverHapticEnabled,
+                accessibilityIdentifier: "settings.notch.hoverHaptic"
+            )
+            
+            Divider()
+                .opacity(0.6)
+            
+            SettingsMenuRow(
+                title: "settings.notch.gestures.expandGesture.title",
+                description: "settings.notch.gestures.expandGesture.desc",
+                options: Array(NotchExpandInteraction.allCases),
+                optionTitle: { $0.title },
+                accessibilityIdentifier: "settings.notch.expandInteraction",
+                selection: $applicationSettings.notchExpandInteraction
+            )
+            
+            Divider()
+                .opacity(0.6)
+            
+            SettingsMenuRow(
+                title: "settings.notch.gestures.collapseGesture.title",
+                description: "settings.notch.gestures.collapseGesture.desc",
+                options: Array(NotchCollapseInteraction.allCases),
+                optionTitle: { $0.title },
+                accessibilityIdentifier: "settings.notch.collapseInteraction",
+                selection: $applicationSettings.notchCollapseInteraction
+            )
         }
     }
     
@@ -104,18 +142,8 @@ struct NotchSettingsView: View {
                 color: .black,
                 stroke: true,
                 accessibilityIdentifier: "settings.notch.display",
-                position: .middle,
-                value: SettingsSubPage.notchDisplay
-            )
-            
-            SettingsNavigationRowView(
-                title: "settings.notch.gestures.navTitle",
-                description: "settings.notch.gestures.subtitle",
-                systemImage: "hand.draw.badge.ellipsis.fill",
-                color: LinearGradient.orangeGradient,
-                accessibilityIdentifier: "settings.notch.gestures",
                 position: .last,
-                value: SettingsSubPage.gestures
+                value: SettingsSubPage.notchDisplay
             )
         }
     }

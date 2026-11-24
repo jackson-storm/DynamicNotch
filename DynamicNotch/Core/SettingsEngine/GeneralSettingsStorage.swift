@@ -3,13 +3,11 @@ enum GeneralSettingsStorage {
         static let launchAtLogin = "isLaunchAtLoginEnabled"
         static let dockIcon = "isDockIconVisible"
         static let appearanceMode = "settings.general.appearance.mode"
-
         static let notchBackgroundStyle = "settings.notch.backgroundStyle"
         static let notchWidth = "notchWidth"
         static let notchHeight = "notchHeight"
         static let menuBarIcon = "isMenuBarIconVisible"
         static let notchStrokeEnabled = "isShowNotchStrokeEnabled"
-        static let notchStrokeWidth = "notchStrokeWidth"
         static let notchStrokeOpacity = "notchStrokeOpacity"
         static let displayLocation = "displayLocation"
         static let preferredDisplayUUID = "settings.general.display.preferred.uuid"
@@ -24,7 +22,6 @@ enum GeneralSettingsStorage {
         static let notchTapToExpandEnabled = "settings.notch.gestures.tapToExpand"
         static let notchExpandInteraction = "settings.notch.gestures.expandInteraction"
         static let notchCollapseInteraction = "settings.notch.gestures.collapseInteraction"
-        static let notchPressHoldDuration = "settings.notch.gestures.pressHoldDuration"
         static let notchMouseDragGesturesEnabled = "settings.notch.gestures.mouseDrag"
         static let notchTrackpadSwipeGesturesEnabled = "settings.notch.gestures.trackpadSwipe"
         static let notchSwipeDismissEnabled = "settings.notch.gestures.dismiss"
@@ -136,7 +133,6 @@ enum GeneralSettingsStorage {
         Keys.notchHeight: 0,
         Keys.menuBarIcon: true,
         Keys.notchStrokeEnabled: true,
-        Keys.notchStrokeWidth: 2.5,
         Keys.notchStrokeOpacity: 0.6,
         Keys.displayLocation: NotchDisplayLocation.main.rawValue,
         Keys.preferredDisplayUUID: "",
@@ -151,7 +147,6 @@ enum GeneralSettingsStorage {
         Keys.notchTapToExpandEnabled: true,
         Keys.notchExpandInteraction: NotchExpandInteraction.pressAndHold.rawValue,
         Keys.notchCollapseInteraction: NotchCollapseInteraction.click.rawValue,
-        Keys.notchPressHoldDuration: 0.25,
         Keys.notchMouseDragGesturesEnabled: true,
         Keys.notchTrackpadSwipeGesturesEnabled: true,
         Keys.notchSwipeDismissEnabled: true,

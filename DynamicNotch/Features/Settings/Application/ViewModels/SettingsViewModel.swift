@@ -123,11 +123,6 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
         set { application.isShowNotchStrokeEnabled = newValue }
     }
 
-    var notchStrokeWidth: Double {
-        get { application.notchStrokeWidth }
-        set { application.notchStrokeWidth = newValue }
-    }
-
     var notchStrokeOpacity: Double {
         get { application.notchStrokeOpacity }
         set { application.notchStrokeOpacity = newValue }
@@ -162,11 +157,6 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
         set { application.notchLanguage = newValue }
     }
 
-    var isNotchTapToExpandEnabled: Bool {
-        get { application.isNotchTapToExpandEnabled }
-        set { application.isNotchTapToExpandEnabled = newValue }
-    }
-
     var notchExpandInteraction: NotchExpandInteraction {
         get { application.notchExpandInteraction }
         set { application.notchExpandInteraction = newValue }
@@ -175,11 +165,6 @@ final class SettingsViewModel: ObservableObject, NotchSettingsProviding {
     var notchCollapseInteraction: NotchCollapseInteraction {
         get { application.notchCollapseInteraction }
         set { application.notchCollapseInteraction = newValue }
-    }
-
-    var notchPressHoldDuration: TimeInterval {
-        get { application.notchPressHoldDuration }
-        set { application.notchPressHoldDuration = newValue }
     }
 
     var isNotchMouseDragGesturesEnabled: Bool {

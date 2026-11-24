@@ -43,11 +43,11 @@ struct NotchAnimations {
     static let animations: Self = {
         // Dynamic Island physics (System Aperture / Apple SpringBoard curves)
         // Expansion: snappy with slight elastic momentum
-        let expandResponse: Double = 0.48
+        let expandResponse: Double = 0.46
         let expandDamping: Double = 0.76
 
         // Collapse / Dismiss: slightly faster and more damped
-        let collapseResponse: Double = 0.48
+        let collapseResponse: Double = 0.52
         let collapseDamping: Double = 0.76
 
         // Quick content updates & notifications

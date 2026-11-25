@@ -128,7 +128,6 @@ final class NotchViewModel: ObservableObject, NotchCommandDispatching {
 
     var shouldExpandActiveContentOnClick: Bool {
         expansionCoordinator.shouldExpandOnClick(
-            isTapToExpandEnabled: settings.isNotchTapToExpandEnabled,
             expandInteraction: settings.notchExpandInteraction,
             canExpand: canExpandActiveLiveActivity
         )
@@ -136,7 +135,6 @@ final class NotchViewModel: ObservableObject, NotchCommandDispatching {
 
     var shouldExpandActiveContentOnPressAndHold: Bool {
         expansionCoordinator.shouldExpandOnPressAndHold(
-            isTapToExpandEnabled: settings.isNotchTapToExpandEnabled,
             expandInteraction: settings.notchExpandInteraction,
             canExpand: canExpandActiveLiveActivity
         )
@@ -144,7 +142,6 @@ final class NotchViewModel: ObservableObject, NotchCommandDispatching {
 
     var shouldExpandActiveContentOnHover: Bool {
         expansionCoordinator.shouldExpandOnHover(
-            isTapToExpandEnabled: settings.isNotchTapToExpandEnabled,
             expandInteraction: settings.notchExpandInteraction,
             canExpand: canExpandActiveLiveActivity
         )
@@ -159,14 +156,6 @@ final class NotchViewModel: ObservableObject, NotchCommandDispatching {
             collapseInteraction: settings.notchCollapseInteraction,
             isDisplayingExpandedLiveActivity: isDisplayingExpandedLiveActivity
         )
-    }
-
-    var notchPressHoldDuration: TimeInterval {
-        settings.notchPressHoldDuration
-    }
-
-    var notchHoverExpandDelay: TimeInterval {
-        settings.notchPressHoldDuration
     }
 
     var canRestoreDismissedContent: Bool {
@@ -247,14 +236,6 @@ final class NotchViewModel: ObservableObject, NotchCommandDispatching {
         gestureCoordinator.canDismissWithHorizontalMouseDrag(
             canDismissWithMouseDrag: canDismissWithMouseDrag
         )
-    }
-
-    var isMouseDragStretchEnabled: Bool {
-        gestureCoordinator.canStretchWithMouseDrag(context: gestureContext)
-    }
-
-    var isTrackpadSwipeStretchEnabled: Bool {
-        gestureCoordinator.canStretchWithTrackpadSwipe(context: gestureContext)
     }
 
     var isNotchHoverHapticEnabled: Bool {
@@ -398,9 +379,6 @@ final class NotchViewModel: ObservableObject, NotchCommandDispatching {
 
     // MARK: - Expansion Actions
     func handleActiveContentTap() {
-        guard settings.isNotchTapToExpandEnabled,
-              canExpandActiveLiveActivity else { return }
-
         expansionCoordinator.performExpansion { [weak self] in
             self?.engine.handleActiveContentTap()
         }

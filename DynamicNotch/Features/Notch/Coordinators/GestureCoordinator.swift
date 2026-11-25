@@ -44,8 +44,6 @@ final class GestureCoordinator: ObservableObject {
 
     func canDismissWithMouseDrag(context: Context) -> Bool {
         canDismissWithMouseDrag(
-            isMouseDragEnabled: context.settings.isNotchMouseDragGesturesEnabled,
-            isSwipeDismissEnabled: context.settings.isNotchSwipeDismissEnabled,
             isLocked: context.isLocked,
             isActivityPresentationHidden: context.isActivityPresentationHidden,
             hasTemporaryNotification: context.hasTemporaryNotification,
@@ -55,8 +53,6 @@ final class GestureCoordinator: ObservableObject {
 
     func canRestoreWithMouseDrag(context: Context) -> Bool {
         canRestoreWithMouseDrag(
-            isMouseDragEnabled: context.settings.isNotchMouseDragGesturesEnabled,
-            isSwipeRestoreEnabled: context.settings.isNotchSwipeRestoreEnabled,
             isLocked: context.isLocked,
             isLiveActivityExpanded: context.isExpandedPresentation,
             canRestoreDismissedContent: context.canRestoreDismissedContent,
@@ -66,8 +62,6 @@ final class GestureCoordinator: ObservableObject {
 
     func canDismissWithTrackpadSwipe(context: Context) -> Bool {
         canDismissWithTrackpadSwipe(
-            isTrackpadSwipeEnabled: context.settings.isNotchTrackpadSwipeGesturesEnabled,
-            isSwipeDismissEnabled: context.settings.isNotchSwipeDismissEnabled,
             isLocked: context.isLocked,
             isActivityPresentationHidden: context.isActivityPresentationHidden,
             hasTemporaryNotification: context.hasTemporaryNotification,
@@ -77,8 +71,6 @@ final class GestureCoordinator: ObservableObject {
 
     func canRestoreWithTrackpadSwipe(context: Context) -> Bool {
         canRestoreWithTrackpadSwipe(
-            isTrackpadSwipeEnabled: context.settings.isNotchTrackpadSwipeGesturesEnabled,
-            isSwipeRestoreEnabled: context.settings.isNotchSwipeRestoreEnabled,
             isLocked: context.isLocked,
             isLiveActivityExpanded: context.isExpandedPresentation,
             canRestoreDismissedContent: context.canRestoreDismissedContent,
@@ -86,39 +78,17 @@ final class GestureCoordinator: ObservableObject {
         )
     }
 
-    func canStretchWithMouseDrag(context: Context) -> Bool {
-        canStretchWithMouseDrag(
-            isMouseDragEnabled: context.settings.isNotchMouseDragGesturesEnabled,
-            isSwipeGesturesEnabled: context.settings.isNotchSwipeDismissEnabled || context.settings.isNotchSwipeRestoreEnabled,
-            isLocked: context.isLocked
-        )
-    }
-
-    func canStretchWithTrackpadSwipe(context: Context) -> Bool {
-        canStretchWithTrackpadSwipe(
-            isTrackpadSwipeEnabled: context.settings.isNotchTrackpadSwipeGesturesEnabled,
-            isSwipeGesturesEnabled: context.settings.isNotchSwipeDismissEnabled || context.settings.isNotchSwipeRestoreEnabled,
-            isLocked: context.isLocked
-        )
-    }
-
     func canDismissWithMouseDrag(
-        isMouseDragEnabled: Bool,
-        isSwipeDismissEnabled: Bool,
         isLocked: Bool,
         isActivityPresentationHidden: Bool,
         hasTemporaryNotification: Bool,
         hasRealDisplayedContent: Bool
     ) -> Bool {
-        isMouseDragEnabled &&
-        isSwipeDismissEnabled &&
         (!isActivityPresentationHidden || isLocked || hasTemporaryNotification) &&
         hasRealDisplayedContent
     }
 
     func canRestoreWithMouseDrag(
-        isMouseDragEnabled: Bool,
-        isSwipeRestoreEnabled: Bool,
         isLocked: Bool,
         isLiveActivityExpanded: Bool,
         canRestoreDismissedContent: Bool,
@@ -126,27 +96,20 @@ final class GestureCoordinator: ObservableObject {
     ) -> Bool {
         guard !isLocked else { return false }
         guard !isLiveActivityExpanded else { return false }
-        guard isMouseDragEnabled && isSwipeRestoreEnabled else { return false }
         return canRestoreDismissedContent
     }
 
     func canDismissWithTrackpadSwipe(
-        isTrackpadSwipeEnabled: Bool,
-        isSwipeDismissEnabled: Bool,
         isLocked: Bool,
         isActivityPresentationHidden: Bool,
         hasTemporaryNotification: Bool,
         hasRealDisplayedContent: Bool
     ) -> Bool {
-        isTrackpadSwipeEnabled &&
-        isSwipeDismissEnabled &&
         (!isActivityPresentationHidden || isLocked || hasTemporaryNotification) &&
         hasRealDisplayedContent
     }
 
     func canRestoreWithTrackpadSwipe(
-        isTrackpadSwipeEnabled: Bool,
-        isSwipeRestoreEnabled: Bool,
         isLocked: Bool,
         isLiveActivityExpanded: Bool,
         canRestoreDismissedContent: Bool,
@@ -154,7 +117,6 @@ final class GestureCoordinator: ObservableObject {
     ) -> Bool {
         guard !isLocked else { return false }
         guard !isLiveActivityExpanded else { return false }
-        guard isTrackpadSwipeEnabled && isSwipeRestoreEnabled else { return false }
         return canRestoreDismissedContent
     }
 

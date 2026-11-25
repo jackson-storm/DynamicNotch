@@ -16,7 +16,7 @@ struct FaceIDNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
         if service.state.isSuccess {
             return .green.opacity(0.3)
         } else if service.state.isFailed {
-            return .red.opacity(0.3)
+            return .white.opacity(0.2)
         } else {
             return .white.opacity(0.2)
         }

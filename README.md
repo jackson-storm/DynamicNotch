@@ -30,7 +30,7 @@
   <a href="https://t.me/Dynamic_Notch">
     <img src="https://img.shields.io/badge/-Telegram-blue?style=for-the-badge&logo=telegram&logoColor=white&labelColor=26A5E4" alt="Telegram" />
   </a>
-  <a href="https://dynamicnotch.evgeniy-petrukovich.workers.dev">
+  <a href="https://dynamicnotch.org">
     <img src="https://img.shields.io/badge/-Website-059669?style=for-the-badge&logo=safari&logoColor=white&labelColor=10B981" alt="DynamicNotch Website" />
   </a>
   <a href="mailto:evgeniy.petrukovich@icloud.com?subject=A%20question%20about%20Dynamic%20Notch">

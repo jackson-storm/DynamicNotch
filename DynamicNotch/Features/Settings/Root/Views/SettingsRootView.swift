@@ -628,8 +628,6 @@ struct SettingsRootView: View {
             ActivityPrioritiesSettingsView(applicationSettings: settingsViewModel.application)
         case .notchDisplay:
             DisplaySettingsView(applicationSettings: settingsViewModel.application, availableDisplays: $availableDisplays)
-        case .gestures:
-            GesturesSettingsView(applicationSettings: settingsViewModel.application)
         case .timer:
             TimerSettingsView(
                 mediaSettings: settingsViewModel.mediaAndFiles,
@@ -671,8 +669,6 @@ struct SettingsRootView: View {
             settingsViewModel.application.resetNotchContentPriorities()
         case .notchDisplay:
             settingsViewModel.application.resetDisplay()
-        case .gestures:
-            settingsViewModel.application.resetGestures()
         case .timer:
             settingsViewModel.mediaAndFiles.resetTimer()
         case .externalDrives:

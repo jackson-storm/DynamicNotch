@@ -38,27 +38,24 @@ final class NotchExpansionCoordinator: ObservableObject {
     }
 
     func shouldExpandOnClick(
-        isTapToExpandEnabled: Bool,
         expandInteraction: NotchExpandInteraction,
         canExpand: Bool
     ) -> Bool {
-        isTapToExpandEnabled && expandInteraction == .click && canExpand
+        expandInteraction == .click && canExpand
     }
 
     func shouldExpandOnPressAndHold(
-        isTapToExpandEnabled: Bool,
         expandInteraction: NotchExpandInteraction,
         canExpand: Bool
     ) -> Bool {
-        isTapToExpandEnabled && expandInteraction == .pressAndHold && canExpand
+        expandInteraction == .pressAndHold && canExpand
     }
 
     func shouldExpandOnHover(
-        isTapToExpandEnabled: Bool,
         expandInteraction: NotchExpandInteraction,
         canExpand: Bool
     ) -> Bool {
-        isTapToExpandEnabled && expandInteraction == .hover && canExpand
+        expandInteraction == .hover && canExpand
     }
 
     func shouldCollapseOnHoverLeaves(

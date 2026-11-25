@@ -6,7 +6,7 @@ struct NotchMouseSwipeModifier: ViewModifier {
     let isEnabled: Bool
 
     func body(content: Content) -> some View {
-        let stretchEnabled = isEnabled && notchViewModel.isMouseDragStretchEnabled
+        let stretchEnabled = isEnabled
         content.background(
             NotchMouseSwipeMonitorRepresentable(
                 canSwipeUp: stretchEnabled,

@@ -16,7 +16,6 @@ struct SupportSettingsView: View {
     var body: some View {
         SettingsPageScrollView {
             headerCard
-            supportServicesCard
             cryptoDonationCard
         }
         .onAppear {
@@ -47,34 +46,7 @@ struct SupportSettingsView: View {
             }
         }
     }
-    
-    private var supportServicesCard: some View {
-        SettingsCard(spacing: 0, padding: 0) {
-            SettingsUrlRowView(
-                title: "settings.support.boosty.title",
-                description: "settings.support.boosty.desc",
-                imageName: "boosty",
-                imageSize: 16,
-                color: .white,
-                stroke: true,
-                position: .first,
-                url: "https://boosty.to/jacksonstormdev",
-                onRequestInternetAccess: onRequestInternetAccess
-            )
-            
-            SettingsUrlRowView(
-                title: "settings.support.donationAlerts.title",
-                description: "settings.support.donationAlerts.desc",
-                imageName: "donationAlerts",
-                imageSize: 16,
-                color: .orange,
-                position: .last,
-                url: "https://www.donationalerts.com/r/jacksonstormdev",
-                onRequestInternetAccess: onRequestInternetAccess
-            )
-        }
-    }
-    
+        
     private var cryptoDonationCard: some View {
         SettingsCard(title: "settings.support.card.cryptocurrency", spacing: 0, padding: 0) {
             SettingsCopyRowView(

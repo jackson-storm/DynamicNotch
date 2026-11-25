@@ -36,8 +36,8 @@ struct NowPlayingMinimalNotchView: View {
         HStack {
             ArtworkView(
                 nowPlayingViewModel: nowPlayingViewModel,
-                width: isNotchlessScreen ? 20 : 22,
-                height: isNotchlessScreen ? 20 : 22,
+                width: isNotchlessScreen ? 20 : 21,
+                height: isNotchlessScreen ? 20 : 21,
                 cornerRadius: 5,
                 usesFlipAnimation: true
             )
@@ -51,7 +51,7 @@ struct NowPlayingMinimalNotchView: View {
                     nowPlayingViewModel.artworkPalette.equalizerBaseColor
                 ],
                 barHeight: isNotchlessScreen ? 16 : 18,
-                barWidth: 2.2
+                barWidth: 2.1
             )
             .frame(width: 18, height: 18)
         }

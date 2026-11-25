@@ -7,7 +7,7 @@ struct NotchSwipeDismissModifier: ViewModifier {
     let isEnabled: Bool
 
     func body(content: Content) -> some View {
-        let stretchEnabled = isEnabled && notchViewModel.isTrackpadSwipeStretchEnabled
+        let stretchEnabled = isEnabled
         content.background(
             NotchSwipeDismissMonitorRepresentable(
                 canSwipeUp: stretchEnabled,

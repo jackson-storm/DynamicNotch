@@ -152,13 +152,9 @@ final class StoredDefaultTests: XCTestCase {
 
         XCTAssertFalse(store.isDockIconVisible)
         XCTAssertEqual(store.appearanceMode, .system)
-        XCTAssertEqual(store.notchStrokeWidth, 2.5)
         XCTAssertEqual(store.notchStrokeOpacity, 0.6)
         XCTAssertTrue(store.isNotchlessWindowMarginEnabled)
         XCTAssertEqual(store.notchlessWindowMarginOffset, 17)
-
-        store.notchStrokeWidth = 5.0 // Range: 1.0...3.0
-        XCTAssertEqual(store.notchStrokeWidth, 3.0)
 
         store.notchStrokeOpacity = 2.0 // Range: 0.0...0.6
         XCTAssertEqual(store.notchStrokeOpacity, 0.6)

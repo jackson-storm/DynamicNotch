@@ -29,15 +29,11 @@ struct NowPlayingMinimalNotchView: View {
     
     var body: some View {
         let snapshot = resolvedSnapshot
-        timelineContent(snapshot: snapshot)
-    }
-
-    private func timelineContent(snapshot: NowPlayingSnapshot) -> some View {
         HStack {
             ArtworkView(
                 nowPlayingViewModel: nowPlayingViewModel,
-                width: isNotchlessScreen ? 20 : 21,
-                height: isNotchlessScreen ? 20 : 21,
+                width: isNotchlessScreen ? 20 : 22,
+                height: isNotchlessScreen ? 20 : 22,
                 cornerRadius: 5,
                 usesFlipAnimation: true
             )
@@ -56,6 +52,6 @@ struct NowPlayingMinimalNotchView: View {
             .frame(width: 18, height: 18)
         }
         .padding(.leading, isNotchlessScreen ? 7.scaled(by: scale) : 14.scaled(by: scale))
-        .padding(.trailing, isNotchlessScreen ? 9.scaled(by: scale) : 15.scaled(by: scale))
+        .padding(.trailing, isNotchlessScreen ? 9.scaled(by: scale) : 16.scaled(by: scale))
     }
 }

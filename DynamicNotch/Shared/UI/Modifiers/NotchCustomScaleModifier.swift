@@ -24,7 +24,8 @@ struct NotchCustomScaleModifier: ViewModifier {
     
     let baseSize: CGSize
     
-    private var notchPressHoldDuration: TimeInterval = 0.21
+    private var notchPressHoldDuration: TimeInterval = 0.22
+    private var pressScaleDuration: TimeInterval = 0.22
     
     private var scaleFactor: CGFloat {
         notchViewModel.isDynamicIsland ? 1.14 : 1.08
@@ -144,12 +145,12 @@ private extension NotchCustomScaleModifier {
 
     private func startPressAnimation() {
         let token = UUID()
-        let pressPeakDuration = notchPressHoldDuration
-        
+        let pressPeakDuration = pressScaleDuration
+
         pressAnimationToken = token
         notchViewModel.pressScale = 1
 
-        withAnimation(.easeOut(duration: pressPeakDuration)) {
+        withAnimation(.easeInOut(duration: pressPeakDuration)) {
             notchViewModel.pressScale = scaleFactor
         }
 

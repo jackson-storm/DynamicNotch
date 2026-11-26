@@ -202934,6 +202934,50 @@
         }
       }
     },
+    "update.error.title" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Check for Updates Failed"
+          }
+        }
+      }
+    },
+    "update.ok" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "OK"
+          }
+        }
+      }
+    },
+    "update.upToDate.message" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "DynamicNotch %@ is currently the latest version."
+          }
+        }
+      }
+    },
+    "update.upToDate.title" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "You're up to date!"
+          }
+        }
+      }
+    },
     "Version %@" : {
       "localizations" : {
         "ar" : {

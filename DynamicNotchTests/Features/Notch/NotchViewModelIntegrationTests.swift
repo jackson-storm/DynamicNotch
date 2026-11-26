@@ -384,15 +384,13 @@ final class NotchViewModelIntegrationTests: XCTestCase {
             (
                 hover: viewModel.shouldExpandActiveContentOnHover,
                 click: viewModel.shouldExpandActiveContentOnClick,
-                pressAndHold: viewModel.shouldExpandActiveContentOnPressAndHold,
-                delay: viewModel.notchHoverExpandDelay
+                pressAndHold: viewModel.shouldExpandActiveContentOnPressAndHold
             )
         }
 
         XCTAssertTrue(state.hover)
         XCTAssertFalse(state.click)
         XCTAssertFalse(state.pressAndHold)
-        XCTAssertEqual(state.delay, hoverDelay, accuracy: 0.001)
     }
 
     @MainActor

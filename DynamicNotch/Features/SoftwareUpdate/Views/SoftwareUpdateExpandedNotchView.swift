@@ -50,9 +50,9 @@ struct SoftwareUpdateExpandedNotchView: View {
     
     private var button: some View {
         Button(action: {
-            updater.checkForUpdates()
+            updater.openDownloadPage()
         }) {
-            Image(systemName: "arrow.down.circle.dotted")
+            Image(systemName: "arrow.down.circle")
                 .font(.system(size: 24, weight: .semibold))
                 .foregroundStyle(.blue)
         }

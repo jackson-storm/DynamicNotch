@@ -49,22 +49,6 @@ struct SoftwareUpdateSettingsView: View {
                 isOn: $updater.automaticallyChecksForUpdates,
                 accessibilityIdentifier: "settings.update.automaticallyChecks"
             )
-            
-            Divider()
-                .opacity(0.6)
-                .padding(.leading, 43)
-                .frame(maxWidth: .infinity, alignment: .trailing)
-            
-            SettingsToggleRow(
-                title: "settings.update.autoDownload.title",
-                description: "settings.update.autoDownload.desc",
-                systemImage: "arrow.down.circle.dotted",
-                color: .blue,
-                isOn: $updater.automaticallyDownloadsUpdates,
-                accessibilityIdentifier: "settings.update.automaticallyDownloads"
-            )
-            .disabled(!updater.automaticallyChecksForUpdates)
-            .opacity(!updater.automaticallyChecksForUpdates ? 0.5 : 1)
         }
     }
 }

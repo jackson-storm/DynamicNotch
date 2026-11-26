@@ -81,7 +81,7 @@ final class NotchGeometryCoordinator: ObservableObject {
         expandedHeight: CGFloat,
         baseHeight: CGFloat,
         heightBoost: CGFloat? = nil,
-        targetScale: CGFloat = 1.5,
+        targetScale: CGFloat = 1.2,
         resetAfter delay: TimeInterval,
         animation: Animation?
     ) {

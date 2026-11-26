@@ -600,7 +600,6 @@ final class NotchViewModel: ObservableObject, NotchCommandDispatching {
                     hasContentAfterTransition: hasContentAfter,
                     expandedHeight: self.notchModel.size.height,
                     baseHeight: self.notchModel.baseHeight,
-                    targetScale: 1.1,
                     resetAfter: self.animations.transitionDelay,
                     animation: self.animations.collapseLiveActivity
                 )

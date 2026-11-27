@@ -36,6 +36,8 @@ struct LowPowerNotchView: View {
                 title
                 description
             }
+            .padding(.top, isNotchlessScreen ? 10 : 0)
+            
             Spacer()
             
             if powerService.isLowPowerMode {

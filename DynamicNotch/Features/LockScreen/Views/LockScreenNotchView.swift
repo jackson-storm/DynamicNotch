@@ -12,11 +12,11 @@ struct LockScreenNotchView: View {
     @Environment(\.isNotchlessScreen) private var isNotchlessScreen
     @ObservedObject var lockScreenManager: LockScreenManager
     @ObservedObject var faceIDService: FaceIDService = .shared
-
+    
     private var isFaceIDActive: Bool {
         faceIDService.state.isActivelyEvaluating || faceIDService.state.isSuccess || lockScreenManager.didUnlockWithFaceID
     }
-
+    
     private var scanMedia: ScanMedia {
         switch faceIDService.state {
         case .idle:
@@ -31,7 +31,7 @@ struct LockScreenNotchView: View {
             return .failure
         }
     }
-
+    
     private var headlineColor: Color {
         switch faceIDService.state {
         case .searching, .scanning, .success:
@@ -50,22 +50,27 @@ struct LockScreenNotchView: View {
     private var leadingPadding: CGFloat {
         isFaceIDActive ? 19 : 14
     }
-
+    
     var body: some View {
         HStack {
-            Image(systemName: (lockScreenManager.didUnlockWithFaceID || faceIDService.state.isSuccess || !lockScreenManager.isShowingLockPresentation) ? "lock.open.fill" : "lock.fill")
-                .font(.system(size: isNotchlessScreen ? 14 : 16, weight: .semibold))
-                .foregroundStyle(.white)
-                .scaleEffect(isFaceIDActive ? 1.4 : 1.0)
+            Image(systemName: (
+                lockScreenManager.didUnlockWithFaceID
+                || faceIDService.state.isSuccess
+                || !lockScreenManager.isShowingLockPresentation)
+                  ? "lock.open.fill" : "lock.fill"
+            )
+            .font(.system(size: isNotchlessScreen ? 14 : 16, weight: .semibold))
+            .foregroundStyle(.white)
+            .scaleEffect(isFaceIDActive ? 1.4 : 1.0)
             
             Spacer()
-
+            
             if isFaceIDActive {
                 ScanAnimationView(media: scanMedia, tintColor: headlineColor)
                     .frame(width: isNotchlessScreen ? 28 : 32, height: isNotchlessScreen ? 28 : 32)
             }
         }
-        .animation(.spring(response: 0.47), value: isFaceIDActive)
+        .animation(.spring(response: 0.4), value: isFaceIDActive)
         .padding(.leading, isNotchlessScreen ? isNotchlessLeadingPadding.scaled(by: scale) : leadingPadding.scaled(by: scale))
         .padding(.trailing, isNotchlessScreen ? 6.scaled(by: scale) : 14.scaled(by: scale))
     }

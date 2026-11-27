@@ -8,14 +8,14 @@
     <item>
       <title>Version 1.6.5</title>
       <sparkle:releaseNotesLink>https://github.com/jackson-storm/DynamicNotch/releases/tag/v1.6.5</sparkle:releaseNotesLink>
-      <pubDate>Fri, 27 Nov 2026 18:56:00 +0300</pubDate>
+      <pubDate>Fri, 27 Nov 2026 20:29:00 +0300</pubDate>
       <enclosure 
         url="https://github.com/jackson-storm/DynamicNotch/releases/download/v1.6.5/DynamicNotch.zip"
         sparkle:version="27"
         sparkle:shortVersionString="1.6.5"
-        length="12550679"
+        length="12544160"
         type="application/octet-stream"
-        sparkle:edSignature="9ZZT9V7GoX72XwySQgHNlSazv5OuzivIFfdIEiVnZRHDTCA9dN4hA0MrioRPXJKI0Cloz7BmLITf0KRhvQSACQ==" />
+        sparkle:edSignature="jK7E76/2i5WAsDgIjJI5NjRbeOLdtFgubamquTsZSLfGGVrSNsv4U1+b9uyQ/Si4Nvox673PJ7jwc4WaRj19Bg==" />
     </item>
     <item>
       <title>Version 1.6.4</title>

@@ -47,7 +47,7 @@ struct BluetoothConnectedNotchContent: NotchContentProtocol, DynamicIslandCustom
         case .compact:
             width = settings.bluetoothBatteryIndicatorStyle == .circle ? 65 : 95
         case .detailed:
-            width = 240
+            width = 210
         }
         return .init(width: baseWidth + CGFloat(width), height: settings.bluetoothAppearanceStyle == .compact ? baseHeight : 80)
     }

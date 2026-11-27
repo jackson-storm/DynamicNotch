@@ -10,6 +10,7 @@ import SwiftUI
 struct BluetoothDetailedNotchView: View {
     @Environment(\.isNotchlessScreen) var isNotchlessScreen
     @Environment(\.locale) var locale
+    @Environment(\.notchScale) var notchScale
     
     @ObservedObject var bluetoothViewModel: BluetoothViewModel
     @ObservedObject var settings: ConnectivitySettingsStore
@@ -61,7 +62,7 @@ struct BluetoothDetailedNotchView: View {
                 textColor: .white.opacity(0.8),
                 backgroundColor: .clear,
                 minDuration: 0.5,
-                frameWidth: 150
+                frameWidth: isNotchlessScreen ? 100.scaled(by: notchScale) : 130.scaled(by: notchScale)
             )
         }
     }

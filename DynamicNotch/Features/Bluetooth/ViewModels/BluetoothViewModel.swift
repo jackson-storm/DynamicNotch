@@ -12,7 +12,7 @@ final class BluetoothViewModel: ObservableObject {
     @Published var deviceType: BluetoothAudioDeviceType = .generic
     @Published var event: BluetoothEvent?
     @Published var isConnected: Bool = false
-    @Published var deviceName: String = "Unknown"
+    @Published var deviceName: String = "Unknown device"
     @Published var batteryLevel: Int? = nil
     
     private var cancellables = Set<AnyCancellable>()
@@ -60,11 +60,11 @@ final class BluetoothViewModel: ObservableObject {
                     let device = devices.last(where: { newAddresses.contains($0.address) })
                         ?? devices.last
                         ?? self.bluetoothService.lastConnectedDevice
-                    self.deviceName = device?.name ?? "Unknown"
+                    self.deviceName = device?.name ?? "Unknown device"
                     self.batteryLevel = device?.batteryLevel
                     self.deviceType = device?.deviceType ?? .generic
                 } else {
-                    self.deviceName = "Unknown"
+                    self.deviceName = "Unknown device"
                     self.batteryLevel = nil
                     self.deviceType = .generic
                 }

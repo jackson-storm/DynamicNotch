@@ -41,7 +41,7 @@ struct FaceIDNotchContent: NotchContentProtocol, DynamicIslandCustomizable {
     @MainActor
     func compactView() -> AnyView {
         AnyView(
-            FaceIDNotchView(style: style, service: service)
+            FaceIDNotchView(service: service)
         )
     }
 }

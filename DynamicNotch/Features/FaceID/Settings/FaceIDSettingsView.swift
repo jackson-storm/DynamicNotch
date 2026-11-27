@@ -27,7 +27,7 @@ struct FaceIDSettingsView: View {
             securityOptionsCard
         }
         .sheet(isPresented: $isShowingEnrollmentSheet) {
-            FaceIDEnrollmentSheetView(settings: settings, service: service)
+            FaceIDEnrollmentSheetView(service: service, settings: settings)
         }
         .sheet(isPresented: $isShowingSecuritySheet) {
             securityVerificationSheet

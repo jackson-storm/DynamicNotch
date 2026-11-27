@@ -6,8 +6,6 @@
 import SwiftUI
 
 struct FaceIDNotchView: View {
-    var style: FaceIDPresentationStyle = .expanded
-    
     @Environment(\.isNotchlessScreen) private var isNotchlessScreen
     @Environment(\.notchScale) private var scale
     @ObservedObject var service: FaceIDService = .shared

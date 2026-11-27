@@ -8,9 +8,9 @@ import AVFoundation
 internal import AppKit
 
 struct FaceIDEnrollmentSheetView: View {
-    @ObservedObject var settings: FaceIDSettingsStore
     var service: FaceIDService?
     
+    @ObservedObject var settings: FaceIDSettingsStore
     @Environment(\.dismiss) private var dismiss
     @StateObject private var cameraService = FaceIDEnrollmentCameraService()
     
@@ -34,25 +34,19 @@ struct FaceIDEnrollmentSheetView: View {
             }
             .padding(.top, 14)
             
-            // Apple-style Circular Camera Guide with 48 Ticks
             ZStack {
-                // Outer 48 Radial Tick Marks
                 FaceIDTickMarksView(
                     progress: cameraService.enrollmentProgress,
                     isCompleted: cameraService.isCompleted
                 )
-                
-                // Circular Camera Viewport
                 ZStack {
-                    // Dark background placeholder
                     Circle()
                         .fill(Color.black.opacity(0.85))
                     
-                    // Live Camera Stream or Simulated Preview
                     switch cameraService.cameraState {
                     case .running:
                         FaceCameraPreviewRepresentable(previewLayer: cameraService.previewLayer)
-                            .scaleEffect(x: -1, y: 1) // Mirror front camera like a selfie mirror
+                            .scaleEffect(x: -1, y: 1)
                             .clipShape(Circle())
                         
                     case .starting:
@@ -83,7 +77,6 @@ struct FaceIDEnrollmentSheetView: View {
                         }
                         
                     case .simulated:
-                        // Visual demo avatar
                         ZStack {
                             Circle()
                                 .fill(LinearGradient(colors: [.indigo.opacity(0.3), .cyan.opacity(0.2)], startPoint: .topLeading, endPoint: .bottomTrailing))
@@ -97,11 +90,9 @@ struct FaceIDEnrollmentSheetView: View {
                         EmptyView()
                     }
                     
-                    // Biometric Reticle / Corner Brackets
                     if !cameraService.isCompleted {
                         FaceReticleOverlayView(isFaceInFrame: cameraService.isFaceInFrame)
                     } else {
-                        // Completion Celebration Overlay
                         ZStack {
                             Circle()
                                 .fill(Color.black.opacity(0.45))
@@ -130,7 +121,6 @@ struct FaceIDEnrollmentSheetView: View {
             .frame(width: 260, height: 260)
             .padding(.vertical, 4)
             
-            // Progress percentage & hints
             if cameraService.isCompleted {
                 HStack(spacing: 6) {
                     Image(systemName: "checkmark.seal.fill")
@@ -145,7 +135,6 @@ struct FaceIDEnrollmentSheetView: View {
                     .foregroundStyle(cameraService.isFaceInFrame ? .cyan : .secondary)
             }
             
-            // Buttons / Actions
             HStack(spacing: 14) {
                 Button("faceid.notch.camera.cancel") {
                     cameraService.stopEnrollment()
@@ -208,8 +197,6 @@ struct FaceIDEnrollmentSheetView: View {
     }
 }
 
-// MARK: - 48-Tick Radial Progress Ring (Apple Face ID Style)
-
 private struct FaceIDTickMarksView: View {
     let progress: Double
     let isCompleted: Bool
@@ -245,8 +232,6 @@ private struct FaceIDTickMarksView: View {
         .frame(width: (radius + tickLength) * 2, height: (radius + tickLength) * 2)
     }
 }
-
-// MARK: - Biometric Corner Reticles
 
 private struct FaceReticleOverlayView: View {
     let isFaceInFrame: Bool
